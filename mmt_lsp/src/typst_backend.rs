@@ -9,13 +9,14 @@ use lsp_types::{
     PositionEncodingKind, Range, TextEdit, Url,
 };
 use mmt_rs::{
-    AnalyzedDocument, EmitOptions, LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE,
-    ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
-    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionMappingKind, ProjectionMappingResult,
-    ProjectionPlan, ProjectionProfile, RetainedProjectedDocument, SourceContentKey,
-    TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
-    canonical_bytes_digest, canonical_json_digest, logical_source_id, normalize_projected_edit_uri,
-    project_snapshot_key, projection_key, source_content_key, validate_projected_edit_transaction,
+    AnalyzedDocument, ComposerTargetFailure, ContinuedValue, EmitOptions, LogicalProjectFileId,
+    PROJECTION_PLACEHOLDER_IMAGE, ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget,
+    ProjectedEditTransaction, ProjectionEdit, ProjectionError, ProjectionKey,
+    ProjectionMappingKind, ProjectionMappingResult, ProjectionPlan, ProjectionProfile,
+    RetainedProjectedDocument, SourceContentKey, TypstProjectSnapshotKey, TypstProjection,
+    ValidatedProjectedEditTransaction, canonical_bytes_digest, canonical_json_digest,
+    logical_source_id, normalize_projected_edit_uri, project_snapshot_key, projection_key,
+    resolve_preview_statement, source_content_key, validate_projected_edit_transaction,
 };
 #[cfg(test)]
 use mmt_rs::{StaticPresetCatalog, project_text};
@@ -1051,6 +1052,24 @@ struct RenderProjectCacheEntry {
     update: TypstRenderProjectUpdate,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct ResolvedComposerTarget {
+    pub source_version: i32,
+    pub statement_range: Range,
+    pub continued: ContinuedValue,
+    pub actor_display_name: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ComposerTargetUnavailable {
+    StalePreview,
+    NonMmtSource,
+    Unmapped,
+    AmbiguousOrigin,
+    UnsupportedNode,
+    DocumentHasErrors,
+    ActorUnavailable,
+}
 #[derive(Debug)]
 pub struct ProjectionStore {
     documents: HashMap<Url, ProjectionDocument>,
@@ -1296,6 +1315,83 @@ impl ProjectionStore {
         }
     }
 
+    pub(crate) fn resolve_composer_target(
+        &self,
+        source_uri: &Url,
+        entry_uri: &Url,
+        revision: u64,
+        source_content: &SourceContentKey,
+        project_digest: &TypstProjectSnapshotKey,
+        projection_key: &ProjectionKey,
+        location: Location,
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+        snapshot: Option<&DocumentSnapshot>,
+        snapshot_has_errors: bool,
+    ) -> Result<ResolvedComposerTarget, ComposerTargetUnavailable> {
+        let snapshot = snapshot.ok_or(ComposerTargetUnavailable::NonMmtSource)?;
+        let document = self
+            .response_generation(
+                source_uri,
+                entry_uri,
+                revision,
+                source_content,
+                project_digest,
+                projection_key,
+            )
+            .map_err(|_| ComposerTargetUnavailable::StalePreview)?;
+        if location.uri != *entry_uri {
+            return Err(ComposerTargetUnavailable::UnsupportedNode);
+        }
+        if snapshot.version != document.source_version
+            || snapshot.revision != document.source_revision
+            || snapshot.text.as_str() != document.source.as_ref()
+            || snapshot.pack_revision != document.pack_revision
+            || snapshot.pack_registry_digest != document.pack_registry_digest
+        {
+            return Err(ComposerTargetUnavailable::StalePreview);
+        }
+        if snapshot_has_errors {
+            return Err(ComposerTargetUnavailable::DocumentHasErrors);
+        }
+        let generated_range = document
+            .typst_lines
+            .backend_range(location.range, backend_encoding)
+            .map_err(|_| ComposerTargetUnavailable::Unmapped)?
+            .into_text_range();
+        let target = resolve_preview_statement(
+            &snapshot.analysis,
+            &document.projection.emitted,
+            generated_range,
+        )
+        .map_err(|failure| match failure {
+            ComposerTargetFailure::Unmapped => ComposerTargetUnavailable::Unmapped,
+            ComposerTargetFailure::AmbiguousOrigin => ComposerTargetUnavailable::AmbiguousOrigin,
+            ComposerTargetFailure::UnsupportedNode => ComposerTargetUnavailable::UnsupportedNode,
+            ComposerTargetFailure::DocumentHasErrors => {
+                ComposerTargetUnavailable::DocumentHasErrors
+            }
+            ComposerTargetFailure::ActorUnavailable => ComposerTargetUnavailable::ActorUnavailable,
+        })?;
+        let statement_range = document
+            .source_lines
+            .mmt_range(
+                Utf8ByteRange::new(
+                    Utf8ByteOffset::new(target.statement_range.start),
+                    Utf8ByteOffset::new(target.statement_range.end),
+                )
+                .map_err(|_| ComposerTargetUnavailable::UnsupportedNode)?,
+                client_encoding,
+            )
+            .map_err(|_| ComposerTargetUnavailable::UnsupportedNode)?;
+        Ok(ResolvedComposerTarget {
+            source_version: document.source_version,
+            statement_range,
+            continued: target.continued,
+            actor_display_name: target.actor_display_name,
+        })
+    }
+
     pub fn classify_response_location(
         &self,
         source_uri: &Url,
@@ -1479,6 +1575,7 @@ pub fn read_only_projection_uri(backend_uri: &Url) -> Url {
 mod tests {
 
     use super::*;
+    use mmt_rs::source::TextRange;
 
     fn uri() -> Url {
         Url::parse("file:///workspace/example.mmt").unwrap()
@@ -1541,6 +1638,108 @@ mod tests {
             .upsert(uri(), &snapshot)
             .unwrap()
             .clone()
+    }
+
+    #[test]
+    fn composer_target_distinguishes_ambiguous_origin_and_actor_unavailability() {
+        let source_uri = uri();
+        let source = "< _0: hello";
+        let base_snapshot = snapshot(1, source, &StaticPresetCatalog::default());
+
+        let mut ambiguous_store = ProjectionStore::default();
+        ambiguous_store
+            .upsert(source_uri.clone(), &base_snapshot)
+            .unwrap();
+        {
+            let document = ambiguous_store.documents.get_mut(&source_uri).unwrap();
+            document.projection.emitted = mmt_rs::EmittedTypst {
+                source: "abcd".to_string(),
+                origins: vec![
+                    mmt_rs::emit::Origin::MmtRange {
+                        range: TextRange::new(0, 1),
+                        kind: mmt_rs::emit::OriginKind::TextBody,
+                    },
+                    mmt_rs::emit::Origin::Generated {
+                        kind: mmt_rs::emit::GeneratedKind::TemplateWrapper,
+                        parent: None,
+                    },
+                ],
+                source_map: vec![
+                    mmt_rs::SourceMapEntry {
+                        generated_range: TextRange::new(0, 2),
+                        origin_id: 0,
+                    },
+                    mmt_rs::SourceMapEntry {
+                        generated_range: TextRange::new(2, 4),
+                        origin_id: 1,
+                    },
+                ],
+                diagnostics: Vec::new(),
+            };
+            document.typst_lines = LineIndex::new("abcd");
+        }
+        let ambiguous_document = ambiguous_store.get(&source_uri).unwrap();
+        let ambiguous_identity = ambiguous_document.language_identity.clone();
+        let ambiguous = ambiguous_store.resolve_composer_target(
+            &source_uri,
+            &ambiguous_document.entry_uri,
+            ambiguous_document.revision,
+            &ambiguous_identity.source_content,
+            &ambiguous_identity.project_digest,
+            &ambiguous_identity.projection_key,
+            Location::new(
+                ambiguous_document.entry_uri.clone(),
+                Range::new(Position::new(0, 1), Position::new(0, 3)),
+            ),
+            PositionEncoding::Utf8,
+            PositionEncoding::Utf8,
+            Some(&base_snapshot),
+            false,
+        );
+        assert_eq!(ambiguous, Err(ComposerTargetUnavailable::AmbiguousOrigin));
+
+        let mut actor_store = ProjectionStore::default();
+        actor_store
+            .upsert(source_uri.clone(), &base_snapshot)
+            .unwrap();
+        let mut actor_snapshot = base_snapshot.clone();
+        Arc::make_mut(&mut actor_snapshot.analysis)
+            .actors
+            .speakers
+            .clear();
+        let actor_document = actor_store.get(&source_uri).unwrap();
+        let actor_identity = actor_document.language_identity.clone();
+        let generated = &actor_document.projection.emitted.source;
+        let glyph = generated.find("#text(\"").unwrap() + 1;
+        let generated_lines = LineIndex::new(generated);
+        let location = Location::new(
+            actor_document.entry_uri.clone(),
+            Range::new(
+                generated_lines
+                    .position(generated, glyph, &PositionEncodingKind::UTF8)
+                    .unwrap(),
+                generated_lines
+                    .position(generated, glyph + 1, &PositionEncodingKind::UTF8)
+                    .unwrap(),
+            ),
+        );
+        let unavailable = actor_store.resolve_composer_target(
+            &source_uri,
+            &actor_document.entry_uri,
+            actor_document.revision,
+            &actor_identity.source_content,
+            &actor_identity.project_digest,
+            &actor_identity.projection_key,
+            location,
+            PositionEncoding::Utf8,
+            PositionEncoding::Utf8,
+            Some(&actor_snapshot),
+            false,
+        );
+        assert_eq!(
+            unavailable,
+            Err(ComposerTargetUnavailable::ActorUnavailable)
+        );
     }
 
     #[test]

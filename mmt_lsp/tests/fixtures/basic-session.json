@@ -14,7 +14,7 @@
       "uri": "file:///workspace/session.mmt",
       "languageId": "mmt",
       "version": 1,
-      "text": "@reply\n- 选项 A\n- 选项 B\n@end"
+      "text": "< _0: hello"
     }
   },
   "query": {

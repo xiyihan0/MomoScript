@@ -52,6 +52,16 @@ pub enum Origin {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum AuthoredOriginResolution {
+    Unique {
+        range: TextRange,
+        kind: OriginKind,
+    },
+    Unmapped,
+    Ambiguous,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EmitChunk {
     pub text: String,
     pub origin: Origin,
@@ -81,6 +91,59 @@ impl EmittedTypst {
         self.unique_authored_parent(generated_range)
     }
 
+
+    pub fn classify_authored_parent(
+        &self,
+        generated_range: TextRange,
+    ) -> AuthoredOriginResolution {
+        if generated_range.start > generated_range.end || generated_range.end > self.source.len() {
+            return AuthoredOriginResolution::Unmapped;
+        }
+        if generated_range.is_empty() {
+            return self
+                .lookup_origin_id(generated_range)
+                .map(|origin_id| self.classify_mmt_origin(origin_id))
+                .unwrap_or(AuthoredOriginResolution::Unmapped);
+        }
+
+        let mut cursor = generated_range.start;
+        let mut authored: Option<(TextRange, OriginKind)> = None;
+        let mut saw_unmapped = false;
+        for entry in self.source_map.iter().filter(|entry| {
+            entry.generated_range.start < generated_range.end
+                && generated_range.start < entry.generated_range.end
+        }) {
+            if entry.generated_range.start > cursor {
+                saw_unmapped = true;
+            }
+            match self.classify_mmt_origin(entry.origin_id) {
+                AuthoredOriginResolution::Unique { range, kind } => {
+                    if authored
+                        .as_ref()
+                        .is_some_and(|current| current != &(range, kind.clone()))
+                    {
+                        return AuthoredOriginResolution::Ambiguous;
+                    }
+                    authored = Some((range, kind));
+                }
+                AuthoredOriginResolution::Unmapped => saw_unmapped = true,
+                AuthoredOriginResolution::Ambiguous => {
+                    return AuthoredOriginResolution::Ambiguous;
+                }
+            }
+            cursor = cursor.max(entry.generated_range.end.min(generated_range.end));
+        }
+        if cursor != generated_range.end {
+            saw_unmapped = true;
+        }
+        match (authored, saw_unmapped) {
+            (Some(_), true) => AuthoredOriginResolution::Ambiguous,
+            (Some((range, kind)), false) => {
+                AuthoredOriginResolution::Unique { range, kind }
+            }
+            (None, _) => AuthoredOriginResolution::Unmapped,
+        }
+    }
     pub fn unique_authored_parent(&self, generated_range: TextRange) -> Option<&Origin> {
         if generated_range.start > generated_range.end || generated_range.end > self.source.len() {
             return None;
@@ -125,6 +188,30 @@ impl EmittedTypst {
                     ..
                 } => origin_id = *parent,
                 Origin::Generated { parent: None, .. } => return None,
+            }
+        }
+    }
+
+    fn classify_mmt_origin(&self, mut origin_id: usize) -> AuthoredOriginResolution {
+        let mut visited = HashSet::new();
+        loop {
+            if !visited.insert(origin_id) {
+                return AuthoredOriginResolution::Ambiguous;
+            }
+            match self.origins.get(origin_id) {
+                Some(Origin::MmtRange { range, kind }) => {
+                    return AuthoredOriginResolution::Unique {
+                        range: *range,
+                        kind: kind.clone(),
+                    };
+                }
+                Some(Origin::Generated {
+                    parent: Some(parent),
+                    ..
+                }) => origin_id = *parent,
+                Some(Origin::Generated { parent: None, .. }) | None => {
+                    return AuthoredOriginResolution::Unmapped;
+                }
             }
         }
     }

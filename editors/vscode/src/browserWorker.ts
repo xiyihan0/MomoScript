@@ -70,6 +70,12 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   connection.onRequest("mmt/getDocumentConfig", (params) =>
     request("mmt/getDocumentConfig", params)
   );
+  connection.onRequest("mmt/previewComposerTarget", (params) =>
+    request("mmt/previewComposerTarget", params)
+  );
+  connection.onRequest("mmt/composerEdit", (params) =>
+    request("mmt/composerEdit", params)
+  );
   connection.onDocumentSymbol((params) => request("textDocument/documentSymbol", params));
   connection.onFoldingRanges((params) => request("textDocument/foldingRange", params));
   connection.languages.semanticTokens.on((params) =>

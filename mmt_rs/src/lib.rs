@@ -1,4 +1,5 @@
 pub mod analysis;
+pub mod composer;
 pub mod diag;
 pub mod emit;
 pub mod identity;
@@ -16,12 +17,18 @@ pub mod source;
 pub mod syntax;
 pub mod typst_check;
 
+pub use composer::{
+    ComposerCommand, ComposerFailure, ComposerSourceEdit, ComposerTarget, ComposerTargetFailure,
+    ContinuedValue, compose_edit, compose_edit_with_pack, resolve_preview_statement,
+    statement_continued,
+};
 pub use analysis::{
     ANALYSIS_SCHEMA, AnalysisDiagnostic, AnalysisLabel, AnalysisReport, AstReport, SourceSpan,
     analyze_text_json, analyze_text_wasm,
 };
 pub use emit::{
-    BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent, SourceMapEntry, emit_typst,
+    AuthoredOriginResolution, BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent,
+    SourceMapEntry, emit_typst,
 };
 pub use identity::{
     CanonicalIdentityError, LogicalProjectFileId, LogicalSourceId, MaterializationKey,

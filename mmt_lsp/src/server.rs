@@ -13,8 +13,8 @@ use lsp_types::{
     TextDocumentSyncKind, Url,
 };
 use mmt_rs::{
-    ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey,
-    SourceContentKey, TypstProjectSnapshotKey,
+    ComposerCommand, ContinuedValue, ProjectedEditTarget, ProjectedEditTransaction,
+    ProjectedTargetClass, ProjectionKey, SourceContentKey, TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -22,6 +22,8 @@ use serde_json::Value;
 use crate::{
     LanguageService, ProjectionStore, TypstRenderProjectUpdate,
     position::{MmtClientPosition, PositionEncoding},
+    service::ComposerEditRejection,
+    typst_backend::ComposerTargetUnavailable,
 };
 
 #[derive(Debug, Deserialize)]
@@ -139,6 +141,273 @@ struct UpdatePackManifestsParams {
 struct PackManifestSourceParams {
     json: String,
     base_url: Option<Url>,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerPosition {
+    line: u32,
+    character: u32,
+}
+
+impl From<ComposerPosition> for Position {
+    fn from(position: ComposerPosition) -> Self {
+        Position::new(position.line, position.character)
+    }
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerRange {
+    start: ComposerPosition,
+    end: ComposerPosition,
+}
+
+impl From<ComposerRange> for Range {
+    fn from(range: ComposerRange) -> Self {
+        Range::new(range.start.into(), range.end.into())
+    }
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct PreviewComposerLocation {
+    uri: Url,
+    range: ComposerRange,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct PreviewComposerTargetParams {
+    source_uri: Url,
+    revision: u64,
+    source_content: SourceContentKey,
+    project_digest: TypstProjectSnapshotKey,
+    projection_key: ProjectionKey,
+    entry_uri: Url,
+    backend_encoding: PositionEncoding,
+    location: PreviewComposerLocation,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerTextDocumentParams {
+    uri: Url,
+    version: i32,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerTargetParams {
+    #[serde(rename = "statement")]
+    Statement { range: ComposerRange },
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum ComposerContinuedValue {
+    Auto,
+    True,
+    False,
+}
+
+impl From<ComposerContinuedValue> for ContinuedValue {
+    fn from(value: ComposerContinuedValue) -> Self {
+        match value {
+            ComposerContinuedValue::Auto => ContinuedValue::Auto,
+            ComposerContinuedValue::True => ContinuedValue::True,
+            ComposerContinuedValue::False => ContinuedValue::False,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerCommandParams {
+    #[serde(rename = "setStatementContinued")]
+    SetStatementContinued { value: ComposerContinuedValue },
+    #[serde(rename = "setActorDisplayNameFromStatement")]
+    SetActorDisplayNameFromStatement { value: String },
+}
+
+impl From<ComposerCommandParams> for ComposerCommand {
+    fn from(command: ComposerCommandParams) -> Self {
+        match command {
+            ComposerCommandParams::SetStatementContinued { value } => {
+                ComposerCommand::SetStatementContinued(value.into())
+            }
+            ComposerCommandParams::SetActorDisplayNameFromStatement { value } => {
+                ComposerCommand::SetActorDisplayNameFromStatement(value)
+            }
+        }
+    }
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerEditParams {
+    text_document: ComposerTextDocumentParams,
+    target: ComposerTargetParams,
+    command: ComposerCommandParams,
+}
+
+const MAX_COMPOSER_DISPLAY_NAME_BYTES: usize = 1024;
+const CANONICAL_DIGEST_HEX_LEN: usize = 64;
+
+fn validate_composer_digest(value: &str, field: &str) -> Result<(), ServerError> {
+    if value.len() != CANONICAL_DIGEST_HEX_LEN
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    {
+        return Err(ServerError::invalid_params(format!(
+            "{field} must be a lowercase SHA-256 digest"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_preview_composer_identity(
+    params: &PreviewComposerTargetParams,
+) -> Result<(), ServerError> {
+    validate_composer_digest(&params.source_content.0, "sourceContent")?;
+    validate_composer_digest(&params.project_digest.0, "projectDigest")?;
+    validate_composer_digest(&params.projection_key.0, "projectionKey")
+}
+
+fn validate_composer_command(command: &ComposerCommandParams) -> Result<(), ServerError> {
+    if let ComposerCommandParams::SetActorDisplayNameFromStatement { value } = command
+        && value.len() > MAX_COMPOSER_DISPLAY_NAME_BYTES
+    {
+        return Err(ServerError::invalid_params(format!(
+            "display-name value exceeds {MAX_COMPOSER_DISPLAY_NAME_BYTES} UTF-8 bytes"
+        )));
+    }
+    Ok(())
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerTextDocumentResult {
+    uri: Url,
+    version: i32,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerTargetResult {
+    #[serde(rename = "statement")]
+    Statement { range: Range },
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "lowercase")]
+enum ComposerContinuedResult {
+    Auto,
+    True,
+    False,
+}
+
+impl From<ContinuedValue> for ComposerContinuedResult {
+    fn from(value: ContinuedValue) -> Self {
+        match value {
+            ContinuedValue::Auto => ComposerContinuedResult::Auto,
+            ContinuedValue::True => ComposerContinuedResult::True,
+            ContinuedValue::False => ComposerContinuedResult::False,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerActorDisplayNameResult {
+    current: String,
+    scope: ComposerActorDisplayNameScope,
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerActorDisplayNameScope {
+    FromStatement,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerPropertiesResult {
+    continued: ComposerContinuedResult,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    actor_display_name: Option<ComposerActorDisplayNameResult>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum PreviewComposerUnavailableReason {
+    StalePreview,
+    NonMmtSource,
+    Unmapped,
+    AmbiguousOrigin,
+    UnsupportedNode,
+    DocumentHasErrors,
+    ActorUnavailable,
+}
+
+impl From<ComposerTargetUnavailable> for PreviewComposerUnavailableReason {
+    fn from(reason: ComposerTargetUnavailable) -> Self {
+        match reason {
+            ComposerTargetUnavailable::StalePreview => Self::StalePreview,
+            ComposerTargetUnavailable::NonMmtSource => Self::NonMmtSource,
+            ComposerTargetUnavailable::Unmapped => Self::Unmapped,
+            ComposerTargetUnavailable::AmbiguousOrigin => Self::AmbiguousOrigin,
+            ComposerTargetUnavailable::UnsupportedNode => Self::UnsupportedNode,
+            ComposerTargetUnavailable::DocumentHasErrors => Self::DocumentHasErrors,
+            ComposerTargetUnavailable::ActorUnavailable => Self::ActorUnavailable,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum PreviewComposerTargetResult {
+    Editable {
+        #[serde(rename = "textDocument")]
+        text_document: ComposerTextDocumentResult,
+        target: ComposerTargetResult,
+        properties: ComposerPropertiesResult,
+    },
+    Unavailable {
+        reason: PreviewComposerUnavailableReason,
+    },
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerEditRejectedReason {
+    StaleDocument,
+    TargetChanged,
+    DocumentHasErrors,
+    InvalidValue,
+    ActorUnavailable,
+    CandidateInvalid,
+}
+
+impl From<ComposerEditRejection> for ComposerEditRejectedReason {
+    fn from(reason: ComposerEditRejection) -> Self {
+        match reason {
+            ComposerEditRejection::StaleDocument => Self::StaleDocument,
+            ComposerEditRejection::TargetChanged => Self::TargetChanged,
+            ComposerEditRejection::DocumentHasErrors => Self::DocumentHasErrors,
+            ComposerEditRejection::InvalidValue => Self::InvalidValue,
+            ComposerEditRejection::ActorUnavailable => Self::ActorUnavailable,
+            ComposerEditRejection::CandidateInvalid => Self::CandidateInvalid,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerEditResult {
+    Edit { edit: lsp_types::WorkspaceEdit },
+    Rejected { reason: ComposerEditRejectedReason },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -361,6 +630,70 @@ impl MmtLanguageServer {
                     params.text_document_position.position,
                     &params.new_name,
                 ))
+            }
+            "mmt/previewComposerTarget" => {
+                let params: PreviewComposerTargetParams = decode(params)?;
+                validate_preview_composer_identity(&params)?;
+                let client_encoding = PositionEncoding::from_lsp(self.service.encoding())
+                    .map_err(ServerError::invalid_params)?;
+                let snapshot = self.service.snapshot(&params.source_uri);
+                let snapshot_has_errors =
+                    snapshot.is_some_and(|snapshot| self.service.snapshot_has_errors(snapshot));
+                let result = self.projections.resolve_composer_target(
+                    &params.source_uri,
+                    &params.entry_uri,
+                    params.revision,
+                    &params.source_content,
+                    &params.project_digest,
+                    &params.projection_key,
+                    Location::new(params.location.uri, params.location.range.into()),
+                    params.backend_encoding,
+                    client_encoding,
+                    snapshot,
+                    snapshot_has_errors,
+                );
+                encode(match result {
+                    Ok(target) => PreviewComposerTargetResult::Editable {
+                        text_document: ComposerTextDocumentResult {
+                            uri: params.source_uri,
+                            version: target.source_version,
+                        },
+                        target: ComposerTargetResult::Statement {
+                            range: target.statement_range,
+                        },
+                        properties: ComposerPropertiesResult {
+                            continued: target.continued.into(),
+                            actor_display_name: target.actor_display_name.map(|current| {
+                                ComposerActorDisplayNameResult {
+                                    current,
+                                    scope: ComposerActorDisplayNameScope::FromStatement,
+                                }
+                            }),
+                        },
+                    },
+                    Err(reason) => PreviewComposerTargetResult::Unavailable {
+                        reason: reason.into(),
+                    },
+                })
+            }
+            "mmt/composerEdit" => {
+                let params: ComposerEditParams = decode(params)?;
+                validate_composer_command(&params.command)?;
+                let target = match params.target {
+                    ComposerTargetParams::Statement { range } => range.into(),
+                };
+                let result = self.service.composer_edit(
+                    &params.text_document.uri,
+                    params.text_document.version,
+                    target,
+                    params.command.into(),
+                );
+                encode(match result {
+                    Ok(edit) => ComposerEditResult::Edit { edit },
+                    Err(reason) => ComposerEditResult::Rejected {
+                        reason: reason.into(),
+                    },
+                })
             }
             "mmt/semanticRoute" => {
                 let params: SemanticRouteParams = decode(params)?;
@@ -1081,6 +1414,7 @@ fn document_config_response(
         mmt_rs::CompiledAtConfig::Manual(text) => {
             serde_json::json!({ "mode": "manual", "text": text })
         }
+
         mmt_rs::CompiledAtConfig::Auto { format, timezone } => {
             let timezone = match timezone {
                 mmt_rs::DocumentTimezone::Local => "local".to_string(),
@@ -1141,6 +1475,441 @@ mod tests {
             "capabilities": { "general": { "positionEncodings": ["utf-8", "utf-16"] } },
             "initializationOptions": { "previewOnChange": preview_on_change }
         })
+    }
+    fn initialize_with_encoding(encoding: &str) -> Value {
+        serde_json::json!({
+            "capabilities": { "general": { "positionEncodings": [encoding] } },
+            "initializationOptions": { "previewOnChange": false }
+        })
+    }
+
+    fn open_document(server: &mut MmtLanguageServer, uri: &Url, version: i32, text: &str) {
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri,
+                        "languageId": "mmt",
+                        "version": version,
+                        "text": text
+                    }
+                }),
+            )
+            .unwrap();
+    }
+
+    fn preview_target_params(
+        server: &MmtLanguageServer,
+        uri: &Url,
+        generated_start: usize,
+        backend_encoding: &PositionEncodingKind,
+    ) -> Value {
+        let projection = server.projections.get(uri).unwrap();
+        let update = projection.project_update();
+        let generated = &projection.projection.emitted.source;
+        let lines = crate::position::LineIndex::new(generated);
+        let start = lines
+            .position(generated, generated_start, backend_encoding)
+            .unwrap();
+        let end = lines
+            .position(generated, generated_start + 1, backend_encoding)
+            .unwrap();
+        serde_json::json!({
+            "sourceUri": uri,
+            "revision": update.revision,
+            "sourceContent": update.source_content,
+            "projectDigest": update.project_digest,
+            "projectionKey": update.projection_key,
+            "entryUri": update.entry_uri,
+            "backendEncoding": if *backend_encoding == PositionEncodingKind::UTF8 {
+                "utf-8"
+            } else {
+                "utf-16"
+            },
+            "location": {
+                "uri": projection.entry_uri,
+                "range": {"start": start, "end": end}
+            }
+        })
+    }
+
+    #[test]
+    fn composer_requests_are_strict_pure_and_versioned_over_request_json() {
+        let uri = Url::parse("file:///workspace/composer.mmt").unwrap();
+        let source = "< _0: 你好😀";
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-8"))
+            .unwrap();
+        open_document(&mut server, &uri, 7, source);
+        let glyph = server
+            .projections
+            .get(&uri)
+            .unwrap()
+            .projection
+            .emitted
+            .source
+            .find("#text(\"")
+            .unwrap()
+            + 1;
+        let target_params =
+            preview_target_params(&server, &uri, glyph, &PositionEncodingKind::UTF8);
+        let target_envelope: Value = serde_json::from_str(
+            &server.request_json("mmt/previewComposerTarget", &target_params.to_string()),
+        )
+        .unwrap();
+        let target = &target_envelope["result"];
+        assert_eq!(target["kind"], "Editable");
+        assert_eq!(target["textDocument"]["uri"], uri.as_str());
+        assert_eq!(target["textDocument"]["version"], 7);
+        assert_eq!(target["target"]["kind"], "statement");
+        assert_eq!(
+            target["target"]["range"]["start"],
+            serde_json::json!({"line": 0, "character": 0})
+        );
+        assert_eq!(target["target"]["range"]["end"]["character"], source.len());
+        assert_eq!(target["properties"]["continued"], "auto");
+        assert!(target["properties"].get("actorDisplayName").is_none());
+
+        let edit_params = serde_json::json!({
+            "textDocument": target["textDocument"],
+            "target": target["target"],
+            "command": {"kind": "setStatementContinued", "value": "true"}
+        });
+        let edit_envelope: Value = serde_json::from_str(
+            &server.request_json("mmt/composerEdit", &edit_params.to_string()),
+        )
+        .unwrap();
+        let edit = &edit_envelope["result"];
+        assert_eq!(edit["kind"], "Edit");
+        assert!(edit["edit"].get("changes").is_none());
+        let document_changes = edit["edit"]["documentChanges"].as_array().unwrap();
+        assert_eq!(document_changes.len(), 1);
+        assert_eq!(document_changes[0]["textDocument"]["uri"], uri.as_str());
+        assert_eq!(document_changes[0]["textDocument"]["version"], 7);
+        assert_eq!(document_changes[0]["edits"].as_array().unwrap().len(), 1);
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+        assert_eq!(server.service.snapshot(&uri).unwrap().version, 7);
+
+        let mut stale_edit = edit_params.clone();
+        stale_edit["textDocument"]["version"] = serde_json::json!(6);
+        let stale = server.request("mmt/composerEdit", stale_edit).unwrap();
+        assert_eq!(
+            stale,
+            serde_json::json!({"kind": "Rejected", "reason": "staleDocument"})
+        );
+
+        let changed = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 7},
+                    "target": {
+                        "kind": "statement",
+                        "range": {
+                            "start": {"line": 0, "character": 1},
+                            "end": {"line": 0, "character": source.len()}
+                        }
+                    },
+                    "command": {"kind": "setStatementContinued", "value": "false"}
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            changed,
+            serde_json::json!({"kind": "Rejected", "reason": "targetChanged"})
+        );
+
+        let empty = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 7},
+                    "target": target["target"],
+                    "command": {"kind": "setActorDisplayNameFromStatement", "value": ""}
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            empty,
+            serde_json::json!({"kind": "Rejected", "reason": "invalidValue"})
+        );
+        let builtin = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 7},
+                    "target": target["target"],
+                    "command": {"kind": "setActorDisplayNameFromStatement", "value": "名字"}
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            builtin,
+            serde_json::json!({"kind": "Rejected", "reason": "actorUnavailable"})
+        );
+
+        let oversized_display_name = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 7},
+                    "target": target["target"],
+                    "command": {
+                        "kind": "setActorDisplayNameFromStatement",
+                        "value": "名".repeat(MAX_COMPOSER_DISPLAY_NAME_BYTES + 1)
+                    }
+                }),
+            )
+            .unwrap_err();
+        assert_eq!(oversized_display_name.code, -32602);
+        assert!(oversized_display_name.message.contains("display-name"));
+
+        for (field, invalid_digest) in [
+            ("sourceContent", "0".repeat(CANONICAL_DIGEST_HEX_LEN - 1)),
+            ("projectDigest", "g".repeat(CANONICAL_DIGEST_HEX_LEN)),
+            ("projectionKey", "0".repeat(CANONICAL_DIGEST_HEX_LEN + 1)),
+        ] {
+            let mut malformed_identity = target_params.clone();
+            malformed_identity[field] = Value::String(invalid_digest);
+            let error = server
+                .request("mmt/previewComposerTarget", malformed_identity)
+                .unwrap_err();
+            assert_eq!(error.code, -32602);
+            assert!(error.message.contains(field));
+        }
+
+        let mut unknown = target_params;
+        unknown["unexpected"] = Value::Bool(true);
+        let strict = server
+            .request("mmt/previewComposerTarget", unknown)
+            .unwrap_err();
+        assert_eq!(strict.code, -32602);
+    }
+
+    #[test]
+    fn preview_composer_target_uses_utf16_and_fails_closed_for_stale_or_unsupported_locations() {
+        let uri = Url::parse("file:///workspace/composer-utf16.mmt").unwrap();
+        let source = "< _0: 你好😀";
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        open_document(&mut server, &uri, 1, source);
+        let glyph = server
+            .projections
+            .get(&uri)
+            .unwrap()
+            .projection
+            .emitted
+            .source
+            .find("#text(\"")
+            .unwrap()
+            + 1;
+        let params = preview_target_params(&server, &uri, glyph, &PositionEncodingKind::UTF16);
+        let editable = server
+            .request("mmt/previewComposerTarget", params.clone())
+            .unwrap();
+        assert_eq!(editable["kind"], "Editable");
+        assert_eq!(editable["target"]["range"]["end"]["character"], 10);
+
+        let mut external = params.clone();
+        external["location"]["uri"] = serde_json::json!("mmt-package:/fixture.typ");
+        let unsupported = server
+            .request("mmt/previewComposerTarget", external)
+            .unwrap();
+        assert_eq!(
+            unsupported,
+            serde_json::json!({"kind": "Unavailable", "reason": "unsupportedNode"})
+        );
+
+        let mut non_mmt = params.clone();
+        non_mmt["sourceUri"] = serde_json::json!("file:///workspace/not-open.mmt");
+        let unavailable = server
+            .request("mmt/previewComposerTarget", non_mmt)
+            .unwrap();
+        assert_eq!(
+            unavailable,
+            serde_json::json!({"kind": "Unavailable", "reason": "nonMmtSource"})
+        );
+
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 2},
+                    "contentChanges": [{"text": "< _0: changed"}]
+                }),
+            )
+            .unwrap();
+        let stale = server.request("mmt/previewComposerTarget", params).unwrap();
+        assert_eq!(
+            stale,
+            serde_json::json!({"kind": "Unavailable", "reason": "stalePreview"})
+        );
+    }
+
+    #[test]
+    fn composer_requests_return_unmapped_unsupported_error_and_candidate_rejections_without_edits()
+    {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+
+        let chat_uri = Url::parse("file:///workspace/unmapped.mmt").unwrap();
+        open_document(&mut server, &chat_uri, 1, "< _0: hello");
+        let unmapped_params =
+            preview_target_params(&server, &chat_uri, 0, &PositionEncodingKind::UTF8);
+        let unmapped = server
+            .request("mmt/previewComposerTarget", unmapped_params)
+            .unwrap();
+        assert_eq!(
+            unmapped,
+            serde_json::json!({"kind": "Unavailable", "reason": "unmapped"})
+        );
+
+        let narration_uri = Url::parse("file:///workspace/narration.mmt").unwrap();
+        open_document(&mut server, &narration_uri, 1, "- narration");
+        let projection = server.projections.get(&narration_uri).unwrap();
+        let authored = projection
+            .projection
+            .emitted
+            .source_map
+            .iter()
+            .find(|entry| {
+                matches!(
+                    &projection.projection.emitted.origins[entry.origin_id],
+                    mmt_rs::emit::Origin::MmtRange { .. }
+                )
+            })
+            .unwrap()
+            .generated_range
+            .start;
+        let unsupported_params = preview_target_params(
+            &server,
+            &narration_uri,
+            authored,
+            &PositionEncodingKind::UTF8,
+        );
+        let unsupported = server
+            .request("mmt/previewComposerTarget", unsupported_params)
+            .unwrap();
+        assert_eq!(
+            unsupported,
+            serde_json::json!({"kind": "Unavailable", "reason": "unsupportedNode"})
+        );
+
+        let broken_uri = Url::parse("file:///workspace/broken.mmt").unwrap();
+        open_document(&mut server, &broken_uri, 1, "not syntax");
+        let broken_params =
+            preview_target_params(&server, &broken_uri, 0, &PositionEncodingKind::UTF8);
+        let broken = server
+            .request("mmt/previewComposerTarget", broken_params)
+            .unwrap();
+        assert_eq!(
+            broken,
+            serde_json::json!({"kind": "Unavailable", "reason": "documentHasErrors"})
+        );
+        let broken_edit = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": broken_uri, "version": 1},
+                    "target": {
+                        "kind": "statement",
+                        "range": {
+                            "start": {"line": 0, "character": 0},
+                            "end": {"line": 0, "character": 10}
+                        }
+                    },
+                    "command": {"kind": "setStatementContinued", "value": "true"}
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            broken_edit,
+            serde_json::json!({"kind": "Rejected", "reason": "documentHasErrors"})
+        );
+
+        let malformed_uri = Url::parse("file:///workspace/malformed-patch.mmt").unwrap();
+        let malformed_source = "<(continued: true, continued: false) _0: hello";
+        open_document(&mut server, &malformed_uri, 1, malformed_source);
+        let candidate = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": malformed_uri, "version": 1},
+                    "target": {
+                        "kind": "statement",
+                        "range": {
+                            "start": {"line": 0, "character": 0},
+                            "end": {"line": 0, "character": malformed_source.len()}
+                        }
+                    },
+                    "command": {"kind": "setStatementContinued", "value": "false"}
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            candidate,
+            serde_json::json!({"kind": "Rejected", "reason": "candidateInvalid"})
+        );
+        assert!(candidate.get("edit").is_none());
+    }
+
+    #[test]
+    fn composer_display_name_edit_uses_current_pack_context_and_exact_unicode_value() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"A":{"names":["A"],"display_name":"Actor A"}}
+        }"#;
+        let uri = Url::parse("file:///workspace/display-name.mmt").unwrap();
+        let source = "> A: before\n> _0: target😀";
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision": 1,
+                    "sources": [{"json": manifest}]
+                }),
+            )
+            .unwrap();
+        open_document(&mut server, &uri, 3, source);
+        let edit = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 3},
+                    "target": {
+                        "kind": "statement",
+                        "range": {
+                            "start": {"line": 1, "character": 0},
+                            "end": {"line": 1, "character": 16}
+                        }
+                    },
+                    "command": {
+                        "kind": "setActorDisplayNameFromStatement",
+                        "value": "老师 😀 "
+                    }
+                }),
+            )
+            .unwrap();
+        assert_eq!(edit["kind"], "Edit");
+        assert_eq!(
+            edit["edit"]["documentChanges"][0]["textDocument"]["version"],
+            3
+        );
+        let source_edit = &edit["edit"]["documentChanges"][0]["edits"][0];
+        assert!(
+            source_edit["newText"]
+                .as_str()
+                .unwrap()
+                .contains("display-name: \"老师 😀 \"")
+        );
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
     }
 
     #[test]

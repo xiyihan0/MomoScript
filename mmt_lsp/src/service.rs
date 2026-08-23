@@ -16,10 +16,11 @@ use mmt_rs::syntax::{
     DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
 use mmt_rs::{
-    AnalyzedDocument, AssetId, DocumentTimezone, EmitOptions, OccurrenceSyntax, RenameBindingKey,
-    ResolvedResourceKind, ResourceArgumentReplacement, SemanticIndex, SemanticOccurrence,
-    SemanticOccurrenceRole, SemanticSymbolKey, SpeakerIdentity, StaticPresetCatalog,
-    diagnose_analyzed, diagnose_analyzed_with_pack, valid_asset_name,
+    AnalyzedDocument, AssetId, ComposerCommand, ComposerFailure, DocumentTimezone, EmitOptions,
+    OccurrenceSyntax, RenameBindingKey, ResolvedResourceKind, ResourceArgumentReplacement,
+    SemanticIndex, SemanticOccurrence, SemanticOccurrenceRole, SemanticSymbolKey, SpeakerIdentity,
+    StaticPresetCatalog, compose_edit, compose_edit_with_pack, diagnose_analyzed,
+    diagnose_analyzed_with_pack, valid_asset_name,
 };
 
 use crate::clock::StageTimer;
@@ -35,6 +36,16 @@ pub struct DocumentSnapshot {
     pub pack_revision: Option<u64>,
     pub pack_registry_digest: String,
     pub analysis_ms: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ComposerEditRejection {
+    StaleDocument,
+    TargetChanged,
+    DocumentHasErrors,
+    InvalidValue,
+    ActorUnavailable,
+    CandidateInvalid,
 }
 
 impl DocumentSnapshot {
@@ -478,8 +489,103 @@ impl LanguageService {
         })
     }
 
-    fn snapshot_has_errors(&self, document: &DocumentSnapshot) -> bool {
+    pub(crate) fn composer_edit(
+        &self,
+        uri: &Url,
+        version: i32,
+        target: lsp_types::Range,
+        command: ComposerCommand,
+    ) -> Result<WorkspaceEdit, ComposerEditRejection> {
+        let document = self
+            .snapshot(uri)
+            .filter(|document| document.version == version)
+            .ok_or(ComposerEditRejection::StaleDocument)?;
+        if Self::snapshot_has_parse_error_nodes(document) {
+            return Err(ComposerEditRejection::DocumentHasErrors);
+        }
+        let encoding = crate::position::PositionEncoding::from_lsp(&self.encoding)
+            .map_err(|_| ComposerEditRejection::TargetChanged)?;
+        let target = document
+            .lines
+            .backend_range(target, encoding)
+            .map_err(|_| ComposerEditRejection::TargetChanged)?
+            .into_text_range();
+        if matches!(
+            &command,
+            ComposerCommand::SetActorDisplayNameFromStatement(value) if value.is_empty()
+        ) {
+            return Err(ComposerEditRejection::InvalidValue);
+        }
+
+        let source_edit = if let Some(pack_revision) = document.pack_revision {
+            if pack_revision != self.pack_revision
+                || document.pack_registry_digest != self.pack_registry_digest
+            {
+                return Err(ComposerEditRejection::CandidateInvalid);
+            }
+            let registry = self
+                .pack_registry
+                .as_ref()
+                .ok_or(ComposerEditRejection::CandidateInvalid)?;
+            compose_edit_with_pack(
+                &document.text,
+                &document.analysis,
+                registry,
+                target,
+                command,
+            )
+        } else {
+            compose_edit(
+                &document.text,
+                &document.analysis,
+                &StaticPresetCatalog::default(),
+                target,
+                command,
+            )
+        }
+        .map_err(|failure| match failure {
+            ComposerFailure::TargetChanged => ComposerEditRejection::TargetChanged,
+            ComposerFailure::DocumentHasErrors => ComposerEditRejection::DocumentHasErrors,
+            ComposerFailure::InvalidValue => ComposerEditRejection::InvalidValue,
+            ComposerFailure::ActorUnavailable => ComposerEditRejection::ActorUnavailable,
+            ComposerFailure::CandidateInvalid => ComposerEditRejection::CandidateInvalid,
+        })?;
+        let range = document
+            .lines
+            .range(&document.text, source_edit.range, &self.encoding)
+            .ok_or(ComposerEditRejection::CandidateInvalid)?;
+        Ok(WorkspaceEdit {
+            changes: None,
+            document_changes: Some(DocumentChanges::Edits(vec![TextDocumentEdit {
+                text_document: OptionalVersionedTextDocumentIdentifier {
+                    uri: uri.clone(),
+                    version: Some(document.version),
+                },
+                edits: vec![OneOf::Left(TextEdit::new(range, source_edit.new_text))],
+            }])),
+            change_annotations: None,
+        })
+    }
+
+    pub(crate) fn snapshot_has_errors(&self, document: &DocumentSnapshot) -> bool {
         self.analysis_has_errors(&document.analysis, document.pack_revision.is_some())
+            || Self::snapshot_has_parse_error_nodes(document)
+    }
+
+    fn snapshot_has_parse_error_nodes(document: &DocumentSnapshot) -> bool {
+        document
+            .analysis
+            .document
+            .nodes
+            .iter()
+            .any(|node| match node {
+                SyntaxNode::Error(_) => true,
+                SyntaxNode::DirectiveBlock(block) => block
+                    .items
+                    .iter()
+                    .any(|item| matches!(item, DirectiveItemSyntax::Error(_))),
+                _ => false,
+            })
     }
 
     fn analysis_has_errors(&self, analysis: &AnalyzedDocument, with_pack: bool) -> bool {
@@ -2409,7 +2515,10 @@ fn completion_items(
 mod tests {
     use super::*;
     use lsp_types::Position;
-    use mmt_rs::diag::{DiagnosticPhase, Severity};
+    use mmt_rs::{
+        ContinuedValue,
+        diag::{DiagnosticPhase, Severity},
+    };
 
     fn uri() -> Url {
         Url::parse("file:///workspace/example.mmt").unwrap()
@@ -2571,6 +2680,69 @@ mod tests {
             assert_eq!(asset_documents[0].text_document.version, Some(7));
             assert_eq!(asset_documents[0].edits.len(), 2);
             assert!(service.rename(&uri(), asset_position, "bad/name").is_none());
+        }
+    }
+
+    #[test]
+    fn composer_edit_returns_one_current_version_source_edit_without_mutating_snapshot() {
+        let source = "< _0: 你好😀";
+        for encoding in [PositionEncodingKind::UTF8, PositionEncodingKind::UTF16] {
+            let mut service = LanguageService::default();
+            service.set_encoding(encoding.clone());
+            service.open(uri(), 9, source.to_string());
+            let target = {
+                let document = service.snapshot(&uri()).unwrap();
+                let statement = document
+                    .analysis
+                    .document
+                    .nodes
+                    .iter()
+                    .find_map(|node| match node {
+                        SyntaxNode::Statement(statement) => Some(statement),
+                        _ => None,
+                    })
+                    .unwrap();
+                document
+                    .lines
+                    .range(&document.text, statement.range, &encoding)
+                    .unwrap()
+            };
+
+            let edit = service
+                .composer_edit(
+                    &uri(),
+                    9,
+                    target.clone(),
+                    ComposerCommand::SetStatementContinued(ContinuedValue::True),
+                )
+                .unwrap();
+            assert!(edit.changes.is_none());
+            let Some(DocumentChanges::Edits(documents)) = edit.document_changes else {
+                panic!("expected text document edits");
+            };
+            assert_eq!(documents.len(), 1);
+            assert_eq!(documents[0].text_document.uri, uri());
+            assert_eq!(documents[0].text_document.version, Some(9));
+            assert_eq!(documents[0].edits.len(), 1);
+            assert_eq!(service.snapshot(&uri()).unwrap().text, source);
+            assert_eq!(
+                service.composer_edit(
+                    &uri(),
+                    8,
+                    target.clone(),
+                    ComposerCommand::SetStatementContinued(ContinuedValue::False),
+                ),
+                Err(ComposerEditRejection::StaleDocument)
+            );
+            assert_eq!(
+                service.composer_edit(
+                    &uri(),
+                    9,
+                    lsp_types::Range::new(target.start, target.start),
+                    ComposerCommand::SetStatementContinued(ContinuedValue::False),
+                ),
+                Err(ComposerEditRejection::TargetChanged)
+            );
         }
     }
 

@@ -99,6 +99,24 @@ try {
     function notify(method, params) {
       worker.postMessage({ jsonrpc: "2.0", method, params });
     }
+    function positionAtUtf16(text, offset) {
+      let line = 0;
+      let lineStart = 0;
+      for (let index = 0; index < offset; index += 1) {
+        if (text.charCodeAt(index) === 10) {
+          line += 1;
+          lineStart = index + 1;
+        }
+      }
+      return { line, character: offset - lineStart };
+    }
+    function hasExactKeys(value, keys) {
+      return value !== null
+        && typeof value === "object"
+        && !Array.isArray(value)
+        && Object.keys(value).length === keys.length
+        && keys.every((key) => Object.hasOwn(value, key));
+    }
     async function waitForNotification(method, predicate = () => true) {
       const deadline = Date.now() + 10_000;
       while (Date.now() < deadline) {
@@ -474,6 +492,131 @@ try {
     }
     const renderEntry = renderProject.files.find((file) => file.uri === renderProject.entryUri);
     if (!renderEntry?.text?.includes("mmt-resources/0.png")) throw new Error("render entry omitted materialized avatar path");
+    const composerUri = "file:///workspace/composer-worker.mmt";
+    const composerSource = "< _0: hello";
+    const composerLanguageProjectPromise = waitForNotification(
+      "mmt/typstProjectUpdated",
+      (message) => message.params.sourceUri === composerUri
+    );
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: composerUri,
+        languageId: "mmt",
+        version: 7,
+        text: composerSource
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === composerUri
+    );
+    await composerLanguageProjectPromise;
+    const composerProject = await request("mmt/getTypstRenderProject", { uri: composerUri });
+    await waitForNotification(
+      "mmt/typstRenderProjectUpdated",
+      (message) => message.params.sourceUri === composerUri
+    );
+    const composerEntry = composerProject.files.find((file) => file.uri === composerProject.entryUri);
+    const composerWrapper = composerEntry?.text?.indexOf("#text(\"") ?? -1;
+    if (composerWrapper < 0) throw new Error("composer projection omitted rendered text wrapper");
+    const composerGeneratedOffset = composerWrapper + 1;
+    const composerPreviewParams = {
+      sourceUri: composerUri,
+      revision: composerProject.revision,
+      sourceContent: composerProject.sourceContent,
+      projectDigest: composerProject.projectDigest,
+      projectionKey: composerProject.projectionKey,
+      entryUri: composerProject.entryUri,
+      backendEncoding: "utf-16",
+      location: {
+        uri: composerProject.entryUri,
+        range: {
+          start: positionAtUtf16(composerEntry.text, composerGeneratedOffset),
+          end: positionAtUtf16(composerEntry.text, composerGeneratedOffset + 1)
+        }
+      }
+    };
+    const composerTarget = await request("mmt/previewComposerTarget", composerPreviewParams);
+    if (
+      composerTarget.kind !== "Editable"
+      || !hasExactKeys(composerTarget, ["kind", "textDocument", "target", "properties"])
+      || !hasExactKeys(composerTarget.textDocument, ["uri", "version"])
+      || !hasExactKeys(composerTarget.target, ["kind", "range"])
+      || !hasExactKeys(composerTarget.properties, ["continued"])
+      || composerTarget.textDocument.uri !== composerUri
+      || composerTarget.textDocument.version !== 7
+      || composerTarget.target.kind !== "statement"
+      || composerTarget.target.range.start.line !== 0
+      || composerTarget.target.range.start.character !== 0
+      || composerTarget.target.range.end.character !== composerSource.length
+      || composerTarget.properties.continued !== "auto"
+      || Object.hasOwn(composerTarget.properties, "actorDisplayName")
+    ) {
+      throw new Error(`browser Worker preview Composer target mismatch: ${JSON.stringify(composerTarget)}`);
+    }
+    const unavailableComposerTarget = await request("mmt/previewComposerTarget", {
+      ...composerPreviewParams,
+      revision: composerPreviewParams.revision + 1
+    });
+    if (
+      unavailableComposerTarget.kind !== "Unavailable"
+      || !hasExactKeys(unavailableComposerTarget, ["kind", "reason"])
+      || unavailableComposerTarget.reason !== "stalePreview"
+    ) {
+      throw new Error(
+        `browser Worker preview Composer unavailable result mismatch: ${JSON.stringify(unavailableComposerTarget)}`
+      );
+    }
+    const composerNotificationCount = notifications.length;
+    const composerEdit = await request("mmt/composerEdit", {
+      textDocument: composerTarget.textDocument,
+      target: composerTarget.target,
+      command: { kind: "setStatementContinued", value: "true" }
+    });
+    const composerDocumentChanges = composerEdit.edit?.documentChanges;
+    if (
+      composerEdit.kind !== "Edit"
+      || !hasExactKeys(composerEdit, ["kind", "edit"])
+      || !hasExactKeys(composerEdit.edit, ["documentChanges"])
+      || Object.hasOwn(composerEdit.edit, "changes")
+      || !Array.isArray(composerDocumentChanges)
+      || composerDocumentChanges.length !== 1
+      || !hasExactKeys(composerDocumentChanges[0], ["textDocument", "edits"])
+      || !hasExactKeys(composerDocumentChanges[0].textDocument, ["uri", "version"])
+      || !Array.isArray(composerDocumentChanges[0].edits)
+      || composerDocumentChanges[0].textDocument.uri !== composerUri
+      || composerDocumentChanges[0].textDocument.version !== 7
+      || composerDocumentChanges[0].edits.length !== 1
+      || !hasExactKeys(composerDocumentChanges[0].edits[0], ["range", "newText"])
+      || !composerDocumentChanges[0].edits[0].newText.includes("continued: true")
+    ) {
+      throw new Error(`browser Worker Composer edit result mismatch: ${JSON.stringify(composerEdit)}`);
+    }
+    if (notifications.length !== composerNotificationCount) {
+      throw new Error("browser Worker Composer edit emitted an apply or server event");
+    }
+    const unchangedComposerTarget = await request("mmt/previewComposerTarget", composerPreviewParams);
+    if (
+      unchangedComposerTarget.kind !== "Editable"
+      || unchangedComposerTarget.properties.continued !== "auto"
+      || unchangedComposerTarget.textDocument.version !== 7
+    ) {
+      throw new Error("browser Worker Composer edit mutated the WASM document snapshot");
+    }
+    const rejectedComposerEdit = await request("mmt/composerEdit", {
+      textDocument: { ...composerTarget.textDocument, version: 6 },
+      target: composerTarget.target,
+      command: { kind: "setStatementContinued", value: "false" }
+    });
+    if (
+      rejectedComposerEdit.kind !== "Rejected"
+      || !hasExactKeys(rejectedComposerEdit, ["kind", "reason"])
+      || rejectedComposerEdit.reason !== "staleDocument"
+    ) {
+      throw new Error(
+        `browser Worker Composer rejected result mismatch: ${JSON.stringify(rejectedComposerEdit)}`
+      );
+    }
     const renderDiagnosticsUri = "file:///workspace/render-diagnostics.mmt";
     const renderDiagnosticsNotification = waitForNotification(
       "textDocument/publishDiagnostics",
@@ -705,6 +848,12 @@ try {
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
       renderResource: renderProject.resources[0].fileName,
       renderNotificationIdentity: acceptedRenderProject.params.projectDigest === renderProject.projectDigest,
+      composerResultKinds: [
+        composerTarget.kind,
+        unavailableComposerTarget.kind,
+        composerEdit.kind,
+        rejectedComposerEdit.kind
+      ],
       synchronizationVersions: [afterDuplicate.sourceVersion, afterOlder.sourceVersion],
       legacyUpdateDocumentUnavailable: true,
       renderDiagnosticPhases: [...renderPhases].sort(),
@@ -759,6 +908,12 @@ try {
     throw new Error(`unexpected browser Worker speaker inlay hints: ${JSON.stringify(result.speakerInlayHints)}`);
   }
   if (result.semanticDiagnosticCount < 1) throw new Error("missing browser Worker semantic diagnostics");
+  if (
+    JSON.stringify(result.composerResultKinds)
+    !== JSON.stringify(["Editable", "Unavailable", "Edit", "Rejected"])
+  ) {
+    throw new Error(`browser Worker Composer result unions mismatch: ${JSON.stringify(result.composerResultKinds)}`);
+  }
   console.log(JSON.stringify(result));
 } finally {
   await browser.close();

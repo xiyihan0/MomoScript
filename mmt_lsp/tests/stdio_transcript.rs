@@ -1,11 +1,44 @@
 use std::io::{BufRead, BufReader, Read, Write};
 use std::process::{ChildStdin, ChildStdout, Command, Stdio};
 
-use mmt_lsp::MmtLanguageServer;
+use lsp_types::PositionEncodingKind;
+use mmt_lsp::{MmtLanguageServer, position::LineIndex};
 use serde_json::{Value, json};
 
 fn fixture() -> Value {
     serde_json::from_str(include_str!("fixtures/basic-session.json")).unwrap()
+}
+
+fn preview_target_params(update: &Value) -> Value {
+    let entry_uri = update["entryUri"].as_str().unwrap();
+    let generated = update["files"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|file| file["uri"].as_str() == Some(entry_uri))
+        .and_then(|file| file["text"].as_str())
+        .unwrap();
+    let glyph = generated.find("#text(\"").unwrap() + 1;
+    let lines = LineIndex::new(generated);
+    let start = lines
+        .position(generated, glyph, &PositionEncodingKind::UTF8)
+        .unwrap();
+    let end = lines
+        .position(generated, glyph + 1, &PositionEncodingKind::UTF8)
+        .unwrap();
+    json!({
+        "sourceUri": update["sourceUri"],
+        "revision": update["revision"],
+        "sourceContent": update["sourceContent"],
+        "projectDigest": update["projectDigest"],
+        "projectionKey": update["projectionKey"],
+        "entryUri": update["entryUri"],
+        "backendEncoding": "utf-8",
+        "location": {
+            "uri": update["entryUri"],
+            "range": {"start": start, "end": end}
+        }
+    })
 }
 
 fn send(stdin: &mut ChildStdin, message: &Value) {
@@ -40,8 +73,28 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let expected_initialize = shared
         .request("initialize", fixture["initialize"].clone())
         .unwrap();
-    shared
+    let shared_events = shared
         .notification("textDocument/didOpen", fixture["open"].clone())
+        .unwrap();
+    let shared_update = shared_events
+        .iter()
+        .find(|event| event.method == "mmt/typstProjectUpdated")
+        .unwrap()
+        .params
+        .clone();
+    let expected_target = shared
+        .request(
+            "mmt/previewComposerTarget",
+            preview_target_params(&shared_update),
+        )
+        .unwrap();
+    let composer_edit_params = json!({
+        "textDocument": expected_target["textDocument"],
+        "target": expected_target["target"],
+        "command": {"kind": "setStatementContinued", "value": "true"}
+    });
+    let expected_edit = shared
+        .request("mmt/composerEdit", composer_edit_params.clone())
         .unwrap();
     let expected_symbols = shared
         .request("textDocument/documentSymbol", fixture["query"].clone())
@@ -81,6 +134,7 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let projection_update = receive(&mut stdout);
     assert_eq!(projection_update["method"], "mmt/typstProjectUpdated");
     assert_eq!(projection_update["params"]["revision"], 1);
+    let native_target_params = preview_target_params(&projection_update["params"]);
     send(
         &mut stdin,
         &json!({
@@ -123,6 +177,26 @@ fn native_stdio_matches_the_shared_server_transcript() {
     );
     assert_eq!(receive(&mut stdout)["result"], expected_completion);
 
+    send(
+        &mut stdin,
+        &json!({
+            "jsonrpc": "2.0",
+            "id": 5,
+            "method": "mmt/previewComposerTarget",
+            "params": native_target_params
+        }),
+    );
+    assert_eq!(receive(&mut stdout)["result"], expected_target);
+    send(
+        &mut stdin,
+        &json!({
+            "jsonrpc": "2.0",
+            "id": 6,
+            "method": "mmt/composerEdit",
+            "params": composer_edit_params
+        }),
+    );
+    assert_eq!(receive(&mut stdout)["result"], expected_edit);
     let manifest = json!({
         "schema": "mmt-pack.v3",
         "pack": {"namespace": "ba", "name": "BA fixture", "version": "1", "type": "base"},
@@ -133,7 +207,7 @@ fn native_stdio_matches_the_shared_server_transcript() {
         &mut stdin,
         &json!({
             "jsonrpc": "2.0",
-            "id": 5,
+            "id": 7,
             "method": "mmt/updatePackManifests",
             "params": {"revision": 1, "sources": [{"json": manifest}]}
         }),
@@ -169,7 +243,7 @@ fn native_stdio_matches_the_shared_server_transcript() {
         &mut stdin,
         &json!({
             "jsonrpc": "2.0",
-            "id": 6,
+            "id": 8,
             "method": "textDocument/completion",
             "params": {"textDocument": {"uri": preset_uri}, "position": {"line": 1, "character": 15}}
         }),
@@ -185,7 +259,7 @@ fn native_stdio_matches_the_shared_server_transcript() {
 
     send(
         &mut stdin,
-        &json!({"jsonrpc": "2.0", "id": 7, "method": "shutdown", "params": null}),
+        &json!({"jsonrpc": "2.0", "id": 9, "method": "shutdown", "params": null}),
     );
     assert_eq!(receive(&mut stdout)["result"], Value::Null);
     send(
