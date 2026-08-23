@@ -28,4 +28,5 @@ MomoScript 的生产 Web Workbench 已具备 revision-bound MMT→Typst preview�
 - 不编辑任意 Typst patch 字符串，不为 `fill`、`inset`、`radius`、`tip` 提前建立无类型表单。
 - 不把 authored-parent navigation/diagnostic fallback 升级为 TextEdit 授权，不放宽 `ProjectionIndex::typst_to_mmt` 或 projected-edit Identity-only 规则。
 - 不改变 `.mmt` 文本、本地历史、preview artifact 或 React/DOM state 的事实源归属。
+- 不在本 change 实现移动端产品页面；移动端将以 PWA 优先的 GUI + 源码混合表面另行设计，Composer 仅指可复用的内部语义 target/command 合同，之后再由同一 Web bundle 封装 App。
 - 不同时重新设计角色列表或筛选表单。

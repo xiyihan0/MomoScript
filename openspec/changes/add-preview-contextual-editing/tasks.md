@@ -47,4 +47,4 @@
 - [ ] D.1 Specify a statement-local one-bubble display-name override in a separate DSL/Typst delta
 - [ ] D.2 Publish typed schemas and controls for visual properties beyond `continued`
 - [ ] D.3 Build format brush as typed property-bag copy/apply over the proven Composer edit path
-- [ ] D.4 Reuse surface-independent Composer commands in a future structured/mobile editor
+- [ ] D.4 在独立 change 中让 PWA 优先的移动端 GUI + 源码混合表面复用 Composer commands；产品不以 Composer 命名，也不建立第二套 Web/App UI 代码
