@@ -137,6 +137,12 @@ import {
 } from "../../vscode/src/runtimeIdentity";
 import { PreviewWebviewHost, type PreviewExactExportRequest } from "./previewWebviewHost.ts";
 import {
+  createPreviewComposerApplyPort,
+  PreviewComposerController,
+  type PreviewComposerControllerPorts,
+  type PreviewComposerQuickPickItem,
+} from "./previewComposer.ts";
+import {
   PreviewRendererCompilationError,
   PreviewRendererSessionOwner,
   type PreviewRendererCandidate,
@@ -148,6 +154,7 @@ import {
 } from "../../vscode/src/previewRendererDiagnostics.ts";
 import {
   createMmtE2ELanguageApi,
+  createMmtE2EComposerInstrumentation,
   createMmtE2EWorkspaceApi,
   installMmtE2EBridge,
   type ExactExportFixtureRequest,
@@ -431,6 +438,10 @@ async function initializeRuntime(
   let activeClient: BaseLanguageClient | undefined;
   let displayedPreviewSourceUri: string | undefined;
   let previewFixtureActiveSourceUri: string | undefined;
+  let previewComposer: PreviewComposerController | undefined;
+  const composerE2E = import.meta.env.VITE_MMT_E2E === "1"
+    ? createMmtE2EComposerInstrumentation()
+    : undefined;
   const previewBuildState = new PreviewBuildState();
   const {
     previewProjects,
@@ -898,6 +909,7 @@ async function initializeRuntime(
     resolver?: PreviewLocationResolver,
     retainCompilerEntry = false,
   ): void => {
+    previewComposer?.invalidate();
     preview.setDisplayedArtifact(artifact, retainCompilerEntry);
     previewInteraction.bindArtifact(artifact, identity, resolver);
   };
@@ -1316,6 +1328,7 @@ async function initializeRuntime(
     if (enabled && !previewRendererSessions) {
       throw new Error("Qualified incremental preview renderer is unavailable");
     }
+    if (previewRendererEnabled !== enabled) previewComposer?.invalidate();
     previewRendererEnabled = enabled;
     return previewRendererEnabled;
   };
@@ -1363,6 +1376,7 @@ async function initializeRuntime(
               method: "mmt/previewLocation.fixture.v2",
               coordinateVersion: "typst-page-points-v2",
             };
+        previewComposer?.invalidate();
         previewInteraction.providerRestarted(restarted);
         return true;
       }
@@ -2359,11 +2373,16 @@ async function initializeRuntime(
     own(handle.backend.on("tinymist/projectPrimed", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/projectPrimeFailed", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/clientRestarting", () => {
+      previewComposer?.invalidate();
       previewInteraction.providerRestarted(undefined);
       publishRuntimeStatus("backend-restarting", "recovering");
     }));
-    own(handle.backend.on("tinymist/clientRestarted", () => publishRuntimeStatus("backend-restarted", "ready")));
+    own(handle.backend.on("tinymist/clientRestarted", () => {
+      previewComposer?.invalidate();
+      publishRuntimeStatus("backend-restarted", "ready");
+    }));
     own(handle.backend.on("tinymist/clientFailed", (params) => {
+      previewComposer?.invalidate();
       const message = params && typeof params === "object" && "message" in params
         ? String(params.message)
         : "Tinymist backend failed";
@@ -2439,6 +2458,10 @@ async function initializeRuntime(
   const previewSourceAdvanceRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
     const sourceUri = event.document.uri.toString();
     if (displayedPreviewSourceUri !== sourceUri) return;
+    previewComposer?.sourceDocumentChanged({
+      uri: sourceUri,
+      version: event.document.version,
+    });
     advanceExactExport(sourceUri, "source");
     controller.stores.previewArtifacts.markStale(sourceUri);
     exactExportUi.bind(sourceUri);
@@ -2530,6 +2553,105 @@ async function initializeRuntime(
       error instanceof Error ? error.message : String(error),
     );
   }
+  const sendActiveComposerRequest: PreviewComposerControllerPorts["request"] = (
+    method,
+    params,
+    token,
+  ) => {
+    const client = activeClient;
+    if (!client) return Promise.reject(new Error("MMT language client is unavailable"));
+    return client.sendRequest<unknown>(method, params, token);
+  };
+  const sendComposerRequest: PreviewComposerControllerPorts["request"] = composerE2E
+    ? (method, params, token) => {
+        composerE2E.recordRequest(method);
+        return sendActiveComposerRequest(method, params, token);
+      }
+    : sendActiveComposerRequest;
+  const composerWorkspace = composerE2E
+    ? {
+        get textDocuments() {
+          return vscode.workspace.textDocuments;
+        },
+        async applyEdit(edit: vscode.WorkspaceEdit): Promise<boolean> {
+          if (!composerE2E.beginApply()) return false;
+          const applied = await vscode.workspace.applyEdit(edit);
+          composerE2E.recordApplyResult(applied);
+          return applied;
+        },
+      }
+    : vscode.workspace;
+  const composerApply = createPreviewComposerApplyPort({
+    client: {
+      get protocol2CodeConverter() {
+        if (!activeClient) throw new Error("MMT language client is unavailable");
+        return activeClient.protocol2CodeConverter;
+      },
+    },
+    workspace: composerWorkspace,
+  });
+  previewComposer = own(new PreviewComposerController({
+    locatePreviewPoint: (point, signal) => previewInteraction.locatePreviewPoint(point, signal),
+    request: sendComposerRequest,
+    createCancellationTokenSource: () => new vscode.CancellationTokenSource(),
+    createQuickPick: () => vscode.window.createQuickPick<PreviewComposerQuickPickItem>(),
+    createInputBox: () => {
+      const input = vscode.window.createInputBox();
+      return {
+        get title() {
+          return input.title;
+        },
+        set title(value) {
+          input.title = value;
+        },
+        get prompt() {
+          return input.prompt;
+        },
+        set prompt(value) {
+          input.prompt = value;
+        },
+        get value() {
+          return input.value;
+        },
+        set value(value) {
+          input.value = value;
+        },
+        get validationMessage() {
+          const validation = input.validationMessage;
+          return typeof validation === "string" ? validation : validation?.message;
+        },
+        set validationMessage(value) {
+          input.validationMessage = value;
+        },
+        onDidAccept: (listener) => input.onDidAccept(listener),
+        onDidHide: (listener) => input.onDidHide(listener),
+        onDidChangeValue: (listener) => input.onDidChangeValue(listener),
+        show: () => input.show(),
+        hide: () => input.hide(),
+        dispose: () => input.dispose(),
+      };
+    },
+    apply: composerApply,
+    acceptingWork: () => controller.acceptingWork && activeClient !== undefined,
+    currentIdentity: () => {
+      const identity = previewInteraction.identity;
+      return identity?.sourceUri === displayedPreviewSourceUri ? identity : undefined;
+    },
+    currentDocument: (uri) => {
+      const document = vscode.workspace.textDocuments.find(
+        (candidate) => candidate.uri.toString() === uri,
+      );
+      return document
+        ? { uri: document.uri.toString(), version: document.version }
+        : undefined;
+    },
+    bidirectionalNavigation: () => (
+      vscode.workspace.getConfiguration("mmt.preview").get("bidirectionalNavigation", true)
+    ),
+    navigatePreviewPoint: (point, signal) => previewInteraction.navigatePreviewPoint(point, signal),
+    showWarningMessage: (message) => vscode.window.showWarningMessage(message),
+    showErrorMessage: (message) => vscode.window.showErrorMessage(message),
+  }));
   const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
     const document = vscode.window.activeTextEditor?.document;
     if (!document || document.languageId !== "mmt") {
@@ -2550,6 +2672,7 @@ async function initializeRuntime(
       previewWebviewHost?.postExactExportState(exactExportUi.state);
     },
     closed() {
+      previewComposer?.invalidate();
       exactExportUi.bind(undefined);
       displayedPreviewSourceUri = undefined;
       refreshBuildStatus();
@@ -2564,6 +2687,9 @@ async function initializeRuntime(
     async navigationRequested(point) {
       if (!vscode.workspace.getConfiguration("mmt.preview").get("bidirectionalNavigation", true)) return;
       await previewInteraction.navigatePreviewPoint(point);
+    },
+    contextMenuRequested(point) {
+      return previewComposer?.handleContextPoint(point);
     },
     async exactExportRequested(message: PreviewExactExportRequest) {
       const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
@@ -2611,6 +2737,7 @@ async function initializeRuntime(
       return;
     }
     const sourceUri = document.uri.toString();
+    previewComposer?.invalidate();
     previewFixtureActiveSourceUri = undefined;
     displayedPreviewSourceUri = sourceUri;
     refreshBuildStatus();
@@ -2949,6 +3076,7 @@ async function initializeRuntime(
     runtime: controller,
   });
   if (import.meta.env.VITE_MMT_E2E === "1") {
+    if (!composerE2E) throw new Error("Composer E2E instrumentation is unavailable");
     const e2eApi: MmtE2EApi = {
       workspace: createMmtE2EWorkspaceApi({
         workspaceUri: WORKSPACE,
@@ -2987,6 +3115,7 @@ async function initializeRuntime(
         resetTimings: () => controller.stores.previewPerformance.reset(),
         setRendererEnabled: setPreviewRendererEnabled,
       },
+      composer: composerE2E.api,
       runtime: {
         status: () => runtimeStatus.snapshot(),
         statusFixture: (recoveryState: RuntimeRecoveryState, lastFailure?: string) => {

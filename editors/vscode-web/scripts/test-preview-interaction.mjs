@@ -230,6 +230,120 @@ assert.equal(await projectedController.navigatePreviewPoint({ pageIndex: 0, x: 0
 assert.equal(projectedController.cursor, undefined);
 assert.equal(projectedController.indicator, undefined, "bounded indicator survived provider restart");
 
+const locatedStatuses = [];
+const locatedMappedTargets = [];
+const locatedOpenedTargets = [];
+const locatedController = new PreviewInteractionController({
+  currentIdentity: () => identityA,
+  mapPreviewSource: async (_sourceIdentity, location) => {
+    locatedMappedTargets.push(location);
+    return {
+      kind: "authoredIdentity",
+      uri: sourceA,
+      range: location.range,
+      readOnly: false,
+      retained: true,
+    };
+  },
+  openSource: async (target) => { locatedOpenedTargets.push(target); },
+  events: { statusChanged: (status) => locatedStatuses.push(status) },
+});
+locatedController.bindArtifact(providerArtifact, identityA, resolver);
+const statusCountBeforeLocate = locatedStatuses.length;
+const locatedPoint = await locatedController.locatePreviewPoint({ pageIndex: 0, x: 0.4, y: 0.6 });
+assert.deepEqual(locatedPoint, {
+  identity: identityA,
+  location: { uri: identityA.entryUri, range: range(9, 1, 2) },
+}, "provider-backed Composer location did not retain the exact artifact identity");
+assert.equal(locatedMappedTargets.length, 0, "Composer location invoked navigation-only authored/fallback mapping");
+assert.equal(locatedOpenedTargets.length, 0, "Composer location opened a source editor");
+assert.equal(locatedStatuses.length, statusCountBeforeLocate, "Composer location emitted navigation status");
+const navigatedTarget = await locatedController.navigatePreviewPoint({ pageIndex: 0, x: 0.4, y: 0.6 });
+assert.equal(navigatedTarget.uri, sourceA, "provider navigation stopped mapping the backend location to authored source");
+assert.equal(locatedMappedTargets.length, 1, "provider navigation did not reuse its provider point location");
+assert.equal(locatedOpenedTargets.length, 1, "provider navigation stopped opening its mapped target");
+
+const rendererProvider = {
+  kind: "renderer-provider",
+  sessionId: "renderer-session-context",
+  snapshotToken: "render-renderer-provider",
+  artifactDigest: "b".repeat(64),
+  backendGeneration: 3,
+  rendererGeneration: 5,
+  method: "mmt/previewRenderer.v1",
+  coordinateVersion: "typst-page-points-v1",
+};
+const rendererProviderArtifact = createPreviewArtifact({
+  renderKey: rendererProvider.snapshotToken,
+  sourceUri: sourceA,
+  locationProviderKey: rendererProvider,
+  visualSnapshot: {
+    kind: "renderer",
+    artifactDigest: rendererProvider.artifactDigest,
+    sourceDigest: "c".repeat(64),
+    backendGeneration: rendererProvider.backendGeneration,
+    rendererGeneration: rendererProvider.rendererGeneration,
+    frameKind: "new",
+    sessionId: rendererProvider.sessionId,
+    snapshotToken: rendererProvider.snapshotToken,
+    byteLength: 256,
+    pages: [{ pageIndex: 0, geometry: { viewBox: [0, 0, 100, 200], cssWidth: 100, cssHeight: 200 } }],
+  },
+});
+const rendererProviderController = new PreviewInteractionController({ currentIdentity: () => identityA });
+rendererProviderController.bindArtifact(rendererProviderArtifact, identityA, {
+  key: rendererProvider,
+  async locateSelection() { return []; },
+  async locatePoint() { return { uri: identityA.entryUri, range: range(12, 4, 6) }; },
+});
+assert.deepEqual(
+  await rendererProviderController.locatePreviewPoint({ pageIndex: 0, x: 0.5, y: 0.5 }),
+  { identity: identityA, location: { uri: identityA.entryUri, range: range(12, 4, 6) } },
+  "current renderer-provider artifact did not authorize its exact Composer location",
+);
+assert.equal(locatedStatuses.at(-1), "ready", "provider navigation stopped publishing ready after a successful open");
+
+let fallbackMappingCalls = 0;
+const immutableComposerController = new PreviewInteractionController({
+  currentIdentity: () => identityA,
+  mapPreviewSource: async () => {
+    fallbackMappingCalls += 1;
+    return fallbackPreviewSourceTarget({ uri: sourceA, range: range(2, 3, 5) });
+  },
+});
+immutableComposerController.bindArtifact(artifactA, identityA);
+assert.equal(
+  await immutableComposerController.locatePreviewPoint({ pageIndex: 1, x: 0.98, y: 0.99 }),
+  undefined,
+  "immutable navigation map authorized a Composer location",
+);
+assert.equal(fallbackMappingCalls, 0, "navigation-only authored fallback authorized a Composer location");
+
+let resolveDriftLocation;
+const driftResolver = {
+  key: providerKey(11),
+  async locateSelection() { return []; },
+  locatePoint() {
+    return new Promise((resolve) => { resolveDriftLocation = resolve; });
+  },
+};
+const driftController = new PreviewInteractionController();
+driftController.bindArtifact(providerArtifact, identityA, driftResolver);
+const staleLocation = driftController.locatePreviewPoint({ pageIndex: 0, x: 0.2, y: 0.3 });
+driftController.sourceIdentityAdvanced(advancedA);
+resolveDriftLocation({ uri: identityA.entryUri, range: range(9, 1, 2) });
+assert.equal(await staleLocation, undefined, "async source identity drift published a Composer location");
+
+driftController.bindArtifact(providerArtifact, identityA, driftResolver);
+const replacedProviderLocation = driftController.locatePreviewPoint({ pageIndex: 0, x: 0.2, y: 0.3 });
+driftController.bindArtifact(providerArtifact, identityA, {
+  key: providerKey(11),
+  async locateSelection() { return []; },
+  async locatePoint() { return { uri: identityA.entryUri, range: range(10, 0, 1) }; },
+});
+resolveDriftLocation({ uri: identityA.entryUri, range: range(9, 1, 2) });
+assert.equal(await replacedProviderLocation, undefined, "async provider identity drift published a Composer location");
+
 controller.bindArtifact(artifactA, identityA);
 controller.providerRestarted(providerKey(99));
 assert.equal((await controller.navigatePreviewPoint({ pageIndex: 1, x: 0.98, y: 0.99 })).uri, sourceA, "retained immutable map was disabled by unrelated provider restart");
@@ -397,6 +511,10 @@ assert.ok(indicators.some(Boolean));
 assert.ok(cursors.some(Boolean));
 controller.dispose();
 projectedController.dispose();
+locatedController.dispose();
+immutableComposerController.dispose();
+rendererProviderController.dispose();
+driftController.dispose();
 console.log(JSON.stringify({
   debouncedNavigationCore: true,
   projectedRangeAdapter: "mmt/typstRange",
@@ -406,6 +524,8 @@ console.log(JSON.stringify({
   normalizedViewport: true,
   perDocumentPersistence: true,
   immutableOldArtifactMap: true,
+  providerBackedComposerLocation: true,
+  composerIdentityDriftRejection: true,
   incrementalGapRefresh: true,
   partialRenderKeyIsolation: true,
   safeOutline: true,

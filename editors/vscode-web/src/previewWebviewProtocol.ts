@@ -134,6 +134,7 @@ export type PreviewWebviewToHostMessage =
   | PreviewVisualReadyMessage
   | { readonly type: "viewport"; readonly viewport: PreviewViewport }
   | { readonly type: "navigate"; readonly point: PreviewNavigationPoint }
+  | { readonly type: "context-point"; readonly point: PreviewNavigationPoint }
   | { readonly type: "exact-export"; readonly format: ExactExportFormat; readonly staleChoice?: StaleExportChoice }
   | { readonly type: "exact-export-cancel" }
   | { readonly type: "render-rejected"; readonly requestSequence: number; readonly renderKey: RenderKey; readonly error: string }
@@ -190,6 +191,7 @@ export function isPreviewWebviewToHostMessage(value: unknown): value is PreviewW
     case "visual-ready": return isPreviewVisualReadyMessage(value);
     case "viewport": return isPreviewViewportMessage(value);
     case "navigate": return isPreviewNavigateMessage(value);
+    case "context-point": return isPreviewContextPointMessage(value);
     case "exact-export": return isExportMessage(value);
     case "exact-export-cancel": return isExactExportCancelMessage(value);
     case "render-rejected": return isPreviewRenderRejectedMessage(value);
@@ -288,6 +290,14 @@ export function isPreviewNavigateMessage(value: unknown): value is Extract<Previ
     && "point" in value && isPreviewNavigationPoint(value.point));
 }
 
+export function isPreviewContextPointMessage(
+  value: unknown,
+): value is Extract<PreviewWebviewToHostMessage, { type: "context-point" }> {
+  return hasExactKeys(value, ["type", "point"])
+    && value.type === "context-point"
+    && isStrictPreviewNavigationPoint(value.point);
+}
+
 export function bytesToBase64(bytes: Uint8Array): string {
   let binary = "";
   for (let offset = 0; offset < bytes.length; offset += 0x8000) {
@@ -354,6 +364,37 @@ function isPreviewNavigationPoint(value: unknown): value is PreviewNavigationPoi
     ));
 }
 
+function isStrictPreviewNavigationPoint(value: unknown): value is PreviewNavigationPoint {
+  if (!hasExactKeys(value, ["pageIndex", "x", "y"], ["textOffset", "text"])
+    || !nonNegativeSafeInteger(value.pageIndex)
+    || !normalizedFinite(value.x)
+    || !normalizedFinite(value.y)) {
+    return false;
+  }
+  const hasTextOffset = Object.hasOwn(value, "textOffset");
+  const hasText = Object.hasOwn(value, "text");
+  return hasTextOffset === hasText
+    && (!hasTextOffset || (
+      nonNegativeSafeInteger(value.textOffset)
+      && typeof value.text === "string"
+      && value.text.length > 0
+      && value.text.length <= 65_536
+      && Number(value.textOffset) < value.text.length
+    ));
+}
+
+function hasExactKeys(
+  value: unknown,
+  required: readonly string[],
+  optional: readonly string[] = [],
+): value is Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const keys = Object.keys(value);
+  if (keys.length < required.length || keys.length > required.length + optional.length) return false;
+  return required.every((key) => Object.hasOwn(value, key))
+    && keys.every((key) => required.includes(key) || optional.includes(key));
+}
+
 function isPreviewViewport(value: unknown): value is PreviewViewport {
   return Boolean(value && typeof value === "object"
     && "page" in value && typeof value.page === "number"
@@ -390,6 +431,10 @@ function nonNegativeSafeInteger(value: unknown): boolean {
 
 function nonNegativeFinite(value: unknown): boolean {
   return typeof value === "number" && Number.isFinite(value) && value >= 0;
+}
+
+function normalizedFinite(value: unknown): boolean {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
 }
 
 function positiveFinite(value: unknown): boolean {

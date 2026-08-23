@@ -108,6 +108,21 @@ export interface MmtE2EPreviewRetainedState {
   readonly activeMaterializations: number;
 }
 
+export interface MmtE2EComposerState {
+  readonly targetRequests: number;
+  readonly editRequests: number;
+  readonly applyAttempts: number;
+  readonly successfulApplies: number;
+}
+
+export interface MmtE2EComposerInstrumentation {
+  readonly api: MmtE2EApi["composer"];
+  recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void;
+  beginApply(): boolean;
+  recordApplyResult(applied: boolean): void;
+}
+
+
 export interface MmtE2EApi {
   readonly workspace: {
     readonly activeDocument: () => MmtE2EActiveDocument | null;
@@ -145,6 +160,12 @@ export interface MmtE2EApi {
     readonly resetTimings: () => void;
     readonly setRendererEnabled: (enabled: boolean) => boolean;
   };
+  readonly composer: {
+    readonly state: () => MmtE2EComposerState;
+    readonly reset: () => void;
+    readonly failNextApply: () => void;
+  };
+
   readonly runtime: {
     readonly status: () => RuntimeStatusSnapshot;
     readonly statusFixture: (recoveryState: RuntimeRecoveryState, lastFailure?: string) => void;
@@ -341,6 +362,49 @@ export function createMmtE2ELanguageApi(ports: MmtE2ELanguagePorts): MmtE2EApi["
   });
 }
 
+export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumentation {
+  let targetRequests = 0;
+  let editRequests = 0;
+  let applyAttempts = 0;
+  let successfulApplies = 0;
+  let failNextApply = false;
+  const api = Object.freeze({
+    state: (): MmtE2EComposerState => Object.freeze({
+      targetRequests,
+      editRequests,
+      applyAttempts,
+      successfulApplies,
+    }),
+    reset(): void {
+      targetRequests = 0;
+      editRequests = 0;
+      applyAttempts = 0;
+      successfulApplies = 0;
+      failNextApply = false;
+    },
+    failNextApply(): void {
+      failNextApply = true;
+    },
+  });
+  return Object.freeze({
+    api,
+    recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void {
+      if (method === "mmt/previewComposerTarget") targetRequests += 1;
+      else editRequests += 1;
+    },
+    beginApply(): boolean {
+      applyAttempts += 1;
+      if (!failNextApply) return true;
+      failNextApply = false;
+      return false;
+    },
+    recordApplyResult(applied: boolean): void {
+      if (applied) successfulApplies += 1;
+    },
+  });
+}
+
+
 export function installMmtE2EBridge(api: MmtE2EApi): vscode.Disposable {
   if (import.meta.env.VITE_MMT_E2E !== "1") return Object.freeze({ dispose() {} });
   const installedValue: MmtE2EApi = Object.freeze({
@@ -351,6 +415,7 @@ export function installMmtE2EBridge(api: MmtE2EApi): vscode.Disposable {
     history: Object.freeze({ ...api.history }),
     exactExport: Object.freeze({ ...api.exactExport }),
     security: Object.freeze({ ...api.security }),
+    composer: Object.freeze({ ...api.composer }),
   });
   Reflect.set(globalThis, "__mmtE2E", installedValue);
   return Object.freeze({

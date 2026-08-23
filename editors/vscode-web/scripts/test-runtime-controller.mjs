@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { EditorRuntimeController } from "../src/runtimeController.ts";
+import { PreviewComposerController } from "../src/previewComposer.ts";
 
 let releaseStartup;
 let secondaryInitializerCalls = 0;
@@ -40,13 +41,34 @@ assert.equal(startupDeadline.state, "disposed");
 
 const reverseDisposeOrder = [];
 const reverseDispose = new EditorRuntimeController();
+const pendingComposerLocation = Promise.withResolvers();
 await reverseDispose.start((runtime) => {
   runtime.own({ dispose() { reverseDisposeOrder.push("foundation"); } });
   runtime.subscribe({ dispose() { reverseDisposeOrder.push("project-subscription"); } });
+  const previewComposer = runtime.own(new PreviewComposerController({
+    locatePreviewPoint: () => pendingComposerLocation.promise,
+    request: async () => { throw new Error("not exercised"); },
+    createCancellationTokenSource: () => ({
+      token: { isCancellationRequested: false },
+      cancel() {},
+      dispose() { reverseDisposeOrder.push("preview-composer"); },
+    }),
+    createQuickPick: () => { throw new Error("not exercised"); },
+    createInputBox: () => { throw new Error("not exercised"); },
+    apply: { apply: async () => { throw new Error("not exercised"); } },
+    acceptingWork: () => true,
+    currentIdentity: () => undefined,
+    currentDocument: () => undefined,
+    bidirectionalNavigation: () => false,
+    navigatePreviewPoint: async () => {},
+    showWarningMessage() {},
+    showErrorMessage() {},
+  }));
+  void previewComposer.handleContextPoint({ page: 0, x: 0.5, y: 0.5 });
   runtime.own({ async dispose() { await Promise.resolve(); reverseDisposeOrder.push("preview"); } });
 });
 await reverseDispose.dispose();
-assert.deepEqual(reverseDisposeOrder, ["preview", "project-subscription", "foundation"]);
+assert.deepEqual(reverseDisposeOrder, ["preview", "preview-composer", "project-subscription", "foundation"]);
 
 const rejectedQuiesce = new EditorRuntimeController();
 await rejectedQuiesce.start(() => {});

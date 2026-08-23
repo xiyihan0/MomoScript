@@ -799,3 +799,15 @@ body {
   .mms-gallery-variant-grid { grid-template-columns: minmax(0, 1fr); }
   .mms-gallery-control-footer { align-items: flex-start; flex-direction: column; }
 }
+
+@media (max-width: 320px) {
+  .quick-input-widget {
+    position: fixed !important;
+    right: 8px !important;
+    left: 8px !important;
+    box-sizing: border-box;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+}

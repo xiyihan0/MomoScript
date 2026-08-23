@@ -29,6 +29,8 @@
     "test:preview-artifact": "node --experimental-strip-types ./scripts/test-preview-artifact.mjs",
     "test:preview-webview-protocol": "node --experimental-strip-types ./scripts/test-preview-webview-protocol.mjs",
     "test:preview-interaction": "node --experimental-strip-types ./scripts/test-preview-interaction.mjs",
+    "test:composer-edit": "node --experimental-strip-types ./scripts/test-composer-edit.mjs",
+    "test:preview-composer": "node --experimental-strip-types ./scripts/test-preview-composer.mjs",
     "test:e2e:preview-interaction": "playwright test --project=local preview-interaction.spec.ts",
     "test:e2e:preview-smoke": "playwright test --project=local --workers=1 preview-renderer-smoke.spec.ts",
     "test:e2e:preview-differential": "MMT_E2E_BENCHMARKS=1 playwright test --project=local --workers=1 preview-renderer-differential.benchmark.spec.ts",

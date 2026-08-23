@@ -7,6 +7,7 @@ import {
   bytesToBase64,
   escapeHtml,
   isPreviewWebviewToHostMessage,
+  isPreviewContextPointMessage,
   type PreviewExactExportState,
   type PreviewHostToWebviewMessage,
   type PreviewNavigationPoint,
@@ -24,6 +25,7 @@ export interface PreviewWebviewHostEvents {
   readonly closed?: () => void;
   readonly viewportChanged: (viewport: PreviewViewport) => void;
   readonly navigationRequested: (point: PreviewNavigationPoint) => void | Promise<void>;
+  readonly contextMenuRequested: (point: PreviewNavigationPoint) => void | Promise<void>;
   readonly exactExportRequested: (request: PreviewExactExportRequest) => void | Promise<void>;
   readonly exactExportCancelled: () => void;
 }
@@ -361,6 +363,9 @@ export class PreviewWebviewHost implements vscode.Disposable {
         return;
       case "navigate":
         await this.#events.navigationRequested(message.point);
+        return;
+      case "context-point":
+        if (isPreviewContextPointMessage(message)) await this.#events.contextMenuRequested(message.point);
         return;
       case "exact-export":
         await this.#events.exactExportRequested(message);

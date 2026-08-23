@@ -53,6 +53,11 @@ export interface PreviewBackendLocation {
   readonly range: PreviewWireRange;
 }
 
+export interface LocatedPreviewPoint {
+  readonly identity: PreviewSourceIdentity;
+  readonly location: PreviewBackendLocation;
+}
+
 export interface PreviewProviderSelectionRequest {
   readonly renderKey: RenderKey;
   readonly locationProviderKey: LocationProviderKey;
@@ -131,6 +136,10 @@ interface PendingSelection {
   readonly controller: AbortController;
 }
 
+type ProviderPointResult =
+  | { readonly status: "located"; readonly value: LocatedPreviewPoint }
+  | { readonly status: "unavailable" | "unmapped" | "stale" | "failed" | "aborted" };
+
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 5;
 const INDICATOR_RADIUS = 0.025;
@@ -172,6 +181,7 @@ export class PreviewInteractionController {
   readonly #dependencies: PreviewInteractionDependencies;
   readonly #pendingSelections = new Map<string, PendingSelection>();
   #bound: BoundPreviewArtifact | undefined;
+  #latestSourceIdentity: PreviewSourceIdentity | undefined;
   #resolver: PreviewLocationResolver | undefined;
   #viewport: PreviewViewport;
   #cursor: PreviewCursorOverlay | undefined;
@@ -206,6 +216,7 @@ export class PreviewInteractionController {
     this.removeCursor();
     this.removeIndicator();
     this.#bound = Object.freeze({ artifact, identity });
+    this.#latestSourceIdentity = identity;
     this.#resolver = retainedResolver;
     const restored = this.#dependencies.persistence?.load(identity.workspaceId, identity.sourceUri);
     this.#viewport = normalizeViewport(
@@ -230,6 +241,7 @@ export class PreviewInteractionController {
 
   sourceIdentityAdvanced(identity: PreviewSourceIdentity): void {
     if (!this.#bound || this.#bound.identity.sourceUri !== identity.sourceUri) return;
+    this.#latestSourceIdentity = identity;
     if (previewSourceIdentityMatches(this.#bound.identity, identity)) return;
     this.cancelPendingSelections();
     this.removeCursor();
@@ -326,6 +338,16 @@ export class PreviewInteractionController {
     return this.#indicator;
   }
 
+  async locatePreviewPoint(
+    point: PreviewNavigationPoint,
+    signal = new AbortController().signal,
+  ): Promise<LocatedPreviewPoint | undefined> {
+    const captured = this.#bound;
+    if (!captured) return undefined;
+    const result = await this.locateProviderPoint(captured, normalizePagePoint(point, captured.artifact.pages.length), signal);
+    return result.status === "located" ? result.value : undefined;
+  }
+
   async navigatePreviewPoint(point: PreviewNavigationPoint, signal = new AbortController().signal): Promise<PreviewSourceTarget | undefined> {
     const captured = this.#bound;
     if (!captured) return undefined;
@@ -341,22 +363,19 @@ export class PreviewInteractionController {
     if (captured.artifact.locationProviderKey.kind === "immutable-map") {
       target = immutablePointTarget(captured.artifact, normalizedPoint);
     } else {
-      const resolver = this.#resolver;
-      if (!resolver) {
-        this.#dependencies.events?.statusChanged?.("unavailable", "The displayed artifact's location provider is no longer available.");
+      const result = await this.locateProviderPoint(captured, normalizedPoint, signal);
+      if (result.status !== "located") {
+        if (result.status === "unavailable") {
+          this.#dependencies.events?.statusChanged?.("unavailable", "The displayed artifact's location provider is no longer available.");
+        } else if (result.status === "unmapped") {
+          this.#dependencies.events?.statusChanged?.("unmapped", "The displayed preview point has no retained source location.");
+        } else if (result.status === "failed") {
+          this.#dependencies.events?.statusChanged?.("unmapped", "The preview location provider could not map this point.");
+        }
         return undefined;
       }
+      const location = result.value.location;
       try {
-        const location = await resolver.locatePoint({
-          ...normalizedPoint,
-          renderKey: captured.artifact.renderKey,
-          locationProviderKey: captured.artifact.locationProviderKey,
-        }, signal);
-        if (signal.aborted) return undefined;
-        if (!location) {
-          this.#dependencies.events?.statusChanged?.("unmapped", "The displayed preview point has no retained source location.");
-          return undefined;
-        }
         if (captured.identity.languageId === "mmt") {
           target = await this.#dependencies.mapPreviewSource?.(captured.identity, location, signal);
         } else {
@@ -436,13 +455,17 @@ export class PreviewInteractionController {
   dispose(): void {
     this.cancelPendingSelections();
     this.#bound = undefined;
+    this.#latestSourceIdentity = undefined;
     this.#resolver = undefined;
     this.removeCursor();
     this.removeIndicator();
   }
 
   private identityStillCurrent(identity: PreviewSourceIdentity): boolean {
-    const current = this.#dependencies.currentIdentity?.(identity.sourceUri) ?? this.#bound?.identity;
+    const tracked = this.#latestSourceIdentity?.sourceUri === identity.sourceUri
+      ? this.#latestSourceIdentity
+      : this.#bound?.identity;
+    const current = this.#dependencies.currentIdentity?.(identity.sourceUri) ?? tracked;
     return current !== undefined && previewSourceIdentityMatches(identity, current);
   }
 
@@ -451,6 +474,46 @@ export class PreviewInteractionController {
     if (captured.artifact.locationProviderKey.kind === "immutable-map") return Boolean(captured.artifact.locationMap);
     return this.#resolver !== undefined
       && locationProviderKeyId(this.#resolver.key) === locationProviderKeyId(captured.artifact.locationProviderKey);
+  }
+
+  private async locateProviderPoint(
+    captured: BoundPreviewArtifact,
+    point: PreviewNavigationPoint,
+    signal: AbortSignal,
+  ): Promise<ProviderPointResult> {
+    const provider = captured.artifact.locationProviderKey;
+    if (provider.kind !== "provider" && provider.kind !== "renderer-provider") {
+      return { status: "unavailable" };
+    }
+    if (signal.aborted) return { status: "aborted" };
+    if (!this.identityStillCurrent(captured.identity)) return { status: "stale" };
+    const resolver = this.#resolver;
+    if (!resolver || locationProviderKeyId(resolver.key) !== locationProviderKeyId(provider)) {
+      return { status: "unavailable" };
+    }
+    try {
+      const location = await resolver.locatePoint({
+        ...point,
+        renderKey: captured.artifact.renderKey,
+        locationProviderKey: provider,
+      }, signal);
+      if (signal.aborted) return { status: "aborted" };
+      if (
+        this.#bound !== captured
+        || this.#resolver !== resolver
+        || !this.identityStillCurrent(captured.identity)
+        || locationProviderKeyId(resolver.key) !== locationProviderKeyId(provider)
+      ) {
+        return { status: "stale" };
+      }
+      if (!location) return { status: "unmapped" };
+      return {
+        status: "located",
+        value: Object.freeze({ identity: captured.identity, location }),
+      };
+    } catch {
+      return { status: signal.aborted ? "aborted" : "failed" };
+    }
   }
 
   private publishAvailability(): void {

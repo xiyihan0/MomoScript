@@ -676,6 +676,40 @@ function renderedTextNavigationHint(
   return { text, textOffset: offsets[index]! };
 }
 
+function previewNavigationPointAtClientCoordinates(
+  clientX: number,
+  clientY: number,
+  target: EventTarget | null,
+  requireRenderedPageHit: boolean,
+): PreviewNavigationPoint | undefined {
+  const bounds = page.getBoundingClientRect();
+  if (!(bounds.width > 0) || !(bounds.height > 0)) return undefined;
+  const textElement = (target as Element | null)?.closest?.(".typst-text") ?? null;
+  const snapped = textElement ? snapIntoTextGlyphs(textElement, clientX, clientY) : undefined;
+  if (snapped) {
+    clientX = snapped.x;
+    clientY = snapped.y;
+  }
+  const documentX = (clientX - bounds.left) / zoom;
+  const documentY = (clientY - bounds.top) / zoom;
+  if (requireRenderedPageHit) {
+    if (!page.firstElementChild || !Number.isFinite(documentX) || !Number.isFinite(documentY)) return undefined;
+    const insidePage = currentPageGeometries().some((geometry) => (
+      documentX >= 0
+      && documentX < geometry.width
+      && documentY >= geometry.offsetY
+      && documentY < geometry.offsetY + geometry.height
+    ));
+    if (!insidePage) return undefined;
+  }
+  const point = previewPointAtDocumentCoordinates(documentX, documentY);
+  if (!point) return undefined;
+  return {
+    ...point,
+    ...(textElement ? renderedTextNavigationHint(textElement, clientX) : undefined),
+  };
+}
+
 function previewPointAtDocumentCoordinates(x: number, y: number): PreviewPoint | undefined {
   const geometries = currentPageGeometries();
   const geometry = geometries.find((candidate) => y >= candidate.offsetY && y < candidate.offsetY + candidate.height)
@@ -1228,25 +1262,8 @@ page.addEventListener("pointermove", (event) => {
 });
 page.addEventListener("pointerup", () => { pointerOrigin = undefined; });
 page.addEventListener("click", (event) => {
-  const bounds = page.getBoundingClientRect();
-  if (!(bounds.width > 0) || !(bounds.height > 0)) return;
-  const textElement = (event.target as Element | null)?.closest?.(".typst-text") ?? null;
-  let clientX = event.clientX;
-  let clientY = event.clientY;
-  const snapped = textElement ? snapIntoTextGlyphs(textElement, clientX, clientY) : undefined;
-  if (snapped) {
-    clientX = snapped.x;
-    clientY = snapped.y;
-  }
-  const point = previewPointAtDocumentCoordinates(
-    (clientX - bounds.left) / zoom,
-    (clientY - bounds.top) / zoom,
-  );
-  if (!point) return;
-  const navigationPoint: PreviewNavigationPoint = {
-    ...point,
-    ...(textElement ? renderedTextNavigationHint(textElement, clientX) : undefined),
-  };
+  const navigationPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, false);
+  if (!navigationPoint) return;
   const selection = document.getSelection();
   const hasTextSelection = Boolean(selection && !selection.isCollapsed);
   setTimeout(() => {
@@ -1256,6 +1273,15 @@ page.addEventListener("click", (event) => {
       vscode.postMessage({ type: "navigate", point: navigationPoint });
     }
   }, 0);
+});
+page.addEventListener("contextmenu", (event) => {
+  if (pointerDragged) return;
+  const selection = document.getSelection();
+  if (selection && !selection.isCollapsed) return;
+  const contextPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, true);
+  if (!contextPoint) return;
+  event.preventDefault();
+  vscode.postMessage({ type: "context-point", point: contextPoint });
 });
 exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat }));
 exportDisplayed.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat, staleChoice: "export-displayed" }));
