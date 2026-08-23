@@ -72,6 +72,7 @@ MomoScript 是一个面向 Momotalk / MoeTalk 风格视觉叙事的 DSL 与渲�
 - `openspec/changes/add-pwa-offline-runtime/`：生产 Web 可安装应用、显式离线 shell/pack、prompt update、origin-wide quota 与驱逐恢复合同
 - `openspec/specs/character-gallery/spec.md`：生产 Web 角色图鉴（实体/差分浏览、AVIFS 抽帧缩略图与 set-aware 实体限定引用）的稳定合同
 - `openspec/changes/complete-editor-runtime-and-typst-tooling/`：基于稳定 language-tooling diagnostics/runtime 合同统一编辑器运行时与 Typst project state，增加能力实测门、保守投影语言功能、host-mediated package resolution、revision-bound preview navigation 和 exact-snapshot export；不重复 workspace/PWA 合同
+- `openspec/changes/add-preview-contextual-editing/`：基于 current preview artifact、projection origin 与 Rust syntax/semantic snapshot 增加右键 Composer target；第一阶段只返回纯版本化 WorkspaceEdit，用于 `continued` 与从选中 statement 起的 actor `display-name`。
 
 ## Non-Goals
 
