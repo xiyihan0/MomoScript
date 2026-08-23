@@ -10,9 +10,7 @@ test("editor context menu reveals the current file in local history", { tag: "@l
   await editor.locator(".view-lines .view-line").first().click({ button: "right" });
   const historyItem = page.getByRole("menuitem", { name: "显示文件历史记录" });
   await expect(historyItem).toBeVisible();
-  // 第二项（第一项是“插入角色表情差分”）
-  await page.keyboard.press("ArrowDown");
-  await page.keyboard.press("ArrowDown");
+  await historyItem.hover();
   await page.keyboard.press("Enter");
 
   const scope = page.getByRole("combobox", { name: "本地历史范围" });
