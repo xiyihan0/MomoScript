@@ -280,6 +280,9 @@ test("production editor materializes an avatar and restores the authored story a
     + '<foreignObject x="0" y="0" width="100" height="20"><h5:div class="tsel" style="font-size: 16px">中文 <h5:span>styled</h5:span></h5:div></foreignObject>'
     + '<foreignObject x="0" y="0" width="999" height="999"><h5:div class="tsel" style="font-size: 16px"><h5:span><h5:img src="https://evil.invalid/x" /></h5:span></h5:div></foreignObject>'
     + '<a href="https://example.com"><rect class="pseudo-link" width="40" height="12"></rect></a>'
+    + '<g id="valid-semantic" data-typst-label="mmt:bubble:t00000000"></g>'
+    + '<g id="invalid-semantic" data-typst-label="mmt:bubble:t0"></g>'
+    + '<g id="ordinary-typst-label" data-typst-label="section"></g>'
     + '<script>alert(1)</script></svg>';
   const sanitizedSvg = await invokeMmtE2E(page, "security", "sanitizeSvg", sanitizerSource);
   const sanitizerResult = await page.evaluate((source) => {
@@ -291,6 +294,9 @@ test("production editor materializes an avatar and restores the authored story a
       text: root.querySelector(".tsel")?.textContent,
       tag: root.querySelector(".tsel")?.localName,
       pseudoLinkFill: root.querySelector("rect.pseudo-link")?.getAttribute("fill"),
+      semanticLabels: [...root.querySelectorAll("[data-typst-label]")]
+        .map((element) => element.getAttribute("data-typst-label")),
+      invalidSemanticLabel: root.querySelector("#invalid-semantic")?.hasAttribute("data-typst-label"),
     };
   }, sanitizedSvg);
   expect(sanitizerResult).toEqual({
@@ -298,7 +304,9 @@ test("production editor materializes an avatar and restores the authored story a
     activeNodes: 0,
     text: "中文 styled",
     tag: "div",
-    pseudoLinkFill: "transparent"
+    pseudoLinkFill: "transparent",
+    semanticLabels: ["mmt:bubble:t00000000", "section"],
+    invalidSemanticLabel: false,
   });
   const explorerActivity = page.getByRole("tab", { name: /^资源管理器/ });
   const mmsActivity = page.getByRole("tab", { name: "MomoScript", exact: true });

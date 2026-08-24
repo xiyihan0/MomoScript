@@ -21,6 +21,10 @@ import {
   type PreviewImmutableLocationMap,
   type PreviewImageAsset,
 } from "./previewArtifact.ts";
+import {
+  isReservedPreviewSemanticLabel,
+  parsePreviewSemanticLabel,
+} from "./previewSemanticTarget.ts";
 import type {
   PreviewMeasurementSpan,
   PreviewPagePoint,
@@ -937,6 +941,14 @@ export function sanitizeSvg(root: SVGElement): void {
     for (const attribute of [...element.attributes]) {
       const name = attribute.name.toLowerCase();
       const value = attribute.value.trim();
+      if (
+        name === "data-typst-label"
+        && isReservedPreviewSemanticLabel(value)
+        && parsePreviewSemanticLabel(attribute.value) === undefined
+      ) {
+        element.removeAttribute(attribute.name);
+        continue;
+      }
       if (name.startsWith("on")) {
         element.removeAttribute(attribute.name);
         continue;

@@ -1,6 +1,10 @@
 import type { RenderKey } from "../../vscode/src/runtimeIdentity";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
 import type { PreviewPagePoint, PreviewViewport } from "./previewWebviewProtocol.ts";
+import {
+  isReservedPreviewSemanticLabel,
+  parsePreviewSemanticLabel,
+} from "./previewSemanticTarget.ts";
 
 export type PreviewStatus = "idle" | "queued" | "materializing" | "rendering" | "ready" | "stale" | "failed";
 
@@ -356,6 +360,15 @@ function validateSanitizedSvg(svg: string, imageAssetDigests: ReadonlySet<string
       continue;
     }
     if (!value.startsWith("#") && !value.startsWith("data:image/")) throw new Error("Preview page contains an unsafe link");
+  }
+  for (const match of svg.matchAll(/\sdata-typst-label\s*=\s*["']([^"']*)["']/gi)) {
+    const value = match[1] ?? "";
+    if (
+      isReservedPreviewSemanticLabel(value)
+      && parsePreviewSemanticLabel(value) === undefined
+    ) {
+      throw new Error("Preview page contains an invalid reserved semantic label");
+    }
   }
 }
 

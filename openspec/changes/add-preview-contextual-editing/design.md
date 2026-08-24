@@ -10,7 +10,9 @@ The current Rust syntax AST already retains statement、patch、directive field 
 
 ### 1. Keep preview hit testing separate from edit authorization
 
-The preview runtime posts only a normalized page point for a no-selection `contextmenu` event. It does not attach MMT ranges、actor ids or property values to SVG DOM.
+The preview runtime posts only a normalized page point for a no-selection `contextmenu` event. Interactive MMT SVG MAY attach exporter-authored labels containing a deterministic opaque render target token and a visual role, but MUST NOT attach MMT ranges、actor ids、property values or edit authority. The token is only a same-artifact grouping hint.
+
+For non-text chat surfaces, the runtime MAY use a strict `mmt:<role>:<token>` label to find another labelled region with the same token that owns rendered text, then snap the visual point to that region. The Webview message still carries only the normalized point and screen anchor; the host and language service remain unaware of the token.
 
 The host resolves the point through the artifact's retained location provider without opening a source editor. For MMT preview it calls `mmt/previewComposerTarget` with:
 
@@ -163,7 +165,9 @@ The preview runtime handles `contextmenu` only when:
 - no non-collapsed text selection exists;
 - the interaction was not a drag.
 
-When the event target is a non-text graphic inside a rendered SVG group, hit testing may snap the visual point only to the nearest rendered text glyph inside the first ancestor group that owns text. It must stop at the page SVG boundary, must not search another bubble/group, and still sends no authored or semantic identity. This expands one bubble's click target without turning page whitespace into a guessed edit.
+When the event target is a non-text graphic inside interactive MMT SVG, hit testing first parses the closest exporter-authored `data-typst-label` using a strict allowlist. Labels distinguish `bubble`、`avatar`、`display-name`、`reply`、`reply-item`、`bond` and `bond-body` visual roles while sharing one deterministic opaque token per owning rendered syntax target. The current token grammar is `t` plus exactly eight lowercase hexadecimal digits. The runtime may snap only to labelled text within the same token; it must not cross to another token or convert page whitespace into a target. A recognized reserved label with no same-token text is an orphan and MUST produce no context-point message rather than falling through to ancestor-group heuristics. Unlabelled content MAY retain the existing first-ancestor text-group fallback.
+
+Label tokens MUST be deterministic for the same projection and syntax target, unique within that projection, bounded, and derived without embedding source URI、source ranges、actor identity、display text or authorization. Label groups remain transient render output; only the resolved current backend location and Rust syntax/semantic proof authorize a Composer target.
 
 The runtime prevents the browser menu, posts the point and screen anchor, and retains no semantic target. The host cancels the prior request when another context request or render identity arrives.
 
@@ -177,7 +181,21 @@ For an editable target, the host opens the Workbench native context-menu service
 
 No preview-side custom menu、property store、AST cache or draft document buffer is introduced. `EditorRuntimeController` owns requests/subscriptions and disposal; `TextDocument` remains source truth.
 
-### 6. Failure is explicit and non-destructive
+### 6. Interactive SVG labels are visual targeting metadata
+
+The emitter assigns each rendered statement/reply/bond target a deterministic projection-stable opaque token and passes it to the template as an optional argument. Templates attach reserved labels only to final frame-bearing containers:
+
+- chat bubble/body;
+- visible avatar;
+- visible display name;
+- reply container/items;
+- bond container/body.
+
+Typst labels on non-frame-bearing `metadata`、`place`、`strong` or plain text are insufficient. Avatar and display-name content therefore require zero-inset/outset box wrappers whose layout and baseline MUST remain visually identical. Labelled output is an interactive SVG profile: the SVG sanitizer accepts only the reserved bounded label grammar, and the runtime requires inline/Webview DOM access rather than `<img>`.
+
+Exact text glyph hits retain character precision and take precedence. Label hits are coarse target expansion only. Reply/bond labels do not make those nodes editable in the first Composer slice; unsupported nodes remain navigation-only or unavailable under the existing Rust result.
+
+### 7. Failure is explicit and non-destructive
 
 - Old render identity or projection identity: `stalePreview`.
 - Current renderer location without a unique statement origin: `unmapped` or `ambiguousOrigin`.
@@ -192,7 +210,8 @@ The host may show a concise native notification for an explicit user command fai
 
 ## Rejected Alternatives
 
-- **Edit SVG/DOM attributes:** renderer output is not the authored model and would create a second source of truth.
+- **Treat SVG labels as edit authority:** renderer output is not the authored model; labels may expand a visual hit target only.
+- **Infer ownership from SVG order or geometry:** sibling/ancestor proximity is unstable across template changes and can select a nearby bubble.
 - **Map a Typst TextEdit through parent fallback:** violates Identity-only projected editing and can select the wrong authored range.
 - **Let TypeScript splice MMT text:** duplicates parser/serializer semantics and cannot prove actor/resource stability.
 - **Server applies edits directly:** breaks the pure semantic-editing contract and prevents normal stale-version handling.
@@ -206,4 +225,5 @@ The host may show a concise native notification for an explicit user command fai
 2. Expose identical native/WASM request routing and strict TypeScript response parsing.
 3. Add contextmenu protocol and an anchored native Workbench menu for `continued`.
 4. Add `display-name` from-statement editing through the same menu and native Input Box after the target path is proven.
-5. Only then design typed visual properties、one-bubble nickname and format brush as separate deltas that reuse `mmt/composerEdit`.
+5. Add exporter-authored semantic labels for interactive preview hit expansion without changing the point-only host protocol or Rust authorization boundary.
+6. Only then design typed visual properties、one-bubble nickname and format brush as separate deltas that reuse `mmt/composerEdit`.

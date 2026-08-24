@@ -62,6 +62,50 @@ test("MomoScript update notification uses the native restart action button", { t
   await expect(update).toBeHidden();
 });
 
+test("full SVG preview preserves semantic chat regions for Composer authorization", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-semantic-full-svg.mmt";
+  const source = "> 佳代子: FULL_SVG_TARGET\n";
+  await installPackRoutes(page);
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
+  expect(await invokeMmtE2E(page, "preview", "setRendererEnabled", false)).toBe(false);
+  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", name, source);
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  const frame = await waitForPreviewFrame(page, sourceUri);
+  await expect(frame.locator(".page")).not.toHaveClass(/renderer-active/);
+  await expectChatSemanticRegions(frame, "FULL_SVG_TARGET");
+  await expectSemanticChatContext(page, frame, "FULL_SVG_TARGET", "avatar");
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
+});
+
+test("diff-v1 preview preserves semantic chat regions and rejects orphan tokens", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-semantic-diff.mmt";
+  const original = "> 佳代子: DIFF_FIRST\n> _0: DIFF_TARGET\n";
+  const edited = "> 佳代子: DIFF_FIRST\n>(continued: true) _0: DIFF_TARGET\n";
+  const opened = await openProviderPreview(page, name, original);
+  const frame = await applyContinued(
+    page,
+    opened.frame,
+    opened.sourceUri,
+    name,
+    "DIFF_TARGET",
+    "强制连续",
+    edited,
+    "bubble",
+  );
+  await expect(frame.locator(".page")).toHaveClass(/renderer-active/);
+  await expectChatSemanticRegions(frame, "DIFF_FIRST");
+  await expectSemanticChatContext(page, frame, "DIFF_FIRST", "avatar");
+  await expectSemanticChatContext(page, frame, "DIFF_FIRST", "display-name");
+  await resetComposer(page);
+  await dispatchOrphanSemanticContextMenu(frame);
+  await page.waitForTimeout(250);
+  expect(await composerState(page)).toEqual(emptyComposerState());
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(edited);
+});
+
+
+
 test("preview Composer edits continued bytes exactly, rerenders grouping, and records every apply once", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-continued.mmt";
   const original = [
@@ -88,6 +132,7 @@ test("preview Composer edits continued bytes exactly, rerenders grouping, and re
   const opened = await openProviderPreview(page, name, original);
   let frame = opened.frame;
   await expectRenderedTextCount(frame, "佳代子", 1);
+  await expectChatSemanticRegions(frame, "first");
   const historyBaseline = await historyEditCountForPath(page, `/${name}`);
   let expectedHistory = historyBaseline;
 
@@ -95,6 +140,8 @@ test("preview Composer edits continued bytes exactly, rerenders grouping, and re
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 1);
+  await expect(frame.locator(".page")).toHaveClass(/renderer-active/);
+  await expectChatSemanticRegions(frame, "first");
   await waitForHistoryGroupBoundary(page);
 
   frame = await applyContinued(page, frame, opened.sourceUri, name, "second", "强制新消息", newSecond);
@@ -271,10 +318,15 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   expect(await composerState(page)).toEqual(emptyComposerState());
   await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
   await clearPreviewSelection(frame);
-
   for (const marker of ["NARRATION_TARGET", "REPLY_TARGET_A", "BOND_TARGET", "RAW_TYPST_TARGET", "GENERATED_HEADER_ONLY"]) {
     await resetComposer(page);
-    await rightClickRenderedGlyph(frame, marker);
+    if (marker === "REPLY_TARGET_A") {
+      await rightClickSemanticContainer(frame, marker, "reply-item", "reply");
+    } else if (marker === "BOND_TARGET") {
+      await rightClickSemanticContainer(frame, marker, "bond-body", "bond");
+    } else {
+      await rightClickRenderedGlyph(frame, marker);
+    }
     await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
     const navigate = await visibleContextMenuItem(page, "转到源码");
     await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
@@ -573,65 +625,192 @@ async function rightClickRenderedGlyph(
   return { x: bounds.x + position.x, y: bounds.y + position.y };
 }
 async function rightClickRenderedBubbleGraphic(frame: Frame, marker: string): Promise<void> {
+  await rightClickSemanticRegion(frame, marker, "bubble");
+}
+
+async function rightClickSemanticRegion(
+  frame: Frame,
+  marker: string,
+  role: "bubble" | "avatar" | "display-name",
+): Promise<void> {
   const text = frame.locator(".tsel").filter({ hasText: marker }).first();
   await expect(text).toBeVisible();
-  await text.evaluate((element, expectedMarker) => {
+  await text.evaluate((element, expected) => {
     const renderedText = element.closest(".typst-text");
-    if (!renderedText) throw new Error(`rendered text is unavailable for ${expectedMarker}`);
-    const textBounds = renderedText.getBoundingClientRect();
-    const textCenter = {
-      x: (textBounds.left + textBounds.right) / 2,
-      y: (textBounds.top + textBounds.bottom) / 2,
-    };
-    let ancestor = renderedText.parentElement;
-    while (ancestor && ancestor.tagName.toLowerCase() !== "svg") {
-      const textRegions = [...ancestor.querySelectorAll(".typst-text")]
-        .map((candidate) => candidate.getBoundingClientRect())
-        .filter((bounds) => bounds.width > 0 && bounds.height > 0);
-      const graphics = [...ancestor.querySelectorAll<SVGGraphicsElement>("path, rect, image")]
-        .map((candidate) => ({ candidate, bounds: candidate.getBoundingClientRect() }))
-        .filter(({ candidate, bounds }) => (
-          !candidate.closest(".typst-text")
-          && bounds.width > textBounds.width
-          && bounds.height > textBounds.height
-          && textCenter.x >= bounds.left
-          && textCenter.x <= bounds.right
-          && textCenter.y >= bounds.top
-          && textCenter.y <= bounds.bottom
-        ))
-        .sort((left, right) => (
-          left.bounds.width * left.bounds.height - right.bounds.width * right.bounds.height
-        ));
-      for (const { candidate, bounds } of graphics) {
-        const points = [
-          { x: textBounds.right + 8, y: textCenter.y },
-          { x: textBounds.left - 8, y: textCenter.y },
-          { x: textCenter.x, y: textBounds.top - 8 },
-          { x: textCenter.x, y: textBounds.bottom + 8 },
-        ].map(({ x, y }) => ({
-          x: Math.min(bounds.right - 1, Math.max(bounds.left + 1, x)),
-          y: Math.min(bounds.bottom - 1, Math.max(bounds.top + 1, y)),
-        }));
-        const point = points.find(({ x, y }) => !textRegions.some((region) => (
-          x >= region.left && x <= region.right && y >= region.top && y <= region.bottom
-        )));
-        if (!point) continue;
-        candidate.dispatchEvent(new MouseEvent("contextmenu", {
-          bubbles: true,
-          cancelable: true,
-          composed: true,
-          button: 2,
-          clientX: point.x,
-          clientY: point.y,
-          screenX: window.screenX + point.x,
-          screenY: window.screenY + point.y,
-        }));
-        return;
-      }
-      ancestor = ancestor.parentElement;
+    const bubble = renderedText?.closest("[data-typst-label^='mmt:bubble:']");
+    const bubbleLabel = bubble?.getAttribute("data-typst-label") ?? "";
+    const match = /^mmt:bubble:(t[0-9a-f]{8})$/.exec(bubbleLabel);
+    if (!match) throw new Error(`semantic bubble target is unavailable for ${expected.marker}`);
+    const root = bubble?.closest("svg");
+    const target = [...(root?.querySelectorAll("[data-typst-label]") ?? [])]
+      .find((candidate) => (
+        candidate.getAttribute("data-typst-label") === `mmt:${expected.role}:${match[1]}`
+      ));
+    if (!target) throw new Error(`semantic ${expected.role} target is unavailable for ${expected.marker}`);
+    const bounds = target.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) {
+      throw new Error(`semantic ${expected.role} target has no rendered bounds`);
     }
-    throw new Error(`bubble background graphic is unavailable for ${expectedMarker}`);
-  }, marker);
+    const textRegions = [...target.querySelectorAll(".typst-text")]
+      .map((candidate) => candidate.getBoundingClientRect())
+      .filter((region) => region.width > 0 && region.height > 0);
+    const inset = Math.min(2, bounds.width / 4, bounds.height / 4);
+    const points = [
+      { x: bounds.left + inset, y: bounds.top + inset },
+      { x: bounds.right - inset, y: bounds.top + inset },
+      { x: bounds.left + inset, y: bounds.bottom - inset },
+      { x: bounds.right - inset, y: bounds.bottom - inset },
+      { x: (bounds.left + bounds.right) / 2, y: (bounds.top + bounds.bottom) / 2 },
+    ];
+    const point = points.find(({ x, y }) => !textRegions.some((region) => (
+      x >= region.left && x <= region.right && y >= region.top && y <= region.bottom
+    ))) ?? points.at(-1)!;
+    target.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+  }, { marker, role });
+}
+
+
+async function rightClickSemanticContainer(
+  frame: Frame,
+  marker: string,
+  bodyRole: "reply-item" | "bond-body",
+  containerRole: "reply" | "bond",
+): Promise<void> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  await text.evaluate((element, expected) => {
+    const renderedText = element.closest(".typst-text");
+    const body = renderedText?.closest(`[data-typst-label^='mmt:${expected.bodyRole}:']`);
+    const label = body?.getAttribute("data-typst-label") ?? "";
+    const match = new RegExp(`^mmt:${expected.bodyRole}:(t[0-9a-f]{8})$`).exec(label);
+    if (!match) throw new Error(`semantic ${expected.bodyRole} target is unavailable for ${expected.marker}`);
+    const root = body?.closest("svg");
+    const container = [...(root?.querySelectorAll("[data-typst-label]") ?? [])]
+      .find((candidate) => (
+        candidate.getAttribute("data-typst-label") === `mmt:${expected.containerRole}:${match[1]}`
+      ));
+    if (!container) {
+      throw new Error(`semantic ${expected.containerRole} target is unavailable for ${expected.marker}`);
+    }
+    const bounds = container.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) {
+      throw new Error(`semantic ${expected.containerRole} target has no rendered bounds`);
+    }
+    const point = {
+      x: bounds.left + Math.min(2, bounds.width / 2),
+      y: bounds.top + Math.min(2, bounds.height / 2),
+    };
+    container.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+  }, { marker, bodyRole, containerRole });
+}
+
+async function dispatchOrphanSemanticContextMenu(frame: Frame): Promise<void> {
+  const svg = frame.locator("svg").first();
+  await expect(svg).toBeVisible();
+  await svg.evaluate((root) => {
+    const namespace = "http://www.w3.org/2000/svg";
+    const bubble = root.querySelector("[data-typst-label^='mmt:bubble:']");
+    const owningGroup = bubble?.parentElement;
+    if (!owningGroup || owningGroup.tagName.toLowerCase() !== "g") {
+      throw new Error("chat ancestor is unavailable for orphan semantic target");
+    }
+    const group = document.createElementNS(namespace, "g");
+    group.setAttribute("data-typst-label", "mmt:avatar:tffffffff");
+    const rect = document.createElementNS(namespace, "rect");
+    rect.setAttribute("x", "1");
+    rect.setAttribute("y", "1");
+    rect.setAttribute("width", "12");
+    rect.setAttribute("height", "12");
+    group.append(rect);
+    owningGroup.append(group);
+    const bounds = rect.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) {
+      group.remove();
+      throw new Error("orphan semantic target has no rendered bounds");
+    }
+    const point = {
+      x: (bounds.left + bounds.right) / 2,
+      y: (bounds.top + bounds.bottom) / 2,
+    };
+    group.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+    group.remove();
+  });
+}
+async function expectChatSemanticRegions(frame: Frame, marker: string): Promise<void> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  expect(await text.evaluate((element) => {
+    const renderedText = element.closest(".typst-text");
+    const bubble = renderedText?.closest("[data-typst-label^='mmt:bubble:']");
+    const label = bubble?.getAttribute("data-typst-label") ?? "";
+    const match = /^mmt:bubble:(t[0-9a-f]{8})$/.exec(label);
+    if (!match) return [];
+    const root = bubble?.closest("svg");
+    return [...(root?.querySelectorAll("[data-typst-label]") ?? [])]
+      .map((candidate) => candidate.getAttribute("data-typst-label"))
+      .filter((candidate): candidate is string => candidate?.endsWith(`:${match[1]}`) ?? false)
+      .sort();
+  })).toEqual([
+    expect.stringMatching(/^mmt:avatar:t[0-9a-f]{8}$/),
+    expect.stringMatching(/^mmt:bubble:t[0-9a-f]{8}$/),
+    expect.stringMatching(/^mmt:display-name:t[0-9a-f]{8}$/),
+  ]);
+}
+
+async function expectSemanticChatContext(
+  page: Page,
+  frame: Frame,
+  marker: string,
+  role: "avatar" | "display-name",
+): Promise<void> {
+  await resetComposer(page);
+  await rightClickSemanticRegion(frame, marker, role);
+  await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
+  const root = await visibleContextMenuItem(page, ROOT_CONTINUED);
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    await page.keyboard.press("Escape");
+  }
+  await expect.poll(() => page.locator(".monaco-menu-container").evaluateAll((elements) => (
+    elements.filter((element) => {
+      const bounds = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return bounds.width > 0 && bounds.height > 0 && style.visibility !== "hidden" && style.display !== "none";
+    }).length
+  ))).toBe(0);
+  await expect(root).toBeHidden();
+  expect(await composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 0,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
 }
 
 

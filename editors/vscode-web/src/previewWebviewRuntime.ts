@@ -5,6 +5,10 @@ import * as typstRendererWrapper from "@myriaddreamin/typst-ts-renderer";
 import typstRendererWasmUrl from "@myriaddreamin/typst-ts-renderer/wasm?url";
 import type { ExactExportFormat } from "./exactExport.ts";
 import {
+  parsePreviewSemanticLabel,
+  type PreviewSemanticRole,
+} from "./previewSemanticTarget.ts";
+import {
   base64ToBytes,
   isPreviewHostToWebviewMessage,
   type PreviewExactExportState as ExactExportState,
@@ -675,6 +679,62 @@ function renderedTextNavigationHint(
   const index = Math.min(offsets.length - 1, Math.round(ratio * offsets.length));
   return { text, textOffset: offsets[index]! };
 }
+const SEMANTIC_TEXT_ROLE_PRIORITY: Record<PreviewSemanticRole, readonly PreviewSemanticRole[]> = {
+  bubble: ["bubble", "display-name"],
+  avatar: ["bubble", "display-name"],
+  "display-name": ["bubble", "display-name"],
+  reply: ["reply-item", "reply"],
+  "reply-item": ["reply-item", "reply"],
+  bond: ["bond-body", "bond"],
+  "bond-body": ["bond-body", "bond"],
+};
+
+
+interface SemanticTextResolution {
+  readonly recognized: boolean;
+  readonly text: Element | null;
+}
+
+function nearestRenderedTextForSemanticTarget(
+  target: EventTarget | null,
+  clientX: number,
+  clientY: number,
+): SemanticTextResolution {
+  const element = target instanceof Element ? target : null;
+  const labelled = element?.closest("[data-typst-label]") ?? null;
+  const semanticTarget = parsePreviewSemanticLabel(labelled?.getAttribute("data-typst-label") ?? "");
+  const root = labelled?.closest("svg");
+  if (!semanticTarget || !root) return { recognized: false, text: null };
+
+  for (const preferredRole of SEMANTIC_TEXT_ROLE_PRIORITY[semanticTarget.role]) {
+    const candidates = new Set<Element>();
+    for (const group of root.querySelectorAll("[data-typst-label]")) {
+      const candidateTarget = parsePreviewSemanticLabel(group.getAttribute("data-typst-label") ?? "");
+      if (
+        candidateTarget?.token !== semanticTarget.token
+        || candidateTarget.role !== preferredRole
+      ) {
+        continue;
+      }
+      for (const text of group.querySelectorAll(".typst-text")) {
+        const bounds = text.getBoundingClientRect();
+        if (bounds.width > 0 && bounds.height > 0) candidates.add(text);
+      }
+    }
+    let nearest: Element | null = null;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+    for (const candidate of candidates) {
+      const distance = squaredDistanceToBounds(candidate.getBoundingClientRect(), clientX, clientY);
+      if (distance < nearestDistance) {
+        nearest = candidate;
+        nearestDistance = distance;
+      }
+    }
+    if (nearest) return { recognized: true, text: nearest };
+  }
+  return { recognized: true, text: null };
+}
+
 function nearestRenderedTextInOwningGroup(
   target: EventTarget | null,
   clientX: number,
@@ -731,8 +791,15 @@ function previewNavigationPointAtClientCoordinates(
   const bounds = page.getBoundingClientRect();
   if (!(bounds.width > 0) || !(bounds.height > 0)) return undefined;
   const directText = (target as Element | null)?.closest?.(".typst-text") ?? null;
+  const semanticResolution = snapToOwningGroup
+    ? nearestRenderedTextForSemanticTarget(target, clientX, clientY)
+    : { recognized: false, text: null };
+  if (!directText && semanticResolution.recognized && !semanticResolution.text) return undefined;
   const textElement = directText ?? (
-    snapToOwningGroup ? nearestRenderedTextInOwningGroup(target, clientX, clientY) : null
+    snapToOwningGroup
+      ? semanticResolution.text
+        ?? nearestRenderedTextInOwningGroup(target, clientX, clientY)
+      : null
   );
   const snapped = textElement ? snapIntoTextGlyphs(textElement, clientX, clientY) : undefined;
   if (snapped) {

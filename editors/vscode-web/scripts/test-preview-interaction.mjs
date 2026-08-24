@@ -16,6 +16,11 @@ import {
   findProjectedTextCall,
   projectedTextCharacterByteOffset,
 } from "../src/previewTextLocation.ts";
+import {
+  isReservedPreviewSemanticLabel,
+  parsePreviewSemanticLabel,
+  previewSemanticRoles,
+} from "../src/previewSemanticTarget.ts";
 
 const range = (line, start, end = start) => ({
   start: { line, character: start },
@@ -50,7 +55,12 @@ const identity = (sourceUri, version, overrides = {}) => ({
   backendEncoding: "utf-8",
   ...overrides,
 });
-const immutableArtifact = (renderKey, sourceIdentity, targetUri = sourceIdentity.sourceUri) => createPreviewArtifact({
+const immutableArtifact = (
+  renderKey,
+  sourceIdentity,
+  targetUri = sourceIdentity.sourceUri,
+  visualPages = [page(0), page(1)],
+) => createPreviewArtifact({
   renderKey,
   sourceUri: sourceIdentity.sourceUri,
   locationProviderKey: { kind: "immutable-map", digest: `map-${renderKey}`, coordinateVersion: "typst-page-points-v1" },
@@ -80,7 +90,7 @@ const immutableArtifact = (renderKey, sourceIdentity, targetUri = sourceIdentity
       },
     }],
   },
-  visualSnapshot: { kind: "svg", pages: [page(0), page(1)], imageAssets: [] },
+  visualSnapshot: { kind: "svg", pages: visualPages, imageAssets: [] },
 });
 
 class MemoryViewportPersistence {
@@ -101,6 +111,43 @@ const identityA = identity(sourceA, 4);
 const identityB = identity(sourceB, 7);
 const artifactA = immutableArtifact("render-a", identityA);
 const artifactB = immutableArtifact("render-b", identityB);
+
+for (const role of previewSemanticRoles) {
+  assert.deepEqual(parsePreviewSemanticLabel(`mmt:${role}:t0000002a`), {
+    role,
+    token: "t0000002a",
+  });
+}
+for (const label of [
+  "",
+  "mmt:bubble:",
+  "mmt:bubble:t2a",
+  "mmt:bubble:t0000002A",
+  "mmt:bubble:t0000002a:extra",
+  "mmt:unknown:t0000002a",
+  " mmt:bubble:t0000002a",
+]) {
+  assert.equal(parsePreviewSemanticLabel(label), undefined, `accepted invalid semantic label ${label}`);
+}
+assert.equal(isReservedPreviewSemanticLabel("mmt:bubble:t0000002a"), true);
+assert.equal(isReservedPreviewSemanticLabel("typst:heading"), false);
+assert.throws(
+  () => immutableArtifact("render-invalid-label", identityA, sourceA, [
+    {
+      ...page(0),
+      sanitizedSvg: '<svg xmlns="http://www.w3.org/2000/svg" data-typst-label="mmt:bubble:t0"/>',
+    },
+    page(1),
+  ]),
+  /invalid reserved semantic label/,
+);
+immutableArtifact("render-valid-label", identityA, sourceA, [
+  {
+    ...page(0),
+    sanitizedSvg: '<svg xmlns="http://www.w3.org/2000/svg" data-typst-label="mmt:bubble:t00000000"/>',
+  },
+  page(1),
+]);
 const pageFitController = new PreviewInteractionController({ defaultFitMode: () => "page" });
 pageFitController.bindArtifact(artifactA, identityA);
 assert.equal(pageFitController.viewport.fitMode, "page");
