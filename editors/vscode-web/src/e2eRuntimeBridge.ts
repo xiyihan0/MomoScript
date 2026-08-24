@@ -3,7 +3,12 @@ import type { WorkspaceHistoryUsage } from "./indexedDbWorkspace.ts";
 import type { ExactExportUiState } from "./exactExportUi.ts";
 import type { PreviewBuildDiagnostic } from "./previewDiagnostics.ts";
 import type { PreviewTraceSample } from "./previewPerformance.ts";
-import type { PreviewNavigationPoint, PreviewPagePoint, PreviewViewport } from "./previewWebviewProtocol.ts";
+import type {
+  PreviewContextMenuAnchor,
+  PreviewNavigationPoint,
+  PreviewPagePoint,
+  PreviewViewport,
+} from "./previewWebviewProtocol.ts";
 import type { RuntimeRecoveryState, RuntimeStatusSnapshot } from "./runtimeStatus.ts";
 import type { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart.ts";
 
@@ -118,6 +123,7 @@ export interface MmtE2EComposerState {
 export interface MmtE2EComposerInstrumentation {
   readonly api: MmtE2EApi["composer"];
   recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void;
+  recordContextAnchor(anchor: PreviewContextMenuAnchor): void;
   beginApply(): boolean;
   recordApplyResult(applied: boolean): void;
 }
@@ -164,6 +170,10 @@ export interface MmtE2EApi {
     readonly state: () => MmtE2EComposerState;
     readonly reset: () => void;
     readonly failNextApply: () => void;
+    readonly lastAnchor: () => PreviewContextMenuAnchor | null;
+  };
+  readonly notifications: {
+    readonly showCollapsibleUpdatePrompt: () => void;
   };
 
   readonly runtime: {
@@ -365,6 +375,7 @@ export function createMmtE2ELanguageApi(ports: MmtE2ELanguagePorts): MmtE2EApi["
 export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumentation {
   let targetRequests = 0;
   let editRequests = 0;
+  let lastAnchor: PreviewContextMenuAnchor | null = null;
   let applyAttempts = 0;
   let successfulApplies = 0;
   let failNextApply = false;
@@ -378,6 +389,7 @@ export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumenta
     reset(): void {
       targetRequests = 0;
       editRequests = 0;
+      lastAnchor = null;
       applyAttempts = 0;
       successfulApplies = 0;
       failNextApply = false;
@@ -385,12 +397,18 @@ export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumenta
     failNextApply(): void {
       failNextApply = true;
     },
+    lastAnchor(): PreviewContextMenuAnchor | null {
+      return lastAnchor;
+    },
   });
   return Object.freeze({
     api,
     recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void {
       if (method === "mmt/previewComposerTarget") targetRequests += 1;
       else editRequests += 1;
+    },
+    recordContextAnchor(anchor: PreviewContextMenuAnchor): void {
+      lastAnchor = Object.freeze({ ...anchor });
     },
     beginApply(): boolean {
       applyAttempts += 1;
@@ -416,6 +434,7 @@ export function installMmtE2EBridge(api: MmtE2EApi): vscode.Disposable {
     exactExport: Object.freeze({ ...api.exactExport }),
     security: Object.freeze({ ...api.security }),
     composer: Object.freeze({ ...api.composer }),
+    notifications: Object.freeze({ ...api.notifications }),
   });
   Reflect.set(globalThis, "__mmtE2E", installedValue);
   return Object.freeze({

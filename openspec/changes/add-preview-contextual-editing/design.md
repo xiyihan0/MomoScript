@@ -153,9 +153,9 @@ A builtin、unresolved、ambiguous or non-serializable actor returns `actorUnava
 
 A future one-bubble nickname requires a separate DSL proposal for a statement-local display override. It must not be simulated by inserting a revision and a hidden restore block.
 
-### 5. Web UI uses native transient controls and owns no document state
+### 5. Web UI uses an anchored native menu and owns no document state
 
-`previewWebviewProtocol` adds one Webview→host message containing only the context page point. It uses the same strict allowlist parser as existing navigation messages.
+`previewWebviewProtocol` adds one Webview→host message containing the normalized context page point plus a visual-only screen anchor. The anchor exists only to position native Workbench chrome; the message carries no authored range、actor id or property value and uses the same strict allowlist parser as existing navigation messages.
 
 The preview runtime handles `contextmenu` only when:
 
@@ -163,15 +163,15 @@ The preview runtime handles `contextmenu` only when:
 - no non-collapsed text selection exists;
 - the interaction was not a drag.
 
-It prevents the browser menu, posts the point and retains no semantic target. The host cancels the prior request when another context request or render identity arrives.
+It prevents the browser menu, posts the point and screen anchor, and retains no semantic target. The host cancels the prior request when another context request or render identity arrives.
 
-For an editable target, the host uses Workbench native Quick Input:
+For an editable target, the host opens the Workbench native context-menu service beside the pointer with:
 
-- `编辑连续消息状态…`
-- `从本条起修改人物显示名…` when available
-- `转到源码`
+- `编辑连续消息状态…`, exposing 自动、强制连续、强制新消息 as one radio submenu;
+- `从本条起修改人物显示名…` when available;
+- `转到源码`.
 
-`continued` uses a Quick Pick with 自动、强制连续、强制新消息. `display-name` uses an Input Box initialized from the descriptor's current display name with non-empty validation. The host dismisses stale controls when document version、artifact identity or runtime owner changes.
+`display-name` continues to use an Input Box initialized from the descriptor's current display name with non-empty validation. The host dismisses stale menus/inputs when document version、artifact identity or runtime owner changes.
 
 No preview-side custom menu、property store、AST cache or draft document buffer is introduced. `EditorRuntimeController` owns requests/subscriptions and disposal; `TextDocument` remains source truth.
 
@@ -194,12 +194,12 @@ The host may show a concise native notification for an explicit user command fai
 - **Server applies edits directly:** breaks the pure semantic-editing contract and prevents normal stale-version handling.
 - **Expose arbitrary patch strings:** turns a GUI form into unvalidated Typst code injection and makes format brush unsafe.
 - **Implement per-bubble nickname with temporary actor revisions:** produces hidden state and changes later semantics under malformed or reordered source.
-- **Build a custom context-menu framework first:** adds product UI state before the semantic mutation boundary is proven; native Quick Input is sufficient for the first slice.
+- **Build a custom preview-Webview menu framework:** duplicates Workbench menu behavior and introduces preview-side product UI state. Once the semantic mutation boundary is proven, the native Workbench context-menu service can provide pointer-adjacent actions without that duplication.
 
 ## Rollout
 
 1. Land Rust target/context and pure Composer edit contracts with core/LSP tests.
 2. Expose identical native/WASM request routing and strict TypeScript response parsing.
-3. Add contextmenu protocol and Web Workbench Quick Input for `continued`.
-4. Add `display-name` from-statement editing after the same target path is proven.
+3. Add contextmenu protocol and an anchored native Workbench menu for `continued`.
+4. Add `display-name` from-statement editing through the same menu and native Input Box after the target path is proven.
 5. Only then design typed visual properties、one-bubble nickname and format brush as separate deltas that reuse `mmt/composerEdit`.

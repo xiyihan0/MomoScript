@@ -1281,7 +1281,11 @@ page.addEventListener("contextmenu", (event) => {
   const contextPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, true);
   if (!contextPoint) return;
   event.preventDefault();
-  vscode.postMessage({ type: "context-point", point: contextPoint });
+  vscode.postMessage({
+    type: "context-point",
+    point: contextPoint,
+    anchor: { screenX: event.screenX, screenY: event.screenY },
+  });
 });
 exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat }));
 exportDisplayed.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat, staleChoice: "export-displayed" }));

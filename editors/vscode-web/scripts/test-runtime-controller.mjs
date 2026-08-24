@@ -53,7 +53,7 @@ await reverseDispose.start((runtime) => {
       cancel() {},
       dispose() { reverseDisposeOrder.push("preview-composer"); },
     }),
-    createQuickPick: () => { throw new Error("not exercised"); },
+    contextMenu: { open: () => { throw new Error("not exercised"); } },
     createInputBox: () => { throw new Error("not exercised"); },
     apply: { apply: async () => { throw new Error("not exercised"); } },
     acceptingWork: () => true,
@@ -64,7 +64,10 @@ await reverseDispose.start((runtime) => {
     showWarningMessage() {},
     showErrorMessage() {},
   }));
-  void previewComposer.handleContextPoint({ page: 0, x: 0.5, y: 0.5 });
+  void previewComposer.handleContextPoint(
+    { page: 0, x: 0.5, y: 0.5 },
+    { screenX: 100, screenY: 100 },
+  );
   runtime.own({ async dispose() { await Promise.resolve(); reverseDisposeOrder.push("preview"); } });
 });
 await reverseDispose.dispose();

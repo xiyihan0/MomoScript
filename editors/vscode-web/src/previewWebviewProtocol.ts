@@ -15,6 +15,11 @@ export interface PreviewNavigationPoint extends PreviewPagePoint {
   readonly text?: string;
 }
 
+export interface PreviewContextMenuAnchor {
+  readonly screenX: number;
+  readonly screenY: number;
+}
+
 export interface PreviewViewport {
   readonly page: number;
   readonly x: number;
@@ -134,7 +139,11 @@ export type PreviewWebviewToHostMessage =
   | PreviewVisualReadyMessage
   | { readonly type: "viewport"; readonly viewport: PreviewViewport }
   | { readonly type: "navigate"; readonly point: PreviewNavigationPoint }
-  | { readonly type: "context-point"; readonly point: PreviewNavigationPoint }
+  | {
+    readonly type: "context-point";
+    readonly point: PreviewNavigationPoint;
+    readonly anchor: PreviewContextMenuAnchor;
+  }
   | { readonly type: "exact-export"; readonly format: ExactExportFormat; readonly staleChoice?: StaleExportChoice }
   | { readonly type: "exact-export-cancel" }
   | { readonly type: "render-rejected"; readonly requestSequence: number; readonly renderKey: RenderKey; readonly error: string }
@@ -293,9 +302,18 @@ export function isPreviewNavigateMessage(value: unknown): value is Extract<Previ
 export function isPreviewContextPointMessage(
   value: unknown,
 ): value is Extract<PreviewWebviewToHostMessage, { type: "context-point" }> {
-  return hasExactKeys(value, ["type", "point"])
+  return hasExactKeys(value, ["type", "point", "anchor"])
     && value.type === "context-point"
-    && isStrictPreviewNavigationPoint(value.point);
+    && isStrictPreviewNavigationPoint(value.point)
+    && isPreviewContextMenuAnchor(value.anchor);
+}
+
+function isPreviewContextMenuAnchor(value: unknown): value is PreviewContextMenuAnchor {
+  return hasExactKeys(value, ["screenX", "screenY"])
+    && typeof value.screenX === "number"
+    && Number.isFinite(value.screenX)
+    && typeof value.screenY === "number"
+    && Number.isFinite(value.screenY);
 }
 
 export function bytesToBase64(bytes: Uint8Array): string {

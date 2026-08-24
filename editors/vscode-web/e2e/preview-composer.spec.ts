@@ -19,6 +19,7 @@ const ROOT_CONTINUED = "编辑连续消息状态…";
 const ROOT_DISPLAY_NAME = "从本条起修改人物显示名…";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
+const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
 
 interface ComposerState {
   readonly targetRequests: number;
@@ -46,6 +47,34 @@ interface ScrollTopology {
   readonly bodyOverflow: string;
   readonly htmlOverflow: string;
 }
+
+test("MomoScript notifications have a named source and the update prompt can collapse", { tag: "@preview-composer" }, async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+  await invokeMmtE2E(page, "notifications", "showCollapsibleUpdatePrompt");
+
+  const update = page.getByRole("dialog", { name: /MomoScript 新构建 e2e-build/ });
+  await expect(update).toBeVisible();
+  await expect(update).toHaveAttribute("aria-label", /源: MomoScript/);
+  await update.hover();
+  const expand = update.getByRole("button", { name: /展开通知|Expand Notification/i });
+  await expect(expand).toBeVisible();
+  await expand.click();
+  await expect(update).toHaveAttribute("aria-label", /安全更新并重启.*源: MomoScript/);
+  const collapse = update.getByRole("button", { name: /折叠通知|Collapse Notification/i });
+  await expect(collapse).toBeVisible();
+  await collapse.click();
+  await update.hover();
+  await update.getByRole("button", { name: /展开通知|Expand Notification/i }).click();
+  const updateLink = update.getByRole("link", { name: "安全更新并重启" });
+  await updateLink.evaluate((element) => {
+    if (!(element instanceof HTMLAnchorElement)) throw new Error("update command link is unavailable");
+    element.focus();
+  });
+  await expect(updateLink).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(update).toBeHidden();
+});
 
 test("preview Composer edits continued bytes exactly, rerenders grouping, and records every apply once", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-continued.mmt";
@@ -80,31 +109,31 @@ test("preview Composer edits continued bytes exactly, rerenders grouping, and re
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 1);
-  await page.waitForTimeout(5_100);
+  await waitForHistoryGroupBoundary(page);
 
   frame = await applyContinued(page, frame, opened.sourceUri, name, "second", "强制新消息", newSecond);
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 2);
-  await page.waitForTimeout(5_100);
+  await waitForHistoryGroupBoundary(page);
 
   frame = await applyContinued(page, frame, opened.sourceUri, name, "second", "自动", original);
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 1);
-  await page.waitForTimeout(5_100);
+  await waitForHistoryGroupBoundary(page);
 
   frame = await applyContinued(page, frame, opened.sourceUri, name, "multi", "强制连续", forcedMulti);
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 1);
-  await page.waitForTimeout(5_100);
+  await waitForHistoryGroupBoundary(page);
 
   frame = await applyContinued(page, frame, opened.sourceUri, name, "multi", "强制新消息", newMulti);
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 2);
-  await page.waitForTimeout(5_100);
+  await waitForHistoryGroupBoundary(page);
 
   frame = await applyContinued(page, frame, opened.sourceUri, name, "multi", "自动", original);
   expectedHistory += 1;
@@ -161,7 +190,7 @@ test("display-name Composer edits preserve the actor interval and minimally upda
   await expectHistoryCount(page, name, historyBaseline + 1);
   await expectRenderedTextCount(frame, "佳代子", 1);
   await expectRenderedTextCount(frame, "老师", 2);
-  await page.waitForTimeout(5_100);
+  await waitForHistoryGroupBoundary(page);
   await expectRenderedTextCount(frame, "旧称", 1);
   await expect(frame.locator(".tsel").filter({ hasText: "DISPLAY_BEFORE" }).first()).toBeVisible();
   await expect(frame.locator(".tsel").filter({ hasText: "DISPLAY_TARGET" }).first()).toBeVisible();
@@ -254,14 +283,14 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   expect(selectionResult.collapsed).toBe(false);
   await page.waitForTimeout(250);
   expect(await composerState(page)).toEqual(emptyComposerState());
-  await expect(page.locator(".quick-input-widget")).toBeHidden();
+  await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
   await clearPreviewSelection(frame);
 
   for (const marker of ["NARRATION_TARGET", "REPLY_TARGET_A", "BOND_TARGET", "RAW_TYPST_TARGET", "GENERATED_HEADER_ONLY"]) {
     await resetComposer(page);
     await rightClickRenderedGlyph(frame, marker);
     await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
-    await expect(page.locator(".quick-input-widget")).toBeHidden();
+    await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
     expect(await composerState(page)).toEqual({
       targetRequests: 1,
       editRequests: 0,
@@ -270,12 +299,12 @@ test("selection, stale documents, rejected apply, and unsupported preview target
     });
     await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(stableSource);
   }
+  await expectMomoScriptNotificationSource(page, UNAVAILABLE_MESSAGE);
 
   await resetComposer(page);
   await rightClickRenderedGlyph(frame, "BUILTIN_TARGET");
-  const builtinRoot = await visibleQuickInput(page, "编辑预览内容");
-  await expect(builtinRoot.getByRole("option", { name: ROOT_CONTINUED, exact: true })).toBeVisible();
-  await expect(builtinRoot.getByRole("option", { name: ROOT_DISPLAY_NAME, exact: true })).toHaveCount(0);
+  const builtinRoot = await visibleContextMenuItem(page, ROOT_CONTINUED);
+  await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toHaveCount(0);
   await page.keyboard.press("Escape");
   await expect(builtinRoot).toBeHidden();
   expect(await composerState(page)).toEqual({
@@ -288,12 +317,12 @@ test("selection, stale documents, rejected apply, and unsupported preview target
 
   await resetComposer(page);
   await rightClickRenderedGlyph(frame, "SAFE_TARGET");
-  const staleRoot = await visibleQuickInput(page, "编辑预览内容");
+  const staleRoot = await visibleContextMenuItem(page, ROOT_CONTINUED);
   const staleRevision = await currentContainerRevision(page, opened.sourceUri);
   const advancedSource = `${stableSource}\n`;
   await invokeMmtE2E(page, "workspace", "editDocument", name, stableSource.length, 0, "\n");
   await expect(staleRoot).toBeHidden();
-  await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toBeVisible();
+  await expectMomoScriptNotificationSource(page, STALE_MESSAGE);
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
     editRequests: 0,
@@ -309,15 +338,14 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   const failedRevision = await currentContainerRevision(page, opened.sourceUri);
   const failedHistoryBaseline = await historyEditCountForPath(page, `/${name}`);
   await rightClickRenderedGlyph(frame, "SAFE_TARGET");
-  await chooseQuickInputItem(page, "编辑预览内容", ROOT_CONTINUED);
-  await chooseQuickInputItem(page, "编辑连续消息状态", "强制连续");
+  await chooseContinuedContextMenuItem(page, "强制连续");
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
     editRequests: 1,
     applyAttempts: 1,
     successfulApplies: 0,
   });
-  await expect(page.getByRole("dialog", { name: APPLY_FAILED_MESSAGE })).toBeVisible();
+  await expectMomoScriptNotificationSource(page, APPLY_FAILED_MESSAGE);
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(advancedSource);
   expect(await currentContainerRevision(page, opened.sourceUri)).toBe(failedRevision);
   await expectHistoryCount(page, name, failedHistoryBaseline);
@@ -340,7 +368,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
     applyAttempts: 0,
     successfulApplies: 0,
   });
-  await expect(page.locator(".quick-input-widget")).toBeHidden();
+  await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
 
   await invokeMmtE2E(page, "workspace", "replaceDocument", name, advancedSource);
   await expect.poll(() => currentContainerRevision(page, opened.sourceUri)).not.toBe(acceptedUnresolvedRevision);
@@ -356,7 +384,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
     await resetComposer(page);
     await rightClickRenderedGlyph(frame, "SAFE_TARGET");
     await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
-    const root = await visibleQuickInput(page, "编辑预览内容");
+    const root = await visibleContextMenuItem(page, ROOT_CONTINUED);
 
     await invokeMmtE2E(page, "workspace", "replaceDocument", name, invalidSource);
     await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(invalidSource);
@@ -377,7 +405,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   }
 });
 
-test("native Composer Quick Input stays usable at 240–320px without changing preview scroll topology", { tag: "@preview-composer" }, async ({ page }) => {
+test("native Composer context menu stays pointer-anchored at 240–320px without changing preview scroll topology", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-responsive.mmt";
   const source = "> 佳代子: RESPONSIVE_FIRST\n> _0: RESPONSIVE_TARGET\n";
   await page.setViewportSize({ width: 320, height: 700 });
@@ -395,16 +423,20 @@ test("native Composer Quick Input stays usable at 240–320px without changing p
 
     await resetComposer(page);
     await rightClickRenderedGlyph(frame, "RESPONSIVE_TARGET");
-    const root = await visibleQuickInput(page, "编辑预览内容");
-    await expectQuickInputWithinViewport(root, width, 700);
-    await chooseQuickInputItem(page, "编辑预览内容", ROOT_CONTINUED);
-    const continued = await visibleQuickInput(page, "编辑连续消息状态");
-    await expectQuickInputWithinViewport(continued, width, 700);
-    await expect(continued.getByRole("option", { name: /^自动/ })).toBeVisible();
-    await expect(continued.getByRole("option", { name: "强制连续", exact: true })).toBeVisible();
-    await expect(continued.getByRole("option", { name: "强制新消息", exact: true })).toBeVisible();
+    const pointer = await currentComposerAnchor(page);
+    const rootItem = await visibleContextMenuItem(page, ROOT_CONTINUED);
+    const rootMenu = contextMenuForItem(rootItem);
+    await expectContextMenuAnchored(rootMenu, pointer, width, 700);
+    await rootItem.hover();
+    const automatic = await visibleContextMenuItem(page, "自动");
+    const continuedMenu = contextMenuForItem(automatic);
+    await expectElementWithinViewport(continuedMenu, width, 700);
+    await expect(automatic).toHaveAttribute("aria-checked", "true");
+    await visibleContextMenuItem(page, "强制连续");
+    await visibleContextMenuItem(page, "强制新消息");
     await page.keyboard.press("Escape");
-    await expect(continued).toBeHidden();
+    await page.keyboard.press("Escape");
+    await expect(rootItem).toBeHidden();
     expect(await composerState(page)).toEqual({
       targetRequests: 1,
       editRequests: 0,
@@ -465,8 +497,7 @@ async function applyContinued(
   const previousRevision = await currentContainerRevision(page, sourceUri);
   await rightClickRenderedGlyph(frame, marker);
   await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
-  await chooseQuickInputItem(page, "编辑预览内容", ROOT_CONTINUED);
-  await chooseQuickInputItem(page, "编辑连续消息状态", choice);
+  await chooseContinuedContextMenuItem(page, choice);
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
@@ -490,7 +521,7 @@ async function applyDisplayName(
   const previousRevision = await currentContainerRevision(page, sourceUri);
   await rightClickRenderedGlyph(frame, marker);
   await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
-  await chooseQuickInputItem(page, "编辑预览内容", ROOT_DISPLAY_NAME);
+  await chooseContextMenuItem(page, ROOT_DISPLAY_NAME);
   const inputWidget = await visibleQuickInput(page, "从本条起修改人物显示名");
   const input = inputWidget.locator("input").first();
   await expect(input).toHaveValue(currentValue);
@@ -510,9 +541,14 @@ async function applyDisplayName(
   return next;
 }
 
-async function rightClickRenderedGlyph(frame: Frame, marker: string): Promise<void> {
+async function rightClickRenderedGlyph(
+  frame: Frame,
+  marker: string,
+): Promise<{ readonly x: number; readonly y: number }> {
   const text = frame.locator(".tsel").filter({ hasText: marker }).first();
   await expect(text).toBeVisible();
+  const bounds = await text.boundingBox();
+  if (!bounds) throw new Error(`preview glyph bounds are unavailable for ${marker}`);
   const position = await text.evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     const glyph = element.closest(".typst-text")?.querySelector<SVGGraphicsElement>(":scope > use");
@@ -525,6 +561,7 @@ async function rightClickRenderedGlyph(frame: Frame, marker: string): Promise<vo
     };
   });
   await text.click({ button: "right", position });
+  return { x: bounds.x + position.x, y: bounds.y + position.y };
 }
 
 async function dispatchSelectedContextMenu(
@@ -569,11 +606,51 @@ async function visibleQuickInput(page: Page, title: string): Promise<Locator> {
   return widget;
 }
 
-async function chooseQuickInputItem(page: Page, title: string, label: string): Promise<void> {
-  const widget = await visibleQuickInput(page, title);
-  const item = widget.getByRole("option", { name: label, exact: true });
+function contextMenuItem(page: Page, label: string): Locator {
+  return page.locator('[role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"]').filter({ hasText: label }).last();
+}
+async function expectMomoScriptNotificationSource(page: Page, message: string): Promise<void> {
+  const notification = page.getByRole("dialog", { name: message }).last();
+  await expect(notification).toBeVisible();
+  await expect(notification).toHaveAttribute("aria-label", /源: MomoScript/);
+}
+
+
+async function visibleContextMenuItem(page: Page, label: string): Promise<Locator> {
+  const item = contextMenuItem(page, label);
   await expect(item).toBeVisible();
+  return item;
+}
+
+async function chooseContextMenuItem(page: Page, label: string): Promise<void> {
+  const item = await visibleContextMenuItem(page, label);
+  await item.hover();
   await item.click();
+}
+
+async function chooseContinuedContextMenuItem(page: Page, label: string): Promise<void> {
+  await (await visibleContextMenuItem(page, ROOT_CONTINUED)).hover();
+  const item = await visibleContextMenuItem(page, label);
+  await item.hover();
+  await item.click();
+}
+
+function contextMenuForItem(item: Locator): Locator {
+  return item.locator("xpath=ancestor::div[contains(@class, 'context-view')][1]");
+}
+
+async function currentComposerAnchor(page: Page): Promise<{ readonly x: number; readonly y: number }> {
+  await expect.poll(() => invokeMmtE2E(page, "composer", "lastAnchor")).not.toBeNull();
+  const anchor = await invokeMmtE2E(page, "composer", "lastAnchor");
+  if (!anchor) throw new Error("Composer screen anchor is unavailable");
+  return page.evaluate((value) => {
+    const sideInset = Math.max(0, (window.outerWidth - window.innerWidth) / 2);
+    const topInset = Math.max(sideInset, window.outerHeight - window.innerHeight - sideInset);
+    return {
+      x: Math.min(window.innerWidth, Math.max(0, value.screenX - window.screenX - sideInset)),
+      y: Math.min(window.innerHeight, Math.max(0, value.screenY - window.screenY - topInset)),
+    };
+  }, anchor);
 }
 
 async function expectRenderedTextCount(frame: Frame, value: string, expected: number): Promise<void> {
@@ -609,6 +686,29 @@ function successfulComposerState(): ComposerState {
 async function expectHistoryCount(page: Page, name: string, expected: number): Promise<void> {
   await expect.poll(() => historyEditCountForPath(page, `/${name}`)).toBe(expected);
 }
+async function waitForHistoryGroupBoundary(page: Page): Promise<void> {
+  await expect.poll(() => page.evaluate(async () => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("momoscript-workspace-v1");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      const revisions = await new Promise<Array<{ reason: string; updatedAt: number }>>((resolve, reject) => {
+        const request = database.transaction("revisions").objectStore("revisions").getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      const latestEdit = Math.max(
+        ...revisions.filter((revision) => revision.reason === "edit").map((revision) => revision.updatedAt),
+      );
+      return Number.isFinite(latestEdit) ? Date.now() - latestEdit : Number.POSITIVE_INFINITY;
+    } finally {
+      database.close();
+    }
+  }), { timeout: 10_000 }).toBeGreaterThanOrEqual(5_500);
+}
+
 
 async function persistedWorkspaceText(page: Page, path: string): Promise<string | undefined> {
   return page.evaluate(async (entryPath) => {
@@ -691,8 +791,8 @@ async function previewScrollTopology(frame: Frame): Promise<ScrollTopology> {
   });
 }
 
-async function expectQuickInputWithinViewport(widget: Locator, width: number, height: number): Promise<void> {
-  const bounds = await widget.boundingBox();
+async function expectElementWithinViewport(element: Locator, width: number, height: number): Promise<void> {
+  const bounds = await element.boundingBox();
   expect(bounds).not.toBeNull();
   expect(bounds!.width).toBeGreaterThan(0);
   expect(bounds!.height).toBeGreaterThan(0);
@@ -700,6 +800,26 @@ async function expectQuickInputWithinViewport(widget: Locator, width: number, he
   expect(bounds!.y).toBeGreaterThanOrEqual(0);
   expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width + 0.5);
   expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(height + 0.5);
+}
+
+async function expectContextMenuAnchored(
+  menu: Locator,
+  pointer: { readonly x: number; readonly y: number },
+  width: number,
+  height: number,
+): Promise<void> {
+  await expectElementWithinViewport(menu, width, height);
+  const bounds = await menu.boundingBox();
+  expect(bounds).not.toBeNull();
+  const horizontalGap = pointer.x < bounds!.x
+    ? bounds!.x - pointer.x
+    : pointer.x > bounds!.x + bounds!.width ? pointer.x - bounds!.x - bounds!.width : 0;
+  const verticalGap = pointer.y < bounds!.y
+    ? bounds!.y - pointer.y
+    : pointer.y > bounds!.y + bounds!.height ? pointer.y - bounds!.y - bounds!.height : 0;
+  const details = JSON.stringify({ pointer, bounds, width, height });
+  expect(horizontalGap, details).toBeLessThanOrEqual(48);
+  expect(verticalGap, details).toBeLessThanOrEqual(48);
 }
 
 function corsHeaders(contentType: string, etag?: string): Record<string, string> {

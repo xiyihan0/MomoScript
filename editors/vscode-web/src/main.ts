@@ -81,7 +81,7 @@ import { EditorRuntimeController } from "./runtimeController";
 import type { PreviewTraceSession } from "./previewPerformance.ts";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle } from "./pwaUpdate";
-import { showMomoScriptMessage } from "./notifications";
+import { showMomoScriptCollapsiblePrompt, showMomoScriptMessage } from "./notifications";
 import { MMT_BUILD_VERSION } from "./buildInfo";
 import {
   PACK_MANIFEST_URL,
@@ -140,8 +140,8 @@ import {
   createPreviewComposerApplyPort,
   PreviewComposerController,
   type PreviewComposerControllerPorts,
-  type PreviewComposerQuickPickItem,
 } from "./previewComposer.ts";
+import { createWorkbenchPreviewContextMenu } from "./previewContextMenu.ts";
 import {
   PreviewRendererCompilationError,
   PreviewRendererSessionOwner,
@@ -2590,11 +2590,12 @@ async function initializeRuntime(
     },
     workspace: composerWorkspace,
   });
+  const composerContextMenu = await createWorkbenchPreviewContextMenu();
   previewComposer = own(new PreviewComposerController({
     locatePreviewPoint: (point, signal) => previewInteraction.locatePreviewPoint(point, signal),
     request: sendComposerRequest,
     createCancellationTokenSource: () => new vscode.CancellationTokenSource(),
-    createQuickPick: () => vscode.window.createQuickPick<PreviewComposerQuickPickItem>(),
+    contextMenu: composerContextMenu,
     createInputBox: () => {
       const input = vscode.window.createInputBox();
       return {
@@ -2649,8 +2650,8 @@ async function initializeRuntime(
       vscode.workspace.getConfiguration("mmt.preview").get("bidirectionalNavigation", true)
     ),
     navigatePreviewPoint: (point, signal) => previewInteraction.navigatePreviewPoint(point, signal),
-    showWarningMessage: (message) => vscode.window.showWarningMessage(message),
-    showErrorMessage: (message) => vscode.window.showErrorMessage(message),
+    showWarningMessage: (message) => showMomoScriptMessage("warning", message),
+    showErrorMessage: (message) => showMomoScriptMessage("error", message),
   }));
   const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
     const document = vscode.window.activeTextEditor?.document;
@@ -2688,8 +2689,9 @@ async function initializeRuntime(
       if (!vscode.workspace.getConfiguration("mmt.preview").get("bidirectionalNavigation", true)) return;
       await previewInteraction.navigatePreviewPoint(point);
     },
-    contextMenuRequested(point) {
-      return previewComposer?.handleContextPoint(point);
+    contextMenuRequested(point, anchor) {
+      composerE2E?.recordContextAnchor(anchor);
+      return previewComposer?.handleContextPoint(point, anchor);
     },
     async exactExportRequested(message: PreviewExactExportRequest) {
       const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
@@ -3116,6 +3118,16 @@ async function initializeRuntime(
         setRendererEnabled: setPreviewRendererEnabled,
       },
       composer: composerE2E.api,
+      notifications: {
+        showCollapsibleUpdatePrompt() {
+          void showMomoScriptCollapsiblePrompt(
+            "info",
+            `MomoScript 新构建 e2e-build 已准备好离线更新。当前构建 ${MMT_BUILD_VERSION}；保存并安全重启以启用新版本。`,
+            "安全更新并重启",
+            { id: "pwa-update-ready-e2e" },
+          );
+        },
+      },
       runtime: {
         status: () => runtimeStatus.snapshot(),
         statusFixture: (recoveryState: RuntimeRecoveryState, lastFailure?: string) => {
@@ -3150,12 +3162,12 @@ async function initializeRuntime(
       async promptForReload(latestBuildVersion) {
         const update = "安全更新并重启";
         const nextVersion = latestBuildVersion ?? "版本信息暂不可用";
-        return await showMomoScriptMessage(
+        return await showMomoScriptCollapsiblePrompt(
           "info",
           `MomoScript 新构建 ${nextVersion} 已准备好离线更新。当前构建 ${MMT_BUILD_VERSION}；保存并安全重启以启用新版本。`,
-          [update],
+          update,
           { id: "pwa-update-ready" },
-        ) === update;
+        );
       },
       report(message, error) {
         const detail = error instanceof Error ? error.message : String(error ?? "");

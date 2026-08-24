@@ -11,14 +11,14 @@ MomoScript 的生产 Web Workbench 已具备 revision-bound MMT→Typst preview�
 - 第一版命令固定为：
   - `setStatementContinued`：`auto | true | false`，最小更新、插入或移除 statement patch 中的 `continued` 参数；
   - `setActorDisplayNameFromStatement`：从选中 statement 起创建 actor revision，或在仅作用于该起点的相邻 actor block 中最小更新 `display-name`。
-- Web preview 在无文本选择的右键操作上请求 Composer target，并通过 Workbench 原生 Quick Pick/Input Box 展示“连续消息”“从本条起修改显示名”“转到源码”。UI 不缓存属性状态，不解析 AST，不拼接 DSL。
+- Web preview 在无文本选择的右键操作上请求 Composer target，并在点击位置旁通过 Workbench 原生右键菜单展示“连续消息”“从本条起修改显示名”“转到源码”；显示名继续使用原生 Input Box。UI 不缓存属性状态，不解析 AST，不拼接 DSL。
 - Composer candidate 必须在内存中完整重分析；语法/语义错误、旧版本、旧 preview identity、builtin/unresolved/ambiguous actor、非 MMT/生成/package target 或不唯一 origin 一律拒绝。
 - native stdio 与 WASM bridge 共享同一 Rust request 和序列化合同；首个产品 UI 只接入生产 Web Workbench，Desktop 可在后续复用该协议。
 
 ## Affected Capabilities
 
 - `language-tooling`：新增 preview semantic targeting、纯结构化 Composer edit、版本/重分析/映射安全合同。
-- `web-workbench-shell`：新增右键入口、原生 Quick Input、单一 TextDocument/preview owner 与生命周期要求。
+- `web-workbench-shell`：新增右键入口、点击位置旁的原生 Workbench 菜单、单一 TextDocument/preview owner 与生命周期要求。
 - 依赖但不修改：Rust v2 `dsl-syntax` 的 statement patch、actor revision、`display-name` 既有语义；`define-preview-navigation-fallback` 的只读 fallback 边界；`add-mmt-diagnostic-origin-and-semantic-editing` 的版本化纯 WorkspaceEdit 合同。
 
 ## Non-Goals

@@ -10,6 +10,7 @@ import {
 
 const renderKey = "render-key";
 const point = { pageIndex: 0, x: 0.25, y: 0.75 };
+const anchor = { screenX: 640, screenY: 360 };
 const viewport = { page: 0, x: 0.25, y: 0.75, zoom: 1, fitMode: "width" };
 const exactExportState = {
   mode: "exact",
@@ -91,8 +92,8 @@ const webviewMessages = [
   { type: "viewport", viewport },
   { type: "navigate", point },
   { type: "navigate", point: { ...point, text: "1234abcd", textOffset: 4 } },
-  { type: "context-point", point },
-  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 4 } },
+  { type: "context-point", point, anchor },
+  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 4 }, anchor },
   { type: "exact-export", format: "pdf", staleChoice: "wait-for-latest" },
   { type: "exact-export-cancel" },
   { type: "render-rejected", requestSequence: 1, renderKey, error: "rejected" },
@@ -125,20 +126,23 @@ for (const malformed of [
   { type: "navigate", point: { ...point, text: "1234abcd" } },
   { type: "navigate", point: { ...point, text: "1234abcd", textOffset: 8 } },
   { type: "navigate", point: { ...point, text: "1234abcd", textOffset: 4.5 } },
-  { type: "context-point", point: { ...point, x: "0.25" } },
-  { type: "context-point", point: { ...point, pageIndex: -1 } },
-  { type: "context-point", point: { ...point, pageIndex: 0.5 } },
-  { type: "context-point", point: { ...point, x: Number.NaN } },
-  { type: "context-point", point: { ...point, x: Number.POSITIVE_INFINITY } },
-  { type: "context-point", point: { ...point, x: -0.01 } },
-  { type: "context-point", point: { ...point, y: 1.01 } },
-  { type: "context-point", point: { ...point, text: "1234abcd" } },
-  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 8 } },
-  { type: "context-point", point: { ...point, text: "", textOffset: 0 } },
-  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: -1 } },
-  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 4.5 } },
-  { type: "context-point", point: { ...point, extra: true } },
-  { type: "context-point", point, extra: true },
+  { type: "context-point", point: { ...point, x: "0.25" }, anchor },
+  { type: "context-point", point: { ...point, pageIndex: -1 }, anchor },
+  { type: "context-point", point: { ...point, pageIndex: 0.5 }, anchor },
+  { type: "context-point", point: { ...point, x: Number.NaN }, anchor },
+  { type: "context-point", point: { ...point, x: Number.POSITIVE_INFINITY }, anchor },
+  { type: "context-point", point: { ...point, x: -0.01 }, anchor },
+  { type: "context-point", point: { ...point, y: 1.01 }, anchor },
+  { type: "context-point", point: { ...point, text: "1234abcd" }, anchor },
+  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 8 }, anchor },
+  { type: "context-point", point: { ...point, text: "", textOffset: 0 }, anchor },
+  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: -1 }, anchor },
+  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 4.5 }, anchor },
+  { type: "context-point", point: { ...point, extra: true }, anchor },
+  { type: "context-point", point, anchor: { ...anchor, screenX: Number.NaN } },
+  { type: "context-point", point, anchor: { ...anchor, extra: true } },
+  { type: "context-point", point },
+  { type: "context-point", point, anchor, extra: true },
   { type: "exact-export", format: "txt" },
   { type: "render-rejected", requestSequence: "1", renderKey, error: "bad" },
   { type: "renderer-resync-needed", sessionId: "session", generation: 0 },
@@ -147,8 +151,8 @@ for (const malformed of [
   assert.equal(isPreviewWebviewToHostMessage(malformed), false);
 }
 
-assert.equal(isPreviewContextPointMessage({ type: "context-point", point }), true);
-assert.equal(isPreviewContextPointMessage({ type: "context-point", point, extra: true }), false);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor }), true);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor, extra: true }), false);
 
 const bytes = new Uint8Array([0, 1, 2, 127, 128, 255]);
 assert.deepEqual(base64ToBytes(bytesToBase64(bytes)), bytes);

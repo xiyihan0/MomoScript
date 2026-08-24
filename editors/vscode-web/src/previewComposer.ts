@@ -15,7 +15,10 @@ import type {
   PreviewBackendLocation,
   PreviewSourceIdentity,
 } from "./previewInteraction.ts";
-import type { PreviewNavigationPoint } from "./previewWebviewProtocol.ts";
+import type {
+  PreviewContextMenuAnchor,
+  PreviewNavigationPoint,
+} from "./previewWebviewProtocol.ts";
 
 export interface PreviewComposerTargetParams {
   readonly sourceUri: PreviewSourceIdentity["sourceUri"];
@@ -33,23 +36,28 @@ export interface PreviewComposerCancellationTokenSource extends Disposable {
   cancel(): void;
 }
 
-export interface PreviewComposerQuickPickItem {
+export type PreviewComposerContextMenuSelection =
+  | { readonly kind: "continued"; readonly value: StatementContinuedValue }
+  | { readonly kind: "displayName" }
+  | { readonly kind: "navigate" };
+
+export interface PreviewComposerContextMenuItem {
   readonly label: string;
-  readonly description?: string;
-  readonly picked?: boolean;
-  readonly action: "continued" | "displayName" | "navigate" | StatementContinuedValue;
+  readonly checked?: boolean;
+  readonly selection?: PreviewComposerContextMenuSelection;
+  readonly children?: readonly PreviewComposerContextMenuItem[];
 }
 
-export interface PreviewComposerQuickPick extends Disposable {
-  title: string | undefined;
-  placeholder: string | undefined;
-  items: readonly PreviewComposerQuickPickItem[];
-  selectedItems: readonly PreviewComposerQuickPickItem[];
-  activeItems: readonly PreviewComposerQuickPickItem[];
-  onDidAccept(listener: () => void): Disposable;
-  onDidHide(listener: () => void): Disposable;
-  show(): void;
-  hide(): void;
+export interface PreviewComposerContextMenuSession {
+  readonly result: Promise<PreviewComposerContextMenuSelection | undefined>;
+  close(): void;
+}
+
+export interface PreviewComposerContextMenuPort {
+  open(
+    anchor: PreviewContextMenuAnchor,
+    items: readonly PreviewComposerContextMenuItem[],
+  ): PreviewComposerContextMenuSession;
 }
 
 export interface PreviewComposerInputBox extends Disposable {
@@ -87,7 +95,7 @@ export interface PreviewComposerControllerPorts {
     token: CancellationToken,
   ) => PromiseLike<unknown>;
   readonly createCancellationTokenSource: () => PreviewComposerCancellationTokenSource;
-  readonly createQuickPick: () => PreviewComposerQuickPick;
+  readonly contextMenu: PreviewComposerContextMenuPort;
   readonly createInputBox: () => PreviewComposerInputBox;
   readonly apply: PreviewComposerApplyPort;
   readonly acceptingWork: () => boolean;
@@ -102,20 +110,19 @@ export interface PreviewComposerControllerPorts {
   readonly showErrorMessage: (message: string) => unknown | PromiseLike<unknown>;
 }
 
-interface ActiveQuickInput {
+interface ActiveTransientUi {
   close(): void;
 }
 
 interface ComposerOperation {
   readonly abortController: AbortController;
   readonly cancellation: PreviewComposerCancellationTokenSource;
-  input: ActiveQuickInput | undefined;
+  transient: ActiveTransientUi | undefined;
   released: boolean;
   applyGateDocument: ComposerTextDocument | undefined;
 }
 
 type OperationState = "current" | "cancelled" | "stale";
-type RootAction = Extract<PreviewComposerQuickPickItem["action"], "continued" | "displayName" | "navigate">;
 
 const EDIT_CONTINUED_LABEL = "编辑连续消息状态…";
 const EDIT_DISPLAY_NAME_LABEL = "从本条起修改人物显示名…";
@@ -160,7 +167,7 @@ export function createPreviewComposerApplyPort(
   };
 }
 
-/** Runtime-owned, single-operation native Quick Input orchestration. */
+/** Runtime-owned, single-operation native context-menu orchestration. */
 export class PreviewComposerController implements Disposable {
   readonly #ports: PreviewComposerControllerPorts;
   #operation: ComposerOperation | undefined;
@@ -171,20 +178,23 @@ export class PreviewComposerController implements Disposable {
   }
 
   /** Starts a new context operation and cancels every resource from the prior one. */
-  async handleContextPoint(point: PreviewNavigationPoint): Promise<void> {
+  async handleContextPoint(
+    point: PreviewNavigationPoint,
+    anchor: PreviewContextMenuAnchor,
+  ): Promise<void> {
     this.invalidate();
     if (this.#disposed || !this.#ports.acceptingWork()) return;
 
     const operation: ComposerOperation = {
       abortController: new AbortController(),
       cancellation: this.#ports.createCancellationTokenSource(),
-      input: undefined,
+      transient: undefined,
       released: false,
       applyGateDocument: undefined,
     };
     this.#operation = operation;
     try {
-      await this.runOperation(operation, point);
+      await this.runOperation(operation, point, anchor);
     } catch {
       if (this.operationState(operation) === "current") {
         await this.notify(operation, "error", UNAVAILABLE_MESSAGE);
@@ -197,7 +207,7 @@ export class PreviewComposerController implements Disposable {
     }
   }
 
-  /** Cancels provider/LSP work and disposes the active Quick Input. */
+  /** Cancels provider/LSP work and disposes the active transient UI. */
   invalidate(reason: "silent" | "stale" = "silent"): void {
     const operation = this.#operation;
     if (!operation) return;
@@ -239,6 +249,7 @@ export class PreviewComposerController implements Disposable {
   private async runOperation(
     operation: ComposerOperation,
     point: PreviewNavigationPoint,
+    anchor: PreviewContextMenuAnchor,
   ): Promise<void> {
     const located = await this.#ports.locatePreviewPoint(point, operation.abortController.signal);
     let state = this.operationState(operation, located?.identity);
@@ -281,30 +292,28 @@ export class PreviewComposerController implements Disposable {
       return;
     }
 
-    const rootAction = await this.pickRootAction(operation, targetResult.properties.actorDisplayName !== undefined);
-    if (!rootAction) return;
+    const selection = await this.selectContextAction(
+      operation,
+      anchor,
+      targetResult.properties.continued,
+      targetResult.properties.actorDisplayName !== undefined,
+    );
+    if (!selection) return;
     state = this.targetState(operation, located.identity, targetResult.textDocument);
     if (state !== "current") {
       await this.notifyStaleState(operation, state);
       return;
     }
 
-    if (rootAction === "navigate") {
+    if (selection.kind === "navigate") {
       if (!this.#ports.bidirectionalNavigation()) return;
       await this.#ports.navigatePreviewPoint(point, operation.abortController.signal);
       return;
     }
 
     let command: ComposerEditParams["command"] | undefined;
-    if (rootAction === "continued") {
-      const value = await this.pickContinuedValue(operation, targetResult.properties.continued);
-      if (!value) return;
-      state = this.targetState(operation, located.identity, targetResult.textDocument);
-      if (state !== "current") {
-        await this.notifyStaleState(operation, state);
-        return;
-      }
-      command = { kind: "setStatementContinued", value };
+    if (selection.kind === "continued") {
+      command = { kind: "setStatementContinued", value: selection.value };
     } else {
       const actorDisplayName = targetResult.properties.actorDisplayName;
       if (!actorDisplayName) return;
@@ -403,101 +412,50 @@ export class PreviewComposerController implements Disposable {
       : "stale";
   }
 
-  private async pickRootAction(
+  private async selectContextAction(
     operation: ComposerOperation,
-    actorAvailable: boolean,
-  ): Promise<RootAction | undefined> {
-    const items: PreviewComposerQuickPickItem[] = [
-      { label: EDIT_CONTINUED_LABEL, action: "continued" },
-    ];
-    if (actorAvailable) items.push({ label: EDIT_DISPLAY_NAME_LABEL, action: "displayName" });
-    if (this.#ports.bidirectionalNavigation()) items.push({ label: NAVIGATE_LABEL, action: "navigate" });
-
-    const selected = await this.pick(operation, {
-      title: "编辑预览内容",
-      placeholder: "选择要执行的操作",
-      items,
-    });
-    if (selected?.action === "continued" || selected?.action === "displayName" || selected?.action === "navigate") {
-      return selected.action;
-    }
-    return undefined;
-  }
-
-  private async pickContinuedValue(
-    operation: ComposerOperation,
+    anchor: PreviewContextMenuAnchor,
     current: StatementContinuedValue,
-  ): Promise<StatementContinuedValue | undefined> {
-    const choices: ReadonlyArray<{ label: string; value: StatementContinuedValue }> = [
+    actorAvailable: boolean,
+  ): Promise<PreviewComposerContextMenuSelection | undefined> {
+    const continuedChoices: ReadonlyArray<{
+      readonly label: string;
+      readonly value: StatementContinuedValue;
+    }> = [
       { label: "自动", value: "auto" },
       { label: "强制连续", value: "true" },
       { label: "强制新消息", value: "false" },
     ];
-    const items: PreviewComposerQuickPickItem[] = choices.map(({ label, value }) => ({
-      label,
-      action: value,
-      description: value === current ? "当前" : undefined,
-      picked: value === current,
-    }));
-    const selected = await this.pick(operation, {
-      title: "编辑连续消息状态",
-      placeholder: "选择连续消息状态",
-      items,
-      active: items.find((item) => item.action === current),
-    });
-    return selected?.action === "auto" || selected?.action === "true" || selected?.action === "false"
-      ? selected.action
-      : undefined;
-  }
+    const items: PreviewComposerContextMenuItem[] = [{
+      label: EDIT_CONTINUED_LABEL,
+      children: continuedChoices.map(({ label, value }) => ({
+        label,
+        checked: value === current,
+        selection: { kind: "continued", value },
+      })),
+    }];
+    if (actorAvailable) {
+      items.push({
+        label: EDIT_DISPLAY_NAME_LABEL,
+        selection: { kind: "displayName" },
+      });
+    }
+    if (this.#ports.bidirectionalNavigation()) {
+      items.push({
+        label: NAVIGATE_LABEL,
+        selection: { kind: "navigate" },
+      });
+    }
 
-  private pick(
-    operation: ComposerOperation,
-    options: {
-      readonly title: string;
-      readonly placeholder: string;
-      readonly items: readonly PreviewComposerQuickPickItem[];
-      readonly active?: PreviewComposerQuickPickItem;
-    },
-  ): Promise<PreviewComposerQuickPickItem | undefined> {
-    const quickPick = this.#ports.createQuickPick();
-    quickPick.title = options.title;
-    quickPick.placeholder = options.placeholder;
-    quickPick.items = options.items;
-    quickPick.activeItems = options.active ? [options.active] : [];
-
-    const { promise, resolve } = Promise.withResolvers<PreviewComposerQuickPickItem | undefined>();
-    let settled = false;
-    let closed = false;
-    const subscriptions: Disposable[] = [];
-    let active: ActiveQuickInput;
-    const close = () => {
-      if (closed) return;
-      closed = true;
-      if (operation.input === active) operation.input = undefined;
-      for (const subscription of subscriptions.splice(0)) subscription.dispose();
-      quickPick.hide();
-      quickPick.dispose();
+    const session = this.#ports.contextMenu.open(anchor, items);
+    const active: ActiveTransientUi = {
+      close: () => session.close(),
     };
-    const finish = (value: PreviewComposerQuickPickItem | undefined) => {
-      if (settled) return;
-      settled = true;
-      close();
-      resolve(value);
-    };
-    active = {
-      close() {
-        finish(undefined);
-        close();
-      },
-    };
-    operation.input?.close();
-    operation.input = active;
-    subscriptions.push(
-      quickPick.onDidAccept(() => finish(quickPick.selectedItems[0])),
-      quickPick.onDidHide(() => finish(undefined)),
-    );
-    quickPick.show();
-    return promise;
+    operation.transient?.close();
+    operation.transient = active;
+    const selection = await session.result;
+    if (operation.transient === active) operation.transient = undefined;
+    return selection;
   }
 
   private inputDisplayName(operation: ComposerOperation, current: string): Promise<string | undefined> {
@@ -511,11 +469,11 @@ export class PreviewComposerController implements Disposable {
     let settled = false;
     let closed = false;
     const subscriptions: Disposable[] = [];
-    let active: ActiveQuickInput;
+    let active: ActiveTransientUi;
     const close = () => {
       if (closed) return;
       closed = true;
-      if (operation.input === active) operation.input = undefined;
+      if (operation.transient === active) operation.transient = undefined;
       for (const subscription of subscriptions.splice(0)) subscription.dispose();
       input.hide();
       input.dispose();
@@ -532,8 +490,8 @@ export class PreviewComposerController implements Disposable {
         close();
       },
     };
-    operation.input?.close();
-    operation.input = active;
+    operation.transient?.close();
+    operation.transient = active;
     subscriptions.push(
       input.onDidAccept(() => {
         if (input.value.length === 0) {
@@ -578,8 +536,8 @@ export class PreviewComposerController implements Disposable {
       operation.abortController.abort();
       operation.cancellation.cancel();
     }
-    operation.input?.close();
-    operation.input = undefined;
+    operation.transient?.close();
+    operation.transient = undefined;
     operation.cancellation.dispose();
   }
 }

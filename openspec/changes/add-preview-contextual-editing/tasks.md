@@ -26,11 +26,12 @@
 ## 4. Web Workbench contextual UI
 
 - [x] 4.1 Handle no-selection `contextmenu` in the current preview page and leave browser text-selection behavior intact
-- [x] 4.2 Show native Quick Pick actions for source navigation、continued state and available actor display-name editing
+- [x] 4.2 Show a pointer-adjacent native Workbench context menu for source navigation、continued state and available actor display-name editing
 - [x] 4.3 Apply `continued` auto/true/false through `mmt/composerEdit`; never construct patch text in TypeScript
 - [x] 4.4 Apply non-empty “从本条起修改人物显示名” through `mmt/composerEdit`; keep actor Rename and per-bubble nickname separate
 - [x] 4.5 Surface unsupported/stale/rejected states through concise native notifications without guessing another target
-- [x] 4.6 Register every request、cancellation and Quick Input disposable under the existing `EditorRuntimeController`
+- [x] 4.6 Register every request、cancellation and transient context-menu/Input Box resource under the existing `EditorRuntimeController`
+- [x] 4.7 Replace the top Quick Pick with a pointer-adjacent native Workbench context menu and preserve lifecycle cancellation
 
 ## 5. Verification
 
@@ -40,7 +41,8 @@
 - [x] 5.4 Browser-drive right-click→continued edit and prove exact MMT bytes、history admission and rerendered avatar/name grouping
 - [x] 5.5 Browser-drive right-click→display-name edit and prove earlier messages retain old presentation while target/later messages show the new name
 - [x] 5.6 Browser-drive stale menu、text selection、generated/package/Typst、builtin actor、syntax-error and apply-failure rejection paths
-- [x] 5.7 Run production build and relevant full Editor Runtime E2E; inspect 240–320 px Quick Input/preview interaction without changing Workbench topology
+- [x] 5.7 Run production build and relevant full Editor Runtime E2E; inspect 240–320 px native context-menu、Input Box and preview interaction without changing Workbench topology
+- [x] 5.8 Browser-drive pointer anchoring、continued submenu、notification attribution、collapse/expand and update action activation
 
 ## Deferred follow-ups
 

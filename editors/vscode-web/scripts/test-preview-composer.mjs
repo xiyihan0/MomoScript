@@ -17,34 +17,44 @@ class ListenerSet {
   }
 }
 
-class FakeQuickPick {
-  title = undefined;
-  placeholder = undefined;
-  items = [];
-  selectedItems = [];
-  activeItems = [];
-  shown = 0;
-  hidden = 0;
-  disposed = 0;
-  accepts = new ListenerSet();
-  hides = new ListenerSet();
+class FakeContextMenuSession {
+  closed = 0;
 
-  onDidAccept(listener) { return this.accepts.subscribe(listener); }
-  onDidHide(listener) { return this.hides.subscribe(listener); }
-  show() { this.shown += 1; }
-  hide() { this.hidden += 1; this.hides.fire(); }
-  dispose() { this.disposed += 1; }
-
-  accept(label) {
-    const selected = this.items.find((item) => item.label === label);
-    assert.ok(selected, `missing Quick Pick item: ${label}`);
-    this.selectedItems = [selected];
-    this.accepts.fire();
+  constructor(anchor, items) {
+    this.anchor = anchor;
+    this.items = items;
+    const { promise, resolve } = Promise.withResolvers();
+    this.result = promise;
+    this.resolve = resolve;
+    this.settled = false;
   }
 
-  dismiss() {
-    this.hides.fire();
+  select(label) {
+    const selected = findMenuItem(this.items, label);
+    assert.ok(selected, `missing context-menu item: ${label}`);
+    assert.ok(selected.selection, `context-menu item is not selectable: ${label}`);
+    this.finish(selected.selection);
   }
+
+  close() {
+    this.closed += 1;
+    this.finish(undefined);
+  }
+
+  finish(selection) {
+    if (this.settled) return;
+    this.settled = true;
+    this.resolve(selection);
+  }
+}
+
+function findMenuItem(items, label) {
+  for (const item of items) {
+    if (item.label === label) return item;
+    const nested = item.children && findMenuItem(item.children, label);
+    if (nested) return nested;
+  }
+  return undefined;
 }
 
 class FakeInputBox {
@@ -107,6 +117,7 @@ const identity = (version = 7, overrides = {}) => ({
   ...overrides,
 });
 const point = { page: 0, x: 0.35, y: 0.6 };
+const anchor = { screenX: 800, screenY: 500 };
 const rendererLocation = {
   uri: "mmt-projection:story/main.typ",
   range: {
@@ -142,7 +153,7 @@ function harness(options = {}) {
     document: { ...textDocument },
     bidirectionalNavigation: options.bidirectionalNavigation ?? true,
   };
-  const quickPicks = [];
+  const contextMenus = [];
   const inputBoxes = [];
   const cancellationSources = [];
   const locateCalls = [];
@@ -171,10 +182,12 @@ function harness(options = {}) {
       cancellationSources.push(source);
       return source;
     },
-    createQuickPick() {
-      const quickPick = new FakeQuickPick();
-      quickPicks.push(quickPick);
-      return quickPick;
+    contextMenu: {
+      open(menuAnchor, items) {
+        const session = new FakeContextMenuSession(menuAnchor, items);
+        contextMenus.push(session);
+        return session;
+      },
     },
     createInputBox() {
       const input = new FakeInputBox();
@@ -203,7 +216,7 @@ function harness(options = {}) {
     controller,
     state,
     ports,
-    quickPicks,
+    contextMenus,
     inputBoxes,
     cancellationSources,
     locateCalls,
@@ -227,28 +240,26 @@ async function waitFor(predicate, message) {
 }
 
 async function chooseContinued(fixture, label = "强制连续") {
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "root Quick Pick was not shown");
-  fixture.quickPicks[0].accept("编辑连续消息状态…");
-  await waitFor(() => fixture.quickPicks.length === 2, "continued Quick Pick was not shown");
-  fixture.quickPicks[1].accept(label);
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "context menu was not shown");
+  fixture.contextMenus[0].select(label);
   await operation;
 }
 
 {
   const fixture = harness();
   await chooseContinued(fixture);
-  const [root, continued] = fixture.quickPicks;
-  assert.deepEqual(root.items.map((item) => item.label), [
+  const [menu] = fixture.contextMenus;
+  assert.deepEqual(menu.anchor, anchor);
+  assert.deepEqual(menu.items.map((item) => item.label), [
     "编辑连续消息状态…",
     "从本条起修改人物显示名…",
     "转到源码",
   ]);
-  assert.equal(root.title, "编辑预览内容");
-  assert.deepEqual(continued.items.map((item) => item.label), ["自动", "强制连续", "强制新消息"]);
-  assert.equal(continued.items.find((item) => item.label === "强制新消息").description, "当前");
-  assert.equal(continued.items.find((item) => item.label === "强制新消息").picked, true);
-  assert.equal(continued.activeItems[0].label, "强制新消息");
+  const continued = menu.items[0].children;
+  assert.deepEqual(continued.map((item) => item.label), ["自动", "强制连续", "强制新消息"]);
+  assert.equal(continued.find((item) => item.label === "强制新消息").checked, true);
+  assert.equal(continued.filter((item) => item.checked).length, 1);
   assert.deepEqual(fixture.requestCalls[0].params, {
     sourceUri,
     revision: 7,
@@ -276,9 +287,9 @@ async function chooseContinued(fixture, label = "强制连续") {
 
 {
   const fixture = harness({ bidirectionalNavigation: false });
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "display-name root Quick Pick was not shown");
-  fixture.quickPicks[0].accept("从本条起修改人物显示名…");
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "display-name context menu was not shown");
+  fixture.contextMenus[0].select("从本条起修改人物显示名…");
   await waitFor(() => fixture.inputBoxes.length === 1, "display-name Input Box was not shown");
   const input = fixture.inputBoxes[0];
   assert.equal(input.title, "从本条起修改人物显示名");
@@ -298,10 +309,10 @@ async function chooseContinued(fixture, label = "强制连续") {
 
 {
   const fixture = harness({ bidirectionalNavigation: false, targetOptions: { actor: false } });
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "actor-omission root Quick Pick was not shown");
-  assert.deepEqual(fixture.quickPicks[0].items.map((item) => item.label), ["编辑连续消息状态…"]);
-  fixture.quickPicks[0].dismiss();
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "actor-omission context menu was not shown");
+  assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), ["编辑连续消息状态…"]);
+  fixture.contextMenus[0].close();
   await operation;
   assert.equal(fixture.requestCalls.length, 1);
   assert.equal(fixture.applyCalls.length, 0);
@@ -309,9 +320,9 @@ async function chooseContinued(fixture, label = "强制连续") {
 
 {
   const fixture = harness();
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "navigation root Quick Pick was not shown");
-  fixture.quickPicks[0].accept("转到源码");
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "navigation context menu was not shown");
+  fixture.contextMenus[0].select("转到源码");
   await operation;
   assert.deepEqual(fixture.navigationCalls.map((call) => call.point), [point]);
   assert.equal(fixture.requestCalls.length, 1, "source navigation must not request a Composer edit");
@@ -319,9 +330,9 @@ async function chooseContinued(fixture, label = "强制连续") {
 
 {
   const fixture = harness({ targetResult: { kind: "Unavailable", reason: "unsupportedNode" } });
-  await fixture.controller.handleContextPoint(point);
+  await fixture.controller.handleContextPoint(point, anchor);
   assert.deepEqual(fixture.warnings, ["无法编辑此预览内容。"]);
-  assert.equal(fixture.quickPicks.length, 0);
+  assert.equal(fixture.contextMenus.length, 0);
   assert.equal(fixture.applyCalls.length, 0);
 }
 
@@ -350,33 +361,32 @@ for (const [applicationResult, expectedWarnings, expectedErrors] of [
 
 {
   const fixture = harness();
-  const first = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "first root Quick Pick was not shown");
-  const firstQuickPick = fixture.quickPicks[0];
+  const first = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "first context menu was not shown");
+  const firstMenu = fixture.contextMenus[0];
   const firstSource = fixture.cancellationSources[0];
-  const second = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 2, "replacement root Quick Pick was not shown");
+  const second = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 2, "replacement context menu was not shown");
   assert.equal(fixture.locateCalls[0].signal.aborted, true);
   assert.equal(firstSource.cancelled, 1);
   assert.equal(firstSource.disposed, 1);
-  assert.equal(firstQuickPick.hidden, 1);
-  assert.equal(firstQuickPick.disposed, 1);
+  assert.equal(firstMenu.closed, 1);
   fixture.controller.invalidate();
   assert.equal(fixture.cancellationSources[1].cancelled, 1);
   assert.equal(fixture.cancellationSources[1].disposed, 1);
-  assert.equal(fixture.quickPicks[1].disposed, 1);
+  assert.equal(fixture.contextMenus[1].closed, 1);
   await Promise.all([first, second]);
   assert.deepEqual(fixture.warnings, [], "replacement and explicit invalidation are silent cancellation");
 }
 
 {
   const fixture = harness();
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "stale invalidation root Quick Pick was not shown");
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "stale invalidation context menu was not shown");
   fixture.state.document = { uri: sourceUri, version: textDocument.version + 1 };
   fixture.controller.sourceDocumentChanged(fixture.state.document);
   await operation;
-  assert.equal(fixture.quickPicks[0].disposed, 1);
+  assert.equal(fixture.contextMenus[0].closed, 1);
   assert.deepEqual(fixture.warnings, ["源码已更改，未应用编辑。"]);
   assert.equal(fixture.requestCalls.length, 1, "stale invalidation must not retry");
 }
@@ -405,23 +415,23 @@ for (const [applicationResult, expectedWarnings, expectedErrors] of [
 
 for (const drift of ["identity", "document"]) {
   const fixture = harness();
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, `${drift} drift root Quick Pick was not shown`);
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, `${drift} drift context menu was not shown`);
   if (drift === "identity") fixture.state.identity = identity(8);
   else fixture.state.document = { uri: sourceUri, version: 8 };
-  fixture.quickPicks[0].accept("编辑连续消息状态…");
+  fixture.contextMenus[0].select("强制连续");
   await operation;
   assert.deepEqual(fixture.warnings, ["源码已更改，未应用编辑。"]);
-  assert.equal(fixture.quickPicks.length, 1, `${drift} drift must not open another control`);
+  assert.equal(fixture.contextMenus.length, 1, `${drift} drift must not open another control`);
   assert.equal(fixture.requestCalls.length, 1, `${drift} drift must not request an edit`);
 }
 
 {
   const fixture = harness();
-  const operation = fixture.controller.handleContextPoint(point);
-  await waitFor(() => fixture.quickPicks.length === 1, "quiesce root Quick Pick was not shown");
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "quiesce context menu was not shown");
   fixture.state.acceptingWork = false;
-  fixture.quickPicks[0].accept("编辑连续消息状态…");
+  fixture.contextMenus[0].select("强制连续");
   await operation;
   assert.equal(fixture.requestCalls.length, 1);
   assert.equal(fixture.applyCalls.length, 0, "quiescing runtime must not create or apply an edit");
@@ -472,7 +482,7 @@ for (const drift of ["runtime", "identity", "document"]) {
   const { promise: locationPromise, resolve } = Promise.withResolvers();
   releaseLocation = resolve;
   const fixture = harness({ locatePreviewPoint: () => locationPromise });
-  const operation = fixture.controller.handleContextPoint(point);
+  const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.locateCalls.length === 1, "pending location request was not captured");
   fixture.controller.dispose();
   assert.equal(fixture.locateCalls[0].signal.aborted, true);
@@ -480,7 +490,7 @@ for (const drift of ["runtime", "identity", "document"]) {
   assert.equal(fixture.cancellationSources[0].disposed, 1);
   releaseLocation({ identity: identity(), location: rendererLocation });
   await operation;
-  await fixture.controller.handleContextPoint(point);
+  await fixture.controller.handleContextPoint(point, anchor);
   assert.equal(fixture.locateCalls.length, 1, "a disposed controller must reject new context operations");
 }
 
