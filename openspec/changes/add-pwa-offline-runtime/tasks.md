@@ -58,6 +58,8 @@
 - [ ] 5.6 实现 probation：Workbench/workspace、MMT、Tinymist、Typst smoke、Webview 全通过后 `SHELL_HEALTHY`
 - [ ] 5.7 实现 asset-pointer rollback 与 registry/cache crash reconciliation；明确 worker binary 不回滚，schema 至少兼容前一 revision
 - [ ] 5.8 用 A/B fixture 验证拒绝更新、dirty/blocked workspace、flush failure、accept、single reload、probation failure、rollback 与 cleanup
+- [x] 5.9 保持 restart-ready 通知为 Workbench 原生主要操作按钮，并在“管理”菜单提供复用同一 lifecycle 的手动“检查更新”
+  - Evidence (2026-08-23): `npm run test:pwa-update` covers manual registration checks and lifecycle disposal; focused Playwright tests cover the native non-collapsible “安全更新并重启” button and the lower-left “检查更新” management command.
 
 ## 6. Explicit Offline Pack Installation
 

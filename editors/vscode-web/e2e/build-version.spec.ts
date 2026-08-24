@@ -39,6 +39,12 @@ test("production build exposes a traceable version without status-bar clutter", 
   await expect(page.getByRole("status")).not.toContainText(buildVersion!);
 
   await page.getByRole("button", { name: "管理", exact: true }).click();
+  const checkForUpdates = page.getByRole("menuitem", { name: "检查更新", exact: true });
+  await expect(checkForUpdates).toBeVisible();
+  await checkForUpdates.click();
+  await expect(page.getByRole("dialog", { name: /当前环境未启用应用更新检查/ })).toBeVisible();
+
+  await page.getByRole("button", { name: "管理", exact: true }).click();
   await page.getByRole("menuitem", { name: "关于 MomoScript", exact: true }).click();
   const about = page.locator(".notification-list-item-message").filter({ hasText: "MomoScript Web · 构建版本" });
   await expect(about).toContainText(expectedVersion);

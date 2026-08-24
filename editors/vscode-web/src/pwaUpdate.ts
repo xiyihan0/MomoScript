@@ -6,6 +6,13 @@ export interface PwaUpdateLifecycleOptions {
   readonly report: (message: string, error?: unknown) => void;
 }
 
+export type PwaUpdateCheckResult = "updateFound" | "upToDate" | "unavailable" | "failed";
+
+export interface PwaUpdateLifecycle {
+  checkForUpdate(): Promise<PwaUpdateCheckResult>;
+  dispose(): void;
+}
+
 const BUILD_VERSION_PATTERN = /^\d{12}-[0-9a-f]{7}$/;
 
 function readWaitingBuildVersion(worker: ServiceWorker, timeoutMs = 2_000): Promise<string | undefined> {
@@ -43,14 +50,22 @@ function readWaitingBuildVersion(worker: ServiceWorker, timeoutMs = 2_000): Prom
  */
 export function registerPwaUpdateLifecycle(
   options: PwaUpdateLifecycleOptions
-): { dispose(): void } {
-  if (!("serviceWorker" in navigator)) return { dispose() {} };
+): PwaUpdateLifecycle {
+  if (!("serviceWorker" in navigator)) {
+    return {
+      async checkForUpdate() {
+        return "unavailable";
+      },
+      dispose() {},
+    };
+  }
 
   let disposed = false;
   let registration: ServiceWorkerRegistration | undefined;
   let installing: ServiceWorker | undefined;
   let activating = false;
   let activationTimer: number | undefined;
+  let registrationFailed = false;
   const prompted = new WeakSet<ServiceWorker>();
 
   const reportFailure = (message: string, error: unknown) => {
@@ -105,29 +120,51 @@ export function registerPwaUpdateLifecycle(
     activationTimer = undefined;
     (options.reload ?? (() => window.location.reload()))();
   };
-  const checkForUpdate = () => {
-    if (!disposed) void registration?.update().catch((error: unknown) => {
+  const checkForUpdate = async (): Promise<PwaUpdateCheckResult> => {
+    if (disposed) return "unavailable";
+    const current = registration ?? await registrationReady;
+    if (disposed) return "unavailable";
+    if (!current) return registrationFailed ? "failed" : "unavailable";
+    try {
+      const updated = await current.update();
+      if (disposed) return "unavailable";
+      registration = updated;
+      bindInstalling(updated.installing);
+      offer(updated.waiting);
+      return updated.waiting || updated.installing ? "updateFound" : "upToDate";
+    } catch (error) {
       reportFailure("MomoScript update check failed", error);
-    });
+      return "failed";
+    }
+  };
+  const checkForUpdateInBackground = () => {
+    void checkForUpdate();
   };
   const onVisibilityChange = () => {
-    if (document.visibilityState === "visible") checkForUpdate();
+    if (document.visibilityState === "visible") checkForUpdateInBackground();
   };
 
   navigator.serviceWorker.addEventListener("controllerchange", onControllerChange);
-  window.addEventListener("online", checkForUpdate);
+  window.addEventListener("online", checkForUpdateInBackground);
   document.addEventListener("visibilitychange", onVisibilityChange);
-  void navigator.serviceWorker.register(options.serviceWorkerUrl ?? "/sw.js", { scope: "/" }).then((value) => {
+  const registrationReady = navigator.serviceWorker.register(
+    options.serviceWorkerUrl ?? "/sw.js",
+    { scope: "/" },
+  ).then((value) => {
     if (disposed) return;
     registration = value;
     registration.addEventListener("updatefound", onUpdateFound);
     bindInstalling(registration.installing);
     offer(registration.waiting);
+    return value;
   }).catch((error: unknown) => {
+    registrationFailed = true;
     reportFailure("MomoScript offline support could not be installed", error);
+    return undefined;
   });
 
   return {
+    checkForUpdate,
     dispose() {
       if (disposed) return;
       disposed = true;
@@ -135,7 +172,7 @@ export function registerPwaUpdateLifecycle(
       registration?.removeEventListener("updatefound", onUpdateFound);
       if (activationTimer !== undefined) window.clearTimeout(activationTimer);
       navigator.serviceWorker.removeEventListener("controllerchange", onControllerChange);
-      window.removeEventListener("online", checkForUpdate);
+      window.removeEventListener("online", checkForUpdateInBackground);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     }
   };

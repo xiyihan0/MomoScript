@@ -80,8 +80,8 @@ import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import type { PreviewTraceSession } from "./previewPerformance.ts";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
-import { registerPwaUpdateLifecycle } from "./pwaUpdate";
-import { showMomoScriptCollapsiblePrompt, showMomoScriptMessage } from "./notifications";
+import { registerPwaUpdateLifecycle, type PwaUpdateLifecycle } from "./pwaUpdate";
+import { showMomoScriptMessage } from "./notifications";
 import { MMT_BUILD_VERSION } from "./buildInfo";
 import {
   PACK_MANIFEST_URL,
@@ -208,6 +208,7 @@ const STORY = URI.parse("mmtfs://workspace/story.mmt");
 const INTRO = URI.parse("mmtfs://workspace/intro.typ");
 const ACTIVE_WORKSPACE_DOCUMENT_KEY = "momoscript.active-workspace-document.v1";
 const ABOUT_COMMAND_ID = "mmt.about";
+const CHECK_FOR_UPDATES_COMMAND_ID = "mmt.checkForUpdates";
 
 function rememberActiveWorkspaceDocument(document: vscode.TextDocument): void {
   const uri = document.uri;
@@ -400,6 +401,7 @@ async function initializeRuntime(
     dependencies: packageDependencies
   });
   let output: vscode.OutputChannel | undefined;
+  let pwaUpdateLifecycle: PwaUpdateLifecycle | undefined;
   const log = (scope: string, message: string) => {
     const line = `[${new Date().toISOString()}] [${scope}] ${message}`;
     if (output) output.appendLine(line);
@@ -1783,6 +1785,26 @@ async function initializeRuntime(
       { id: "about" },
     );
   }));
+  subscribe(vscode.commands.registerCommand(CHECK_FOR_UPDATES_COMMAND_ID, async () => {
+    if (!pwaUpdateLifecycle) {
+      await showMomoScriptMessage("warning", "当前环境未启用应用更新检查。", [], { id: "pwa-update-unavailable" });
+      return;
+    }
+    const result = await pwaUpdateLifecycle.checkForUpdate();
+    if (result === "upToDate") {
+      await showMomoScriptMessage("info", "MomoScript 当前已是最新版本。", [], { id: "pwa-update-current" });
+    } else if (result === "unavailable") {
+      await showMomoScriptMessage("warning", "当前环境未启用应用更新检查。", [], { id: "pwa-update-unavailable" });
+    }
+  }));
+  own(MenuRegistry.appendMenuItem(MenuId.GlobalActivity, {
+    group: "1_update",
+    order: 1,
+    command: {
+      id: CHECK_FOR_UPDATES_COMMAND_ID,
+      title: "检查更新",
+    },
+  }));
   own(MenuRegistry.appendMenuItem(MenuId.GlobalActivity, {
     group: "z_about",
     order: 1,
@@ -3090,11 +3112,11 @@ async function initializeRuntime(
       },
       composer: composerE2E.api,
       notifications: {
-        showCollapsibleUpdatePrompt() {
-          void showMomoScriptCollapsiblePrompt(
+        showUpdatePrompt() {
+          void showMomoScriptMessage(
             "info",
             `MomoScript 新构建 e2e-build 已准备好离线更新。当前构建 ${MMT_BUILD_VERSION}；保存并安全重启以启用新版本。`,
-            "安全更新并重启",
+            ["安全更新并重启"],
             { id: "pwa-update-ready-e2e" },
           );
         },
@@ -3128,17 +3150,17 @@ async function initializeRuntime(
     subscribe(installMmtE2EBridge(e2eApi));
   }
   if (import.meta.env.PROD && import.meta.env.VITE_MMT_E2E !== "1") {
-    own(registerPwaUpdateLifecycle({
+    pwaUpdateLifecycle = own(registerPwaUpdateLifecycle({
       prepareForReload: () => safeRestart.prepareForReload(10_000),
       async promptForReload(latestBuildVersion) {
         const update = "安全更新并重启";
         const nextVersion = latestBuildVersion ?? "版本信息暂不可用";
-        return await showMomoScriptCollapsiblePrompt(
+        return await showMomoScriptMessage(
           "info",
           `MomoScript 新构建 ${nextVersion} 已准备好离线更新。当前构建 ${MMT_BUILD_VERSION}；保存并安全重启以启用新版本。`,
-          update,
+          [update],
           { id: "pwa-update-ready" },
-        );
+        ) === update;
       },
       report(message, error) {
         const detail = error instanceof Error ? error.message : String(error ?? "");

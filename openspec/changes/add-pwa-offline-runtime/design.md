@@ -43,8 +43,10 @@ Service Worker 不解释 MMT、Typst project、workspace AST 或 pack semantic m
 `*.brotli.bin`，没有外部 runtime 或 identity fallback。reservation 仍必须按完整 decoded inventory 计算，不能用
 `dist` 大小或 HTTP transfer size 代替；构建体积只是观测基线，每个 release 都重新生成 inventory。
 
-当前实现已有 manifest link、根 Service Worker、install-time shell precache 与提示式 update，但尚未实现本 proposal 要求的显式
-reservation、staging verification、probation、active/previous revision 与 rollback。`IndexedDbPackCache` 只缓存 manifest JSON/ETag；
+当前实现已有 manifest link、根 Service Worker、install-time shell precache 与提示式 update。restart-ready 提示使用
+Workbench 原生主要操作按钮，左下角“管理”菜单提供手动“检查更新”；这些当前入口仍复用同一个
+`PwaUpdateLifecycle`，不会绕过 waiting-worker 与 safe-restart 边界。尚未实现本 proposal 要求的显式 reservation、
+staging verification、probation、active/previous revision 与 rollback。`IndexedDbPackCache` 只缓存 manifest JSON/ETag；
 `BoundedStringCache` 和 sequence fetch map 仍是页面内存缓存。
 
 ## Manifest And Installability

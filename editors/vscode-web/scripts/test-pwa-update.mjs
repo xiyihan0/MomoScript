@@ -20,8 +20,12 @@ class FakeRegistration extends EventTarget {
     super();
     this.waiting = worker;
     this.installing = null;
+    this.updateCalls = 0;
   }
-  update() { return Promise.resolve(); }
+  update() {
+    this.updateCalls += 1;
+    return Promise.resolve(this);
+  }
 }
 class FakeServiceWorkerContainer extends EventTarget {
   controller = {};
@@ -108,6 +112,20 @@ try {
   }
 
   {
+    const registration = new FakeRegistration(null);
+    installEnvironment(registration);
+    const lifecycle = registerPwaUpdateLifecycle({
+      prepareForReload: async () => {},
+      promptForReload: async () => false,
+      report() {},
+    });
+    assert.equal(await lifecycle.checkForUpdate(), "upToDate");
+    assert.equal(registration.updateCalls, 1, "manual checks must call the live Service Worker registration");
+    lifecycle.dispose();
+    assert.equal(await lifecycle.checkForUpdate(), "unavailable", "disposed lifecycle must not check again");
+  }
+
+  {
     const worker = new FakeWorker();
     installEnvironment(new FakeRegistration(worker));
     const reports = [];
@@ -128,4 +146,4 @@ try {
   Object.defineProperty(globalThis, "document", { value: originalDocument, configurable: true });
 }
 
-console.log(JSON.stringify({ declinedUpdateWaits: true, safeActivationOrdering: true, controllerReload: true, promptFailureContained: true }));
+console.log(JSON.stringify({ declinedUpdateWaits: true, safeActivationOrdering: true, controllerReload: true, manualCheck: true, promptFailureContained: true }));

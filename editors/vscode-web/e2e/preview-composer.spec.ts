@@ -47,31 +47,18 @@ interface ScrollTopology {
   readonly htmlOverflow: string;
 }
 
-test("MomoScript notifications have a named source and the update prompt can collapse", { tag: "@preview-composer" }, async ({ page }) => {
+test("MomoScript update notification uses the native restart action button", { tag: "@preview-composer" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
-  await invokeMmtE2E(page, "notifications", "showCollapsibleUpdatePrompt");
+  await invokeMmtE2E(page, "notifications", "showUpdatePrompt");
 
   const update = page.getByRole("dialog", { name: /MomoScript 新构建 e2e-build/ });
   await expect(update).toBeVisible();
   await expect(update).toHaveAttribute("aria-label", /源: MomoScript/);
-  await update.hover();
-  const expand = update.getByRole("button", { name: /展开通知|Expand Notification/i });
-  await expect(expand).toBeVisible();
-  await expand.click();
-  await expect(update).toHaveAttribute("aria-label", /安全更新并重启.*源: MomoScript/);
-  const collapse = update.getByRole("button", { name: /折叠通知|Collapse Notification/i });
-  await expect(collapse).toBeVisible();
-  await collapse.click();
-  await update.hover();
-  await update.getByRole("button", { name: /展开通知|Expand Notification/i }).click();
-  const updateLink = update.getByRole("link", { name: "安全更新并重启" });
-  await updateLink.evaluate((element) => {
-    if (!(element instanceof HTMLAnchorElement)) throw new Error("update command link is unavailable");
-    element.focus();
-  });
-  await expect(updateLink).toBeFocused();
-  await page.keyboard.press("Enter");
+  await expect(update.getByRole("button", { name: /展开通知|Expand Notification/i })).toHaveCount(0);
+  const restart = update.getByRole("button", { name: "安全更新并重启", exact: true });
+  await expect(restart).toBeVisible();
+  await restart.click();
   await expect(update).toBeHidden();
 });
 

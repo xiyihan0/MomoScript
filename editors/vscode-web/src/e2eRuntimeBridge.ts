@@ -173,7 +173,7 @@ export interface MmtE2EApi {
     readonly lastAnchor: () => PreviewContextMenuAnchor | null;
   };
   readonly notifications: {
-    readonly showCollapsibleUpdatePrompt: () => void;
+    readonly showUpdatePrompt: () => void;
   };
 
   readonly runtime: {
