@@ -1,4 +1,5 @@
 #import "config.typ": current-config
+#import "semantic.typ": semantic-region
 
 #let bubble(
   side: left,
@@ -48,6 +49,7 @@
   side: left,
   avatar: none,
   name: none,
+  composer-key: none,
   auto-continued: false,
   continued: auto,
   fill: auto,
@@ -111,12 +113,35 @@
 
   if effective-continued { v(-0.7em) }
   box(width: 100%, inset: 0pt, outset: 0pt, fill: none)[
-    #if visible-avatar != none { place(side, dy: 0pt, visible-avatar) }
+    #if visible-avatar != none {
+      place(
+        side,
+        dy: 0pt,
+        semantic-region(
+          composer-key,
+          "avatar",
+          box(inset: 0pt, outset: 0pt, visible-avatar),
+        ),
+      )
+    }
     #if side == left {
       pad(left: if avatar != none or reserve-avatar-space { 4em } else { 0em })[
-        #if visible-name != none { [#v(0.25em)#strong(visible-name)] }
+        #if visible-name != none {
+          [
+            #v(0.25em)
+            #semantic-region(
+              composer-key,
+              "display-name",
+              box(inset: 0pt, outset: 0pt, strong(visible-name)),
+            )
+          ]
+        }
         #v(0.5em, weak: true)
-        #content-bubble
+        #semantic-region(
+          composer-key,
+          "bubble",
+          box(inset: 0pt, outset: 0pt, content-bubble),
+        )
       ]
     } else {
       pad(
@@ -125,9 +150,22 @@
       )[
         #align(right)[
           #box(align(left)[
-            #if visible-name != none { [#v(0.25em)#align(right, strong(visible-name))] }
+            #if visible-name != none {
+              [
+                #v(0.25em)
+                #align(right, semantic-region(
+                  composer-key,
+                  "display-name",
+                  box(inset: 0pt, outset: 0pt, strong(visible-name)),
+                ))
+              ]
+            }
             #v(0.5em, weak: true)
-            #content-bubble
+            #semantic-region(
+              composer-key,
+              "bubble",
+              box(inset: 0pt, outset: 0pt, content-bubble),
+            )
           ])
         ]
       ]

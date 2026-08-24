@@ -1,5 +1,6 @@
 #import "vendor/shadowed/src/lib.typ": shadowed
 #import "config.typ": current-config
+#import "semantic.typ": semantic-region
 
 #let narration(fill: auto, text-fill: auto, inset: auto, radius: auto, body) = context {
   let theme = current-config().theme.narration
@@ -21,8 +22,9 @@
   fill: rgb("e1edf0"),
   accent: rgb("4b6989"),
   decoration: image("mmt_options.webp"),
+  composer-key: none,
   ..items,
-) = pad(left: 4em, box(
+) = pad(left: 4em, semantic-region(composer-key, "reply", box(
   fill: fill,
   radius: 0.5em,
   inset: (x: 6pt, y: 8pt),
@@ -51,11 +53,15 @@
         radius: 4pt,
         dy: 3pt,
         color: rgb(89, 85, 101, 50%),
-        block(width: 100%, fill: white, inset: 8pt, radius: 4pt, [#item]),
+        semantic-region(
+          composer-key,
+          "reply-item",
+          block(width: 100%, fill: white, inset: 8pt, radius: 4pt, [#item]),
+        ),
       ),
     )),
   )
-])
+]))
 
 // Layout values intentionally match the legacy bond_box implementation.
 #let bond(
@@ -63,8 +69,9 @@
   fill: rgb("fc879b"),
   text-fill: white,
   decoration: image("mmt_favor.webp", width: 25%),
+  composer-key: none,
   body,
-) = pad(left: 4em, box(
+) = pad(left: 4em, semantic-region(composer-key, "bond", box(
   fill: rgb("fceef0"),
   radius: 0.5em,
   inset: (x: 6pt, y: 8pt),
@@ -92,7 +99,11 @@
       radius: 4pt,
       dy: 3pt,
       color: rgb(89, 85, 101, 50%),
-      block(width: 100%, fill: fill, inset: 8pt, radius: 4pt, [#body]),
+      semantic-region(
+        composer-key,
+        "bond-body",
+        block(width: 100%, fill: fill, inset: 8pt, radius: 4pt, [#body]),
+      ),
     ),
   )
-])
+]))

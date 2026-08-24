@@ -41,6 +41,10 @@ const EMBEDDED_TEMPLATE_TEXT_FILES: &[(&str, &str)] = &[
         include_str!("../../typst_sandbox/mmt_render/config.typ"),
     ),
     (
+        "typst_sandbox/mmt_render/semantic.typ",
+        include_str!("../../typst_sandbox/mmt_render/semantic.typ"),
+    ),
+    (
         "typst_sandbox/mmt_render/template.typ",
         include_str!("../../typst_sandbox/mmt_render/template.typ"),
     ),
@@ -2087,6 +2091,11 @@ mod tests {
             paths
                 .iter()
                 .any(|path| path.ends_with("typst_sandbox/mmt_render/lib.typ"))
+        );
+        assert!(
+            paths
+                .iter()
+                .any(|path| path.ends_with("typst_sandbox/mmt_render/semantic.typ"))
         );
         assert!(
             paths

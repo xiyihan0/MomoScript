@@ -179,6 +179,78 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
     assert!(output_dir.join("output.pdf").is_file());
     fs::remove_dir_all(output_dir).unwrap();
 }
+
+#[test]
+fn template_emits_semantic_svg_labels_without_visual_changes() {
+    let output_dir = temp_dir("semantic-labels");
+    copy_dir_all(&template_dir(), &output_dir.join("template"));
+    let source = r#"
+#import "template/lib.typ" as mmt
+#set page(width: 360pt, height: auto, margin: 12pt)
+
+#mmt.chat-left(
+  composer-key: $CHAT_KEY,
+  name: [Name],
+  avatar: circle(radius: 12pt, fill: red),
+  reserve-avatar-space: true,
+)[Body]
+#mmt.chat-right(
+  composer-key: $RIGHT_KEY,
+  name: [Sensei],
+)[Right]
+#mmt.reply(composer-key: $REPLY_KEY)[A][B]
+#mmt.bond(composer-key: $BOND_KEY)[Bond]
+"#;
+    let labelled = source
+        .replace("$CHAT_KEY", "\"t00000000\"")
+        .replace("$RIGHT_KEY", "\"t00000001\"")
+        .replace("$REPLY_KEY", "\"t00000002\"")
+        .replace("$BOND_KEY", "\"t00000003\"");
+    let unlabelled = source
+        .replace("$CHAT_KEY", "none")
+        .replace("$RIGHT_KEY", "none")
+        .replace("$REPLY_KEY", "none")
+        .replace("$BOND_KEY", "none");
+    fs::write(output_dir.join("labelled.typ"), labelled).unwrap();
+    fs::write(output_dir.join("unlabelled.typ"), unlabelled).unwrap();
+
+    for (input, output) in [
+        ("labelled.typ", "labelled.svg"),
+        ("labelled.typ", "labelled.png"),
+        ("unlabelled.typ", "unlabelled.png"),
+    ] {
+        let typst = Command::new("typst")
+            .args(["compile", input, output, "--root", "."])
+            .current_dir(&output_dir)
+            .output()
+            .unwrap();
+        assert!(
+            typst.status.success(),
+            "{}",
+            String::from_utf8_lossy(&typst.stderr)
+        );
+    }
+
+    let svg = fs::read_to_string(output_dir.join("labelled.svg")).unwrap();
+    for label in [
+        "mmt:avatar:t00000000",
+        "mmt:display-name:t00000000",
+        "mmt:bubble:t00000000",
+        "mmt:display-name:t00000001",
+        "mmt:bubble:t00000001",
+        "mmt:reply:t00000002",
+        "mmt:reply-item:t00000002",
+        "mmt:bond:t00000003",
+        "mmt:bond-body:t00000003",
+    ] {
+        assert!(svg.contains(&format!("data-typst-label=\"{label}\"")));
+    }
+    assert_eq!(
+        fs::read(output_dir.join("labelled.png")).unwrap(),
+        fs::read(output_dir.join("unlabelled.png")).unwrap(),
+    );
+    fs::remove_dir_all(output_dir).unwrap();
+}
 #[test]
 fn cli_reports_unknown_directives_as_non_fatal_warnings() {
     let output_dir = temp_dir("cli-unknown-directive");

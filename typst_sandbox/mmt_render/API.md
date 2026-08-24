@@ -229,6 +229,7 @@ Use `mmt.configure` for position-dependent configuration.
   side: left,
   avatar: none,
   name: none,
+  composer-key: none,
   auto-continued: false,
   continued: auto,
   fill: auto,
@@ -249,6 +250,7 @@ Use `mmt.configure` for position-dependent configuration.
 | `side` | `left` or `right` layout direction |
 | `avatar` | Already prepared avatar content or `none` |
 | `name` | Display-name content or `none` |
+| `composer-key` | Renderer-internal opaque key for preview semantic regions; hand-written Typst should leave it as `none` |
 | `auto-continued` | Continuation fact computed by the emitter |
 | `continued` | Explicit `true`/`false`, or `auto` to consult configuration and emitter state |
 | `fill` | Bubble fill override, or `auto` for the side-specific theme fill |
@@ -345,6 +347,7 @@ Each `auto` value resolves from `current-config().theme.narration`. The body is 
   fill: rgb("e1edf0"),
   accent: rgb("4b6989"),
   decoration: image("mmt_options.webp"),
+  composer-key: none,
   ..items,
 )
 ```
@@ -356,6 +359,9 @@ Each `auto` value resolves from `current-config().theme.narration`. The body is 
 ```
 
 `decoration: none` disables the top-right decoration.
+
+`composer-key` is reserved for the MMT emitter. When present, it labels the reply container and items for preview hit testing without changing layout.
+
 
 Current limitation: visual defaults are still literal function defaults; `theme.reply` is not yet consumed by this function.
 
@@ -369,6 +375,7 @@ Current limitation: visual defaults are still literal function defaults; `theme.
   fill: rgb("fc879b"),
   text-fill: white,
   decoration: image("mmt_favor.webp", width: 25%),
+  composer-key: none,
   body,
 )
 ```
@@ -378,6 +385,8 @@ Current limitation: visual defaults are still literal function defaults; `theme.
 ```
 
 `decoration: none` disables the top-right decoration.
+
+`composer-key` is reserved for the MMT emitter. When present, it labels the bond container and body for preview hit testing without changing layout.
 
 Current limitation: visual defaults are still literal or internal values; `theme.bond` is not yet consumed by this function.
 

@@ -53,10 +53,7 @@ pub enum Origin {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum AuthoredOriginResolution {
-    Unique {
-        range: TextRange,
-        kind: OriginKind,
-    },
+    Unique { range: TextRange, kind: OriginKind },
     Unmapped,
     Ambiguous,
 }
@@ -91,11 +88,7 @@ impl EmittedTypst {
         self.unique_authored_parent(generated_range)
     }
 
-
-    pub fn classify_authored_parent(
-        &self,
-        generated_range: TextRange,
-    ) -> AuthoredOriginResolution {
+    pub fn classify_authored_parent(&self, generated_range: TextRange) -> AuthoredOriginResolution {
         if generated_range.start > generated_range.end || generated_range.end > self.source.len() {
             return AuthoredOriginResolution::Unmapped;
         }
@@ -138,9 +131,7 @@ impl EmittedTypst {
         }
         match (authored, saw_unmapped) {
             (Some(_), true) => AuthoredOriginResolution::Ambiguous,
-            (Some((range, kind)), false) => {
-                AuthoredOriginResolution::Unique { range, kind }
-            }
+            (Some((range, kind)), false) => AuthoredOriginResolution::Unique { range, kind },
             (None, _) => AuthoredOriginResolution::Unmapped,
         }
     }
@@ -319,6 +310,7 @@ struct TypstEmitter<'a> {
     builder: EmitBuilder,
     diagnostics: Vec<Diagnostic>,
     previous_chat: Option<ChatGroupKey>,
+    composer_target_index: u32,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -389,6 +381,7 @@ impl<'a> TypstEmitter<'a> {
             builder: EmitBuilder::default(),
             diagnostics,
             previous_chat: None,
+            composer_target_index: 0,
         }
     }
 
@@ -403,6 +396,7 @@ impl<'a> TypstEmitter<'a> {
                         statement.patch.as_ref(),
                         &statement.body,
                         statement.range,
+                        None,
                     );
                 }
                 SyntaxNode::Statement(statement) => self.emit_chat(statement),
@@ -412,7 +406,14 @@ impl<'a> TypstEmitter<'a> {
                 }
                 SyntaxNode::Bond(bond) => {
                     self.previous_chat = None;
-                    self.emit_content_call("bond", bond.patch.as_ref(), &bond.body, bond.range);
+                    let composer_key = self.next_composer_key();
+                    self.emit_content_call(
+                        "bond",
+                        bond.patch.as_ref(),
+                        &bond.body,
+                        bond.range,
+                        Some(&composer_key),
+                    );
                 }
                 SyntaxNode::DirectiveLine(directive) if directive.name == "typ" => {
                     self.previous_chat = None;
@@ -468,6 +469,15 @@ impl<'a> TypstEmitter<'a> {
         );
     }
 
+    fn next_composer_key(&mut self) -> String {
+        let index = self.composer_target_index;
+        self.composer_target_index = self
+            .composer_target_index
+            .checked_add(1)
+            .expect("composer target count exceeds u32");
+        format!("t{index:08x}")
+    }
+
     fn emit_chat(&mut self, statement: &crate::syntax::StatementSyntax) {
         let Some(speaker_index) = self.speakers.get(&statement.range).copied() else {
             self.semantic_error("statement has no lowered speaker", statement.range);
@@ -488,6 +498,7 @@ impl<'a> TypstEmitter<'a> {
         let auto_continued = self.previous_chat.as_ref() == Some(&group);
         self.previous_chat = Some(group);
 
+        let composer_key = self.next_composer_key();
         let parent = self.builder.register_origin(Origin::MmtRange {
             range: statement.range,
             kind: OriginKind::TextBody,
@@ -499,6 +510,11 @@ impl<'a> TypstEmitter<'a> {
         };
         self.builder.push_generated(
             &format!("\n#mmt.{function}(\n  auto-continued: {auto_continued},\n"),
+            GeneratedKind::StatementCallWrapper,
+            Some(parent),
+        );
+        self.builder.push_generated(
+            &format!("  composer-key: \"{composer_key}\",\n"),
             GeneratedKind::StatementCallWrapper,
             Some(parent),
         );
@@ -577,12 +593,13 @@ impl<'a> TypstEmitter<'a> {
     }
 
     fn emit_reply(&mut self, reply: &crate::syntax::ReplySyntax) {
+        let composer_key = self.next_composer_key();
         let parent = self.builder.register_origin(Origin::MmtRange {
             range: reply.range,
             kind: OriginKind::TextBody,
         });
         self.builder.push_generated(
-            "\n#mmt.reply(",
+            &format!("\n#mmt.reply(\n  composer-key: \"{composer_key}\",\n"),
             GeneratedKind::StatementCallWrapper,
             Some(parent),
         );
@@ -606,6 +623,7 @@ impl<'a> TypstEmitter<'a> {
         patch: Option<&PatchSyntax>,
         body: &BodySyntax,
         node_range: TextRange,
+        composer_key: Option<&str>,
     ) {
         let parent = self.builder.register_origin(Origin::MmtRange {
             range: node_range,
@@ -616,6 +634,13 @@ impl<'a> TypstEmitter<'a> {
             GeneratedKind::StatementCallWrapper,
             Some(parent),
         );
+        if let Some(composer_key) = composer_key {
+            self.builder.push_generated(
+                &format!("\n  composer-key: \"{composer_key}\",\n"),
+                GeneratedKind::StatementCallWrapper,
+                Some(parent),
+            );
+        }
         self.emit_patch(patch, parent);
         self.builder
             .push_generated(")[", GeneratedKind::StatementCallWrapper, Some(parent));
@@ -1028,12 +1053,29 @@ mod tests {
         assert!(emitted.source.contains("#mmt.chat-right("));
         assert!(emitted.source.contains("reserve-avatar-space: false"));
         assert!(emitted.source.contains("#mmt.narration("));
-        assert!(
-            emitted
-                .source
-                .contains("#mmt.reply()[#text(\"A\")][#text(\"B\")]")
+        for key in [
+            "t00000000",
+            "t00000001",
+            "t00000002",
+            "t00000003",
+            "t00000004",
+        ] {
+            assert!(emitted.source.contains(&format!("composer-key: \"{key}\"")));
+        }
+        assert!(emitted.source.contains(")[#text(\"A\")][#text(\"B\")]"));
+        assert!(emitted.source.contains(")[#text(\"bond\")]"));
+        assert_eq!(
+            emitted.source,
+            emit(
+                "> 柚子: one\n\
+             > two\n\
+             < sensei\n\
+             - narration\n\
+             @reply: A | B\n\
+             @bond: bond",
+            )
+            .source
         );
-        assert!(emitted.source.contains("#mmt.bond()[#text(\"bond\")]"));
         assert!(
             check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
         );
@@ -1046,7 +1088,7 @@ mod tests {
         assert!(
             emitted
                 .source
-                .contains(r#"#mmt.reply()[#text("是")][#text("不知道|算了")]"#)
+                .contains(r#")[#text("是")][#text("不知道|算了")]"#)
         );
         assert!(!emitted.source.contains(r#"不知道\|算了"#));
     }
