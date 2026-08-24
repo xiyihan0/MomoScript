@@ -163,7 +163,9 @@ The preview runtime handles `contextmenu` only when:
 - no non-collapsed text selection exists;
 - the interaction was not a drag.
 
-It prevents the browser menu, posts the point and screen anchor, and retains no semantic target. The host cancels the prior request when another context request or render identity arrives.
+When the event target is a non-text graphic inside a rendered SVG group, hit testing may snap the visual point only to the nearest rendered text glyph inside the first ancestor group that owns text. It must stop at the page SVG boundary, must not search another bubble/group, and still sends no authored or semantic identity. This expands one bubble's click target without turning page whitespace into a guessed edit.
+
+The runtime prevents the browser menu, posts the point and screen anchor, and retains no semantic target. The host cancels the prior request when another context request or render identity arrives.
 
 For an editable target, the host opens the Workbench native context-menu service beside the pointer with:
 
@@ -171,7 +173,7 @@ For an editable target, the host opens the Workbench native context-menu service
 - `从本条起修改人物显示名…` when available;
 - `转到源码`.
 
-`display-name` continues to use an Input Box initialized from the descriptor's current display name with non-empty validation. The host dismisses stale menus/inputs when document version、artifact identity or runtime owner changes.
+`display-name` uses the native Workbench `InputBox` inside a context view anchored from the original pointer. It is initialized from the descriptor's current display name、validates non-empty input and never falls back to the top Quick Input. The host dismisses stale menus/inputs when document version、artifact identity or runtime owner changes.
 
 No preview-side custom menu、property store、AST cache or draft document buffer is introduced. `EditorRuntimeController` owns requests/subscriptions and disposal; `TextDocument` remains source truth.
 
@@ -180,6 +182,8 @@ No preview-side custom menu、property store、AST cache or draft document buffe
 - Old render identity or projection identity: `stalePreview`.
 - Current renderer location without a unique statement origin: `unmapped` or `ambiguousOrigin`.
 - Narration/reply/bond/raw Typst/package/generated-only target: `unsupportedNode` in the first slice.
+For a current mapped authored target such as narration that is intentionally unavailable for Composer mutation, the host keeps the mutation actions absent but opens a navigation-only native menu containing `转到源码`. Stale、unmapped or ambiguous targets remain non-navigable here. Navigation continues through the existing permission-checked preview navigation path and never promotes that path into edit authority.
+
 - Current source Error diagnostic: `documentHasErrors`.
 - Version changes between context resolution、input and apply: reject without retrying against the new text.
 - Candidate reanalysis failure: `candidateInvalid`; return no partial edit.

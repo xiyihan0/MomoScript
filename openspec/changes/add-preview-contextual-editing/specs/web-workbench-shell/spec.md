@@ -7,8 +7,10 @@ The production Web Workbench MAY expose contextual editing from the displayed pr
 #### Scenario: Author right-clicks an editable chat bubble
 
 - GIVEN the displayed artifact is current and no preview text selection is active
-- WHEN the author invokes `contextmenu` inside a rendered page and the language service proves one editable statement target
+- WHEN the author invokes `contextmenu` on rendered text or a non-text graphic inside that chat bubble's nearest text-owning SVG group and the language service proves one editable statement target
 - THEN the Workbench MUST open its native context-menu service beside the pointer to offer source navigation、continued state and available actor display-name editing
+- AND a display-name action MUST open a native InputBox in a Workbench context view beside the original pointer rather than in the top Quick Input
+- AND non-text hit testing MUST NOT cross the owning SVG group or convert page whitespace into a guessed target
 - AND the preview Webview message MUST carry only the normalized point and a visual-only screen anchor rather than authored ranges、actor identity or property values
 - AND every mutation MUST be requested from the shared language service as a structured Composer command
 
@@ -33,9 +35,17 @@ The production Web Workbench MAY expose contextual editing from the displayed pr
 - THEN workspace persistence、Local History、diagnostics and latest-wins preview scheduling MUST observe the same edit
 - AND the preview UI MUST derive the next visible state from the newly accepted artifact rather than mutating the old SVG
 
-#### Scenario: Contextual edit is unavailable
+#### Scenario: Authored content is navigable but not editable
 
-- GIVEN the point belongs to narration、reply、bond、raw Typst、package/generated-only content、a stale artifact or an unsupported actor
+- GIVEN the current mapped point belongs to authored narration or another target intentionally unavailable for Composer mutation
+- WHEN the author requests contextual editing and bidirectional navigation is enabled
+- THEN the Workbench MUST show a pointer-adjacent native menu containing only `转到源码`
+- AND navigation MUST use the existing permission-checked preview navigation path
+- AND the Workbench MUST NOT guess a nearby editable statement、show mutation actions or modify source
+
+#### Scenario: Contextual edit and navigation are unavailable
+
+- GIVEN the point belongs to stale、unmapped、ambiguous、package/generated-only content or cannot be proven as current authored source
 - WHEN the author requests contextual editing
 - THEN the Workbench MAY show a concise native unavailable/rejected notification
 - AND MUST NOT guess a nearby statement、open a custom persistent inspector or modify source

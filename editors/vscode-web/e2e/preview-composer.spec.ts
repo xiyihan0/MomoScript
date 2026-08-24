@@ -19,7 +19,6 @@ const ROOT_CONTINUED = "编辑连续消息状态…";
 const ROOT_DISPLAY_NAME = "从本条起修改人物显示名…";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
-const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
 
 interface ComposerState {
   readonly targetRequests: number;
@@ -105,7 +104,7 @@ test("preview Composer edits continued bytes exactly, rerenders grouping, and re
   const historyBaseline = await historyEditCountForPath(page, `/${name}`);
   let expectedHistory = historyBaseline;
 
-  frame = await applyContinued(page, frame, opened.sourceUri, name, "second", "强制连续", forcedSecond);
+  frame = await applyContinued(page, frame, opened.sourceUri, name, "second", "强制连续", forcedSecond, "bubble");
   expectedHistory += 1;
   await expectHistoryCount(page, name, expectedHistory);
   await expectRenderedTextCount(frame, "佳代子", 1);
@@ -290,16 +289,24 @@ test("selection, stale documents, rejected apply, and unsupported preview target
     await resetComposer(page);
     await rightClickRenderedGlyph(frame, marker);
     await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
+    const navigate = await visibleContextMenuItem(page, "转到源码");
     await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
+    await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toBeHidden();
     expect(await composerState(page)).toEqual({
       targetRequests: 1,
       editRequests: 0,
       applyAttempts: 0,
       successfulApplies: 0,
     });
+    if (marker === "NARRATION_TARGET") {
+      await navigate.hover();
+      await navigate.click();
+      await expect(navigate).toBeHidden();
+    } else {
+      await page.keyboard.press("Escape");
+    }
     await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(stableSource);
   }
-  await expectMomoScriptNotificationSource(page, UNAVAILABLE_MESSAGE);
 
   await resetComposer(page);
   await rightClickRenderedGlyph(frame, "BUILTIN_TARGET");
@@ -361,6 +368,11 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   const unresolvedPage = frame.locator(".page");
   await expect(unresolvedPage).toBeVisible();
   await unresolvedPage.click({ button: "right", position: { x: 20, y: 20 } });
+  const unresolvedNavigate = contextMenuItem(page, "转到源码");
+  if (await unresolvedNavigate.isVisible()) {
+    await page.keyboard.press("Escape");
+    await expect(unresolvedNavigate).toBeHidden();
+  }
   await page.waitForTimeout(250);
   expect(await composerState(page)).toEqual({
     targetRequests: 1,
@@ -492,10 +504,12 @@ async function applyContinued(
   marker: string,
   choice: "自动" | "强制连续" | "强制新消息",
   expectedSource: string,
+  hitTarget: "text" | "bubble" = "text",
 ): Promise<Frame> {
   await resetComposer(page);
   const previousRevision = await currentContainerRevision(page, sourceUri);
-  await rightClickRenderedGlyph(frame, marker);
+  if (hitTarget === "bubble") await rightClickRenderedBubbleGraphic(frame, marker);
+  else await rightClickRenderedGlyph(frame, marker);
   await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
   await chooseContinuedContextMenuItem(page, choice);
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
@@ -520,15 +534,23 @@ async function applyDisplayName(
   await resetComposer(page);
   const previousRevision = await currentContainerRevision(page, sourceUri);
   await rightClickRenderedGlyph(frame, marker);
+  const pointer = await currentComposerAnchor(page);
   await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
   await chooseContextMenuItem(page, ROOT_DISPLAY_NAME);
-  const inputWidget = await visibleQuickInput(page, "从本条起修改人物显示名");
+  const inputWidget = await visibleContextInput(page, "从本条起修改人物显示名");
+  const viewport = page.viewportSize();
+  if (!viewport) throw new Error("Workbench viewport is unavailable");
+  await expectContextMenuAnchored(inputWidget, pointer, viewport.width, viewport.height);
   const input = inputWidget.locator("input").first();
   await expect(input).toHaveValue(currentValue);
   await input.evaluate((element, value) => {
     if (!(element instanceof HTMLInputElement)) throw new Error("display-name input is unavailable");
     element.value = value;
-    element.dispatchEvent(new InputEvent("input", { bubbles: true, data: value, inputType: "insertText" }));
+    element.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      data: value,
+      inputType: "insertText",
+    }));
   }, nextValue);
   await expect(input).toHaveValue(nextValue);
   await page.keyboard.press("Enter");
@@ -563,6 +585,68 @@ async function rightClickRenderedGlyph(
   await text.click({ button: "right", position });
   return { x: bounds.x + position.x, y: bounds.y + position.y };
 }
+async function rightClickRenderedBubbleGraphic(frame: Frame, marker: string): Promise<void> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  await text.evaluate((element, expectedMarker) => {
+    const renderedText = element.closest(".typst-text");
+    if (!renderedText) throw new Error(`rendered text is unavailable for ${expectedMarker}`);
+    const textBounds = renderedText.getBoundingClientRect();
+    const textCenter = {
+      x: (textBounds.left + textBounds.right) / 2,
+      y: (textBounds.top + textBounds.bottom) / 2,
+    };
+    let ancestor = renderedText.parentElement;
+    while (ancestor && ancestor.tagName.toLowerCase() !== "svg") {
+      const textRegions = [...ancestor.querySelectorAll(".typst-text")]
+        .map((candidate) => candidate.getBoundingClientRect())
+        .filter((bounds) => bounds.width > 0 && bounds.height > 0);
+      const graphics = [...ancestor.querySelectorAll<SVGGraphicsElement>("path, rect, image")]
+        .map((candidate) => ({ candidate, bounds: candidate.getBoundingClientRect() }))
+        .filter(({ candidate, bounds }) => (
+          !candidate.closest(".typst-text")
+          && bounds.width > textBounds.width
+          && bounds.height > textBounds.height
+          && textCenter.x >= bounds.left
+          && textCenter.x <= bounds.right
+          && textCenter.y >= bounds.top
+          && textCenter.y <= bounds.bottom
+        ))
+        .sort((left, right) => (
+          left.bounds.width * left.bounds.height - right.bounds.width * right.bounds.height
+        ));
+      for (const { candidate, bounds } of graphics) {
+        const points = [
+          { x: textBounds.right + 8, y: textCenter.y },
+          { x: textBounds.left - 8, y: textCenter.y },
+          { x: textCenter.x, y: textBounds.top - 8 },
+          { x: textCenter.x, y: textBounds.bottom + 8 },
+        ].map(({ x, y }) => ({
+          x: Math.min(bounds.right - 1, Math.max(bounds.left + 1, x)),
+          y: Math.min(bounds.bottom - 1, Math.max(bounds.top + 1, y)),
+        }));
+        const point = points.find(({ x, y }) => !textRegions.some((region) => (
+          x >= region.left && x <= region.right && y >= region.top && y <= region.bottom
+        )));
+        if (!point) continue;
+        candidate.dispatchEvent(new MouseEvent("contextmenu", {
+          bubbles: true,
+          cancelable: true,
+          composed: true,
+          button: 2,
+          clientX: point.x,
+          clientY: point.y,
+          screenX: window.screenX + point.x,
+          screenY: window.screenY + point.y,
+        }));
+        return;
+      }
+      ancestor = ancestor.parentElement;
+    }
+    throw new Error(`bubble background graphic is unavailable for ${expectedMarker}`);
+  }, marker);
+}
+
 
 async function dispatchSelectedContextMenu(
   frame: Frame,
@@ -599,8 +683,8 @@ async function clearPreviewSelection(frame: Frame): Promise<void> {
   await frame.locator("body").evaluate(() => document.getSelection()?.removeAllRanges());
 }
 
-async function visibleQuickInput(page: Page, title: string): Promise<Locator> {
-  const widget = page.locator(".quick-input-widget");
+async function visibleContextInput(page: Page, title: string): Promise<Locator> {
+  const widget = page.locator(".mmt-preview-context-input");
   await expect(widget).toBeVisible();
   await expect(widget).toContainText(title);
   return widget;
@@ -706,9 +790,8 @@ async function waitForHistoryGroupBoundary(page: Page): Promise<void> {
     } finally {
       database.close();
     }
-  }), { timeout: 10_000 }).toBeGreaterThanOrEqual(5_500);
+  }), { timeout: 12_000 }).toBeGreaterThanOrEqual(7_500);
 }
-
 
 async function persistedWorkspaceText(page: Page, path: string): Promise<string | undefined> {
   return page.evaluate(async (entryPath) => {

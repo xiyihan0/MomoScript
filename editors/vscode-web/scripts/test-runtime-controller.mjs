@@ -54,7 +54,7 @@ await reverseDispose.start((runtime) => {
       dispose() { reverseDisposeOrder.push("preview-composer"); },
     }),
     contextMenu: { open: () => { throw new Error("not exercised"); } },
-    createInputBox: () => { throw new Error("not exercised"); },
+    contextInput: { open: () => { throw new Error("not exercised"); } },
     apply: { apply: async () => { throw new Error("not exercised"); } },
     acceptingWork: () => true,
     currentIdentity: () => undefined,

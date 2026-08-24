@@ -141,7 +141,10 @@ import {
   PreviewComposerController,
   type PreviewComposerControllerPorts,
 } from "./previewComposer.ts";
-import { createWorkbenchPreviewContextMenu } from "./previewContextMenu.ts";
+import {
+  createWorkbenchPreviewContextInput,
+  createWorkbenchPreviewContextMenu,
+} from "./previewContextMenu.ts";
 import {
   PreviewRendererCompilationError,
   PreviewRendererSessionOwner,
@@ -2590,48 +2593,16 @@ async function initializeRuntime(
     },
     workspace: composerWorkspace,
   });
-  const composerContextMenu = await createWorkbenchPreviewContextMenu();
+  const [composerContextMenu, composerContextInput] = await Promise.all([
+    createWorkbenchPreviewContextMenu(),
+    createWorkbenchPreviewContextInput(),
+  ]);
   previewComposer = own(new PreviewComposerController({
     locatePreviewPoint: (point, signal) => previewInteraction.locatePreviewPoint(point, signal),
     request: sendComposerRequest,
     createCancellationTokenSource: () => new vscode.CancellationTokenSource(),
     contextMenu: composerContextMenu,
-    createInputBox: () => {
-      const input = vscode.window.createInputBox();
-      return {
-        get title() {
-          return input.title;
-        },
-        set title(value) {
-          input.title = value;
-        },
-        get prompt() {
-          return input.prompt;
-        },
-        set prompt(value) {
-          input.prompt = value;
-        },
-        get value() {
-          return input.value;
-        },
-        set value(value) {
-          input.value = value;
-        },
-        get validationMessage() {
-          const validation = input.validationMessage;
-          return typeof validation === "string" ? validation : validation?.message;
-        },
-        set validationMessage(value) {
-          input.validationMessage = value;
-        },
-        onDidAccept: (listener) => input.onDidAccept(listener),
-        onDidHide: (listener) => input.onDidHide(listener),
-        onDidChangeValue: (listener) => input.onDidChangeValue(listener),
-        show: () => input.show(),
-        hide: () => input.hide(),
-        dispose: () => input.dispose(),
-      };
-    },
+    contextInput: composerContextInput,
     apply: composerApply,
     acceptingWork: () => controller.acceptingWork && activeClient !== undefined,
     currentIdentity: () => {

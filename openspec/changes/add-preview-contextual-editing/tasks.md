@@ -32,6 +32,9 @@
 - [x] 4.5 Surface unsupported/stale/rejected states through concise native notifications without guessing another target
 - [x] 4.6 Register every request、cancellation and transient context-menu/Input Box resource under the existing `EditorRuntimeController`
 - [x] 4.7 Replace the top Quick Pick with a pointer-adjacent native Workbench context menu and preserve lifecycle cancellation
+- [x] 4.8 Offer navigation-only native menus for mapped authored targets that are unavailable for Composer mutation
+- [x] 4.9 Snap non-text chat-bubble graphics only to text inside their nearest rendered SVG group
+- [x] 4.10 Replace the top display-name Quick Input with a pointer-anchored Workbench context view using the native InputBox
 
 ## 5. Verification
 
@@ -43,6 +46,7 @@
 - [x] 5.6 Browser-drive stale menu、text selection、generated/package/Typst、builtin actor、syntax-error and apply-failure rejection paths
 - [x] 5.7 Run production build and relevant full Editor Runtime E2E; inspect 240–320 px native context-menu、Input Box and preview interaction without changing Workbench topology
 - [x] 5.8 Browser-drive pointer anchoring、continued submenu、notification attribution、collapse/expand and update action activation
+- [x] 5.9 Browser-drive narration navigation、bubble-background targeting and pointer-adjacent display-name input without weakening text-selection or stale-target guards
 
 ## Deferred follow-ups
 

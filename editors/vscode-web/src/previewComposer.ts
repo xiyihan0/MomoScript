@@ -7,6 +7,7 @@ import {
   type ComposerEditApplicationResult,
   type ComposerEditParams,
   type ComposerEditResult,
+  type PreviewComposerTargetUnavailableReason,
   type ComposerTextDocument,
   type StatementContinuedValue,
 } from "./composerEdit.ts";
@@ -60,16 +61,23 @@ export interface PreviewComposerContextMenuPort {
   ): PreviewComposerContextMenuSession;
 }
 
-export interface PreviewComposerInputBox extends Disposable {
-  title: string | undefined;
-  prompt: string | undefined;
-  value: string;
-  validationMessage: string | undefined;
-  onDidAccept(listener: () => void): Disposable;
-  onDidHide(listener: () => void): Disposable;
-  onDidChangeValue(listener: (value: string) => void): Disposable;
-  show(): void;
-  hide(): void;
+export interface PreviewComposerContextInputOptions {
+  readonly title: string;
+  readonly placeholder: string;
+  readonly value: string;
+  readonly requiredMessage: string;
+}
+
+export interface PreviewComposerContextInputSession {
+  readonly result: Promise<string | undefined>;
+  close(): void;
+}
+
+export interface PreviewComposerContextInputPort {
+  open(
+    anchor: PreviewContextMenuAnchor,
+    options: PreviewComposerContextInputOptions,
+  ): PreviewComposerContextInputSession;
 }
 
 export interface PreviewComposerApplyOptions {
@@ -96,7 +104,7 @@ export interface PreviewComposerControllerPorts {
   ) => PromiseLike<unknown>;
   readonly createCancellationTokenSource: () => PreviewComposerCancellationTokenSource;
   readonly contextMenu: PreviewComposerContextMenuPort;
-  readonly createInputBox: () => PreviewComposerInputBox;
+  readonly contextInput: PreviewComposerContextInputPort;
   readonly apply: PreviewComposerApplyPort;
   readonly acceptingWork: () => boolean;
   readonly currentIdentity: () => PreviewSourceIdentity | undefined;
@@ -278,6 +286,24 @@ export class PreviewComposerController implements Disposable {
 
     const targetResult = parsePreviewComposerTargetResult(rawTarget);
     if (targetResult.kind === "Unavailable") {
+      if (
+        this.#ports.bidirectionalNavigation()
+        && previewUnavailableTargetCanNavigate(targetResult.reason)
+      ) {
+        const selection = await this.selectMenu(operation, anchor, [{
+          label: NAVIGATE_LABEL,
+          selection: { kind: "navigate" },
+        }]);
+        state = this.operationState(operation, located.identity);
+        if (state !== "current") {
+          await this.notifyStaleState(operation, state);
+          return;
+        }
+        if (selection?.kind === "navigate") {
+          await this.#ports.navigatePreviewPoint(point, operation.abortController.signal);
+        }
+        return;
+      }
       await this.notify(
         operation,
         "warning",
@@ -317,7 +343,7 @@ export class PreviewComposerController implements Disposable {
     } else {
       const actorDisplayName = targetResult.properties.actorDisplayName;
       if (!actorDisplayName) return;
-      const value = await this.inputDisplayName(operation, actorDisplayName.current);
+      const value = await this.inputDisplayName(operation, anchor, actorDisplayName.current);
       if (value === undefined) return;
       state = this.targetState(operation, located.identity, targetResult.textDocument);
       if (state !== "current") {
@@ -447,6 +473,14 @@ export class PreviewComposerController implements Disposable {
       });
     }
 
+    return this.selectMenu(operation, anchor, items);
+  }
+
+  private async selectMenu(
+    operation: ComposerOperation,
+    anchor: PreviewContextMenuAnchor,
+    items: readonly PreviewComposerContextMenuItem[],
+  ): Promise<PreviewComposerContextMenuSelection | undefined> {
     const session = this.#ports.contextMenu.open(anchor, items);
     const active: ActiveTransientUi = {
       close: () => session.close(),
@@ -458,57 +492,25 @@ export class PreviewComposerController implements Disposable {
     return selection;
   }
 
-  private inputDisplayName(operation: ComposerOperation, current: string): Promise<string | undefined> {
-    const input = this.#ports.createInputBox();
-    input.title = "从本条起修改人物显示名";
-    input.prompt = "输入新的显示名";
-    input.value = current;
-    input.validationMessage = undefined;
-
-    const { promise, resolve } = Promise.withResolvers<string | undefined>();
-    let settled = false;
-    let closed = false;
-    const subscriptions: Disposable[] = [];
-    let active: ActiveTransientUi;
-    const close = () => {
-      if (closed) return;
-      closed = true;
-      if (operation.transient === active) operation.transient = undefined;
-      for (const subscription of subscriptions.splice(0)) subscription.dispose();
-      input.hide();
-      input.dispose();
-    };
-    const finish = (value: string | undefined) => {
-      if (settled) return;
-      settled = true;
-      close();
-      resolve(value);
-    };
-    active = {
-      close() {
-        finish(undefined);
-        close();
-      },
+  private async inputDisplayName(
+    operation: ComposerOperation,
+    anchor: PreviewContextMenuAnchor,
+    current: string,
+  ): Promise<string | undefined> {
+    const session = this.#ports.contextInput.open(anchor, {
+      title: "从本条起修改人物显示名",
+      placeholder: "输入新的显示名",
+      value: current,
+      requiredMessage: INPUT_REQUIRED_MESSAGE,
+    });
+    const active: ActiveTransientUi = {
+      close: () => session.close(),
     };
     operation.transient?.close();
     operation.transient = active;
-    subscriptions.push(
-      input.onDidAccept(() => {
-        if (input.value.length === 0) {
-          input.validationMessage = INPUT_REQUIRED_MESSAGE;
-          return;
-        }
-        finish(input.value);
-      }),
-      input.onDidHide(() => finish(undefined)),
-      input.onDidChangeValue((value) => {
-        if (value.length > 0 && input.validationMessage !== undefined) {
-          input.validationMessage = undefined;
-        }
-      }),
-    );
-    input.show();
-    return promise;
+    const value = await session.result;
+    if (operation.transient === active) operation.transient = undefined;
+    return value && value.length > 0 ? value : undefined;
   }
 
   private async notifyStaleState(operation: ComposerOperation, state: OperationState): Promise<void> {
@@ -540,6 +542,12 @@ export class PreviewComposerController implements Disposable {
     operation.transient = undefined;
     operation.cancellation.dispose();
   }
+}
+
+function previewUnavailableTargetCanNavigate(
+  reason: PreviewComposerTargetUnavailableReason,
+): boolean {
+  return reason !== "stalePreview" && reason !== "unmapped" && reason !== "ambiguousOrigin";
 }
 
 function previewComposerTargetParams(located: LocatedPreviewPoint): PreviewComposerTargetParams | undefined {

@@ -675,16 +675,65 @@ function renderedTextNavigationHint(
   const index = Math.min(offsets.length - 1, Math.round(ratio * offsets.length));
   return { text, textOffset: offsets[index]! };
 }
+function nearestRenderedTextInOwningGroup(
+  target: EventTarget | null,
+  clientX: number,
+  clientY: number,
+): Element | null {
+  const element = target instanceof Element ? target : null;
+  const direct = element?.closest(".typst-text") ?? null;
+  if (direct) return direct;
+
+  let ancestor = element?.parentElement ?? null;
+  while (ancestor && ancestor !== page) {
+    if (ancestor.tagName.toLowerCase() === "svg") return null;
+    if (ancestor.tagName.toLowerCase() === "g") {
+      const candidates = [...ancestor.querySelectorAll(".typst-text")]
+        .filter((candidate) => {
+          const bounds = candidate.getBoundingClientRect();
+          return bounds.width > 0 && bounds.height > 0;
+        });
+      if (candidates.length > 0) {
+        return candidates.reduce((nearest, candidate) => {
+          const distance = squaredDistanceToBounds(candidate.getBoundingClientRect(), clientX, clientY);
+          const nearestDistance = squaredDistanceToBounds(nearest.getBoundingClientRect(), clientX, clientY);
+          return distance < nearestDistance ? candidate : nearest;
+        });
+      }
+    }
+    ancestor = ancestor.parentElement;
+  }
+  return null;
+}
+
+function squaredDistanceToBounds(
+  bounds: DOMRect,
+  clientX: number,
+  clientY: number,
+): number {
+  const dx = clientX < bounds.left
+    ? bounds.left - clientX
+    : clientX > bounds.right ? clientX - bounds.right : 0;
+  const dy = clientY < bounds.top
+    ? bounds.top - clientY
+    : clientY > bounds.bottom ? clientY - bounds.bottom : 0;
+  return dx * dx + dy * dy;
+}
+
 
 function previewNavigationPointAtClientCoordinates(
   clientX: number,
   clientY: number,
   target: EventTarget | null,
   requireRenderedPageHit: boolean,
+  snapToOwningGroup: boolean,
 ): PreviewNavigationPoint | undefined {
   const bounds = page.getBoundingClientRect();
   if (!(bounds.width > 0) || !(bounds.height > 0)) return undefined;
-  const textElement = (target as Element | null)?.closest?.(".typst-text") ?? null;
+  const directText = (target as Element | null)?.closest?.(".typst-text") ?? null;
+  const textElement = directText ?? (
+    snapToOwningGroup ? nearestRenderedTextInOwningGroup(target, clientX, clientY) : null
+  );
   const snapped = textElement ? snapIntoTextGlyphs(textElement, clientX, clientY) : undefined;
   if (snapped) {
     clientX = snapped.x;
@@ -1262,7 +1311,13 @@ page.addEventListener("pointermove", (event) => {
 });
 page.addEventListener("pointerup", () => { pointerOrigin = undefined; });
 page.addEventListener("click", (event) => {
-  const navigationPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, false);
+  const navigationPoint = previewNavigationPointAtClientCoordinates(
+    event.clientX,
+    event.clientY,
+    event.target,
+    false,
+    false,
+  );
   if (!navigationPoint) return;
   const selection = document.getSelection();
   const hasTextSelection = Boolean(selection && !selection.isCollapsed);
@@ -1278,7 +1333,13 @@ page.addEventListener("contextmenu", (event) => {
   if (pointerDragged) return;
   const selection = document.getSelection();
   if (selection && !selection.isCollapsed) return;
-  const contextPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, true);
+  const contextPoint = previewNavigationPointAtClientCoordinates(
+    event.clientX,
+    event.clientY,
+    event.target,
+    true,
+    true,
+  );
   if (!contextPoint) return;
   event.preventDefault();
   vscode.postMessage({

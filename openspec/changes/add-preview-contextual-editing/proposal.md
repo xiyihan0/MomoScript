@@ -11,7 +11,7 @@ MomoScript 的生产 Web Workbench 已具备 revision-bound MMT→Typst preview�
 - 第一版命令固定为：
   - `setStatementContinued`：`auto | true | false`，最小更新、插入或移除 statement patch 中的 `continued` 参数；
   - `setActorDisplayNameFromStatement`：从选中 statement 起创建 actor revision，或在仅作用于该起点的相邻 actor block 中最小更新 `display-name`。
-- Web preview 在无文本选择的右键操作上请求 Composer target，并在点击位置旁通过 Workbench 原生右键菜单展示“连续消息”“从本条起修改显示名”“转到源码”；显示名继续使用原生 Input Box。UI 不缓存属性状态，不解析 AST，不拼接 DSL。
+- Web preview 在无文本选择的右键操作上请求 Composer target；聊天气泡内的非文本图形点击只可吸附到同一渲染分组中的文本位置。Workbench 在点击位置旁通过原生右键菜单展示“连续消息”“从本条起修改显示名”“转到源码”；不可编辑但可导航的 narration 等 authored 内容仍展示“转到源码”。显示名使用点击位置旁的 Workbench context view 与原生 InputBox，而不是顶部 Quick Input。UI 不缓存属性状态，不解析 AST，不拼接 DSL。
 - Composer candidate 必须在内存中完整重分析；语法/语义错误、旧版本、旧 preview identity、builtin/unresolved/ambiguous actor、非 MMT/生成/package target 或不唯一 origin 一律拒绝。
 - native stdio 与 WASM bridge 共享同一 Rust request 和序列化合同；首个产品 UI 只接入生产 Web Workbench，Desktop 可在后续复用该协议。
 

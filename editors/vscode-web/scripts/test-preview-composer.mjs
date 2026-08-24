@@ -4,18 +4,6 @@ import {
   createPreviewComposerApplyPort,
 } from "../src/previewComposer.ts";
 
-class ListenerSet {
-  listeners = new Set();
-
-  subscribe(listener) {
-    this.listeners.add(listener);
-    return { dispose: () => this.listeners.delete(listener) };
-  }
-
-  fire(value) {
-    for (const listener of [...this.listeners]) listener(value);
-  }
-}
 
 class FakeContextMenuSession {
   closed = 0;
@@ -57,29 +45,36 @@ function findMenuItem(items, label) {
   return undefined;
 }
 
-class FakeInputBox {
-  title = undefined;
-  prompt = undefined;
-  value = "";
+class FakeContextInputSession {
+  closed = 0;
   validationMessage = undefined;
-  shown = 0;
-  hidden = 0;
-  disposed = 0;
-  accepts = new ListenerSet();
-  hides = new ListenerSet();
-  changes = new ListenerSet();
 
-  onDidAccept(listener) { return this.accepts.subscribe(listener); }
-  onDidHide(listener) { return this.hides.subscribe(listener); }
-  onDidChangeValue(listener) { return this.changes.subscribe(listener); }
-  show() { this.shown += 1; }
-  hide() { this.hidden += 1; this.hides.fire(); }
-  dispose() { this.disposed += 1; }
-  accept() { this.accepts.fire(); }
+  constructor(anchor, options) {
+    this.anchor = anchor;
+    this.options = options;
+    const { promise, resolve } = Promise.withResolvers();
+    this.result = promise;
+    this.resolve = resolve;
+    this.settled = false;
+  }
 
-  setValue(value) {
-    this.value = value;
-    this.changes.fire(value);
+  submit(value) {
+    if (value.length === 0) {
+      this.validationMessage = this.options.requiredMessage;
+      return;
+    }
+    this.finish(value);
+  }
+
+  close() {
+    this.closed += 1;
+    this.finish(undefined);
+  }
+
+  finish(value) {
+    if (this.settled) return;
+    this.settled = true;
+    this.resolve(value);
   }
 }
 
@@ -154,7 +149,7 @@ function harness(options = {}) {
     bidirectionalNavigation: options.bidirectionalNavigation ?? true,
   };
   const contextMenus = [];
-  const inputBoxes = [];
+  const contextInputs = [];
   const cancellationSources = [];
   const locateCalls = [];
   const requestCalls = [];
@@ -189,10 +184,12 @@ function harness(options = {}) {
         return session;
       },
     },
-    createInputBox() {
-      const input = new FakeInputBox();
-      inputBoxes.push(input);
-      return input;
+    contextInput: {
+      open(inputAnchor, inputOptions) {
+        const session = new FakeContextInputSession(inputAnchor, inputOptions);
+        contextInputs.push(session);
+        return session;
+      },
     },
     apply: options.apply ?? {
       async apply(applyOptions) {
@@ -217,7 +214,7 @@ function harness(options = {}) {
     state,
     ports,
     contextMenus,
-    inputBoxes,
+    contextInputs,
     cancellationSources,
     locateCalls,
     requestCalls,
@@ -290,16 +287,15 @@ async function chooseContinued(fixture, label = "强制连续") {
   const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.contextMenus.length === 1, "display-name context menu was not shown");
   fixture.contextMenus[0].select("从本条起修改人物显示名…");
-  await waitFor(() => fixture.inputBoxes.length === 1, "display-name Input Box was not shown");
-  const input = fixture.inputBoxes[0];
-  assert.equal(input.title, "从本条起修改人物显示名");
-  assert.equal(input.value, "佳代子");
-  input.setValue("");
-  input.accept();
+  await waitFor(() => fixture.contextInputs.length === 1, "display-name context input was not shown");
+  const input = fixture.contextInputs[0];
+  assert.equal(input.options.title, "从本条起修改人物显示名");
+  assert.equal(input.options.value, "佳代子");
+  assert.deepEqual(input.anchor, anchor);
+  input.submit("");
   assert.equal(input.validationMessage, "显示名不能为空。");
-  assert.equal(input.disposed, 0, "an empty value must keep the Input Box open");
-  input.setValue(" 老师 ");
-  input.accept();
+  assert.equal(input.settled, false, "an empty value must keep the context input open");
+  input.submit(" 老师 ");
   await operation;
   assert.deepEqual(fixture.requestCalls[1].params.command, {
     kind: "setActorDisplayNameFromStatement",
@@ -330,6 +326,18 @@ async function chooseContinued(fixture, label = "强制连续") {
 
 {
   const fixture = harness({ targetResult: { kind: "Unavailable", reason: "unsupportedNode" } });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "navigation-only context menu was not shown");
+  assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), ["转到源码"]);
+  fixture.contextMenus[0].select("转到源码");
+  await operation;
+  assert.deepEqual(fixture.navigationCalls.map((call) => call.point), [point]);
+  assert.deepEqual(fixture.warnings, []);
+  assert.equal(fixture.applyCalls.length, 0);
+}
+
+{
+  const fixture = harness({ targetResult: { kind: "Unavailable", reason: "unmapped" } });
   await fixture.controller.handleContextPoint(point, anchor);
   assert.deepEqual(fixture.warnings, ["无法编辑此预览内容。"]);
   assert.equal(fixture.contextMenus.length, 0);
@@ -378,6 +386,19 @@ for (const [applicationResult, expectedWarnings, expectedErrors] of [
   await Promise.all([first, second]);
   assert.deepEqual(fixture.warnings, [], "replacement and explicit invalidation are silent cancellation");
 }
+{
+  const fixture = harness();
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "display-name context menu was not shown");
+  fixture.contextMenus[0].select("从本条起修改人物显示名…");
+  await waitFor(() => fixture.contextInputs.length === 1, "display-name context input was not shown");
+  fixture.controller.invalidate();
+  await operation;
+  assert.equal(fixture.contextInputs[0].closed, 1);
+  assert.equal(fixture.cancellationSources[0].cancelled, 1);
+  assert.equal(fixture.cancellationSources[0].disposed, 1);
+}
+
 
 {
   const fixture = harness();
