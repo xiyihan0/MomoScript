@@ -2,7 +2,8 @@
 
 - [ ] 1.1 Confirm whether the MMT fallback target is the statement line start or `TextBody` range start.
 - [ ] 1.2 Choose the protocol representation for coarse authored navigation (`authoredFallback` kind or explicit precision field).
-- [ ] 1.3 Decide whether `refineRenderTextLocation` is removed or retained as constrained best-effort.
+- [x] 1.3 Retain `refineRenderTextLocation` as constrained best-effort: unique text within one unescaped raw run of the overlapping call, followed by Identity classification; ambiguity remains unmapped.
+  - Evidence (2026-08-23): `npm run test:preview-interaction` covers fragment rebasing、repetition、escape-boundary rejection、canonical `\n` suffixes and an unrelated escaped call before the target call. Rust projection tests prove byte-identical prefixes remain `AuthoredIdentity` while transformed newline bytes remain generated. A one-off browser reproduction against the supplied full project recorded `untitled:/mmt-projection/.../main-1.typ` line 1400 character 11, refined only that retained entry to character 13, and opened authored line 602 at the exact clicked character; the permanent browser regression covers the equivalent strict-fragment/newline boundary without exposing diagnostic state.
 - [ ] 1.4 Decide upstream-first versus local-patch-first delivery for the Tinymist correctness fix.
 
 ## 2. Tinymist correctness baseline

@@ -42,6 +42,7 @@ import {
   TYPST_COMPILER_WASM_ARTIFACT,
 } from "./runtimeArtifacts";
 import { fetchDecodedRuntimeArtifact } from "./runtimeArtifactDecoder";
+import { findProjectedTextCall, projectedTextCharacterByteOffset } from "./previewTextLocation.ts";
 
 
 const bundledFontsLoader = loadFonts([
@@ -75,8 +76,6 @@ function mainFontBytes(): Promise<MainFontBytes> {
 }
 
 const encoder = new TextEncoder();
-const decoder = new TextDecoder("utf-8", { fatal: true });
-const textCallPrefix = Uint8Array.of(0x23, 0x74, 0x65, 0x78, 0x74, 0x28, 0x22); // #text("
 let rendererFontsPromise: Promise<readonly PreviewRendererFileRecord[]> | undefined;
 let initialized = false;
 let compilerModule: WebAssembly.Module | undefined;
@@ -760,60 +759,6 @@ export function refineRenderTextLocation(
   });
 }
 
-interface ProjectedTextCall {
-  readonly text: string;
-  readonly contentStart: number;
-}
-
-function findProjectedTextCall(
-  source: string,
-  locationStart: number,
-  locationEnd: number,
-  expectedText?: string,
-): ProjectedTextCall | undefined {
-  const bytes = encoder.encode(source);
-  const expectedBytes = expectedText === undefined ? 0 : encoder.encode(expectedText).byteLength;
-  const searchStart = Math.max(0, locationStart - textCallPrefix.byteLength - expectedBytes - 2);
-  const searchEnd = Math.min(bytes.byteLength - textCallPrefix.byteLength, locationEnd + textCallPrefix.byteLength);
-  for (let markerStart = searchStart; markerStart <= searchEnd; markerStart += 1) {
-    if (!textCallPrefix.every((byte, index) => bytes[markerStart + index] === byte)) continue;
-    const identifierEnd = markerStart + 5;
-    const contentStart = markerStart + textCallPrefix.byteLength;
-    let contentEnd = contentStart;
-    while (contentEnd < bytes.byteLength && bytes[contentEnd] !== 0x22) {
-      // Escaped projection segments are intentionally not reverse-mappable.
-      if (bytes[contentEnd] === 0x5c) return undefined;
-      contentEnd += 1;
-    }
-    if (contentEnd >= bytes.byteLength || contentEnd === contentStart) return undefined;
-    const overlapsIdentifier = locationEnd >= markerStart && locationStart <= identifierEnd;
-    const liesInsideContent = contentStart <= locationStart && locationEnd <= contentEnd;
-    if (!overlapsIdentifier && !liesInsideContent) continue;
-    try {
-      const text = decoder.decode(bytes.subarray(contentStart, contentEnd));
-      if (expectedText !== undefined && text !== expectedText) continue;
-      return Object.freeze({ text, contentStart });
-    } catch {
-      return undefined;
-    }
-  }
-  return undefined;
-}
-
-function projectedTextCharacterByteOffset(call: ProjectedTextCall, textOffset: number): number | undefined {
-  if (!Number.isSafeInteger(textOffset) || textOffset < 0 || textOffset >= call.text.length) return undefined;
-  let validBoundary = false;
-  let offset = 0;
-  for (const character of call.text) {
-    if (offset === textOffset) {
-      validBoundary = true;
-      break;
-    }
-    offset += character.length;
-  }
-  if (!validBoundary) return undefined;
-  return call.contentStart + encoder.encode(call.text.slice(0, textOffset)).byteLength;
-}
 
 function uniquePagePoints(locations: readonly RenderArtifactLocation[]): readonly PreviewPagePoint[] {
   const seen = new Set<string>();

@@ -860,6 +860,47 @@ mod tests {
         ));
     }
     #[test]
+    fn escaped_text_suffix_preserves_plain_prefix_identity() {
+        let text = "终端目前能正常启动。先读取它保存的维护状态。";
+        let source = format!("< {text}\n\n- next\n");
+        let projection = project_text(&source, &catalog(), &EmitOptions::default()).unwrap();
+        assert!(projection.diagnostics.is_empty());
+
+        let typst_text_start = projection.emitted.source.find(text).unwrap();
+        let source_text_start = source.find(text).unwrap();
+        let character_offset = "终端目前".len();
+        assert_eq!(
+            projection.index.classify_read(TextRange::new(
+                typst_text_start + character_offset,
+                typst_text_start + character_offset,
+            )),
+            ProjectionMappingResult {
+                kind: ProjectionMappingKind::AuthoredIdentity,
+                projected_range: TextRange::new(
+                    typst_text_start + character_offset,
+                    typst_text_start + character_offset,
+                ),
+                source_range: Some(TextRange::new(
+                    source_text_start + character_offset,
+                    source_text_start + character_offset,
+                )),
+            }
+        );
+
+        let escaped_newline = projection.emitted.source[typst_text_start..]
+            .find("\\n")
+            .map(|offset| typst_text_start + offset)
+            .unwrap();
+        assert_eq!(
+            projection
+                .index
+                .classify_read(TextRange::new(escaped_newline, escaped_newline + 2))
+                .kind,
+            ProjectionMappingKind::GeneratedProjection,
+        );
+    }
+
+    #[test]
     fn read_classification_is_exact_and_conservative() {
         let index = ProjectionIndex {
             segments: vec![

@@ -82,14 +82,19 @@ For standalone or authored Typst:
 
 ### Workbench refinement
 
-`refineRenderTextLocation` currently searches generated source for `#text("...")` and combines `.tsel` character offsets with string contents. This can recover some unescaped literals, but it is not a Typst string provenance implementation and intentionally rejects escaped projection segments.
+`refineRenderTextLocation` searches generated source for the `#text("...")` call overlapping the renderer range and combines `.tsel` character offsets with literal source bytes. This is not a Typst string provenance implementation: it never decodes an escape into authored text or maps a fragment across an escape boundary.
 
-The implementation decision MUST choose one policy:
+The existing Workbench path retains **explicit best-effort** refinement while this broader fallback proposal remains deferred:
 
-1. **Conservative cutover (preferred):** remove the refinement and always preserve backend precision classification.
-2. **Explicit best-effort:** retain refinement only when the result remains inside a proven Identity segment; otherwise return `authoredFallback`. The result must not be labelled exact merely because the literal happened to contain no escapes.
+- unrelated `#text(...)` calls on the same generated line, including escaped calls, do not hide the overlapping candidate;
+- `.tsel` text must occur exactly once inside one contiguous unescaped UTF-8 run of the overlapping literal; a canonical escaped suffix such as `\n` is allowed only because the matched fragment ends before it;
+- the fragment's UTF-16 offset is rebased within that proven raw run;
+- the refined generated position still passes through `mmt/mapTypstReadLocations`, so only a proven `AuthoredIdentity` segment becomes an exact authored target;
+- fragments that cross an escape、repeat、or do not match remain unmapped rather than authorizing a guess.
 
-Keeping the current refinement without a precision contract is not acceptable because it silently overrides the backend fallback and makes behavior depend on string spelling.
+The emitter preserves the same proof boundary: `emit_text_source` records each byte-identical unescaped run as its own `TextBody` segment and records each escaped source character separately. `ProjectionIndex` may therefore promote the former to `Identity`, while `\n`、quotes、backslashes and other transformed bytes remain `Escaped`. A safe refined point before an escaped suffix can map exactly; the suffix itself cannot.
+
+This maintenance rule does not approve the proposed Tinymist classification change or the new `authoredFallback` wire kind. Those remain behind the other decision-gate items.
 
 ## Safety Invariants
 

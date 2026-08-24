@@ -807,8 +807,7 @@ impl<'a> TypstEmitter<'a> {
         });
         self.builder
             .push_generated("#text(\"", GeneratedKind::EscapedText, Some(text_parent));
-        self.builder
-            .push_mmt(&escape_typst_string(source), range, OriginKind::TextBody);
+        self.builder.push_escaped_text_body(source, range);
         self.builder
             .push_generated("\")", GeneratedKind::EscapedText, Some(text_parent));
     }
@@ -875,6 +874,49 @@ impl EmitBuilder {
 
     fn push_mmt(&mut self, text: &str, range: TextRange, kind: OriginKind) {
         self.push(text, Origin::MmtRange { range, kind });
+    }
+
+    fn push_escaped_text_body(&mut self, text: &str, range: TextRange) {
+        if text.len() != range.len() {
+            self.push_mmt(&escape_typst_string(text), range, OriginKind::TextBody);
+            return;
+        }
+
+        let mut run_start = 0;
+        for (offset, character) in text.char_indices() {
+            let escaped = match character {
+                '\\' => Some("\\\\"),
+                '"' => Some("\\\""),
+                '\n' => Some("\\n"),
+                '\r' => Some("\\r"),
+                '\t' => Some("\\t"),
+                _ => None,
+            };
+            let Some(escaped) = escaped else {
+                continue;
+            };
+            if run_start < offset {
+                self.push_mmt(
+                    &text[run_start..offset],
+                    TextRange::new(range.start + run_start, range.start + offset),
+                    OriginKind::TextBody,
+                );
+            }
+            let source_end = offset + character.len_utf8();
+            self.push_mmt(
+                escaped,
+                TextRange::new(range.start + offset, range.start + source_end),
+                OriginKind::TextBody,
+            );
+            run_start = source_end;
+        }
+        if run_start < text.len() {
+            self.push_mmt(
+                &text[run_start..],
+                TextRange::new(range.start + run_start, range.end),
+                OriginKind::TextBody,
+            );
+        }
     }
 
     fn push_generated(&mut self, text: &str, kind: GeneratedKind, parent: Option<usize>) {

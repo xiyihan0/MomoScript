@@ -310,13 +310,15 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
   await expect.poll(() => invokeMmtE2E(page, "preview", "buildDiagnostics", sourceUri)).toEqual([]);
 });
 
-test("MMT preview reverse navigation opens authored characters and rejects generated-only targets", { tag: "@preview-navigation" }, async ({ page }) => {
+test("MMT preview reverse navigation opens exact authored text across projected string boundaries", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
     "> 佳代子: 第一行",
     "> _0: 1234abcd",
     "> _0: 我也可以继续说。",
+    "> _0: 终端目前能正常启动。先读取它保存的维护状态。仓库北翼巡检完成后，再核对剩余传感器记录与全部维护队列。",
+    "",
     "> _0: \"\"\"这条至少很像新闻线索！\n\"\"\"",
     "",
   ].join("\n");
@@ -372,6 +374,36 @@ test("MMT preview reverse navigation opens authored characters and rejects gener
   });
 
   await invokeMmtE2E(page, "workspace", "showDocument", "reverse-navigation.mmt");
+  const fullMaintenanceText = "终端目前能正常启动。先读取它保存的维护状态。仓库北翼巡检完成后，再核对剩余传感器记录与全部维护队列。";
+  const renderedFragments = await previewFrame.locator(".tsel").evaluateAll((elements, fullText) => elements
+    .map((element) => element.textContent ?? "")
+    .filter((text) => text.length >= 6 && text.length < fullText.length && fullText.includes(text)), fullMaintenanceText);
+  const maintenanceFragmentText = renderedFragments.find((text) => text.length >= 6);
+  expect(maintenanceFragmentText, "the long rendered statement did not expose a strict .tsel fragment").toBeDefined();
+  const maintenanceFragment = previewFrame.locator(".tsel").filter({ hasText: maintenanceFragmentText! }).first();
+  const fragmentStart = fullMaintenanceText.indexOf(maintenanceFragmentText!);
+  await maintenanceFragment.evaluate((element) => {
+    document.getSelection()?.removeAllRanges();
+    const glyph = element.closest(".typst-text")?.querySelectorAll<SVGGraphicsElement>(":scope > use")[4];
+    if (!glyph) throw new Error("Fifth maintenance fragment glyph is unavailable");
+    const bounds = glyph.getBoundingClientRect();
+    const clientX = bounds.left + bounds.width / 2;
+    const clientY = bounds.top + bounds.height / 2;
+    for (const type of ["pointerdown", "pointerup", "click"] as const) {
+      element.dispatchEvent(type === "click"
+        ? new MouseEvent(type, { bubbles: true, clientX, clientY })
+        : new PointerEvent(type, { bubbles: true, clientX, clientY }));
+    }
+  });
+  await expect.poll(async () => await callFixture(page, { action: "active-editor-selection" })).toEqual({
+    uri: sourceUri,
+    range: {
+      start: { line: 3, character: 6 + fragmentStart + 4 },
+      end: { line: 3, character: 6 + fragmentStart + 4 },
+    },
+  });
+
+  await invokeMmtE2E(page, "workspace", "showDocument", "reverse-navigation.mmt");
   const escapedText = previewFrame.locator(".tsel").filter({ hasText: "这条至少很像新闻线索！" }).first();
   await expect(escapedText).toBeVisible();
   await escapedText.evaluate((element) => {
@@ -387,12 +419,11 @@ test("MMT preview reverse navigation opens authored characters and rejects gener
         : new PointerEvent(type, { bubbles: true, clientX, clientY }));
     }
   });
-  await expect.poll(async () => (await interactionState(page)).status).toBe("unmapped");
-  expect(await callFixture(page, { action: "active-editor-selection" })).toEqual({
+  await expect.poll(async () => await callFixture(page, { action: "active-editor-selection" })).toEqual({
     uri: sourceUri,
     range: {
-      start: { line: 2, character: 10 },
-      end: { line: 2, character: 10 },
+      start: { line: 5, character: 13 },
+      end: { line: 5, character: 13 },
     },
   });
 });

@@ -12,6 +12,10 @@ import {
   previewSourceTargetIsNavigable,
   safePreviewOutline,
 } from "../src/previewInteraction.ts";
+import {
+  findProjectedTextCall,
+  projectedTextCharacterByteOffset,
+} from "../src/previewTextLocation.ts";
 
 const range = (line, start, end = start) => ({
   start: { line, character: start },
@@ -348,6 +352,42 @@ controller.bindArtifact(artifactA, identityA);
 controller.providerRestarted(providerKey(99));
 assert.equal((await controller.navigatePreviewPoint({ pageIndex: 1, x: 0.98, y: 0.99 })).uri, sourceA, "retained immutable map was disabled by unrelated provider restart");
 
+const splitProjection = '#text("前置终端目前能正常启动。先读取它保存的维护状态。后置")';
+const splitFragment = "终端目前能正常启动。";
+const splitCall = findProjectedTextCall(splitProjection, 0, 5, splitFragment);
+assert.ok(splitCall, "renderer text fragment was not found inside its generated #text call");
+const splitFragmentOffset = 4;
+assert.equal(
+  projectedTextCharacterByteOffset(splitCall, splitFragmentOffset),
+  new TextEncoder().encode(
+    splitProjection.slice(0, splitProjection.indexOf(splitFragment) + splitFragmentOffset),
+  ).byteLength,
+  "renderer fragment offset did not include the fragment's position inside the full generated text",
+);
+assert.equal(
+  findProjectedTextCall('#text("重复重复")', 0, 5, "重复"),
+  undefined,
+  "ambiguous renderer fragments must not claim a character-accurate source location",
+);
+assert.equal(
+  findProjectedTextCall(String.raw`#text("escaped\ntext")`, 0, 5, "escaped\ntext"),
+  undefined,
+  "a renderer fragment crossing an escaped projection segment became reverse-mappable",
+);
+const newlineSuffixedCall = String.raw`#text("终端目前能正常启动。先读取它保存的维护状态。\n")`;
+assert.deepEqual(
+  findProjectedTextCall(newlineSuffixedCall, 0, 5, "终端目前能正常启动。先读取它保存的维护状态。"),
+  { text: "终端目前能正常启动。先读取它保存的维护状态。", contentStart: 7, fragmentStart: 0 },
+  "a canonical escaped newline suffix hid the preceding exact authored text",
+);
+const adjacentCalls = String.raw`#text("escaped\n") #text("target")`;
+const targetCallStart = adjacentCalls.indexOf('#text("target")');
+assert.deepEqual(
+  findProjectedTextCall(adjacentCalls, targetCallStart, targetCallStart + 5, "target"),
+  { text: "target", contentStart: targetCallStart + 7, fragmentStart: 0 },
+  "an unrelated escaped call hid the overlapping plain-text call later on the same generated line",
+);
+
 const staleMmtfsTarget = fallbackPreviewSourceTarget({
   uri: "mmtfs://workspace/stale.typ",
   range: range(0, 0),
@@ -525,6 +565,7 @@ console.log(JSON.stringify({
   perDocumentPersistence: true,
   immutableOldArtifactMap: true,
   providerBackedComposerLocation: true,
+  splitTextSpanRefinement: true,
   composerIdentityDriftRejection: true,
   incrementalGapRefresh: true,
   partialRenderKeyIsolation: true,
