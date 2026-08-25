@@ -623,13 +623,34 @@ function currentPageGeometries(): readonly RendererPageGeometry[] {
     : [];
 }
 
+function snapIntoBounds(
+  bounds: DOMRect,
+  clientX: number,
+  clientY: number,
+): { readonly x: number; readonly y: number } | undefined {
+  if (!(bounds.width > 0) || !(bounds.height > 0)) return undefined;
+  const insetX = Math.min(1, bounds.width / 2);
+  const insetY = Math.min(1, bounds.height / 2);
+  return {
+    x: Math.min(Math.max(clientX, bounds.left + insetX), bounds.right - insetX),
+    y: Math.min(Math.max(clientY, bounds.top + insetY), bounds.bottom - insetY),
+  };
+}
+
+function renderedTextBounds(element: Element): DOMRect {
+  return element.querySelector<HTMLElement>(".tsel")?.getBoundingClientRect()
+    ?? element.getBoundingClientRect();
+}
+
 function snapIntoTextGlyphs(
   element: Element,
   clientX: number,
   clientY: number,
 ): { readonly x: number; readonly y: number } | undefined {
   const glyphs = element.querySelectorAll("use");
-  if (glyphs.length === 0) return undefined;
+  if (glyphs.length === 0) {
+    return snapIntoBounds(renderedTextBounds(element), clientX, clientY);
+  }
   let left = Number.POSITIVE_INFINITY;
   let top = Number.POSITIVE_INFINITY;
   let right = Number.NEGATIVE_INFINITY;
@@ -642,12 +663,26 @@ function snapIntoTextGlyphs(
     right = Math.max(right, rect.right);
     bottom = Math.max(bottom, rect.bottom);
   }
-  if (!Number.isFinite(left) || right - left < 2 || bottom - top < 2) return undefined;
+  if (!Number.isFinite(left) || right - left < 2 || bottom - top < 2) {
+    return snapIntoBounds(renderedTextBounds(element), clientX, clientY);
+  }
   return {
     x: Math.min(Math.max(clientX, left + 1), right - 1),
     y: Math.min(Math.max(clientY, top + 1), bottom - 1),
   };
 }
+function renderedTextAnchor(
+  element: Element,
+): { readonly x: number; readonly y: number } | undefined {
+  const bounds = renderedTextBounds(element);
+  if (!(bounds.width > 0) || !(bounds.height > 0)) return undefined;
+  return snapIntoTextGlyphs(
+    element,
+    (bounds.left + bounds.right) / 2,
+    (bounds.top + bounds.bottom) / 2,
+  );
+}
+
 
 function renderedTextNavigationHint(
   element: Element,
@@ -738,7 +773,13 @@ function nearestRenderedTextForSemanticTarget(
       }
       for (const text of group.querySelectorAll(".typst-text")) {
         const bounds = text.getBoundingClientRect();
-        if (bounds.width > 0 && bounds.height > 0) candidates.add(text);
+        if (
+          bounds.width > 0
+          && bounds.height > 0
+          && renderedTextAnchor(text)
+        ) {
+          candidates.add(text);
+        }
       }
     }
     let nearest: Element | null = null;
@@ -827,7 +868,11 @@ function previewNavigationPointAtClientCoordinates(
         ?? nearestRenderedTextInOwningGroup(target, clientX, clientY)
       : null
   );
-  const snapped = textElement ? snapIntoTextGlyphs(textElement, clientX, clientY) : undefined;
+  const snapped = textElement
+    ? directText
+      ? snapIntoTextGlyphs(textElement, clientX, clientY)
+      : renderedTextAnchor(textElement)
+    : undefined;
   if (snapped) {
     clientX = snapped.x;
     clientY = snapped.y;

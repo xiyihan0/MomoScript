@@ -64,7 +64,7 @@ test("MomoScript update notification uses the native restart action button", { t
 
 test("full SVG preview preserves semantic chat regions for Composer authorization", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-semantic-full-svg.mmt";
-  const source = "> 佳代子: FULL_SVG_TARGET\n";
+  const source = "> 佳代子: FULL_SVG_TARGET 可是，把不可能变成可能的那一瞬间才最有意思；正常完成检查也很重要。\n";
   await installPackRoutes(page);
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
@@ -74,6 +74,7 @@ test("full SVG preview preserves semantic chat regions for Composer authorizatio
   const frame = await waitForPreviewFrame(page, sourceUri);
   await expect(frame.locator(".page")).not.toHaveClass(/renderer-active/);
   await expectChatSemanticRegions(frame, "FULL_SVG_TARGET");
+  await expectSemanticChatContext(page, frame, "FULL_SVG_TARGET", "bubble");
   await expectSemanticChatContext(page, frame, "FULL_SVG_TARGET", "avatar");
   await resetComposer(page);
   await dispatchInactiveDomSemanticContextMenu(frame);
@@ -84,8 +85,8 @@ test("full SVG preview preserves semantic chat regions for Composer authorizatio
 
 test("diff-v1 preview rejects orphan, shadowing, or inactive semantic targets", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-semantic-diff.mmt";
-  const original = "> 佳代子: DIFF_FIRST\n> _0: DIFF_TARGET\n";
-  const edited = "> 佳代子: DIFF_FIRST\n>(continued: true) _0: DIFF_TARGET\n";
+  const original = "> 佳代子: DIFF_FIRST\n> _0: DIFF_TARGET 可是，把不可能变成可能的那一瞬间才最有意思；正常完成检查也很重要。\n";
+  const edited = "> 佳代子: DIFF_FIRST\n>(continued: true) _0: DIFF_TARGET 可是，把不可能变成可能的那一瞬间才最有意思；正常完成检查也很重要。\n";
   const opened = await openProviderPreview(page, name, original);
   const frame = await applyContinued(
     page,
@@ -639,7 +640,46 @@ async function rightClickRenderedGlyph(
   return { x: bounds.x + position.x, y: bounds.y + position.y };
 }
 async function rightClickRenderedBubbleGraphic(frame: Frame, marker: string): Promise<void> {
-  await rightClickSemanticRegion(frame, marker, "bubble");
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  await text.evaluate((element, expectedMarker) => {
+    const bubble = element
+      .closest(".typst-text")
+      ?.closest("[data-typst-label^='mmt:bubble:']");
+    if (!bubble) throw new Error(`semantic bubble target is unavailable for ${expectedMarker}`);
+    const bounds = bubble.getBoundingClientRect();
+    const point = { x: bounds.right - 2, y: bounds.bottom - 2 };
+    const target = document.elementFromPoint(point.x, point.y);
+    if (!target) throw new Error(`lower-corner hit target is unavailable for ${expectedMarker}`);
+    const closestLabel = target.closest("[data-typst-label]")?.getAttribute("data-typst-label");
+    if (closestLabel !== bubble.getAttribute("data-typst-label")) {
+      const ancestry: Array<{
+        readonly tag: string;
+        readonly class: string | null;
+        readonly label: string | null;
+      }> = [];
+      let current: Element | null = target;
+      while (current && ancestry.length < 8) {
+        ancestry.push({
+          tag: current.tagName,
+          class: current.getAttribute("class"),
+          label: current.getAttribute("data-typst-label"),
+        });
+        current = current.parentElement;
+      }
+      throw new Error(`lower-corner hit escaped semantic bubble: ${JSON.stringify(ancestry)}`);
+    }
+    target.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+  }, marker);
 }
 
 async function rightClickSemanticRegion(
@@ -913,10 +953,11 @@ async function expectSemanticChatContext(
   page: Page,
   frame: Frame,
   marker: string,
-  role: "avatar" | "display-name",
+  role: "bubble" | "avatar" | "display-name",
 ): Promise<void> {
   await resetComposer(page);
-  await rightClickSemanticRegion(frame, marker, role);
+  if (role === "bubble") await rightClickRenderedBubbleGraphic(frame, marker);
+  else await rightClickSemanticRegion(frame, marker, role);
   await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
   const root = await visibleContextMenuItem(page, ROOT_CONTINUED);
   for (let attempt = 0; attempt < 4; attempt += 1) {

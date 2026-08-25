@@ -9,7 +9,7 @@ The production Web Workbench MAY expose contextual editing from the displayed pr
 - GIVEN the displayed artifact is current and no preview text selection is active
 - WHEN the author invokes `contextmenu` on rendered text or on an exporter-labelled bubble、avatar or display-name region whose opaque token groups one rendered target
 - AND the labelled SVG root is connected beneath the current preview page with the active DOM render generation
-- AND the runtime resolves a labelled text region with that same token or preserves the exact text hit
+- AND the runtime resolves a stable interior anchor in a labelled text region with that same token or preserves the exact position of a direct text hit
 - AND the language service proves one editable statement target from the resulting current backend location
 - THEN the Workbench MUST open its native context-menu service beside the pointer to offer source navigation、continued state and available actor display-name editing
 - AND a display-name action MUST open a native InputBox in a Workbench context view beside the original pointer rather than in the top Quick Input
