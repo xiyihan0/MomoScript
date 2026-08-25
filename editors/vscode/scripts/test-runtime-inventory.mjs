@@ -10,6 +10,7 @@ const [
   mainSource,
   runtimeControllerSource,
   previewWebviewRuntimeSource,
+  previewWebviewHostSource,
   avifSequenceSource,
   workerSource,
   processSource,
@@ -25,6 +26,7 @@ const [
   readFile(path.join(root, "../vscode-web/src/main.ts"), "utf8"),
   readFile(path.join(root, "../vscode-web/src/runtimeController.ts"), "utf8"),
   readFile(path.join(root, "../vscode-web/src/previewWebviewRuntime.ts"), "utf8"),
+  readFile(path.join(root, "../vscode-web/src/previewWebviewHost.ts"), "utf8"),
   readFile(path.join(root, "../vscode-web/src/avifSequence.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistProcessClient.ts"), "utf8"),
@@ -42,6 +44,7 @@ assert.deepEqual(inventory.scope, [
   "editors/vscode-web/src/main.ts",
   "editors/vscode-web/src/runtimeController.ts",
   "editors/vscode-web/src/previewWebviewRuntime.ts",
+  "editors/vscode-web/src/previewWebviewHost.ts",
   "editors/vscode-web/src/avifSequence.ts",
   "editors/vscode/src/tinymistClient.ts",
   "editors/vscode/src/tinymistProcessClient.ts",
@@ -98,8 +101,8 @@ const listenerAnchors = {
   "mmt/typstRenderProjectUpdated": "\"mmt/typstRenderProjectUpdated\",",
   documentConfigCommandRegistration: "const documentConfigCommandRegistration = subscribe(",
   previewCommandRegistration: "const previewCommandRegistration = subscribe(",
-  previewPanelDisposeRegistration: "previewPanelDisposeRegistration = subscribe(",
-  previewPanelMessageRegistration: "previewPanelMessageRegistration = subscribe(",
+  "preview host panel disposal": "this.#panelDisposeRegistration = panel.onDidDispose(",
+  "preview host webview messages": "this.#panelMessageRegistration = panel.webview.onDidReceiveMessage(",
   packConfigRegistration: "const packConfigRegistration = subscribe(",
   previewConfigRegistration: "const previewConfigRegistration = subscribe(",
   markerEditingRegistration: "const markerEditingRegistration = subscribe",
@@ -114,6 +117,8 @@ const listenerAnchors = {
 };
 const listenerSources = new Map([
   ["preview webview controls", previewWebviewRuntimeSource],
+  ["preview host panel disposal", previewWebviewHostSource],
+  ["preview host webview messages", previewWebviewHostSource],
   ["AVIFS abort", avifSequenceSource],
 ]);
 for (const listener of inventory.main.listeners) {
@@ -122,6 +127,16 @@ for (const listener of inventory.main.listeners) {
   const source = listenerSources.get(listener.name) ?? mainSource;
   assert.ok(source.includes(anchor), `listener ${listener.name} no longer matches its production owner`);
   assert.ok(listener.owner, `listener ${listener.name} has no dispose owner`);
+}
+for (const registration of ["panelDisposeRegistration", "panelMessageRegistration"]) {
+  assert.ok(
+    previewWebviewHostSource.includes(`this.#${registration}?.dispose()`),
+    `PreviewWebviewHost does not dispose #${registration}`,
+  );
+  assert.ok(
+    previewWebviewHostSource.includes(`this.#${registration} = undefined`),
+    `PreviewWebviewHost does not release #${registration}`,
+  );
 }
 
 assert.deepEqual(inventory.main.timers.map((entry) => entry.name), [
