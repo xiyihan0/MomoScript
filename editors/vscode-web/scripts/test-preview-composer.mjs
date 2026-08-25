@@ -78,6 +78,42 @@ class FakeContextInputSession {
   }
 }
 
+class FakeAvatarPickerSession {
+  closed = 0;
+
+  constructor(anchor, options) {
+    this.anchor = anchor;
+    this.options = options;
+    const { promise, resolve, reject } = Promise.withResolvers();
+    this.result = promise;
+    this.resolve = resolve;
+    this.reject = reject;
+    this.settled = false;
+  }
+
+  async choose(choice) {
+    try {
+      await this.options.choose(choice);
+      this.finish();
+    } catch (error) {
+      if (this.settled) return;
+      this.settled = true;
+      this.reject(error);
+    }
+  }
+
+  close() {
+    this.closed += 1;
+    this.finish();
+  }
+
+  finish() {
+    if (this.settled) return;
+    this.settled = true;
+    this.resolve();
+  }
+}
+
 class FakeCancellationTokenSource {
   cancelled = 0;
   disposed = 0;
@@ -125,13 +161,23 @@ const statementRange = {
   end: { line: 4, character: 18 },
 };
 const textDocument = { uri: sourceUri, version: 7 };
-const editableTarget = ({ actor = true, continued = "false" } = {}) => ({
+const editableTarget = ({ actor = true, avatar = false, continued = "false" } = {}) => ({
   kind: "Editable",
   textDocument,
   target: { kind: "statement", range: statementRange },
   properties: {
     continued,
     ...(actor ? { actorDisplayName: { current: "佳代子", scope: "fromStatement" } } : {}),
+    ...(avatar ? { actorAvatar: {
+      scope: "fromStatement",
+      actorPresetId: "ba::佳代子",
+      current: {
+        kind: "packAvatar",
+        entityId: "ba::佳代子",
+        contributionNamespace: "ba",
+        variantId: "default",
+      },
+    } } : {}),
   },
 });
 const protocolEdit = {
@@ -140,6 +186,25 @@ const protocolEdit = {
     edits: [{ range: statementRange, newText: "server replacement" }],
   }],
 };
+
+function avatarItem(entityId, entityDisplayName, contributionNamespace, variantId, selectable = true) {
+  return {
+    variant: {
+      entityId,
+      entityDisplayName,
+      contributionNamespace,
+      variantId,
+      handles: [],
+      storageKey: "avatars",
+      path: `${variantId}.png`,
+      isEntityDefault: variantId === "default" && contributionNamespace === entityId.split("::")[0],
+      isSourceDefault: variantId === "default",
+    },
+    ...(selectable ? { thumbnailUrl: `https://packs.example/${variantId}.png` } : {}),
+    selectable,
+    searchTerms: [entityId, entityDisplayName, contributionNamespace, variantId],
+  };
+}
 
 function harness(options = {}) {
   const state = {
@@ -151,6 +216,8 @@ function harness(options = {}) {
   const contextMenus = [];
   const contextInputs = [];
   const cancellationSources = [];
+  const avatarPickers = [];
+  const avatarCatalogListeners = new Set();
   const locateCalls = [];
   const requestCalls = [];
   const applyCalls = [];
@@ -191,6 +258,18 @@ function harness(options = {}) {
         return session;
       },
     },
+    avatarPicker: {
+      open(pickerAnchor, pickerOptions) {
+        const session = new FakeAvatarPickerSession(pickerAnchor, pickerOptions);
+        avatarPickers.push(session);
+        return session;
+      },
+    },
+    getAvatarCatalog: () => options.avatarCatalog ?? [],
+    onDidChangeAvatarCatalog(listener) {
+      avatarCatalogListeners.add(listener);
+      return { dispose: () => avatarCatalogListeners.delete(listener) };
+    },
     apply: options.apply ?? {
       async apply(applyOptions) {
         applyCalls.push(applyOptions);
@@ -217,6 +296,7 @@ function harness(options = {}) {
     contextInputs,
     cancellationSources,
     locateCalls,
+    avatarPickers,
     requestCalls,
     applyCalls,
     navigationCalls,
@@ -225,6 +305,9 @@ function harness(options = {}) {
     setTargetResult(value) { targetResult = value; },
     setEditResult(value) { editResult = value; },
     setApplicationResult(value) { applicationResult = value; },
+    fireAvatarCatalogChanged() {
+      for (const listener of avatarCatalogListeners) listener();
+    },
   };
 }
 
@@ -301,6 +384,120 @@ async function chooseContinued(fixture, label = "强制连续") {
     kind: "setActorDisplayNameFromStatement",
     value: " 老师 ",
   }, "display-name input must not be trimmed or normalized");
+}
+
+{
+  const currentAvatar = avatarItem("ba::佳代子", "佳代子", "ba", "default");
+  const alternateAvatar = avatarItem("ba::佳代子", "佳代子", "ba", "smile");
+  const crossAvatar = avatarItem("ba::小雪", "小雪", "ba", "default");
+  const unavailableAvatar = avatarItem("ba::佳代子", "佳代子", "event", "sequence", false);
+  const avatarCatalog = [currentAvatar, alternateAvatar, crossAvatar, unavailableAvatar];
+  const fixture = harness({
+    targetOptions: { avatar: true },
+    avatarCatalog,
+  });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "avatar context menu was not shown");
+  assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
+    "编辑连续消息状态…",
+    "从本条起修改人物显示名…",
+    "从本条起更换人物头像…",
+    "转到源码",
+  ]);
+  fixture.contextMenus[0].select("从本条起更换人物头像…");
+  await waitFor(() => fixture.avatarPickers.length === 1, "avatar picker was not shown");
+  const picker = fixture.avatarPickers[0];
+  assert.deepEqual(picker.anchor, anchor);
+  assert.equal(picker.options.actorPresetId, "ba::佳代子");
+  assert.equal(picker.options.actorLabel, "佳代子");
+  assert.deepEqual(picker.options.current, {
+    kind: "packAvatar",
+    entityId: "ba::佳代子",
+    contributionNamespace: "ba",
+    variantId: "default",
+  });
+  assert.deepEqual(picker.options.items, avatarCatalog);
+  await picker.choose({
+    kind: "packAvatar",
+    entityId: "ba::小雪",
+    contributionNamespace: "ba",
+    variantId: "default",
+  });
+  await operation;
+  assert.deepEqual(fixture.requestCalls[1].params.command, {
+    kind: "setActorAvatarFromStatement",
+    avatar: {
+      kind: "packAvatar",
+      entityId: "ba::小雪",
+      contributionNamespace: "ba",
+      variantId: "default",
+    },
+  });
+  assert.equal(fixture.requestCalls.length, 2);
+  assert.equal(fixture.applyCalls.length, 1);
+}
+
+{
+  const currentAvatar = avatarItem("ba::佳代子", "佳代子", "ba", "default");
+  const unavailableAvatar = avatarItem("ba::佳代子", "佳代子", "event", "sequence", false);
+  const fixture = harness({
+    bidirectionalNavigation: false,
+    targetOptions: { avatar: true },
+    avatarCatalog: [currentAvatar, unavailableAvatar],
+  });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "avatar omission menu was not shown");
+  assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
+    "编辑连续消息状态…",
+    "从本条起修改人物显示名…",
+  ]);
+  fixture.contextMenus[0].close();
+  await operation;
+  assert.equal(fixture.avatarPickers.length, 0);
+}
+
+{
+  const fixture = harness({
+    targetOptions: { avatar: true },
+    avatarCatalog: [
+      avatarItem("ba::佳代子", "佳代子", "ba", "default"),
+      avatarItem("ba::佳代子", "佳代子", "ba", "smile"),
+    ],
+    editResult: { kind: "Rejected", reason: "avatarUnavailable" },
+  });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "unavailable avatar menu was not shown");
+  fixture.contextMenus[0].select("从本条起更换人物头像…");
+  await waitFor(() => fixture.avatarPickers.length === 1, "unavailable avatar picker was not shown");
+  await fixture.avatarPickers[0].choose({
+    kind: "packAvatar",
+    entityId: "ba::佳代子",
+    contributionNamespace: "ba",
+    variantId: "smile",
+  });
+  await operation;
+  assert.deepEqual(fixture.warnings, ["所选头像已不可用，未应用编辑。"]);
+  assert.equal(fixture.requestCalls.length, 2, "an unavailable avatar must not retry");
+  assert.equal(fixture.applyCalls.length, 0);
+}
+
+{
+  const fixture = harness({
+    targetOptions: { avatar: true },
+    avatarCatalog: [
+      avatarItem("ba::佳代子", "佳代子", "ba", "default"),
+      avatarItem("ba::佳代子", "佳代子", "ba", "smile"),
+    ],
+  });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "Pack invalidation menu was not shown");
+  fixture.contextMenus[0].select("从本条起更换人物头像…");
+  await waitFor(() => fixture.avatarPickers.length === 1, "Pack invalidation picker was not shown");
+  fixture.fireAvatarCatalogChanged();
+  await operation;
+  assert.equal(fixture.avatarPickers[0].closed, 1);
+  assert.equal(fixture.cancellationSources[0].cancelled, 1);
+  assert.equal(fixture.requestCalls.length, 1, "Pack invalidation must not request or retry an edit");
 }
 
 {

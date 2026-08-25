@@ -123,6 +123,10 @@ export interface MmtE2EComposerState {
 export interface MmtE2EComposerInstrumentation {
   readonly api: MmtE2EApi["composer"];
   recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void;
+  requestOverride(
+    method: "mmt/previewComposerTarget" | "mmt/composerEdit",
+    params: unknown,
+  ): unknown | undefined;
   recordContextAnchor(anchor: PreviewContextMenuAnchor): void;
   beginApply(): boolean;
   recordApplyResult(applied: boolean): void;
@@ -170,6 +174,7 @@ export interface MmtE2EApi {
     readonly state: () => MmtE2EComposerState;
     readonly reset: () => void;
     readonly failNextApply: () => void;
+    readonly rejectNextAvatarEdit: () => void;
     readonly lastAnchor: () => PreviewContextMenuAnchor | null;
   };
   readonly notifications: {
@@ -379,6 +384,7 @@ export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumenta
   let applyAttempts = 0;
   let successfulApplies = 0;
   let failNextApply = false;
+  let rejectNextAvatarEdit = false;
   const api = Object.freeze({
     state: (): MmtE2EComposerState => Object.freeze({
       targetRequests,
@@ -393,9 +399,13 @@ export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumenta
       applyAttempts = 0;
       successfulApplies = 0;
       failNextApply = false;
+      rejectNextAvatarEdit = false;
     },
     failNextApply(): void {
       failNextApply = true;
+    },
+    rejectNextAvatarEdit(): void {
+      rejectNextAvatarEdit = true;
     },
     lastAnchor(): PreviewContextMenuAnchor | null {
       return lastAnchor;
@@ -406,6 +416,24 @@ export function createMmtE2EComposerInstrumentation(): MmtE2EComposerInstrumenta
     recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void {
       if (method === "mmt/previewComposerTarget") targetRequests += 1;
       else editRequests += 1;
+    },
+    requestOverride(
+      method: "mmt/previewComposerTarget" | "mmt/composerEdit",
+      params: unknown,
+    ): unknown | undefined {
+      if (method !== "mmt/composerEdit" || !rejectNextAvatarEdit) return undefined;
+      const command = typeof params === "object" && params !== null
+        ? Reflect.get(params, "command")
+        : undefined;
+      if (
+        typeof command !== "object"
+        || command === null
+        || Reflect.get(command, "kind") !== "setActorAvatarFromStatement"
+      ) {
+        return undefined;
+      }
+      rejectNextAvatarEdit = false;
+      return Object.freeze({ kind: "Rejected", reason: "avatarUnavailable" });
     },
     recordContextAnchor(anchor: PreviewContextMenuAnchor): void {
       lastAnchor = Object.freeze({ ...anchor });

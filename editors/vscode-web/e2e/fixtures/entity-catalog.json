@@ -4,7 +4,7 @@
   "pack": {
     "namespace": "ba",
     "version": "1.0.0",
-    "manifest_sha256": "68f6240c2f168d84f979c52e20cf66a902d3c4a4c99cd634c96d992a8e86f065"
+    "manifest_sha256": "b6b98e02678d5a8bf6eb66225eeb7b0cfe5925416dba4baf943f041e914e2106"
   },
   "source": {
     "id": "kivo.wiki",
