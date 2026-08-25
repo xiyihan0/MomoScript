@@ -13,8 +13,9 @@ use lsp_types::{
     TextDocumentSyncKind, Url,
 };
 use mmt_rs::{
-    ComposerCommand, ContinuedValue, ProjectedEditTarget, ProjectedEditTransaction,
-    ProjectedTargetClass, ProjectionKey, SourceContentKey, TypstProjectSnapshotKey,
+    ComposerAvatarCurrent, ComposerCommand, ContinuedValue, PackAvatarChoice, ProjectedEditTarget,
+    ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey, SourceContentKey,
+    TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -223,11 +224,55 @@ impl From<ComposerContinuedValue> for ContinuedValue {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerAvatarChoiceParams {
+    #[serde(rename = "packAvatar")]
+    PackAvatar {
+        #[serde(rename = "entityId")]
+        entity_id: String,
+        #[serde(rename = "contributionNamespace")]
+        contribution_namespace: String,
+        #[serde(rename = "variantId")]
+        variant_id: String,
+    },
+}
+
+impl ComposerAvatarChoiceParams {
+    fn components(&self) -> (&str, &str, &str) {
+        match self {
+            Self::PackAvatar {
+                entity_id,
+                contribution_namespace,
+                variant_id,
+            } => (entity_id, contribution_namespace, variant_id),
+        }
+    }
+}
+
+impl From<ComposerAvatarChoiceParams> for PackAvatarChoice {
+    fn from(choice: ComposerAvatarChoiceParams) -> Self {
+        match choice {
+            ComposerAvatarChoiceParams::PackAvatar {
+                entity_id,
+                contribution_namespace,
+                variant_id,
+            } => Self {
+                entity_id,
+                contribution_namespace,
+                variant_id,
+            },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
 enum ComposerCommandParams {
     #[serde(rename = "setStatementContinued")]
     SetStatementContinued { value: ComposerContinuedValue },
     #[serde(rename = "setActorDisplayNameFromStatement")]
     SetActorDisplayNameFromStatement { value: String },
+    #[serde(rename = "setActorAvatarFromStatement")]
+    SetActorAvatarFromStatement { avatar: ComposerAvatarChoiceParams },
 }
 
 impl From<ComposerCommandParams> for ComposerCommand {
@@ -238,6 +283,9 @@ impl From<ComposerCommandParams> for ComposerCommand {
             }
             ComposerCommandParams::SetActorDisplayNameFromStatement { value } => {
                 ComposerCommand::SetActorDisplayNameFromStatement(value)
+            }
+            ComposerCommandParams::SetActorAvatarFromStatement { avatar } => {
+                ComposerCommand::SetActorAvatarFromStatement(avatar.into())
             }
         }
     }
@@ -252,6 +300,7 @@ struct ComposerEditParams {
 }
 
 const MAX_COMPOSER_DISPLAY_NAME_BYTES: usize = 1024;
+const MAX_COMPOSER_AVATAR_COMPONENT_BYTES: usize = 1024;
 const CANONICAL_DIGEST_HEX_LEN: usize = 64;
 
 fn validate_composer_digest(value: &str, field: &str) -> Result<(), ServerError> {
@@ -276,11 +325,48 @@ fn validate_preview_composer_identity(
 }
 
 fn validate_composer_command(command: &ComposerCommandParams) -> Result<(), ServerError> {
-    if let ComposerCommandParams::SetActorDisplayNameFromStatement { value } = command
-        && value.len() > MAX_COMPOSER_DISPLAY_NAME_BYTES
+    match command {
+        ComposerCommandParams::SetActorDisplayNameFromStatement { value }
+            if value.len() > MAX_COMPOSER_DISPLAY_NAME_BYTES =>
+        {
+            Err(ServerError::invalid_params(format!(
+                "display-name value exceeds {MAX_COMPOSER_DISPLAY_NAME_BYTES} UTF-8 bytes"
+            )))
+        }
+        ComposerCommandParams::SetActorAvatarFromStatement { avatar } => {
+            let (entity_id, contribution_namespace, variant_id) = avatar.components();
+            validate_avatar_component(entity_id, "entityId")?;
+            validate_avatar_component(contribution_namespace, "contributionNamespace")?;
+            validate_avatar_component(variant_id, "variantId")?;
+            let mut entity_parts = entity_id.split("::");
+            if entity_parts.next().is_none_or(str::is_empty)
+                || entity_parts.next().is_none_or(str::is_empty)
+                || entity_parts.next().is_some()
+            {
+                return Err(ServerError::invalid_params(
+                    "entityId must be one canonical namespace::id",
+                ));
+            }
+            if contribution_namespace.contains("::") {
+                return Err(ServerError::invalid_params(
+                    "contributionNamespace must not contain ::",
+                ));
+            }
+            Ok(())
+        }
+        _ => Ok(()),
+    }
+}
+
+fn validate_avatar_component(value: &str, field: &str) -> Result<(), ServerError> {
+    if value.is_empty()
+        || value.len() > MAX_COMPOSER_AVATAR_COMPONENT_BYTES
+        || value.chars().any(char::is_whitespace)
+        || value.chars().any(char::is_control)
+        || value.contains(['/', '\\'])
     {
         return Err(ServerError::invalid_params(format!(
-            "display-name value exceeds {MAX_COMPOSER_DISPLAY_NAME_BYTES} UTF-8 bytes"
+            "{field} must be 1-{MAX_COMPOSER_AVATAR_COMPONENT_BYTES} UTF-8 bytes without whitespace, controls, slash or backslash"
         )));
     }
     Ok(())
@@ -332,11 +418,59 @@ enum ComposerActorDisplayNameScope {
 }
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerAvatarCurrentResult {
+    #[serde(rename = "packAvatar")]
+    PackAvatar {
+        #[serde(rename = "entityId")]
+        entity_id: String,
+        #[serde(rename = "contributionNamespace")]
+        contribution_namespace: String,
+        #[serde(rename = "variantId")]
+        variant_id: String,
+    },
+    #[serde(rename = "asset")]
+    Asset {
+        #[serde(rename = "assetName")]
+        asset_name: String,
+    },
+}
+
+impl From<ComposerAvatarCurrent> for ComposerAvatarCurrentResult {
+    fn from(current: ComposerAvatarCurrent) -> Self {
+        match current {
+            ComposerAvatarCurrent::Pack(choice) => Self::PackAvatar {
+                entity_id: choice.entity_id,
+                contribution_namespace: choice.contribution_namespace,
+                variant_id: choice.variant_id,
+            },
+            ComposerAvatarCurrent::Asset(asset_name) => Self::Asset { asset_name },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerActorAvatarScope {
+    FromStatement,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerActorAvatarResult {
+    scope: ComposerActorAvatarScope,
+    actor_preset_id: String,
+    current: Option<ComposerAvatarCurrentResult>,
+}
+
+#[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct ComposerPropertiesResult {
     continued: ComposerContinuedResult,
     #[serde(skip_serializing_if = "Option::is_none")]
     actor_display_name: Option<ComposerActorDisplayNameResult>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    actor_avatar: Option<ComposerActorAvatarResult>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize)]
@@ -387,6 +521,7 @@ enum ComposerEditRejectedReason {
     DocumentHasErrors,
     InvalidValue,
     ActorUnavailable,
+    AvatarUnavailable,
     CandidateInvalid,
 }
 
@@ -398,6 +533,7 @@ impl From<ComposerEditRejection> for ComposerEditRejectedReason {
             ComposerEditRejection::DocumentHasErrors => Self::DocumentHasErrors,
             ComposerEditRejection::InvalidValue => Self::InvalidValue,
             ComposerEditRejection::ActorUnavailable => Self::ActorUnavailable,
+            ComposerEditRejection::AvatarUnavailable => Self::AvatarUnavailable,
             ComposerEditRejection::CandidateInvalid => Self::CandidateInvalid,
         }
     }
@@ -667,6 +803,13 @@ impl MmtLanguageServer {
                                 ComposerActorDisplayNameResult {
                                     current,
                                     scope: ComposerActorDisplayNameScope::FromStatement,
+                                }
+                            }),
+                            actor_avatar: target.actor_avatar.map(|avatar| {
+                                ComposerActorAvatarResult {
+                                    scope: ComposerActorAvatarScope::FromStatement,
+                                    actor_preset_id: avatar.actor_preset_id,
+                                    current: avatar.current.map(Into::into),
                                 }
                             }),
                         },
@@ -1910,6 +2053,180 @@ mod tests {
                 .contains("display-name: \"老师 😀 \"")
         );
         assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+    }
+
+    #[test]
+    fn composer_avatar_edit_is_strict_pack_bound_and_versioned() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{
+              "A":{"names":["A"],"display_name":"Actor A","slots":{"avatar":{"default":"default","items":{"default":{"storage":"avatars","path":"a.png"}}}}},
+              "B":{"names":["B"],"display_name":"Actor B","slots":{"avatar":{"default":"default","items":{"default":{"storage":"avatars","path":"b.png"}}}}}
+            },
+            "storage":{"avatars":{"kind":"image-dir","base":"assets/avatar"}}
+        }"#;
+        let uri = Url::parse("file:///workspace/avatar.mmt").unwrap();
+        let source = "> A: target😀";
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision": 1,
+                    "sources": [{"json": manifest}]
+                }),
+            )
+            .unwrap();
+        open_document(&mut server, &uri, 4, source);
+        let params = serde_json::json!({
+            "textDocument": {"uri": uri, "version": 4},
+            "target": {
+                "kind": "statement",
+                "range": {
+                    "start": {"line": 0, "character": 0},
+                    "end": {"line": 0, "character": 15}
+                }
+            },
+            "command": {
+                "kind": "setActorAvatarFromStatement",
+                "avatar": {
+                    "kind": "packAvatar",
+                    "entityId": "ba::B",
+                    "contributionNamespace": "ba",
+                    "variantId": "default"
+                }
+            }
+        });
+        let edit = server.request("mmt/composerEdit", params.clone()).unwrap();
+        assert_eq!(edit["kind"], "Edit", "{edit}");
+        assert_eq!(
+            edit["edit"]["documentChanges"][0]["textDocument"],
+            serde_json::json!({"uri": uri, "version": 4})
+        );
+        assert_eq!(edit["edit"].get("changes"), None);
+        assert!(
+            edit["edit"]["documentChanges"][0]["edits"][0]["newText"]
+                .as_str()
+                .unwrap()
+                .contains("avatar: ba::B/ba::avatar/default")
+        );
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+
+        let mut missing = params.clone();
+        missing["command"]["avatar"]["variantId"] = serde_json::json!("missing");
+        assert_eq!(
+            server.request("mmt/composerEdit", missing).unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"avatarUnavailable"})
+        );
+        for malformed in [
+            serde_json::json!({
+                "kind":"packAvatar","entityId":"B","contributionNamespace":"ba","variantId":"default"
+            }),
+            serde_json::json!({
+                "kind":"packAvatar","entityId":"ba::B","contributionNamespace":"ba::ext","variantId":"default"
+            }),
+            serde_json::json!({
+                "kind":"packAvatar","entityId":"ba::B","contributionNamespace":"ba","variantId":"bad/value"
+            }),
+            serde_json::json!({
+                "kind":"packAvatar","entityId":"ba::B","contributionNamespace":"ba","variantId":"default","url":"https://example.com/b.png"
+            }),
+            serde_json::json!({
+                "kind":"packAvatar","entityId":"ba::B","contributionNamespace":"ba","variantId":"x".repeat(1025)
+            }),
+        ] {
+            let mut invalid = params.clone();
+            invalid["command"]["avatar"] = malformed;
+            assert!(server.request("mmt/composerEdit", invalid).is_err());
+        }
+
+        let no_pack_uri = Url::parse("file:///workspace/avatar-no-pack.mmt").unwrap();
+        let no_pack_source = "< _0: target";
+        let mut no_pack = MmtLanguageServer::default();
+        no_pack.request("initialize", initialize(false)).unwrap();
+        open_document(&mut no_pack, &no_pack_uri, 1, no_pack_source);
+        assert_eq!(
+            no_pack
+                .request(
+                    "mmt/composerEdit",
+                    serde_json::json!({
+                        "textDocument":{"uri":no_pack_uri,"version":1},
+                        "target":{"kind":"statement","range":{
+                            "start":{"line":0,"character":0},
+                            "end":{"line":0,"character":12}
+                        }},
+                        "command":{"kind":"setActorAvatarFromStatement","avatar":{
+                            "kind":"packAvatar","entityId":"ba::B",
+                            "contributionNamespace":"ba","variantId":"default"
+                        }}
+                    }),
+                )
+                .unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"avatarUnavailable"})
+        );
+        let serialized = serde_json::to_value(ComposerPropertiesResult {
+            continued: ComposerContinuedResult::Auto,
+            actor_display_name: Some(ComposerActorDisplayNameResult {
+                current: "A".to_string(),
+                scope: ComposerActorDisplayNameScope::FromStatement,
+            }),
+            actor_avatar: Some(ComposerActorAvatarResult {
+                scope: ComposerActorAvatarScope::FromStatement,
+                actor_preset_id: "ba::A".to_string(),
+                current: Some(ComposerAvatarCurrentResult::PackAvatar {
+                    entity_id: "ba::B".to_string(),
+                    contribution_namespace: "ba".to_string(),
+                    variant_id: "default".to_string(),
+                }),
+            }),
+        })
+        .unwrap();
+        assert_eq!(
+            serialized,
+            serde_json::json!({
+                "continued":"auto",
+                "actorDisplayName":{"current":"A","scope":"fromStatement"},
+                "actorAvatar":{
+                    "scope":"fromStatement",
+                    "actorPresetId":"ba::A",
+                    "current":{
+                        "kind":"packAvatar",
+                        "entityId":"ba::B",
+                        "contributionNamespace":"ba",
+                        "variantId":"default"
+                    }
+                }
+            })
+        );
+        let asset = serde_json::to_value(ComposerPropertiesResult {
+            continued: ComposerContinuedResult::Auto,
+            actor_display_name: None,
+            actor_avatar: Some(ComposerActorAvatarResult {
+                scope: ComposerActorAvatarScope::FromStatement,
+                actor_preset_id: "ba::A".to_string(),
+                current: Some(ComposerAvatarCurrentResult::Asset {
+                    asset_name: "portrait".to_string(),
+                }),
+            }),
+        })
+        .unwrap();
+        assert_eq!(
+            asset["actorAvatar"]["current"],
+            serde_json::json!({"kind":"asset","assetName":"portrait"})
+        );
+        let no_avatar = serde_json::to_value(ComposerPropertiesResult {
+            continued: ComposerContinuedResult::Auto,
+            actor_display_name: None,
+            actor_avatar: Some(ComposerActorAvatarResult {
+                scope: ComposerActorAvatarScope::FromStatement,
+                actor_preset_id: "ba::A".to_string(),
+                current: None,
+            }),
+        })
+        .unwrap();
+        assert_eq!(no_avatar["actorAvatar"]["current"], serde_json::Value::Null);
     }
 
     #[test]

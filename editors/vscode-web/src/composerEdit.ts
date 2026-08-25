@@ -10,6 +10,20 @@ import type {
 
 export type StatementContinuedValue = "auto" | "true" | "false";
 
+export interface ComposerAvatarChoice {
+  readonly kind: "packAvatar";
+  readonly entityId: string;
+  readonly contributionNamespace: string;
+  readonly variantId: string;
+}
+
+export type ComposerAvatarCurrent =
+  | ComposerAvatarChoice
+  | {
+      readonly kind: "asset";
+      readonly assetName: string;
+    };
+
 export interface ComposerTextDocument {
   readonly uri: string;
   readonly version: number;
@@ -25,6 +39,11 @@ export interface PreviewComposerTargetProperties {
   readonly actorDisplayName?: {
     readonly current: string;
     readonly scope: "fromStatement";
+  };
+  readonly actorAvatar?: {
+    readonly scope: "fromStatement";
+    readonly actorPresetId: string;
+    readonly current: ComposerAvatarCurrent | null;
   };
 }
 
@@ -57,6 +76,10 @@ export type ComposerEditCommand =
   | {
       readonly kind: "setActorDisplayNameFromStatement";
       readonly value: string;
+    }
+  | {
+      readonly kind: "setActorAvatarFromStatement";
+      readonly avatar: ComposerAvatarChoice;
     };
 
 export interface ComposerEditParams {
@@ -71,6 +94,7 @@ export type ComposerEditRejectedReason =
   | "documentHasErrors"
   | "invalidValue"
   | "actorUnavailable"
+  | "avatarUnavailable"
   | "candidateInvalid";
 
 export interface ComposerTextDocumentEdit extends ProtocolTextDocumentEdit {
@@ -133,9 +157,12 @@ const COMPOSER_REJECTED_REASONS = [
   "invalidValue",
   "actorUnavailable",
   "candidateInvalid",
+  "avatarUnavailable",
 ] as const;
 
 const CONTINUED_VALUES = ["auto", "true", "false"] as const;
+const MAX_COMPOSER_AVATAR_COMPONENT_BYTES = 1024;
+const UTF8_ENCODER = new TextEncoder();
 const APPLIED = Object.freeze({ kind: "Applied" } as const);
 const STALE = Object.freeze({ kind: "Stale" } as const);
 const APPLY_FAILED = Object.freeze({ kind: "ApplyFailed" } as const);
@@ -281,34 +308,109 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
     properties,
     ["continued"],
     "Editable Preview Composer properties",
-    ["actorDisplayName"],
+    ["actorDisplayName", "actorAvatar"],
   );
   if (!isAllowedString(properties.continued, CONTINUED_VALUES)) {
     throw new TypeError("Editable Preview Composer properties has an invalid continued value");
   }
-  if (!Object.hasOwn(properties, "actorDisplayName")) {
-    return { continued: properties.continued };
-  }
-
-  const actorDisplayName = requireRecord(
-    properties.actorDisplayName,
-    "Editable Preview Composer actor display name",
-  );
-  requireExactKeys(
-    actorDisplayName,
-    ["current", "scope"],
-    "Editable Preview Composer actor display name",
-  );
-  if (typeof actorDisplayName.current !== "string" || actorDisplayName.scope !== "fromStatement") {
-    throw new TypeError("Editable Preview Composer actor display name is malformed");
-  }
-  return {
-    continued: properties.continued,
-    actorDisplayName: {
+  const result: {
+    continued: StatementContinuedValue;
+    actorDisplayName?: PreviewComposerTargetProperties["actorDisplayName"];
+    actorAvatar?: PreviewComposerTargetProperties["actorAvatar"];
+  } = { continued: properties.continued };
+  if (Object.hasOwn(properties, "actorDisplayName")) {
+    const actorDisplayName = requireRecord(
+      properties.actorDisplayName,
+      "Editable Preview Composer actor display name",
+    );
+    requireExactKeys(
+      actorDisplayName,
+      ["current", "scope"],
+      "Editable Preview Composer actor display name",
+    );
+    if (typeof actorDisplayName.current !== "string" || actorDisplayName.scope !== "fromStatement") {
+      throw new TypeError("Editable Preview Composer actor display name is malformed");
+    }
+    result.actorDisplayName = {
       current: actorDisplayName.current,
       scope: "fromStatement",
-    },
+    };
+  }
+  if (Object.hasOwn(properties, "actorAvatar")) {
+    const actorAvatar = requireRecord(
+      properties.actorAvatar,
+      "Editable Preview Composer actor avatar",
+    );
+    requireExactKeys(
+      actorAvatar,
+      ["scope", "actorPresetId", "current"],
+      "Editable Preview Composer actor avatar",
+    );
+    if (
+      actorAvatar.scope !== "fromStatement"
+      || !isCanonicalEntityId(actorAvatar.actorPresetId)
+    ) {
+      throw new TypeError("Editable Preview Composer actor avatar is malformed");
+    }
+    result.actorAvatar = {
+      scope: "fromStatement",
+      actorPresetId: actorAvatar.actorPresetId,
+      current: actorAvatar.current === null
+        ? null
+        : parseComposerAvatarCurrent(actorAvatar.current),
+    };
+  }
+  return result;
+}
+
+export function parseComposerAvatarChoice(value: unknown): ComposerAvatarChoice {
+  const choice = requireRecord(value, "Composer pack avatar choice");
+  requireExactKeys(
+    choice,
+    ["kind", "entityId", "contributionNamespace", "variantId"],
+    "Composer pack avatar choice",
+  );
+  if (
+    choice.kind !== "packAvatar"
+    || !isCanonicalEntityId(choice.entityId)
+    || !isAvatarComponent(choice.contributionNamespace)
+    || choice.contributionNamespace.includes("::")
+    || !isAvatarComponent(choice.variantId)
+  ) {
+    throw new TypeError("Composer pack avatar choice is malformed");
+  }
+  return {
+    kind: "packAvatar",
+    entityId: choice.entityId,
+    contributionNamespace: choice.contributionNamespace,
+    variantId: choice.variantId,
   };
+}
+
+function parseComposerAvatarCurrent(value: unknown): ComposerAvatarCurrent {
+  const current = requireRecord(value, "Composer current avatar");
+  if (current.kind === "packAvatar") return parseComposerAvatarChoice(current);
+  requireExactKeys(current, ["kind", "assetName"], "Composer current avatar asset");
+  if (current.kind !== "asset" || typeof current.assetName !== "string" || current.assetName.length === 0) {
+    throw new TypeError("Composer current avatar asset is malformed");
+  }
+  return { kind: "asset", assetName: current.assetName };
+}
+
+function isCanonicalEntityId(value: unknown): value is string {
+  if (!isAvatarComponent(value)) return false;
+  const parts = value.split("::");
+  return parts.length === 2 && parts.every((part) => part.length > 0);
+}
+
+function isAvatarComponent(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const byteLength = UTF8_ENCODER.encode(value).byteLength;
+  return byteLength > 0
+    && byteLength <= MAX_COMPOSER_AVATAR_COMPONENT_BYTES
+    && !/[\p{White_Space}\p{Cc}]/u.test(value)
+    && !value.includes("/")
+    && !value.includes("\\");
 }
 
 function parseRange(value: unknown, label: string): ProtocolRange {

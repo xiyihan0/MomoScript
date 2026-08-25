@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   applyComposerEdit,
+  parseComposerAvatarChoice,
   parseComposerEditResult,
   parsePreviewComposerTargetResult,
 } from "../src/composerEdit.ts";
@@ -17,6 +18,16 @@ const editableTarget = {
   properties: {
     continued: "false",
     actorDisplayName: { current: "佳代子", scope: "fromStatement" },
+    actorAvatar: {
+      scope: "fromStatement",
+      actorPresetId: "ba::佳代子",
+      current: {
+        kind: "packAvatar",
+        entityId: "ba::佳代子",
+        contributionNamespace: "ba",
+        variantId: "default",
+      },
+    },
   },
 };
 const protocolEdit = {
@@ -33,6 +44,39 @@ assert.deepEqual(parsePreviewComposerTargetResult({
 }), {
   ...editableTarget,
   properties: { continued: "auto" },
+});
+assert.deepEqual(parsePreviewComposerTargetResult({
+  ...editableTarget,
+  properties: {
+    continued: "auto",
+    actorAvatar: {
+      scope: "fromStatement",
+      actorPresetId: "ba::佳代子",
+      current: { kind: "asset", assetName: "portrait" },
+    },
+  },
+}).properties.actorAvatar.current, { kind: "asset", assetName: "portrait" });
+assert.equal(parsePreviewComposerTargetResult({
+  ...editableTarget,
+  properties: {
+    continued: "auto",
+    actorAvatar: {
+      scope: "fromStatement",
+      actorPresetId: "ba::佳代子",
+      current: null,
+    },
+  },
+}).properties.actorAvatar.current, null);
+assert.deepEqual(parseComposerAvatarChoice({
+  kind: "packAvatar",
+  entityId: "ba::佳代子",
+  contributionNamespace: "ba",
+  variantId: "default",
+}), {
+  kind: "packAvatar",
+  entityId: "ba::佳代子",
+  contributionNamespace: "ba",
+  variantId: "default",
 });
 for (const reason of [
   "stalePreview",
@@ -116,6 +160,61 @@ for (const malformed of [
       actorDisplayName: { current: "name", scope: "oneStatement" },
     },
   },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      actorAvatar: {
+        scope: "fromStatement",
+        actorPresetId: "佳代子",
+        current: null,
+      },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      actorAvatar: {
+        scope: "fromStatement",
+        actorPresetId: "ba::佳代子",
+        current: {
+          kind: "packAvatar",
+          entityId: "ba::佳代子",
+          contributionNamespace: "ba",
+          variantId: "default",
+          path: "unsafe.png",
+        },
+      },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      actorAvatar: {
+        scope: "fromStatement",
+        actorPresetId: "ba::佳代子",
+        current: { kind: "asset", assetName: "portrait", storage: "unsafe" },
+      },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      actorAvatar: {
+        scope: "fromStatement",
+        actorPresetId: "ba::佳代子",
+        current: {
+          kind: "packAvatar",
+          entityId: "ba::佳代子/unsafe",
+          contributionNamespace: "ba",
+          variantId: "default",
+        },
+      },
+    },
+  },
   { kind: "Unavailable", reason: "nearbyStatement" },
   { kind: "Unavailable", reason: "unmapped", extra: true },
 ]) {
@@ -131,6 +230,7 @@ for (const reason of [
   "invalidValue",
   "actorUnavailable",
   "candidateInvalid",
+  "avatarUnavailable",
 ]) {
   assert.deepEqual(parseComposerEditResult({ kind: "Rejected", reason }, textDocument), { kind: "Rejected", reason });
 }
@@ -217,6 +317,28 @@ assert.throws(
   () => parseComposerEditResult({ kind: "Edit", edit: protocolEdit }, { ...textDocument, extra: true }),
   TypeError,
 );
+for (const malformedChoice of [
+  null,
+  { kind: "packAvatar", entityId: "佳代子", contributionNamespace: "ba", variantId: "default" },
+  { kind: "packAvatar", entityId: "ba::佳代子", contributionNamespace: "ba::ext", variantId: "default" },
+  { kind: "packAvatar", entityId: "ba::佳代子", contributionNamespace: "ba", variantId: "bad/value" },
+  { kind: "packAvatar", entityId: "ba::佳代子", contributionNamespace: "ba", variantId: "bad value" },
+  {
+    kind: "packAvatar",
+    entityId: "ba::佳代子",
+    contributionNamespace: "ba",
+    variantId: "x".repeat(1025),
+  },
+  {
+    kind: "packAvatar",
+    entityId: "ba::佳代子",
+    contributionNamespace: "ba",
+    variantId: "default",
+    url: "https://example.com/avatar.png",
+  },
+]) {
+  assert.throws(() => parseComposerAvatarChoice(malformedChoice), TypeError);
+}
 
 function applicationFixture({
   documentUri = textDocument.uri,
