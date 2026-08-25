@@ -2,6 +2,7 @@ export const previewSemanticRoles = [
   "bubble",
   "avatar",
   "display-name",
+  "narration",
   "reply",
   "reply-item",
   "bond",
@@ -16,7 +17,7 @@ export interface PreviewSemanticTarget {
 }
 
 const PREVIEW_SEMANTIC_LABEL_PATTERN =
-  /^mmt:(bubble|avatar|display-name|reply|reply-item|bond|bond-body):(t[0-9a-f]{8})$/;
+  /^mmt:(bubble|avatar|display-name|narration|reply|reply-item|bond|bond-body):(t[0-9a-f]{8})$/;
 
 export function parsePreviewSemanticLabel(value: string): PreviewSemanticTarget | undefined {
   const match = PREVIEW_SEMANTIC_LABEL_PATTERN.exec(value);

@@ -59,6 +59,7 @@ let viewportIdleTimer: number | undefined;
 let pointerOrigin: { readonly x: number; readonly y: number } | undefined;
 let pointerDragged = false;
 let renderGeneration = 0;
+const renderedDomGenerations = new WeakMap<SVGSVGElement, number>();
 
 type PersistentTypstRenderer = TypstRenderer & {
   createModule(artifactContent?: Uint8Array): Promise<RenderSession>;
@@ -683,6 +684,7 @@ const SEMANTIC_TEXT_ROLE_PRIORITY: Record<PreviewSemanticRole, readonly PreviewS
   bubble: ["bubble", "display-name"],
   avatar: ["bubble", "display-name"],
   "display-name": ["bubble", "display-name"],
+  narration: ["narration"],
   reply: ["reply-item", "reply"],
   "reply-item": ["reply-item", "reply"],
   bond: ["bond-body", "bond"],
@@ -693,6 +695,18 @@ const SEMANTIC_TEXT_ROLE_PRIORITY: Record<PreviewSemanticRole, readonly PreviewS
 interface SemanticTextResolution {
   readonly recognized: boolean;
   readonly text: Element | null;
+  readonly blocksDirectText: boolean;
+}
+
+function activateRenderedDomGeneration(root: SVGSVGElement, generation: number): void {
+  renderedDomGenerations.set(root, generation);
+}
+
+function renderedDomIsActive(root: Element): root is SVGSVGElement {
+  return root instanceof SVGSVGElement
+    && root.isConnected
+    && page.contains(root)
+    && renderedDomGenerations.get(root) === renderGeneration;
 }
 
 function nearestRenderedTextForSemanticTarget(
@@ -702,9 +716,15 @@ function nearestRenderedTextForSemanticTarget(
 ): SemanticTextResolution {
   const element = target instanceof Element ? target : null;
   const labelled = element?.closest("[data-typst-label]") ?? null;
-  const semanticTarget = parsePreviewSemanticLabel(labelled?.getAttribute("data-typst-label") ?? "");
-  const root = labelled?.closest("svg");
-  if (!semanticTarget || !root) return { recognized: false, text: null };
+  if (!labelled) return { recognized: false, text: null, blocksDirectText: false };
+  const semanticTarget = parsePreviewSemanticLabel(labelled.getAttribute("data-typst-label") ?? "");
+  const root = labelled.closest("svg");
+  if (!semanticTarget || !root) {
+    return { recognized: true, text: null, blocksDirectText: false };
+  }
+  if (!renderedDomIsActive(root)) {
+    return { recognized: true, text: null, blocksDirectText: true };
+  }
 
   for (const preferredRole of SEMANTIC_TEXT_ROLE_PRIORITY[semanticTarget.role]) {
     const candidates = new Set<Element>();
@@ -730,9 +750,9 @@ function nearestRenderedTextForSemanticTarget(
         nearestDistance = distance;
       }
     }
-    if (nearest) return { recognized: true, text: nearest };
+    if (nearest) return { recognized: true, text: nearest, blocksDirectText: false };
   }
-  return { recognized: true, text: null };
+  return { recognized: true, text: null, blocksDirectText: false };
 }
 
 function nearestRenderedTextInOwningGroup(
@@ -793,8 +813,14 @@ function previewNavigationPointAtClientCoordinates(
   const directText = (target as Element | null)?.closest?.(".typst-text") ?? null;
   const semanticResolution = snapToOwningGroup
     ? nearestRenderedTextForSemanticTarget(target, clientX, clientY)
-    : { recognized: false, text: null };
-  if (!directText && semanticResolution.recognized && !semanticResolution.text) return undefined;
+    : { recognized: false, text: null, blocksDirectText: false };
+  if (
+    semanticResolution.recognized
+    && !semanticResolution.text
+    && (!directText || semanticResolution.blocksDirectText)
+  ) {
+    return undefined;
+  }
   const textElement = directText ?? (
     snapToOwningGroup
       ? semanticResolution.text
@@ -1195,6 +1221,9 @@ async function renderFrame(message: RendererFrameMessage): Promise<void> {
   };
   const rendered = await persistentRenderer.apply(message);
   if (generation !== renderGeneration) return;
+  const activeRoot = page.querySelector<SVGSVGElement>(":scope > svg.typst-renderer-root");
+  if (!activeRoot) throw new Error("Preview renderer committed no active SVG root");
+  activateRenderedDomGeneration(activeRoot, generation);
   status.hidden = true;
   viewport.hidden = false;
   page.classList.add("renderer-active");
@@ -1288,6 +1317,7 @@ async function render(message: RenderMessage): Promise<void> {
     page.dataset.intrinsicWidth = String(intrinsicWidth);
     page.dataset.intrinsicHeight = String(intrinsicHeight);
     page.replaceChildren(root);
+    activateRenderedDomGeneration(root as SVGSVGElement, generation);
     commitImageUrls(stagedImageUrls);
     status.hidden = true;
     viewport.hidden = false;

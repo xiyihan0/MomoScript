@@ -7,22 +7,24 @@ The production Web Workbench MAY expose contextual editing from the displayed pr
 #### Scenario: Author right-clicks an editable chat bubble
 
 - GIVEN the displayed artifact is current and no preview text selection is active
-- WHEN the author invokes `contextmenu` on rendered text or on an exporter-labelled bubble、avatar or display-name region whose opaque token identifies one current rendered target
+- WHEN the author invokes `contextmenu` on rendered text or on an exporter-labelled bubble、avatar or display-name region whose opaque token groups one rendered target
+- AND the labelled SVG root is connected beneath the current preview page with the active DOM render generation
 - AND the runtime resolves a labelled text region with that same token or preserves the exact text hit
 - AND the language service proves one editable statement target from the resulting current backend location
 - THEN the Workbench MUST open its native context-menu service beside the pointer to offer source navigation、continued state and available actor display-name editing
 - AND a display-name action MUST open a native InputBox in a Workbench context view beside the original pointer rather than in the top Quick Input
-- AND semantic hit testing MUST NOT cross target tokens、infer ownership from SVG order or convert page whitespace into a guessed target
-- AND SVG labels MUST contain only a bounded deterministic opaque token plus visual role, never authored ranges、actor identity、display text or edit authority
+- AND semantic hit testing MUST NOT cross target tokens、infer ownership from SVG order、cross an unrecognized closest label、accept an earlier DOM generation or convert page whitespace into a guessed target
+- AND SVG labels MUST contain only a bounded deterministic opaque token plus visual role, never authored ranges、actor identity、display text、freshness evidence or edit authority
 - AND the preview Webview message MUST carry only the normalized point and a visual-only screen anchor
 - AND every mutation MUST be requested from the shared language service as a structured Composer command
 
 #### Scenario: Interactive SVG labels do not authorize unsupported nodes
 
-- GIVEN reply or bond output carries exporter-authored target and role labels
+- GIVEN narration、reply or bond output carries exporter-authored target and role labels
 - WHEN the author invokes `contextmenu` on those labelled regions
-- THEN the runtime MAY use the label only to resolve a same-target visual point
-- AND the language service MUST continue to classify reply/bond as unsupported for mutation in this slice
+- THEN the runtime MAY use the label only to resolve a same-target visual point within the active DOM generation
+- AND the language service MUST continue to classify narration、reply and bond as unsupported for mutation in this slice
+- AND the Workbench MUST expose navigation only when the existing permission-checked mapping allows it
 - AND the Workbench MUST NOT expose continued or display-name actions for them
 
 #### Scenario: Author has selected preview text

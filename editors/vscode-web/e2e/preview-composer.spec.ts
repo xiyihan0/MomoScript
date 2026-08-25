@@ -75,10 +75,14 @@ test("full SVG preview preserves semantic chat regions for Composer authorizatio
   await expect(frame.locator(".page")).not.toHaveClass(/renderer-active/);
   await expectChatSemanticRegions(frame, "FULL_SVG_TARGET");
   await expectSemanticChatContext(page, frame, "FULL_SVG_TARGET", "avatar");
+  await resetComposer(page);
+  await dispatchInactiveDomSemanticContextMenu(frame);
+  await page.waitForTimeout(250);
+  expect(await composerState(page)).toEqual(emptyComposerState());
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
 });
 
-test("diff-v1 preview preserves semantic chat regions and rejects orphan tokens", { tag: "@preview-composer" }, async ({ page }) => {
+test("diff-v1 preview rejects orphan, shadowing, or inactive semantic targets", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-semantic-diff.mmt";
   const original = "> 佳代子: DIFF_FIRST\n> _0: DIFF_TARGET\n";
   const edited = "> 佳代子: DIFF_FIRST\n>(continued: true) _0: DIFF_TARGET\n";
@@ -99,6 +103,14 @@ test("diff-v1 preview preserves semantic chat regions and rejects orphan tokens"
   await expectSemanticChatContext(page, frame, "DIFF_FIRST", "display-name");
   await resetComposer(page);
   await dispatchOrphanSemanticContextMenu(frame);
+  await page.waitForTimeout(250);
+  expect(await composerState(page)).toEqual(emptyComposerState());
+  await resetComposer(page);
+  await dispatchInactiveDomSemanticContextMenu(frame);
+  await page.waitForTimeout(250);
+  expect(await composerState(page)).toEqual(emptyComposerState());
+  await resetComposer(page);
+  await dispatchShadowingTypstLabelContextMenu(frame);
   await page.waitForTimeout(250);
   expect(await composerState(page)).toEqual(emptyComposerState());
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(edited);
@@ -320,7 +332,9 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   await clearPreviewSelection(frame);
   for (const marker of ["NARRATION_TARGET", "REPLY_TARGET_A", "BOND_TARGET", "RAW_TYPST_TARGET", "GENERATED_HEADER_ONLY"]) {
     await resetComposer(page);
-    if (marker === "REPLY_TARGET_A") {
+    if (marker === "NARRATION_TARGET") {
+      await rightClickSingleSemanticContainer(frame, marker, "narration");
+    } else if (marker === "REPLY_TARGET_A") {
       await rightClickSemanticContainer(frame, marker, "reply-item", "reply");
     } else if (marker === "BOND_TARGET") {
       await rightClickSemanticContainer(frame, marker, "bond-body", "bond");
@@ -678,6 +692,42 @@ async function rightClickSemanticRegion(
   }, { marker, role });
 }
 
+async function rightClickSingleSemanticContainer(
+  frame: Frame,
+  marker: string,
+  role: "narration",
+): Promise<void> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  await text.evaluate((element, expected) => {
+    const container = element
+      .closest(".typst-text")
+      ?.closest(`[data-typst-label^='mmt:${expected.role}:']`);
+    const label = container?.getAttribute("data-typst-label") ?? "";
+    if (!new RegExp(`^mmt:${expected.role}:t[0-9a-f]{8}$`).test(label)) {
+      throw new Error(`semantic ${expected.role} target is unavailable for ${expected.marker}`);
+    }
+    const bounds = container!.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) {
+      throw new Error(`semantic ${expected.role} target has no rendered bounds`);
+    }
+    const point = {
+      x: bounds.left + Math.min(2, bounds.width / 2),
+      y: bounds.top + Math.min(2, bounds.height / 2),
+    };
+    container!.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+  }, { marker, role });
+}
+
 
 async function rightClickSemanticContainer(
   frame: Frame,
@@ -763,6 +813,48 @@ async function dispatchOrphanSemanticContextMenu(frame: Frame): Promise<void> {
     group.remove();
   });
 }
+async function dispatchShadowingTypstLabelContextMenu(frame: Frame): Promise<void> {
+  const svg = frame.locator("svg").first();
+  await expect(svg).toBeVisible();
+  await svg.evaluate((root) => {
+    const namespace = "http://www.w3.org/2000/svg";
+    const bubble = root.querySelector("[data-typst-label^='mmt:bubble:']");
+    const owningGroup = bubble?.parentElement;
+    if (!owningGroup || owningGroup.tagName.toLowerCase() !== "g") {
+      throw new Error("chat ancestor is unavailable for shadowing Typst label");
+    }
+    const group = document.createElementNS(namespace, "g");
+    group.setAttribute("data-typst-label", "ordinary-typst-label");
+    const rect = document.createElementNS(namespace, "rect");
+    rect.setAttribute("x", "1");
+    rect.setAttribute("y", "1");
+    rect.setAttribute("width", "12");
+    rect.setAttribute("height", "12");
+    group.append(rect);
+    owningGroup.append(group);
+    const bounds = rect.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) {
+      group.remove();
+      throw new Error("shadowing Typst label has no rendered bounds");
+    }
+    const point = {
+      x: (bounds.left + bounds.right) / 2,
+      y: (bounds.top + bounds.bottom) / 2,
+    };
+    group.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+    group.remove();
+  });
+}
+
 async function expectChatSemanticRegions(frame: Frame, marker: string): Promise<void> {
   const text = frame.locator(".tsel").filter({ hasText: marker }).first();
   await expect(text).toBeVisible();
@@ -783,6 +875,39 @@ async function expectChatSemanticRegions(frame: Frame, marker: string): Promise<
     expect.stringMatching(/^mmt:display-name:t[0-9a-f]{8}$/),
   ]);
 }
+async function dispatchInactiveDomSemanticContextMenu(frame: Frame): Promise<void> {
+  const svg = frame.locator("svg").first();
+  await expect(svg).toBeVisible();
+  await svg.evaluate((activeRoot) => {
+    const previewPage = activeRoot.closest(".page");
+    if (!previewPage) throw new Error("active preview page is unavailable");
+    const inactiveRoot = activeRoot.cloneNode(true) as SVGSVGElement;
+    const target = inactiveRoot.querySelector("[data-typst-label^='mmt:avatar:']");
+    if (!target) throw new Error("inactive semantic avatar target is unavailable");
+    previewPage.append(inactiveRoot);
+    const bounds = target.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) {
+      inactiveRoot.remove();
+      throw new Error("inactive semantic target has no rendered bounds");
+    }
+    const point = {
+      x: (bounds.left + bounds.right) / 2,
+      y: (bounds.top + bounds.bottom) / 2,
+    };
+    target.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: point.x,
+      clientY: point.y,
+      screenX: window.screenX + point.x,
+      screenY: window.screenY + point.y,
+    }));
+    inactiveRoot.remove();
+  });
+}
+
 
 async function expectSemanticChatContext(
   page: Page,
