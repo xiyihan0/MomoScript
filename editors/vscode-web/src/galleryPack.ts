@@ -1,5 +1,5 @@
 import type { PackManifestSource } from "../../vscode/src/packSync";
-import { decodeAvifSequence, type ImageSequenceResource } from "./avifSequence";
+import { decodeAvifSequence, type ImageSequenceResource } from "./avifSequence.ts";
 import type {
   GalleryCatalogProvenance,
   GalleryCatalogTaxonomyTerm,
@@ -35,6 +35,26 @@ export interface GalleryEntity {
   readonly stickerSets: readonly GalleryStickerSet[];
 }
 
+export interface GalleryAvatarVariant {
+  readonly entityId: string;
+  readonly entityDisplayName: string;
+  readonly contributionNamespace: string;
+  readonly variantId: string;
+  readonly handles: readonly string[];
+  readonly storageKey: string;
+  readonly path?: string;
+  readonly frame?: number;
+  readonly isEntityDefault: boolean;
+  readonly isSourceDefault: boolean;
+}
+
+export interface AvatarCatalogItem {
+  readonly variant: GalleryAvatarVariant;
+  readonly thumbnailUrl?: string;
+  readonly selectable: boolean;
+  readonly searchTerms: readonly string[];
+}
+
 export type GalleryStorageBackend =
   | { readonly kind: "image-dir"; readonly base: string }
   | {
@@ -55,6 +75,7 @@ export interface GalleryPack {
   readonly manifestUrl: string;
   readonly baseUrl: string;
   readonly entities: readonly GalleryEntity[];
+  readonly avatarVariants: readonly GalleryAvatarVariant[];
   readonly storage: ReadonlyMap<string, GalleryStorageBackend>;
   readonly schools: readonly GalleryCatalogTaxonomyTerm[];
   readonly relations: readonly GalleryCatalogTaxonomyTerm[];
@@ -68,6 +89,7 @@ export function projectGalleryPack(
   const manifest = JSON.parse(source.json) as {
     pack?: { namespace?: unknown; name?: unknown };
     entities?: Record<string, unknown>;
+    contributions?: unknown[];
     storage?: Record<string, unknown>;
   };
   const namespace = manifest.pack?.namespace;
@@ -81,9 +103,37 @@ export function projectGalleryPack(
     if (backend) storage.set(key, backend);
   }
   const entities: GalleryEntity[] = [];
+  const avatarVariants: GalleryAvatarVariant[] = [];
   for (const [key, value] of Object.entries(manifest.entities ?? {})) {
     const entity = parseEntity(key, value, metadata);
-    if (entity) entities.push(entity);
+    if (!entity) continue;
+    entities.push(entity);
+    const record = value as Record<string, unknown>;
+    const slots = typeof record.slots === "object" && record.slots !== null
+      ? record.slots as Record<string, unknown>
+      : {};
+    avatarVariants.push(...parseAvatarVariants(
+      slots.avatar,
+      canonicalEntityId(namespace, key),
+      galleryDisplayLabel(entity),
+      namespace,
+      true,
+    ));
+  }
+  for (const value of manifest.contributions ?? []) {
+    if (typeof value !== "object" || value === null) continue;
+    const contribution = value as Record<string, unknown>;
+    if (typeof contribution.target !== "string" || !contribution.target.includes("::")) continue;
+    const slots = typeof contribution.slots === "object" && contribution.slots !== null
+      ? contribution.slots as Record<string, unknown>
+      : {};
+    avatarVariants.push(...parseAvatarVariants(
+      slots.avatar,
+      contribution.target,
+      contribution.target,
+      namespace,
+      false,
+    ));
   }
   entities.sort((left, right) => (
     galleryDisplayLabel(left).localeCompare(galleryDisplayLabel(right), "zh-Hans-CN")
@@ -97,6 +147,7 @@ export function projectGalleryPack(
     manifestUrl: source.manifestUrl,
     baseUrl: source.baseUrl,
     entities,
+    avatarVariants,
     storage,
     schools: sortTaxonomy(metadata?.schools),
     relations: sortTaxonomy(metadata?.relations),
@@ -199,6 +250,49 @@ function parseAvatar(value: unknown): GalleryEntity["avatar"] {
   return { storageKey: storage, path };
 }
 
+function canonicalEntityId(namespace: string, key: string): string {
+  return key.includes("::") ? key : `${namespace}::${key}`;
+}
+
+function parseAvatarVariants(
+  value: unknown,
+  entityId: string,
+  entityDisplayName: string,
+  contributionNamespace: string,
+  baseEntitySource: boolean,
+): readonly GalleryAvatarVariant[] {
+  if (typeof value !== "object" || value === null) return [];
+  const record = value as Record<string, unknown>;
+  const items = typeof record.items === "object" && record.items !== null
+    ? record.items as Record<string, unknown>
+    : {};
+  const defaultVariant = typeof record.default === "string" ? record.default : undefined;
+  const output: GalleryAvatarVariant[] = [];
+  for (const [variantId, value] of Object.entries(items)) {
+    if (typeof value !== "object" || value === null) continue;
+    const item = value as Record<string, unknown>;
+    if (typeof item.storage !== "string" || item.storage.length === 0) continue;
+    const handles = Array.isArray(item.handles)
+      ? item.handles.filter((handle): handle is string => typeof handle === "string" && handle.length > 0)
+      : [];
+    output.push({
+      entityId,
+      entityDisplayName,
+      contributionNamespace,
+      variantId,
+      handles,
+      storageKey: item.storage,
+      ...(typeof item.path === "string" ? { path: item.path } : {}),
+      ...(typeof item.frame === "number" && Number.isInteger(item.frame) && item.frame >= 0
+        ? { frame: item.frame }
+        : {}),
+      isEntityDefault: baseEntitySource && variantId === defaultVariant,
+      isSourceDefault: variantId === defaultVariant,
+    });
+  }
+  return output;
+}
+
 function parseStickerSets(value: unknown): readonly GalleryStickerSet[] {
   if (typeof value !== "object" || value === null) return [];
   const record = value as Record<string, unknown>;
@@ -278,6 +372,103 @@ function uniqueSearchTerms(values: readonly string[]): readonly string[] {
   return [...new Set(values.filter((value) => value.length > 0))];
 }
 
+export function buildAvatarCatalog(packs: readonly GalleryPack[]): readonly AvatarCatalogItem[] {
+  const entities = new Map<string, GalleryEntity>();
+  for (const pack of packs) {
+    for (const entity of pack.entities) {
+      entities.set(canonicalEntityId(pack.namespace, entity.key), entity);
+    }
+  }
+
+  type Candidate = {
+    readonly item: AvatarCatalogItem;
+    readonly signature: string;
+    readonly sourceKey: string;
+  };
+  const candidates = new Map<string, Candidate[]>();
+  for (const pack of packs) {
+    for (const avatar of pack.avatarVariants) {
+      const entity = entities.get(avatar.entityId);
+      const variant: GalleryAvatarVariant = {
+        ...avatar,
+        entityDisplayName: entity === undefined ? avatar.entityDisplayName : galleryDisplayLabel(entity),
+      };
+      const backend = pack.storage.get(variant.storageKey);
+      let thumbnailUrl: string | undefined;
+      if (backend?.kind === "image-dir" && variant.path !== undefined) {
+        try {
+          thumbnailUrl = packResourceUrl(pack.baseUrl, `${backend.base}/${variant.path}`, "image-dir").href;
+        } catch {
+          thumbnailUrl = undefined;
+        }
+      }
+      const item: AvatarCatalogItem = {
+        variant,
+        ...(thumbnailUrl === undefined ? {} : { thumbnailUrl }),
+        selectable: thumbnailUrl !== undefined,
+        searchTerms: uniqueSearchTerms([
+          variant.entityId,
+          variant.entityDisplayName,
+          variant.contributionNamespace,
+          variant.variantId,
+          ...variant.handles,
+          ...(entity?.searchTerms ?? []),
+        ]),
+      };
+      const identity = avatarIdentity(variant);
+      const group = candidates.get(identity) ?? [];
+      group.push({
+        item,
+        signature: avatarMetadataSignature(variant),
+        sourceKey: `${pack.manifestUrl}\u0000${pack.baseUrl}`,
+      });
+      candidates.set(identity, group);
+    }
+  }
+
+  const output: AvatarCatalogItem[] = [];
+  for (const group of candidates.values()) {
+    if (new Set(group.map((candidate) => candidate.signature)).size !== 1) continue;
+    group.sort((left, right) => left.sourceKey.localeCompare(right.sourceKey));
+    output.push(group[0]!.item);
+  }
+  output.sort(compareAvatarCatalogItems);
+  return output;
+}
+
+function avatarIdentity(variant: GalleryAvatarVariant): string {
+  return `${variant.entityId}\u0000${variant.contributionNamespace}\u0000${variant.variantId}`;
+}
+
+function avatarMetadataSignature(variant: GalleryAvatarVariant): string {
+  return JSON.stringify([
+    variant.entityDisplayName,
+    variant.handles,
+    variant.storageKey,
+    variant.path ?? null,
+    variant.frame ?? null,
+    variant.isEntityDefault,
+    variant.isSourceDefault,
+  ]);
+}
+
+function compareAvatarCatalogItems(left: AvatarCatalogItem, right: AvatarCatalogItem): number {
+  const a = left.variant;
+  const b = right.variant;
+  return (
+    a.entityDisplayName.localeCompare(b.entityDisplayName, "zh-Hans-CN")
+    || a.entityId.localeCompare(b.entityId)
+    || Number(isBaseAvatarSource(b)) - Number(isBaseAvatarSource(a))
+    || a.contributionNamespace.localeCompare(b.contributionNamespace)
+    || Number(b.isSourceDefault) - Number(a.isSourceDefault)
+    || a.variantId.localeCompare(b.variantId)
+  );
+}
+
+function isBaseAvatarSource(variant: GalleryAvatarVariant): boolean {
+  return variant.entityId.split("::", 1)[0] === variant.contributionNamespace;
+}
+
 export function galleryAvatarUrl(pack: GalleryPack, entity: GalleryEntity): URL | undefined {
   if (!entity.avatar) return undefined;
   const backend = pack.storage.get(entity.avatar.storageKey);
@@ -312,10 +503,13 @@ function sequenceRequest(
 
 class LruCache<K, V> {
   readonly #entries = new Map<K, V>();
-  constructor(
-    private readonly capacity: number,
-    private readonly onEvict?: (key: K, value: V) => void
-  ) {}
+  private readonly capacity: number;
+  private readonly onEvict?: (key: K, value: V) => void;
+
+  constructor(capacity: number, onEvict?: (key: K, value: V) => void) {
+    this.capacity = capacity;
+    this.onEvict = onEvict;
+  }
 
   get(key: K): V | undefined {
     const value = this.#entries.get(key);
