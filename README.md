@@ -158,8 +158,8 @@ npm run test:worker
 TINYMIST_BIN=/path/to/tinymist npm run test:tinymist-process
 
 # 需要固定 Tinymist Web package
-TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker
-TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:web
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.4-rc3" npm run test:tinymist-worker
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.4-rc3" npm run test:web
 ```
 
 Web 端：

@@ -164,7 +164,7 @@ const backendEdit = {
   ]
 };
 
-// Tinymist 0.15.2 returns this exact `changes` shape and drops the slash after
+// Tinymist 0.15.4-rc3 returns this exact `changes` shape and drops the slash after
 // the untitled scheme. The host must bind that alias back to the retained URI
 // before asking Rust to validate identity and ranges.
 const sidecarVirtualA = "untitled:mmt-projection/a/session/main-7.typ";

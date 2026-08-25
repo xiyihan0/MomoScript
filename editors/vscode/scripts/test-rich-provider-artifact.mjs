@@ -84,7 +84,7 @@ function initializeParams() {
 
 function assertProbe(host, initialize, probes) {
   const capabilities = initialize.capabilities;
-  assert.equal(initialize.serverInfo?.version, "0.15.2", `${host} version`);
+  assert.equal(initialize.serverInfo?.version, "0.15.4-rc3", `${host} version`);
   assert.equal(capabilities.positionEncoding, "utf-16", `${host} encoding`);
   assert.equal(capabilities.renameProvider?.prepareProvider, true, `${host} prepare rename advertisement`);
   for (const key of [

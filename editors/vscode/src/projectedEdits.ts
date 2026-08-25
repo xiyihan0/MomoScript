@@ -688,7 +688,7 @@ function equivalentTinymistProjectedUri(candidate: string, retained: string): bo
 }
 
 /**
- * Tinymist 0.15.2 serializes `untitled:/mmt-projection/...` edit targets as
+ * Tinymist 0.15.4-rc3 serializes `untitled:/mmt-projection/...` edit targets as
  * `untitled:mmt-projection/...`. Accept only that pinned, projection-root alias;
  * arbitrary opaque/hierarchical URI pairs remain distinct.
  */

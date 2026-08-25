@@ -3,5 +3,5 @@ bin/
 node_modules/
 wasm/
 *.vsix
-.vscode-test-web/
-.vscode-test/
+.vscode-test-web
+.vscode-test

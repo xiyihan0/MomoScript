@@ -36,7 +36,7 @@ const INITIALIZE_RESULT = {
       full: true
     }
   },
-  serverInfo: { name: "fixture", version: "0.15.2" }
+  serverInfo: { name: "fixture", version: "0.15.4-rc3" }
 };
 
 class FakeWorker {
@@ -67,7 +67,7 @@ class FakeWorker {
       queueMicrotask(() => this.emit("message", {
         jsonrpc: "2.0",
         method: "tinymist/workerReady",
-        params: { protocolVersion: 1, backendVersion: "0.15.2" }
+        params: { protocolVersion: 1, backendVersion: "0.15.4-rc3" }
       }));
       return;
     }

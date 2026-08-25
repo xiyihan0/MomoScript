@@ -389,7 +389,7 @@ export class TinymistWorkerConnection implements JsonRpcConnection {
         if (event.data.method === "tinymist/workerReady") {
           const params = event.data.params;
           const record = typeof params === "object" && params !== null ? params as Record<string, unknown> : undefined;
-          if (record?.protocolVersion !== 1 || record.backendVersion !== "0.15.2") {
+          if (record?.protocolVersion !== 1 || record.backendVersion !== "0.15.4-rc3") {
             finish(new Error("Incompatible Tinymist Worker backend"));
           } else {
             finish();

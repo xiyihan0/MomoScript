@@ -84,7 +84,7 @@ MMT TextDocument
 
 ## 运行时产物与来源
 
-- 生产浏览器 journeys 使用仓库中经过校验的 [`editors/vscode/vendor/tinymist-0.15.2/`](./vscode/vendor/tinymist-0.15.2/) pinned fixtures；构建前由 `verify-web-vendor.mjs` 校验浏览器 language-service artifacts。
+- 生产浏览器 journeys 使用仓库中经过校验的 [`editors/vscode/vendor/tinymist-0.15.4-rc3/`](./vscode/vendor/tinymist-0.15.4-rc3/) pinned fixtures；构建前由 `verify-web-vendor.mjs` 校验浏览器 language-service artifacts。
 - `tinymist-compatibility` 从 workflow 固定 revision 与补丁构建 native binary/Web package，生成并校验 SHA-256 文件，再上传 `tinymist-pinned-linux-x64`。`extension-desktop` 和 `extension-web` 下载该 artifact 验证兼容性，不把 runner 临时路径当发布来源。
 - `typst-compiler-compatibility` 从固定 typst.ts revision、patch、Rust/wasm-pack/Binaryen 工具链构建 compiler WASM，校验 Binaryen 下载、WASM SHA-256 与必需 exports，再上传 `typst-compiler-pinned-web`。需要真实 compiler 的 production/PWA/preview jobs 下载该 artifact，并通过 `TYPST_COMPILER_WEB_PKG` 传入。
 - `TINYMIST_BIN`、`TINYMIST_WEB_PKG` 和 `TYPST_COMPILER_WEB_PKG` 都只是已验证产物的位置；digest/SHA 文件与 workflow pin 决定来源可信度。

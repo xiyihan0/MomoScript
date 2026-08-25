@@ -307,9 +307,9 @@ function fakeTinymistProcess(version: string, options: FakeTinymistOptions = {})
 
 async function testFailedRecoveryCleanup(): Promise<void> {
   const processes: FakeTinymistProcess[] = [];
-  const versions = ["0.15.2", "0.15.1", "0.15.2"];
+  const versions = ["0.15.4-rc3", "0.15.1", "0.15.4-rc3"];
   const factory: TinymistProcessFactory = () => {
-    const process = fakeTinymistProcess(versions[processes.length] ?? "0.15.2");
+    const process = fakeTinymistProcess(versions[processes.length] ?? "0.15.4-rc3");
     processes.push(process);
     return process.child;
   };
@@ -319,7 +319,7 @@ async function testFailedRecoveryCleanup(): Promise<void> {
     try {
       await client.restart();
     } catch (error) {
-      rejected = error instanceof Error && error.message.includes("0.15.2 required");
+      rejected = error instanceof Error && error.message.includes("0.15.4-rc3 required");
     }
     if (!rejected) throw new Error("invalid recovery handshake was accepted");
     await new Promise((resolve) => setImmediate(resolve));
@@ -339,7 +339,7 @@ async function testFailedRecoveryCleanup(): Promise<void> {
 
 async function testPrimeFailureBlocksFeatureRequest(): Promise<void> {
   const methods: string[] = [];
-  const process = fakeTinymistProcess("0.15.2", { failPrime: true, methods });
+  const process = fakeTinymistProcess("0.15.4-rc3", { failPrime: true, methods });
   const client = await TinymistProcessClient.start("fake-tinymist", 1, () => process.child);
   try {
     const entryUri = "untitled:/mmt-projection/prime-failure/main-1.typ";
@@ -372,7 +372,7 @@ async function testPrimeFailureBlocksFeatureRequest(): Promise<void> {
 
 async function testSupersededPrimeBlocksStaleFeatureRequest(): Promise<void> {
   const methods: string[] = [];
-  const process = fakeTinymistProcess("0.15.2", { methods });
+  const process = fakeTinymistProcess("0.15.4-rc3", { methods });
   const client = await TinymistProcessClient.start("fake-tinymist", 1, () => process.child);
   try {
     const sourceUri = "file:///workspace/prime-superseded.mmt";
@@ -934,7 +934,7 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       schemaVersion: 1,
       artifact: {
         host: "native-process",
-        packageVersion: "0.15.2",
+        packageVersion: "0.15.4-rc3",
         backendName,
         backendVersion,
         protocolVersion: "LSP 3.17",

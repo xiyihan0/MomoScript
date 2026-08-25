@@ -86,7 +86,7 @@
       {
         "language": "typst",
         "scopeName": "source.typst",
-        "path": "./vendor/tinymist-0.15.2/typst.tmLanguage.json"
+        "path": "./vendor/tinymist-0.15.4-rc3/typst.tmLanguage.json"
       }
     ],
     "configurationDefaults": {

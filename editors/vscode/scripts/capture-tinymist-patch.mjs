@@ -12,7 +12,7 @@ const mode = process.argv[3] ?? "package";
 if (!process.argv[2] || !["package", "renderer"].includes(mode)) {
   throw new Error("usage: node capture-tinymist-patch.mjs <patched-tinymist-source> [package|renderer]");
 }
-const revision = "3d63da4f93c54ddef0c63e1a6237d67aee13f5fe";
+const revision = "e54ace4f49a84baf60d9d1b059fd0cab7a780295";
 const { stdout: head } = await exec("git", ["rev-parse", "HEAD"], { cwd: source });
 if (head.trim() !== revision) throw new Error(`Tinymist source must be at ${revision}`);
 let patch;

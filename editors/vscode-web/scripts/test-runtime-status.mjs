@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { EditorRuntimeStatus } from "../src/runtimeStatus.ts";
 
 const status = new EditorRuntimeStatus({
-  backendVersion: "0.15.2",
+  backendVersion: "0.15.4-rc3",
   artifactDigest: "0123456789abcdef",
   positionEncoding: "utf-16",
 });
@@ -10,7 +10,7 @@ const changes = [];
 const subscription = status.onDidChange((snapshot) => changes.push(snapshot));
 
 assert.deepEqual(status.snapshot(), {
-  backendVersion: "0.15.2",
+  backendVersion: "0.15.4-rc3",
   artifactDigestPrefix: "0123456789ab",
   positionEncoding: "utf-16",
   recoveryState: "starting",
@@ -23,7 +23,7 @@ status.update({
   queuedProjectCount: 2,
   lastFailure: "fixture restart",
 });
-assert.match(status.tooltip("Preview stale", 17, 4), /Tinymist 0\.15\.2 \(0123456789ab\)/);
+assert.match(status.tooltip("Preview stale", 17, 4), /Tinymist 0\.15.4-rc3 \(0123456789ab\)/);
 assert.match(status.tooltip("Preview stale", 17, 4), /recovery recovering; generation 3; queued projects 2/);
 assert.match(status.tooltip("Preview stale", 17, 4), /preview revision 17; diagnostics 4/);
 assert.match(status.tooltip("Preview stale", 17, 4), /last runtime failure: fixture restart/);

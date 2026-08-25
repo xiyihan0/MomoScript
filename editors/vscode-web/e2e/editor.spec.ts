@@ -76,7 +76,7 @@ test("production editor materializes an avatar and restores the authored story a
   const expandedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
   expect(collapsedEditorHeight - expandedEditorHeight).toBeGreaterThan(100);
   await expect(outputPanel).toContainText(
-    /runtime:status.*"backendVersion":"0\.15\.2".*"recoveryState":"ready"/s
+    /runtime:status.*"backendVersion":"0\.15.4-rc3".*"recoveryState":"ready"/s
   );
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await problemsToggle.click();
@@ -96,7 +96,7 @@ test("production editor materializes an avatar and restores the authored story a
   let preview = await waitForPreviewFrame(page);
   const buildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ });
   await expect(buildStatus).toBeVisible();
-  await expect(buildStatus).toHaveAttribute("aria-label", /Tinymist 0\.15\.2 \([0-9a-f]{12}\).*position utf-16.*queued projects \d+/s);
+  await expect(buildStatus).toHaveAttribute("aria-label", /Tinymist 0\.15.4-rc3 \([0-9a-f]{12}\).*position utf-16.*queued projects \d+/s);
   await expect.poll(async () => {
     const snapshot = await invokeMmtE2E(page, "runtime", "status");
     return {
@@ -107,7 +107,7 @@ test("production editor materializes an avatar and restores the authored story a
       queuedProjectCount: snapshot.queuedProjectCount,
     };
   }).toEqual({
-    backendVersion: "0.15.2",
+    backendVersion: "0.15.4-rc3",
     digestLength: 12,
     positionEncoding: "utf-16",
     recoveryState: "ready",

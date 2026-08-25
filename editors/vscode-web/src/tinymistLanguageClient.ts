@@ -9,7 +9,7 @@ import {
   typstProblemsPublisher,
   type TypstProblemsPublisher
 } from "../../vscode/src/typstFeatures";
-import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
+import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.4-rc3/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
 import { TINYMIST_WASM_ARTIFACT, TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
 import { fetchDecodedRuntimeArtifact } from "./runtimeArtifactDecoder";

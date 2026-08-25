@@ -2,7 +2,7 @@ import type { ExtensionConfig } from "monaco-languageclient/vscodeApiWrapper";
 import languageConfiguration from "../../vscode/language-configuration.json?raw";
 import manifest from "../../vscode/package.json";
 import grammar from "../../vscode/syntaxes/mmt.tmLanguage.json?raw";
-import typstGrammar from "../../vscode/vendor/tinymist-0.15.2/typst.tmLanguage.json?raw";
+import typstGrammar from "../../vscode/vendor/tinymist-0.15.4-rc3/typst.tmLanguage.json?raw";
 
 const theme = JSON.stringify({
   name: "MomoScript Dark",
@@ -85,7 +85,7 @@ export function mmtExtension(): ExtensionConfig {
     filesOrContents: new Map([
       ["/language-configuration.json", languageConfiguration],
       ["/syntaxes/mmt.tmLanguage.json", grammar],
-      ["/vendor/tinymist-0.15.2/typst.tmLanguage.json", typstGrammar],
+      ["/vendor/tinymist-0.15.4-rc3/typst.tmLanguage.json", typstGrammar],
       ["/themes/momoscript-dark.json", theme]
     ])
   };

@@ -2,8 +2,8 @@
   "schema": "mmt-tinymist-pin.v1",
   "upstream": {
     "repository": "https://github.com/Myriad-Dreamin/tinymist.git",
-    "revision": "3d63da4f93c54ddef0c63e1a6237d67aee13f5fe",
-    "version": "0.15.2"
+    "revision": "e54ace4f49a84baf60d9d1b059fd0cab7a780295",
+    "version": "0.15.4-rc3"
   },
   "toolchain": {
     "rust": "1.92.0",
@@ -12,7 +12,7 @@
   "patches": [
     {
       "path": "third_party/tinymist/patches/0001-mmt-host-package-callback.patch",
-      "sha256": "bf7f10043ce079f94ba45bdb69795fa82f93d48477b1ab0784396e52c2bbfd0d"
+      "sha256": "de9118c107b112a5e4973641234634fd2cdd713f36fbe894532c042d3b7fdfde"
     },
     {
       "path": "third_party/tinymist/patches/0002-mmt-preview-renderer.patch",
@@ -27,18 +27,18 @@
   "artifacts": {
     "native": {
       "relativePath": "target/release/tinymist",
-      "size": 75982992,
-      "sha256": "748208343b632c285e8c4a78988b8cbb6daa8ef689db72f50be9fd177e6ddde1"
+      "size": 76964488,
+      "sha256": "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4"
     },
     "webJs": {
       "relativePath": "crates/tinymist/pkg/tinymist.js",
       "size": 29720,
-      "sha256": "047a81663f9b55edb253f189f7e242843e59f1f6fba4eae87cbda19d9e3de235"
+      "sha256": "6bd83bd7fab279cdfddabeb6a37a13d1e5d6a6d2d24a5a35dbccfc8e0ca411ea"
     },
     "webWasm": {
       "relativePath": "crates/tinymist/pkg/tinymist_bg.wasm",
-      "size": 32756424,
-      "sha256": "13932930084baab231d5f8b47bd04a9379c0923e414318d2f5e48bf71c9f394c"
+      "size": 32911559,
+      "sha256": "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8"
     }
   },
   "protocol": {

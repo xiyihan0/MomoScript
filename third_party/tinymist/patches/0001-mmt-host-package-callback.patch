@@ -421,7 +421,7 @@ index ac4ff3a37..3dcf740de 100644
 +use tinymist_world::vfs::{FileId, FileSnapshot, FsProvider, RevisingVfs, WorkspaceResolver};
  use tinymist_world::{
      BundleCompilationTask, CompileSignal, CompileSnapshot, CompilerFeat, CompilerUniverse,
-     DiagnosticsTask, EntryReader, EntryState, FlagTask, HtmlCompilationTask, PagedCompilationTask,
+     DiagnosticsTask, EntryReader, EntryState, ProjectInsId, TaskInputs, WorldComputeGraph,
 @@ -244,6 +246,15 @@ impl<F: CompilerFeat + Send + Sync + 'static, Ext: 'static> CompileHandler<F, Ex
      fn status(&self, _revision: usize, _rep: CompileReport) {}
  }

@@ -14,7 +14,7 @@ await loadWASM(onigWasm.buffer.slice(onigWasm.byteOffset, onigWasm.byteOffset + 
 
 const grammarFiles = new Map([
   ["source.mmt", join(root, "syntaxes/mmt.tmLanguage.json")],
-  ["source.typst", join(root, "vendor/tinymist-0.15.2/typst.tmLanguage.json")]
+  ["source.typst", join(root, "vendor/tinymist-0.15.4-rc3/typst.tmLanguage.json")]
 ]);
 const registry = new Registry({
   onigLib: Promise.resolve({

@@ -11,8 +11,8 @@ npm run check
 npm run test:grammar
 npm run test:worker
 TINYMIST_BIN=/path/to/tinymist npm run test:tinymist-process
-TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker
-TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:web
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.4-rc3" npm run test:tinymist-worker
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.4-rc3" npm run test:web
 npm run build
 ```
 
@@ -22,10 +22,10 @@ npm run build
 当前扩展发布由同一 pure analysis 生成的完整、去重 live diagnostics，并提供 pack-aware character completion、
 symbols、folding、revision-bound Typst projection/preview 事件，以及经投影映射的 Tinymist completion、
 hover、signature help 和 diagnostics；稳定合同见 `openspec/specs/language-tooling/spec.md`。Desktop 使用
-native Tinymist sidecar；Web 使用固定的 Tinymist 0.15.2 WASM Worker。
+native Tinymist sidecar；Web 使用固定的 Tinymist 0.15.4-rc3 WASM Worker。
 
 客户端会声明 `publishDiagnostics.versionSupport` 并拒绝版本不等于当前 projection revision 的诊断；
-实测 Tinymist 0.15.2 Web/Native backend 都可能省略 `version`。每个 MMT LSP 会话使用随机 UUID，每次
+实测 Tinymist 0.15.4-rc3 Web/Native backend 都可能省略 `version`。每个 MMT LSP 会话使用随机 UUID，每次
 projection revision 使用 `untitled:/mmt-projection/<source-hex>/<session>/main-<revision>.typ` 独立 entry URI。
 切换时旧 entry 立即退出当前 projection 索引，但 host 保留最近两个文件代际；更旧且无 owner 的文件经过
 revision 校验的 30 秒 bounded grace 后才 `didClose`。晚到的无版本诊断仍指向已退休 URI，不能映射到当前

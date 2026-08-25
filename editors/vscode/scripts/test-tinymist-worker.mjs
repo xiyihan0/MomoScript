@@ -82,7 +82,7 @@ async function verifyPinnedArtifact() {
   }
 
   const packageMetadata = JSON.parse(await readFile(path.join(packageRoot, "package.json"), "utf8"));
-  assert.equal(packageMetadata.version, "0.15.2", "vendored Tinymist package version");
+  assert.equal(packageMetadata.version, "0.15.4-rc3", "vendored Tinymist package version");
   return {
     packageVersion: packageMetadata.version,
     digests,
@@ -538,8 +538,8 @@ try {
   });
 
   const completionText = JSON.stringify(result.completion);
-  assert.equal(result.ready.backendVersion, "0.15.2", "Tinymist Worker backend version");
-  assert.equal(result.initialize.serverInfo?.version, "0.15.2", "Tinymist initialize server version");
+  assert.equal(result.ready.backendVersion, "0.15.4-rc3", "Tinymist Worker backend version");
+  assert.equal(result.initialize.serverInfo?.version, "0.15.4-rc3", "Tinymist initialize server version");
   assert.equal(result.initialize.capabilities?.positionEncoding, "utf-16", "Tinymist coordinate encoding");
   assert(completionText.includes("greet"), "user-defined completion positive transcript");
   assert(result.hover, "hover positive transcript");
@@ -597,7 +597,7 @@ try {
       protocolVersion: result.ready.protocolVersion,
       digests: artifact.digests,
       checksumManifest: {
-        path: "vendor/tinymist-0.15.2/SHA256SUMS",
+        path: "vendor/tinymist-0.15.4-rc3/SHA256SUMS",
         entries: artifact.checksumManifest
       }
     },

@@ -242,8 +242,8 @@ export function validateTinymistInitialize(result: unknown): asserts result is T
   const version = serverInfo && typeof serverInfo === "object" && "version" in serverInfo
     ? serverInfo.version
     : undefined;
-  if (version !== "0.15.2") {
-    throw new Error(`Tinymist 0.15.2 required, received ${typeof version === "string" ? version : "unknown"}`);
+  if (version !== "0.15.4-rc3") {
+    throw new Error(`Tinymist 0.15.4-rc3 required, received ${typeof version === "string" ? version : "unknown"}`);
   }
   const capabilities = "capabilities" in result ? result.capabilities : undefined;
   if (!capabilities || typeof capabilities !== "object"

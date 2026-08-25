@@ -30,7 +30,7 @@ env:
   WASM_PACK_VERSION: 0.15.0
   TYPST_VERSION: 0.15.0
   TYPST_LINUX_SHA256: 59b207df01be2dab9f13e80f73d04d7ff8273ffd46b3dd1b9eef5c60f3eeabea
-  TINYMIST_REVISION: 3d63da4f93c54ddef0c63e1a6237d67aee13f5fe
+  TINYMIST_REVISION: e54ace4f49a84baf60d9d1b059fd0cab7a780295
   TYPST_TS_REVISION: e1974e566ba63dcf8ecdd6730cff25de26c7dbd2
   TYPST_TS_RUST_TOOLCHAIN: 1.96.0
   TYPST_TS_BINARYEN_VERSION: 116
@@ -368,7 +368,7 @@ jobs:
       - name: Run real-Chrome production editor journeys
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: |
           npm run test:e2e:chrome
@@ -404,7 +404,7 @@ jobs:
       - name: Run HMR and runtime lifecycle journeys
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
         run: npm run test:e2e:lifecycle
       - name: Upload lifecycle failure diagnostics
         if: failure()
@@ -442,7 +442,7 @@ jobs:
       - name: Run PWA offline lifecycle journey
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run test:e2e:pwa-offline
       - name: Upload PWA failure diagnostics
@@ -495,7 +495,7 @@ jobs:
             "editors/vscode/scripts" \
             "editors/vscode/package.json" \
             "editors/vscode/package-lock.json" \
-            "editors/vscode/vendor/tinymist-0.15.2" \
+            "editors/vscode/vendor/tinymist-0.15.4-rc3" \
             "third_party/tinymist" \
             "third_party/typst-ts"
           then
@@ -526,7 +526,7 @@ jobs:
         if: steps.scope.outputs.run == 'true'
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run ci:preview-differential
       - name: Upload preview differential evidence
@@ -567,7 +567,7 @@ jobs:
       - name: Run nightly preview performance qualification
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run ci:preview-nightly
       - name: Upload preview performance evidence
