@@ -327,11 +327,14 @@ Use `mmt.chat-left` or `mmt.chat-right` unless composing a custom layout.
   text-fill: auto,
   inset: auto,
   radius: auto,
+  composer-key: none,
   body,
 )
 ```
 
 Each `auto` value resolves from `current-config().theme.narration`. The body is centered.
+
+`composer-key` is reserved for the MMT emitter. When present, it labels the narration container for preview hit testing without changing layout.
 
 ```typst
 #mmt.narration(fill: luma(95%))[Narration]

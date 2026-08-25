@@ -2,9 +2,16 @@
 #import "config.typ": current-config
 #import "semantic.typ": semantic-region
 
-#let narration(fill: auto, text-fill: auto, inset: auto, radius: auto, body) = context {
+#let narration(
+  fill: auto,
+  text-fill: auto,
+  inset: auto,
+  radius: auto,
+  composer-key: none,
+  body,
+) = context {
   let theme = current-config().theme.narration
-  block(
+  semantic-region(composer-key, "narration", block(
     width: 100%,
     fill: if fill == auto { theme.fill } else { fill },
     inset: if inset == auto { theme.inset } else { inset },
@@ -13,7 +20,7 @@
     #set align(center)
     #set text(fill: if text-fill == auto { theme.text-fill } else { text-fill })
     #body
-  ]
+  ])
 }
 
 // Layout values intentionally match the legacy reply_box implementation.

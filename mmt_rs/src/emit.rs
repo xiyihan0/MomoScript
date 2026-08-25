@@ -391,12 +391,13 @@ impl<'a> TypstEmitter<'a> {
             match node {
                 SyntaxNode::Statement(statement) if statement.kind == StatementKind::Narration => {
                     self.previous_chat = None;
+                    let composer_key = self.next_composer_key();
                     self.emit_content_call(
                         "narration",
                         statement.patch.as_ref(),
                         &statement.body,
                         statement.range,
-                        None,
+                        Some(&composer_key),
                     );
                 }
                 SyntaxNode::Statement(statement) => self.emit_chat(statement),
@@ -1059,6 +1060,7 @@ mod tests {
             "t00000002",
             "t00000003",
             "t00000004",
+            "t00000005",
         ] {
             assert!(emitted.source.contains(&format!("composer-key: \"{key}\"")));
         }

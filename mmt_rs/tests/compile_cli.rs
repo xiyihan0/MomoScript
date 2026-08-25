@@ -198,17 +198,20 @@ fn template_emits_semantic_svg_labels_without_visual_changes() {
   composer-key: $RIGHT_KEY,
   name: [Sensei],
 )[Right]
+#mmt.narration(composer-key: $NARRATION_KEY)[Narration]
 #mmt.reply(composer-key: $REPLY_KEY)[A][B]
 #mmt.bond(composer-key: $BOND_KEY)[Bond]
 "#;
     let labelled = source
         .replace("$CHAT_KEY", "\"t00000000\"")
         .replace("$RIGHT_KEY", "\"t00000001\"")
-        .replace("$REPLY_KEY", "\"t00000002\"")
-        .replace("$BOND_KEY", "\"t00000003\"");
+        .replace("$NARRATION_KEY", "\"t00000002\"")
+        .replace("$REPLY_KEY", "\"t00000003\"")
+        .replace("$BOND_KEY", "\"t00000004\"");
     let unlabelled = source
         .replace("$CHAT_KEY", "none")
         .replace("$RIGHT_KEY", "none")
+        .replace("$NARRATION_KEY", "none")
         .replace("$REPLY_KEY", "none")
         .replace("$BOND_KEY", "none");
     fs::write(output_dir.join("labelled.typ"), labelled).unwrap();
@@ -238,10 +241,11 @@ fn template_emits_semantic_svg_labels_without_visual_changes() {
         "mmt:bubble:t00000000",
         "mmt:display-name:t00000001",
         "mmt:bubble:t00000001",
-        "mmt:reply:t00000002",
-        "mmt:reply-item:t00000002",
-        "mmt:bond:t00000003",
-        "mmt:bond-body:t00000003",
+        "mmt:narration:t00000002",
+        "mmt:reply:t00000003",
+        "mmt:reply-item:t00000003",
+        "mmt:bond:t00000004",
+        "mmt:bond-body:t00000004",
     ] {
         assert!(svg.contains(&format!("data-typst-label=\"{label}\"")));
     }
