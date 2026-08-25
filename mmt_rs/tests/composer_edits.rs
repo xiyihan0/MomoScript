@@ -3,16 +3,22 @@ use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
 use mmt_rs::syntax::{StatementSyntax, SyntaxNode};
 use mmt_rs::{
-    AuthoredOriginResolution, CharacterPreset, ComposerCommand, ComposerFailure,
-    ComposerTargetFailure, ContinuedValue, EmitOptions, EmittedTypst, MaterializedContent,
-    SourceMapEntry, StaticPresetCatalog, analyze_text, analyze_text_with_pack, compose_edit,
-    compose_edit_with_pack, emit_typst, resolve_preview_statement, statement_continued,
+    AuthoredOriginResolution, CharacterPreset, ComposerAvatarCurrent, ComposerCommand,
+    ComposerFailure, ComposerTargetFailure, ContinuedValue, EmitOptions, EmittedTypst,
+    MaterializedContent, PackAvatarChoice, SourceMapEntry, StaticPresetCatalog, analyze_text,
+    analyze_text_with_pack, compose_edit, compose_edit_with_pack, emit_typst,
+    resolve_preview_statement, statement_continued,
 };
 
 const BASE_MANIFEST: &str = include_str!("fixtures/pack-v3/base-manifest.json");
+const EXTENSION_MANIFEST: &str = include_str!("fixtures/pack-v3/extension-manifest.json");
 
 fn registry() -> PackRegistry {
-    PackRegistry::new(vec![PackManifest::from_json(BASE_MANIFEST).unwrap()]).unwrap()
+    PackRegistry::new(vec![
+        PackManifest::from_json(BASE_MANIFEST).unwrap(),
+        PackManifest::from_json(EXTENSION_MANIFEST).unwrap(),
+    ])
+    .unwrap()
 }
 
 fn empty_registry() -> PackRegistry {
@@ -71,6 +77,55 @@ fn display_name(source: &str, ordinal: usize, value: &str) -> String {
     apply(source, &edit)
 }
 
+fn avatar(source: &str, ordinal: usize, choice: PackAvatarChoice) -> String {
+    let packs = registry();
+    let analysis = analyze_text_with_pack(source, &packs);
+    let target = statement(&analysis, ordinal).range;
+    let edit = compose_edit_with_pack(
+        source,
+        &analysis,
+        &packs,
+        target,
+        ComposerCommand::SetActorAvatarFromStatement(choice),
+    )
+    .unwrap();
+    apply(source, &edit)
+}
+
+fn avatar_choice(entity: &str, contribution: &str, variant: &str) -> PackAvatarChoice {
+    PackAvatarChoice {
+        entity_id: entity.to_string(),
+        contribution_namespace: contribution.to_string(),
+        variant_id: variant.to_string(),
+    }
+}
+
+fn preview_target(source: &str, packs: &PackRegistry) -> mmt_rs::ComposerTarget {
+    preview_target_at(source, packs, 0)
+}
+
+fn preview_target_at(
+    source: &str,
+    packs: &PackRegistry,
+    statement_ordinal: usize,
+) -> mmt_rs::ComposerTarget {
+    let analysis = analyze_text_with_pack(source, packs);
+    let range = statement(&analysis, statement_ordinal).range;
+    let emitted = EmittedTypst {
+        source: "x".to_string(),
+        origins: vec![Origin::MmtRange {
+            range,
+            kind: OriginKind::TextBody,
+        }],
+        source_map: vec![SourceMapEntry {
+            generated_range: TextRange::new(0, 1),
+            origin_id: 0,
+        }],
+        diagnostics: Vec::new(),
+    };
+    resolve_preview_statement(&analysis, &emitted, TextRange::new(0, 1)).unwrap()
+}
+
 #[test]
 fn glyph_wrapper_origin_resolves_to_containing_statement() {
     let packs = empty_registry();
@@ -95,6 +150,92 @@ fn glyph_wrapper_origin_resolves_to_containing_statement() {
     assert_eq!(target.statement_range, statement(&analysis, 0).range);
     assert_eq!(target.continued, ContinuedValue::Auto);
     assert_eq!(target.actor_display_name, None);
+}
+
+#[test]
+fn preview_target_reports_pack_asset_and_null_avatar_without_leaks() {
+    let packs = registry();
+    let pack_target = preview_target("> 佳代子: target", &packs);
+    let pack_avatar = pack_target.actor_avatar.clone().unwrap();
+    assert_eq!(pack_avatar.actor_preset_id, "ba_fixture::佳代子");
+    assert_eq!(
+        pack_avatar.current,
+        Some(ComposerAvatarCurrent::Pack(avatar_choice(
+            "ba_fixture::佳代子",
+            "ba_fixture",
+            "default",
+        )))
+    );
+    let history_target = preview_target_at(
+        "> 佳代子: before\n> _0: target",
+        &packs,
+        1,
+    );
+    assert_eq!(history_target.actor_avatar, pack_target.actor_avatar);
+
+    let script_target = preview_target(
+        "@asset portrait\nsrc: portrait.png\n@end\n@actor 佳代子\npreset: 佳代子\navatar: asset::portrait\n@end\n> 佳代子: target",
+        &packs,
+    );
+    assert_eq!(
+        script_target.actor_avatar.unwrap().current,
+        Some(ComposerAvatarCurrent::Asset("portrait".to_string()))
+    );
+
+    let pack_asset_target = preview_target(
+        "@actor 佳代子\npreset: 佳代子\navatar: asset::pack_portrait\n@end\n> 佳代子: target",
+        &packs,
+    );
+    assert_eq!(
+        pack_asset_target.actor_avatar.unwrap().current,
+        Some(ComposerAvatarCurrent::Asset("pack_portrait".to_string()))
+    );
+
+    let no_avatar_manifest = r#"{
+      "schema":"mmt-pack.v3",
+      "pack":{"namespace":"plain","name":"plain","version":"1","type":"base"},
+      "entities":{"actor":{"names":["角色"],"slots":{}}},
+      "storage":{}
+    }"#;
+    let no_avatar = PackRegistry::new(vec![
+        PackManifest::from_json(no_avatar_manifest).unwrap(),
+    ])
+    .unwrap();
+    assert_eq!(
+        preview_target("> 角色: target", &no_avatar)
+            .actor_avatar
+            .unwrap()
+            .current,
+        None
+    );
+
+    let catalog = StaticPresetCatalog::new(vec![CharacterPreset {
+        id: "fixture".to_string(),
+        names: vec!["角色".to_string()],
+        display_name: Some("角色".to_string()),
+        avatar: None,
+    }]);
+    let source = "> 角色: target";
+    let analysis = analyze_text(source, &catalog);
+    let range = statement(&analysis, 0).range;
+    let emitted = EmittedTypst {
+        source: "x".to_string(),
+        origins: vec![Origin::MmtRange {
+            range,
+            kind: OriginKind::TextBody,
+        }],
+        source_map: vec![SourceMapEntry {
+            generated_range: TextRange::new(0, 1),
+            origin_id: 0,
+        }],
+        diagnostics: Vec::new(),
+    };
+    assert_eq!(
+        resolve_preview_statement(&analysis, &emitted, TextRange::new(0, 1))
+            .unwrap()
+            .actor_avatar,
+        None
+    );
 }
 
 #[test]
@@ -262,6 +403,226 @@ fn blank_separator_disables_adjacent_block_optimization() {
     assert_eq!(
         display_name(source, 0, "老师"),
         "@actor 佳代子\npreset: 佳代子\n@end\n\n@actor 佳代子\ndisplay-name: 老师\n@end\n> 佳代子: target"
+    );
+}
+
+#[test]
+fn adjacent_actor_block_inserts_or_replaces_avatar_only() {
+    let without_field = "@actor 佳代子\npreset: 佳代子\n@end\n> 佳代子: target";
+    assert_eq!(
+        avatar(
+            without_field,
+            0,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture", "smile"),
+        ),
+        "@actor 佳代子\npreset: 佳代子\navatar: ba_fixture::佳代子/ba_fixture::avatar/smile\n@end\n> 佳代子: target"
+    );
+
+    let quoted = "@actor 佳代子\r\npreset: 佳代子\r\navatar: 'ba_fixture::佳代子/ba_fixture::avatar/default'  \r\n@end\r\n> 佳代子: target";
+    assert_eq!(
+        avatar(
+            quoted,
+            0,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture", "smile"),
+        ),
+        "@actor 佳代子\r\npreset: 佳代子\r\navatar: 'ba_fixture::佳代子/ba_fixture::avatar/smile'  \r\n@end\r\n> 佳代子: target"
+    );
+}
+
+#[test]
+fn avatar_inserts_cross_character_revision_from_target_forward() {
+    let source = "> 小雪: before\r\n> _0: target😀\r\n> _0: after";
+    assert_eq!(
+        avatar(
+            source,
+            1,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture", "default"),
+        ),
+        "> 小雪: before\r\n@actor 小雪\r\navatar: ba_fixture::佳代子/ba_fixture::avatar/default\r\n@end\r\n> _0: target😀\r\n> _0: after"
+    );
+
+    let first = "> 小雪: target";
+    assert_eq!(
+        avatar(
+            first,
+            0,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture", "default"),
+        ),
+        "@actor 小雪\npreset: ba_fixture::小雪\navatar: ba_fixture::佳代子/ba_fixture::avatar/default\n@end\n> 小雪: target"
+    );
+
+    let first_with_later = "> 小雪: before\n> _0: target";
+    assert_eq!(
+        avatar(
+            first_with_later,
+            0,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture", "default"),
+        ),
+        "@actor 小雪\npreset: ba_fixture::小雪\navatar: ba_fixture::佳代子/ba_fixture::avatar/default\n@end\n> 小雪: before\n> _0: target"
+    );
+}
+
+#[test]
+fn avatar_inheritance_stops_at_later_explicit_revision() {
+    let source = "> 小雪: before\n> _0: target\n@actor 小雪\navatar: smile\n@end\n> _0: restored";
+    assert_eq!(
+        avatar(
+            source,
+            1,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture", "default"),
+        ),
+        "> 小雪: before\n@actor 小雪\navatar: ba_fixture::佳代子/ba_fixture::avatar/default\n@end\n> _0: target\n@actor 小雪\navatar: smile\n@end\n> _0: restored"
+    );
+}
+
+#[test]
+fn avatar_serializes_contribution_identity_explicitly() {
+    let source = "> 佳代子: before\n> _0: target";
+    assert_eq!(
+        avatar(
+            source,
+            1,
+            avatar_choice("ba_fixture::佳代子", "ba_fixture_ext", "festival"),
+        ),
+        "> 佳代子: before\n@actor 佳代子\navatar: ba_fixture::佳代子/ba_fixture_ext::avatar/festival\n@end\n> _0: target"
+    );
+}
+
+#[test]
+fn avatar_rejects_current_missing_no_pack_and_invalid_target() {
+    let packs = registry();
+    let source = "> 佳代子: target";
+    let analysis = analyze_text_with_pack(source, &packs);
+    let target = statement(&analysis, 0).range;
+    assert_eq!(
+        compose_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            target,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "default",
+            )),
+        ),
+        Err(ComposerFailure::AvatarUnavailable)
+    );
+    assert_eq!(
+        compose_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            target,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "missing",
+            )),
+        ),
+        Err(ComposerFailure::AvatarUnavailable)
+    );
+    assert_eq!(
+        compose_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            target,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "笑颜",
+            )),
+        ),
+        Err(ComposerFailure::AvatarUnavailable)
+    );
+    assert_eq!(
+        compose_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            TextRange::new(target.start, target.end - 1),
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "smile",
+            )),
+        ),
+        Err(ComposerFailure::TargetChanged)
+    );
+
+    let catalog = StaticPresetCatalog::new(vec![CharacterPreset {
+        id: "fixture".to_string(),
+        names: vec!["角色".to_string()],
+        display_name: Some("角色".to_string()),
+        avatar: None,
+    }]);
+    let no_pack_source = "> 角色: target";
+    let no_pack_analysis = analyze_text(no_pack_source, &catalog);
+    assert_eq!(
+        compose_edit(
+            no_pack_source,
+            &no_pack_analysis,
+            &catalog,
+            statement(&no_pack_analysis, 0).range,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "smile",
+            )),
+        ),
+        Err(ComposerFailure::AvatarUnavailable)
+    );
+
+    let empty = empty_registry();
+    let builtin = "< _0: target";
+    let builtin_analysis = analyze_text_with_pack(builtin, &empty);
+    assert_eq!(
+        compose_edit_with_pack(
+            builtin,
+            &builtin_analysis,
+            &empty,
+            statement(&builtin_analysis, 0).range,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "smile",
+            )),
+        ),
+        Err(ComposerFailure::ActorUnavailable)
+    );
+
+    let duplicate = "@actor 佳代子\npreset: 佳代子\navatar: default\navatar: smile\n@end\n> 佳代子: target";
+    let duplicate_analysis = analyze_text_with_pack(duplicate, &packs);
+    assert_eq!(
+        compose_edit_with_pack(
+            duplicate,
+            &duplicate_analysis,
+            &packs,
+            statement(&duplicate_analysis, 0).range,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "smile",
+            )),
+        ),
+        Err(ComposerFailure::DocumentHasErrors)
+    );
+
+    let changed_same_length = "> 佳代子: targeX";
+    assert_eq!(
+        compose_edit_with_pack(
+            changed_same_length,
+            &analysis,
+            &packs,
+            target,
+            ComposerCommand::SetActorAvatarFromStatement(avatar_choice(
+                "ba_fixture::佳代子",
+                "ba_fixture",
+                "smile",
+            )),
+        ),
+        Err(ComposerFailure::CandidateInvalid)
     );
 }
 

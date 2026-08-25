@@ -45,6 +45,7 @@ pub(crate) enum ComposerEditRejection {
     DocumentHasErrors,
     InvalidValue,
     ActorUnavailable,
+    AvatarUnavailable,
     CandidateInvalid,
 }
 
@@ -526,7 +527,13 @@ impl LanguageService {
             let registry = self
                 .pack_registry
                 .as_ref()
-                .ok_or(ComposerEditRejection::CandidateInvalid)?;
+                .ok_or_else(|| {
+                    if matches!(&command, ComposerCommand::SetActorAvatarFromStatement(_)) {
+                        ComposerEditRejection::AvatarUnavailable
+                    } else {
+                        ComposerEditRejection::CandidateInvalid
+                    }
+                })?;
             compose_edit_with_pack(
                 &document.text,
                 &document.analysis,
@@ -535,6 +542,9 @@ impl LanguageService {
                 command,
             )
         } else {
+            if matches!(&command, ComposerCommand::SetActorAvatarFromStatement(_)) {
+                return Err(ComposerEditRejection::AvatarUnavailable);
+            }
             compose_edit(
                 &document.text,
                 &document.analysis,
@@ -548,6 +558,7 @@ impl LanguageService {
             ComposerFailure::DocumentHasErrors => ComposerEditRejection::DocumentHasErrors,
             ComposerFailure::InvalidValue => ComposerEditRejection::InvalidValue,
             ComposerFailure::ActorUnavailable => ComposerEditRejection::ActorUnavailable,
+            ComposerFailure::AvatarUnavailable => ComposerEditRejection::AvatarUnavailable,
             ComposerFailure::CandidateInvalid => ComposerEditRejection::CandidateInvalid,
         })?;
         let range = document

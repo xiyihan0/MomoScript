@@ -10,7 +10,11 @@ import {
   type PreviewComposerTargetUnavailableReason,
   type ComposerTextDocument,
   type StatementContinuedValue,
+  type ComposerAvatarChoice,
+  type ComposerAvatarCurrent,
 } from "./composerEdit.ts";
+import type { AvatarCatalogItem } from "./galleryPack.ts";
+import { avatarItemMatchesCurrent } from "./avatarPicker.ts";
 import type {
   LocatedPreviewPoint,
   PreviewBackendLocation,
@@ -40,6 +44,7 @@ export interface PreviewComposerCancellationTokenSource extends Disposable {
 export type PreviewComposerContextMenuSelection =
   | { readonly kind: "continued"; readonly value: StatementContinuedValue }
   | { readonly kind: "displayName" }
+  | { readonly kind: "avatar" }
   | { readonly kind: "navigate" };
 
 export interface PreviewComposerContextMenuItem {
@@ -80,6 +85,26 @@ export interface PreviewComposerContextInputPort {
   ): PreviewComposerContextInputSession;
 }
 
+export interface PreviewComposerAvatarPickerOptions {
+  readonly actorPresetId: string;
+  readonly actorLabel: string;
+  readonly current: ComposerAvatarCurrent | null;
+  readonly items: readonly AvatarCatalogItem[];
+  readonly choose: (choice: ComposerAvatarChoice) => Promise<void>;
+}
+
+export interface PreviewComposerAvatarPickerSession {
+  readonly result: Promise<void>;
+  close(): void;
+}
+
+export interface PreviewComposerAvatarPickerPort {
+  open(
+    anchor: PreviewContextMenuAnchor,
+    options: PreviewComposerAvatarPickerOptions,
+  ): PreviewComposerAvatarPickerSession;
+}
+
 export interface PreviewComposerApplyOptions {
   readonly result: Extract<ComposerEditResult, { kind: "Edit" }>;
   readonly textDocument: ComposerTextDocument;
@@ -107,6 +132,9 @@ export interface PreviewComposerControllerPorts {
   readonly contextInput: PreviewComposerContextInputPort;
   readonly apply: PreviewComposerApplyPort;
   readonly acceptingWork: () => boolean;
+  readonly avatarPicker: PreviewComposerAvatarPickerPort;
+  readonly getAvatarCatalog: () => readonly AvatarCatalogItem[];
+  readonly onDidChangeAvatarCatalog: (listener: () => void) => Disposable;
   readonly currentIdentity: () => PreviewSourceIdentity | undefined;
   readonly currentDocument: (uri: string) => ComposerTextDocument | undefined;
   readonly bidirectionalNavigation: () => boolean;
@@ -140,6 +168,8 @@ const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
 const REJECTED_MESSAGE = "无法应用此预览编辑。";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
 const INPUT_REQUIRED_MESSAGE = "显示名不能为空。";
+const EDIT_AVATAR_LABEL = "从本条起更换人物头像…";
+const AVATAR_UNAVAILABLE_MESSAGE = "所选头像已不可用，未应用编辑。";
 
 /**
  * Creates the production apply adapter while retaining a final synchronous
@@ -179,10 +209,12 @@ export function createPreviewComposerApplyPort(
 export class PreviewComposerController implements Disposable {
   readonly #ports: PreviewComposerControllerPorts;
   #operation: ComposerOperation | undefined;
+  readonly #avatarCatalogSubscription: Disposable;
   #disposed = false;
 
   constructor(ports: PreviewComposerControllerPorts) {
     this.#ports = ports;
+    this.#avatarCatalogSubscription = ports.onDidChangeAvatarCatalog(() => this.invalidate());
   }
 
   /** Starts a new context operation and cancels every resource from the prior one. */
@@ -252,6 +284,7 @@ export class PreviewComposerController implements Disposable {
     if (this.#disposed) return;
     this.#disposed = true;
     this.invalidate();
+    this.#avatarCatalogSubscription.dispose();
   }
 
   private async runOperation(
@@ -318,11 +351,17 @@ export class PreviewComposerController implements Disposable {
       return;
     }
 
+    const avatarCatalog = this.#ports.getAvatarCatalog();
+    const actorAvatar = targetResult.properties.actorAvatar;
+    const avatarAvailable = actorAvatar !== undefined && avatarCatalog.some((item) => (
+      item.selectable && !avatarItemMatchesCurrent(item, actorAvatar.current)
+    ));
     const selection = await this.selectContextAction(
       operation,
       anchor,
       targetResult.properties.continued,
       targetResult.properties.actorDisplayName !== undefined,
+      avatarAvailable,
     );
     if (!selection) return;
     state = this.targetState(operation, located.identity, targetResult.textDocument);
@@ -337,7 +376,23 @@ export class PreviewComposerController implements Disposable {
       return;
     }
 
-    let command: ComposerEditParams["command"] | undefined;
+    if (selection.kind === "avatar") {
+      if (!actorAvatar || !avatarAvailable) return;
+      await this.pickAvatar(
+        operation,
+        anchor,
+        located.identity,
+        targetResult.textDocument,
+        targetResult.target,
+        actorAvatar.actorPresetId,
+        targetResult.properties.actorDisplayName?.current ?? actorAvatar.actorPresetId,
+        actorAvatar.current,
+        avatarCatalog,
+      );
+      return;
+    }
+
+    let command: ComposerEditParams["command"];
     if (selection.kind === "continued") {
       command = { kind: "setStatementContinued", value: selection.value };
     } else {
@@ -352,46 +407,89 @@ export class PreviewComposerController implements Disposable {
       }
       command = { kind: "setActorDisplayNameFromStatement", value };
     }
-
-    const editParams: ComposerEditParams = {
-      textDocument: targetResult.textDocument,
-      target: targetResult.target,
+    await this.applyComposerCommand(
+      operation,
+      located.identity,
+      targetResult.textDocument,
+      targetResult.target,
       command,
-    };
+    );
+  }
+
+  private async pickAvatar(
+    operation: ComposerOperation,
+    anchor: PreviewContextMenuAnchor,
+    identity: PreviewSourceIdentity,
+    textDocument: ComposerTextDocument,
+    target: ComposerEditParams["target"],
+    actorPresetId: string,
+    actorLabel: string,
+    current: ComposerAvatarCurrent | null,
+    items: readonly AvatarCatalogItem[],
+  ): Promise<void> {
+    const session = this.#ports.avatarPicker.open(anchor, {
+      actorPresetId,
+      actorLabel,
+      current,
+      items,
+      choose: async (avatar) => {
+        const state = this.targetState(operation, identity, textDocument);
+        if (state !== "current") {
+          await this.notifyStaleState(operation, state);
+          return;
+        }
+        await this.applyComposerCommand(operation, identity, textDocument, target, {
+          kind: "setActorAvatarFromStatement",
+          avatar,
+        });
+      },
+    });
+    const active: ActiveTransientUi = { close: () => session.close() };
+    operation.transient?.close();
+    operation.transient = active;
+    await session.result;
+    if (operation.transient === active) operation.transient = undefined;
+  }
+
+  private async applyComposerCommand(
+    operation: ComposerOperation,
+    identity: PreviewSourceIdentity,
+    textDocument: ComposerTextDocument,
+    target: ComposerEditParams["target"],
+    command: ComposerEditParams["command"],
+  ): Promise<void> {
     const rawEdit = await this.#ports.request(
       "mmt/composerEdit",
-      editParams,
+      { textDocument, target, command },
       operation.cancellation.token,
     );
-    state = this.targetState(operation, located.identity, targetResult.textDocument);
+    let state = this.targetState(operation, identity, textDocument);
     if (state !== "current") {
       await this.notifyStaleState(operation, state);
       return;
     }
-
-    const editResult = parseComposerEditResult(rawEdit, targetResult.textDocument);
+    const editResult = parseComposerEditResult(rawEdit, textDocument);
     if (editResult.kind === "Rejected") {
       const message = editResult.reason === "staleDocument" || editResult.reason === "targetChanged"
         ? STALE_MESSAGE
-        : REJECTED_MESSAGE;
+        : editResult.reason === "avatarUnavailable"
+          ? AVATAR_UNAVAILABLE_MESSAGE
+          : REJECTED_MESSAGE;
       await this.notify(operation, "warning", message);
       return;
     }
-
-    state = this.targetState(operation, located.identity, targetResult.textDocument);
+    state = this.targetState(operation, identity, textDocument);
     if (state !== "current") {
       await this.notifyStaleState(operation, state);
       return;
     }
     const application = await this.#ports.apply.apply({
       result: editResult,
-      textDocument: targetResult.textDocument,
+      textDocument,
       signal: operation.abortController.signal,
       canApply: () => {
-        if (this.targetState(operation, located.identity, targetResult.textDocument) !== "current") {
-          return false;
-        }
-        operation.applyGateDocument = targetResult.textDocument;
+        if (this.targetState(operation, identity, textDocument) !== "current") return false;
+        operation.applyGateDocument = textDocument;
         return true;
       },
     });
@@ -443,6 +541,7 @@ export class PreviewComposerController implements Disposable {
     anchor: PreviewContextMenuAnchor,
     current: StatementContinuedValue,
     actorAvailable: boolean,
+    avatarAvailable: boolean,
   ): Promise<PreviewComposerContextMenuSelection | undefined> {
     const continuedChoices: ReadonlyArray<{
       readonly label: string;
@@ -464,6 +563,12 @@ export class PreviewComposerController implements Disposable {
       items.push({
         label: EDIT_DISPLAY_NAME_LABEL,
         selection: { kind: "displayName" },
+      });
+    }
+    if (avatarAvailable) {
+      items.push({
+        label: EDIT_AVATAR_LABEL,
+        selection: { kind: "avatar" },
       });
     }
     if (this.#ports.bidirectionalNavigation()) {

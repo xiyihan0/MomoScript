@@ -23,6 +23,8 @@
     "test:resource-cache": "node --experimental-strip-types ./scripts/test-bounded-string-cache.mjs",
     "test:resource-fetch-cache": "node --experimental-strip-types ./scripts/test-resource-fetch-cache.mjs",
     "test:gallery-entity-catalog": "node --experimental-strip-types ./scripts/test-gallery-entity-catalog.mjs",
+    "test:gallery-pack": "node --experimental-strip-types ./scripts/test-gallery-pack.mjs",
+    "test:avatar-picker": "node --experimental-strip-types ./scripts/test-avatar-picker.mjs",
     "test:resource-materializer": "node --experimental-strip-types ./scripts/test-resource-materializer.mjs",
     "test:preview-diagnostics": "node --experimental-strip-types ./scripts/test-preview-diagnostics.mjs",
     "test:runtime-status": "node --experimental-strip-types ./scripts/test-runtime-status.mjs",

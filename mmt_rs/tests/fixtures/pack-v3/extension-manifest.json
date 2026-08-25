@@ -11,6 +11,16 @@
     {
       "target": "ba_fixture::佳代子",
       "slots": {
+        "avatar": {
+          "default": "festival",
+          "items": {
+            "festival": {
+              "handles": ["活动"],
+              "storage": "avatars_ext",
+              "path": "佳代子-festival.svg"
+            }
+          }
+        },
         "sticker": {
           "default": "festival",
           "sets": {
@@ -28,6 +38,10 @@
     }
   ],
   "storage": {
+    "avatars_ext": {
+      "kind": "image-dir",
+      "base": "assets/avatar"
+    },
     "kayoko_festival": {
       "kind": "image-sequence",
       "path": "blobs/stickers/佳代子/festival.avifs",

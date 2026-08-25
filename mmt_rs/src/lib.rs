@@ -18,9 +18,9 @@ pub mod syntax;
 pub mod typst_check;
 
 pub use composer::{
-    ComposerCommand, ComposerFailure, ComposerSourceEdit, ComposerTarget, ComposerTargetFailure,
-    ContinuedValue, compose_edit, compose_edit_with_pack, resolve_preview_statement,
-    statement_continued,
+    ComposerActorAvatar, ComposerAvatarCurrent, ComposerCommand, ComposerFailure,
+    ComposerSourceEdit, ComposerTarget, ComposerTargetFailure, ContinuedValue, PackAvatarChoice,
+    compose_edit, compose_edit_with_pack, resolve_preview_statement, statement_continued,
 };
 pub use analysis::{
     ANALYSIS_SCHEMA, AnalysisDiagnostic, AnalysisLabel, AnalysisReport, AstReport, SourceSpan,

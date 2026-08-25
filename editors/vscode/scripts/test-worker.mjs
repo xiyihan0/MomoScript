@@ -193,7 +193,10 @@ try {
             },
             "花子": {
               names: ["花子"],
-              display_name: "浦和花子"
+              display_name: "浦和花子",
+              slots: { avatar: { default: "default", items: {
+                default: { storage: "avatars", path: "hanako.png" }
+              } } }
             }
           },
           storage: { avatars: { kind: "image-dir", base: "assets/avatar" } }
@@ -492,6 +495,84 @@ try {
     }
     const renderEntry = renderProject.files.find((file) => file.uri === renderProject.entryUri);
     if (!renderEntry?.text?.includes("mmt-resources/0.png")) throw new Error("render entry omitted materialized avatar path");
+    const avatarWrapper = renderEntry.text.indexOf("#text(\"");
+    if (avatarWrapper < 0) throw new Error("avatar Composer projection omitted rendered text wrapper");
+    const avatarOffset = avatarWrapper + 1;
+    const avatarPreviewParams = {
+      sourceUri: renderUri,
+      revision: renderProject.revision,
+      sourceContent: renderProject.sourceContent,
+      projectDigest: renderProject.projectDigest,
+      projectionKey: renderProject.projectionKey,
+      entryUri: renderProject.entryUri,
+      backendEncoding: "utf-16",
+      location: {
+        uri: renderProject.entryUri,
+        range: {
+          start: positionAtUtf16(renderEntry.text, avatarOffset),
+          end: positionAtUtf16(renderEntry.text, avatarOffset + 1)
+        }
+      }
+    };
+    const avatarTarget = await request("mmt/previewComposerTarget", avatarPreviewParams);
+    const actorAvatar = avatarTarget.properties?.actorAvatar;
+    if (
+      avatarTarget.kind !== "Editable"
+      || actorAvatar?.scope !== "fromStatement"
+      || actorAvatar.actorPresetId !== "ba::柚子"
+      || actorAvatar.current?.kind !== "packAvatar"
+      || actorAvatar.current.entityId !== "ba::柚子"
+      || actorAvatar.current.contributionNamespace !== "ba"
+      || actorAvatar.current.variantId !== "default"
+      || Object.hasOwn(actorAvatar, "actorId")
+      || Object.hasOwn(actorAvatar.current, "path")
+      || Object.hasOwn(actorAvatar.current, "storage")
+      || Object.hasOwn(actorAvatar.current, "url")
+    ) {
+      throw new Error(`browser Worker avatar target mismatch: ${JSON.stringify(avatarTarget)}`);
+    }
+    const avatarNotificationCount = notifications.length;
+    const avatarEdit = await request("mmt/composerEdit", {
+      textDocument: avatarTarget.textDocument,
+      target: avatarTarget.target,
+      command: {
+        kind: "setActorAvatarFromStatement",
+        avatar: {
+          kind: "packAvatar",
+          entityId: "ba::花子",
+          contributionNamespace: "ba",
+          variantId: "default"
+        }
+      }
+    });
+    if (
+      avatarEdit.kind !== "Edit"
+      || !avatarEdit.edit?.documentChanges?.[0]?.edits?.[0]?.newText?.includes(
+        "avatar: ba::花子/ba::avatar/default"
+      )
+      || Object.hasOwn(avatarEdit.edit, "changes")
+    ) {
+      throw new Error(`browser Worker avatar edit mismatch: ${JSON.stringify(avatarEdit)}`);
+    }
+    if (notifications.length !== avatarNotificationCount) {
+      throw new Error("browser Worker avatar edit emitted an apply or server event");
+    }
+    const missingAvatar = await request("mmt/composerEdit", {
+      textDocument: avatarTarget.textDocument,
+      target: avatarTarget.target,
+      command: {
+        kind: "setActorAvatarFromStatement",
+        avatar: {
+          kind: "packAvatar",
+          entityId: "ba::花子",
+          contributionNamespace: "ba",
+          variantId: "missing"
+        }
+      }
+    });
+    if (missingAvatar.kind !== "Rejected" || missingAvatar.reason !== "avatarUnavailable") {
+      throw new Error(`browser Worker unavailable avatar mismatch: ${JSON.stringify(missingAvatar)}`);
+    }
     const composerUri = "file:///workspace/composer-worker.mmt";
     const composerSource = "< _0: hello";
     const composerLanguageProjectPromise = waitForNotification(

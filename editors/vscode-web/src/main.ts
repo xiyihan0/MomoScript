@@ -51,7 +51,7 @@ import {
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { decodeAvifSequence } from "./avifSequence";
-import { packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
+import { buildAvatarCatalog, packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
 import { registerCharacterGalleryCommands, renderCharacterGalleryView } from "./characterGalleryUi";
 import { loadGalleryEntityCatalog } from "./galleryEntityCatalog";
 import { PREVIEW_RENDERER_METHOD, projectionSessionKey } from "../../vscode/src/tinymistClient";
@@ -143,6 +143,7 @@ import {
 } from "./previewComposer.ts";
 import {
   createWorkbenchPreviewContextInput,
+  createWorkbenchPreviewAvatarPicker,
   createWorkbenchPreviewContextMenu,
 } from "./previewContextMenu.ts";
 import {
@@ -2590,7 +2591,10 @@ async function initializeRuntime(
   const sendComposerRequest: PreviewComposerControllerPorts["request"] = composerE2E
     ? (method, params, token) => {
         composerE2E.recordRequest(method);
-        return sendActiveComposerRequest(method, params, token);
+        const override = composerE2E.requestOverride(method, params);
+        return override === undefined
+          ? sendActiveComposerRequest(method, params, token)
+          : Promise.resolve(override);
       }
     : sendActiveComposerRequest;
   const composerWorkspace = composerE2E
@@ -2615,9 +2619,10 @@ async function initializeRuntime(
     },
     workspace: composerWorkspace,
   });
-  const [composerContextMenu, composerContextInput] = await Promise.all([
+  const [composerContextMenu, composerContextInput, composerAvatarPicker] = await Promise.all([
     createWorkbenchPreviewContextMenu(),
     createWorkbenchPreviewContextInput(),
+    createWorkbenchPreviewAvatarPicker(),
   ]);
   previewComposer = own(new PreviewComposerController({
     locatePreviewPoint: (point, signal) => previewInteraction.locatePreviewPoint(point, signal),
@@ -2625,6 +2630,9 @@ async function initializeRuntime(
     createCancellationTokenSource: () => new vscode.CancellationTokenSource(),
     contextMenu: composerContextMenu,
     contextInput: composerContextInput,
+    avatarPicker: composerAvatarPicker,
+    getAvatarCatalog: () => buildAvatarCatalog(galleryPacks),
+    onDidChangeAvatarCatalog: (listener) => galleryPacksChanged.event(listener),
     apply: composerApply,
     acceptingWork: () => controller.acceptingWork && activeClient !== undefined,
     currentIdentity: () => {

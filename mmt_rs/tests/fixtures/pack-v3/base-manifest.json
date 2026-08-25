@@ -17,6 +17,11 @@
             "default": {
               "storage": "avatars",
               "path": "佳代子.svg"
+            },
+            "smile": {
+              "handles": ["笑颜"],
+              "storage": "avatars",
+              "path": "佳代子-smile.svg"
             }
           }
         },
@@ -42,6 +47,33 @@
             }
           }
         }
+      }
+    },
+    "小雪": {
+      "names": ["小雪"],
+      "display_name": "小雪",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "小雪.svg"
+            },
+            "smile": {
+              "storage": "avatars",
+              "path": "小雪-smile.svg"
+            }
+          }
+        }
+      }
+    }
+  },
+  "assets": {
+    "pack_portrait": {
+      "source": {
+        "storage": "avatars",
+        "path": "pack-portrait.svg"
       }
     }
   },

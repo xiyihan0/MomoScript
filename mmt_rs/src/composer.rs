@@ -10,7 +10,7 @@ use crate::emit::{AuthoredOriginResolution, EmittedTypst};
 use crate::inline::{DeclarationValueSyntax, QuoteKind, parse_declaration_value};
 use crate::pack::PackRegistry;
 use crate::pipeline::{AnalyzedDocument, analyze_text, analyze_text_with_pack};
-use crate::resolve::ResourceTarget;
+use crate::resolve::{ResolvedResourceKind, ResourceTarget};
 use crate::semantic::{
     ActorId, ActorState, CharacterPresetCatalog, ResolvedBodyMode, ResolvedStatementSpeaker,
     SpeakerIdentity,
@@ -30,16 +30,37 @@ pub enum ContinuedValue {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PackAvatarChoice {
+    pub entity_id: String,
+    pub contribution_namespace: String,
+    pub variant_id: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ComposerAvatarCurrent {
+    Pack(PackAvatarChoice),
+    Asset(String),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ComposerActorAvatar {
+    pub actor_preset_id: String,
+    pub current: Option<ComposerAvatarCurrent>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ComposerTarget {
     pub statement_range: TextRange,
     pub continued: ContinuedValue,
     pub actor_display_name: Option<String>,
+    pub actor_avatar: Option<ComposerActorAvatar>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ComposerCommand {
     SetStatementContinued(ContinuedValue),
     SetActorDisplayNameFromStatement(String),
+    SetActorAvatarFromStatement(PackAvatarChoice),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -57,6 +78,7 @@ pub enum ComposerFailure {
     DocumentHasErrors,
     InvalidValue,
     ActorUnavailable,
+    AvatarUnavailable,
     CandidateInvalid,
 }
 
@@ -107,19 +129,28 @@ pub fn resolve_preview_statement(
         .ok_or(ComposerTargetFailure::ActorUnavailable)?;
     let continued = statement_continued(statement)
         .map_err(|_| ComposerTargetFailure::UnsupportedNode)?;
-    let actor_display_name = actor_for_speaker(analysis, speaker)
-        .and_then(|(_, actor, revision)| {
-            serialize_scalar(&actor.primary_name, None)?;
-            actor
-                .revisions
-                .iter()
-                .find(|candidate| candidate.number == revision)
-                .map(|revision| revision.state.display_name.clone())
-        });
+    let actor = actor_for_speaker(analysis, speaker);
+    let actor_display_name = actor.and_then(|(_, actor, revision)| {
+        serialize_scalar(&actor.primary_name, None)?;
+        actor
+            .revisions
+            .iter()
+            .find(|candidate| candidate.number == revision)
+            .map(|revision| revision.state.display_name.clone())
+    });
+    let actor_avatar = actor.and_then(|(actor_id, actor, revision)| {
+        current_avatar_for_revision(analysis, actor_id, revision).map(|current| {
+            ComposerActorAvatar {
+                actor_preset_id: actor.preset_id.clone(),
+                current,
+            }
+        })
+    });
     Ok(ComposerTarget {
         statement_range: statement.range,
         continued,
         actor_display_name,
+        actor_avatar,
     })
 }
 
@@ -142,6 +173,9 @@ pub fn compose_edit(
     target_range: TextRange,
     command: ComposerCommand,
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
+    if matches!(&command, ComposerCommand::SetActorAvatarFromStatement(_)) {
+        return Err(ComposerFailure::AvatarUnavailable);
+    }
     compose_edit_using(source, analysis, target_range, command, |candidate| {
         analyze_text(candidate, catalog)
     })
@@ -154,6 +188,7 @@ pub fn compose_edit_with_pack(
     target_range: TextRange,
     command: ComposerCommand,
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
+    let command = canonicalize_avatar_command(analysis, packs, target_range, command)?;
     compose_edit_using(source, analysis, target_range, command, |candidate| {
         analyze_text_with_pack(candidate, packs)
     })
@@ -194,12 +229,21 @@ fn compose_edit_using(
             }
             display_name_edit(source, analysis, target_ordinal, statement, value)?
         }
+        ComposerCommand::SetActorAvatarFromStatement(value) => {
+            avatar_edit(source, analysis, target_ordinal, statement, value)?
+        }
     };
     let candidate_source = apply_source_edit(source, &edit)?;
     let candidate = analyze_candidate(&candidate_source);
+    let common_stable = match &command {
+        ComposerCommand::SetActorAvatarFromStatement(_) => {
+            common_semantics_stable_for_avatar(analysis, &candidate)
+        }
+        _ => common_semantics_stable(analysis, &candidate),
+    };
     if analysis_has_errors(&candidate)
         || !statements_have_same_shape(analysis, &candidate)
-        || !common_semantics_stable(analysis, &candidate)
+        || !common_stable
     {
         return Err(ComposerFailure::CandidateInvalid);
     }
@@ -209,6 +253,9 @@ fn compose_edit_using(
         }
         ComposerCommand::SetActorDisplayNameFromStatement(value) => {
             display_candidate_stable(analysis, &candidate, target_ordinal, &value)
+        }
+        ComposerCommand::SetActorAvatarFromStatement(value) => {
+            avatar_candidate_stable(analysis, &candidate, target_ordinal, &value)
         }
     };
     if !stable {
@@ -278,6 +325,127 @@ fn actor_for_speaker<'a>(
         .filter(|actor| actor.id == actor_id);
     let actor = actors.next()?;
     actors.next().is_none().then_some((actor_id, actor, revision))
+}
+
+fn avatar_resource_kind_for_revision(
+    analysis: &AnalyzedDocument,
+    actor_id: ActorId,
+    revision: u32,
+) -> Option<Option<&ResolvedResourceKind>> {
+    let actor = analysis.actors.actors.iter().find(|actor| actor.id == actor_id)?;
+    let state = actor
+        .revisions
+        .iter()
+        .find(|candidate| candidate.number == revision)
+        .map(|candidate| &candidate.state)?;
+    let resolution = analysis.resolution.as_ref()?;
+    if resolution.failures.iter().any(|failure| {
+        matches!(
+            failure.target,
+            ResourceTarget::ActorAvatar {
+                actor_id: candidate_actor,
+                revision: candidate_revision,
+            } if candidate_actor == actor_id && candidate_revision == revision
+        )
+    }) {
+        return None;
+    }
+    let mut matches = resolution.resources.iter().filter(|resource| {
+        matches!(
+            resource.target,
+            ResourceTarget::ActorAvatar {
+                actor_id: candidate_actor,
+                revision: candidate_revision,
+            } if candidate_actor == actor_id && candidate_revision == revision
+        )
+    });
+    let resource = matches.next();
+    if matches.next().is_some() {
+        return None;
+    }
+    match resource {
+        Some(resource)
+            if matches!(
+                resource.kind,
+                ResolvedResourceKind::Avatar { .. }
+                    | ResolvedResourceKind::ScriptAsset { .. }
+                    | ResolvedResourceKind::PackAsset { .. }
+            ) =>
+        {
+            Some(Some(&resource.kind))
+        }
+        Some(_) => None,
+        None if state.avatar.is_none() => Some(None),
+        None => None,
+    }
+}
+
+fn current_avatar_for_revision(
+    analysis: &AnalyzedDocument,
+    actor_id: ActorId,
+    revision: u32,
+) -> Option<Option<ComposerAvatarCurrent>> {
+    avatar_resource_kind_for_revision(analysis, actor_id, revision).map(|kind| match kind {
+        Some(ResolvedResourceKind::Avatar {
+            entity_id,
+            contribution_namespace,
+            variant_id,
+            ..
+        }) => Some(ComposerAvatarCurrent::Pack(PackAvatarChoice {
+            entity_id: entity_id.clone(),
+            contribution_namespace: contribution_namespace.clone(),
+            variant_id: variant_id.clone(),
+        })),
+        Some(ResolvedResourceKind::ScriptAsset { name, .. })
+        | Some(ResolvedResourceKind::PackAsset { name, .. }) => {
+            Some(ComposerAvatarCurrent::Asset(name.clone()))
+        }
+        Some(_) => unreachable!("avatar resources are filtered above"),
+        None => None,
+    })
+}
+
+fn canonicalize_avatar_command(
+    analysis: &AnalyzedDocument,
+    packs: &PackRegistry,
+    target_range: TextRange,
+    command: ComposerCommand,
+) -> Result<ComposerCommand, ComposerFailure> {
+    let ComposerCommand::SetActorAvatarFromStatement(choice) = command else {
+        return Ok(command);
+    };
+    if analysis_has_errors(analysis) {
+        return Err(ComposerFailure::DocumentHasErrors);
+    }
+    let target_ordinal =
+        exact_statement_ordinal(analysis, target_range).ok_or(ComposerFailure::TargetChanged)?;
+    let statement =
+        statement_at_ordinal(analysis, target_ordinal).ok_or(ComposerFailure::TargetChanged)?;
+    let speaker = unique_statement_speaker(analysis, statement.range)
+        .ok_or(ComposerFailure::TargetChanged)?;
+    let (actor_id, _, revision) =
+        actor_for_speaker(analysis, speaker).ok_or(ComposerFailure::ActorUnavailable)?;
+    let resolved = packs
+        .resolve_avatar(
+            &choice.entity_id,
+            Some(&choice.contribution_namespace),
+            &choice.variant_id,
+        )
+        .map_err(|_| ComposerFailure::AvatarUnavailable)?;
+    let canonical = PackAvatarChoice {
+        entity_id: resolved.entity_id,
+        contribution_namespace: resolved.contribution_namespace,
+        variant_id: resolved.variant_id,
+    };
+    if canonical != choice {
+        return Err(ComposerFailure::AvatarUnavailable);
+    }
+    if current_avatar_for_revision(analysis, actor_id, revision)
+        == Some(Some(ComposerAvatarCurrent::Pack(canonical.clone())))
+    {
+        return Err(ComposerFailure::AvatarUnavailable);
+    }
+    Ok(ComposerCommand::SetActorAvatarFromStatement(canonical))
 }
 
 #[derive(Debug)]
@@ -493,6 +661,45 @@ fn display_name_edit(
     statement: &StatementSyntax,
     value: &str,
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
+    actor_field_edit(
+        source,
+        analysis,
+        target_ordinal,
+        statement,
+        "display-name",
+        value,
+    )
+}
+
+fn avatar_edit(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    target_ordinal: usize,
+    statement: &StatementSyntax,
+    value: &PackAvatarChoice,
+) -> Result<ComposerSourceEdit, ComposerFailure> {
+    let selector = format!(
+        "{}/{}::avatar/{}",
+        value.entity_id, value.contribution_namespace, value.variant_id
+    );
+    actor_field_edit(
+        source,
+        analysis,
+        target_ordinal,
+        statement,
+        "avatar",
+        &selector,
+    )
+}
+
+fn actor_field_edit(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    target_ordinal: usize,
+    statement: &StatementSyntax,
+    field_name: &str,
+    value: &str,
+) -> Result<ComposerSourceEdit, ComposerFailure> {
     let speaker = unique_statement_speaker(analysis, statement.range)
         .ok_or(ComposerFailure::TargetChanged)?;
     let (actor_id, actor, revision_number) =
@@ -505,36 +712,58 @@ fn display_name_edit(
     let actor_name = serialize_scalar(&actor.primary_name, None)
         .ok_or(ComposerFailure::ActorUnavailable)?;
 
-    if let Some(edit) = adjacent_actor_block_edit(
+    if let Some(edit) = adjacent_actor_field_edit(
         source,
         analysis,
         target_ordinal,
         statement,
         actor_id,
         revision.origin,
+        field_name,
         value,
     )? {
         return Ok(edit);
     }
 
-    let display_name = serialize_scalar(value, None).ok_or(ComposerFailure::InvalidValue)?;
+    let encoded = serialize_scalar(value, None).ok_or(ComposerFailure::InvalidValue)?;
     let newline = newline_before_target(source, statement.range.start)
         .ok_or(ComposerFailure::CandidateInvalid)?;
+    let mut creation_fields = String::new();
+    if actor
+        .revisions
+        .first()
+        .is_some_and(|initial| initial.origin.start >= statement.range.start)
+    {
+        let preset =
+            serialize_scalar(&actor.preset_id, None).ok_or(ComposerFailure::ActorUnavailable)?;
+        creation_fields.push_str(&format!("preset: {preset}{newline}"));
+        let aliases = actor
+            .names
+            .iter()
+            .filter(|name| *name != &actor.primary_name)
+            .map(|name| serialize_scalar(name, None))
+            .collect::<Option<Vec<_>>>()
+            .ok_or(ComposerFailure::ActorUnavailable)?;
+        if !aliases.is_empty() {
+            creation_fields.push_str(&format!("also-as: [{}]{newline}", aliases.join(", ")));
+        }
+    }
     Ok(ComposerSourceEdit {
         range: TextRange::new(statement.range.start, statement.range.start),
         new_text: format!(
-            "@actor {actor_name}{newline}display-name: {display_name}{newline}@end{newline}"
+            "@actor {actor_name}{newline}{creation_fields}{field_name}: {encoded}{newline}@end{newline}"
         ),
     })
 }
 
-fn adjacent_actor_block_edit(
+fn adjacent_actor_field_edit(
     source: &str,
     analysis: &AnalyzedDocument,
     target_ordinal: usize,
     statement: &StatementSyntax,
     actor_id: ActorId,
     revision_origin: TextRange,
+    field_name: &str,
     value: &str,
 ) -> Result<Option<ComposerSourceEdit>, ComposerFailure> {
     let statement_node_index = analysis
@@ -568,23 +797,23 @@ fn adjacent_actor_block_edit(
     if matching_revisions != 1 {
         return Ok(None);
     }
-    let display_fields = block
+    let fields = block
         .items
         .iter()
         .filter_map(|item| match item {
-            DirectiveItemSyntax::Field(field) if field.name == "display-name" => Some(field),
+            DirectiveItemSyntax::Field(field) if field.name == field_name => Some(field),
             _ => None,
         })
         .collect::<Vec<_>>();
-    match display_fields.as_slice() {
+    match fields.as_slice() {
         [field] => {
             let parsed = parse_declaration_value(&field.value, field.value_range.start);
             let literal = match (parsed.diagnostics.is_empty(), parsed.value) {
                 (true, Some(DeclarationValueSyntax::Scalar(literal))) => literal,
                 _ => return Err(ComposerFailure::CandidateInvalid),
             };
-            let encoded = serialize_scalar(value, literal.quote)
-                .ok_or(ComposerFailure::InvalidValue)?;
+            let encoded =
+                serialize_scalar(value, literal.quote).ok_or(ComposerFailure::InvalidValue)?;
             Ok(Some(ComposerSourceEdit {
                 range: literal.range,
                 new_text: encoded,
@@ -597,7 +826,7 @@ fn adjacent_actor_block_edit(
             let encoded = serialize_scalar(value, None).ok_or(ComposerFailure::InvalidValue)?;
             Ok(Some(ComposerSourceEdit {
                 range: TextRange::new(end_start, end_start),
-                new_text: format!("display-name: {encoded}{newline}"),
+                new_text: format!("{field_name}: {encoded}{newline}"),
             }))
         }
         _ => Err(ComposerFailure::CandidateInvalid),
@@ -849,6 +1078,21 @@ fn markers_equal(left: Option<&SpeakerMarkerSyntax>, right: Option<&SpeakerMarke
 }
 
 fn common_semantics_stable(before: &AnalyzedDocument, after: &AnalyzedDocument) -> bool {
+    common_semantics_stable_using(before, after, true)
+}
+
+fn common_semantics_stable_for_avatar(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+) -> bool {
+    common_semantics_stable_using(before, after, false)
+}
+
+fn common_semantics_stable_using(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    compare_avatar_resources: bool,
+) -> bool {
     before.document_config.config == after.document_config.config
         && before.modes.bodies.iter().map(|entry| entry.mode).eq(
             after.modes.bodies.iter().map(|entry| entry.mode),
@@ -868,10 +1112,14 @@ fn common_semantics_stable(before: &AnalyzedDocument, after: &AnalyzedDocument) 
                     && left.render_patch.as_ref().map(|patch| &patch.raw_args)
                         == right.render_patch.as_ref().map(|patch| &patch.raw_args)
             })
-        && resolutions_equal(before, after)
+        && resolutions_equal_using(before, after, compare_avatar_resources)
 }
 
-fn resolutions_equal(before: &AnalyzedDocument, after: &AnalyzedDocument) -> bool {
+fn resolutions_equal_using(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    compare_avatar_resources: bool,
+) -> bool {
     match (&before.resolution, &after.resolution) {
         (None, None) => true,
         (Some(left), Some(right)) => {
@@ -888,7 +1136,8 @@ fn resolutions_equal(before: &AnalyzedDocument, after: &AnalyzedDocument) -> boo
                 .map(|resource| &resource.kind)
                 .collect::<Vec<_>>();
             left_inline == right_inline
-                && avatar_resource_identities_are_equal(&left.resources, &right.resources)
+                && (!compare_avatar_resources
+                    || avatar_resource_identities_are_equal(&left.resources, &right.resources))
                 && resource_failure_identities_are_equal(&left.failures, &right.failures)
         }
         _ => false,
@@ -1106,6 +1355,197 @@ fn display_candidate_stable(
     true
 }
 
+fn avatar_candidate_stable(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    target_ordinal: usize,
+    requested: &PackAvatarChoice,
+) -> bool {
+    let Some(before_target) = statement_at_ordinal(before, target_ordinal) else {
+        return false;
+    };
+    let Some(after_target) = statement_at_ordinal(after, target_ordinal) else {
+        return false;
+    };
+    let Some(before_speaker) = unique_statement_speaker(before, before_target.range) else {
+        return false;
+    };
+    let Some(after_speaker) = unique_statement_speaker(after, after_target.range) else {
+        return false;
+    };
+    let Some((target_actor, before_actor, target_revision)) = actor_for_speaker(before, before_speaker)
+    else {
+        return false;
+    };
+    let Some((after_actor_id, after_actor, _)) = actor_for_speaker(after, after_speaker) else {
+        return false;
+    };
+    if target_actor != after_actor_id
+        || before_actor.preset_id != after_actor.preset_id
+        || before_actor.primary_name != after_actor.primary_name
+        || before_actor.names != after_actor.names
+        || before.actors.actors.len() != after.actors.actors.len()
+        || after_actor.revisions.len() < before_actor.revisions.len()
+        || after_actor.revisions.len() > before_actor.revisions.len() + 1
+        || !non_target_avatar_resources_equal(before, after, target_actor)
+    {
+        return false;
+    }
+    for before_other in &before.actors.actors {
+        let Some(after_other) = after
+            .actors
+            .actors
+            .iter()
+            .find(|actor| actor.id == before_other.id)
+        else {
+            return false;
+        };
+        if before_other.id != target_actor
+            && (before_other.preset_id != after_other.preset_id
+                || before_other.primary_name != after_other.primary_name
+                || before_other.names != after_other.names
+                || !revisions_have_same_states(before_other, after_other))
+        {
+            return false;
+        }
+    }
+
+    let before_statements = before
+        .document
+        .nodes
+        .iter()
+        .filter_map(|node| match node {
+            SyntaxNode::Statement(statement) => Some(statement),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+    let after_statements = after
+        .document
+        .nodes
+        .iter()
+        .filter_map(|node| match node {
+            SyntaxNode::Statement(statement) => Some(statement),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+    let mut selected_active = true;
+    let mut prior_revision = target_revision;
+    let mut target_seen = false;
+    for (ordinal, (before_statement, after_statement)) in before_statements
+        .iter()
+        .zip(after_statements)
+        .enumerate()
+    {
+        let before_entry = unique_statement_speaker(before, before_statement.range);
+        let after_entry = unique_statement_speaker(after, after_statement.range);
+        let (Some(before_entry), Some(after_entry)) = (before_entry, after_entry) else {
+            if before_entry.is_some() || after_entry.is_some() {
+                return false;
+            }
+            continue;
+        };
+        if before_entry.speaker != after_entry.speaker {
+            return false;
+        }
+        let SpeakerIdentity::Actor(actor_id) = &before_entry.speaker else {
+            if before_entry.revision != after_entry.revision {
+                return false;
+            }
+            continue;
+        };
+        let Some(before_state) = speaker_state(before, before_entry) else {
+            return false;
+        };
+        let Some(after_state) = speaker_state(after, after_entry) else {
+            return false;
+        };
+        let Some(before_kind) = avatar_kind_for_speaker(before, before_entry) else {
+            return false;
+        };
+        let Some(after_kind) = avatar_kind_for_speaker(after, after_entry) else {
+            return false;
+        };
+        if ordinal < target_ordinal || *actor_id != target_actor {
+            if before_entry.revision != after_entry.revision
+                || before_state != after_state
+                || before_kind != after_kind
+            {
+                return false;
+            }
+            continue;
+        }
+        target_seen |= ordinal == target_ordinal;
+        if after_state.display_name != before_state.display_name {
+            return false;
+        }
+        let Some(revision) = before_entry.revision else {
+            return false;
+        };
+        if revision != prior_revision {
+            if revision_has_explicit_avatar(before, target_actor, revision) {
+                selected_active = false;
+            }
+            prior_revision = revision;
+        }
+        if selected_active {
+            if !avatar_kind_matches_choice(after_kind, requested) {
+                return false;
+            }
+        } else if before_kind != after_kind {
+            return false;
+        }
+    }
+    target_seen
+}
+
+fn avatar_kind_for_speaker<'a>(
+    analysis: &'a AnalyzedDocument,
+    speaker: &ResolvedStatementSpeaker,
+) -> Option<Option<&'a ResolvedResourceKind>> {
+    let (actor_id, _, revision) = actor_for_speaker(analysis, speaker)?;
+    avatar_resource_kind_for_revision(analysis, actor_id, revision)
+}
+
+fn avatar_kind_matches_choice(
+    kind: Option<&ResolvedResourceKind>,
+    requested: &PackAvatarChoice,
+) -> bool {
+    matches!(
+        kind,
+        Some(ResolvedResourceKind::Avatar {
+            entity_id,
+            contribution_namespace,
+            variant_id,
+            ..
+        }) if entity_id == &requested.entity_id
+            && contribution_namespace == &requested.contribution_namespace
+            && variant_id == &requested.variant_id
+    )
+}
+
+fn non_target_avatar_resources_equal(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    target_actor: ActorId,
+) -> bool {
+    let (Some(before), Some(after)) = (&before.resolution, &after.resolution) else {
+        return false;
+    };
+    let before = before.resources.iter().filter_map(|resource| match resource.target {
+        ResourceTarget::ActorAvatar { actor_id, revision } if actor_id != target_actor => {
+            Some((actor_id, revision, &resource.kind))
+        }
+        _ => None,
+    });
+    let after = after.resources.iter().filter_map(|resource| match resource.target {
+        ResourceTarget::ActorAvatar { actor_id, revision } if actor_id != target_actor => {
+            Some((actor_id, revision, &resource.kind))
+        }
+        _ => None,
+    });
+    before.eq(after)
+}
+
 fn revisions_have_same_states(
     left: &crate::semantic::ScriptActor,
     right: &crate::semantic::ScriptActor,
@@ -1133,6 +1573,23 @@ fn revision_has_explicit_display(
     actor_id: ActorId,
     revision_number: u32,
 ) -> bool {
+    revision_has_explicit_field(analysis, actor_id, revision_number, "display-name")
+}
+
+fn revision_has_explicit_avatar(
+    analysis: &AnalyzedDocument,
+    actor_id: ActorId,
+    revision_number: u32,
+) -> bool {
+    revision_has_explicit_field(analysis, actor_id, revision_number, "avatar")
+}
+
+fn revision_has_explicit_field(
+    analysis: &AnalyzedDocument,
+    actor_id: ActorId,
+    revision_number: u32,
+    field_name: &str,
+) -> bool {
     let Some(origin) = analysis
         .actors
         .actors
@@ -1155,7 +1612,7 @@ fn revision_has_explicit_display(
                 if block.range == origin
                     && block.items.iter().any(|item| matches!(
                         item,
-                        DirectiveItemSyntax::Field(field) if field.name == "display-name"
+                        DirectiveItemSyntax::Field(field) if field.name == field_name
                     ))
         )
     })

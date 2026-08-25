@@ -17,6 +17,19 @@
             "default": {
               "storage": "avatars",
               "path": "佳代子.png"
+            },
+            "smile": {
+              "handles": ["微笑"],
+              "storage": "avatars",
+              "path": "佳代子-smile.png"
+            },
+            "unsafe": {
+              "storage": "avatars",
+              "path": "unsafe.svg"
+            },
+            "sequence": {
+              "storage": "alpha_sequence",
+              "frame": 0
             }
           }
         },
@@ -36,6 +49,21 @@
               "variants": [
                 { "id": "frame_003", "ordinal": 1, "frame": 2 }
               ]
+            }
+          }
+        }
+      }
+    },
+    "小雪": {
+      "names": ["小雪", "Koyuki"],
+      "display_name": "小雪",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "小雪.png"
             }
           }
         }

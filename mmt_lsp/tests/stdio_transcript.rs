@@ -200,9 +200,59 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let manifest = json!({
         "schema": "mmt-pack.v3",
         "pack": {"namespace": "ba", "name": "BA fixture", "version": "1", "type": "base"},
-        "entities": {"柚子": {"names": ["柚子", "Yuzu"], "display_name": "柚子"}}
+        "entities": {
+            "柚子": {"names": ["柚子", "Yuzu"], "display_name": "柚子", "slots": {
+                "avatar": {"default": "default", "items": {
+                    "default": {"storage": "avatars", "path": "yuzu.png"}
+                }}
+            }},
+            "佳代子": {"names": ["佳代子"], "display_name": "佳代子", "slots": {
+                "avatar": {"default": "default", "items": {
+                    "default": {"storage": "avatars", "path": "kayoko.png"}
+                }}
+            }}
+        },
+        "storage": {"avatars": {"kind": "image-dir", "base": "assets/avatar"}}
     })
     .to_string();
+    let avatar_uri = "file:///workspace/avatar.mmt";
+    let avatar_open = json!({"textDocument":{
+        "uri":avatar_uri,"languageId":"mmt","version":1,
+        "text":"> 柚子: before\n> _0: target"
+    }});
+    shared
+        .request(
+            "mmt/updatePackManifests",
+            json!({"revision":1,"sources":[{"json":manifest.clone()}]}),
+        )
+        .unwrap();
+    let shared_avatar_events = shared
+        .notification("textDocument/didOpen", avatar_open.clone())
+        .unwrap();
+    let shared_avatar_projection = shared_avatar_events
+        .iter()
+        .find(|event| event.method == "mmt/typstProjectUpdated")
+        .unwrap()
+        .params
+        .clone();
+    let expected_avatar_target = shared
+        .request(
+            "mmt/previewComposerTarget",
+            preview_target_params(&shared_avatar_projection),
+        )
+        .unwrap();
+    let avatar_command = json!({
+        "textDocument":expected_avatar_target["textDocument"],
+        "target":expected_avatar_target["target"],
+        "command":{"kind":"setActorAvatarFromStatement","avatar":{
+            "kind":"packAvatar","entityId":"ba::佳代子",
+            "contributionNamespace":"ba","variantId":"default"
+        }}
+    });
+    let expected_avatar_edit = shared
+        .request("mmt/composerEdit", avatar_command.clone())
+        .unwrap();
+    assert_eq!(expected_avatar_edit["kind"], "Edit", "{expected_avatar_edit}");
     send(
         &mut stdin,
         &json!({
@@ -259,7 +309,55 @@ fn native_stdio_matches_the_shared_server_transcript() {
 
     send(
         &mut stdin,
-        &json!({"jsonrpc": "2.0", "id": 9, "method": "shutdown", "params": null}),
+        &json!({
+            "jsonrpc":"2.0",
+            "method":"textDocument/didOpen",
+            "params":avatar_open
+        }),
+    );
+    assert_eq!(receive(&mut stdout)["method"], "textDocument/publishDiagnostics");
+    let avatar_projection = receive(&mut stdout);
+    assert_eq!(avatar_projection["method"], "mmt/typstProjectUpdated");
+    send(
+        &mut stdin,
+        &json!({
+            "jsonrpc":"2.0","id":9,"method":"mmt/previewComposerTarget",
+            "params":preview_target_params(&avatar_projection["params"])
+        }),
+    );
+    let avatar_target = receive(&mut stdout)["result"].clone();
+    assert_eq!(avatar_target, expected_avatar_target);
+    assert_eq!(
+        avatar_target["properties"]["actorAvatar"],
+        json!({
+            "scope":"fromStatement",
+            "actorPresetId":"ba::柚子",
+            "current":{
+                "kind":"packAvatar","entityId":"ba::柚子",
+                "contributionNamespace":"ba","variantId":"default"
+            }
+        })
+    );
+    send(
+        &mut stdin,
+        &json!({
+            "jsonrpc":"2.0","id":10,"method":"mmt/composerEdit",
+            "params":avatar_command
+        }),
+    );
+    let avatar_edit = receive(&mut stdout)["result"].clone();
+    assert_eq!(avatar_edit, expected_avatar_edit);
+    assert_eq!(avatar_edit["kind"], "Edit", "{avatar_edit}");
+    assert!(
+        avatar_edit["edit"]["documentChanges"][0]["edits"][0]["newText"]
+            .as_str()
+            .unwrap()
+            .contains("avatar: ba::佳代子/ba::avatar/default")
+    );
+
+    send(
+        &mut stdin,
+        &json!({"jsonrpc": "2.0", "id": 11, "method": "shutdown", "params": null}),
     );
     assert_eq!(receive(&mut stdout)["result"], Value::Null);
     send(

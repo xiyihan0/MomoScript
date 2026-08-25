@@ -9,9 +9,9 @@ use lsp_types::{
     PositionEncodingKind, Range, TextEdit, Url,
 };
 use mmt_rs::{
-    AnalyzedDocument, ComposerTargetFailure, ContinuedValue, EmitOptions, LogicalProjectFileId,
-    PROJECTION_PLACEHOLDER_IMAGE, ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget,
-    ProjectedEditTransaction, ProjectionEdit, ProjectionError, ProjectionKey,
+    AnalyzedDocument, ComposerActorAvatar, ComposerTargetFailure, ContinuedValue, EmitOptions,
+    LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE, ProjectDigestInput, ProjectedEditFailure,
+    ProjectedEditTarget, ProjectedEditTransaction, ProjectionEdit, ProjectionError, ProjectionKey,
     ProjectionMappingKind, ProjectionMappingResult, ProjectionPlan, ProjectionProfile,
     RetainedProjectedDocument, SourceContentKey, TypstProjectSnapshotKey, TypstProjection,
     ValidatedProjectedEditTransaction, canonical_bytes_digest, canonical_json_digest,
@@ -1062,6 +1062,7 @@ pub(crate) struct ResolvedComposerTarget {
     pub statement_range: Range,
     pub continued: ContinuedValue,
     pub actor_display_name: Option<String>,
+    pub actor_avatar: Option<ComposerActorAvatar>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1393,6 +1394,7 @@ impl ProjectionStore {
             statement_range,
             continued: target.continued,
             actor_display_name: target.actor_display_name,
+            actor_avatar: target.actor_avatar,
         })
     }
 
@@ -1743,6 +1745,66 @@ mod tests {
         assert_eq!(
             unavailable,
             Err(ComposerTargetUnavailable::ActorUnavailable)
+        );
+    }
+
+    #[test]
+    fn composer_target_carries_revision_bound_avatar_product_identity() {
+        let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
+          "schema":"mmt-pack.v3",
+          "pack":{"namespace":"ba","name":"BA","version":"1","type":"base"},
+          "entities":{"A":{"names":["A"],"slots":{"avatar":{"default":"default","items":{
+            "default":{"storage":"avatars","path":"a.png"}
+          }}}}},
+          "storage":{"avatars":{"kind":"image-dir","base":"assets/avatar"}}
+        }"#).unwrap();
+        let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
+        let source_uri = uri();
+        let snapshot = pack_snapshot(2, "> A: hello", &packs, 1);
+        let mut store = ProjectionStore::default();
+        store.upsert(source_uri.clone(), &snapshot).unwrap();
+        let document = store.get(&source_uri).unwrap();
+        let identity = document.language_identity.clone();
+        let generated = &document.projection.emitted.source;
+        let glyph = generated.find("#text(\"").unwrap() + 1;
+        let lines = LineIndex::new(generated);
+        let location = Location::new(
+            document.entry_uri.clone(),
+            Range::new(
+                lines
+                    .position(generated, glyph, &PositionEncodingKind::UTF8)
+                    .unwrap(),
+                lines
+                    .position(generated, glyph + 1, &PositionEncodingKind::UTF8)
+                    .unwrap(),
+            ),
+        );
+        let target = store
+            .resolve_composer_target(
+                &source_uri,
+                &document.entry_uri,
+                document.revision,
+                &identity.source_content,
+                &identity.project_digest,
+                &identity.projection_key,
+                location,
+                PositionEncoding::Utf8,
+                PositionEncoding::Utf8,
+                Some(&snapshot),
+                false,
+            )
+            .unwrap();
+        let avatar = target.actor_avatar.unwrap();
+        assert_eq!(avatar.actor_preset_id, "ba::A");
+        assert_eq!(
+            avatar.current,
+            Some(mmt_rs::ComposerAvatarCurrent::Pack(
+                mmt_rs::PackAvatarChoice {
+                    entity_id: "ba::A".to_string(),
+                    contribution_namespace: "ba".to_string(),
+                    variant_id: "default".to_string(),
+                }
+            ))
         );
     }
 

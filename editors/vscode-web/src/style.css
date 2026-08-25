@@ -795,6 +795,108 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.mmt-avatar-picker {
+  display: flex;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-height: min(520px, calc(100vh - 24px));
+  padding: 12px;
+  border: 1px solid var(--vscode-widget-border, transparent);
+  flex-direction: column;
+  color: var(--vscode-foreground);
+  background: var(--vscode-editorWidget-background);
+  box-shadow: 0 2px 8px var(--vscode-widget-shadow);
+  gap: 8px;
+}
+.mmt-avatar-picker__title {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mmt-avatar-picker__search {
+  flex: 0 0 auto;
+}
+.mmt-avatar-picker__current-status,
+.mmt-avatar-picker__empty {
+  color: var(--vscode-descriptionForeground);
+  font-size: 11px;
+}
+.mmt-avatar-picker__results {
+  overflow: auto;
+  min-height: 0;
+  padding-right: 2px;
+  overscroll-behavior: contain;
+}
+.mmt-avatar-picker__section-title,
+.mmt-avatar-picker__actor-label {
+  margin: 8px 0 5px;
+  color: var(--vscode-descriptionForeground);
+  font-size: 11px;
+  font-weight: 600;
+}
+.mmt-avatar-picker__section-title {
+  padding-top: 5px;
+  border-top: 1px solid var(--vscode-widget-border, transparent);
+}
+.mmt-avatar-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 6px;
+}
+.mmt-avatar-picker__item {
+  display: grid;
+  overflow: hidden;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+  cursor: pointer;
+  grid-template-rows: 72px auto auto;
+  gap: 4px;
+  text-align: left;
+}
+.mmt-avatar-picker__item:hover:not(:disabled) {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+.mmt-avatar-picker__item:focus-visible {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+.mmt-avatar-picker__item:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+.mmt-avatar-picker__item.is-current {
+  border-color: var(--vscode-focusBorder);
+  opacity: 1;
+}
+.mmt-avatar-picker__item > img {
+  width: 100%;
+  height: 72px;
+  border-radius: 2px;
+  object-fit: contain;
+  background: var(--vscode-editor-background);
+}
+.mmt-avatar-picker__variant,
+.mmt-avatar-picker__detail {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mmt-avatar-picker__variant {
+  font-size: 11px;
+  font-weight: 600;
+}
+.mmt-avatar-picker__detail {
+  color: var(--vscode-descriptionForeground);
+  font-size: 10px;
+}
+
 @container (max-width: 210px) {
   .mms-gallery-variant-grid { grid-template-columns: minmax(0, 1fr); }
   .mms-gallery-control-footer { align-items: flex-start; flex-direction: column; }

@@ -13,12 +13,22 @@ import {
 
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
-const AVATAR_URL = new URL("assets/avatar/佳代子.png", PACK_BASE_URL).href;
+const smileAvatar = await readFile(new URL("./fixtures/佳代子-smile.png", import.meta.url));
+const koyukiAvatar = await readFile(new URL("./fixtures/小雪.png", import.meta.url));
+const alphaSequence = await readFile(new URL("./fixtures/alpha-sequence.avifs", import.meta.url));
+const AVATAR_FIXTURES = new Map([
+  [new URL("assets/avatar/佳代子.png", PACK_BASE_URL).href, avatar],
+  [new URL("assets/avatar/佳代子-smile.png", PACK_BASE_URL).href, smileAvatar],
+  [new URL("assets/avatar/小雪.png", PACK_BASE_URL).href, koyukiAvatar],
+]);
+const ALPHA_SEQUENCE_URL = new URL("blobs/stickers/alpha/default.avifs", PACK_BASE_URL).href;
 
 const ROOT_CONTINUED = "编辑连续消息状态…";
 const ROOT_DISPLAY_NAME = "从本条起修改人物显示名…";
+const ROOT_AVATAR = "从本条起更换人物头像…";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
+const AVATAR_UNAVAILABLE_MESSAGE = "所选头像已不可用，未应用编辑。";
 
 interface ComposerState {
   readonly targetRequests: number;
@@ -261,6 +271,240 @@ test("display-name Composer edits preserve the actor interval and minimally upda
   expect(adjacentEdited).toContain("@actor 佳代子\ndisplay-name: 相邻老师\n@end\n>(continued: false) 佳代子: ADJACENT_TARGET");
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(adjacentEdited);
 });
+
+test("avatar Composer updates the current actor interval, cross-character identity, and automatic grouping once", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-avatar.mmt";
+  const original = [
+    "> 佳代子: AVATAR_BEFORE",
+    "> _0: AVATAR_TARGET",
+    "> _0: AVATAR_AFTER",
+    ">(continued: true) _0: AVATAR_FORCED",
+    "",
+  ].join("\n");
+  const smileEdited = [
+    "> 佳代子: AVATAR_BEFORE",
+    "@actor 佳代子",
+    "avatar: ba::佳代子/ba::avatar/smile",
+    "@end",
+    "> _0: AVATAR_TARGET",
+    "> _0: AVATAR_AFTER",
+    ">(continued: true) _0: AVATAR_FORCED",
+    "",
+  ].join("\n");
+  const crossEdited = [
+    "> 佳代子: AVATAR_BEFORE",
+    "@actor 佳代子",
+    "avatar: ba::佳代子/ba::avatar/smile",
+    "@end",
+    "> _0: AVATAR_TARGET",
+    "@actor 佳代子",
+    "avatar: ba::小雪/ba::avatar/default",
+    "@end",
+    "> _0: AVATAR_AFTER",
+    ">(continued: true) _0: AVATAR_FORCED",
+    "",
+  ].join("\n");
+
+  const opened = await openProviderPreview(page, name, original);
+  let frame = opened.frame;
+  const initialBeforeAvatar = await avatarImageSourceForMarker(frame, "AVATAR_BEFORE");
+  const historyBaseline = await historyEditCountForPath(page, `/${name}`);
+
+  frame = await applyAvatar(
+    page,
+    frame,
+    opened.sourceUri,
+    name,
+    "AVATAR_TARGET",
+    { entityId: "ba::佳代子", contributor: "ba", variant: "smile" },
+    smileEdited,
+  );
+  await expectHistoryCount(page, name, historyBaseline + 1);
+  expect(await avatarImageSourceForMarker(frame, "AVATAR_BEFORE")).toBe(initialBeforeAvatar);
+  const smileSource = await avatarImageSourceForMarker(frame, "AVATAR_TARGET");
+  expect(smileSource).not.toBe(initialBeforeAvatar);
+  await expectRenderedTextCount(frame, "佳代子", 2);
+  expect(smileEdited).toContain(">(continued: true) _0: AVATAR_FORCED");
+  await waitForHistoryGroupBoundary(page);
+
+  frame = await applyAvatar(
+    page,
+    frame,
+    opened.sourceUri,
+    name,
+    "AVATAR_AFTER",
+    { entityId: "ba::小雪", contributor: "ba", variant: "default" },
+    crossEdited,
+    "佳代子将从本条起使用「小雪 / default」头像",
+  );
+  await expectHistoryCount(page, name, historyBaseline + 2);
+  expect(await avatarImageSourceForMarker(frame, "AVATAR_BEFORE")).toBe(initialBeforeAvatar);
+  expect(await avatarImageSourceForMarker(frame, "AVATAR_TARGET")).toBe(smileSource);
+  const crossSource = await avatarImageSourceForMarker(frame, "AVATAR_AFTER");
+  expect(crossSource).not.toBe(smileSource);
+  await expectRenderedTextCount(frame, "佳代子", 3);
+  await expectRenderedTextCount(frame, "小雪", 0);
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(crossEdited);
+});
+test("avatar picker reports custom, unset, and unsupported current sources without mutating", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-avatar-status.mmt";
+  const source = [
+    "@asset portrait",
+    "src: portrait.png",
+    "@end",
+    "@actor custom",
+    "preset: ba::佳代子",
+    "avatar: asset::portrait",
+    "@end",
+    "@actor unsupported",
+    "preset: ba::佳代子",
+    "avatar: ba::佳代子/ba::avatar/sequence",
+    "@end",
+    "> custom: CUSTOM_AVATAR_CURRENT",
+    "> 晴_露营: NULL_AVATAR_CURRENT",
+    "> unsupported: UNSUPPORTED_AVATAR_CURRENT",
+    "",
+  ].join("\n");
+  await installPackRoutes(page);
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
+  await invokeMmtE2E(page, "workspace", "writeFile", "portrait.png", avatar.toString("base64"));
+  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", name, source);
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  const frame = await waitForPreviewFrame(page, sourceUri);
+
+  await expectAvatarPickerStatus(page, frame, "CUSTOM_AVATAR_CURRENT", "custom", "当前：自定义资源 portrait");
+  await expectAvatarPickerStatus(page, frame, "NULL_AVATAR_CURRENT", "none", "当前：无头像");
+  await expectAvatarPickerStatus(page, frame, "UNSUPPORTED_AVATAR_CURRENT", "unavailable", "当前头像暂不支持预览");
+  expect(await composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 0,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
+});
+
+test("avatar picker stays pointer-anchored and internally scrollable at 240–320px", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-avatar-responsive.mmt";
+  const source = "> 佳代子: AVATAR_RESPONSIVE_TARGET\n";
+  const opened = await openProviderPreview(page, name, source);
+  for (const width of [320, 240]) {
+    await page.setViewportSize({ width, height: 700 });
+    await resetComposer(page);
+    await dispatchRenderedGlyphContextMenu(opened.frame, "AVATAR_RESPONSIVE_TARGET");
+    const pointer = await currentComposerAnchor(page);
+    await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+    await chooseAvatarContextMenuItem(page);
+    const picker = page.locator(".mmt-avatar-picker");
+    await expect(picker).toBeVisible();
+    await expectContextMenuAnchored(picker, pointer, width, 700);
+    await expect(picker.locator(".mmt-avatar-picker__results")).toHaveCSS("overflow-y", "auto");
+    await expect(picker.getByRole("textbox", { name: /搜索其他人物头像/ })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(picker).toBeHidden();
+    expect(await composerState(page)).toEqual({
+      targetRequests: 1,
+      editRequests: 0,
+      applyAttempts: 0,
+      successfulApplies: 0,
+    });
+  }
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
+});
+
+test("avatar picker never retries a failed apply and closes on the actual Pack catalog event", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-avatar-safety.mmt";
+  const source = "> 佳代子: AVATAR_SAFETY_TARGET\n";
+  const opened = await openProviderPreview(page, name, source);
+  const frame = opened.frame;
+
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, "AVATAR_SAFETY_TARGET");
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await chooseAvatarContextMenuItem(page);
+  let picker = page.locator(".mmt-avatar-picker");
+  await expect(picker).toBeVisible();
+  await invokeMmtE2E(page, "composer", "failNextApply");
+  await picker.locator(
+    '.mmt-avatar-picker__item[data-avatar-entity="ba::佳代子"]'
+    + '[data-avatar-contributor="ba"][data-avatar-variant="smile"]',
+  ).click();
+  await expect(picker).toBeHidden();
+  await expectMomoScriptNotificationSource(page, APPLY_FAILED_MESSAGE);
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 1,
+    applyAttempts: 1,
+    successfulApplies: 0,
+  });
+  await page.waitForTimeout(250);
+  expect(await composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 1,
+    applyAttempts: 1,
+    successfulApplies: 0,
+  });
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
+
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, "AVATAR_SAFETY_TARGET");
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await chooseAvatarContextMenuItem(page);
+  picker = page.locator(".mmt-avatar-picker");
+  await expect(picker).toBeVisible();
+  await invokeMmtE2E(page, "composer", "rejectNextAvatarEdit");
+  await picker.locator(
+    '.mmt-avatar-picker__item[data-avatar-entity="ba::佳代子"]'
+    + '[data-avatar-contributor="ba"][data-avatar-variant="smile"]',
+  ).click();
+  await expect(picker).toBeHidden();
+  await expectMomoScriptNotificationSource(page, AVATAR_UNAVAILABLE_MESSAGE);
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 1,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await page.waitForTimeout(250);
+  expect(await composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 1,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
+
+  const mmsActivity = page.getByRole("tab", { name: "MomoScript", exact: true });
+  await mmsActivity.click();
+  const packUrls = page.getByRole("textbox", { name: "资源包清单地址" });
+  await expect(packUrls).toBeVisible();
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, "AVATAR_SAFETY_TARGET");
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await chooseAvatarContextMenuItem(page);
+  picker = page.locator(".mmt-avatar-picker");
+  await expect(picker).toBeVisible();
+  await page.evaluate(() => {
+    const input = document.querySelector<HTMLTextAreaElement>('textarea[aria-label="资源包清单地址"]');
+    const section = input?.closest("section");
+    const save = [...(section?.querySelectorAll("button") ?? [])]
+      .find((button) => button.textContent === "保存项目设置");
+    if (!input || !(save instanceof HTMLButtonElement)) throw new Error("Pack settings controls are unavailable");
+    input.value = "";
+    save.click();
+  });
+  await expect(page.getByText("已保存", { exact: true })).toBeVisible();
+  await expect(picker).toBeHidden();
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 0,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
+});
+
 
 test("a Composer edit persists through reload and Local History restores the exact original source", { tag: ["@preview-composer", "@local-history"] }, async ({ page }) => {
   const name = "composer-persistence.mmt";
@@ -519,14 +763,23 @@ async function installPackRoutes(page: Page): Promise<void> {
     await route.fulfill({
       status: 200,
       body: manifest,
-      headers: corsHeaders("application/json", '"preview-composer-manifest"'),
+      headers: corsHeaders("application/json", '"preview-composer-avatar-manifest-v3"'),
     });
   });
-  await page.route(AVATAR_URL, async (route) => {
+  for (const [url, body] of AVATAR_FIXTURES) {
+    await page.route(url, async (route) => {
+      await route.fulfill({
+        status: 200,
+        body,
+        headers: corsHeaders("image/png"),
+      });
+    });
+  }
+  await page.route(ALPHA_SEQUENCE_URL, async (route) => {
     await route.fulfill({
       status: 200,
-      body: avatar,
-      headers: corsHeaders("image/png"),
+      body: alphaSequence,
+      headers: corsHeaders("image/avif"),
     });
   });
 }
@@ -617,6 +870,105 @@ async function applyDisplayName(
   return next;
 }
 
+async function expectAvatarPickerStatus(
+  page: Page,
+  frame: Frame,
+  marker: string,
+  status: "custom" | "none" | "unavailable",
+  label: string,
+): Promise<void> {
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, marker);
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await chooseAvatarContextMenuItem(page);
+  const picker = page.locator(".mmt-avatar-picker");
+  await expect(picker).toBeVisible();
+  const currentStatus = picker.locator(".mmt-avatar-picker__current-status");
+  await expect(currentStatus).toHaveAttribute("data-current-status", status);
+  await expect(currentStatus).toHaveText(label);
+  const search = picker.getByRole("textbox", { name: /搜索其他人物头像/ });
+  await search.fill("Koyuki");
+  await expect(picker.locator('.mmt-avatar-picker__item[data-avatar-entity="ba::小雪"]')).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(picker).toBeHidden();
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 0,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+}
+
+async function applyAvatar(
+  page: Page,
+  frame: Frame,
+  sourceUri: string,
+  name: string,
+  marker: string,
+  choice: { readonly entityId: string; readonly contributor: string; readonly variant: string },
+  expectedSource: string,
+  expectedCopy?: string,
+): Promise<Frame> {
+  await resetComposer(page);
+  const previousRevision = await currentContainerRevision(page, sourceUri);
+  await rightClickRenderedGlyph(frame, marker);
+  const pointer = await currentComposerAnchor(page);
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await chooseAvatarContextMenuItem(page);
+  const picker = page.locator(".mmt-avatar-picker");
+  await expect(picker).toBeVisible();
+  const viewport = page.viewportSize();
+  if (!viewport) throw new Error("Workbench viewport is unavailable");
+  await expectContextMenuAnchored(picker, pointer, viewport.width, viewport.height);
+  const pickerBounds = await picker.boundingBox();
+  expect(pickerBounds).not.toBeNull();
+  expect(pickerBounds!.width).toBeLessThanOrEqual(560.5);
+  expect(pickerBounds!.height).toBeLessThanOrEqual(520.5);
+  await expect(picker.locator(".mmt-avatar-picker__results")).toHaveCSS("overflow-y", "auto");
+  await expect(picker.locator(".mmt-avatar-picker__item.is-current")).toBeDisabled();
+  for (const unavailable of ["sequence", "unsafe"]) {
+    const item = picker.locator(`.mmt-avatar-picker__item[data-avatar-variant="${unavailable}"]`);
+    await expect(item).toBeDisabled();
+    await expect(item.locator("img")).not.toHaveAttribute("src", /.+/);
+  }
+  const selected = picker.locator(
+    `.mmt-avatar-picker__item[data-avatar-entity="${choice.entityId}"]`
+    + `[data-avatar-contributor="${choice.contributor}"]`
+    + `[data-avatar-variant="${choice.variant}"]`,
+  );
+  await expect(selected).toBeEnabled();
+  if (expectedCopy) await expect(selected).toContainText(expectedCopy);
+  await selected.click();
+  await expect(picker).toBeHidden();
+  await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
+  await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
+  await expect(page.getByRole("dialog", { name: APPLY_FAILED_MESSAGE })).toHaveCount(0);
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
+  await expect.poll(() => currentContainerRevision(page, sourceUri)).not.toBe(previousRevision);
+  const next = await waitForPreviewFrame(page, sourceUri);
+  await expect(next.locator(".tsel").filter({ hasText: marker }).first()).toBeVisible();
+  return next;
+}
+
+async function avatarImageSourceForMarker(frame: Frame, marker: string): Promise<string> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  return text.evaluate((element, expectedMarker) => {
+    const bubble = element
+      .closest(".typst-text")
+      ?.closest("[data-typst-label^='mmt:bubble:']");
+    const bubbleLabel = bubble?.getAttribute("data-typst-label") ?? "";
+    const token = /^mmt:bubble:(t[0-9a-f]{8})$/.exec(bubbleLabel)?.[1];
+    if (!token) throw new Error(`bubble token is unavailable for ${expectedMarker}`);
+    const root = bubble?.closest("svg");
+    const avatarRegion = root?.querySelector(`[data-typst-label="mmt:avatar:${token}"]`);
+    const image = avatarRegion?.querySelector("image");
+    const source = image?.getAttribute("href") ?? image?.getAttribute("xlink:href");
+    if (!source) throw new Error(`avatar image source is unavailable for ${expectedMarker}`);
+    return source;
+  }, marker);
+}
+
 async function rightClickRenderedGlyph(
   frame: Frame,
   marker: string,
@@ -638,6 +990,25 @@ async function rightClickRenderedGlyph(
   });
   await text.click({ button: "right", position });
   return { x: bounds.x + position.x, y: bounds.y + position.y };
+}
+async function dispatchRenderedGlyphContextMenu(frame: Frame, marker: string): Promise<void> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  await text.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const x = bounds.left + bounds.width / 2;
+    const y = bounds.top + bounds.height / 2;
+    element.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: x,
+      clientY: y,
+      screenX: window.screenX + x,
+      screenY: window.screenY + y,
+    }));
+  });
 }
 async function rightClickRenderedBubbleGraphic(frame: Frame, marker: string): Promise<void> {
   const text = frame.locator(".tsel").filter({ hasText: marker }).first();
@@ -979,6 +1350,14 @@ async function expectSemanticChatContext(
   });
 }
 
+
+async function chooseAvatarContextMenuItem(page: Page): Promise<void> {
+  const menuItems = page.locator('[role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"]');
+  await expect.poll(() => menuItems.allTextContents(), { timeout: 20_000 }).toContain(ROOT_AVATAR);
+  const item = contextMenuItem(page, ROOT_AVATAR);
+  await item.hover();
+  await item.click();
+}
 
 async function dispatchSelectedContextMenu(
   frame: Frame,
