@@ -2,7 +2,11 @@ import assert from "node:assert/strict";
 import {
   PreviewComposerController,
   createPreviewComposerApplyPort,
+  isTextContentChangeEvent,
 } from "../src/previewComposer.ts";
+
+assert.equal(isTextContentChangeEvent({ contentChanges: [] }), false, "metadata-only document events are not source advances");
+assert.equal(isTextContentChangeEvent({ contentChanges: [{}] }), true, "text changes advance Composer source identity");
 
 
 class FakeContextMenuSession {

@@ -200,6 +200,24 @@ test("preview Composer edits continued bytes exactly, rerenders grouping, and re
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(original);
 });
 
+test("display-name Composer inserts the screenshot actor revision without a stale warning", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-display-name-screenshot.mmt";
+  const prefix = "> 小雪: 前文\n";
+  const original = `${prefix}> 小雪: 抓到啦——！\n`;
+  const expected = `${prefix}@actor 小雪\ndisplay-name: 白兔\n@end\n> 小雪: 抓到啦——！\n`;
+  const opened = await openProviderPreview(page, name, original);
+  await applyDisplayName(
+    page,
+    opened.frame,
+    opened.sourceUri,
+    name,
+    "抓到啦",
+    "小雪",
+    "白兔",
+    expected,
+  );
+});
+
 test("display-name Composer edits preserve the actor interval and minimally update an adjacent block", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-display-name.mmt";
   const original = [

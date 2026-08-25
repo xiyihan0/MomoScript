@@ -171,6 +171,12 @@ const INPUT_REQUIRED_MESSAGE = "显示名不能为空。";
 const EDIT_AVATAR_LABEL = "从本条起更换人物头像…";
 const AVATAR_UNAVAILABLE_MESSAGE = "所选头像已不可用，未应用编辑。";
 
+export function isTextContentChangeEvent(
+  event: { readonly contentChanges: readonly unknown[] },
+): boolean {
+  return event.contentChanges.length > 0;
+}
+
 /**
  * Creates the production apply adapter while retaining a final synchronous
  * runtime/identity/version gate around vscode.workspace.applyEdit.

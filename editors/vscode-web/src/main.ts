@@ -138,6 +138,7 @@ import {
 import { PreviewWebviewHost, type PreviewExactExportRequest } from "./previewWebviewHost.ts";
 import {
   createPreviewComposerApplyPort,
+  isTextContentChangeEvent,
   PreviewComposerController,
   type PreviewComposerControllerPorts,
 } from "./previewComposer.ts";
@@ -2482,6 +2483,7 @@ async function initializeRuntime(
     });
   }));
   const previewSourceAdvanceRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
+    if (!isTextContentChangeEvent(event)) return;
     const sourceUri = event.document.uri.toString();
     if (displayedPreviewSourceUri !== sourceUri) return;
     previewComposer?.sourceDocumentChanged({
