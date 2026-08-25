@@ -120,6 +120,14 @@ interface AvatarCatalogItem {
 
 Projection reads every base and contribution avatar item. Base local ids canonicalize with the manifest namespace; contribution targets are already canonical and retain the contributor namespace. Pathless/image-sequence items remain projected but are unavailable in the first picker; only safe image-dir items with a non-empty path are selectable.
 
+Cross-source aggregation has one owner and one signature:
+
+```ts
+buildAvatarCatalog(packs: readonly GalleryPack[]): readonly AvatarCatalogItem[]
+```
+
+`projectGalleryPack(source, catalog)` remains source-local: it projects that manifest's entities and flat avatar variants, including contribution variants whose canonical target entity is absent from that manifest. After every active source has been projected, `buildAvatarCatalog` constructs one canonical entity index from the complete `GalleryPack[]`, joins each contribution variant to target display/search metadata when available, and exclusively owns cross-source conflict removal、selectability、URL derivation and total ordering. `main.ts` stores the complete projected array and supplies picker snapshots only through `buildAvatarCatalog(galleryPacks)`; no per-Pack projection may attach、drop or independently aggregate another Pack's contribution.
+
 Ordering is total: actor entity promotion belongs to the picker; catalog order uses entity display label/canonical id, base before contributions, contribution namespace, source default first and variant id. Exact identity duplicates dedupe only when metadata matches; every copy of a conflicting identity is excluded rather than last-write-wins.
 
 Thumbnail URLs continue through `packResourceUrl`: HTTPS、same origin、pack-root prefix and supported image type are mandatory. URL/path/storage stays in `AvatarCatalogItem` and never enters the Composer command.

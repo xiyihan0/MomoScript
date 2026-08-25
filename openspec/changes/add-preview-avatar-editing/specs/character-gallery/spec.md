@@ -4,6 +4,8 @@
 
 The Web product catalog SHALL project every base/contribution avatar item into immutable canonical metadata without modifying pack-v3、Entity Catalog or IndexedDB schemas. Picker selectability is a derived delivery property, not loss of projection data.
 
+Cross-source joining SHALL occur only through `buildAvatarCatalog(packs: readonly GalleryPack[]): readonly AvatarCatalogItem[]` after every active manifest has been projected. Per-source `projectGalleryPack` SHALL retain flat contribution variants even when their canonical target entity belongs to another Pack.
+
 #### Scenario: Base entity has multiple avatars
 
 - GIVEN an entity avatar slot declares a default and multiple `items`
@@ -14,11 +16,11 @@ The Web product catalog SHALL project every base/contribution avatar item into i
 
 #### Scenario: Extension Pack contributes avatars
 
-- GIVEN an active contribution targets an existing canonical entity and declares avatar items
-- WHEN the catalog is projected
+- GIVEN an active contribution targets an existing canonical entity owned by another active Pack and declares avatar items
+- WHEN every active source is projected independently and the complete `GalleryPack[]` is passed to `buildAvatarCatalog`
 - THEN every item MUST retain the target entity and contributing Pack namespace
 - AND equal variant ids from different contributions MUST remain distinct identities
-- AND the target display/search metadata MUST come from its base entity when available
+- AND the target display/search metadata MUST be joined from its base entity when available
 
 #### Scenario: Catalog ordering is deterministic
 
