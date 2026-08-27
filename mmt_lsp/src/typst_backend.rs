@@ -1063,6 +1063,7 @@ pub(crate) struct ResolvedComposerTarget {
     pub continued: ContinuedValue,
     pub actor_display_name: Option<String>,
     pub actor_avatar: Option<ComposerActorAvatar>,
+    pub statement_text: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1395,6 +1396,7 @@ impl ProjectionStore {
             continued: target.continued,
             actor_display_name: target.actor_display_name,
             actor_avatar: target.actor_avatar,
+            statement_text: target.statement_text,
         })
     }
 
@@ -1750,14 +1752,17 @@ mod tests {
 
     #[test]
     fn composer_target_carries_revision_bound_avatar_product_identity() {
-        let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
+        let manifest = mmt_rs::pack::PackManifest::from_json(
+            r#"{
           "schema":"mmt-pack.v3",
           "pack":{"namespace":"ba","name":"BA","version":"1","type":"base"},
           "entities":{"A":{"names":["A"],"slots":{"avatar":{"default":"default","items":{
             "default":{"storage":"avatars","path":"a.png"}
           }}}}},
           "storage":{"avatars":{"kind":"image-dir","base":"assets/avatar"}}
-        }"#).unwrap();
+        }"#,
+        )
+        .unwrap();
         let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
         let source_uri = uri();
         let snapshot = pack_snapshot(2, "> A: hello", &packs, 1);
@@ -1794,6 +1799,7 @@ mod tests {
                 false,
             )
             .unwrap();
+        assert_eq!(target.statement_text.as_deref(), Some("hello"));
         let avatar = target.actor_avatar.unwrap();
         assert_eq!(avatar.actor_preset_id, "ba::A");
         assert_eq!(

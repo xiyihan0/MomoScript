@@ -16,11 +16,11 @@ use mmt_rs::syntax::{
     DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
 use mmt_rs::{
-    AnalyzedDocument, AssetId, ComposerCommand, ComposerFailure, DocumentTimezone, EmitOptions,
-    OccurrenceSyntax, RenameBindingKey, ResolvedResourceKind, ResourceArgumentReplacement,
-    SemanticIndex, SemanticOccurrence, SemanticOccurrenceRole, SemanticSymbolKey, SpeakerIdentity,
-    StaticPresetCatalog, compose_edit, compose_edit_with_pack, diagnose_analyzed,
-    diagnose_analyzed_with_pack, valid_asset_name,
+    AnalyzedDocument, AssetId, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerCommand, ComposerFailure,
+    DocumentTimezone, EmitOptions, OccurrenceSyntax, RenameBindingKey, ResolvedResourceKind,
+    ResourceArgumentReplacement, SemanticIndex, SemanticOccurrence, SemanticOccurrenceRole,
+    SemanticSymbolKey, SpeakerIdentity, StaticPresetCatalog, compose_edit, compose_edit_with_pack,
+    diagnose_analyzed, diagnose_analyzed_with_pack, valid_asset_name,
 };
 
 use crate::clock::StageTimer;
@@ -514,6 +514,12 @@ impl LanguageService {
         if matches!(
             &command,
             ComposerCommand::SetActorDisplayNameFromStatement(value) if value.is_empty()
+        ) || matches!(
+            &command,
+            ComposerCommand::SetStatementText(value)
+                if value.is_empty()
+                    || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
+                    || value.contains(['\r', '\n'])
         ) {
             return Err(ComposerEditRejection::InvalidValue);
         }
@@ -524,16 +530,13 @@ impl LanguageService {
             {
                 return Err(ComposerEditRejection::CandidateInvalid);
             }
-            let registry = self
-                .pack_registry
-                .as_ref()
-                .ok_or_else(|| {
-                    if matches!(&command, ComposerCommand::SetActorAvatarFromStatement(_)) {
-                        ComposerEditRejection::AvatarUnavailable
-                    } else {
-                        ComposerEditRejection::CandidateInvalid
-                    }
-                })?;
+            let registry = self.pack_registry.as_ref().ok_or_else(|| {
+                if matches!(&command, ComposerCommand::SetActorAvatarFromStatement(_)) {
+                    ComposerEditRejection::AvatarUnavailable
+                } else {
+                    ComposerEditRejection::CandidateInvalid
+                }
+            })?;
             compose_edit_with_pack(
                 &document.text,
                 &document.analysis,
@@ -2755,6 +2758,65 @@ mod tests {
                 Err(ComposerEditRejection::TargetChanged)
             );
         }
+    }
+
+    #[test]
+    fn composer_statement_text_edit_is_minimal_and_snapshot_pure() {
+        let source = ">(fill: green) 柚子: current😀";
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[SEMANTIC_PACK.to_string()])
+            .unwrap();
+        service.open(uri(), 4, source.to_string());
+        let target = {
+            let document = service.snapshot(&uri()).unwrap();
+            let statement = document
+                .analysis
+                .document
+                .nodes
+                .iter()
+                .find_map(|node| match node {
+                    SyntaxNode::Statement(statement) => Some(statement),
+                    _ => None,
+                })
+                .unwrap();
+            document
+                .lines
+                .range(
+                    &document.text,
+                    statement.range,
+                    &PositionEncodingKind::UTF16,
+                )
+                .unwrap()
+        };
+        let edit = service
+            .composer_edit(
+                &uri(),
+                4,
+                target.clone(),
+                ComposerCommand::SetStatementText("新正文😀 \\\\path".to_string()),
+            )
+            .unwrap();
+        let Some(DocumentChanges::Edits(documents)) = edit.document_changes else {
+            panic!("expected text document edit");
+        };
+        assert_eq!(documents.len(), 1);
+        assert_eq!(documents[0].text_document.version, Some(4));
+        assert_eq!(documents[0].edits.len(), 1);
+        assert!(matches!(
+            &documents[0].edits[0],
+            OneOf::Left(edit) if edit.new_text == "新正文😀 \\\\path"
+        ));
+        assert_eq!(service.snapshot(&uri()).unwrap().text, source);
+        assert_eq!(
+            service.composer_edit(
+                &uri(),
+                4,
+                target,
+                ComposerCommand::SetStatementText("current😀".to_string()),
+            ),
+            Err(ComposerEditRejection::InvalidValue)
+        );
     }
 
     #[test]

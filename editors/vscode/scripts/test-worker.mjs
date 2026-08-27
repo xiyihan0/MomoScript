@@ -524,6 +524,8 @@ try {
       || actorAvatar.current.entityId !== "ba::柚子"
       || actorAvatar.current.contributionNamespace !== "ba"
       || actorAvatar.current.variantId !== "default"
+      || !hasExactKeys(avatarTarget.properties.statementText, ["current"])
+      || avatarTarget.properties.statementText.current !== "Hello"
       || Object.hasOwn(actorAvatar, "actorId")
       || Object.hasOwn(actorAvatar.current, "path")
       || Object.hasOwn(actorAvatar.current, "storage")
@@ -556,6 +558,48 @@ try {
     }
     if (notifications.length !== avatarNotificationCount) {
       throw new Error("browser Worker avatar edit emitted an apply or server event");
+    }
+    const messageEdit = await request("mmt/composerEdit", {
+      textDocument: avatarTarget.textDocument,
+      target: avatarTarget.target,
+      command: {
+        kind: "setStatementText",
+        value: "Worker 正文😀 \\\\path"
+      }
+    });
+    if (
+      messageEdit.kind !== "Edit"
+      || Object.hasOwn(messageEdit.edit, "changes")
+      || messageEdit.edit?.documentChanges?.length !== 1
+      || messageEdit.edit.documentChanges[0].textDocument.version !== 1
+      || messageEdit.edit.documentChanges[0].edits?.length !== 1
+      || messageEdit.edit.documentChanges[0].edits[0].newText !== "Worker 正文😀 \\\\path"
+    ) {
+      throw new Error(`browser Worker message edit mismatch: ${JSON.stringify(messageEdit)}`);
+    }
+    if (notifications.length !== avatarNotificationCount) {
+      throw new Error("browser Worker message edit emitted an apply or server event");
+    }
+    let malformedMessageError;
+    try {
+      await request("mmt/composerEdit", {
+        textDocument: avatarTarget.textDocument,
+        target: avatarTarget.target,
+        command: {
+          kind: "setStatementText",
+          value: "unsafe",
+          rawSource: "> yuzu: unsafe"
+        }
+      });
+    } catch (error) {
+      malformedMessageError = error;
+    }
+    if (!malformedMessageError || !/unknown field|decode|invalid params/i.test(malformedMessageError.message)) {
+      throw new Error("browser Worker accepted unknown statement-text command fields");
+    }
+    const unchangedMessageTarget = await request("mmt/previewComposerTarget", avatarPreviewParams);
+    if (unchangedMessageTarget.properties?.statementText?.current !== "Hello") {
+      throw new Error("browser Worker message edit mutated the WASM document snapshot");
     }
     const missingAvatar = await request("mmt/composerEdit", {
       textDocument: avatarTarget.textDocument,

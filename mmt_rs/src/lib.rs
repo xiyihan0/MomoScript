@@ -17,14 +17,15 @@ pub mod source;
 pub mod syntax;
 pub mod typst_check;
 
-pub use composer::{
-    ComposerActorAvatar, ComposerAvatarCurrent, ComposerCommand, ComposerFailure,
-    ComposerSourceEdit, ComposerTarget, ComposerTargetFailure, ContinuedValue, PackAvatarChoice,
-    compose_edit, compose_edit_with_pack, resolve_preview_statement, statement_continued,
-};
 pub use analysis::{
     ANALYSIS_SCHEMA, AnalysisDiagnostic, AnalysisLabel, AnalysisReport, AstReport, SourceSpan,
     analyze_text_json, analyze_text_wasm,
+};
+pub use composer::{
+    COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerActorAvatar, ComposerAvatarCurrent, ComposerCommand,
+    ComposerFailure, ComposerSourceEdit, ComposerTarget, ComposerTargetFailure, ContinuedValue,
+    PackAvatarChoice, compose_edit, compose_edit_with_pack, resolve_preview_statement,
+    statement_continued,
 };
 pub use emit::{
     AuthoredOriginResolution, BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent,

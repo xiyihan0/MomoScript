@@ -13,9 +13,9 @@ use lsp_types::{
     TextDocumentSyncKind, Url,
 };
 use mmt_rs::{
-    ComposerAvatarCurrent, ComposerCommand, ContinuedValue, PackAvatarChoice, ProjectedEditTarget,
-    ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey, SourceContentKey,
-    TypstProjectSnapshotKey,
+    COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent, ComposerCommand, ContinuedValue,
+    PackAvatarChoice, ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass,
+    ProjectionKey, SourceContentKey, TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -273,6 +273,8 @@ enum ComposerCommandParams {
     SetActorDisplayNameFromStatement { value: String },
     #[serde(rename = "setActorAvatarFromStatement")]
     SetActorAvatarFromStatement { avatar: ComposerAvatarChoiceParams },
+    #[serde(rename = "setStatementText")]
+    SetStatementText { value: String },
 }
 
 impl From<ComposerCommandParams> for ComposerCommand {
@@ -286,6 +288,9 @@ impl From<ComposerCommandParams> for ComposerCommand {
             }
             ComposerCommandParams::SetActorAvatarFromStatement { avatar } => {
                 ComposerCommand::SetActorAvatarFromStatement(avatar.into())
+            }
+            ComposerCommandParams::SetStatementText { value } => {
+                ComposerCommand::SetStatementText(value)
             }
         }
     }
@@ -331,6 +336,15 @@ fn validate_composer_command(command: &ComposerCommandParams) -> Result<(), Serv
         {
             Err(ServerError::invalid_params(format!(
                 "display-name value exceeds {MAX_COMPOSER_DISPLAY_NAME_BYTES} UTF-8 bytes"
+            )))
+        }
+        ComposerCommandParams::SetStatementText { value }
+            if value.is_empty()
+                || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
+                || value.contains(['\r', '\n']) =>
+        {
+            Err(ServerError::invalid_params(format!(
+                "statement text must be 1-{COMPOSER_STATEMENT_TEXT_MAX_BYTES} UTF-8 bytes on one line"
             )))
         }
         ComposerCommandParams::SetActorAvatarFromStatement { avatar } => {
@@ -465,12 +479,20 @@ struct ComposerActorAvatarResult {
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
+struct ComposerStatementTextResult {
+    current: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 struct ComposerPropertiesResult {
     continued: ComposerContinuedResult,
     #[serde(skip_serializing_if = "Option::is_none")]
     actor_display_name: Option<ComposerActorDisplayNameResult>,
     #[serde(skip_serializing_if = "Option::is_none")]
     actor_avatar: Option<ComposerActorAvatarResult>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    statement_text: Option<ComposerStatementTextResult>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize)]
@@ -812,6 +834,9 @@ impl MmtLanguageServer {
                                     current: avatar.current.map(Into::into),
                                 }
                             }),
+                            statement_text: target
+                                .statement_text
+                                .map(|current| ComposerStatementTextResult { current }),
                         },
                     },
                     Err(reason) => PreviewComposerTargetResult::Unavailable {
@@ -1714,6 +1739,7 @@ mod tests {
         assert_eq!(target["target"]["range"]["end"]["character"], source.len());
         assert_eq!(target["properties"]["continued"], "auto");
         assert!(target["properties"].get("actorDisplayName").is_none());
+        assert!(target["properties"].get("statementText").is_none());
 
         let edit_params = serde_json::json!({
             "textDocument": target["textDocument"],
@@ -2056,6 +2082,89 @@ mod tests {
     }
 
     #[test]
+    fn composer_statement_text_edit_is_strict_minimal_and_versioned() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"A":{"names":["A"],"display_name":"Actor A"}}
+        }"#;
+        let uri = Url::parse("file:///workspace/message-text.mmt").unwrap();
+        let source = ">(fill: green) A: old";
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision": 1,
+                    "sources": [{"json": manifest}]
+                }),
+            )
+            .unwrap();
+        open_document(&mut server, &uri, 3, source);
+        let params = serde_json::json!({
+            "textDocument": {"uri": uri, "version": 3},
+            "target": {
+                "kind": "statement",
+                "range": {
+                    "start": {"line": 0, "character": 0},
+                    "end": {"line": 0, "character": 21}
+                }
+            },
+            "command": {
+                "kind": "setStatementText",
+                "value": "新正文😀 \"quote\" \\\\path"
+            }
+        });
+        let edit = server.request("mmt/composerEdit", params.clone()).unwrap();
+        assert_eq!(edit["kind"], "Edit", "{edit}");
+        assert_eq!(
+            edit["edit"]["documentChanges"][0]["textDocument"],
+            serde_json::json!({"uri": uri, "version": 3})
+        );
+        assert_eq!(edit["edit"].get("changes"), None);
+        assert_eq!(
+            edit["edit"]["documentChanges"][0]["edits"][0],
+            serde_json::json!({
+                "range": {
+                    "start": {"line": 0, "character": 18},
+                    "end": {"line": 0, "character": 21}
+                },
+                "newText": "新正文😀 \"quote\" \\\\path"
+            })
+        );
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+
+        let mut stale = params.clone();
+        stale["textDocument"]["version"] = serde_json::json!(2);
+        assert_eq!(
+            server.request("mmt/composerEdit", stale).unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"staleDocument"})
+        );
+        let mut invalid_candidate = params.clone();
+        invalid_candidate["command"]["value"] = serde_json::json!("broken [:macro");
+        assert_eq!(
+            server
+                .request("mmt/composerEdit", invalid_candidate)
+                .unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"candidateInvalid"})
+        );
+        for malformed in [
+            serde_json::json!({"kind":"setStatementText","value":""}),
+            serde_json::json!({"kind":"setStatementText","value":"line one\nline two"}),
+            serde_json::json!({
+                "kind":"setStatementText",
+                "value":"x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1)
+            }),
+            serde_json::json!({"kind":"setStatementText","value":"new","rawSource":"new"}),
+        ] {
+            let mut invalid = params.clone();
+            invalid["command"] = malformed;
+            assert!(server.request("mmt/composerEdit", invalid).is_err());
+        }
+    }
+
+    #[test]
     fn composer_avatar_edit_is_strict_pack_bound_and_versioned() {
         let manifest = r#"{
             "schema":"mmt-pack.v3",
@@ -2181,6 +2290,9 @@ mod tests {
                     variant_id: "default".to_string(),
                 }),
             }),
+            statement_text: Some(ComposerStatementTextResult {
+                current: "正文😀".to_string(),
+            }),
         })
         .unwrap();
         assert_eq!(
@@ -2197,7 +2309,8 @@ mod tests {
                         "contributionNamespace":"ba",
                         "variantId":"default"
                     }
-                }
+                },
+                "statementText":{"current":"正文😀"}
             })
         );
         let asset = serde_json::to_value(ComposerPropertiesResult {
@@ -2210,6 +2323,7 @@ mod tests {
                     asset_name: "portrait".to_string(),
                 }),
             }),
+            statement_text: None,
         })
         .unwrap();
         assert_eq!(
@@ -2224,6 +2338,7 @@ mod tests {
                 actor_preset_id: "ba::A".to_string(),
                 current: None,
             }),
+            statement_text: None,
         })
         .unwrap();
         assert_eq!(no_avatar["actorAvatar"]["current"], serde_json::Value::Null);

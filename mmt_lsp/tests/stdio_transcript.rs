@@ -88,6 +88,7 @@ fn native_stdio_matches_the_shared_server_transcript() {
             preview_target_params(&shared_update),
         )
         .unwrap();
+    assert!(expected_target["properties"].get("statementText").is_none());
     let composer_edit_params = json!({
         "textDocument": expected_target["textDocument"],
         "target": expected_target["target"],
@@ -252,7 +253,26 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let expected_avatar_edit = shared
         .request("mmt/composerEdit", avatar_command.clone())
         .unwrap();
-    assert_eq!(expected_avatar_edit["kind"], "Edit", "{expected_avatar_edit}");
+    assert_eq!(
+        expected_avatar_edit["kind"], "Edit",
+        "{expected_avatar_edit}"
+    );
+    assert_eq!(
+        expected_avatar_target["properties"]["statementText"],
+        json!({"current":"before"})
+    );
+    let message_command = json!({
+        "textDocument":expected_avatar_target["textDocument"],
+        "target":expected_avatar_target["target"],
+        "command":{"kind":"setStatementText","value":"native 正文😀 \\\\path"}
+    });
+    let expected_message_edit = shared
+        .request("mmt/composerEdit", message_command.clone())
+        .unwrap();
+    assert_eq!(
+        expected_message_edit["kind"], "Edit",
+        "{expected_message_edit}"
+    );
     send(
         &mut stdin,
         &json!({
@@ -315,7 +335,10 @@ fn native_stdio_matches_the_shared_server_transcript() {
             "params":avatar_open
         }),
     );
-    assert_eq!(receive(&mut stdout)["method"], "textDocument/publishDiagnostics");
+    assert_eq!(
+        receive(&mut stdout)["method"],
+        "textDocument/publishDiagnostics"
+    );
     let avatar_projection = receive(&mut stdout);
     assert_eq!(avatar_projection["method"], "mmt/typstProjectUpdated");
     send(
@@ -357,7 +380,21 @@ fn native_stdio_matches_the_shared_server_transcript() {
 
     send(
         &mut stdin,
-        &json!({"jsonrpc": "2.0", "id": 11, "method": "shutdown", "params": null}),
+        &json!({
+            "jsonrpc":"2.0","id":11,"method":"mmt/composerEdit",
+            "params":message_command
+        }),
+    );
+    let message_edit = receive(&mut stdout)["result"].clone();
+    assert_eq!(message_edit, expected_message_edit);
+    assert_eq!(
+        message_edit["edit"]["documentChanges"][0]["edits"][0]["newText"],
+        "native 正文😀 \\\\path"
+    );
+
+    send(
+        &mut stdin,
+        &json!({"jsonrpc": "2.0", "id": 12, "method": "shutdown", "params": null}),
     );
     assert_eq!(receive(&mut stdout)["result"], Value::Null);
     send(

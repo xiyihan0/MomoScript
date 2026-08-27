@@ -3,11 +3,11 @@ use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
 use mmt_rs::syntax::{StatementSyntax, SyntaxNode};
 use mmt_rs::{
-    AuthoredOriginResolution, CharacterPreset, ComposerAvatarCurrent, ComposerCommand,
-    ComposerFailure, ComposerTargetFailure, ContinuedValue, EmitOptions, EmittedTypst,
-    MaterializedContent, PackAvatarChoice, SourceMapEntry, StaticPresetCatalog, analyze_text,
-    analyze_text_with_pack, compose_edit, compose_edit_with_pack, emit_typst,
-    resolve_preview_statement, statement_continued,
+    AuthoredOriginResolution, COMPOSER_STATEMENT_TEXT_MAX_BYTES, CharacterPreset,
+    ComposerAvatarCurrent, ComposerCommand, ComposerFailure, ComposerTargetFailure, ContinuedValue,
+    EmitOptions, EmittedTypst, MaterializedContent, PackAvatarChoice, SourceMapEntry,
+    StaticPresetCatalog, analyze_text, analyze_text_with_pack, compose_edit,
+    compose_edit_with_pack, emit_typst, resolve_preview_statement, statement_continued,
 };
 
 const BASE_MANIFEST: &str = include_str!("fixtures/pack-v3/base-manifest.json");
@@ -72,6 +72,21 @@ fn display_name(source: &str, ordinal: usize, value: &str) -> String {
         &packs,
         target,
         ComposerCommand::SetActorDisplayNameFromStatement(value.to_string()),
+    )
+    .unwrap();
+    apply(source, &edit)
+}
+
+fn statement_text(source: &str, ordinal: usize, value: &str) -> String {
+    let packs = registry();
+    let analysis = analyze_text_with_pack(source, &packs);
+    let target = statement(&analysis, ordinal).range;
+    let edit = compose_edit_with_pack(
+        source,
+        &analysis,
+        &packs,
+        target,
+        ComposerCommand::SetStatementText(value.to_string()),
     )
     .unwrap();
     apply(source, &edit)
@@ -150,6 +165,7 @@ fn glyph_wrapper_origin_resolves_to_containing_statement() {
     assert_eq!(target.statement_range, statement(&analysis, 0).range);
     assert_eq!(target.continued, ContinuedValue::Auto);
     assert_eq!(target.actor_display_name, None);
+    assert_eq!(target.statement_text, None);
 }
 
 #[test]
@@ -158,6 +174,7 @@ fn preview_target_reports_pack_asset_and_null_avatar_without_leaks() {
     let pack_target = preview_target("> 佳代子: target", &packs);
     let pack_avatar = pack_target.actor_avatar.clone().unwrap();
     assert_eq!(pack_avatar.actor_preset_id, "ba_fixture::佳代子");
+    assert_eq!(pack_target.statement_text.as_deref(), Some("target"));
     assert_eq!(
         pack_avatar.current,
         Some(ComposerAvatarCurrent::Pack(avatar_choice(
@@ -166,11 +183,7 @@ fn preview_target_reports_pack_asset_and_null_avatar_without_leaks() {
             "default",
         )))
     );
-    let history_target = preview_target_at(
-        "> 佳代子: before\n> _0: target",
-        &packs,
-        1,
-    );
+    let history_target = preview_target_at("> 佳代子: before\n> _0: target", &packs, 1);
     assert_eq!(history_target.actor_avatar, pack_target.actor_avatar);
 
     let script_target = preview_target(
@@ -197,10 +210,8 @@ fn preview_target_reports_pack_asset_and_null_avatar_without_leaks() {
       "entities":{"actor":{"names":["角色"],"slots":{}}},
       "storage":{}
     }"#;
-    let no_avatar = PackRegistry::new(vec![
-        PackManifest::from_json(no_avatar_manifest).unwrap(),
-    ])
-    .unwrap();
+    let no_avatar =
+        PackRegistry::new(vec![PackManifest::from_json(no_avatar_manifest).unwrap()]).unwrap();
     assert_eq!(
         preview_target("> 角色: target", &no_avatar)
             .actor_avatar
@@ -276,6 +287,119 @@ fn classified_origin_distinguishes_unmapped_and_mixed_ancestry() {
 }
 
 #[test]
+fn preview_target_exposes_only_single_line_resolved_actor_text() {
+    let packs = registry();
+    assert_eq!(
+        preview_target("> 佳代子: 当前正文😀", &packs)
+            .statement_text
+            .as_deref(),
+        Some("当前正文😀")
+    );
+    assert_eq!(
+        preview_target("> 佳代子: first\ncontinued body", &packs).statement_text,
+        None
+    );
+
+    let builtin = empty_registry();
+    assert_eq!(
+        preview_target("< _0: builtin", &builtin).statement_text,
+        None
+    );
+}
+
+#[test]
+fn statement_text_replaces_only_body_and_preserves_parameters_crlf_and_escapes() {
+    let source = concat!(
+        "> 佳代子: first\r\n",
+        ">(fill: green,  inset: 5pt) _0: old text\r\n",
+        "> _0: after"
+    );
+    let replacement = r#"新正文😀 "quoted" C:\path\{literal\}"#;
+    let edited = statement_text(source, 1, replacement);
+    assert_eq!(
+        edited,
+        concat!(
+            "> 佳代子: first\r\n",
+            ">(fill: green,  inset: 5pt) _0: 新正文😀 \"quoted\" C:\\path\\{literal\\}\r\n",
+            "> _0: after"
+        )
+    );
+}
+
+#[test]
+fn statement_text_rejects_empty_multiline_noop_builtin_and_invalid_candidate() {
+    let packs = registry();
+    let source = "> 佳代子: current";
+    let analysis = analyze_text_with_pack(source, &packs);
+    let target = statement(&analysis, 0).range;
+    for value in [
+        String::new(),
+        "line one\nline two".to_string(),
+        "line one\rline two".to_string(),
+        "current".to_string(),
+        "x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1),
+    ] {
+        assert_eq!(
+            compose_edit_with_pack(
+                source,
+                &analysis,
+                &packs,
+                target,
+                ComposerCommand::SetStatementText(value),
+            ),
+            Err(ComposerFailure::InvalidValue)
+        );
+    }
+    assert_eq!(
+        compose_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            target,
+            ComposerCommand::SetStatementText("broken [:macro".to_string()),
+        ),
+        Err(ComposerFailure::CandidateInvalid)
+    );
+    assert_eq!(
+        compose_edit_with_pack(
+            "> 佳代子: currenX",
+            &analysis,
+            &packs,
+            target,
+            ComposerCommand::SetStatementText("replacement".to_string()),
+        ),
+        Err(ComposerFailure::CandidateInvalid)
+    );
+
+    let multiline = "> 佳代子: first\ncontinued body";
+    let multiline_analysis = analyze_text_with_pack(multiline, &packs);
+    assert_eq!(
+        compose_edit_with_pack(
+            multiline,
+            &multiline_analysis,
+            &packs,
+            statement(&multiline_analysis, 0).range,
+            ComposerCommand::SetStatementText("replacement".to_string()),
+        ),
+        Err(ComposerFailure::TargetChanged)
+    );
+
+    let builtin = empty_registry();
+    let builtin_source = "< _0: builtin";
+    let builtin_analysis = analyze_text_with_pack(builtin_source, &builtin);
+    assert_eq!(
+        compose_edit_with_pack(
+            builtin_source,
+            &builtin_analysis,
+            &builtin,
+            statement(&builtin_analysis, 0).range,
+            ComposerCommand::SetStatementText("replacement".to_string()),
+        ),
+        Err(ComposerFailure::TargetChanged)
+    );
+}
+
+#[test]
 fn continued_insert_update_and_auto_are_byte_minimal() {
     let base = "> 佳代子: first\n> _0: second";
     let forced = continued(base, 1, ContinuedValue::True);
@@ -318,7 +442,10 @@ fn continued_handles_empty_patch_crlf_and_utf8_boundaries() {
         forced,
         "> 佳代子: 开场😀\r\n>(continued: true) _0: 第二句𠮷"
     );
-    assert_eq!(continued(&forced, 1, ContinuedValue::Auto), "> 佳代子: 开场😀\r\n> _0: 第二句𠮷");
+    assert_eq!(
+        continued(&forced, 1, ContinuedValue::Auto),
+        "> 佳代子: 开场😀\r\n> _0: 第二句𠮷"
+    );
 }
 
 #[test]
@@ -360,7 +487,10 @@ fn current_continued_state_is_structurally_reported() {
     for (source, expected) in [
         ("> 佳代子: text", ContinuedValue::Auto),
         (">(continued: true) 佳代子: text", ContinuedValue::True),
-        (">(continued: false, fill: red) 佳代子: text", ContinuedValue::False),
+        (
+            ">(continued: false, fill: red) 佳代子: text",
+            ContinuedValue::False,
+        ),
     ] {
         let analysis = analyze_text_with_pack(source, &packs);
         assert_eq!(statement_continued(statement(&analysis, 0)), Ok(expected));
@@ -375,7 +505,8 @@ fn adjacent_actor_block_inserts_or_replaces_only_display_value() {
         "@actor 佳代子\npreset: 佳代子\ndisplay-name: 老师\n@end\n> 佳代子: target"
     );
 
-    let quoted = "@actor 佳代子\r\npreset: 佳代子\r\ndisplay-name: 'Old'  \r\n@end\r\n> 佳代子: target";
+    let quoted =
+        "@actor 佳代子\r\npreset: 佳代子\r\ndisplay-name: 'Old'  \r\n@end\r\n> 佳代子: target";
     assert_eq!(
         display_name(quoted, 0, "O'Brien"),
         "@actor 佳代子\r\npreset: 佳代子\r\ndisplay-name: 'O\\'Brien'  \r\n@end\r\n> 佳代子: target"
@@ -592,7 +723,8 @@ fn avatar_rejects_current_missing_no_pack_and_invalid_target() {
         Err(ComposerFailure::ActorUnavailable)
     );
 
-    let duplicate = "@actor 佳代子\npreset: 佳代子\navatar: default\navatar: smile\n@end\n> 佳代子: target";
+    let duplicate =
+        "@actor 佳代子\npreset: 佳代子\navatar: default\navatar: smile\n@end\n> 佳代子: target";
     let duplicate_analysis = analyze_text_with_pack(duplicate, &packs);
     assert_eq!(
         compose_edit_with_pack(
@@ -694,7 +826,8 @@ fn unresolved_ambiguous_and_syntax_error_documents_fail_closed() {
       },
       "storage":{}
     }"#;
-    let ambiguous = PackRegistry::new(vec![PackManifest::from_json(ambiguous_manifest).unwrap()]).unwrap();
+    let ambiguous =
+        PackRegistry::new(vec![PackManifest::from_json(ambiguous_manifest).unwrap()]).unwrap();
     let ambiguous_source = "> same: target";
     let ambiguous_analysis = analyze_text_with_pack(ambiguous_source, &ambiguous);
     assert_eq!(
@@ -775,6 +908,18 @@ fn no_pack_catalog_reanalysis_uses_the_supplied_catalog() {
         apply(source, &edit),
         "> 角色: before\n>(continued: true) _0: after"
     );
+    let text_edit = compose_edit(
+        source,
+        &analysis,
+        &catalog,
+        target,
+        ComposerCommand::SetStatementText("新的正文😀".to_string()),
+    )
+    .unwrap();
+    assert_eq!(
+        apply(source, &text_edit),
+        "> 角色: before\n> _0: 新的正文😀"
+    );
 }
 
 #[test]
@@ -810,11 +955,7 @@ fn unsupported_and_error_preview_targets_are_classified() {
         diagnostics: Vec::new(),
     };
     assert_eq!(
-        resolve_preview_statement(
-            &broken_analysis,
-            &empty_emitted,
-            TextRange::new(0, 0)
-        ),
+        resolve_preview_statement(&broken_analysis, &empty_emitted, TextRange::new(0, 0)),
         Err(ComposerTargetFailure::DocumentHasErrors)
     );
 }
