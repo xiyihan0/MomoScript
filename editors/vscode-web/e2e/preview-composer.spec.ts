@@ -24,9 +24,11 @@ const AVATAR_FIXTURES = new Map([
 const ALPHA_SEQUENCE_URL = new URL("blobs/stickers/alpha/default.avifs", PACK_BASE_URL).href;
 
 const ROOT_CONTINUED = "编辑连续消息状态…";
+const ROOT_MESSAGE = "编辑消息…";
 const ROOT_DISPLAY_NAME = "从本条起修改人物显示名…";
 const ROOT_AVATAR = "从本条起更换人物头像…";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
+const REJECTED_MESSAGE = "无法应用此预览编辑。";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
 const AVATAR_UNAVAILABLE_MESSAGE = "所选头像已不可用，未应用编辑。";
 
@@ -198,6 +200,81 @@ test("preview Composer edits continued bytes exactly, rerenders grouping, and re
 
   expect(await composerState(page)).toEqual(successfulComposerState());
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(original);
+});
+
+test("message Composer edits only the authorized TextBody and rerenders once", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-message-text.mmt";
+  const original = [
+    "> 佳代子: MESSAGE_BEFORE",
+    ">(continued: false, fill: green,  inset: 5pt) _0: MESSAGE_TARGET old \\\\path",
+    "> _0: MESSAGE_AFTER",
+    "",
+  ].join("\n");
+  const replacement = "MESSAGE_UPDATED 新正文😀 \"quoted\" \\\\path";
+  const edited = original.replace("MESSAGE_TARGET old \\\\path", replacement);
+  const opened = await openProviderPreview(page, name, original);
+  const historyBaseline = await historyEditCountForPath(page, `/${name}`);
+  const frame = await applyMessageText(
+    page,
+    opened.frame,
+    opened.sourceUri,
+    name,
+    "MESSAGE_TARGET",
+    "MESSAGE_TARGET old \\\\path",
+    replacement,
+    edited,
+    "bubble",
+  );
+  await expectHistoryCount(page, name, historyBaseline + 1);
+
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, "MESSAGE_UPDATED");
+  await expect.poll(async () => (await composerState(page)).targetRequests).toBe(1);
+  await chooseContextMenuItem(page, ROOT_MESSAGE);
+  const invalid = await visibleContextInput(page, "编辑消息");
+  await setContextInputValue(invalid.locator("input").first(), "broken [:macro");
+  await page.keyboard.press("Enter");
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 1,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await expectMomoScriptNotificationSource(page, REJECTED_MESSAGE);
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(edited);
+  await expectHistoryCount(page, name, historyBaseline + 1);
+  await expect(frame.locator(".tsel").filter({ hasText: "MESSAGE_UPDATED" }).first()).toBeVisible();
+  await expect(frame.locator(".tsel").filter({ hasText: "MESSAGE_TARGET" }).first()).toBeHidden();
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(edited);
+
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, "MESSAGE_UPDATED");
+  await expect.poll(async () => (await composerState(page)).targetRequests).toBe(1);
+  await chooseContextMenuItem(page, ROOT_MESSAGE);
+  const unchanged = await visibleContextInput(page, "编辑消息");
+  await expect(unchanged.locator("input").first()).toHaveValue(replacement);
+  await page.keyboard.press("Enter");
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 0,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(edited);
+
+  await resetComposer(page);
+  await rightClickRenderedGlyph(frame, "MESSAGE_UPDATED");
+  await expect.poll(async () => (await composerState(page)).targetRequests).toBe(1);
+  await chooseContextMenuItem(page, ROOT_MESSAGE);
+  await visibleContextInput(page, "编辑消息");
+  await page.keyboard.press("Escape");
+  await expect.poll(() => composerState(page)).toEqual({
+    targetRequests: 1,
+    editRequests: 0,
+    applyAttempts: 0,
+    successfulApplies: 0,
+  });
+  await expectHistoryCount(page, name, historyBaseline + 1);
 });
 
 test("display-name Composer inserts the screenshot actor revision without a stale warning", { tag: "@preview-composer" }, async ({ page }) => {
@@ -592,6 +669,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   await page.waitForTimeout(250);
   expect(await composerState(page)).toEqual(emptyComposerState());
   await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
+  await expect(contextMenuItem(page, ROOT_MESSAGE)).toBeHidden();
   await clearPreviewSelection(frame);
   for (const marker of ["NARRATION_TARGET", "REPLY_TARGET_A", "BOND_TARGET", "RAW_TYPST_TARGET", "GENERATED_HEADER_ONLY"]) {
     await resetComposer(page);
@@ -608,6 +686,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
     const navigate = await visibleContextMenuItem(page, "转到源码");
     await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
     await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toBeHidden();
+    await expect(contextMenuItem(page, ROOT_MESSAGE)).toBeHidden();
     expect(await composerState(page)).toEqual({
       targetRequests: 1,
       editRequests: 0,
@@ -628,6 +707,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   await rightClickRenderedGlyph(frame, "BUILTIN_TARGET");
   const builtinRoot = await visibleContextMenuItem(page, ROOT_CONTINUED);
   await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toHaveCount(0);
+  await expect(contextMenuItem(page, ROOT_MESSAGE)).toHaveCount(0);
   await page.keyboard.press("Escape");
   await expect(builtinRoot).toBeHidden();
   expect(await composerState(page)).toEqual({
@@ -846,6 +926,41 @@ async function applyContinued(
   return next;
 }
 
+async function applyMessageText(
+  page: Page,
+  frame: Frame,
+  sourceUri: string,
+  name: string,
+  marker: string,
+  currentValue: string,
+  nextValue: string,
+  expectedSource: string,
+  hitTarget: "text" | "bubble" | "avatar" | "display-name" = "text",
+): Promise<Frame> {
+  await resetComposer(page);
+  const previousRevision = await currentContainerRevision(page, sourceUri);
+  if (hitTarget === "bubble") await rightClickRenderedBubbleGraphic(frame, marker);
+  else if (hitTarget === "text") await rightClickRenderedGlyph(frame, marker);
+  else await rightClickSemanticRegion(frame, marker, hitTarget);
+  const pointer = await currentComposerAnchor(page);
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await chooseContextMenuItem(page, ROOT_MESSAGE);
+  const inputWidget = await visibleContextInput(page, "编辑消息");
+  const viewport = page.viewportSize();
+  if (!viewport) throw new Error("Workbench viewport is unavailable");
+  await expectContextMenuAnchored(inputWidget, pointer, viewport.width, viewport.height);
+  const input = inputWidget.locator("input").first();
+  await expect(input).toHaveValue(currentValue);
+  await setContextInputValue(input, nextValue);
+  await expect(input).toHaveValue(nextValue);
+  await page.keyboard.press("Enter");
+  await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
+  await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
+  await expect.poll(() => currentContainerRevision(page, sourceUri)).not.toBe(previousRevision);
+  return waitForPreviewFrame(page, sourceUri);
+}
+
 async function applyDisplayName(
   page: Page,
   frame: Frame,
@@ -868,15 +983,7 @@ async function applyDisplayName(
   await expectContextMenuAnchored(inputWidget, pointer, viewport.width, viewport.height);
   const input = inputWidget.locator("input").first();
   await expect(input).toHaveValue(currentValue);
-  await input.evaluate((element, value) => {
-    if (!(element instanceof HTMLInputElement)) throw new Error("display-name input is unavailable");
-    element.value = value;
-    element.dispatchEvent(new InputEvent("input", {
-      bubbles: true,
-      data: value,
-      inputType: "insertText",
-    }));
-  }, nextValue);
+  await setContextInputValue(input, nextValue);
   await expect(input).toHaveValue(nextValue);
   await page.keyboard.press("Enter");
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
@@ -1349,6 +1456,7 @@ async function expectSemanticChatContext(
   else await rightClickSemanticRegion(frame, marker, role);
   await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
   const root = await visibleContextMenuItem(page, ROOT_CONTINUED);
+  await visibleContextMenuItem(page, ROOT_MESSAGE);
   for (let attempt = 0; attempt < 4; attempt += 1) {
     await page.keyboard.press("Escape");
   }
@@ -1417,6 +1525,18 @@ async function visibleContextInput(page: Page, title: string): Promise<Locator> 
   await expect(widget).toBeVisible();
   await expect(widget).toContainText(title);
   return widget;
+}
+
+async function setContextInputValue(input: Locator, value: string): Promise<void> {
+  await input.evaluate((element, nextValue) => {
+    if (!(element instanceof HTMLInputElement)) throw new Error("context input is unavailable");
+    element.value = nextValue;
+    element.dispatchEvent(new InputEvent("input", {
+      bubbles: true,
+      data: nextValue,
+      inputType: "insertText",
+    }));
+  }, value);
 }
 
 function contextMenuItem(page: Page, label: string): Locator {

@@ -45,6 +45,7 @@ export type PreviewComposerContextMenuSelection =
   | { readonly kind: "continued"; readonly value: StatementContinuedValue }
   | { readonly kind: "displayName" }
   | { readonly kind: "avatar" }
+  | { readonly kind: "messageText" }
   | { readonly kind: "navigate" };
 
 export interface PreviewComposerContextMenuItem {
@@ -162,12 +163,14 @@ type OperationState = "current" | "cancelled" | "stale";
 
 const EDIT_CONTINUED_LABEL = "编辑连续消息状态…";
 const EDIT_DISPLAY_NAME_LABEL = "从本条起修改人物显示名…";
+const EDIT_MESSAGE_LABEL = "编辑消息…";
 const NAVIGATE_LABEL = "转到源码";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
 const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
 const REJECTED_MESSAGE = "无法应用此预览编辑。";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
 const INPUT_REQUIRED_MESSAGE = "显示名不能为空。";
+const MESSAGE_INPUT_REQUIRED_MESSAGE = "消息不能为空。";
 const EDIT_AVATAR_LABEL = "从本条起更换人物头像…";
 const AVATAR_UNAVAILABLE_MESSAGE = "所选头像已不可用，未应用编辑。";
 
@@ -366,6 +369,7 @@ export class PreviewComposerController implements Disposable {
       operation,
       anchor,
       targetResult.properties.continued,
+      targetResult.properties.statementText !== undefined,
       targetResult.properties.actorDisplayName !== undefined,
       avatarAvailable,
     );
@@ -399,7 +403,18 @@ export class PreviewComposerController implements Disposable {
     }
 
     let command: ComposerEditParams["command"];
-    if (selection.kind === "continued") {
+    if (selection.kind === "messageText") {
+      const statementText = targetResult.properties.statementText;
+      if (!statementText) return;
+      const value = await this.inputStatementText(operation, anchor, statementText.current);
+      if (value === undefined || value === statementText.current) return;
+      state = this.targetState(operation, located.identity, targetResult.textDocument);
+      if (state !== "current") {
+        await this.notifyStaleState(operation, state);
+        return;
+      }
+      command = { kind: "setStatementText", value };
+    } else if (selection.kind === "continued") {
       command = { kind: "setStatementContinued", value: selection.value };
     } else {
       const actorDisplayName = targetResult.properties.actorDisplayName;
@@ -546,6 +561,7 @@ export class PreviewComposerController implements Disposable {
     operation: ComposerOperation,
     anchor: PreviewContextMenuAnchor,
     current: StatementContinuedValue,
+    statementTextAvailable: boolean,
     actorAvailable: boolean,
     avatarAvailable: boolean,
   ): Promise<PreviewComposerContextMenuSelection | undefined> {
@@ -565,6 +581,12 @@ export class PreviewComposerController implements Disposable {
         selection: { kind: "continued", value },
       })),
     }];
+    if (statementTextAvailable) {
+      items.push({
+        label: EDIT_MESSAGE_LABEL,
+        selection: { kind: "messageText" },
+      });
+    }
     if (actorAvailable) {
       items.push({
         label: EDIT_DISPLAY_NAME_LABEL,
@@ -601,6 +623,29 @@ export class PreviewComposerController implements Disposable {
     const selection = await session.result;
     if (operation.transient === active) operation.transient = undefined;
     return selection;
+  }
+
+  private async inputStatementText(
+    operation: ComposerOperation,
+    anchor: PreviewContextMenuAnchor,
+    current: string,
+  ): Promise<string | undefined> {
+    const session = this.#ports.contextInput.open(anchor, {
+      title: "编辑消息",
+      placeholder: "输入新的消息正文",
+      value: current,
+      requiredMessage: MESSAGE_INPUT_REQUIRED_MESSAGE,
+    });
+    const active: ActiveTransientUi = {
+      close: () => session.close(),
+    };
+    operation.transient?.close();
+    operation.transient = active;
+    const value = await session.result;
+    if (operation.transient === active) operation.transient = undefined;
+    return value && value.length > 0 && !value.includes("\r") && !value.includes("\n")
+      ? value
+      : undefined;
   }
 
   private async inputDisplayName(

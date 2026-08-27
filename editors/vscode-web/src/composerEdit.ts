@@ -45,6 +45,9 @@ export interface PreviewComposerTargetProperties {
     readonly actorPresetId: string;
     readonly current: ComposerAvatarCurrent | null;
   };
+  readonly statementText?: {
+    readonly current: string;
+  };
 }
 
 export type PreviewComposerTargetUnavailableReason =
@@ -80,6 +83,10 @@ export type ComposerEditCommand =
   | {
       readonly kind: "setActorAvatarFromStatement";
       readonly avatar: ComposerAvatarChoice;
+    }
+  | {
+      readonly kind: "setStatementText";
+      readonly value: string;
     };
 
 export interface ComposerEditParams {
@@ -162,6 +169,7 @@ const COMPOSER_REJECTED_REASONS = [
 
 const CONTINUED_VALUES = ["auto", "true", "false"] as const;
 const MAX_COMPOSER_AVATAR_COMPONENT_BYTES = 1024;
+const MAX_COMPOSER_STATEMENT_TEXT_BYTES = 64 * 1024;
 const UTF8_ENCODER = new TextEncoder();
 const APPLIED = Object.freeze({ kind: "Applied" } as const);
 const STALE = Object.freeze({ kind: "Stale" } as const);
@@ -308,7 +316,7 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
     properties,
     ["continued"],
     "Editable Preview Composer properties",
-    ["actorDisplayName", "actorAvatar"],
+    ["actorDisplayName", "actorAvatar", "statementText"],
   );
   if (!isAllowedString(properties.continued, CONTINUED_VALUES)) {
     throw new TypeError("Editable Preview Composer properties has an invalid continued value");
@@ -317,6 +325,7 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
     continued: StatementContinuedValue;
     actorDisplayName?: PreviewComposerTargetProperties["actorDisplayName"];
     actorAvatar?: PreviewComposerTargetProperties["actorAvatar"];
+    statementText?: PreviewComposerTargetProperties["statementText"];
   } = { continued: properties.continued };
   if (Object.hasOwn(properties, "actorDisplayName")) {
     const actorDisplayName = requireRecord(
@@ -359,6 +368,27 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
         ? null
         : parseComposerAvatarCurrent(actorAvatar.current),
     };
+  }
+  if (Object.hasOwn(properties, "statementText")) {
+    const statementText = requireRecord(
+      properties.statementText,
+      "Editable Preview Composer statement text",
+    );
+    requireExactKeys(
+      statementText,
+      ["current"],
+      "Editable Preview Composer statement text",
+    );
+    if (
+      typeof statementText.current !== "string"
+      || statementText.current.length === 0
+      || UTF8_ENCODER.encode(statementText.current).length > MAX_COMPOSER_STATEMENT_TEXT_BYTES
+      || statementText.current.includes("\r")
+      || statementText.current.includes("\n")
+    ) {
+      throw new TypeError("Editable Preview Composer statement text is malformed");
+    }
+    result.statementText = { current: statementText.current };
   }
   return result;
 }

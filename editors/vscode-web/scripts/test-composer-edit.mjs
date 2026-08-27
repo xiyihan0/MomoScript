@@ -28,6 +28,7 @@ const editableTarget = {
         variantId: "default",
       },
     },
+    statementText: { current: "当前正文😀" },
   },
 };
 const protocolEdit = {
@@ -158,6 +159,41 @@ for (const malformed of [
     properties: {
       continued: "auto",
       actorDisplayName: { current: "name", scope: "oneStatement" },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: undefined,
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: { current: "" },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: { current: "line one\nline two" },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: { current: "x".repeat((64 * 1024) + 1) },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: { current: "正文", sourceRange: range },
     },
   },
   {

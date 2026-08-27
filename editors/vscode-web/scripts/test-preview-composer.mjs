@@ -165,12 +165,18 @@ const statementRange = {
   end: { line: 4, character: 18 },
 };
 const textDocument = { uri: sourceUri, version: 7 };
-const editableTarget = ({ actor = true, avatar = false, continued = "false" } = {}) => ({
+const editableTarget = ({
+  actor = true,
+  avatar = false,
+  message = true,
+  continued = "false",
+} = {}) => ({
   kind: "Editable",
   textDocument,
   target: { kind: "statement", range: statementRange },
   properties: {
     continued,
+    ...(message ? { statementText: { current: "当前正文😀" } } : {}),
     ...(actor ? { actorDisplayName: { current: "佳代子", scope: "fromStatement" } } : {}),
     ...(avatar ? { actorAvatar: {
       scope: "fromStatement",
@@ -337,6 +343,7 @@ async function chooseContinued(fixture, label = "强制连续") {
   assert.deepEqual(menu.anchor, anchor);
   assert.deepEqual(menu.items.map((item) => item.label), [
     "编辑连续消息状态…",
+    "编辑消息…",
     "从本条起修改人物显示名…",
     "转到源码",
   ]);
@@ -391,6 +398,54 @@ async function chooseContinued(fixture, label = "强制连续") {
 }
 
 {
+  const fixture = harness({ bidirectionalNavigation: false });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "message context menu was not shown");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.contextInputs.length === 1, "message context input was not shown");
+  const input = fixture.contextInputs[0];
+  assert.equal(input.options.title, "编辑消息");
+  assert.equal(input.options.placeholder, "输入新的消息正文");
+  assert.equal(input.options.value, "当前正文😀");
+  assert.deepEqual(input.anchor, anchor);
+  input.submit("新正文😀 \"quoted\" \\\\path");
+  await operation;
+  assert.deepEqual(fixture.requestCalls[1].params.command, {
+    kind: "setStatementText",
+    value: "新正文😀 \"quoted\" \\\\path",
+  }, "message text must remain structured and unnormalized");
+  assert.equal(fixture.requestCalls.length, 2);
+  assert.equal(fixture.applyCalls.length, 1);
+}
+
+for (const finishInput of [
+  (session) => session.close(),
+  (session) => session.submit("当前正文😀"),
+]) {
+  const fixture = harness();
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "message no-op menu was not shown");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.contextInputs.length === 1, "message no-op input was not shown");
+  finishInput(fixture.contextInputs[0]);
+  await operation;
+  assert.equal(fixture.requestCalls.length, 1, "cancelled or unchanged text must not request an edit");
+  assert.equal(fixture.applyCalls.length, 0, "cancelled or unchanged text must not apply");
+}
+
+{
+  const fixture = harness({ targetOptions: { message: false } });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "capability-filtered menu was not shown");
+  assert.equal(
+    fixture.contextMenus[0].items.some((item) => item.label === "编辑消息…"),
+    false,
+  );
+  fixture.contextMenus[0].close();
+  await operation;
+}
+
+{
   const currentAvatar = avatarItem("ba::佳代子", "佳代子", "ba", "default");
   const alternateAvatar = avatarItem("ba::佳代子", "佳代子", "ba", "smile");
   const crossAvatar = avatarItem("ba::小雪", "小雪", "ba", "default");
@@ -404,6 +459,7 @@ async function chooseContinued(fixture, label = "强制连续") {
   await waitFor(() => fixture.contextMenus.length === 1, "avatar context menu was not shown");
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
+    "编辑消息…",
     "从本条起修改人物显示名…",
     "从本条起更换人物头像…",
     "转到源码",
@@ -453,6 +509,7 @@ async function chooseContinued(fixture, label = "强制连续") {
   await waitFor(() => fixture.contextMenus.length === 1, "avatar omission menu was not shown");
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
+    "编辑消息…",
     "从本条起修改人物显示名…",
   ]);
   fixture.contextMenus[0].close();
@@ -505,7 +562,10 @@ async function chooseContinued(fixture, label = "强制连续") {
 }
 
 {
-  const fixture = harness({ bidirectionalNavigation: false, targetOptions: { actor: false } });
+  const fixture = harness({
+    bidirectionalNavigation: false,
+    targetOptions: { actor: false, message: false },
+  });
   const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.contextMenus.length === 1, "actor-omission context menu was not shown");
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), ["编辑连续消息状态…"]);
@@ -599,6 +659,21 @@ for (const [applicationResult, expectedWarnings, expectedErrors] of [
   assert.equal(fixture.cancellationSources[0].cancelled, 1);
   assert.equal(fixture.cancellationSources[0].disposed, 1);
 }
+{
+  const fixture = harness();
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "message stale context menu was not shown");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.contextInputs.length === 1, "message stale input was not shown");
+  fixture.state.document = { uri: sourceUri, version: textDocument.version + 1 };
+  fixture.controller.sourceDocumentChanged(fixture.state.document);
+  await operation;
+  assert.equal(fixture.contextInputs[0].closed, 1);
+  assert.deepEqual(fixture.warnings, ["源码已更改，未应用编辑。"]);
+  assert.equal(fixture.requestCalls.length, 1, "stale message input must not request an edit");
+  assert.equal(fixture.applyCalls.length, 0);
+}
+
 
 
 {
