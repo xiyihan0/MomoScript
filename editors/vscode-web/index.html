@@ -7,10 +7,77 @@
     <meta name="description" content="离线可用的 MomoScript 与 Typst 叙事编辑器" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/startupProgress.css" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>MomoScript Editor</title>
   </head>
   <body>
+    <div
+      id="mmt-startup"
+      data-state="loading"
+      role="group"
+      aria-busy="true"
+      aria-labelledby="mmt-startup-title"
+      aria-describedby="mmt-startup-intro mmt-startup-live"
+    >
+      <section class="mmt-startup-panel">
+        <p class="mmt-startup-eyebrow">Local-first narrative workbench</p>
+        <h1 id="mmt-startup-title" class="mmt-startup-title">MomoScript</h1>
+        <p id="mmt-startup-intro" class="mmt-startup-intro">正在准备本地编辑环境与固定运行时资源。</p>
+        <div class="mmt-startup-overall">
+          <span class="mmt-startup-overall-label">启动进度</span>
+          <span class="mmt-startup-count" data-mmt-startup-count>已完成 0 / 4</span>
+          <progress
+            class="mmt-startup-progress"
+            data-mmt-startup-overall
+            value="0"
+            max="4"
+            aria-label="总体启动进度"
+          ></progress>
+        </div>
+        <ol class="mmt-startup-stages" aria-label="启动资源与阶段">
+          <li class="mmt-startup-stage" data-mmt-startup-stage="workbench" data-state="active">
+            <span class="mmt-startup-stage-indicator" aria-hidden="true"></span>
+            <span class="mmt-startup-stage-name">Workbench API</span>
+            <span class="mmt-startup-bytes" data-mmt-startup-bytes aria-hidden="true"></span>
+            <span class="mmt-startup-stage-detail" data-mmt-startup-detail>正在载入界面 API</span>
+          </li>
+          <li class="mmt-startup-stage" data-mmt-startup-stage="filesystem" data-state="pending">
+            <span class="mmt-startup-stage-indicator" aria-hidden="true"></span>
+            <span class="mmt-startup-stage-name">文件系统</span>
+            <span class="mmt-startup-bytes" data-mmt-startup-bytes aria-hidden="true"></span>
+            <span class="mmt-startup-stage-detail" data-mmt-startup-detail>等待初始化</span>
+          </li>
+          <li class="mmt-startup-stage" data-mmt-startup-stage="tinymist" data-state="pending">
+            <span class="mmt-startup-stage-indicator" aria-hidden="true"></span>
+            <span class="mmt-startup-stage-name">Tinymist 固定 WASM</span>
+            <span class="mmt-startup-bytes" data-mmt-startup-bytes aria-hidden="true"></span>
+            <span class="mmt-startup-stage-detail" data-mmt-startup-detail>等待下载</span>
+            <progress
+              class="mmt-startup-progress mmt-startup-resource-progress"
+              data-mmt-startup-resource-progress
+              max="100"
+              aria-label="Tinymist 固定 WASM 下载与校验解压进度"
+              hidden
+            ></progress>
+          </li>
+          <li class="mmt-startup-stage" data-mmt-startup-stage="mmt" data-state="pending">
+            <span class="mmt-startup-stage-indicator" aria-hidden="true"></span>
+            <span class="mmt-startup-stage-name">MMT 语言服务</span>
+            <span class="mmt-startup-bytes" data-mmt-startup-bytes aria-hidden="true"></span>
+            <span class="mmt-startup-stage-detail" data-mmt-startup-detail>等待启动</span>
+          </li>
+        </ol>
+        <span
+          id="mmt-startup-live"
+          class="mmt-startup-visually-hidden"
+          data-mmt-startup-live
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >正在准备 Workbench API</span>
+      </section>
+    </div>
     <div id="workbench" aria-label="MomoScript editor"></div>
     <script type="module" src="/src/loader.ts"></script>
   </body>

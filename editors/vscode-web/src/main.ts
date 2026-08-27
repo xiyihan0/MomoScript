@@ -78,6 +78,7 @@ import {
 } from "./previewDiagnostics";
 import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
+import { createStartupProgress } from "./startupProgress";
 import type { PreviewTraceSession } from "./previewPerformance.ts";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle, type PwaUpdateLifecycle } from "./pwaUpdate";
@@ -346,6 +347,7 @@ let mmt: MmtLanguageClientHandle | undefined;
 let tinymist: TinymistHandle | undefined;
 let galleryPacks: readonly GalleryPack[] = [];
 const galleryPacksChanged = new vscode.EventEmitter<void>();
+const startupProgress = createStartupProgress(document);
 
 let runtimeController: EditorRuntimeController | undefined;
 const hmrDisposal = Reflect.get(globalThis, "__mmtHmrDisposal");
@@ -356,6 +358,7 @@ if (import.meta.hot && hmrDisposal instanceof Promise) {
   );
 } else {
   void start().catch((error: unknown) => {
+    startupProgress.fatal(error);
     document.documentElement.dataset.mmtStage = "failed";
     console.error("MomoScript editor failed to start", error);
     if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -389,6 +392,7 @@ async function initializeRuntime(
   if (exactExportHost) own(exactExportHost.latest);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
+  startupProgress.stage("filesystem", "active", "正在打开浏览器存储");
   const packageCacheStorage = await controller.initializeOriginStorage();
   const packageDependencies = new InMemoryTypstPackageDependencyGraph();
   const typstPackageCache = own(await IndexedDbTypstPackageCache.open(
@@ -410,6 +414,7 @@ async function initializeRuntime(
     else console.info(line);
   };
   log("host", "Starting Web Workbench");
+  startupProgress.stage("workbench", "active", "正在启动界面 API");
   document.documentElement.dataset.mmtStage = "api-starting";
   const layout = own(createLayout(root));
   const mmsViewRegistration = own(registerCustomView({
@@ -1735,6 +1740,7 @@ async function initializeRuntime(
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
+  startupProgress.stage("workbench", "complete", "界面 API 已就绪");
   const readPreviewDefaultFitMode = (): "width" | "page" => (
     vscode.workspace.getConfiguration("mmt.preview").get<"width" | "page">("defaultFitMode", "width")
   );
@@ -2346,6 +2352,7 @@ async function initializeRuntime(
   };
   document.documentElement.dataset.mmtStage = "api-ready";
   await ensureDefaultWorkspace();
+  startupProgress.stage("filesystem", "complete", "工作区已就绪");
   document.documentElement.dataset.mmtStage = "filesystem-ready";
 
 
@@ -2384,10 +2391,12 @@ async function initializeRuntime(
   };
 
   document.documentElement.dataset.mmtStage = "tinymist-starting";
+  startupProgress.stage("tinymist", "active", "正在请求固定资源");
   try {
     tinymist = await startTinymistLanguageClient(
       (message) => log("wasm", message),
-      typstPackageService
+      typstPackageService,
+      (progress) => startupProgress.tinymistArtifact(progress),
     );
     const handle = tinymist;
     own({ dispose: () => handle.dispose() });
@@ -2417,7 +2426,13 @@ async function initializeRuntime(
     }));
     publishRuntimeStatus("backend-ready", "ready");
     log("tinymist", "Tinymist Worker ready");
+    startupProgress.stage("tinymist", "complete", "已校验并解压");
   } catch (error) {
+    startupProgress.stage(
+      "tinymist",
+      "failed",
+      error instanceof Error ? error.message : String(error),
+    );
     log("tinymist:error", error instanceof Error ? error.message : String(error));
     void showMomoScriptMessage(
       "warning",
@@ -2499,6 +2514,8 @@ async function initializeRuntime(
   await Promise.allSettled(vscode.workspace.textDocuments.map((document) => recognizeAndSyncTypst(document)));
   if (vscode.window.activeTextEditor) await recognizeAndSyncTypst(vscode.window.activeTextEditor.document);
 
+  document.documentElement.dataset.mmtStage = "mmt-starting";
+  startupProgress.stage("mmt", "active", "正在启动浏览器语言服务");
   try {
     mmt = await startMmtLanguageClient(Boolean(tinymist), (options) => {
       const getClient = (): BaseLanguageClient => {
@@ -2569,7 +2586,13 @@ async function initializeRuntime(
       });
     }
     log("mmt", "MMT language server ready");
+    startupProgress.stage("mmt", "complete", "浏览器语言服务已就绪");
   } catch (error) {
+    startupProgress.stage(
+      "mmt",
+      "failed",
+      error instanceof Error ? error.message : String(error),
+    );
     log("mmt:error", error instanceof Error ? error.message : String(error));
     void showMomoScriptMessage(
       "error",
@@ -3033,6 +3056,7 @@ async function initializeRuntime(
     schedulePersistence(uri);
   }));
   document.documentElement.dataset.mmtStage = "mmt-ready";
+  startupProgress.ready();
   document.documentElement.dataset.mmtLanguageId = vscode.window.activeTextEditor?.document.languageId ?? "";
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {

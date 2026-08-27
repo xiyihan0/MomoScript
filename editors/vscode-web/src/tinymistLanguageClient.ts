@@ -12,7 +12,10 @@ import {
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.4-rc3/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
 import { TINYMIST_WASM_ARTIFACT, TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
-import { fetchDecodedRuntimeArtifact } from "./runtimeArtifactDecoder";
+import {
+  fetchDecodedRuntimeArtifact,
+  type RuntimeArtifactProgress,
+} from "./runtimeArtifactDecoder";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -24,9 +27,10 @@ export interface TinymistHandle {
 
 export async function startTinymistLanguageClient(
   report: (message: string) => void = () => {},
-  packageService?: TypstPackageService
+  packageService?: TypstPackageService,
+  onArtifactProgress: (progress: RuntimeArtifactProgress) => void = () => {},
 ): Promise<TinymistHandle> {
-  const wasmBytes = await downloadTinymistWasm(report);
+  const wasmBytes = await downloadTinymistWasm(report, onArtifactProgress);
   const { backend, wasmUrl, moduleUrl } = await startTinymistBackend(wasmBytes, packageService);
   const disposables: vscode.Disposable[] = [];
   return {
@@ -80,13 +84,17 @@ async function startTinymistBackend(
   }
 }
 
-async function downloadTinymistWasm(report: (message: string) => void): Promise<Uint8Array> {
+async function downloadTinymistWasm(
+  report: (message: string) => void,
+  onProgress: (progress: RuntimeArtifactProgress) => void,
+): Promise<Uint8Array> {
   report(`Tinymist WASM ${TINYMIST_WASM_SHA256.slice(0, 12)} 使用同源固定资源…`);
   const bytes = await fetchDecodedRuntimeArtifact({
     artifact: TINYMIST_WASM_ARTIFACT,
     label: "Tinymist WASM",
     timeoutMs: 30_000,
     report,
+    onProgress,
   });
   if (!WebAssembly.validate(bytes)) throw new Error("Tinymist WASM 不是有效的 WebAssembly 模块");
   return bytes;
