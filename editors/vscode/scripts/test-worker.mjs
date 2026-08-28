@@ -571,8 +571,9 @@ try {
       textDocument: avatarTarget.textDocument,
       target: avatarTarget.target,
       command: {
-        kind: "setStatementText",
-        value: "Worker 正文😀 \\\\path"
+        kind: "setStatementBody",
+        value: "Worker 正文😀 \\\\path",
+        mode: "inherit"
       }
     });
     if (
@@ -592,8 +593,9 @@ try {
       textDocument: avatarTarget.textDocument,
       target: avatarTarget.target,
       command: {
-        kind: "setStatementTextMode",
-        value: "typstRaw"
+        kind: "setStatementBody",
+        value: "Worker #strong[正文]",
+        mode: "typstRaw"
       }
     });
     if (
@@ -601,7 +603,7 @@ try {
       || Object.hasOwn(messageModeEdit.edit, "changes")
       || messageModeEdit.edit?.documentChanges?.length !== 1
       || messageModeEdit.edit.documentChanges[0].edits?.length !== 1
-      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rT\"\"\"Hello\"\"\""
+      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rT\"\"\"Worker #strong[正文]\"\"\""
     ) {
       throw new Error(`browser Worker message-mode edit mismatch: ${JSON.stringify(messageModeEdit)}`);
     }
@@ -611,8 +613,9 @@ try {
         textDocument: avatarTarget.textDocument,
         target: avatarTarget.target,
         command: {
-          kind: "setStatementTextMode",
-          value: "unknown"
+          kind: "setStatementBody",
+          value: "Hello",
+          mode: "unknown"
         }
       });
     } catch (error) {
@@ -627,8 +630,9 @@ try {
         textDocument: avatarTarget.textDocument,
         target: avatarTarget.target,
         command: {
-          kind: "setStatementText",
+          kind: "setStatementBody",
           value: "unsafe",
+          mode: "inherit",
           rawSource: "> yuzu: unsafe"
         }
       });

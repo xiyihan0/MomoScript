@@ -795,6 +795,74 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.mmt-preview-message-editor {
+  display: flex;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid var(--vscode-widget-border, transparent);
+  flex-direction: column;
+  color: var(--vscode-foreground);
+  background: var(--vscode-editorWidget-background);
+  box-shadow: 0 2px 8px var(--vscode-widget-shadow);
+  gap: 7px;
+}
+.mmt-preview-message-editor__title {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mmt-preview-message-editor__modes {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.mmt-preview-message-editor__mode {
+  padding: 2px 7px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 2px;
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+}
+.mmt-preview-message-editor__mode:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+.mmt-preview-message-editor__mode:focus-visible {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+.mmt-preview-message-editor__mode.is-selected {
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+}
+.mmt-preview-message-editor__editor {
+  overflow: hidden;
+  height: 34px;
+  border: 1px solid var(--vscode-input-border, transparent);
+  background: var(--vscode-input-background);
+}
+.mmt-preview-message-editor__editor:focus-within {
+  border-color: var(--vscode-focusBorder);
+}
+.mmt-preview-message-editor__validation {
+  display: none;
+  color: var(--vscode-inputValidation-errorForeground, var(--vscode-errorForeground));
+  font-size: 11px;
+}
+.mmt-preview-message-editor__validation.is-visible {
+  display: block;
+}
+.mmt-preview-message-editor__hint {
+  color: var(--vscode-descriptionForeground);
+  font-size: 10px;
+}
+
 .mmt-avatar-picker {
   display: flex;
   overflow: hidden;

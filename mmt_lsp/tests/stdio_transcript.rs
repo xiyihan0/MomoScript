@@ -277,7 +277,7 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let message_command = json!({
         "textDocument":expected_avatar_target["textDocument"],
         "target":expected_avatar_target["target"],
-        "command":{"kind":"setStatementText","value":"native 正文😀 \\\\path"}
+        "command":{"kind":"setStatementBody","value":"native 正文😀 \\\\path","mode":"inherit"}
     });
     let expected_message_edit = shared
         .request("mmt/composerEdit", message_command.clone())

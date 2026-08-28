@@ -49,7 +49,6 @@ export type PreviewComposerContextMenuSelection =
   | { readonly kind: "displayName" }
   | { readonly kind: "avatar" }
   | { readonly kind: "messageText" }
-  | { readonly kind: "messageMode"; readonly value: StatementTextMode }
   | { readonly kind: "navigate" };
 
 export interface PreviewComposerContextMenuItem {
@@ -90,6 +89,31 @@ export interface PreviewComposerContextInputPort {
     options: PreviewComposerContextInputOptions,
   ): PreviewComposerContextInputSession;
 }
+export interface PreviewComposerMessageEditorOptions {
+  readonly title: string;
+  readonly value: string;
+  readonly mode: StatementTextMode;
+  readonly inheritedMode: ComposerBodyMode;
+  readonly requiredMessage: string;
+}
+
+export interface PreviewComposerMessageEditorResult {
+  readonly value: string;
+  readonly mode: StatementTextMode;
+}
+
+export interface PreviewComposerMessageEditorSession {
+  readonly result: Promise<PreviewComposerMessageEditorResult | undefined>;
+  close(): void;
+}
+
+export interface PreviewComposerMessageEditorPort {
+  open(
+    anchor: PreviewContextMenuAnchor,
+    options: PreviewComposerMessageEditorOptions,
+  ): PreviewComposerMessageEditorSession;
+}
+
 
 export interface PreviewComposerAvatarPickerOptions {
   readonly actorPresetId: string;
@@ -136,6 +160,7 @@ export interface PreviewComposerControllerPorts {
   readonly createCancellationTokenSource: () => PreviewComposerCancellationTokenSource;
   readonly contextMenu: PreviewComposerContextMenuPort;
   readonly contextInput: PreviewComposerContextInputPort;
+  readonly messageEditor: PreviewComposerMessageEditorPort;
   readonly apply: PreviewComposerApplyPort;
   readonly acceptingWork: () => boolean;
   readonly avatarPicker: PreviewComposerAvatarPickerPort;
@@ -169,7 +194,6 @@ type OperationState = "current" | "cancelled" | "stale";
 const EDIT_CONTINUED_LABEL = "编辑连续消息状态…";
 const EDIT_DISPLAY_NAME_LABEL = "从本条起修改人物显示名…";
 const EDIT_MESSAGE_LABEL = "编辑消息…";
-const MESSAGE_MODE_LABEL = "解析模式";
 const NAVIGATE_LABEL = "转到源码";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
 const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
@@ -412,18 +436,17 @@ export class PreviewComposerController implements Disposable {
     if (selection.kind === "messageText") {
       const statementText = targetResult.properties.statementText;
       if (!statementText) return;
-      const value = await this.inputStatementText(operation, anchor, statementText.current);
-      if (value === undefined || value === statementText.current) return;
+      const body = await this.inputStatementBody(operation, anchor, statementText);
+      if (
+        !body
+        || body.value === statementText.current && body.mode === statementText.mode
+      ) return;
       state = this.targetState(operation, located.identity, targetResult.textDocument);
       if (state !== "current") {
         await this.notifyStaleState(operation, state);
         return;
       }
-      command = { kind: "setStatementText", value };
-    } else if (selection.kind === "messageMode") {
-      const statementText = targetResult.properties.statementText;
-      if (!statementText || selection.value === statementText.mode) return;
-      command = { kind: "setStatementTextMode", value: selection.value };
+      command = { kind: "setStatementBody", value: body.value, mode: body.mode };
     } else if (selection.kind === "continued") {
       command = { kind: "setStatementContinued", value: selection.value };
     } else {
@@ -599,27 +622,6 @@ export class PreviewComposerController implements Disposable {
         label: EDIT_MESSAGE_LABEL,
         selection: { kind: "messageText" },
       });
-      const choices: ReadonlyArray<{
-        readonly label: string;
-        readonly value: StatementTextMode;
-      }> = [
-        {
-          label: `继承（当前：${bodyModeLabel(statementText.inheritedMode)}）`,
-          value: "inherit",
-        },
-        { label: "文本宏（t）", value: "textMacro" },
-        { label: "原始文本（rt）", value: "textRaw" },
-        { label: "Typst（T）", value: "typstMacro" },
-        { label: "原始 Typst（rT）", value: "typstRaw" },
-      ];
-      items.push({
-        label: MESSAGE_MODE_LABEL,
-        children: choices.map(({ label, value }) => ({
-          label,
-          checked: value === statementText.mode,
-          selection: { kind: "messageMode", value },
-        })),
-      });
     }
     if (actorAvailable) {
       items.push({
@@ -660,15 +662,16 @@ export class PreviewComposerController implements Disposable {
     return selection;
   }
 
-  private async inputStatementText(
+  private async inputStatementBody(
     operation: ComposerOperation,
     anchor: PreviewContextMenuAnchor,
-    current: string,
-  ): Promise<string | undefined> {
-    const session = this.#ports.contextInput.open(anchor, {
+    current: NonNullable<PreviewComposerTargetProperties["statementText"]>,
+  ): Promise<PreviewComposerMessageEditorResult | undefined> {
+    const session = this.#ports.messageEditor.open(anchor, {
       title: "编辑消息",
-      placeholder: "输入新的消息正文",
-      value: current,
+      value: current.current,
+      mode: current.mode,
+      inheritedMode: current.inheritedMode,
       requiredMessage: MESSAGE_INPUT_REQUIRED_MESSAGE,
     });
     const active: ActiveTransientUi = {
@@ -676,10 +679,13 @@ export class PreviewComposerController implements Disposable {
     };
     operation.transient?.close();
     operation.transient = active;
-    const value = await session.result;
+    const body = await session.result;
     if (operation.transient === active) operation.transient = undefined;
-    return value && value.length > 0 && !value.includes("\r") && !value.includes("\n")
-      ? value
+    return body
+      && body.value.length > 0
+      && !body.value.includes("\r")
+      && !body.value.includes("\n")
+      ? body
       : undefined;
   }
 
@@ -735,18 +741,6 @@ export class PreviewComposerController implements Disposable {
   }
 }
 
-function bodyModeLabel(mode: ComposerBodyMode): string {
-  switch (mode) {
-    case "textMacro":
-      return "文本宏 t";
-    case "textRaw":
-      return "原始文本 rt";
-    case "typstMacro":
-      return "Typst T";
-    case "typstRaw":
-      return "原始 Typst rT";
-  }
-}
 
 function previewUnavailableTargetCanNavigate(
   reason: PreviewComposerTargetUnavailableReason,

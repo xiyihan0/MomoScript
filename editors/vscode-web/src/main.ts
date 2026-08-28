@@ -147,6 +147,7 @@ import {
   createWorkbenchPreviewContextInput,
   createWorkbenchPreviewAvatarPicker,
   createWorkbenchPreviewContextMenu,
+  createWorkbenchPreviewMessageEditor,
 } from "./previewContextMenu.ts";
 import {
   PreviewRendererCompilationError,
@@ -2651,9 +2652,15 @@ async function initializeRuntime(
     },
     workspace: composerWorkspace,
   });
-  const [composerContextMenu, composerContextInput, composerAvatarPicker] = await Promise.all([
+  const [
+    composerContextMenu,
+    composerContextInput,
+    composerMessageEditor,
+    composerAvatarPicker,
+  ] = await Promise.all([
     createWorkbenchPreviewContextMenu(),
     createWorkbenchPreviewContextInput(),
+    createWorkbenchPreviewMessageEditor(),
     createWorkbenchPreviewAvatarPicker(),
   ]);
   previewComposer = own(new PreviewComposerController({
@@ -2662,6 +2669,7 @@ async function initializeRuntime(
     createCancellationTokenSource: () => new vscode.CancellationTokenSource(),
     contextMenu: composerContextMenu,
     contextInput: composerContextInput,
+    messageEditor: composerMessageEditor,
     avatarPicker: composerAvatarPicker,
     getAvatarCatalog: () => buildAvatarCatalog(galleryPacks),
     onDidChangeAvatarCatalog: (listener) => galleryPacksChanged.event(listener),

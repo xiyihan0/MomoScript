@@ -25,7 +25,6 @@ const ALPHA_SEQUENCE_URL = new URL("blobs/stickers/alpha/default.avifs", PACK_BA
 
 const ROOT_CONTINUED = "编辑连续消息状态…";
 const ROOT_MESSAGE = "编辑消息…";
-const ROOT_MESSAGE_MODE = "解析模式";
 const ROOT_DISPLAY_NAME = "从本条起修改人物显示名…";
 const ROOT_AVATAR = "从本条起更换人物头像…";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
@@ -232,8 +231,8 @@ test("message Composer edits only the authorized TextBody and rerenders once", {
   await rightClickRenderedGlyph(frame, "MESSAGE_UPDATED");
   await expect.poll(async () => (await composerState(page)).targetRequests).toBe(1);
   await chooseContextMenuItem(page, ROOT_MESSAGE);
-  const invalid = await visibleContextInput(page, "编辑消息");
-  await setContextInputValue(invalid.locator("input").first(), "broken [:macro");
+  const invalid = await visibleMessageEditor(page);
+  await setMessageEditorValue(page, invalid, "broken [:macro");
   await page.keyboard.press("Enter");
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
@@ -252,8 +251,8 @@ test("message Composer edits only the authorized TextBody and rerenders once", {
   await rightClickRenderedGlyph(frame, "MESSAGE_UPDATED");
   await expect.poll(async () => (await composerState(page)).targetRequests).toBe(1);
   await chooseContextMenuItem(page, ROOT_MESSAGE);
-  const unchanged = await visibleContextInput(page, "编辑消息");
-  await expect(unchanged.locator("input").first()).toHaveValue(replacement);
+  const unchanged = await visibleMessageEditor(page);
+  await expect(unchanged.locator(".view-lines")).toContainText(replacement);
   await page.keyboard.press("Enter");
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
@@ -267,7 +266,7 @@ test("message Composer edits only the authorized TextBody and rerenders once", {
   await rightClickRenderedGlyph(frame, "MESSAGE_UPDATED");
   await expect.poll(async () => (await composerState(page)).targetRequests).toBe(1);
   await chooseContextMenuItem(page, ROOT_MESSAGE);
-  await visibleContextInput(page, "编辑消息");
+  await visibleMessageEditor(page);
   await page.keyboard.press("Escape");
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
@@ -338,8 +337,8 @@ test("message Composer switches local t/rt modes for right chat and narration", 
     opened.sourceUri,
     name,
     "RIGHT_MODE_TARGET",
-    "继承（当前：文本宏 t）",
-    "原始文本（rt）",
+    "继承 · t",
+    "原始文本 · rt",
     rightEdited,
   );
   await waitForHistoryGroupBoundary(page);
@@ -349,8 +348,8 @@ test("message Composer switches local t/rt modes for right chat and narration", 
     opened.sourceUri,
     name,
     "NARRATION_MODE_TARGET",
-    "继承（当前：文本宏 t）",
-    "文本宏（t）",
+    "继承 · t",
+    "文本宏 · t",
     narrationEdited,
   );
   await expectHistoryCount(page, name, historyBaseline + 2);
@@ -360,7 +359,7 @@ test("message Composer switches local t/rt modes for right chat and narration", 
 test("builtin right-side bubble exposes message editing and Typst modes", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-builtin-right-mode.mmt";
   const original = "< RIGHT_BUILTIN_TARGET\n";
-  const expected = "< T\"\"\"RIGHT_BUILTIN_TARGET\"\"\"\n";
+  const expected = "< T\"\"\"#strong[RIGHT_BUILTIN_TARGET]\"\"\"\n";
   const opened = await openProviderPreview(page, name, original);
   const historyBaseline = await historyEditCountForPath(page, `/${name}`);
   const previousRevision = await currentContainerRevision(page, opened.sourceUri);
@@ -371,9 +370,25 @@ test("builtin right-side bubble exposes message editing and Typst modes", { tag:
   await visibleContextMenuItem(page, ROOT_MESSAGE);
   await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toBeHidden();
   await expect(contextMenuItem(page, ROOT_AVATAR)).toBeHidden();
-  await (await visibleContextMenuItem(page, ROOT_MESSAGE_MODE)).hover();
-  await expect(await visibleContextMenuItem(page, "继承（当前：文本宏 t）")).toHaveAttribute("aria-checked", "true");
-  await chooseContextMenuItem(page, "Typst（T）");
+  await chooseContextMenuItem(page, ROOT_MESSAGE);
+  const messageEditor = await visibleMessageEditor(page);
+  await expect(messageEditor.getByRole("radio", { name: "继承 · t", exact: true })).toHaveAttribute("aria-checked", "true");
+  await messageEditor.getByRole("radio", { name: "Typst · T", exact: true }).click();
+  await setMessageEditorValue(page, messageEditor, "#strong[RIGHT_BUILTIN_TARGET]");
+  await expect(messageEditor.locator(".view-lines")).toContainText("#strong[RIGHT_BUILTIN_TARGET]", { timeout: 10_000 });
+  const tokenSnapshot = await messageEditor.locator(".view-line").evaluate((line) => ({
+    html: line.innerHTML,
+    spans: [...line.querySelectorAll("span")].map((span) => ({
+      className: span.className,
+      color: getComputedStyle(span).color,
+      text: span.textContent,
+    })),
+  }));
+  expect(
+    new Set(tokenSnapshot.spans.map(({ className }) => className)).size,
+    JSON.stringify(tokenSnapshot),
+  ).toBeGreaterThan(1);
+  await page.keyboard.press("Enter");
 
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expected);
@@ -805,7 +820,6 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   await rightClickRenderedGlyph(frame, "BUILTIN_TARGET");
   const builtinRoot = await visibleContextMenuItem(page, ROOT_CONTINUED);
   await visibleContextMenuItem(page, ROOT_MESSAGE);
-  await visibleContextMenuItem(page, ROOT_MESSAGE_MODE);
   await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toHaveCount(0);
   await expect(contextMenuItem(page, ROOT_AVATAR)).toHaveCount(0);
   await page.keyboard.press("Escape");
@@ -1045,14 +1059,13 @@ async function applyMessageText(
   const pointer = await currentComposerAnchor(page);
   await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
   await chooseContextMenuItem(page, ROOT_MESSAGE);
-  const inputWidget = await visibleContextInput(page, "编辑消息");
+  const inputWidget = await visibleMessageEditor(page);
   const viewport = page.viewportSize();
   if (!viewport) throw new Error("Workbench viewport is unavailable");
   await expectContextMenuAnchored(inputWidget, pointer, viewport.width, viewport.height);
-  const input = inputWidget.locator("input").first();
-  await expect(input).toHaveValue(currentValue);
-  await setContextInputValue(input, nextValue);
-  await expect(input).toHaveValue(nextValue);
+  await expect(inputWidget.locator(".view-lines")).toContainText(currentValue);
+  await setMessageEditorValue(page, inputWidget, nextValue);
+  await expect(inputWidget.locator(".view-lines")).toContainText(nextValue);
   await page.keyboard.press("Enter");
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
@@ -1075,11 +1088,11 @@ async function applyMessageMode(
   const previousRevision = await currentContainerRevision(page, sourceUri);
   await rightClickRenderedGlyph(frame, marker);
   await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
-  await (await visibleContextMenuItem(page, ROOT_MESSAGE_MODE)).hover();
-  await expect(await visibleContextMenuItem(page, currentLabel)).toHaveAttribute("aria-checked", "true");
-  const choice = await visibleContextMenuItem(page, choiceLabel);
-  await choice.hover();
-  await choice.click();
+  await chooseContextMenuItem(page, ROOT_MESSAGE);
+  const editor = await visibleMessageEditor(page);
+  await expect(editor.getByRole("radio", { name: currentLabel, exact: true })).toHaveAttribute("aria-checked", "true");
+  await editor.getByRole("radio", { name: choiceLabel, exact: true }).click();
+  await page.keyboard.press("Enter");
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
@@ -1662,6 +1675,19 @@ async function visibleContextInput(page: Page, title: string): Promise<Locator> 
   await expect(widget).toContainText(title);
   return widget;
 }
+async function visibleMessageEditor(page: Page): Promise<Locator> {
+  const widget = page.locator(".mmt-preview-message-editor");
+  await expect(widget).toBeVisible();
+  await expect(widget).toContainText("编辑消息");
+  return widget;
+}
+
+async function setMessageEditorValue(page: Page, widget: Locator, value: string): Promise<void> {
+  await widget.locator(".monaco-editor").click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.insertText(value);
+}
+
 
 async function setContextInputValue(input: Locator, value: string): Promise<void> {
   await input.evaluate((element, nextValue) => {

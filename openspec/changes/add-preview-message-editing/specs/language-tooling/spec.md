@@ -48,38 +48,71 @@ The language service SHALL expose `statementText` when one current preview origi
 - AND navigation or existing non-message capabilities MAY remain available
 - AND the service MUST NOT infer current text from SVG、DOM、glyphs or navigation fallback
 
-### Requirement: Statement text commands are structured and strictly bounded
+### Requirement: Statement body commands are atomic, structured and strictly bounded
 
-`mmt/composerEdit` SHALL accept `setStatementText` with exactly one `value` field. All source authorization and TextEdit generation SHALL remain in Rust.
+`mmt/composerEdit` SHALL accept only `setStatementBody` with exact `value` and `mode` fields. `mode` SHALL be one of `inherit | textMacro | textRaw | typstMacro | typstRaw`. All source authorization、serialization and TextEdit generation SHALL remain in Rust.
 
-#### Scenario: Valid message body is replaced
+#### Scenario: Valid message body is replaced without changing mode
 
 - GIVEN target range identifies the exact current authorized statement at document version V
 - AND value is a different nonempty single-line string of at most 65536 UTF-8 bytes
-- WHEN `setStatementText` executes
+- AND submitted mode equals the current authored mode
+- WHEN `setStatementBody` executes
 - THEN Rust MUST replace only `StatementSyntax.body.range`
-- AND MUST preserve sigil、speaker marker、statement patch arguments and whitespace、body indentation、line endings and every other source byte
-- AND the service MUST return exactly one TextDocumentEdit carrying version V
+- AND MUST preserve the existing plain/fenced representation、fence length、sigil、speaker marker、statement patch arguments and whitespace、line endings and every other source byte
+- AND the service MUST return exactly one TextDocumentEdit carrying version V and exactly one TextEdit
 - AND MUST NOT return `WorkspaceEdit.changes` or mutate the server snapshot
+
+#### Scenario: Text and mode change atomically
+
+- GIVEN an authorized body has current content and authored mode
+- WHEN `setStatementBody` submits different content and a different local mode
+- THEN Rust MUST return one contiguous TextEdit containing the final content and mode representation
+- AND the client MUST NOT issue an intermediate body or mode request
+- AND one accepted command MUST produce one document version advance and one history entry
+
+#### Scenario: Plain inherited body becomes an explicit local mode
+
+- GIVEN an authorized plain single-line body
+- WHEN `setStatementBody` selects `textMacro`、`textRaw`、`typstMacro` or `typstRaw`
+- THEN Rust MUST replace only the body range with the matching `t"""value"""`、`rt"""value"""`、`T"""value"""` or `rT"""value"""`
+- AND statement marker、patch parameters and every unrelated byte MUST remain unchanged
+
+#### Scenario: Fenced body changes content or mode
+
+- GIVEN an authorized fenced body with at least three quote bytes
+- WHEN submitted mode differs from the authored mode
+- THEN Rust MUST replace one range from the existing mode prefix through the closing fence
+- AND MUST preserve the existing fence length while writing the submitted content and new prefix
+- AND selecting `inherit` MUST produce an unprefixed fenced body without editing file-level `@mode`
+
+#### Scenario: Inherit resolves to any file mode
+
+- GIVEN `inheritedMode` is TextMacro、TextRaw、TypstMacro or TypstRaw
+- WHEN `setStatementBody.mode` is `inherit`
+- THEN the candidate resolved mode MUST equal that inherited mode
+- AND the command MUST NOT edit `@mode` or return a partial edit
 
 #### Scenario: Unicode and escape bytes remain authored bytes
 
-- GIVEN the requested value contains Unicode、quotes or backslashes that do not introduce invalid or different DSL resource semantics
+- GIVEN submitted value contains Unicode、quotes or backslashes that do not make the final representation or DSL semantics invalid
 - WHEN Rust creates the edit
-- THEN `newText` MUST equal the submitted UTF-8 string exactly
-- AND neither transport nor TypeScript may trim、normalize、quote or escape-rewrite it
+- THEN the final body content MUST equal the submitted UTF-8 string exactly
+- AND neither transport nor TypeScript may trim、normalize or escape-rewrite it
 
 #### Scenario: Wire payload is invalid
 
-- GIVEN value is empty、contains CR or LF、exceeds 65536 UTF-8 bytes or uses an alternate/unknown field
+- GIVEN value is empty、contains CR or LF、exceeds 65536 UTF-8 bytes
+- OR mode is unknown、either required field is absent、an extra field is present or an old command name is used
 - WHEN native stdio or WASM parses the command
-- THEN it MUST reject the request as invalid params before source editing
-- AND MUST return no edit
+- THEN it MUST reject invalid params before source editing
+- AND MUST NOT coerce、alias or default either field
 
-#### Scenario: Submitted value is already current
+#### Scenario: Submitted transaction is already current
 
 - GIVEN value byte-equals the authorized current body
-- WHEN the core receives `setStatementText`
+- AND mode equals the authorized authored mode
+- WHEN the core receives `setStatementBody`
 - THEN it MUST return `invalidValue`
 - AND MUST NOT create a TextEdit or history entry
 
@@ -91,38 +124,6 @@ The language service SHALL expose `statementText` when one current preview origi
 - THEN it MUST return `staleDocument` or `targetChanged`
 - AND MUST NOT retarget、retry or apply a partial edit
 
-### Requirement: Statement parse-mode commands are local and structured
-
-`mmt/composerEdit` SHALL accept `setStatementTextMode` with exactly one `value` selected from `inherit | textMacro | textRaw | typstMacro | typstRaw`. Rust SHALL own all source serialization and candidate validation.
-
-#### Scenario: Plain inherited body becomes an explicit local mode
-
-- GIVEN an authorized plain single-line body
-- WHEN `setStatementTextMode` selects one of `textMacro`、`textRaw`、`typstMacro` or `typstRaw`
-- THEN Rust MUST replace only the body range with the matching `t"""current"""`、`rt"""current"""`、`T"""current"""` or `rT"""current"""`
-- AND current content、statement marker、patch parameters and every unrelated byte MUST remain unchanged
-
-#### Scenario: Fenced body mode changes minimally
-
-- GIVEN an authorized `t"""current"""`、`rt"""current"""`、`T"""current"""` or `rT"""current"""` body
-- WHEN another local mode is selected
-- THEN Rust MUST replace only the existing fence prefix
-- AND selecting `inherit` MUST produce `"""current"""`
-
-#### Scenario: Inherit resolves to any file mode
-
-- GIVEN the statement's inherited mode is TextMacro、TextRaw、TypstMacro or TypstRaw
-- WHEN `setStatementTextMode` selects `inherit`
-- THEN Rust MUST remove only the local fence prefix
-- AND MUST NOT edit `@mode` or return a partial edit
-
-#### Scenario: Mode wire payload is invalid
-
-- GIVEN the mode is unknown or the command contains an extra field
-- WHEN native stdio or WASM parses `setStatementTextMode`
-- THEN it MUST reject invalid params before source editing
-- AND MUST NOT coerce、alias or default the mode
-
 ### Requirement: Message candidate analysis permits only the target body transition
 
 The core SHALL fully reanalyze the in-memory candidate with the same current catalog/PackRegistry and SHALL prove that only the authorized target body changed.
@@ -131,16 +132,16 @@ The core SHALL fully reanalyze the in-memory candidate with the same current cat
 
 - GIVEN a valid single-line replacement parses and analyzes without errors
 - WHEN before and after analyses are compared
-- THEN statement count、kind、speaker marker、patch args and body mode MUST remain equal
-- AND every non-target statement body MUST remain equal
-- AND actor models、speaker identities/revisions、document config、assets、resource markers、resource resolutions and failures MUST remain equal
-- AND for a mode command, only the target body mode and target-local inline resource interpretation MAY change
-- AND every non-target resource marker、resolution and failure MUST remain equal
-- AND the target candidate body MUST equal the requested value and remain an editable single-line text body
+- THEN statement count、kind、speaker marker and patch args MUST remain equal
+- AND every non-target statement body source/mode MUST remain equal
+- AND actor models、speaker identities/revisions、document config、assets、non-target resource markers、resolutions and failures MUST remain equal
+- AND when mode is unchanged, target resource semantics MUST retain the stricter equality gate
+- AND when mode changes, only target-local inline resource interpretation MAY change
+- AND the target candidate body、authored mode and resolved mode MUST equal the submitted transaction
 
 #### Scenario: Candidate introduces invalid or different DSL semantics
 
-- GIVEN replacement parsing creates a syntax/Typst/resource error、changes statement shape or changes inline resource identity
+- GIVEN final parsing creates a syntax/Typst/resource error、changes statement shape or changes disallowed resource identity
 - WHEN candidate validation runs
 - THEN the service MUST return `candidateInvalid`
 - AND MUST return no partial edit

@@ -81,6 +81,39 @@ class FakeContextInputSession {
     this.resolve(value);
   }
 }
+class FakeMessageEditorSession {
+  closed = 0;
+  validationMessage = undefined;
+
+  constructor(anchor, options) {
+    this.anchor = anchor;
+    this.options = options;
+    const { promise, resolve } = Promise.withResolvers();
+    this.result = promise;
+    this.resolve = resolve;
+    this.settled = false;
+  }
+
+  submit(value, mode = this.options.mode) {
+    if (value.length === 0) {
+      this.validationMessage = this.options.requiredMessage;
+      return;
+    }
+    this.finish({ value, mode });
+  }
+
+  close() {
+    this.closed += 1;
+    this.finish(undefined);
+  }
+
+  finish(result) {
+    if (this.settled) return;
+    this.settled = true;
+    this.resolve(result);
+  }
+}
+
 
 class FakeAvatarPickerSession {
   closed = 0;
@@ -233,6 +266,7 @@ function harness(options = {}) {
   };
   const contextMenus = [];
   const contextInputs = [];
+  const messageEditors = [];
   const cancellationSources = [];
   const avatarPickers = [];
   const avatarCatalogListeners = new Set();
@@ -276,6 +310,13 @@ function harness(options = {}) {
         return session;
       },
     },
+    messageEditor: {
+      open(editorAnchor, editorOptions) {
+        const session = new FakeMessageEditorSession(editorAnchor, editorOptions);
+        messageEditors.push(session);
+        return session;
+      },
+    },
     avatarPicker: {
       open(pickerAnchor, pickerOptions) {
         const session = new FakeAvatarPickerSession(pickerAnchor, pickerOptions);
@@ -312,6 +353,7 @@ function harness(options = {}) {
     ports,
     contextMenus,
     contextInputs,
+    messageEditors,
     cancellationSources,
     locateCalls,
     avatarPickers,
@@ -352,7 +394,6 @@ async function chooseContinued(fixture, label = "强制连续") {
   assert.deepEqual(menu.items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
-    "解析模式",
     "从本条起修改人物显示名…",
     "转到源码",
   ]);
@@ -411,18 +452,20 @@ async function chooseContinued(fixture, label = "强制连续") {
   const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.contextMenus.length === 1, "message context menu was not shown");
   fixture.contextMenus[0].select("编辑消息…");
-  await waitFor(() => fixture.contextInputs.length === 1, "message context input was not shown");
-  const input = fixture.contextInputs[0];
+  await waitFor(() => fixture.messageEditors.length === 1, "message editor was not shown");
+  const input = fixture.messageEditors[0];
   assert.equal(input.options.title, "编辑消息");
-  assert.equal(input.options.placeholder, "输入新的消息正文");
   assert.equal(input.options.value, "当前正文😀");
+  assert.equal(input.options.mode, "inherit");
+  assert.equal(input.options.inheritedMode, "textMacro");
   assert.deepEqual(input.anchor, anchor);
-  input.submit("新正文😀 \"quoted\" \\\\path");
+  input.submit("新正文😀 \"quoted\" \\\\path", "typstMacro");
   await operation;
   assert.deepEqual(fixture.requestCalls[1].params.command, {
-    kind: "setStatementText",
+    kind: "setStatementBody",
     value: "新正文😀 \"quoted\" \\\\path",
-  }, "message text must remain structured and unnormalized");
+    mode: "typstMacro",
+  }, "message text and mode must remain structured and submit atomically");
   assert.equal(fixture.requestCalls.length, 2);
   assert.equal(fixture.applyCalls.length, 1);
 }
@@ -436,40 +479,40 @@ async function chooseContinued(fixture, label = "强制连续") {
   await waitFor(() => fixture.contextMenus.length === 1, "narration context menu was not shown");
   assert.deepEqual(
     fixture.contextMenus[0].items.map((item) => item.label),
-    ["编辑消息…", "解析模式"],
-    "narration must expose text editing and local parse mode without actor actions",
+    ["编辑消息…"],
+    "narration must expose the integrated message editor without actor actions",
   );
   fixture.contextMenus[0].select("编辑消息…");
-  await waitFor(() => fixture.contextInputs.length === 1, "narration context input was not shown");
-  fixture.contextInputs[0].submit("新的旁白正文");
+  await waitFor(() => fixture.messageEditors.length === 1, "narration message editor was not shown");
+  fixture.messageEditors[0].submit("新的旁白正文");
   await operation;
   assert.deepEqual(fixture.requestCalls[1].params.command, {
-    kind: "setStatementText",
+    kind: "setStatementBody",
     value: "新的旁白正文",
+    mode: "inherit",
   });
-  assert.equal(fixture.applyCalls.length, 1);
 }
 
 {
   const fixture = harness({ bidirectionalNavigation: false });
   const operation = fixture.controller.handleContextPoint(point, anchor);
-  await waitFor(() => fixture.contextMenus.length === 1, "message mode menu was not shown");
-  const modeMenu = fixture.contextMenus[0].items.find((item) => item.label === "解析模式");
-  assert.deepEqual(
-    modeMenu.children.map(({ label, checked }) => ({ label, checked })),
-    [
-      { label: "继承（当前：文本宏 t）", checked: true },
-      { label: "文本宏（t）", checked: false },
-      { label: "原始文本（rt）", checked: false },
-      { label: "Typst（T）", checked: false },
-      { label: "原始 Typst（rT）", checked: false },
-    ],
+  await waitFor(() => fixture.contextMenus.length === 1, "message editor menu was not shown");
+  assert.equal(
+    fixture.contextMenus[0].items.some((item) => item.label === "解析模式"),
+    false,
+    "parse mode must not remain as an outer context-menu submenu",
   );
-  fixture.contextMenus[0].select("Typst（T）");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.messageEditors.length === 1, "message editor was not shown");
+  const editor = fixture.messageEditors[0];
+  assert.equal(editor.options.mode, "inherit");
+  assert.equal(editor.options.inheritedMode, "textMacro");
+  editor.submit("当前正文😀", "typstMacro");
   await operation;
   assert.deepEqual(fixture.requestCalls[1].params.command, {
-    kind: "setStatementTextMode",
-    value: "typstMacro",
+    kind: "setStatementBody",
+    value: "当前正文😀",
+    mode: "typstMacro",
   });
   assert.equal(fixture.applyCalls.length, 1);
 }
@@ -486,16 +529,18 @@ async function chooseContinued(fixture, label = "强制连续") {
     },
   });
   const operation = fixture.controller.handleContextPoint(point, anchor);
-  await waitFor(() => fixture.contextMenus.length === 1, "Typst-inherited mode menu was not shown");
-  const modeMenu = fixture.contextMenus[0].items.find((item) => item.label === "解析模式");
-  assert.equal(modeMenu.children[0].label, "继承（当前：Typst T）");
-  assert.equal(modeMenu.children[0].enabled, undefined);
-  assert.equal(modeMenu.children[1].checked, true);
-  fixture.contextMenus[0].select("继承（当前：Typst T）");
+  await waitFor(() => fixture.contextMenus.length === 1, "Typst-inherited message menu was not shown");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.messageEditors.length === 1, "Typst-inherited editor was not shown");
+  const editor = fixture.messageEditors[0];
+  assert.equal(editor.options.mode, "textMacro");
+  assert.equal(editor.options.inheritedMode, "typstMacro");
+  editor.submit("当前正文😀", "inherit");
   await operation;
   assert.deepEqual(fixture.requestCalls[1].params.command, {
-    kind: "setStatementTextMode",
-    value: "inherit",
+    kind: "setStatementBody",
+    value: "当前正文😀",
+    mode: "inherit",
   });
   assert.equal(fixture.applyCalls.length, 1);
 }
@@ -503,10 +548,12 @@ async function chooseContinued(fixture, label = "强制连续") {
 {
   const fixture = harness({ bidirectionalNavigation: false });
   const operation = fixture.controller.handleContextPoint(point, anchor);
-  await waitFor(() => fixture.contextMenus.length === 1, "current mode menu was not shown");
-  fixture.contextMenus[0].select("继承（当前：文本宏 t）");
+  await waitFor(() => fixture.contextMenus.length === 1, "current message menu was not shown");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.messageEditors.length === 1, "current message editor was not shown");
+  fixture.messageEditors[0].submit("当前正文😀", "inherit");
   await operation;
-  assert.equal(fixture.requestCalls.length, 1, "selecting the current local mode must be a no-op");
+  assert.equal(fixture.requestCalls.length, 1, "submitting unchanged text and mode must be a no-op");
   assert.equal(fixture.applyCalls.length, 0);
 }
 
@@ -518,8 +565,8 @@ for (const finishInput of [
   const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.contextMenus.length === 1, "message no-op menu was not shown");
   fixture.contextMenus[0].select("编辑消息…");
-  await waitFor(() => fixture.contextInputs.length === 1, "message no-op input was not shown");
-  finishInput(fixture.contextInputs[0]);
+  await waitFor(() => fixture.messageEditors.length === 1, "message no-op editor was not shown");
+  finishInput(fixture.messageEditors[0]);
   await operation;
   assert.equal(fixture.requestCalls.length, 1, "cancelled or unchanged text must not request an edit");
   assert.equal(fixture.applyCalls.length, 0, "cancelled or unchanged text must not apply");
@@ -552,7 +599,6 @@ for (const finishInput of [
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
-    "解析模式",
     "从本条起修改人物显示名…",
     "从本条起更换人物头像…",
     "转到源码",
@@ -603,7 +649,6 @@ for (const finishInput of [
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
-    "解析模式",
     "从本条起修改人物显示名…",
   ]);
   fixture.contextMenus[0].close();
@@ -758,11 +803,11 @@ for (const [applicationResult, expectedWarnings, expectedErrors] of [
   const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.contextMenus.length === 1, "message stale context menu was not shown");
   fixture.contextMenus[0].select("编辑消息…");
-  await waitFor(() => fixture.contextInputs.length === 1, "message stale input was not shown");
+  await waitFor(() => fixture.messageEditors.length === 1, "stale message editor was not shown");
   fixture.state.document = { uri: sourceUri, version: textDocument.version + 1 };
   fixture.controller.sourceDocumentChanged(fixture.state.document);
   await operation;
-  assert.equal(fixture.contextInputs[0].closed, 1);
+  assert.equal(fixture.messageEditors[0].closed, 1);
   assert.deepEqual(fixture.warnings, ["源码已更改，未应用编辑。"]);
   assert.equal(fixture.requestCalls.length, 1, "stale message input must not request an edit");
   assert.equal(fixture.applyCalls.length, 0);

@@ -1,3 +1,4 @@
+import * as monaco from "monaco-editor";
 import { getService } from "@codingame/monaco-vscode-api";
 import {
   InputBox,
@@ -17,6 +18,7 @@ import {
   IContextViewService,
 } from "@codingame/monaco-vscode-api/vscode/vs/platform/contextview/browser/contextView.service";
 import { defaultInputBoxStyles } from "@codingame/monaco-vscode-api/vscode/vs/platform/theme/browser/defaultStyles";
+import type { ComposerBodyMode, StatementTextMode } from "./composerEdit.ts";
 import type {
   PreviewComposerContextMenuItem,
   PreviewComposerContextMenuPort,
@@ -26,6 +28,9 @@ import type {
   PreviewComposerAvatarPickerPort,
   PreviewComposerAvatarPickerSession,
   PreviewComposerContextMenuSession,
+  PreviewComposerMessageEditorPort,
+  PreviewComposerMessageEditorResult,
+  PreviewComposerMessageEditorSession,
 } from "./previewComposer.ts";
 import type { PreviewContextMenuAnchor } from "./previewWebviewProtocol.ts";
 import {
@@ -199,6 +204,282 @@ export async function createWorkbenchPreviewContextInput(): Promise<PreviewCompo
     },
   };
 }
+const COMPOSER_TEXT_LANGUAGE_ID = "mmt-composer-text";
+const COMPOSER_TYPST_LANGUAGE_ID = "mmt-composer-typst";
+let composerLanguagesRegistered = false;
+
+function ensureComposerLanguages(): void {
+  if (composerLanguagesRegistered) return;
+  composerLanguagesRegistered = true;
+  monaco.languages.register({ id: COMPOSER_TEXT_LANGUAGE_ID });
+  monaco.languages.setMonarchTokensProvider(COMPOSER_TEXT_LANGUAGE_ID, {
+    tokenizer: {
+      root: [
+        [/\[:/, { token: "delimiter.bracket", next: "@macro" }],
+        [/\\./, "string.escape"],
+      ],
+      macro: [
+        [/:]/, { token: "delimiter.bracket", next: "@pop" }],
+        [/\\./, "string.escape"],
+        [/"([^"\\]|\\.)*"/, "string"],
+        [/'([^'\\]|\\.)*'/, "string"],
+      ],
+    },
+  });
+  monaco.languages.register({ id: COMPOSER_TYPST_LANGUAGE_ID });
+  monaco.languages.setMonarchTokensProvider(COMPOSER_TYPST_LANGUAGE_ID, {
+    defaultToken: "",
+    tokenizer: {
+      root: [
+        [/\/\/.*$/, "comment"],
+        [/"([^"\\]|\\.)*"/, "string"],
+        [/\b(?:auto|false|none|true)\b/, "keyword"],
+        [/\b(?:and|break|continue|else|for|if|in|let|not|or|return|set|show|while)\b/, "keyword"],
+        [/#(?:[A-Za-z_][\w-]*|[0-9]+)/, "keyword"],
+        [/\b\d+(?:\.\d+)?(?:pt|mm|cm|in|em|deg|rad|%|fr)?\b/, "number"],
+        [/[()[\]{}]/, "@brackets"],
+        [/[+\-*/=<>!&|]+/, "operator"],
+      ],
+    },
+  });
+}
+
+function composerLanguage(mode: StatementTextMode, inheritedMode: ComposerBodyMode): string {
+  const effective = mode === "inherit" ? inheritedMode : mode;
+  switch (effective) {
+    case "textMacro":
+      return COMPOSER_TEXT_LANGUAGE_ID;
+    case "textRaw":
+      return "plaintext";
+    case "typstMacro":
+    case "typstRaw":
+      return COMPOSER_TYPST_LANGUAGE_ID;
+  }
+}
+
+function composerModeLabel(mode: StatementTextMode, inheritedMode: ComposerBodyMode): string {
+  switch (mode) {
+    case "inherit":
+      return `继承 · ${composerBodyModeLabel(inheritedMode)}`;
+    case "textMacro":
+      return "文本宏 · t";
+    case "textRaw":
+      return "原始文本 · rt";
+    case "typstMacro":
+      return "Typst · T";
+    case "typstRaw":
+      return "原始 Typst · rT";
+  }
+}
+
+function composerBodyModeLabel(mode: ComposerBodyMode): string {
+  switch (mode) {
+    case "textMacro":
+      return "t";
+    case "textRaw":
+      return "rt";
+    case "typstMacro":
+      return "T";
+    case "typstRaw":
+      return "rT";
+  }
+}
+
+function statementTextValidationMessage(value: string, requiredMessage: string): string | undefined {
+  if (value.length === 0) return requiredMessage;
+  if (value.includes("\r") || value.includes("\n")) return "消息必须保持为单行。";
+  if (new TextEncoder().encode(value).byteLength > 65_536) return "消息不能超过 65536 UTF-8 字节。";
+  return undefined;
+}
+
+export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComposerMessageEditorPort> {
+  const contextViewService = await getService(IContextViewService);
+  ensureComposerLanguages();
+  let active: PreviewComposerMessageEditorSession | undefined;
+
+  return {
+    open(anchor, options) {
+      active?.close();
+      const { promise, resolve } = Promise.withResolvers<PreviewComposerMessageEditorResult | undefined>();
+      let settled = false;
+      let pendingResult: PreviewComposerMessageEditorResult | undefined;
+      let contextView: { close(): void } | undefined;
+      let editor: monaco.editor.IStandaloneCodeEditor | undefined;
+      let model: monaco.editor.ITextModel | undefined;
+      let selectedMode = options.mode;
+      let session: PreviewComposerMessageEditorSession;
+      const finish = (result: PreviewComposerMessageEditorResult | undefined) => {
+        if (settled) return;
+        settled = true;
+        if (active === session) active = undefined;
+        resolve(result);
+      };
+      session = {
+        result: promise,
+        close() {
+          if (settled) return;
+          if (active === session) contextView?.close();
+          finish(undefined);
+        },
+      };
+      active = session;
+      contextView = contextViewService.showContextView({
+        getAnchor: () => contextMenuAnchorInWorkbench(anchor, window),
+        render(container) {
+          const disposables = new DisposableStore();
+          const root = document.createElement("div");
+          root.className = "mmt-preview-message-editor";
+          root.style.width = `${Math.max(280, Math.min(520, window.innerWidth - 24))}px`;
+
+          const title = document.createElement("div");
+          title.className = "mmt-preview-message-editor__title";
+          title.textContent = options.title;
+          root.append(title);
+
+          const modes = document.createElement("div");
+          modes.className = "mmt-preview-message-editor__modes";
+          modes.role = "radiogroup";
+          modes.ariaLabel = "消息解析模式";
+          root.append(modes);
+
+          const modeButtons = new Map<StatementTextMode, HTMLButtonElement>();
+          const updateMode = (mode: StatementTextMode): void => {
+            selectedMode = mode;
+            for (const [candidate, button] of modeButtons) {
+              const selected = candidate === mode;
+              button.classList.toggle("is-selected", selected);
+              button.ariaChecked = String(selected);
+            }
+            if (model) {
+              monaco.editor.setModelLanguage(model, composerLanguage(mode, options.inheritedMode));
+            }
+          };
+          for (const mode of [
+            "inherit",
+            "textMacro",
+            "textRaw",
+            "typstMacro",
+            "typstRaw",
+          ] as const) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "mmt-preview-message-editor__mode";
+            button.role = "radio";
+            button.textContent = composerModeLabel(mode, options.inheritedMode);
+            button.addEventListener("click", () => {
+              updateMode(mode);
+              editor?.focus();
+            });
+            modeButtons.set(mode, button);
+            modes.append(button);
+          }
+
+          const editorHost = document.createElement("div");
+          editorHost.className = "mmt-preview-message-editor__editor";
+          root.append(editorHost);
+          const validation = document.createElement("div");
+          validation.className = "mmt-preview-message-editor__validation";
+          validation.ariaLive = "polite";
+          root.append(validation);
+          const hint = document.createElement("div");
+          hint.className = "mmt-preview-message-editor__hint";
+          hint.textContent = "Enter 应用 · Escape 取消";
+          root.append(hint);
+          container.append(root);
+
+          // Private language IDs keep this fragment outside workspace LSP routing.
+          model = monaco.editor.createModel(
+            options.value,
+            composerLanguage(selectedMode, options.inheritedMode),
+          );
+          editor = monaco.editor.create(editorHost, {
+            model,
+            ariaLabel: `${options.title}。按 Enter 确认，按 Escape 取消。`,
+            automaticLayout: true,
+            codeLens: false,
+            contextmenu: false,
+            folding: false,
+            glyphMargin: false,
+            guides: { indentation: false },
+            hover: { enabled: false },
+            lineDecorationsWidth: 0,
+            lineNumbers: "off",
+            lineNumbersMinChars: 0,
+            links: false,
+            minimap: { enabled: false },
+            occurrencesHighlight: "off",
+            overviewRulerBorder: false,
+            overviewRulerLanes: 0,
+            padding: { top: 7, bottom: 7 },
+            parameterHints: { enabled: false },
+            quickSuggestions: false,
+            renderLineHighlight: "none",
+            renderValidationDecorations: "off",
+            roundedSelection: false,
+            scrollbar: {
+              horizontal: "hidden",
+              vertical: "hidden",
+              alwaysConsumeMouseWheel: false,
+              handleMouseWheel: false,
+            },
+            scrollBeyondLastColumn: 0,
+            scrollBeyondLastLine: false,
+            selectionHighlight: false,
+            "semanticHighlighting.enabled": false,
+            suggestOnTriggerCharacters: false,
+            tabCompletion: "off",
+            wordBasedSuggestions: "off",
+            wordWrap: "off",
+          });
+          disposables.add(editor);
+          disposables.add(model);
+          updateMode(selectedMode);
+
+          const updateValidation = (): string | undefined => {
+            const message = statementTextValidationMessage(model?.getValue() ?? "", options.requiredMessage);
+            validation.textContent = message ?? "";
+            validation.classList.toggle("is-visible", message !== undefined);
+            return message;
+          };
+          const submit = (): void => {
+            if (!model || updateValidation() !== undefined) return;
+            pendingResult = { value: model.getValue(), mode: selectedMode };
+            contextView?.close();
+          };
+          disposables.add(model.onDidChangeContent(() => {
+            updateValidation();
+          }));
+          let composing = false;
+          disposables.add(editor.onDidCompositionStart(() => {
+            composing = true;
+          }));
+          disposables.add(editor.onDidCompositionEnd(() => {
+            composing = false;
+          }));
+          disposables.add(editor.onKeyDown((event) => {
+            if (event.keyCode === monaco.KeyCode.Enter && !composing && !event.browserEvent.isComposing) {
+              event.preventDefault();
+              event.stopPropagation();
+              submit();
+            } else if (event.keyCode === monaco.KeyCode.Escape) {
+              event.preventDefault();
+              event.stopPropagation();
+              contextView?.close();
+            }
+          }));
+          return disposables;
+        },
+        focus() {
+          editor?.focus();
+          editor?.setSelection(editor.getModel()?.getFullModelRange() ?? new monaco.Range(1, 1, 1, 1));
+        },
+        onHide: () => finish(pendingResult),
+      });
+      return session;
+    },
+  };
+}
+
 
 export async function createWorkbenchPreviewAvatarPicker(): Promise<PreviewComposerAvatarPickerPort> {
   const contextViewService = await getService(IContextViewService);

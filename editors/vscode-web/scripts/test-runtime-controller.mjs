@@ -55,6 +55,7 @@ await reverseDispose.start((runtime) => {
     }),
     contextMenu: { open: () => { throw new Error("not exercised"); } },
     contextInput: { open: () => { throw new Error("not exercised"); } },
+    messageEditor: { open: () => { throw new Error("not exercised"); } },
     avatarPicker: { open: () => { throw new Error("not exercised"); } },
     getAvatarCatalog: () => [],
     onDidChangeAvatarCatalog: () => ({ dispose() {} }),

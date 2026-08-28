@@ -89,8 +89,10 @@ pub enum ComposerCommand {
     SetStatementContinued(ContinuedValue),
     SetActorDisplayNameFromStatement(String),
     SetActorAvatarFromStatement(PackAvatarChoice),
-    SetStatementText(String),
-    SetStatementTextMode(StatementTextMode),
+    SetStatementBody {
+        value: String,
+        mode: StatementTextMode,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -308,20 +310,20 @@ fn compose_edit_using(
         exact_statement_ordinal(analysis, target_range).ok_or(ComposerFailure::TargetChanged)?;
     let statement =
         statement_at_ordinal(analysis, target_ordinal).ok_or(ComposerFailure::TargetChanged)?;
-    match &command {
-        ComposerCommand::SetStatementText(value) => {
+    let statement_body_mode_changed = match &command {
+        ComposerCommand::SetStatementBody { value, mode } => {
             validate_statement_text_value(value)?;
-            if editable_statement_text(analysis, statement).is_none() {
-                return Err(ComposerFailure::TargetChanged);
-            }
-        }
-        ComposerCommand::SetStatementTextMode(value) => {
             let capability = statement_text_capability(analysis, statement)
                 .ok_or(ComposerFailure::TargetChanged)?;
-            if capability.mode == *value {
+            if capability.current == *value && capability.mode == *mode {
                 return Err(ComposerFailure::InvalidValue);
             }
+            capability.mode != *mode
         }
+        _ => false,
+    };
+    match &command {
+        ComposerCommand::SetStatementBody { .. } => {}
         ComposerCommand::SetStatementContinued(_) => {
             if !matches!(statement.kind, StatementKind::Left | StatementKind::Right) {
                 return Err(ComposerFailure::TargetChanged);
@@ -339,7 +341,7 @@ fn compose_edit_using(
         return Err(ComposerFailure::DocumentHasErrors);
     }
     match &command {
-        ComposerCommand::SetStatementText(_) | ComposerCommand::SetStatementTextMode(_) => {}
+        ComposerCommand::SetStatementBody { .. } => {}
         ComposerCommand::SetStatementContinued(_)
         | ComposerCommand::SetActorDisplayNameFromStatement(_)
         | ComposerCommand::SetActorAvatarFromStatement(_) => {
@@ -359,9 +361,8 @@ fn compose_edit_using(
         ComposerCommand::SetActorAvatarFromStatement(value) => {
             avatar_edit(source, analysis, target_ordinal, statement, value)?
         }
-        ComposerCommand::SetStatementText(value) => statement_text_edit(statement, source, value)?,
-        ComposerCommand::SetStatementTextMode(value) => {
-            statement_text_mode_edit(statement, source, *value)?
+        ComposerCommand::SetStatementBody { value, mode } => {
+            statement_body_edit(statement, source, value, *mode)?
         }
     };
     let candidate_source = apply_source_edit(source, &edit)?;
@@ -370,17 +371,14 @@ fn compose_edit_using(
         ComposerCommand::SetActorAvatarFromStatement(_) => {
             common_semantics_stable_for_avatar(analysis, &candidate)
         }
-        ComposerCommand::SetStatementTextMode(_) => {
+        ComposerCommand::SetStatementBody { .. } if statement_body_mode_changed => {
             common_semantics_stable_for_text_mode(analysis, &candidate, target_ordinal)
         }
         _ => common_semantics_stable(analysis, &candidate),
     };
     let statement_shape_stable = match &command {
-        ComposerCommand::SetStatementText(value) => {
-            statements_have_same_shape_for_text(analysis, &candidate, target_ordinal, value)
-        }
-        ComposerCommand::SetStatementTextMode(value) => {
-            statements_have_same_shape_for_text_mode(analysis, &candidate, target_ordinal, *value)
+        ComposerCommand::SetStatementBody { value, mode } => {
+            statements_have_same_shape_for_body(analysis, &candidate, target_ordinal, value, *mode)
         }
         _ => statements_have_same_shape(analysis, &candidate),
     };
@@ -397,11 +395,8 @@ fn compose_edit_using(
         ComposerCommand::SetActorAvatarFromStatement(value) => {
             avatar_candidate_stable(analysis, &candidate, target_ordinal, &value)
         }
-        ComposerCommand::SetStatementText(value) => {
-            statement_text_candidate_stable(analysis, &candidate, target_ordinal, &value)
-        }
-        ComposerCommand::SetStatementTextMode(value) => {
-            statement_text_mode_candidate_stable(analysis, &candidate, target_ordinal, value)
+        ComposerCommand::SetStatementBody { value, mode } => {
+            statement_body_candidate_stable(analysis, &candidate, target_ordinal, &value, mode)
         }
     };
     if !stable {
@@ -793,45 +788,39 @@ fn continued_edit(
     }
 }
 
-fn statement_text_edit(
+fn statement_body_edit(
     statement: &StatementSyntax,
     source: &str,
     value: &str,
+    mode: StatementTextMode,
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
     validate_statement_text_value(value)?;
-    let range = statement.body.range;
-    if range.end > source.len()
-        || !source.is_char_boundary(range.start)
-        || !source.is_char_boundary(range.end)
-        || source.get(range.start..range.end) != Some(statement.body.source.as_str())
-    {
-        return Err(ComposerFailure::CandidateInvalid);
-    }
-    if statement.body.source == value {
-        return Err(ComposerFailure::InvalidValue);
-    }
-    Ok(ComposerSourceEdit {
-        range,
-        new_text: value.to_owned(),
-    })
-}
-
-fn statement_text_mode_edit(
-    statement: &StatementSyntax,
-    source: &str,
-    value: StatementTextMode,
-) -> Result<ComposerSourceEdit, ComposerFailure> {
     let current = statement_text_mode(statement.body.mode).ok_or(ComposerFailure::TargetChanged)?;
-    if current == value {
+    if statement.body.source == value && current == mode {
         return Err(ComposerFailure::InvalidValue);
     }
-    if let Some(prefix_range) = fenced_body_prefix_range(statement, source)? {
+    if current == mode {
+        let range = statement.body.range;
+        if range.end > source.len()
+            || !source.is_char_boundary(range.start)
+            || !source.is_char_boundary(range.end)
+            || source.get(range.start..range.end) != Some(statement.body.source.as_str())
+        {
+            return Err(ComposerFailure::CandidateInvalid);
+        }
         return Ok(ComposerSourceEdit {
-            range: prefix_range,
-            new_text: statement_text_mode_prefix(value).to_string(),
+            range,
+            new_text: value.to_owned(),
         });
     }
-    if current != StatementTextMode::Inherit || value == StatementTextMode::Inherit {
+    if let Some((range, fence_len)) = fenced_body_envelope(statement, source)? {
+        let fence = "\"".repeat(fence_len);
+        return Ok(ComposerSourceEdit {
+            range,
+            new_text: format!("{}{fence}{value}{fence}", statement_text_mode_prefix(mode),),
+        });
+    }
+    if current != StatementTextMode::Inherit || mode == StatementTextMode::Inherit {
         return Err(ComposerFailure::CandidateInvalid);
     }
     let range = statement.body.range;
@@ -844,11 +833,7 @@ fn statement_text_mode_edit(
     }
     Ok(ComposerSourceEdit {
         range,
-        new_text: format!(
-            "{}\"\"\"{}\"\"\"",
-            statement_text_mode_prefix(value),
-            statement.body.source,
-        ),
+        new_text: format!("{}\"\"\"{value}\"\"\"", statement_text_mode_prefix(mode)),
     })
 }
 
@@ -862,10 +847,10 @@ fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
     }
 }
 
-fn fenced_body_prefix_range(
+fn fenced_body_envelope(
     statement: &StatementSyntax,
     source: &str,
-) -> Result<Option<TextRange>, ComposerFailure> {
+) -> Result<Option<(TextRange, usize)>, ComposerFailure> {
     let body = &statement.body;
     if statement.range.end > source.len()
         || body.range.start > body.range.end
@@ -901,7 +886,10 @@ fn fenced_body_prefix_range(
     if close.len() != fence_len || !close.bytes().all(|byte| byte == b'"') {
         return Err(ComposerFailure::CandidateInvalid);
     }
-    Ok(Some(TextRange::new(prefix_start, quote_start)))
+    Ok(Some((
+        TextRange::new(prefix_start, statement.range.end),
+        fence_len,
+    )))
 }
 
 fn continued_bool(value: ContinuedValue) -> &'static str {
@@ -1347,58 +1335,14 @@ fn non_statement_bodies_equal(before: &AnalyzedDocument, after: &AnalyzedDocumen
     non_statement_bodies(before) == non_statement_bodies(after)
 }
 
-fn statements_have_same_shape_for_text(
+fn statements_have_same_shape_for_body(
     before: &AnalyzedDocument,
     after: &AnalyzedDocument,
     target_ordinal: usize,
-    expected: &str,
+    expected_value: &str,
+    expected_mode: StatementTextMode,
 ) -> bool {
-    let non_statement_bodies_stable = non_statement_bodies_equal(before, after);
-    let before = before
-        .document
-        .nodes
-        .iter()
-        .filter_map(|node| match node {
-            SyntaxNode::Statement(statement) => Some(statement),
-            _ => None,
-        })
-        .collect::<Vec<_>>();
-    let after = after
-        .document
-        .nodes
-        .iter()
-        .filter_map(|node| match node {
-            SyntaxNode::Statement(statement) => Some(statement),
-            _ => None,
-        })
-        .collect::<Vec<_>>();
-    non_statement_bodies_stable
-        && before.len() == after.len()
-        && before
-            .iter()
-            .zip(after)
-            .enumerate()
-            .all(|(ordinal, (left, right))| {
-                left.kind == right.kind
-                    && markers_equal(left.marker.as_ref(), right.marker.as_ref())
-                    && left.patch.as_ref().map(|patch| patch.raw_args.as_str())
-                        == right.patch.as_ref().map(|patch| patch.raw_args.as_str())
-                    && left.body.mode == right.body.mode
-                    && if ordinal == target_ordinal {
-                        right.body.source == expected
-                    } else {
-                        left.body.source == right.body.source
-                    }
-            })
-}
-
-fn statements_have_same_shape_for_text_mode(
-    before: &AnalyzedDocument,
-    after: &AnalyzedDocument,
-    target_ordinal: usize,
-    expected: StatementTextMode,
-) -> bool {
-    let expected_mode = match expected {
+    let expected_mode = match expected_mode {
         StatementTextMode::Inherit => BodyMode::Inherit,
         StatementTextMode::TextMacro => BodyMode::TextMacro,
         StatementTextMode::TextRaw => BodyMode::TextRaw,
@@ -1435,11 +1379,10 @@ fn statements_have_same_shape_for_text_mode(
                     && markers_equal(left.marker.as_ref(), right.marker.as_ref())
                     && left.patch.as_ref().map(|patch| patch.raw_args.as_str())
                         == right.patch.as_ref().map(|patch| patch.raw_args.as_str())
-                    && left.body.source == right.body.source
                     && if ordinal == target_ordinal {
-                        right.body.mode == expected_mode
+                        right.body.source == expected_value && right.body.mode == expected_mode
                     } else {
-                        left.body.mode == right.body.mode
+                        left.body.source == right.body.source && left.body.mode == right.body.mode
                     }
             })
 }
@@ -1749,41 +1692,20 @@ fn resource_failure_identities_are_equal(
         && right.iter().all(|failure| contains(left, failure))
 }
 
-fn statement_text_candidate_stable(
+fn statement_body_candidate_stable(
     before: &AnalyzedDocument,
     after: &AnalyzedDocument,
     target_ordinal: usize,
-    expected: &str,
+    expected_value: &str,
+    expected_mode: StatementTextMode,
 ) -> bool {
-    actor_models_equal(before, after)
-        && before.actors.speakers.len() == after.actors.speakers.len()
-        && before
-            .actors
-            .speakers
-            .iter()
-            .zip(&after.actors.speakers)
-            .all(|(left, right)| left.speaker == right.speaker && left.revision == right.revision)
-        && statement_at_ordinal(after, target_ordinal)
-            .and_then(|statement| editable_statement_text(after, statement))
-            == Some(expected)
-}
-
-fn statement_text_mode_candidate_stable(
-    before: &AnalyzedDocument,
-    after: &AnalyzedDocument,
-    target_ordinal: usize,
-    expected: StatementTextMode,
-) -> bool {
-    let Some(before_statement) = statement_at_ordinal(before, target_ordinal) else {
-        return false;
-    };
     let Some(after_statement) = statement_at_ordinal(after, target_ordinal) else {
         return false;
     };
     let Some(capability) = statement_text_capability(after, after_statement) else {
         return false;
     };
-    let resolved_matches = match expected {
+    let resolved_matches = match expected_mode {
         StatementTextMode::Inherit => capability.resolved_mode == capability.inherited_mode,
         StatementTextMode::TextMacro => capability.resolved_mode == ComposerBodyMode::TextMacro,
         StatementTextMode::TextRaw => capability.resolved_mode == ComposerBodyMode::TextRaw,
@@ -1798,8 +1720,8 @@ fn statement_text_mode_candidate_stable(
             .iter()
             .zip(&after.actors.speakers)
             .all(|(left, right)| left.speaker == right.speaker && left.revision == right.revision)
-        && capability.current == before_statement.body.source
-        && capability.mode == expected
+        && capability.current == expected_value
+        && capability.mode == expected_mode
         && resolved_matches
 }
 

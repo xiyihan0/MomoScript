@@ -78,31 +78,49 @@ fn display_name(source: &str, ordinal: usize, value: &str) -> String {
     apply(source, &edit)
 }
 
+fn authored_statement_mode(statement: &StatementSyntax) -> StatementTextMode {
+    match statement.body.mode {
+        mmt_rs::syntax::BodyMode::Inherit => StatementTextMode::Inherit,
+        mmt_rs::syntax::BodyMode::TextMacro => StatementTextMode::TextMacro,
+        mmt_rs::syntax::BodyMode::TextRaw => StatementTextMode::TextRaw,
+        mmt_rs::syntax::BodyMode::TypstMacro => StatementTextMode::TypstMacro,
+        mmt_rs::syntax::BodyMode::TypstRaw => StatementTextMode::TypstRaw,
+    }
+}
+
 fn statement_text(source: &str, ordinal: usize, value: &str) -> String {
     let packs = registry();
     let analysis = analyze_text_with_pack(source, &packs);
-    let target = statement(&analysis, ordinal).range;
+    let statement = statement(&analysis, ordinal);
+    let target = statement.range;
     let edit = compose_edit_with_pack(
         source,
         &analysis,
         &packs,
         target,
-        ComposerCommand::SetStatementText(value.to_string()),
+        ComposerCommand::SetStatementBody {
+            value: value.to_string(),
+            mode: authored_statement_mode(statement),
+        },
     )
     .unwrap();
     apply(source, &edit)
 }
 
-fn statement_text_mode(source: &str, ordinal: usize, value: StatementTextMode) -> String {
+fn statement_text_mode(source: &str, ordinal: usize, mode: StatementTextMode) -> String {
     let packs = registry();
     let analysis = analyze_text_with_pack(source, &packs);
-    let target = statement(&analysis, ordinal).range;
+    let statement = statement(&analysis, ordinal);
+    let target = statement.range;
     let edit = compose_edit_with_pack(
         source,
         &analysis,
         &packs,
         target,
-        ComposerCommand::SetStatementTextMode(value),
+        ComposerCommand::SetStatementBody {
+            value: statement.body.source.clone(),
+            mode,
+        },
     )
     .unwrap();
     apply(source, &edit)
@@ -437,6 +455,7 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
         ),
         "< _0: T\"\"\"right body\"\"\""
     );
+
     assert_eq!(
         statement_text_mode(
             "- T\"\"\"#strong[body]\"\"\"",
@@ -452,6 +471,30 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
             StatementTextMode::Inherit,
         ),
         "@mode: T\n- \"\"\"local text\"\"\""
+    );
+}
+#[test]
+fn statement_body_changes_text_and_mode_in_one_source_edit() {
+    let packs = registry();
+    let source = ">(fill: green) 佳代子: old";
+    let analysis = analyze_text_with_pack(source, &packs);
+    let statement = statement(&analysis, 0);
+    let edit = compose_edit_with_pack(
+        source,
+        &analysis,
+        &packs,
+        statement.range,
+        ComposerCommand::SetStatementBody {
+            value: "new #strong[Typst]".to_string(),
+            mode: StatementTextMode::TypstRaw,
+        },
+    )
+    .unwrap();
+    assert_eq!(edit.range, statement.body.range);
+    assert_eq!(edit.new_text, "rT\"\"\"new #strong[Typst]\"\"\"");
+    assert_eq!(
+        apply(source, &edit),
+        ">(fill: green) 佳代子: rT\"\"\"new #strong[Typst]\"\"\""
     );
 }
 
@@ -477,7 +520,10 @@ fn statement_text_mode_rejects_noop_and_invalid_fence_candidate() {
                 &analysis,
                 &packs,
                 statement(&analysis, 0).range,
-                ComposerCommand::SetStatementTextMode(value),
+                ComposerCommand::SetStatementBody {
+                    value: statement(&analysis, 0).body.source.clone(),
+                    mode: value,
+                },
             ),
             Err(expected),
             "source: {source}",
@@ -504,7 +550,10 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
                 &analysis,
                 &packs,
                 target,
-                ComposerCommand::SetStatementText(value),
+                ComposerCommand::SetStatementBody {
+                    value,
+                    mode: StatementTextMode::Inherit,
+                },
             ),
             Err(ComposerFailure::InvalidValue)
         );
@@ -515,7 +564,10 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
             &analysis,
             &packs,
             target,
-            ComposerCommand::SetStatementText("broken [:macro".to_string()),
+            ComposerCommand::SetStatementBody {
+                value: "broken [:macro".to_string(),
+                mode: StatementTextMode::Inherit,
+            },
         ),
         Err(ComposerFailure::CandidateInvalid)
     );
@@ -525,7 +577,10 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
             &analysis,
             &packs,
             target,
-            ComposerCommand::SetStatementText("replacement".to_string()),
+            ComposerCommand::SetStatementBody {
+                value: "replacement".to_string(),
+                mode: StatementTextMode::Inherit,
+            },
         ),
         Err(ComposerFailure::CandidateInvalid)
     );
@@ -538,7 +593,10 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
             &multiline_analysis,
             &packs,
             statement(&multiline_analysis, 0).range,
-            ComposerCommand::SetStatementText("replacement".to_string()),
+            ComposerCommand::SetStatementBody {
+                value: "replacement".to_string(),
+                mode: StatementTextMode::Inherit,
+            },
         ),
         Err(ComposerFailure::TargetChanged)
     );
@@ -551,7 +609,10 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
         &builtin_analysis,
         &builtin,
         statement(&builtin_analysis, 0).range,
-        ComposerCommand::SetStatementText("replacement".to_string()),
+        ComposerCommand::SetStatementBody {
+            value: "replacement".to_string(),
+            mode: StatementTextMode::Inherit,
+        },
     )
     .unwrap();
     assert_eq!(apply(builtin_source, &edit), "< _0: replacement");
@@ -1071,7 +1132,10 @@ fn no_pack_catalog_reanalysis_uses_the_supplied_catalog() {
         &analysis,
         &catalog,
         target,
-        ComposerCommand::SetStatementText("新的正文😀".to_string()),
+        ComposerCommand::SetStatementBody {
+            value: "新的正文😀".to_string(),
+            mode: StatementTextMode::Inherit,
+        },
     )
     .unwrap();
     assert_eq!(

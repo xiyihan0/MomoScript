@@ -1,8 +1,8 @@
 ## ADDED Requirements
 
-### Requirement: Preview Composer offers pointer-anchored message editing
+### Requirement: Preview Composer offers a pointer-anchored message editor
 
-The production Web Workbench SHALL show **“编辑消息…”** only for a current target carrying the server-provided `statementText` capability. It SHALL reuse the existing native pointer-anchored context InputBox and existing Composer request/apply lifecycle.
+The production Web Workbench SHALL show **“编辑消息…”** only for a current target carrying the server-provided `statementText` capability. Choosing it SHALL open a compact pointer-anchored single-line Monaco editor with integrated parse-mode controls and the existing Composer request/apply lifecycle.
 
 #### Scenario: Action appears from any semantic region of the chat statement
 
@@ -10,32 +10,63 @@ The production Web Workbench SHALL show **“编辑消息…”** only for a cur
 - AND `mmt/previewComposerTarget` includes `statementText`
 - WHEN the native context menu opens at the original pointer
 - THEN it MUST include exact label “编辑消息…”
-- AND choosing it MUST open the existing pointer-adjacent InputBox
-- AND the InputBox MUST be prefilled with `statementText.current`
+- AND choosing it MUST open the pointer-adjacent message editor prefilled with `statementText.current`
 - AND the client MUST NOT read visible SVG/DOM text as current value or authorization
 
 #### Scenario: Action appears for narration without chat actions
 
 - GIVEN a narration semantic region maps to a current narration statement
 - AND `mmt/previewComposerTarget` includes `statementText` but omits `continued` and actor capabilities
-- WHEN the native context menu opens at the original pointer
+- WHEN the native context menu opens
 - THEN it MUST include exact label “编辑消息…”
 - AND it MUST NOT include continued、display-name or avatar actions
-- AND the same pointer-adjacent InputBox and Composer apply lifecycle MUST be used
+- AND the same pointer-anchored message editor and Composer apply lifecycle MUST be used
 
-#### Scenario: Author submits a different message
+#### Scenario: Builtin right-side bubble exposes message editing
 
-- GIVEN the InputBox contains a different nonempty value
-- WHEN the author presses Enter
-- THEN the client MUST send exactly one `{ kind: setStatementText, value }` command through `mmt/composerEdit`
-- AND MUST NOT build MMT source or a TextEdit in TypeScript
+- GIVEN a right-side bubble、avatar-space or exact glyph maps to an authored builtin-speaker statement
+- AND `mmt/previewComposerTarget` includes `statementText` without actor properties
+- WHEN the native context menu opens
+- THEN it MUST include “编辑消息…”
+- AND it MUST NOT include a separate “解析模式” submenu、display-name or avatar actions
+- AND the editor opened by “编辑消息…” MUST expose all five modes
+
+#### Scenario: Integrated mode choices reflect server state
+
+- GIVEN `statementText.mode` is `inherit`、`textMacro`、`textRaw`、`typstMacro` or `typstRaw`
+- WHEN the message editor opens
+- THEN it MUST show radio choices for inherit、`t`、`rt`、`T` and `rT`
+- AND exactly the authored mode MUST be selected
+- AND the inherit choice MUST display `statementText.inheritedMode`
+- AND switching a choice MUST NOT edit source or send a request before submission
+
+#### Scenario: Editor provides bounded lexical highlighting
+
+- GIVEN the author selects or inherits TextMacro
+- WHEN the fragment is displayed
+- THEN MMT inline macro syntax MUST receive lexical highlighting
+- GIVEN the author selects or inherits TypstMacro or TypstRaw
+- THEN Typst syntax MUST receive lexical highlighting
+- GIVEN the effective mode is TextRaw
+- THEN the fragment MUST use plain-text tokenization
+- AND every fragment language id MUST remain private from MMT/Tinymist workspace LSP routing
+- AND completion、hover、diagnostic decoration and semantic highlighting MUST remain disabled
+
+#### Scenario: Author submits text and mode together
+
+- GIVEN the message editor contains a valid nonempty single-line value and one selected mode
+- WHEN the author presses Enter outside IME composition
+- THEN the client MUST send exactly one `{ kind: setStatementBody, value, mode }` command through `mmt/composerEdit`
+- AND MUST NOT send separate text/mode commands or build MMT source/TextEdit in TypeScript
 - AND an accepted result MUST pass the current identity/version gate and `vscode.workspace.applyEdit` exactly once
 - AND normal Local History、didChange analysis and preview rerender MUST own persistence and presentation
 
-#### Scenario: Input is cancelled or unchanged
+#### Scenario: Input is invalid, cancelled or unchanged
 
-- GIVEN the message InputBox is open with the current value
-- WHEN the author presses Escape or accepts the unchanged value
+- GIVEN the message editor is open with the current content and authored mode
+- WHEN value is empty、contains CR/LF、exceeds the UTF-8 limit or Enter occurs during IME composition
+- THEN the editor MUST remain open and MUST NOT send a request
+- WHEN the author presses Escape or submits both unchanged content and unchanged mode
 - THEN the operation MUST close without an `mmt/composerEdit` request
 - AND MUST NOT attempt apply、create history or trigger a retry
 
@@ -47,62 +78,21 @@ The production Web Workbench SHALL show **“编辑消息…”** only for a cur
 - THEN “编辑消息…” MUST be absent
 - AND available navigation、continued、display-name or avatar actions MUST retain their existing behavior
 
-#### Scenario: Builtin right-side bubble exposes message actions
+### Requirement: Message editor and apply remain bound to current Composer freshness
 
-- GIVEN a right-side bubble、avatar-space or exact glyph maps to an authored builtin-speaker statement
-- AND `mmt/previewComposerTarget` includes `statementText` without actor properties
-- WHEN the native context menu opens at the pointer
-- THEN it MUST include “编辑消息…” and “解析模式”
-- AND it MUST NOT include display-name or avatar actions
+The message editor、request and apply authority SHALL belong to one current Composer operation and SHALL never retarget after document or PreviewArtifact changes.
 
-### Requirement: Preview Composer offers a local five-mode radio submenu
+#### Scenario: Source or preview changes while editor is open
 
-For every target carrying `statementText`, the native context menu SHALL include **“解析模式”** with authored-mode radio state from the server descriptor. TypeScript SHALL send only a structured mode command and SHALL NOT serialize MMT source.
-
-#### Scenario: Mode choices reflect server state
-
-- GIVEN `statementText.mode` is `inherit`、`textMacro`、`textRaw`、`typstMacro` or `typstRaw`
-- WHEN the context menu opens
-- THEN “解析模式” MUST contain “继承（当前：…）”、“文本宏（t）”、“原始文本（rt）”、“Typst（T）” and “原始 Typst（rT）”
-- AND exactly the authored mode MUST be checked
-- AND the inherited mode label MUST come from `statementText.inheritedMode`
-- AND the client MUST NOT edit file-level `@mode`
-
-#### Scenario: Author selects a different local mode
-
-- GIVEN the author selects a non-current mode
-- WHEN the menu closes
-- THEN the client MUST send exactly one `{ kind: setStatementTextMode, value }` through `mmt/composerEdit`
-- AND the accepted versioned WorkspaceEdit MUST use the existing freshness/apply lifecycle
-
-#### Scenario: Inherit selects the current file mode
-
-- GIVEN `statementText.inheritedMode` is any text or Typst mode
-- WHEN the parse-mode submenu opens
-- THEN the inherit item MUST show that current inherited mode and remain enabled
-- AND all four explicit local modes MUST remain available
-
-#### Scenario: Current mode is selected
-
-- GIVEN one parse-mode radio item is already checked
-- WHEN the author selects that same item
-- THEN no `mmt/composerEdit` request or WorkspaceEdit apply may occur
-
-### Requirement: Message input and apply remain bound to current Composer freshness
-
-The message InputBox、request and apply authority SHALL belong to one current Composer operation and SHALL never retarget after document or PreviewArtifact changes.
-
-#### Scenario: Source or preview changes while input is open
-
-- GIVEN the message InputBox is open for TextDocument version V and one PreviewArtifact identity
+- GIVEN the message editor is open for TextDocument version V and one PreviewArtifact identity
 - WHEN document version、artifact identity、runtime owner or operation identity changes
-- THEN the InputBox MUST close
-- AND no command from that stale input may be sent or applied
+- THEN the editor MUST close
+- AND no command from that stale editor may be sent or applied
 - AND the existing stale notification path MAY report the cancellation once
 
 #### Scenario: Server rejects the candidate
 
-- GIVEN `setStatementText` returns stale、targetChanged、invalidValue、documentHasErrors or candidateInvalid
+- GIVEN `setStatementBody` returns stale、targetChanged、invalidValue、documentHasErrors or candidateInvalid
 - WHEN the client parses the strict result
 - THEN it MUST show the existing single MomoScript warning path
 - AND MUST NOT retry、fall back to navigation、normalize the value or apply client-generated source

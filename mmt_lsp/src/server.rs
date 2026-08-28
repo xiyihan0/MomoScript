@@ -296,11 +296,10 @@ enum ComposerCommandParams {
     SetActorDisplayNameFromStatement { value: String },
     #[serde(rename = "setActorAvatarFromStatement")]
     SetActorAvatarFromStatement { avatar: ComposerAvatarChoiceParams },
-    #[serde(rename = "setStatementText")]
-    SetStatementText { value: String },
-    #[serde(rename = "setStatementTextMode")]
-    SetStatementTextMode {
-        value: ComposerStatementTextModeParams,
+    #[serde(rename = "setStatementBody")]
+    SetStatementBody {
+        value: String,
+        mode: ComposerStatementTextModeParams,
     },
 }
 
@@ -316,11 +315,11 @@ impl From<ComposerCommandParams> for ComposerCommand {
             ComposerCommandParams::SetActorAvatarFromStatement { avatar } => {
                 ComposerCommand::SetActorAvatarFromStatement(avatar.into())
             }
-            ComposerCommandParams::SetStatementText { value } => {
-                ComposerCommand::SetStatementText(value)
-            }
-            ComposerCommandParams::SetStatementTextMode { value } => {
-                ComposerCommand::SetStatementTextMode(value.into())
+            ComposerCommandParams::SetStatementBody { value, mode } => {
+                ComposerCommand::SetStatementBody {
+                    value,
+                    mode: mode.into(),
+                }
             }
         }
     }
@@ -368,7 +367,7 @@ fn validate_composer_command(command: &ComposerCommandParams) -> Result<(), Serv
                 "display-name value exceeds {MAX_COMPOSER_DISPLAY_NAME_BYTES} UTF-8 bytes"
             )))
         }
-        ComposerCommandParams::SetStatementText { value }
+        ComposerCommandParams::SetStatementBody { value, .. }
             if value.is_empty()
                 || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
                 || value.contains(['\r', '\n']) =>
@@ -2210,8 +2209,9 @@ mod tests {
                 }
             },
             "command": {
-                "kind": "setStatementText",
-                "value": "新正文😀 \"quote\" \\\\path"
+                "kind": "setStatementBody",
+                "value": "新正文😀 \"quote\" \\\\path",
+                "mode": "inherit"
             }
         });
         let edit = server.request("mmt/composerEdit", params.clone()).unwrap();
@@ -2248,13 +2248,15 @@ mod tests {
             serde_json::json!({"kind":"Rejected","reason":"candidateInvalid"})
         );
         for malformed in [
-            serde_json::json!({"kind":"setStatementText","value":""}),
-            serde_json::json!({"kind":"setStatementText","value":"line one\nline two"}),
+            serde_json::json!({"kind":"setStatementBody","value":"","mode":"inherit"}),
+            serde_json::json!({"kind":"setStatementBody","value":"line one\nline two","mode":"inherit"}),
             serde_json::json!({
-                "kind":"setStatementText",
-                "value":"x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1)
+                "kind":"setStatementBody",
+                "value":"x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1),
+                "mode":"inherit"
             }),
-            serde_json::json!({"kind":"setStatementText","value":"new","rawSource":"new"}),
+            serde_json::json!({"kind":"setStatementBody","value":"new","mode":"inherit","rawSource":"new"}),
+            serde_json::json!({"kind":"setStatementBody","value":"new"}),
         ] {
             let mut invalid = params.clone();
             invalid["command"] = malformed;
@@ -2262,7 +2264,7 @@ mod tests {
         }
         let mut mode_params = params.clone();
         mode_params["command"] =
-            serde_json::json!({"kind":"setStatementTextMode","value":"textRaw"});
+            serde_json::json!({"kind":"setStatementBody","value":"old","mode":"textRaw"});
         let mode_edit = server
             .request("mmt/composerEdit", mode_params.clone())
             .unwrap();
@@ -2277,22 +2279,28 @@ mod tests {
                 "newText": "rt\"\"\"old\"\"\""
             })
         );
-        mode_params["command"] =
-            serde_json::json!({"kind":"setStatementTextMode","value":"typstRaw"});
+        mode_params["command"] = serde_json::json!({
+            "kind":"setStatementBody",
+            "value":"new #strong[Typst]",
+            "mode":"typstRaw"
+        });
         let typst_mode_edit = server
             .request("mmt/composerEdit", mode_params.clone())
             .unwrap();
         assert_eq!(
             typst_mode_edit["edit"]["documentChanges"][0]["edits"][0]["newText"],
-            "rT\"\"\"old\"\"\""
+            "rT\"\"\"new #strong[Typst]\"\"\""
         );
         for malformed in [
-            serde_json::json!({"kind":"setStatementTextMode","value":"unknown"}),
+            serde_json::json!({"kind":"setStatementBody","value":"old","mode":"unknown"}),
             serde_json::json!({
-                "kind":"setStatementTextMode",
-                "value":"textRaw",
+                "kind":"setStatementBody",
+                "value":"old",
+                "mode":"textRaw",
                 "scope":"document"
             }),
+            serde_json::json!({"kind":"setStatementText","value":"old"}),
+            serde_json::json!({"kind":"setStatementTextMode","value":"textRaw"}),
         ] {
             mode_params["command"] = malformed;
             assert!(
@@ -2318,8 +2326,9 @@ mod tests {
                         }
                     },
                     "command": {
-                        "kind": "setStatementText",
-                        "value": "narration after"
+                        "kind": "setStatementBody",
+                        "value": "narration after",
+                        "mode": "inherit"
                     }
                 }),
             )

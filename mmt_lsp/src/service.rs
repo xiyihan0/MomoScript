@@ -9,6 +9,8 @@ use lsp_types::{
     PositionEncodingKind, PrepareRenameResponse, SemanticToken, SemanticTokens, SignatureHelp,
     SignatureInformation, SymbolKind, TextDocumentEdit, TextEdit, Url, WorkspaceEdit,
 };
+#[cfg(test)]
+use mmt_rs::StatementTextMode;
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
@@ -516,7 +518,7 @@ impl LanguageService {
             ComposerCommand::SetActorDisplayNameFromStatement(value) if value.is_empty()
         ) || matches!(
             &command,
-            ComposerCommand::SetStatementText(value)
+            ComposerCommand::SetStatementBody { value, .. }
                 if value.is_empty()
                     || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
                     || value.contains(['\r', '\n'])
@@ -2794,7 +2796,10 @@ mod tests {
                 &uri(),
                 4,
                 target.clone(),
-                ComposerCommand::SetStatementText("新正文😀 \\\\path".to_string()),
+                ComposerCommand::SetStatementBody {
+                    value: "新正文😀 \\\\path".to_string(),
+                    mode: StatementTextMode::Inherit,
+                },
             )
             .unwrap();
         let Some(DocumentChanges::Edits(documents)) = edit.document_changes else {
@@ -2813,7 +2818,10 @@ mod tests {
                 &uri(),
                 4,
                 target,
-                ComposerCommand::SetStatementText("current😀".to_string()),
+                ComposerCommand::SetStatementBody {
+                    value: "current😀".to_string(),
+                    mode: StatementTextMode::Inherit,
+                },
             ),
             Err(ComposerEditRejection::InvalidValue)
         );

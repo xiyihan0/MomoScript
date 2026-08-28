@@ -95,12 +95,9 @@ export type ComposerEditCommand =
       readonly avatar: ComposerAvatarChoice;
     }
   | {
-      readonly kind: "setStatementText";
+      readonly kind: "setStatementBody";
       readonly value: string;
-    }
-  | {
-      readonly kind: "setStatementTextMode";
-      readonly value: StatementTextMode;
+      readonly mode: StatementTextMode;
     };
 
 export interface ComposerEditParams {
