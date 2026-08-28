@@ -9,14 +9,15 @@ use lsp_types::{
     PositionEncodingKind, Range, TextEdit, Url,
 };
 use mmt_rs::{
-    AnalyzedDocument, ComposerActorAvatar, ComposerTargetFailure, ContinuedValue, EmitOptions,
-    LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE, ProjectDigestInput, ProjectedEditFailure,
-    ProjectedEditTarget, ProjectedEditTransaction, ProjectionEdit, ProjectionError, ProjectionKey,
-    ProjectionMappingKind, ProjectionMappingResult, ProjectionPlan, ProjectionProfile,
-    RetainedProjectedDocument, SourceContentKey, TypstProjectSnapshotKey, TypstProjection,
-    ValidatedProjectedEditTransaction, canonical_bytes_digest, canonical_json_digest,
-    logical_source_id, normalize_projected_edit_uri, project_snapshot_key, projection_key,
-    resolve_preview_statement, source_content_key, validate_projected_edit_transaction,
+    AnalyzedDocument, ComposerActorAvatar, ComposerStatementText, ComposerTargetFailure,
+    ContinuedValue, EmitOptions, LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE,
+    ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
+    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionMappingKind, ProjectionMappingResult,
+    ProjectionPlan, ProjectionProfile, RetainedProjectedDocument, SourceContentKey,
+    TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
+    canonical_bytes_digest, canonical_json_digest, logical_source_id, normalize_projected_edit_uri,
+    project_snapshot_key, projection_key, resolve_preview_statement, source_content_key,
+    validate_projected_edit_transaction,
 };
 #[cfg(test)]
 use mmt_rs::{StaticPresetCatalog, project_text};
@@ -1060,10 +1061,10 @@ struct RenderProjectCacheEntry {
 pub(crate) struct ResolvedComposerTarget {
     pub source_version: i32,
     pub statement_range: Range,
-    pub continued: ContinuedValue,
+    pub continued: Option<ContinuedValue>,
     pub actor_display_name: Option<String>,
     pub actor_avatar: Option<ComposerActorAvatar>,
-    pub statement_text: Option<String>,
+    pub statement_text: Option<ComposerStatementText>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1799,7 +1800,13 @@ mod tests {
                 false,
             )
             .unwrap();
-        assert_eq!(target.statement_text.as_deref(), Some("hello"));
+        assert_eq!(
+            target
+                .statement_text
+                .as_ref()
+                .map(|text| text.current.as_str()),
+            Some("hello")
+        );
         let avatar = target.actor_avatar.unwrap();
         assert_eq!(avatar.actor_preset_id, "ba::A");
         assert_eq!(

@@ -524,8 +524,16 @@ try {
       || actorAvatar.current.entityId !== "ba::柚子"
       || actorAvatar.current.contributionNamespace !== "ba"
       || actorAvatar.current.variantId !== "default"
-      || !hasExactKeys(avatarTarget.properties.statementText, ["current"])
+      || !hasExactKeys(avatarTarget.properties.statementText, [
+        "current",
+        "mode",
+        "resolvedMode",
+        "inheritedMode"
+      ])
       || avatarTarget.properties.statementText.current !== "Hello"
+      || avatarTarget.properties.statementText.mode !== "inherit"
+      || avatarTarget.properties.statementText.resolvedMode !== "textMacro"
+      || avatarTarget.properties.statementText.inheritedMode !== "textMacro"
       || Object.hasOwn(actorAvatar, "actorId")
       || Object.hasOwn(actorAvatar.current, "path")
       || Object.hasOwn(actorAvatar.current, "storage")
@@ -579,6 +587,39 @@ try {
     }
     if (notifications.length !== avatarNotificationCount) {
       throw new Error("browser Worker message edit emitted an apply or server event");
+    }
+    const messageModeEdit = await request("mmt/composerEdit", {
+      textDocument: avatarTarget.textDocument,
+      target: avatarTarget.target,
+      command: {
+        kind: "setStatementTextMode",
+        value: "textRaw"
+      }
+    });
+    if (
+      messageModeEdit.kind !== "Edit"
+      || Object.hasOwn(messageModeEdit.edit, "changes")
+      || messageModeEdit.edit?.documentChanges?.length !== 1
+      || messageModeEdit.edit.documentChanges[0].edits?.length !== 1
+      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rt\"\"\"Hello\"\"\""
+    ) {
+      throw new Error(`browser Worker message-mode edit mismatch: ${JSON.stringify(messageModeEdit)}`);
+    }
+    let malformedModeError;
+    try {
+      await request("mmt/composerEdit", {
+        textDocument: avatarTarget.textDocument,
+        target: avatarTarget.target,
+        command: {
+          kind: "setStatementTextMode",
+          value: "typstRaw"
+        }
+      });
+    } catch (error) {
+      malformedModeError = error;
+    }
+    if (!malformedModeError || !/unknown variant|decode|invalid params/i.test(malformedModeError.message)) {
+      throw new Error("browser Worker accepted an unsupported statement-text mode");
     }
     let malformedMessageError;
     try {

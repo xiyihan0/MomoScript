@@ -13,9 +13,10 @@ use lsp_types::{
     TextDocumentSyncKind, Url,
 };
 use mmt_rs::{
-    COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent, ComposerCommand, ContinuedValue,
-    PackAvatarChoice, ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass,
-    ProjectionKey, SourceContentKey, TypstProjectSnapshotKey,
+    COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent, ComposerBodyMode, ComposerCommand,
+    ComposerStatementText, ContinuedValue, PackAvatarChoice, ProjectedEditTarget,
+    ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey, SourceContentKey,
+    StatementTextMode, TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -264,6 +265,24 @@ impl From<ComposerAvatarChoiceParams> for PackAvatarChoice {
     }
 }
 
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerStatementTextModeParams {
+    Inherit,
+    TextMacro,
+    TextRaw,
+}
+
+impl From<ComposerStatementTextModeParams> for StatementTextMode {
+    fn from(mode: ComposerStatementTextModeParams) -> Self {
+        match mode {
+            ComposerStatementTextModeParams::Inherit => Self::Inherit,
+            ComposerStatementTextModeParams::TextMacro => Self::TextMacro,
+            ComposerStatementTextModeParams::TextRaw => Self::TextRaw,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields, tag = "kind")]
 enum ComposerCommandParams {
@@ -275,6 +294,10 @@ enum ComposerCommandParams {
     SetActorAvatarFromStatement { avatar: ComposerAvatarChoiceParams },
     #[serde(rename = "setStatementText")]
     SetStatementText { value: String },
+    #[serde(rename = "setStatementTextMode")]
+    SetStatementTextMode {
+        value: ComposerStatementTextModeParams,
+    },
 }
 
 impl From<ComposerCommandParams> for ComposerCommand {
@@ -291,6 +314,9 @@ impl From<ComposerCommandParams> for ComposerCommand {
             }
             ComposerCommandParams::SetStatementText { value } => {
                 ComposerCommand::SetStatementText(value)
+            }
+            ComposerCommandParams::SetStatementTextMode { value } => {
+                ComposerCommand::SetStatementTextMode(value.into())
             }
         }
     }
@@ -477,16 +503,69 @@ struct ComposerActorAvatarResult {
     current: Option<ComposerAvatarCurrentResult>,
 }
 
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerStatementTextModeResult {
+    Inherit,
+    TextMacro,
+    TextRaw,
+}
+
+impl From<StatementTextMode> for ComposerStatementTextModeResult {
+    fn from(mode: StatementTextMode) -> Self {
+        match mode {
+            StatementTextMode::Inherit => Self::Inherit,
+            StatementTextMode::TextMacro => Self::TextMacro,
+            StatementTextMode::TextRaw => Self::TextRaw,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerBodyModeResult {
+    TextMacro,
+    TextRaw,
+    TypstMacro,
+    TypstRaw,
+}
+
+impl From<ComposerBodyMode> for ComposerBodyModeResult {
+    fn from(mode: ComposerBodyMode) -> Self {
+        match mode {
+            ComposerBodyMode::TextMacro => Self::TextMacro,
+            ComposerBodyMode::TextRaw => Self::TextRaw,
+            ComposerBodyMode::TypstMacro => Self::TypstMacro,
+            ComposerBodyMode::TypstRaw => Self::TypstRaw,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct ComposerStatementTextResult {
     current: String,
+    mode: ComposerStatementTextModeResult,
+    resolved_mode: ComposerBodyModeResult,
+    inherited_mode: ComposerBodyModeResult,
+}
+
+impl From<ComposerStatementText> for ComposerStatementTextResult {
+    fn from(statement_text: ComposerStatementText) -> Self {
+        Self {
+            current: statement_text.current,
+            mode: statement_text.mode.into(),
+            resolved_mode: statement_text.resolved_mode.into(),
+            inherited_mode: statement_text.inherited_mode.into(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct ComposerPropertiesResult {
-    continued: ComposerContinuedResult,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    continued: Option<ComposerContinuedResult>,
     #[serde(skip_serializing_if = "Option::is_none")]
     actor_display_name: Option<ComposerActorDisplayNameResult>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -820,7 +899,7 @@ impl MmtLanguageServer {
                             range: target.statement_range,
                         },
                         properties: ComposerPropertiesResult {
-                            continued: target.continued.into(),
+                            continued: target.continued.map(Into::into),
                             actor_display_name: target.actor_display_name.map(|current| {
                                 ComposerActorDisplayNameResult {
                                     current,
@@ -834,9 +913,7 @@ impl MmtLanguageServer {
                                     current: avatar.current.map(Into::into),
                                 }
                             }),
-                            statement_text: target
-                                .statement_text
-                                .map(|current| ComposerStatementTextResult { current }),
+                            statement_text: target.statement_text.map(Into::into),
                         },
                     },
                     Err(reason) => PreviewComposerTargetResult::Unavailable {
@@ -1920,8 +1997,7 @@ mod tests {
     }
 
     #[test]
-    fn composer_requests_return_unmapped_unsupported_error_and_candidate_rejections_without_edits()
-    {
+    fn composer_requests_return_unmapped_error_and_candidate_rejections_without_edits() {
         let mut server = MmtLanguageServer::default();
         server.request("initialize", initialize(false)).unwrap();
 
@@ -1954,18 +2030,24 @@ mod tests {
             .unwrap()
             .generated_range
             .start;
-        let unsupported_params = preview_target_params(
+        let narration_params = preview_target_params(
             &server,
             &narration_uri,
             authored,
             &PositionEncodingKind::UTF8,
         );
-        let unsupported = server
-            .request("mmt/previewComposerTarget", unsupported_params)
+        let narration_target = server
+            .request("mmt/previewComposerTarget", narration_params)
             .unwrap();
+        assert_eq!(narration_target["kind"], "Editable");
         assert_eq!(
-            unsupported,
-            serde_json::json!({"kind": "Unavailable", "reason": "unsupportedNode"})
+            narration_target["properties"],
+            serde_json::json!({"statementText":{
+                "current":"narration",
+                "mode":"inherit",
+                "resolvedMode":"textMacro",
+                "inheritedMode":"textMacro"
+            }})
         );
 
         let broken_uri = Url::parse("file:///workspace/broken.mmt").unwrap();
@@ -2162,6 +2244,71 @@ mod tests {
             invalid["command"] = malformed;
             assert!(server.request("mmt/composerEdit", invalid).is_err());
         }
+        let mut mode_params = params.clone();
+        mode_params["command"] =
+            serde_json::json!({"kind":"setStatementTextMode","value":"textRaw"});
+        let mode_edit = server
+            .request("mmt/composerEdit", mode_params.clone())
+            .unwrap();
+        assert_eq!(mode_edit["kind"], "Edit", "{mode_edit}");
+        assert_eq!(
+            mode_edit["edit"]["documentChanges"][0]["edits"][0],
+            serde_json::json!({
+                "range": {
+                    "start": {"line": 0, "character": 18},
+                    "end": {"line": 0, "character": 21}
+                },
+                "newText": "rt\"\"\"old\"\"\""
+            })
+        );
+        for malformed in [
+            serde_json::json!({"kind":"setStatementTextMode","value":"typstRaw"}),
+            serde_json::json!({
+                "kind":"setStatementTextMode",
+                "value":"textRaw",
+                "scope":"document"
+            }),
+        ] {
+            mode_params["command"] = malformed;
+            assert!(
+                server
+                    .request("mmt/composerEdit", mode_params.clone())
+                    .is_err()
+            );
+        }
+
+        let narration_uri = Url::parse("file:///workspace/narration-text.mmt").unwrap();
+        let narration_source = "- narration before";
+        open_document(&mut server, &narration_uri, 4, narration_source);
+        let narration_edit = server
+            .request(
+                "mmt/composerEdit",
+                serde_json::json!({
+                    "textDocument": {"uri": narration_uri, "version": 4},
+                    "target": {
+                        "kind": "statement",
+                        "range": {
+                            "start": {"line": 0, "character": 0},
+                            "end": {"line": 0, "character": narration_source.len()}
+                        }
+                    },
+                    "command": {
+                        "kind": "setStatementText",
+                        "value": "narration after"
+                    }
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            narration_edit["edit"]["documentChanges"][0]["edits"][0],
+            serde_json::json!({
+                "range": {
+                    "start": {"line": 0, "character": 2},
+                    "end": {"line": 0, "character": narration_source.len()}
+                },
+                "newText": "narration after"
+            })
+        );
     }
 
     #[test]
@@ -2276,7 +2423,7 @@ mod tests {
             serde_json::json!({"kind":"Rejected","reason":"avatarUnavailable"})
         );
         let serialized = serde_json::to_value(ComposerPropertiesResult {
-            continued: ComposerContinuedResult::Auto,
+            continued: Some(ComposerContinuedResult::Auto),
             actor_display_name: Some(ComposerActorDisplayNameResult {
                 current: "A".to_string(),
                 scope: ComposerActorDisplayNameScope::FromStatement,
@@ -2292,6 +2439,9 @@ mod tests {
             }),
             statement_text: Some(ComposerStatementTextResult {
                 current: "正文😀".to_string(),
+                mode: ComposerStatementTextModeResult::TextMacro,
+                resolved_mode: ComposerBodyModeResult::TextMacro,
+                inherited_mode: ComposerBodyModeResult::TextRaw,
             }),
         })
         .unwrap();
@@ -2310,11 +2460,16 @@ mod tests {
                         "variantId":"default"
                     }
                 },
-                "statementText":{"current":"正文😀"}
+                "statementText":{
+                    "current":"正文😀",
+                    "mode":"textMacro",
+                    "resolvedMode":"textMacro",
+                    "inheritedMode":"textRaw"
+                }
             })
         );
         let asset = serde_json::to_value(ComposerPropertiesResult {
-            continued: ComposerContinuedResult::Auto,
+            continued: Some(ComposerContinuedResult::Auto),
             actor_display_name: None,
             actor_avatar: Some(ComposerActorAvatarResult {
                 scope: ComposerActorAvatarScope::FromStatement,
@@ -2331,7 +2486,7 @@ mod tests {
             serde_json::json!({"kind":"asset","assetName":"portrait"})
         );
         let no_avatar = serde_json::to_value(ComposerPropertiesResult {
-            continued: ComposerContinuedResult::Auto,
+            continued: Some(ComposerContinuedResult::Auto),
             actor_display_name: None,
             actor_avatar: Some(ComposerActorAvatarResult {
                 scope: ComposerActorAvatarScope::FromStatement,
@@ -2342,6 +2497,27 @@ mod tests {
         })
         .unwrap();
         assert_eq!(no_avatar["actorAvatar"]["current"], serde_json::Value::Null);
+        let narration = serde_json::to_value(ComposerPropertiesResult {
+            continued: None,
+            actor_display_name: None,
+            actor_avatar: None,
+            statement_text: Some(ComposerStatementTextResult {
+                current: "旁白正文".to_string(),
+                mode: ComposerStatementTextModeResult::Inherit,
+                resolved_mode: ComposerBodyModeResult::TextRaw,
+                inherited_mode: ComposerBodyModeResult::TextRaw,
+            }),
+        })
+        .unwrap();
+        assert_eq!(
+            narration,
+            serde_json::json!({"statementText":{
+                "current":"旁白正文",
+                "mode":"inherit",
+                "resolvedMode":"textRaw",
+                "inheritedMode":"textRaw"
+            }})
+        );
     }
 
     #[test]

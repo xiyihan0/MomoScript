@@ -31,6 +31,29 @@ pub enum ContinuedValue {
     False,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StatementTextMode {
+    Inherit,
+    TextMacro,
+    TextRaw,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ComposerBodyMode {
+    TextMacro,
+    TextRaw,
+    TypstMacro,
+    TypstRaw,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ComposerStatementText {
+    pub current: String,
+    pub mode: StatementTextMode,
+    pub resolved_mode: ComposerBodyMode,
+    pub inherited_mode: ComposerBodyMode,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PackAvatarChoice {
     pub entity_id: String,
@@ -53,10 +76,10 @@ pub struct ComposerActorAvatar {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ComposerTarget {
     pub statement_range: TextRange,
-    pub continued: ContinuedValue,
+    pub continued: Option<ContinuedValue>,
     pub actor_display_name: Option<String>,
     pub actor_avatar: Option<ComposerActorAvatar>,
-    pub statement_text: Option<String>,
+    pub statement_text: Option<ComposerStatementText>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -65,6 +88,7 @@ pub enum ComposerCommand {
     SetActorDisplayNameFromStatement(String),
     SetActorAvatarFromStatement(PackAvatarChoice),
     SetStatementText(String),
+    SetStatementTextMode(StatementTextMode),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -127,21 +151,29 @@ pub fn resolve_preview_statement(
     let statement = containing
         .next()
         .ok_or(ComposerTargetFailure::UnsupportedNode)?;
-    if containing.next().is_some()
-        || !matches!(statement.kind, StatementKind::Left | StatementKind::Right)
-    {
+    if containing.next().is_some() {
         return Err(ComposerTargetFailure::UnsupportedNode);
     }
-    let speaker = unique_statement_speaker(analysis, statement.range)
-        .ok_or(ComposerTargetFailure::ActorUnavailable)?;
-    let actor = actor_for_speaker(analysis, speaker);
-    let statement_text = actor
-        .is_some()
-        .then(|| editable_statement_text(analysis, statement))
-        .flatten()
-        .map(str::to_owned);
-    let continued =
-        statement_continued(statement).map_err(|_| ComposerTargetFailure::UnsupportedNode)?;
+    let actor = match statement.kind {
+        StatementKind::Left | StatementKind::Right => {
+            let speaker = unique_statement_speaker(analysis, statement.range)
+                .ok_or(ComposerTargetFailure::ActorUnavailable)?;
+            actor_for_speaker(analysis, speaker)
+        }
+        StatementKind::Narration => None,
+    };
+    let statement_text = match statement.kind {
+        StatementKind::Left | StatementKind::Right if actor.is_none() => None,
+        StatementKind::Left | StatementKind::Right | StatementKind::Narration => {
+            statement_text_capability(analysis, statement)
+        }
+    };
+    let continued = match statement.kind {
+        StatementKind::Left | StatementKind::Right => Some(
+            statement_continued(statement).map_err(|_| ComposerTargetFailure::UnsupportedNode)?,
+        ),
+        StatementKind::Narration => None,
+    };
     let actor_display_name = actor.and_then(|(_, actor, revision)| {
         serialize_scalar(&actor.primary_name, None)?;
         actor
@@ -174,6 +206,42 @@ pub fn statement_continued(statement: &StatementSyntax) -> Result<ContinuedValue
     Ok(parse_patch_args(patch)?
         .continued
         .map_or(ContinuedValue::Auto, |continued| continued.value))
+}
+
+fn statement_text_capability(
+    analysis: &AnalyzedDocument,
+    statement: &StatementSyntax,
+) -> Option<ComposerStatementText> {
+    let current = editable_statement_text(analysis, statement)?;
+    let entry = analysis
+        .modes
+        .bodies
+        .iter()
+        .find(|entry| entry.range == statement.body.range)?;
+    Some(ComposerStatementText {
+        current: current.to_owned(),
+        mode: statement_text_mode(statement.body.mode)?,
+        resolved_mode: composer_body_mode(entry.mode),
+        inherited_mode: composer_body_mode(entry.inherited_mode),
+    })
+}
+
+fn statement_text_mode(mode: BodyMode) -> Option<StatementTextMode> {
+    match mode {
+        BodyMode::Inherit => Some(StatementTextMode::Inherit),
+        BodyMode::TextMacro => Some(StatementTextMode::TextMacro),
+        BodyMode::TextRaw => Some(StatementTextMode::TextRaw),
+        BodyMode::TypstMacro | BodyMode::TypstRaw => None,
+    }
+}
+
+fn composer_body_mode(mode: ResolvedBodyMode) -> ComposerBodyMode {
+    match mode {
+        ResolvedBodyMode::TextMacro => ComposerBodyMode::TextMacro,
+        ResolvedBodyMode::TextRaw => ComposerBodyMode::TextRaw,
+        ResolvedBodyMode::TypstMacro => ComposerBodyMode::TypstMacro,
+        ResolvedBodyMode::TypstRaw => ComposerBodyMode::TypstRaw,
+    }
 }
 
 fn editable_statement_text<'a>(
@@ -248,30 +316,62 @@ fn compose_edit_using(
         exact_statement_ordinal(analysis, target_range).ok_or(ComposerFailure::TargetChanged)?;
     let statement =
         statement_at_ordinal(analysis, target_ordinal).ok_or(ComposerFailure::TargetChanged)?;
-    if !matches!(statement.kind, StatementKind::Left | StatementKind::Right) {
-        return Err(ComposerFailure::TargetChanged);
-    }
     match &command {
-        ComposerCommand::SetStatementContinued(_) => {
-            statement_continued(statement)?;
-        }
         ComposerCommand::SetStatementText(value) => {
             validate_statement_text_value(value)?;
             if editable_statement_text(analysis, statement).is_none() {
                 return Err(ComposerFailure::TargetChanged);
             }
         }
-        _ => {}
+        ComposerCommand::SetStatementTextMode(value) => {
+            let capability = statement_text_capability(analysis, statement)
+                .ok_or(ComposerFailure::TargetChanged)?;
+            if capability.mode == *value {
+                return Err(ComposerFailure::InvalidValue);
+            }
+            if *value == StatementTextMode::Inherit
+                && !matches!(
+                    capability.inherited_mode,
+                    ComposerBodyMode::TextMacro | ComposerBodyMode::TextRaw
+                )
+            {
+                return Err(ComposerFailure::InvalidValue);
+            }
+        }
+        ComposerCommand::SetStatementContinued(_) => {
+            if !matches!(statement.kind, StatementKind::Left | StatementKind::Right) {
+                return Err(ComposerFailure::TargetChanged);
+            }
+            statement_continued(statement)?;
+        }
+        ComposerCommand::SetActorDisplayNameFromStatement(_)
+        | ComposerCommand::SetActorAvatarFromStatement(_) => {
+            if !matches!(statement.kind, StatementKind::Left | StatementKind::Right) {
+                return Err(ComposerFailure::TargetChanged);
+            }
+        }
     }
     if analysis_has_errors(analysis) {
         return Err(ComposerFailure::DocumentHasErrors);
     }
-    let speaker = unique_statement_speaker(analysis, statement.range)
-        .ok_or(ComposerFailure::TargetChanged)?;
-    if matches!(&command, ComposerCommand::SetStatementText(_))
-        && actor_for_speaker(analysis, speaker).is_none()
-    {
-        return Err(ComposerFailure::TargetChanged);
+    match &command {
+        ComposerCommand::SetStatementText(_) | ComposerCommand::SetStatementTextMode(_)
+            if matches!(statement.kind, StatementKind::Narration) => {}
+        ComposerCommand::SetStatementText(_)
+        | ComposerCommand::SetStatementTextMode(_)
+        | ComposerCommand::SetStatementContinued(_)
+        | ComposerCommand::SetActorDisplayNameFromStatement(_)
+        | ComposerCommand::SetActorAvatarFromStatement(_) => {
+            let speaker = unique_statement_speaker(analysis, statement.range)
+                .ok_or(ComposerFailure::TargetChanged)?;
+            if matches!(
+                &command,
+                ComposerCommand::SetStatementText(_) | ComposerCommand::SetStatementTextMode(_)
+            ) && actor_for_speaker(analysis, speaker).is_none()
+            {
+                return Err(ComposerFailure::TargetChanged);
+            }
+        }
     }
 
     let edit = match &command {
@@ -286,6 +386,9 @@ fn compose_edit_using(
             avatar_edit(source, analysis, target_ordinal, statement, value)?
         }
         ComposerCommand::SetStatementText(value) => statement_text_edit(statement, source, value)?,
+        ComposerCommand::SetStatementTextMode(value) => {
+            statement_text_mode_edit(statement, source, *value)?
+        }
     };
     let candidate_source = apply_source_edit(source, &edit)?;
     let candidate = analyze_candidate(&candidate_source);
@@ -293,11 +396,17 @@ fn compose_edit_using(
         ComposerCommand::SetActorAvatarFromStatement(_) => {
             common_semantics_stable_for_avatar(analysis, &candidate)
         }
+        ComposerCommand::SetStatementTextMode(_) => {
+            common_semantics_stable_for_text_mode(analysis, &candidate, target_ordinal)
+        }
         _ => common_semantics_stable(analysis, &candidate),
     };
     let statement_shape_stable = match &command {
         ComposerCommand::SetStatementText(value) => {
             statements_have_same_shape_for_text(analysis, &candidate, target_ordinal, value)
+        }
+        ComposerCommand::SetStatementTextMode(value) => {
+            statements_have_same_shape_for_text_mode(analysis, &candidate, target_ordinal, *value)
         }
         _ => statements_have_same_shape(analysis, &candidate),
     };
@@ -317,6 +426,9 @@ fn compose_edit_using(
         ComposerCommand::SetStatementText(value) => {
             statement_text_candidate_stable(analysis, &candidate, target_ordinal, &value)
         }
+        ComposerCommand::SetStatementTextMode(value) => {
+            statement_text_mode_candidate_stable(analysis, &candidate, target_ordinal, value)
+        }
     };
     if !stable {
         return Err(ComposerFailure::CandidateInvalid);
@@ -335,10 +447,8 @@ fn exact_statement_ordinal(analysis: &AnalyzedDocument, range: TextRange) -> Opt
         })
         .enumerate()
         .filter(|(_, statement)| statement.range == range);
-    let (ordinal, statement) = matches.next()?;
-    if matches.next().is_some()
-        || !matches!(statement.kind, StatementKind::Left | StatementKind::Right)
-    {
+    let (ordinal, _) = matches.next()?;
+    if matches.next().is_some() {
         return None;
     }
     Some(ordinal)
@@ -730,6 +840,92 @@ fn statement_text_edit(
         range,
         new_text: value.to_owned(),
     })
+}
+
+fn statement_text_mode_edit(
+    statement: &StatementSyntax,
+    source: &str,
+    value: StatementTextMode,
+) -> Result<ComposerSourceEdit, ComposerFailure> {
+    let current = statement_text_mode(statement.body.mode).ok_or(ComposerFailure::TargetChanged)?;
+    if current == value {
+        return Err(ComposerFailure::InvalidValue);
+    }
+    if let Some(prefix_range) = fenced_body_prefix_range(statement, source)? {
+        return Ok(ComposerSourceEdit {
+            range: prefix_range,
+            new_text: statement_text_mode_prefix(value).to_string(),
+        });
+    }
+    if current != StatementTextMode::Inherit || value == StatementTextMode::Inherit {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    let range = statement.body.range;
+    if range.end > source.len()
+        || !source.is_char_boundary(range.start)
+        || !source.is_char_boundary(range.end)
+        || source.get(range.start..range.end) != Some(statement.body.source.as_str())
+    {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    Ok(ComposerSourceEdit {
+        range,
+        new_text: format!(
+            "{}\"\"\"{}\"\"\"",
+            statement_text_mode_prefix(value),
+            statement.body.source,
+        ),
+    })
+}
+
+fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
+    match mode {
+        StatementTextMode::Inherit => "",
+        StatementTextMode::TextMacro => "t",
+        StatementTextMode::TextRaw => "rt",
+    }
+}
+
+fn fenced_body_prefix_range(
+    statement: &StatementSyntax,
+    source: &str,
+) -> Result<Option<TextRange>, ComposerFailure> {
+    let body = &statement.body;
+    if statement.range.end > source.len()
+        || body.range.start > body.range.end
+        || body.range.end > statement.range.end
+        || !source.is_char_boundary(statement.range.start)
+        || !source.is_char_boundary(statement.range.end)
+        || !source.is_char_boundary(body.range.start)
+        || !source.is_char_boundary(body.range.end)
+    {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    let bytes = source.as_bytes();
+    let mut quote_start = body.range.start;
+    while quote_start > statement.range.start && bytes[quote_start - 1] == b'"' {
+        quote_start -= 1;
+    }
+    let fence_len = body.range.start - quote_start;
+    if fence_len < 3 {
+        return Ok(None);
+    }
+    let current = statement_text_mode(body.mode).ok_or(ComposerFailure::TargetChanged)?;
+    let prefix = statement_text_mode_prefix(current);
+    let prefix_start = quote_start
+        .checked_sub(prefix.len())
+        .ok_or(ComposerFailure::CandidateInvalid)?;
+    if prefix_start < statement.range.start || source.get(prefix_start..quote_start) != Some(prefix)
+    {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    let close = source
+        .get(body.range.end..statement.range.end)
+        .ok_or(ComposerFailure::CandidateInvalid)?;
+    if close.len() != fence_len || !close.bytes().all(|byte| byte == b'"') {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    Ok(Some(TextRange::new(prefix_start, quote_start)))
 }
 
 fn continued_bool(value: ContinuedValue) -> &'static str {
@@ -1220,6 +1416,56 @@ fn statements_have_same_shape_for_text(
             })
 }
 
+fn statements_have_same_shape_for_text_mode(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    target_ordinal: usize,
+    expected: StatementTextMode,
+) -> bool {
+    let expected_mode = match expected {
+        StatementTextMode::Inherit => BodyMode::Inherit,
+        StatementTextMode::TextMacro => BodyMode::TextMacro,
+        StatementTextMode::TextRaw => BodyMode::TextRaw,
+    };
+    let non_statement_bodies_stable = non_statement_bodies_equal(before, after);
+    let before = before
+        .document
+        .nodes
+        .iter()
+        .filter_map(|node| match node {
+            SyntaxNode::Statement(statement) => Some(statement),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+    let after = after
+        .document
+        .nodes
+        .iter()
+        .filter_map(|node| match node {
+            SyntaxNode::Statement(statement) => Some(statement),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+    non_statement_bodies_stable
+        && before.len() == after.len()
+        && before
+            .iter()
+            .zip(after)
+            .enumerate()
+            .all(|(ordinal, (left, right))| {
+                left.kind == right.kind
+                    && markers_equal(left.marker.as_ref(), right.marker.as_ref())
+                    && left.patch.as_ref().map(|patch| patch.raw_args.as_str())
+                        == right.patch.as_ref().map(|patch| patch.raw_args.as_str())
+                    && left.body.source == right.body.source
+                    && if ordinal == target_ordinal {
+                        right.body.mode == expected_mode
+                    } else {
+                        left.body.mode == right.body.mode
+                    }
+            })
+}
+
 fn markers_equal(left: Option<&SpeakerMarkerSyntax>, right: Option<&SpeakerMarkerSyntax>) -> bool {
     match (left, right) {
         (None, None) => true,
@@ -1245,6 +1491,168 @@ fn common_semantics_stable(before: &AnalyzedDocument, after: &AnalyzedDocument) 
 
 fn common_semantics_stable_for_avatar(before: &AnalyzedDocument, after: &AnalyzedDocument) -> bool {
     common_semantics_stable_using(before, after, false)
+}
+
+fn common_semantics_stable_for_text_mode(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    target_ordinal: usize,
+) -> bool {
+    let Some(before_statement) = statement_at_ordinal(before, target_ordinal) else {
+        return false;
+    };
+    let Some(after_statement) = statement_at_ordinal(after, target_ordinal) else {
+        return false;
+    };
+    before.document_config.config == after.document_config.config
+        && body_modes_equal_except_target(
+            before,
+            after,
+            before_statement.body.range,
+            after_statement.body.range,
+        )
+        && before.assets.assets.len() == after.assets.assets.len()
+        && before
+            .assets
+            .assets
+            .iter()
+            .zip(&after.assets.assets)
+            .all(|(left, right)| left.id == right.id && left.source == right.source)
+        && resource_markers_equal_outside_target(
+            before,
+            after,
+            before_statement.body.range,
+            after_statement.body.range,
+        )
+        && resolutions_equal_outside_target(
+            before,
+            after,
+            before_statement.body.range,
+            after_statement.body.range,
+        )
+}
+
+fn body_modes_equal_except_target(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    before_target: TextRange,
+    after_target: TextRange,
+) -> bool {
+    if before.modes.bodies.len() != after.modes.bodies.len() {
+        return false;
+    }
+    let mut target_entries = 0usize;
+    let stable = before
+        .modes
+        .bodies
+        .iter()
+        .zip(&after.modes.bodies)
+        .all(|(left, right)| {
+            if left.range == before_target && right.range == after_target {
+                target_entries += 1;
+                left.inherited_mode == right.inherited_mode
+            } else {
+                left.mode == right.mode && left.inherited_mode == right.inherited_mode
+            }
+        });
+    stable && target_entries == 1
+}
+
+fn resource_markers_equal_outside_target(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    before_target: TextRange,
+    after_target: TextRange,
+) -> bool {
+    let before = before
+        .resource_markers
+        .markers
+        .iter()
+        .filter(|marker| !range_is_within(marker.range, before_target))
+        .map(|marker| {
+            (
+                &marker.selector,
+                marker.render_patch.as_ref().map(|patch| &patch.raw_args),
+            )
+        })
+        .collect::<Vec<_>>();
+    let after = after
+        .resource_markers
+        .markers
+        .iter()
+        .filter(|marker| !range_is_within(marker.range, after_target))
+        .map(|marker| {
+            (
+                &marker.selector,
+                marker.render_patch.as_ref().map(|patch| &patch.raw_args),
+            )
+        })
+        .collect::<Vec<_>>();
+    before == after
+}
+
+fn resolutions_equal_outside_target(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    before_target: TextRange,
+    after_target: TextRange,
+) -> bool {
+    let (Some(before), Some(after)) = (&before.resolution, &after.resolution) else {
+        return before.resolution.is_none() && after.resolution.is_none();
+    };
+    let before_resources = before
+        .resources
+        .iter()
+        .filter(|resource| {
+            !matches!(resource.target, ResourceTarget::Inline)
+                || !range_is_within(resource.range, before_target)
+        })
+        .map(|resource| {
+            (
+                &resource.target,
+                &resource.kind,
+                resource.render_patch.as_ref().map(|patch| &patch.raw_args),
+            )
+        })
+        .collect::<Vec<_>>();
+    let after_resources = after
+        .resources
+        .iter()
+        .filter(|resource| {
+            !matches!(resource.target, ResourceTarget::Inline)
+                || !range_is_within(resource.range, after_target)
+        })
+        .map(|resource| {
+            (
+                &resource.target,
+                &resource.kind,
+                resource.render_patch.as_ref().map(|patch| &patch.raw_args),
+            )
+        })
+        .collect::<Vec<_>>();
+    let before_failures = before
+        .failures
+        .iter()
+        .filter(|failure| {
+            !matches!(failure.target, ResourceTarget::Inline)
+                || !range_is_within(failure.range, before_target)
+        })
+        .map(|failure| &failure.target)
+        .collect::<Vec<_>>();
+    let after_failures = after
+        .failures
+        .iter()
+        .filter(|failure| {
+            !matches!(failure.target, ResourceTarget::Inline)
+                || !range_is_within(failure.range, after_target)
+        })
+        .map(|failure| &failure.target)
+        .collect::<Vec<_>>();
+    before_resources == after_resources && before_failures == after_failures
+}
+
+fn range_is_within(range: TextRange, container: TextRange) -> bool {
+    container.start <= range.start && range.end <= container.end
 }
 
 fn common_semantics_stable_using(
@@ -1380,6 +1788,45 @@ fn statement_text_candidate_stable(
         && statement_at_ordinal(after, target_ordinal)
             .and_then(|statement| editable_statement_text(after, statement))
             == Some(expected)
+}
+
+fn statement_text_mode_candidate_stable(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    target_ordinal: usize,
+    expected: StatementTextMode,
+) -> bool {
+    let Some(before_statement) = statement_at_ordinal(before, target_ordinal) else {
+        return false;
+    };
+    let Some(after_statement) = statement_at_ordinal(after, target_ordinal) else {
+        return false;
+    };
+    let Some(capability) = statement_text_capability(after, after_statement) else {
+        return false;
+    };
+    let resolved_matches = match expected {
+        StatementTextMode::Inherit => {
+            capability.resolved_mode == capability.inherited_mode
+                && matches!(
+                    capability.resolved_mode,
+                    ComposerBodyMode::TextMacro | ComposerBodyMode::TextRaw
+                )
+        }
+        StatementTextMode::TextMacro => capability.resolved_mode == ComposerBodyMode::TextMacro,
+        StatementTextMode::TextRaw => capability.resolved_mode == ComposerBodyMode::TextRaw,
+    };
+    actor_models_equal(before, after)
+        && before.actors.speakers.len() == after.actors.speakers.len()
+        && before
+            .actors
+            .speakers
+            .iter()
+            .zip(&after.actors.speakers)
+            .all(|(left, right)| left.speaker == right.speaker && left.revision == right.revision)
+        && capability.current == before_statement.body.source
+        && capability.mode == expected
+        && resolved_matches
 }
 
 fn continued_candidate_stable(

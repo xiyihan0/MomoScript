@@ -86,6 +86,7 @@ pub enum ResolvedBodyMode {
 pub struct ResolvedBodyModeEntry {
     pub range: TextRange,
     pub mode: ResolvedBodyMode,
+    pub inherited_mode: ResolvedBodyMode,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -157,6 +158,7 @@ fn push_resolved_body(
     bodies.push(ResolvedBodyModeEntry {
         range: body.range,
         mode,
+        inherited_mode: inherited,
     });
 }
 

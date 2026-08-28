@@ -259,7 +259,12 @@ fn native_stdio_matches_the_shared_server_transcript() {
     );
     assert_eq!(
         expected_avatar_target["properties"]["statementText"],
-        json!({"current":"before"})
+        json!({
+            "current":"before",
+            "mode":"inherit",
+            "resolvedMode":"textMacro",
+            "inheritedMode":"textMacro"
+        })
     );
     let message_command = json!({
         "textDocument":expected_avatar_target["textDocument"],

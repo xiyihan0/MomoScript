@@ -4,10 +4,11 @@ use mmt_rs::source::TextRange;
 use mmt_rs::syntax::{StatementSyntax, SyntaxNode};
 use mmt_rs::{
     AuthoredOriginResolution, COMPOSER_STATEMENT_TEXT_MAX_BYTES, CharacterPreset,
-    ComposerAvatarCurrent, ComposerCommand, ComposerFailure, ComposerTargetFailure, ContinuedValue,
-    EmitOptions, EmittedTypst, MaterializedContent, PackAvatarChoice, SourceMapEntry,
-    StaticPresetCatalog, analyze_text, analyze_text_with_pack, compose_edit,
-    compose_edit_with_pack, emit_typst, resolve_preview_statement, statement_continued,
+    ComposerAvatarCurrent, ComposerBodyMode, ComposerCommand, ComposerFailure,
+    ComposerTargetFailure, ContinuedValue, EmitOptions, EmittedTypst, MaterializedContent,
+    PackAvatarChoice, SourceMapEntry, StatementTextMode, StaticPresetCatalog, analyze_text,
+    analyze_text_with_pack, compose_edit, compose_edit_with_pack, emit_typst,
+    resolve_preview_statement, statement_continued,
 };
 
 const BASE_MANIFEST: &str = include_str!("fixtures/pack-v3/base-manifest.json");
@@ -92,6 +93,21 @@ fn statement_text(source: &str, ordinal: usize, value: &str) -> String {
     apply(source, &edit)
 }
 
+fn statement_text_mode(source: &str, ordinal: usize, value: StatementTextMode) -> String {
+    let packs = registry();
+    let analysis = analyze_text_with_pack(source, &packs);
+    let target = statement(&analysis, ordinal).range;
+    let edit = compose_edit_with_pack(
+        source,
+        &analysis,
+        &packs,
+        target,
+        ComposerCommand::SetStatementTextMode(value),
+    )
+    .unwrap();
+    apply(source, &edit)
+}
+
 fn avatar(source: &str, ordinal: usize, choice: PackAvatarChoice) -> String {
     let packs = registry();
     let analysis = analyze_text_with_pack(source, &packs);
@@ -163,7 +179,7 @@ fn glyph_wrapper_origin_resolves_to_containing_statement() {
     .unwrap();
 
     assert_eq!(target.statement_range, statement(&analysis, 0).range);
-    assert_eq!(target.continued, ContinuedValue::Auto);
+    assert_eq!(target.continued, Some(ContinuedValue::Auto));
     assert_eq!(target.actor_display_name, None);
     assert_eq!(target.statement_text, None);
 }
@@ -174,7 +190,13 @@ fn preview_target_reports_pack_asset_and_null_avatar_without_leaks() {
     let pack_target = preview_target("> 佳代子: target", &packs);
     let pack_avatar = pack_target.actor_avatar.clone().unwrap();
     assert_eq!(pack_avatar.actor_preset_id, "ba_fixture::佳代子");
-    assert_eq!(pack_target.statement_text.as_deref(), Some("target"));
+    assert_eq!(
+        pack_target
+            .statement_text
+            .as_ref()
+            .map(|text| text.current.as_str()),
+        Some("target")
+    );
     assert_eq!(
         pack_avatar.current,
         Some(ComposerAvatarCurrent::Pack(avatar_choice(
@@ -287,14 +309,33 @@ fn classified_origin_distinguishes_unmapped_and_mixed_ancestry() {
 }
 
 #[test]
-fn preview_target_exposes_only_single_line_resolved_actor_text() {
+fn preview_target_exposes_single_line_chat_and_narration_text() {
     let packs = registry();
+    let left = preview_target("> 佳代子: 当前正文😀", &packs)
+        .statement_text
+        .unwrap();
+    assert_eq!(left.current, "当前正文😀");
+    assert_eq!(left.mode, StatementTextMode::Inherit);
+    assert_eq!(left.resolved_mode, ComposerBodyMode::TextMacro);
+    assert_eq!(left.inherited_mode, ComposerBodyMode::TextMacro);
     assert_eq!(
-        preview_target("> 佳代子: 当前正文😀", &packs)
+        preview_target("< 佳代子: 右侧正文", &packs)
             .statement_text
-            .as_deref(),
-        Some("当前正文😀")
+            .as_ref()
+            .map(|text| text.current.as_str()),
+        Some("右侧正文")
     );
+    let narration = preview_target("- 旁白正文", &packs);
+    assert_eq!(
+        narration
+            .statement_text
+            .as_ref()
+            .map(|text| text.current.as_str()),
+        Some("旁白正文")
+    );
+    assert_eq!(narration.continued, None);
+    assert_eq!(narration.actor_display_name, None);
+    assert_eq!(narration.actor_avatar, None);
     assert_eq!(
         preview_target("> 佳代子: first\ncontinued body", &packs).statement_text,
         None
@@ -305,6 +346,19 @@ fn preview_target_exposes_only_single_line_resolved_actor_text() {
         preview_target("< _0: builtin", &builtin).statement_text,
         None
     );
+    let raw_default = preview_target("@mode: rt\n- raw body", &packs)
+        .statement_text
+        .unwrap();
+    assert_eq!(raw_default.mode, StatementTextMode::Inherit);
+    assert_eq!(raw_default.resolved_mode, ComposerBodyMode::TextRaw);
+    assert_eq!(raw_default.inherited_mode, ComposerBodyMode::TextRaw);
+
+    let local_text = preview_target("@mode: T\n- t\"\"\"local text\"\"\"", &packs)
+        .statement_text
+        .unwrap();
+    assert_eq!(local_text.mode, StatementTextMode::TextMacro);
+    assert_eq!(local_text.resolved_mode, ComposerBodyMode::TextMacro);
+    assert_eq!(local_text.inherited_mode, ComposerBodyMode::TypstMacro);
 }
 
 #[test]
@@ -324,6 +378,77 @@ fn statement_text_replaces_only_body_and_preserves_parameters_crlf_and_escapes()
             "> _0: after"
         )
     );
+}
+
+#[test]
+fn statement_text_edits_right_chat_and_narration_without_changing_their_markers() {
+    assert_eq!(
+        statement_text("< 佳代子: right before", 0, "right after"),
+        "< 佳代子: right after"
+    );
+    assert_eq!(
+        statement_text("- narration before", 0, "narration after"),
+        "- narration after"
+    );
+}
+
+#[test]
+fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
+    assert_eq!(
+        statement_text_mode("> 佳代子: plain body", 0, StatementTextMode::TextMacro,),
+        "> 佳代子: t\"\"\"plain body\"\"\""
+    );
+    assert_eq!(
+        statement_text_mode(
+            "- t\"\"\"narration body\"\"\"",
+            0,
+            StatementTextMode::TextRaw,
+        ),
+        "- rt\"\"\"narration body\"\"\""
+    );
+    assert_eq!(
+        statement_text_mode(
+            "< 佳代子: rt\"\"\"right body\"\"\"",
+            0,
+            StatementTextMode::Inherit,
+        ),
+        "< 佳代子: \"\"\"right body\"\"\""
+    );
+}
+
+#[test]
+fn statement_text_mode_rejects_noop_unsafe_inherit_and_invalid_fence_candidate() {
+    let packs = registry();
+    for (source, value, expected) in [
+        (
+            "> 佳代子: plain",
+            StatementTextMode::Inherit,
+            ComposerFailure::InvalidValue,
+        ),
+        (
+            "@mode: T\n> 佳代子: t\"\"\"local text\"\"\"",
+            StatementTextMode::Inherit,
+            ComposerFailure::InvalidValue,
+        ),
+        (
+            "> 佳代子: contains \"\"\" fence",
+            StatementTextMode::TextRaw,
+            ComposerFailure::CandidateInvalid,
+        ),
+    ] {
+        let analysis = analyze_text_with_pack(source, &packs);
+        assert_eq!(
+            compose_edit_with_pack(
+                source,
+                &analysis,
+                &packs,
+                statement(&analysis, 0).range,
+                ComposerCommand::SetStatementTextMode(value),
+            ),
+            Err(expected),
+            "source: {source}",
+        );
+    }
 }
 
 #[test]
@@ -923,28 +1048,17 @@ fn no_pack_catalog_reanalysis_uses_the_supplied_catalog() {
 }
 
 #[test]
-fn unsupported_and_error_preview_targets_are_classified() {
+fn narration_is_editable_and_error_preview_targets_remain_classified() {
     let packs = empty_registry();
-    let narration = "- narration";
-    let narration_analysis = analyze_text_with_pack(narration, &packs);
-    let emitted = emit_typst(
-        &narration_analysis.document,
-        &narration_analysis.document_config.config,
-        &narration_analysis.modes,
-        &narration_analysis.actors,
-        &MaterializedContent::default(),
-        &EmitOptions::default(),
-    );
-    let mapped = emitted
-        .source_map
-        .iter()
-        .find(|entry| matches!(&emitted.origins[entry.origin_id], Origin::MmtRange { .. }))
-        .unwrap()
-        .generated_range;
+    let narration = preview_target("- narration", &packs);
     assert_eq!(
-        resolve_preview_statement(&narration_analysis, &emitted, mapped),
-        Err(ComposerTargetFailure::UnsupportedNode)
+        narration
+            .statement_text
+            .as_ref()
+            .map(|text| text.current.as_str()),
+        Some("narration")
     );
+    assert_eq!(narration.continued, None);
 
     let broken = "not syntax";
     let broken_analysis = analyze_text_with_pack(broken, &packs);
