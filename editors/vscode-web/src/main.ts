@@ -1803,6 +1803,13 @@ async function initializeRuntime(
       await showMomoScriptMessage("info", "MomoScript 当前已是最新版本。", [], { id: "pwa-update-current" });
     } else if (result === "unavailable") {
       await showMomoScriptMessage("warning", "当前环境未启用应用更新检查。", [], { id: "pwa-update-unavailable" });
+    } else if (result === "failed") {
+      await showMomoScriptMessage(
+        "warning",
+        "暂时无法检查 MomoScript 更新，请稍后重试。当前应用与离线编辑不受影响。",
+        [],
+        { id: "pwa-update-check-failed" },
+      );
     }
   }));
   own(MenuRegistry.appendMenuItem(MenuId.GlobalActivity, {
@@ -3196,10 +3203,12 @@ async function initializeRuntime(
           { id: "pwa-update-ready" },
         ) === update;
       },
-      report(message, error) {
+      report(message, error, reportOptions) {
         const detail = error instanceof Error ? error.message : String(error ?? "");
         log("pwa:update", `${message}${detail ? `: ${detail}` : ""}`);
-        if (error) void showMomoScriptMessage("error", `${message}: ${detail}`);
+        if (error && reportOptions?.userVisible !== false) {
+          void showMomoScriptMessage("error", `${message}: ${detail}`);
+        }
       },
     }));
   }

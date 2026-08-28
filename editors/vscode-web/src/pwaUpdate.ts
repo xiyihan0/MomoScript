@@ -1,9 +1,17 @@
+export interface PwaUpdateReportOptions {
+  readonly userVisible?: boolean;
+}
+
 export interface PwaUpdateLifecycleOptions {
   readonly serviceWorkerUrl?: string;
   readonly prepareForReload: () => Promise<void>;
   readonly promptForReload: (latestBuildVersion: string | undefined) => Promise<boolean>;
   readonly reload?: () => void;
-  readonly report: (message: string, error?: unknown) => void;
+  readonly report: (
+    message: string,
+    error?: unknown,
+    options?: PwaUpdateReportOptions,
+  ) => void;
 }
 
 export type PwaUpdateCheckResult = "updateFound" | "upToDate" | "unavailable" | "failed";
@@ -133,7 +141,9 @@ export function registerPwaUpdateLifecycle(
       offer(updated.waiting);
       return updated.waiting || updated.installing ? "updateFound" : "upToDate";
     } catch (error) {
-      reportFailure("MomoScript update check failed", error);
+      if (!disposed) {
+        options.report("MomoScript update check failed", error, { userVisible: false });
+      }
       return "failed";
     }
   };

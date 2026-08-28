@@ -27,6 +27,12 @@ class FakeRegistration extends EventTarget {
     return Promise.resolve(this);
   }
 }
+class FailingRegistration extends FakeRegistration {
+  update() {
+    this.updateCalls += 1;
+    return Promise.reject(new TypeError("transient service worker fetch failure"));
+  }
+}
 class FakeServiceWorkerContainer extends EventTarget {
   controller = {};
   constructor(registration) {
@@ -126,6 +132,24 @@ try {
   }
 
   {
+    const registration = new FailingRegistration(null);
+    installEnvironment(registration);
+    const reports = [];
+    const lifecycle = registerPwaUpdateLifecycle({
+      prepareForReload: async () => {},
+      promptForReload: async () => false,
+      report(message, error, options) { reports.push({ message, error, options }); },
+    });
+    assert.equal(await lifecycle.checkForUpdate(), "failed");
+    assert.equal(registration.updateCalls, 1);
+    assert.equal(reports.length, 1);
+    assert.equal(reports[0].message, "MomoScript update check failed");
+    assert.match(String(reports[0].error), /transient service worker fetch failure/);
+    assert.deepEqual(reports[0].options, { userVisible: false });
+    lifecycle.dispose();
+  }
+
+  {
     const worker = new FakeWorker();
     installEnvironment(new FakeRegistration(worker));
     const reports = [];
@@ -146,4 +170,11 @@ try {
   Object.defineProperty(globalThis, "document", { value: originalDocument, configurable: true });
 }
 
-console.log(JSON.stringify({ declinedUpdateWaits: true, safeActivationOrdering: true, controllerReload: true, manualCheck: true, promptFailureContained: true }));
+console.log(JSON.stringify({
+  declinedUpdateWaits: true,
+  safeActivationOrdering: true,
+  controllerReload: true,
+  manualCheck: true,
+  transientCheckFailureSilent: true,
+  promptFailureContained: true,
+}));
