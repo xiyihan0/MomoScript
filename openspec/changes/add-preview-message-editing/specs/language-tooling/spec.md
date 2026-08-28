@@ -2,19 +2,26 @@
 
 ### Requirement: Composer exposes only an authorized single-line message body
 
-The language service SHALL expose `statementText` only when one current preview origin uniquely resolves to a left/right chat statement with a uniquely resolved non-builtin actor, or to a narration statement, and the target has an editable single-line text body. The descriptor SHALL contain exact `current` content、authored `mode`、`resolvedMode` and `inheritedMode`.
+The language service SHALL expose `statementText` when one current preview origin uniquely resolves to a left/right chat or narration statement with an editable single-line body. Message text authority SHALL be independent from actor authority, and the descriptor SHALL contain exact `current` content、authored `mode`、`resolvedMode` and `inheritedMode`.
 
 #### Scenario: Current chat message is editable
 
 - GIVEN a current MMT PreviewArtifact point maps uniquely to one left/right statement
-- AND its speaker resolves uniquely to a non-builtin ScriptActor
-- AND its resolved body mode is TextMacro or TextRaw
+- AND its body resolves as TextMacro、TextRaw、TypstMacro or TypstRaw
 - AND the authored body is nonempty、single-line and at most 65536 UTF-8 bytes
 - WHEN the host requests `mmt/previewComposerTarget`
 - THEN `properties.statementText.current` MUST equal the exact authored body content without fence syntax
 - AND the descriptor MUST NOT expose URI、body range、statement ordinal、ActorId、AST node or rendered DOM text
-- AND `mode` MUST be one of `inherit | textMacro | textRaw`
+- AND `mode` MUST be one of `inherit | textMacro | textRaw | typstMacro | typstRaw`
 - AND `resolvedMode` and `inheritedMode` MUST be one of `textMacro | textRaw | typstMacro | typstRaw`
+
+#### Scenario: Builtin right-side message remains editable
+
+- GIVEN a current preview bubble maps to an authored right-side statement using a builtin speaker
+- WHEN the host requests `mmt/previewComposerTarget`
+- THEN `statementText` MUST be present
+- AND actor display-name and avatar properties MUST remain absent
+- AND right-clicking bubble、avatar-space or exact text MAY use the same statement capability
 
 #### Scenario: Current narration is editable
 
@@ -34,8 +41,8 @@ The language service SHALL expose `statementText` only when one current preview 
 
 #### Scenario: Region does not authorize message editing
 
-- GIVEN the point belongs to reply、bond、builtin、unresolved、ambiguous、generated or package content
-- OR the body is multiline、Typst-resolved、empty、overlong or errorful
+- GIVEN the point belongs to reply、bond、generated or package content
+- OR the body is multiline、empty、overlong or errorful
 - WHEN Composer target properties are resolved
 - THEN `statementText` MUST be absent or the strict target MUST be unavailable
 - AND navigation or existing non-message capabilities MAY remain available
@@ -86,28 +93,28 @@ The language service SHALL expose `statementText` only when one current preview 
 
 ### Requirement: Statement parse-mode commands are local and structured
 
-`mmt/composerEdit` SHALL accept `setStatementTextMode` with exactly one `value` selected from `inherit | textMacro | textRaw`. Rust SHALL own all source serialization and candidate validation.
+`mmt/composerEdit` SHALL accept `setStatementTextMode` with exactly one `value` selected from `inherit | textMacro | textRaw | typstMacro | typstRaw`. Rust SHALL own all source serialization and candidate validation.
 
-#### Scenario: Plain inherited body becomes local text mode
+#### Scenario: Plain inherited body becomes an explicit local mode
 
-- GIVEN an authorized plain single-line body in inherited text mode
-- WHEN `setStatementTextMode` selects `textMacro` or `textRaw`
-- THEN Rust MUST replace only the body range with `t"""current"""` or `rt"""current"""`
+- GIVEN an authorized plain single-line body
+- WHEN `setStatementTextMode` selects one of `textMacro`、`textRaw`、`typstMacro` or `typstRaw`
+- THEN Rust MUST replace only the body range with the matching `t"""current"""`、`rt"""current"""`、`T"""current"""` or `rT"""current"""`
 - AND current content、statement marker、patch parameters and every unrelated byte MUST remain unchanged
 
 #### Scenario: Fenced body mode changes minimally
 
-- GIVEN an authorized `t"""current"""` or `rt"""current"""` body
-- WHEN another local text mode is selected
+- GIVEN an authorized `t"""current"""`、`rt"""current"""`、`T"""current"""` or `rT"""current"""` body
+- WHEN another local mode is selected
 - THEN Rust MUST replace only the existing fence prefix
 - AND selecting `inherit` MUST produce `"""current"""`
 
-#### Scenario: Inherit would resolve to Typst
+#### Scenario: Inherit resolves to any file mode
 
-- GIVEN the statement's inherited mode is TypstMacro or TypstRaw
+- GIVEN the statement's inherited mode is TextMacro、TextRaw、TypstMacro or TypstRaw
 - WHEN `setStatementTextMode` selects `inherit`
-- THEN the command MUST return `invalidValue`
-- AND MUST NOT edit `@mode`、select local `T`/`rT` or return a partial edit
+- THEN Rust MUST remove only the local fence prefix
+- AND MUST NOT edit `@mode` or return a partial edit
 
 #### Scenario: Mode wire payload is invalid
 

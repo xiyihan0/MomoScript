@@ -456,18 +456,20 @@ async function chooseContinued(fixture, label = "强制连续") {
   await waitFor(() => fixture.contextMenus.length === 1, "message mode menu was not shown");
   const modeMenu = fixture.contextMenus[0].items.find((item) => item.label === "解析模式");
   assert.deepEqual(
-    modeMenu.children.map(({ label, checked, enabled }) => ({ label, checked, enabled })),
+    modeMenu.children.map(({ label, checked }) => ({ label, checked })),
     [
-      { label: "继承（当前：文本宏 t）", checked: true, enabled: true },
-      { label: "文本宏（t）", checked: false, enabled: undefined },
-      { label: "原始文本（rt）", checked: false, enabled: undefined },
+      { label: "继承（当前：文本宏 t）", checked: true },
+      { label: "文本宏（t）", checked: false },
+      { label: "原始文本（rt）", checked: false },
+      { label: "Typst（T）", checked: false },
+      { label: "原始 Typst（rT）", checked: false },
     ],
   );
-  fixture.contextMenus[0].select("原始文本（rt）");
+  fixture.contextMenus[0].select("Typst（T）");
   await operation;
   assert.deepEqual(fixture.requestCalls[1].params.command, {
     kind: "setStatementTextMode",
-    value: "textRaw",
+    value: "typstMacro",
   });
   assert.equal(fixture.applyCalls.length, 1);
 }
@@ -487,9 +489,22 @@ async function chooseContinued(fixture, label = "强制连续") {
   await waitFor(() => fixture.contextMenus.length === 1, "Typst-inherited mode menu was not shown");
   const modeMenu = fixture.contextMenus[0].items.find((item) => item.label === "解析模式");
   assert.equal(modeMenu.children[0].label, "继承（当前：Typst T）");
-  assert.equal(modeMenu.children[0].enabled, false);
+  assert.equal(modeMenu.children[0].enabled, undefined);
   assert.equal(modeMenu.children[1].checked, true);
-  fixture.contextMenus[0].select("文本宏（t）");
+  fixture.contextMenus[0].select("继承（当前：Typst T）");
+  await operation;
+  assert.deepEqual(fixture.requestCalls[1].params.command, {
+    kind: "setStatementTextMode",
+    value: "inherit",
+  });
+  assert.equal(fixture.applyCalls.length, 1);
+}
+
+{
+  const fixture = harness({ bidirectionalNavigation: false });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "current mode menu was not shown");
+  fixture.contextMenus[0].select("继承（当前：文本宏 t）");
   await operation;
   assert.equal(fixture.requestCalls.length, 1, "selecting the current local mode must be a no-op");
   assert.equal(fixture.applyCalls.length, 0);

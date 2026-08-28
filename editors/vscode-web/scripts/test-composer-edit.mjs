@@ -62,6 +62,22 @@ assert.deepEqual(parsePreviewComposerTargetResult({
 assert.deepEqual(parsePreviewComposerTargetResult({
   ...editableTarget,
   properties: {
+    statementText: {
+      current: "#strong[Typst]",
+      mode: "typstMacro",
+      resolvedMode: "typstMacro",
+      inheritedMode: "textMacro",
+    },
+  },
+}).properties.statementText, {
+  current: "#strong[Typst]",
+  mode: "typstMacro",
+  resolvedMode: "typstMacro",
+  inheritedMode: "textMacro",
+});
+assert.deepEqual(parsePreviewComposerTargetResult({
+  ...editableTarget,
+  properties: {
     continued: "auto",
     actorAvatar: {
       scope: "fromStatement",
@@ -213,7 +229,7 @@ for (const malformed of [
     ...editableTarget,
     properties: {
       continued: "auto",
-      statementText: { ...statementText, mode: "typstMacro" },
+      statementText: { ...statementText, mode: "unknown" },
     },
   },
   {

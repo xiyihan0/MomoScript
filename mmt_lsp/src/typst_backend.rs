@@ -1650,7 +1650,7 @@ mod tests {
     }
 
     #[test]
-    fn composer_target_distinguishes_ambiguous_origin_and_actor_unavailability() {
+    fn composer_target_distinguishes_ambiguous_origin_and_actor_independent_text() {
         let source_uri = uri();
         let source = "< _0: hello";
         let base_snapshot = snapshot(1, source, &StaticPresetCatalog::default());
@@ -1745,9 +1745,15 @@ mod tests {
             Some(&actor_snapshot),
             false,
         );
+        let target = unavailable.unwrap();
+        assert_eq!(target.actor_display_name, None);
+        assert_eq!(target.actor_avatar, None);
         assert_eq!(
-            unavailable,
-            Err(ComposerTargetUnavailable::ActorUnavailable)
+            target
+                .statement_text
+                .as_ref()
+                .map(|text| text.current.as_str()),
+            Some("hello")
         );
     }
 

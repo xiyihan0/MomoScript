@@ -602,21 +602,20 @@ export class PreviewComposerController implements Disposable {
       const choices: ReadonlyArray<{
         readonly label: string;
         readonly value: StatementTextMode;
-        readonly enabled?: boolean;
       }> = [
         {
           label: `继承（当前：${bodyModeLabel(statementText.inheritedMode)}）`,
           value: "inherit",
-          enabled: isTextBodyMode(statementText.inheritedMode),
         },
         { label: "文本宏（t）", value: "textMacro" },
         { label: "原始文本（rt）", value: "textRaw" },
+        { label: "Typst（T）", value: "typstMacro" },
+        { label: "原始 Typst（rT）", value: "typstRaw" },
       ];
       items.push({
         label: MESSAGE_MODE_LABEL,
-        children: choices.map(({ label, value, enabled }) => ({
+        children: choices.map(({ label, value }) => ({
           label,
-          enabled,
           checked: value === statementText.mode,
           selection: { kind: "messageMode", value },
         })),
@@ -734,9 +733,6 @@ export class PreviewComposerController implements Disposable {
     operation.transient = undefined;
     operation.cancellation.dispose();
   }
-}
-function isTextBodyMode(mode: ComposerBodyMode): boolean {
-  return mode === "textMacro" || mode === "textRaw";
 }
 
 function bodyModeLabel(mode: ComposerBodyMode): string {

@@ -9,7 +9,12 @@ import type {
 } from "vscode-languageserver";
 
 export type StatementContinuedValue = "auto" | "true" | "false";
-export type StatementTextMode = "inherit" | "textMacro" | "textRaw";
+export type StatementTextMode =
+  | "inherit"
+  | "textMacro"
+  | "textRaw"
+  | "typstMacro"
+  | "typstRaw";
 export type ComposerBodyMode = "textMacro" | "textRaw" | "typstMacro" | "typstRaw";
 
 export interface ComposerAvatarChoice {
@@ -180,7 +185,13 @@ const CONTINUED_VALUES = ["auto", "true", "false"] as const;
 const MAX_COMPOSER_AVATAR_COMPONENT_BYTES = 1024;
 const MAX_COMPOSER_STATEMENT_TEXT_BYTES = 64 * 1024;
 const UTF8_ENCODER = new TextEncoder();
-const STATEMENT_TEXT_MODES = ["inherit", "textMacro", "textRaw"] as const;
+const STATEMENT_TEXT_MODES = [
+  "inherit",
+  "textMacro",
+  "textRaw",
+  "typstMacro",
+  "typstRaw",
+] as const;
 const COMPOSER_BODY_MODES = ["textMacro", "textRaw", "typstMacro", "typstRaw"] as const;
 const APPLIED = Object.freeze({ kind: "Applied" } as const);
 const STALE = Object.freeze({ kind: "Stale" } as const);
@@ -408,10 +419,7 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
     const expectedResolvedMode = statementText.mode === "inherit"
       ? statementText.inheritedMode
       : statementText.mode;
-    if (
-      !isTextBodyMode(expectedResolvedMode)
-      || statementText.resolvedMode !== expectedResolvedMode
-    ) {
+    if (statementText.resolvedMode !== expectedResolvedMode) {
       throw new TypeError("Editable Preview Composer statement text modes are inconsistent");
     }
     result.statementText = {
@@ -424,9 +432,6 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
   return result;
 }
 
-function isTextBodyMode(mode: ComposerBodyMode): mode is "textMacro" | "textRaw" {
-  return mode === "textMacro" || mode === "textRaw";
-}
 
 export function parseComposerAvatarChoice(value: unknown): ComposerAvatarChoice {
   const choice = requireRecord(value, "Composer pack avatar choice");

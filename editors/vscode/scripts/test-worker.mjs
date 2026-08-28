@@ -593,7 +593,7 @@ try {
       target: avatarTarget.target,
       command: {
         kind: "setStatementTextMode",
-        value: "textRaw"
+        value: "typstRaw"
       }
     });
     if (
@@ -601,7 +601,7 @@ try {
       || Object.hasOwn(messageModeEdit.edit, "changes")
       || messageModeEdit.edit?.documentChanges?.length !== 1
       || messageModeEdit.edit.documentChanges[0].edits?.length !== 1
-      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rt\"\"\"Hello\"\"\""
+      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rT\"\"\"Hello\"\"\""
     ) {
       throw new Error(`browser Worker message-mode edit mismatch: ${JSON.stringify(messageModeEdit)}`);
     }
@@ -612,7 +612,7 @@ try {
         target: avatarTarget.target,
         command: {
           kind: "setStatementTextMode",
-          value: "typstRaw"
+          value: "unknown"
         }
       });
     } catch (error) {
@@ -708,7 +708,7 @@ try {
       || !hasExactKeys(composerTarget, ["kind", "textDocument", "target", "properties"])
       || !hasExactKeys(composerTarget.textDocument, ["uri", "version"])
       || !hasExactKeys(composerTarget.target, ["kind", "range"])
-      || !hasExactKeys(composerTarget.properties, ["continued"])
+      || !hasExactKeys(composerTarget.properties, ["continued", "statementText"])
       || composerTarget.textDocument.uri !== composerUri
       || composerTarget.textDocument.version !== 7
       || composerTarget.target.kind !== "statement"
@@ -716,7 +716,18 @@ try {
       || composerTarget.target.range.start.character !== 0
       || composerTarget.target.range.end.character !== composerSource.length
       || composerTarget.properties.continued !== "auto"
+      || !hasExactKeys(composerTarget.properties.statementText, [
+        "current",
+        "mode",
+        "resolvedMode",
+        "inheritedMode"
+      ])
+      || composerTarget.properties.statementText.current !== "hello"
+      || composerTarget.properties.statementText.mode !== "inherit"
+      || composerTarget.properties.statementText.resolvedMode !== "textMacro"
+      || composerTarget.properties.statementText.inheritedMode !== "textMacro"
       || Object.hasOwn(composerTarget.properties, "actorDisplayName")
+      || Object.hasOwn(composerTarget.properties, "actorAvatar")
     ) {
       throw new Error(`browser Worker preview Composer target mismatch: ${JSON.stringify(composerTarget)}`);
     }

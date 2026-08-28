@@ -36,6 +36,8 @@ pub enum StatementTextMode {
     Inherit,
     TextMacro,
     TextRaw,
+    TypstMacro,
+    TypstRaw,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -156,18 +158,12 @@ pub fn resolve_preview_statement(
     }
     let actor = match statement.kind {
         StatementKind::Left | StatementKind::Right => {
-            let speaker = unique_statement_speaker(analysis, statement.range)
-                .ok_or(ComposerTargetFailure::ActorUnavailable)?;
-            actor_for_speaker(analysis, speaker)
+            unique_statement_speaker(analysis, statement.range)
+                .and_then(|speaker| actor_for_speaker(analysis, speaker))
         }
         StatementKind::Narration => None,
     };
-    let statement_text = match statement.kind {
-        StatementKind::Left | StatementKind::Right if actor.is_none() => None,
-        StatementKind::Left | StatementKind::Right | StatementKind::Narration => {
-            statement_text_capability(analysis, statement)
-        }
-    };
+    let statement_text = statement_text_capability(analysis, statement);
     let continued = match statement.kind {
         StatementKind::Left | StatementKind::Right => Some(
             statement_continued(statement).map_err(|_| ComposerTargetFailure::UnsupportedNode)?,
@@ -231,7 +227,8 @@ fn statement_text_mode(mode: BodyMode) -> Option<StatementTextMode> {
         BodyMode::Inherit => Some(StatementTextMode::Inherit),
         BodyMode::TextMacro => Some(StatementTextMode::TextMacro),
         BodyMode::TextRaw => Some(StatementTextMode::TextRaw),
-        BodyMode::TypstMacro | BodyMode::TypstRaw => None,
+        BodyMode::TypstMacro => Some(StatementTextMode::TypstMacro),
+        BodyMode::TypstRaw => Some(StatementTextMode::TypstRaw),
     }
 }
 
@@ -254,17 +251,12 @@ fn editable_statement_text<'a>(
     {
         return None;
     }
-    let mode = analysis
+    analysis
         .modes
         .bodies
         .iter()
-        .find(|entry| entry.range == statement.body.range)?
-        .mode;
-    matches!(
-        mode,
-        ResolvedBodyMode::TextMacro | ResolvedBodyMode::TextRaw
-    )
-    .then_some(current)
+        .any(|entry| entry.range == statement.body.range)
+        .then_some(current)
 }
 
 fn validate_statement_text_value(value: &str) -> Result<(), ComposerFailure> {
@@ -329,14 +321,6 @@ fn compose_edit_using(
             if capability.mode == *value {
                 return Err(ComposerFailure::InvalidValue);
             }
-            if *value == StatementTextMode::Inherit
-                && !matches!(
-                    capability.inherited_mode,
-                    ComposerBodyMode::TextMacro | ComposerBodyMode::TextRaw
-                )
-            {
-                return Err(ComposerFailure::InvalidValue);
-            }
         }
         ComposerCommand::SetStatementContinued(_) => {
             if !matches!(statement.kind, StatementKind::Left | StatementKind::Right) {
@@ -355,22 +339,12 @@ fn compose_edit_using(
         return Err(ComposerFailure::DocumentHasErrors);
     }
     match &command {
-        ComposerCommand::SetStatementText(_) | ComposerCommand::SetStatementTextMode(_)
-            if matches!(statement.kind, StatementKind::Narration) => {}
-        ComposerCommand::SetStatementText(_)
-        | ComposerCommand::SetStatementTextMode(_)
-        | ComposerCommand::SetStatementContinued(_)
+        ComposerCommand::SetStatementText(_) | ComposerCommand::SetStatementTextMode(_) => {}
+        ComposerCommand::SetStatementContinued(_)
         | ComposerCommand::SetActorDisplayNameFromStatement(_)
         | ComposerCommand::SetActorAvatarFromStatement(_) => {
-            let speaker = unique_statement_speaker(analysis, statement.range)
+            unique_statement_speaker(analysis, statement.range)
                 .ok_or(ComposerFailure::TargetChanged)?;
-            if matches!(
-                &command,
-                ComposerCommand::SetStatementText(_) | ComposerCommand::SetStatementTextMode(_)
-            ) && actor_for_speaker(analysis, speaker).is_none()
-            {
-                return Err(ComposerFailure::TargetChanged);
-            }
         }
     }
 
@@ -883,6 +857,8 @@ fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
         StatementTextMode::Inherit => "",
         StatementTextMode::TextMacro => "t",
         StatementTextMode::TextRaw => "rt",
+        StatementTextMode::TypstMacro => "T",
+        StatementTextMode::TypstRaw => "rT",
     }
 }
 
@@ -1426,6 +1402,8 @@ fn statements_have_same_shape_for_text_mode(
         StatementTextMode::Inherit => BodyMode::Inherit,
         StatementTextMode::TextMacro => BodyMode::TextMacro,
         StatementTextMode::TextRaw => BodyMode::TextRaw,
+        StatementTextMode::TypstMacro => BodyMode::TypstMacro,
+        StatementTextMode::TypstRaw => BodyMode::TypstRaw,
     };
     let non_statement_bodies_stable = non_statement_bodies_equal(before, after);
     let before = before
@@ -1806,15 +1784,11 @@ fn statement_text_mode_candidate_stable(
         return false;
     };
     let resolved_matches = match expected {
-        StatementTextMode::Inherit => {
-            capability.resolved_mode == capability.inherited_mode
-                && matches!(
-                    capability.resolved_mode,
-                    ComposerBodyMode::TextMacro | ComposerBodyMode::TextRaw
-                )
-        }
+        StatementTextMode::Inherit => capability.resolved_mode == capability.inherited_mode,
         StatementTextMode::TextMacro => capability.resolved_mode == ComposerBodyMode::TextMacro,
         StatementTextMode::TextRaw => capability.resolved_mode == ComposerBodyMode::TextRaw,
+        StatementTextMode::TypstMacro => capability.resolved_mode == ComposerBodyMode::TypstMacro,
+        StatementTextMode::TypstRaw => capability.resolved_mode == ComposerBodyMode::TypstRaw,
     };
     actor_models_equal(before, after)
         && before.actors.speakers.len() == after.actors.speakers.len()

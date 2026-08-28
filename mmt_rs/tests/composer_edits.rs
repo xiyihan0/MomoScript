@@ -181,7 +181,13 @@ fn glyph_wrapper_origin_resolves_to_containing_statement() {
     assert_eq!(target.statement_range, statement(&analysis, 0).range);
     assert_eq!(target.continued, Some(ContinuedValue::Auto));
     assert_eq!(target.actor_display_name, None);
-    assert_eq!(target.statement_text, None);
+    assert_eq!(
+        target
+            .statement_text
+            .as_ref()
+            .map(|text| text.current.as_str()),
+        Some("你好😀")
+    );
 }
 
 #[test]
@@ -342,10 +348,11 @@ fn preview_target_exposes_single_line_chat_and_narration_text() {
     );
 
     let builtin = empty_registry();
-    assert_eq!(
-        preview_target("< _0: builtin", &builtin).statement_text,
-        None
-    );
+    let builtin_text = preview_target("< _0: builtin", &builtin)
+        .statement_text
+        .unwrap();
+    assert_eq!(builtin_text.current, "builtin");
+    assert_eq!(builtin_text.mode, StatementTextMode::Inherit);
     let raw_default = preview_target("@mode: rt\n- raw body", &packs)
         .statement_text
         .unwrap();
@@ -359,6 +366,14 @@ fn preview_target_exposes_single_line_chat_and_narration_text() {
     assert_eq!(local_text.mode, StatementTextMode::TextMacro);
     assert_eq!(local_text.resolved_mode, ComposerBodyMode::TextMacro);
     assert_eq!(local_text.inherited_mode, ComposerBodyMode::TypstMacro);
+
+    let local_typst = preview_target("- T\"\"\"#strong[local typst]\"\"\"", &packs)
+        .statement_text
+        .unwrap();
+    assert_eq!(local_typst.current, "#strong[local typst]");
+    assert_eq!(local_typst.mode, StatementTextMode::TypstMacro);
+    assert_eq!(local_typst.resolved_mode, ComposerBodyMode::TypstMacro);
+    assert_eq!(local_typst.inherited_mode, ComposerBodyMode::TextMacro);
 }
 
 #[test]
@@ -414,19 +429,38 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
         ),
         "< 佳代子: \"\"\"right body\"\"\""
     );
+    assert_eq!(
+        statement_text_mode(
+            "< _0: \"\"\"right body\"\"\"",
+            0,
+            StatementTextMode::TypstMacro,
+        ),
+        "< _0: T\"\"\"right body\"\"\""
+    );
+    assert_eq!(
+        statement_text_mode(
+            "- T\"\"\"#strong[body]\"\"\"",
+            0,
+            StatementTextMode::TypstRaw,
+        ),
+        "- rT\"\"\"#strong[body]\"\"\""
+    );
+    assert_eq!(
+        statement_text_mode(
+            "@mode: T\n- t\"\"\"local text\"\"\"",
+            0,
+            StatementTextMode::Inherit,
+        ),
+        "@mode: T\n- \"\"\"local text\"\"\""
+    );
 }
 
 #[test]
-fn statement_text_mode_rejects_noop_unsafe_inherit_and_invalid_fence_candidate() {
+fn statement_text_mode_rejects_noop_and_invalid_fence_candidate() {
     let packs = registry();
     for (source, value, expected) in [
         (
             "> 佳代子: plain",
-            StatementTextMode::Inherit,
-            ComposerFailure::InvalidValue,
-        ),
-        (
-            "@mode: T\n> 佳代子: t\"\"\"local text\"\"\"",
             StatementTextMode::Inherit,
             ComposerFailure::InvalidValue,
         ),
@@ -452,7 +486,7 @@ fn statement_text_mode_rejects_noop_unsafe_inherit_and_invalid_fence_candidate()
 }
 
 #[test]
-fn statement_text_rejects_empty_multiline_noop_builtin_and_invalid_candidate() {
+fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
     let packs = registry();
     let source = "> 佳代子: current";
     let analysis = analyze_text_with_pack(source, &packs);
@@ -512,16 +546,15 @@ fn statement_text_rejects_empty_multiline_noop_builtin_and_invalid_candidate() {
     let builtin = empty_registry();
     let builtin_source = "< _0: builtin";
     let builtin_analysis = analyze_text_with_pack(builtin_source, &builtin);
-    assert_eq!(
-        compose_edit_with_pack(
-            builtin_source,
-            &builtin_analysis,
-            &builtin,
-            statement(&builtin_analysis, 0).range,
-            ComposerCommand::SetStatementText("replacement".to_string()),
-        ),
-        Err(ComposerFailure::TargetChanged)
-    );
+    let edit = compose_edit_with_pack(
+        builtin_source,
+        &builtin_analysis,
+        &builtin,
+        statement(&builtin_analysis, 0).range,
+        ComposerCommand::SetStatementText("replacement".to_string()),
+    )
+    .unwrap();
+    assert_eq!(apply(builtin_source, &edit), "< _0: replacement");
 }
 
 #[test]

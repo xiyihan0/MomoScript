@@ -88,7 +88,15 @@ fn native_stdio_matches_the_shared_server_transcript() {
             preview_target_params(&shared_update),
         )
         .unwrap();
-    assert!(expected_target["properties"].get("statementText").is_none());
+    assert_eq!(
+        expected_target["properties"]["statementText"],
+        json!({
+            "current":"hello",
+            "mode":"inherit",
+            "resolvedMode":"textMacro",
+            "inheritedMode":"textMacro"
+        })
+    );
     let composer_edit_params = json!({
         "textDocument": expected_target["textDocument"],
         "target": expected_target["target"],

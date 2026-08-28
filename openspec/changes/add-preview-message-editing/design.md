@@ -2,7 +2,7 @@
 
 现有 Preview Composer 先将当前 PreviewArtifact 中的 renderer point 定位到 generated Typst，再通过 projection origin ancestry 和当前 `AnalyzedDocument` 解析唯一 statement。Host 收到严格 target descriptor 后显示原生 Workbench 菜单；结构化命令由 `mmt/previewComposerTarget` 返回的当前版本与 statement range 绑定，经 Rust `compose_edit[_with_pack]` 生成纯 WorkspaceEdit，并由客户端 freshness gate 应用。
 
-消息正文编辑必须留在这条链中。SVG label、DOM 文本、可见 glyph 和 pointer 只负责定位；它们既不是当前正文的事实源，也不是写权限。`.mmt` 的 `StatementSyntax.body` 与当前分析快照共同构成授权证据；left/right chat 还必须证明解析后的 speaker/actor，narration 则保持无 actor 语义。
+消息正文编辑必须留在这条链中。SVG label、DOM 文本、可见 glyph 和 pointer 只负责定位；它们既不是当前正文的事实源，也不是写权限。`.mmt` 的 `StatementSyntax.body` 与当前分析快照共同构成授权证据。正文与模式编辑不依赖 actor；actor 专属显示名/头像能力仍独立要求解析后的 actor。
 
 ## Goals / Non-Goals
 
@@ -16,9 +16,9 @@
 
 ### Non-Goals
 
-- 多行正文、Typst-resolved 正文、富文本或 inline resource picker。
-- reply、bond、builtin/unresolved/ambiguous speaker、generated/package 内容。
-- 文件级 `@mode` 编辑或本条 `T`/`rT` 选择。
+- 多行正文、富文本或 inline resource picker。
+- reply、bond、generated/package 内容；分析错误仍 fail closed。
+- 文件级 `@mode` 编辑。
 - 从 SVG、DOM、rendered text 或 TypeScript 构造 `.mmt`。
 - 新 apply 协议、server-side mutation、retry、兼容别名或第二份 runtime/document 状态。
 
@@ -26,17 +26,17 @@
 
 ### 1. Capability 是可选 `statementText` descriptor
 
-`ComposerTarget.statement_text` 为 `{ current, mode, resolved_mode, inherited_mode }`。Wire 精确序列化为 `statementText: { current, mode, resolvedMode, inheritedMode }`：authored mode 只允许 `inherit | textMacro | textRaw`，resolved/inherited mode 只允许 `textMacro | textRaw | typstMacro | typstRaw`。Descriptor 不传 body range、statement ordinal、URI、speaker id、ActorId 或 AST 数据；现有 `target.range` 仍是唯一命令 target。
+`ComposerTarget.statement_text` 为 `{ current, mode, resolved_mode, inherited_mode }`。Wire 精确序列化为 `statementText: { current, mode, resolvedMode, inheritedMode }`：authored mode 允许 `inherit | textMacro | textRaw | typstMacro | typstRaw`，resolved/inherited mode 允许 `textMacro | textRaw | typstMacro | typstRaw`。Descriptor 不传 body range、statement ordinal、URI、speaker id、ActorId 或 AST 数据；现有 `target.range` 仍是唯一命令 target。
 
 Capability 仅在以下证据同时成立时出现：
 
 1. projection origin 唯一落在一个 left/right chat 或 narration statement；
-2. 当前分析无错误；left/right statement speaker 唯一且解析到非 builtin `ScriptActor`，narration 保持无 speaker/actor；
-3. body 的 resolved mode 是 `TextMacro` 或 `TextRaw`；
+2. 当前分析无错误；正文授权不要求 actor，因此 builtin right-side message 同样可获得 capability；
+3. body resolved mode 是 `TextMacro`、`TextRaw`、`TypstMacro` 或 `TypstRaw`；
 4. body content 非空、无 CR/LF、长度不超过 65536 UTF-8 bytes，且 plain 或 fenced body source 可由当前 `BodySyntax` 精确往返；
 5. authored mode、resolved mode 与 inherited mode 均来自同一分析快照。
 
-多行 continuation、Typst-resolved body 和 builtin target 可以保留既有 continued/navigation 行为，但不获得 `statementText`。单行 `t"""..."""`/`rt"""..."""` 可获得 capability；`current` 是 fence 内正文而非 fence 字节。Narration target 只暴露 `statementText`，不暴露不适用的 `continued` 或 actor capability。
+多行 continuation 保留既有 continued/navigation 行为但不获得 `statementText`。单行 `t"""..."""`、`rt"""..."""`、`T"""..."""` 与 `rT"""..."""` 均可获得 capability；`current` 是 fence 内正文而非 fence 字节。Narration target 只暴露 `statementText`，不暴露不适用的 `continued` 或 actor capability。
 
 ### 2. 命令是 `setStatementText { value }`
 
@@ -78,11 +78,11 @@ InputBox、menu、request、apply 全部属于当前 `ComposerOperation.transien
 
 ### 6. 本条模式命令只编辑 fence
 
-`setStatementTextMode` 只接受 `inherit | textMacro | textRaw`。对 fenced body，Rust 只替换 `"""` 前的 authored prefix；对 plain inherited body，切换到 `t`/`rt` 时将同一正文包装为单行 fenced body。切回 inherit 保留 fence 并删除 prefix，即 `"""..."""`，避免重排正文。
+`setStatementTextMode` 只接受 `inherit | textMacro | textRaw | typstMacro | typstRaw`。对 fenced body，Rust 只替换 `"""` 前的 authored prefix；对 plain inherited body，选择任一本条显式模式时以相同正文生成 fenced body。切回 inherit 保留 fence 并删除 prefix，即 `"""..."""`，避免重排正文。
 
-`inherit` 只有在 inherited mode 为 `TextMacro` 或 `TextRaw` 时有效；若文件级 `@mode` 是 `T`/`rT`，客户端禁用继承项，Rust 仍以 `InvalidValue` fail closed。本命令不修改 `@mode`，也不提供本条 Typst 模式。包含无法安全包装的 `"""` 内容返回 `CandidateInvalid`。
+`inherit` 对四种 inherited mode 均有效；本命令不修改 `@mode`。模式切换后的正文必须通过对应 Text/Typst candidate 分析，包含无法安全包装的 `"""` 内容或在目标模式下无效的内容返回 `CandidateInvalid`。
 
-UI 在 **“解析模式”** 子菜单中显示三个 radio 项：`继承（当前：…）`、`文本宏（t）`、`原始文本（rt）`。`checked` 表示 authored mode，而继承项文案展示 inherited mode；选择当前项不发送请求。
+UI 在 **“解析模式”** 子菜单中显示五个 radio 项：`继承（当前：…）`、`文本宏（t）`、`原始文本（rt）`、`Typst（T）`、`原始 Typst（rT）`。`checked` 表示 authored mode，而继承项文案展示 inherited mode；选择当前项不发送请求。
 
 ## Failure Mapping
 

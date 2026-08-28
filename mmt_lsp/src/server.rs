@@ -271,6 +271,8 @@ enum ComposerStatementTextModeParams {
     Inherit,
     TextMacro,
     TextRaw,
+    TypstMacro,
+    TypstRaw,
 }
 
 impl From<ComposerStatementTextModeParams> for StatementTextMode {
@@ -279,6 +281,8 @@ impl From<ComposerStatementTextModeParams> for StatementTextMode {
             ComposerStatementTextModeParams::Inherit => Self::Inherit,
             ComposerStatementTextModeParams::TextMacro => Self::TextMacro,
             ComposerStatementTextModeParams::TextRaw => Self::TextRaw,
+            ComposerStatementTextModeParams::TypstMacro => Self::TypstMacro,
+            ComposerStatementTextModeParams::TypstRaw => Self::TypstRaw,
         }
     }
 }
@@ -509,6 +513,8 @@ enum ComposerStatementTextModeResult {
     Inherit,
     TextMacro,
     TextRaw,
+    TypstMacro,
+    TypstRaw,
 }
 
 impl From<StatementTextMode> for ComposerStatementTextModeResult {
@@ -517,6 +523,8 @@ impl From<StatementTextMode> for ComposerStatementTextModeResult {
             StatementTextMode::Inherit => Self::Inherit,
             StatementTextMode::TextMacro => Self::TextMacro,
             StatementTextMode::TextRaw => Self::TextRaw,
+            StatementTextMode::TypstMacro => Self::TypstMacro,
+            StatementTextMode::TypstRaw => Self::TypstRaw,
         }
     }
 }
@@ -1816,7 +1824,15 @@ mod tests {
         assert_eq!(target["target"]["range"]["end"]["character"], source.len());
         assert_eq!(target["properties"]["continued"], "auto");
         assert!(target["properties"].get("actorDisplayName").is_none());
-        assert!(target["properties"].get("statementText").is_none());
+        assert_eq!(
+            target["properties"]["statementText"],
+            serde_json::json!({
+                "current":"你好😀",
+                "mode":"inherit",
+                "resolvedMode":"textMacro",
+                "inheritedMode":"textMacro"
+            })
+        );
 
         let edit_params = serde_json::json!({
             "textDocument": target["textDocument"],
@@ -2261,8 +2277,17 @@ mod tests {
                 "newText": "rt\"\"\"old\"\"\""
             })
         );
+        mode_params["command"] =
+            serde_json::json!({"kind":"setStatementTextMode","value":"typstRaw"});
+        let typst_mode_edit = server
+            .request("mmt/composerEdit", mode_params.clone())
+            .unwrap();
+        assert_eq!(
+            typst_mode_edit["edit"]["documentChanges"][0]["edits"][0]["newText"],
+            "rT\"\"\"old\"\"\""
+        );
         for malformed in [
-            serde_json::json!({"kind":"setStatementTextMode","value":"typstRaw"}),
+            serde_json::json!({"kind":"setStatementTextMode","value":"unknown"}),
             serde_json::json!({
                 "kind":"setStatementTextMode",
                 "value":"textRaw",

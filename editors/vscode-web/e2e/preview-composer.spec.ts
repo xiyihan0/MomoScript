@@ -357,6 +357,32 @@ test("message Composer switches local t/rt modes for right chat and narration", 
   await expect(frame.locator(".tsel").filter({ hasText: "NARRATION_MODE_TARGET" }).first()).toBeVisible();
 });
 
+test("builtin right-side bubble exposes message editing and Typst modes", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-builtin-right-mode.mmt";
+  const original = "< RIGHT_BUILTIN_TARGET\n";
+  const expected = "< T\"\"\"RIGHT_BUILTIN_TARGET\"\"\"\n";
+  const opened = await openProviderPreview(page, name, original);
+  const historyBaseline = await historyEditCountForPath(page, `/${name}`);
+  const previousRevision = await currentContainerRevision(page, opened.sourceUri);
+
+  await resetComposer(page);
+  await rightClickRenderedBubbleNearTextGraphic(opened.frame, "RIGHT_BUILTIN_TARGET");
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await visibleContextMenuItem(page, ROOT_MESSAGE);
+  await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toBeHidden();
+  await expect(contextMenuItem(page, ROOT_AVATAR)).toBeHidden();
+  await (await visibleContextMenuItem(page, ROOT_MESSAGE_MODE)).hover();
+  await expect(await visibleContextMenuItem(page, "继承（当前：文本宏 t）")).toHaveAttribute("aria-checked", "true");
+  await chooseContextMenuItem(page, "Typst（T）");
+
+  await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expected);
+  await expect.poll(() => currentContainerRevision(page, opened.sourceUri)).not.toBe(previousRevision);
+  await expectHistoryCount(page, name, historyBaseline + 1);
+  const frame = await waitForPreviewFrame(page, opened.sourceUri);
+  await expect(frame.locator(".tsel").filter({ hasText: "RIGHT_BUILTIN_TARGET" }).first()).toBeVisible();
+});
+
 test("display-name Composer inserts the screenshot actor revision without a stale warning", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-display-name-screenshot.mmt";
   const prefix = "> 小雪: 前文\n";
@@ -778,8 +804,10 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   await resetComposer(page);
   await rightClickRenderedGlyph(frame, "BUILTIN_TARGET");
   const builtinRoot = await visibleContextMenuItem(page, ROOT_CONTINUED);
+  await visibleContextMenuItem(page, ROOT_MESSAGE);
+  await visibleContextMenuItem(page, ROOT_MESSAGE_MODE);
   await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toHaveCount(0);
-  await expect(contextMenuItem(page, ROOT_MESSAGE)).toHaveCount(0);
+  await expect(contextMenuItem(page, ROOT_AVATAR)).toHaveCount(0);
   await page.keyboard.press("Escape");
   await expect(builtinRoot).toBeHidden();
   expect(await composerState(page)).toEqual({
@@ -1272,6 +1300,51 @@ async function rightClickRenderedBubbleGraphic(frame: Frame, marker: string): Pr
       clientY: point.y,
       screenX: window.screenX + point.x,
       screenY: window.screenY + point.y,
+    }));
+  }, marker);
+}
+
+async function rightClickRenderedBubbleNearTextGraphic(frame: Frame, marker: string): Promise<void> {
+  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+  await expect(text).toBeVisible();
+  await text.evaluate((element, expectedMarker) => {
+    const renderedText = element.closest(".typst-text");
+    const bubble = renderedText?.closest("[data-typst-label^='mmt:bubble:']");
+    if (!renderedText || !bubble) {
+      throw new Error(`semantic bubble target is unavailable for ${expectedMarker}`);
+    }
+    const textBounds = renderedText.getBoundingClientRect();
+    const bubbleBounds = bubble.getBoundingClientRect();
+    const points = [
+      { x: textBounds.left - 3, y: (textBounds.top + textBounds.bottom) / 2 },
+      { x: textBounds.right + 3, y: (textBounds.top + textBounds.bottom) / 2 },
+      { x: (textBounds.left + textBounds.right) / 2, y: textBounds.top - 3 },
+      { x: (textBounds.left + textBounds.right) / 2, y: textBounds.bottom + 3 },
+    ].filter(({ x, y }) => (
+      x > bubbleBounds.left
+      && x < bubbleBounds.right
+      && y > bubbleBounds.top
+      && y < bubbleBounds.bottom
+    ));
+    const hit = points
+      .map((point) => ({ point, target: document.elementFromPoint(point.x, point.y) }))
+      .find(({ target }) => (
+        target
+        && !target.closest(".typst-text")
+        && target.closest("[data-typst-label]") === bubble
+      ));
+    if (!hit?.target) {
+      throw new Error(`non-text bubble graphic is unavailable for ${expectedMarker}`);
+    }
+    hit.target.dispatchEvent(new MouseEvent("contextmenu", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      button: 2,
+      clientX: hit.point.x,
+      clientY: hit.point.y,
+      screenX: window.screenX + hit.point.x,
+      screenY: window.screenY + hit.point.y,
     }));
   }, marker);
 }

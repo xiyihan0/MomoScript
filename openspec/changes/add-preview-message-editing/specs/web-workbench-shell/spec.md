@@ -41,38 +41,46 @@ The production Web Workbench SHALL show **“编辑消息…”** only for a cur
 
 #### Scenario: Target has no message capability
 
-- GIVEN the context is reply、bond、builtin、unresolved、ambiguous、multiline/non-text、generated or package content
+- GIVEN the context is reply、bond、multiline/errorful、generated or package content
 - OR the server otherwise omits `statementText`
 - WHEN the context menu opens
 - THEN “编辑消息…” MUST be absent
 - AND available navigation、continued、display-name or avatar actions MUST retain their existing behavior
 
-### Requirement: Preview Composer offers a local parse-mode radio submenu
+#### Scenario: Builtin right-side bubble exposes message actions
+
+- GIVEN a right-side bubble、avatar-space or exact glyph maps to an authored builtin-speaker statement
+- AND `mmt/previewComposerTarget` includes `statementText` without actor properties
+- WHEN the native context menu opens at the pointer
+- THEN it MUST include “编辑消息…” and “解析模式”
+- AND it MUST NOT include display-name or avatar actions
+
+### Requirement: Preview Composer offers a local five-mode radio submenu
 
 For every target carrying `statementText`, the native context menu SHALL include **“解析模式”** with authored-mode radio state from the server descriptor. TypeScript SHALL send only a structured mode command and SHALL NOT serialize MMT source.
 
-#### Scenario: Text mode choices reflect server state
+#### Scenario: Mode choices reflect server state
 
-- GIVEN `statementText.mode` is `inherit`、`textMacro` or `textRaw`
+- GIVEN `statementText.mode` is `inherit`、`textMacro`、`textRaw`、`typstMacro` or `typstRaw`
 - WHEN the context menu opens
-- THEN “解析模式” MUST contain “继承（当前：…）”、“文本宏（t）” and “原始文本（rt）”
+- THEN “解析模式” MUST contain “继承（当前：…）”、“文本宏（t）”、“原始文本（rt）”、“Typst（T）” and “原始 Typst（rT）”
 - AND exactly the authored mode MUST be checked
 - AND the inherited mode label MUST come from `statementText.inheritedMode`
-- AND no local `T` or `rT` choice may appear
+- AND the client MUST NOT edit file-level `@mode`
 
 #### Scenario: Author selects a different local mode
 
-- GIVEN the author selects a non-current enabled mode
+- GIVEN the author selects a non-current mode
 - WHEN the menu closes
 - THEN the client MUST send exactly one `{ kind: setStatementTextMode, value }` through `mmt/composerEdit`
 - AND the accepted versioned WorkspaceEdit MUST use the existing freshness/apply lifecycle
 
-#### Scenario: Inherit would select Typst
+#### Scenario: Inherit selects the current file mode
 
-- GIVEN `statementText.inheritedMode` is `typstMacro` or `typstRaw`
+- GIVEN `statementText.inheritedMode` is any text or Typst mode
 - WHEN the parse-mode submenu opens
-- THEN the inherit item MUST show that current inherited mode and MUST be disabled
-- AND explicit `textMacro` and `textRaw` MUST remain available
+- THEN the inherit item MUST show that current inherited mode and remain enabled
+- AND all four explicit local modes MUST remain available
 
 #### Scenario: Current mode is selected
 
