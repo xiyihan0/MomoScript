@@ -25,6 +25,7 @@ const ALPHA_SEQUENCE_URL = new URL("blobs/stickers/alpha/default.avifs", PACK_BA
 
 const ROOT_CONTINUED = "编辑连续消息状态…";
 const ROOT_MESSAGE = "编辑消息…";
+const ROOT_MESSAGE_MODE = "解析模式";
 const ROOT_DISPLAY_NAME = "从本条起修改人物显示名…";
 const ROOT_AVATAR = "从本条起更换人物头像…";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
@@ -275,6 +276,85 @@ test("message Composer edits only the authorized TextBody and rerenders once", {
     successfulApplies: 0,
   });
   await expectHistoryCount(page, name, historyBaseline + 1);
+});
+
+test("message Composer edits right-side chat and narration text", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-message-kinds.mmt";
+  const original = [
+    "< 佳代子: RIGHT_TARGET before",
+    "- NARRATION_TARGET before",
+    "",
+  ].join("\n");
+  const rightEdited = original.replace("RIGHT_TARGET before", "RIGHT_UPDATED");
+  const narrationEdited = rightEdited.replace("NARRATION_TARGET before", "NARRATION_UPDATED");
+  const opened = await openProviderPreview(page, name, original);
+  const historyBaseline = await historyEditCountForPath(page, `/${name}`);
+  let frame = await applyMessageText(
+    page,
+    opened.frame,
+    opened.sourceUri,
+    name,
+    "RIGHT_TARGET",
+    "RIGHT_TARGET before",
+    "RIGHT_UPDATED",
+    rightEdited,
+  );
+  await waitForHistoryGroupBoundary(page);
+  frame = await applyMessageText(
+    page,
+    frame,
+    opened.sourceUri,
+    name,
+    "NARRATION_TARGET",
+    "NARRATION_TARGET before",
+    "NARRATION_UPDATED",
+    narrationEdited,
+  );
+  await expectHistoryCount(page, name, historyBaseline + 2);
+  await expect(frame.locator(".tsel").filter({ hasText: "NARRATION_UPDATED" }).first()).toBeVisible();
+});
+
+test("message Composer switches local t/rt modes for right chat and narration", { tag: "@preview-composer" }, async ({ page }) => {
+  const name = "composer-message-modes.mmt";
+  const original = [
+    "@mode: t",
+    "< 佳代子: RIGHT_MODE_TARGET",
+    "- NARRATION_MODE_TARGET",
+    "",
+  ].join("\n");
+  const rightEdited = original.replace(
+    "RIGHT_MODE_TARGET",
+    "rt\"\"\"RIGHT_MODE_TARGET\"\"\"",
+  );
+  const narrationEdited = rightEdited.replace(
+    "NARRATION_MODE_TARGET",
+    "t\"\"\"NARRATION_MODE_TARGET\"\"\"",
+  );
+  const opened = await openProviderPreview(page, name, original);
+  const historyBaseline = await historyEditCountForPath(page, `/${name}`);
+  let frame = await applyMessageMode(
+    page,
+    opened.frame,
+    opened.sourceUri,
+    name,
+    "RIGHT_MODE_TARGET",
+    "继承（当前：文本宏 t）",
+    "原始文本（rt）",
+    rightEdited,
+  );
+  await waitForHistoryGroupBoundary(page);
+  frame = await applyMessageMode(
+    page,
+    frame,
+    opened.sourceUri,
+    name,
+    "NARRATION_MODE_TARGET",
+    "继承（当前：文本宏 t）",
+    "文本宏（t）",
+    narrationEdited,
+  );
+  await expectHistoryCount(page, name, historyBaseline + 2);
+  await expect(frame.locator(".tsel").filter({ hasText: "NARRATION_MODE_TARGET" }).first()).toBeVisible();
 });
 
 test("display-name Composer inserts the screenshot actor revision without a stale warning", { tag: "@preview-composer" }, async ({ page }) => {
@@ -671,11 +751,9 @@ test("selection, stale documents, rejected apply, and unsupported preview target
   await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
   await expect(contextMenuItem(page, ROOT_MESSAGE)).toBeHidden();
   await clearPreviewSelection(frame);
-  for (const marker of ["NARRATION_TARGET", "REPLY_TARGET_A", "BOND_TARGET", "RAW_TYPST_TARGET", "GENERATED_HEADER_ONLY"]) {
+  for (const marker of ["REPLY_TARGET_A", "BOND_TARGET", "RAW_TYPST_TARGET", "GENERATED_HEADER_ONLY"]) {
     await resetComposer(page);
-    if (marker === "NARRATION_TARGET") {
-      await rightClickSingleSemanticContainer(frame, marker, "narration");
-    } else if (marker === "REPLY_TARGET_A") {
+    if (marker === "REPLY_TARGET_A") {
       await rightClickSemanticContainer(frame, marker, "reply-item", "reply");
     } else if (marker === "BOND_TARGET") {
       await rightClickSemanticContainer(frame, marker, "bond-body", "bond");
@@ -683,7 +761,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
       await rightClickRenderedGlyph(frame, marker);
     }
     await expect.poll(() => composerState(page)).toMatchObject({ targetRequests: 1 });
-    const navigate = await visibleContextMenuItem(page, "转到源码");
+    await visibleContextMenuItem(page, "转到源码");
     await expect(contextMenuItem(page, ROOT_CONTINUED)).toBeHidden();
     await expect(contextMenuItem(page, ROOT_DISPLAY_NAME)).toBeHidden();
     await expect(contextMenuItem(page, ROOT_MESSAGE)).toBeHidden();
@@ -693,13 +771,7 @@ test("selection, stale documents, rejected apply, and unsupported preview target
       applyAttempts: 0,
       successfulApplies: 0,
     });
-    if (marker === "NARRATION_TARGET") {
-      await navigate.hover();
-      await navigate.click();
-      await expect(navigate).toBeHidden();
-    } else {
-      await page.keyboard.press("Escape");
-    }
+    await page.keyboard.press("Escape");
     await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(stableSource);
   }
 
@@ -954,6 +1026,32 @@ async function applyMessageText(
   await setContextInputValue(input, nextValue);
   await expect(input).toHaveValue(nextValue);
   await page.keyboard.press("Enter");
+  await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
+  await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
+  await expect.poll(() => currentContainerRevision(page, sourceUri)).not.toBe(previousRevision);
+  return waitForPreviewFrame(page, sourceUri);
+}
+
+async function applyMessageMode(
+  page: Page,
+  frame: Frame,
+  sourceUri: string,
+  name: string,
+  marker: string,
+  currentLabel: string,
+  choiceLabel: string,
+  expectedSource: string,
+): Promise<Frame> {
+  await resetComposer(page);
+  const previousRevision = await currentContainerRevision(page, sourceUri);
+  await rightClickRenderedGlyph(frame, marker);
+  await expect.poll(async () => (await composerState(page)).targetRequests, { timeout: 10_000 }).toBe(1);
+  await (await visibleContextMenuItem(page, ROOT_MESSAGE_MODE)).hover();
+  await expect(await visibleContextMenuItem(page, currentLabel)).toHaveAttribute("aria-checked", "true");
+  const choice = await visibleContextMenuItem(page, choiceLabel);
+  await choice.hover();
+  await choice.click();
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
@@ -1228,41 +1326,6 @@ async function rightClickSemanticRegion(
   }, { marker, role });
 }
 
-async function rightClickSingleSemanticContainer(
-  frame: Frame,
-  marker: string,
-  role: "narration",
-): Promise<void> {
-  const text = frame.locator(".tsel").filter({ hasText: marker }).first();
-  await expect(text).toBeVisible();
-  await text.evaluate((element, expected) => {
-    const container = element
-      .closest(".typst-text")
-      ?.closest(`[data-typst-label^='mmt:${expected.role}:']`);
-    const label = container?.getAttribute("data-typst-label") ?? "";
-    if (!new RegExp(`^mmt:${expected.role}:t[0-9a-f]{8}$`).test(label)) {
-      throw new Error(`semantic ${expected.role} target is unavailable for ${expected.marker}`);
-    }
-    const bounds = container!.getBoundingClientRect();
-    if (!(bounds.width > 0) || !(bounds.height > 0)) {
-      throw new Error(`semantic ${expected.role} target has no rendered bounds`);
-    }
-    const point = {
-      x: bounds.left + Math.min(2, bounds.width / 2),
-      y: bounds.top + Math.min(2, bounds.height / 2),
-    };
-    container!.dispatchEvent(new MouseEvent("contextmenu", {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-      button: 2,
-      clientX: point.x,
-      clientY: point.y,
-      screenX: window.screenX + point.x,
-      screenY: window.screenY + point.y,
-    }));
-  }, { marker, role });
-}
 
 
 async function rightClickSemanticContainer(

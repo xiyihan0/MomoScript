@@ -14,6 +14,15 @@ The production Web Workbench SHALL show **“编辑消息…”** only for a cur
 - AND the InputBox MUST be prefilled with `statementText.current`
 - AND the client MUST NOT read visible SVG/DOM text as current value or authorization
 
+#### Scenario: Action appears for narration without chat actions
+
+- GIVEN a narration semantic region maps to a current narration statement
+- AND `mmt/previewComposerTarget` includes `statementText` but omits `continued` and actor capabilities
+- WHEN the native context menu opens at the original pointer
+- THEN it MUST include exact label “编辑消息…”
+- AND it MUST NOT include continued、display-name or avatar actions
+- AND the same pointer-adjacent InputBox and Composer apply lifecycle MUST be used
+
 #### Scenario: Author submits a different message
 
 - GIVEN the InputBox contains a different nonempty value
@@ -32,11 +41,44 @@ The production Web Workbench SHALL show **“编辑消息…”** only for a cur
 
 #### Scenario: Target has no message capability
 
-- GIVEN the context is narration、reply、bond、builtin、unresolved、ambiguous、multiline/non-text、generated or package content
+- GIVEN the context is reply、bond、builtin、unresolved、ambiguous、multiline/non-text、generated or package content
 - OR the server otherwise omits `statementText`
 - WHEN the context menu opens
 - THEN “编辑消息…” MUST be absent
 - AND available navigation、continued、display-name or avatar actions MUST retain their existing behavior
+
+### Requirement: Preview Composer offers a local parse-mode radio submenu
+
+For every target carrying `statementText`, the native context menu SHALL include **“解析模式”** with authored-mode radio state from the server descriptor. TypeScript SHALL send only a structured mode command and SHALL NOT serialize MMT source.
+
+#### Scenario: Text mode choices reflect server state
+
+- GIVEN `statementText.mode` is `inherit`、`textMacro` or `textRaw`
+- WHEN the context menu opens
+- THEN “解析模式” MUST contain “继承（当前：…）”、“文本宏（t）” and “原始文本（rt）”
+- AND exactly the authored mode MUST be checked
+- AND the inherited mode label MUST come from `statementText.inheritedMode`
+- AND no local `T` or `rT` choice may appear
+
+#### Scenario: Author selects a different local mode
+
+- GIVEN the author selects a non-current enabled mode
+- WHEN the menu closes
+- THEN the client MUST send exactly one `{ kind: setStatementTextMode, value }` through `mmt/composerEdit`
+- AND the accepted versioned WorkspaceEdit MUST use the existing freshness/apply lifecycle
+
+#### Scenario: Inherit would select Typst
+
+- GIVEN `statementText.inheritedMode` is `typstMacro` or `typstRaw`
+- WHEN the parse-mode submenu opens
+- THEN the inherit item MUST show that current inherited mode and MUST be disabled
+- AND explicit `textMacro` and `textRaw` MUST remain available
+
+#### Scenario: Current mode is selected
+
+- GIVEN one parse-mode radio item is already checked
+- WHEN the author selects that same item
+- THEN no `mmt/composerEdit` request or WorkspaceEdit apply may occur
 
 ### Requirement: Message input and apply remain bound to current Composer freshness
 

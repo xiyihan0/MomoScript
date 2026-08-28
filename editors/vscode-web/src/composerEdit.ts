@@ -9,6 +9,8 @@ import type {
 } from "vscode-languageserver";
 
 export type StatementContinuedValue = "auto" | "true" | "false";
+export type StatementTextMode = "inherit" | "textMacro" | "textRaw";
+export type ComposerBodyMode = "textMacro" | "textRaw" | "typstMacro" | "typstRaw";
 
 export interface ComposerAvatarChoice {
   readonly kind: "packAvatar";
@@ -35,7 +37,7 @@ export interface ComposerStatementTarget {
 }
 
 export interface PreviewComposerTargetProperties {
-  readonly continued: StatementContinuedValue;
+  readonly continued?: StatementContinuedValue;
   readonly actorDisplayName?: {
     readonly current: string;
     readonly scope: "fromStatement";
@@ -47,6 +49,9 @@ export interface PreviewComposerTargetProperties {
   };
   readonly statementText?: {
     readonly current: string;
+    readonly mode: StatementTextMode;
+    readonly resolvedMode: ComposerBodyMode;
+    readonly inheritedMode: ComposerBodyMode;
   };
 }
 
@@ -87,6 +92,10 @@ export type ComposerEditCommand =
   | {
       readonly kind: "setStatementText";
       readonly value: string;
+    }
+  | {
+      readonly kind: "setStatementTextMode";
+      readonly value: StatementTextMode;
     };
 
 export interface ComposerEditParams {
@@ -171,6 +180,8 @@ const CONTINUED_VALUES = ["auto", "true", "false"] as const;
 const MAX_COMPOSER_AVATAR_COMPONENT_BYTES = 1024;
 const MAX_COMPOSER_STATEMENT_TEXT_BYTES = 64 * 1024;
 const UTF8_ENCODER = new TextEncoder();
+const STATEMENT_TEXT_MODES = ["inherit", "textMacro", "textRaw"] as const;
+const COMPOSER_BODY_MODES = ["textMacro", "textRaw", "typstMacro", "typstRaw"] as const;
 const APPLIED = Object.freeze({ kind: "Applied" } as const);
 const STALE = Object.freeze({ kind: "Stale" } as const);
 const APPLY_FAILED = Object.freeze({ kind: "ApplyFailed" } as const);
@@ -314,19 +325,22 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
   const properties = requireRecord(value, "Editable Preview Composer properties");
   requireExactKeys(
     properties,
-    ["continued"],
+    [],
     "Editable Preview Composer properties",
-    ["actorDisplayName", "actorAvatar", "statementText"],
+    ["continued", "actorDisplayName", "actorAvatar", "statementText"],
   );
-  if (!isAllowedString(properties.continued, CONTINUED_VALUES)) {
-    throw new TypeError("Editable Preview Composer properties has an invalid continued value");
-  }
   const result: {
-    continued: StatementContinuedValue;
+    continued?: StatementContinuedValue;
     actorDisplayName?: PreviewComposerTargetProperties["actorDisplayName"];
     actorAvatar?: PreviewComposerTargetProperties["actorAvatar"];
     statementText?: PreviewComposerTargetProperties["statementText"];
-  } = { continued: properties.continued };
+  } = {};
+  if (Object.hasOwn(properties, "continued")) {
+    if (!isAllowedString(properties.continued, CONTINUED_VALUES)) {
+      throw new TypeError("Editable Preview Composer properties has an invalid continued value");
+    }
+    result.continued = properties.continued;
+  }
   if (Object.hasOwn(properties, "actorDisplayName")) {
     const actorDisplayName = requireRecord(
       properties.actorDisplayName,
@@ -376,7 +390,7 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
     );
     requireExactKeys(
       statementText,
-      ["current"],
+      ["current", "mode", "resolvedMode", "inheritedMode"],
       "Editable Preview Composer statement text",
     );
     if (
@@ -385,12 +399,33 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
       || UTF8_ENCODER.encode(statementText.current).length > MAX_COMPOSER_STATEMENT_TEXT_BYTES
       || statementText.current.includes("\r")
       || statementText.current.includes("\n")
+      || !isAllowedString(statementText.mode, STATEMENT_TEXT_MODES)
+      || !isAllowedString(statementText.resolvedMode, COMPOSER_BODY_MODES)
+      || !isAllowedString(statementText.inheritedMode, COMPOSER_BODY_MODES)
     ) {
       throw new TypeError("Editable Preview Composer statement text is malformed");
     }
-    result.statementText = { current: statementText.current };
+    const expectedResolvedMode = statementText.mode === "inherit"
+      ? statementText.inheritedMode
+      : statementText.mode;
+    if (
+      !isTextBodyMode(expectedResolvedMode)
+      || statementText.resolvedMode !== expectedResolvedMode
+    ) {
+      throw new TypeError("Editable Preview Composer statement text modes are inconsistent");
+    }
+    result.statementText = {
+      current: statementText.current,
+      mode: statementText.mode,
+      resolvedMode: statementText.resolvedMode,
+      inheritedMode: statementText.inheritedMode,
+    };
   }
   return result;
+}
+
+function isTextBodyMode(mode: ComposerBodyMode): mode is "textMacro" | "textRaw" {
+  return mode === "textMacro" || mode === "textRaw";
 }
 
 export function parseComposerAvatarChoice(value: unknown): ComposerAvatarChoice {

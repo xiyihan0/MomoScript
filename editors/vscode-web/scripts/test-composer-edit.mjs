@@ -11,6 +11,12 @@ const range = {
   start: { line: 4, character: 2 },
   end: { line: 4, character: 18 },
 };
+const statementText = {
+  current: "当前正文😀",
+  mode: "inherit",
+  resolvedMode: "textMacro",
+  inheritedMode: "textMacro",
+};
 const editableTarget = {
   kind: "Editable",
   textDocument,
@@ -28,7 +34,7 @@ const editableTarget = {
         variantId: "default",
       },
     },
-    statementText: { current: "当前正文😀" },
+    statementText,
   },
 };
 const protocolEdit = {
@@ -45,6 +51,13 @@ assert.deepEqual(parsePreviewComposerTargetResult({
 }), {
   ...editableTarget,
   properties: { continued: "auto" },
+});
+assert.deepEqual(parsePreviewComposerTargetResult({
+  ...editableTarget,
+  properties: { statementText: { ...statementText, current: "旁白正文" } },
+}), {
+  ...editableTarget,
+  properties: { statementText: { ...statementText, current: "旁白正文" } },
 });
 assert.deepEqual(parsePreviewComposerTargetResult({
   ...editableTarget,
@@ -172,28 +185,73 @@ for (const malformed of [
     ...editableTarget,
     properties: {
       continued: "auto",
-      statementText: { current: "" },
+      statementText: { ...statementText, current: "" },
     },
   },
   {
     ...editableTarget,
     properties: {
       continued: "auto",
-      statementText: { current: "line one\nline two" },
+      statementText: { ...statementText, current: "line one\nline two" },
     },
   },
   {
     ...editableTarget,
     properties: {
       continued: "auto",
-      statementText: { current: "x".repeat((64 * 1024) + 1) },
+      statementText: { ...statementText, current: "x".repeat((64 * 1024) + 1) },
     },
   },
   {
     ...editableTarget,
     properties: {
       continued: "auto",
-      statementText: { current: "正文", sourceRange: range },
+      statementText: { ...statementText, current: "正文", sourceRange: range },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: { ...statementText, mode: "typstMacro" },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: { ...statementText, resolvedMode: "unknown" },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: {
+        current: "正文",
+        mode: "inherit",
+        resolvedMode: "textMacro",
+      },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: {
+        ...statementText,
+        inheritedMode: "textRaw",
+      },
+    },
+  },
+  {
+    ...editableTarget,
+    properties: {
+      continued: "auto",
+      statementText: {
+        ...statementText,
+        mode: "textRaw",
+      },
     },
   },
   {

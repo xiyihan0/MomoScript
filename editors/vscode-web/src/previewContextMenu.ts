@@ -433,6 +433,7 @@ function menuAction(
     id: `momoscript.previewComposer.menu.${path}`,
     label: item.label,
     checked: item.checked,
+    enabled: item.enabled,
     run: () => {
       if (item.selection) select(item.selection);
     },

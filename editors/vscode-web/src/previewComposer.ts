@@ -4,14 +4,17 @@ import {
   parseComposerEditResult,
   parsePreviewComposerTargetResult,
   type ApplyComposerEditOptions,
+  type ComposerAvatarChoice,
+  type ComposerAvatarCurrent,
+  type ComposerBodyMode,
   type ComposerEditApplicationResult,
   type ComposerEditParams,
   type ComposerEditResult,
-  type PreviewComposerTargetUnavailableReason,
   type ComposerTextDocument,
+  type PreviewComposerTargetProperties,
+  type PreviewComposerTargetUnavailableReason,
   type StatementContinuedValue,
-  type ComposerAvatarChoice,
-  type ComposerAvatarCurrent,
+  type StatementTextMode,
 } from "./composerEdit.ts";
 import type { AvatarCatalogItem } from "./galleryPack.ts";
 import { avatarItemMatchesCurrent } from "./avatarPicker.ts";
@@ -46,11 +49,13 @@ export type PreviewComposerContextMenuSelection =
   | { readonly kind: "displayName" }
   | { readonly kind: "avatar" }
   | { readonly kind: "messageText" }
+  | { readonly kind: "messageMode"; readonly value: StatementTextMode }
   | { readonly kind: "navigate" };
 
 export interface PreviewComposerContextMenuItem {
   readonly label: string;
   readonly checked?: boolean;
+  readonly enabled?: boolean;
   readonly selection?: PreviewComposerContextMenuSelection;
   readonly children?: readonly PreviewComposerContextMenuItem[];
 }
@@ -164,6 +169,7 @@ type OperationState = "current" | "cancelled" | "stale";
 const EDIT_CONTINUED_LABEL = "编辑连续消息状态…";
 const EDIT_DISPLAY_NAME_LABEL = "从本条起修改人物显示名…";
 const EDIT_MESSAGE_LABEL = "编辑消息…";
+const MESSAGE_MODE_LABEL = "解析模式";
 const NAVIGATE_LABEL = "转到源码";
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
 const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
@@ -369,7 +375,7 @@ export class PreviewComposerController implements Disposable {
       operation,
       anchor,
       targetResult.properties.continued,
-      targetResult.properties.statementText !== undefined,
+      targetResult.properties.statementText,
       targetResult.properties.actorDisplayName !== undefined,
       avatarAvailable,
     );
@@ -414,6 +420,10 @@ export class PreviewComposerController implements Disposable {
         return;
       }
       command = { kind: "setStatementText", value };
+    } else if (selection.kind === "messageMode") {
+      const statementText = targetResult.properties.statementText;
+      if (!statementText || selection.value === statementText.mode) return;
+      command = { kind: "setStatementTextMode", value: selection.value };
     } else if (selection.kind === "continued") {
       command = { kind: "setStatementContinued", value: selection.value };
     } else {
@@ -560,8 +570,8 @@ export class PreviewComposerController implements Disposable {
   private async selectContextAction(
     operation: ComposerOperation,
     anchor: PreviewContextMenuAnchor,
-    current: StatementContinuedValue,
-    statementTextAvailable: boolean,
+    current: StatementContinuedValue | undefined,
+    statementText: PreviewComposerTargetProperties["statementText"],
     actorAvailable: boolean,
     avatarAvailable: boolean,
   ): Promise<PreviewComposerContextMenuSelection | undefined> {
@@ -573,18 +583,43 @@ export class PreviewComposerController implements Disposable {
       { label: "强制连续", value: "true" },
       { label: "强制新消息", value: "false" },
     ];
-    const items: PreviewComposerContextMenuItem[] = [{
-      label: EDIT_CONTINUED_LABEL,
-      children: continuedChoices.map(({ label, value }) => ({
-        label,
-        checked: value === current,
-        selection: { kind: "continued", value },
-      })),
-    }];
-    if (statementTextAvailable) {
+    const items: PreviewComposerContextMenuItem[] = [];
+    if (current !== undefined) {
+      items.push({
+        label: EDIT_CONTINUED_LABEL,
+        children: continuedChoices.map(({ label, value }) => ({
+          label,
+          checked: value === current,
+          selection: { kind: "continued", value },
+        })),
+      });
+    }
+    if (statementText) {
       items.push({
         label: EDIT_MESSAGE_LABEL,
         selection: { kind: "messageText" },
+      });
+      const choices: ReadonlyArray<{
+        readonly label: string;
+        readonly value: StatementTextMode;
+        readonly enabled?: boolean;
+      }> = [
+        {
+          label: `继承（当前：${bodyModeLabel(statementText.inheritedMode)}）`,
+          value: "inherit",
+          enabled: isTextBodyMode(statementText.inheritedMode),
+        },
+        { label: "文本宏（t）", value: "textMacro" },
+        { label: "原始文本（rt）", value: "textRaw" },
+      ];
+      items.push({
+        label: MESSAGE_MODE_LABEL,
+        children: choices.map(({ label, value, enabled }) => ({
+          label,
+          enabled,
+          checked: value === statementText.mode,
+          selection: { kind: "messageMode", value },
+        })),
       });
     }
     if (actorAvailable) {
@@ -608,6 +643,7 @@ export class PreviewComposerController implements Disposable {
 
     return this.selectMenu(operation, anchor, items);
   }
+
 
   private async selectMenu(
     operation: ComposerOperation,
@@ -697,6 +733,22 @@ export class PreviewComposerController implements Disposable {
     operation.transient?.close();
     operation.transient = undefined;
     operation.cancellation.dispose();
+  }
+}
+function isTextBodyMode(mode: ComposerBodyMode): boolean {
+  return mode === "textMacro" || mode === "textRaw";
+}
+
+function bodyModeLabel(mode: ComposerBodyMode): string {
+  switch (mode) {
+    case "textMacro":
+      return "文本宏 t";
+    case "textRaw":
+      return "原始文本 rt";
+    case "typstMacro":
+      return "Typst T";
+    case "typstRaw":
+      return "原始 Typst rT";
   }
 }
 

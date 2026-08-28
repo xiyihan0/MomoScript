@@ -169,14 +169,22 @@ const editableTarget = ({
   actor = true,
   avatar = false,
   message = true,
+  messageMode = "inherit",
+  resolvedMode = "textMacro",
+  inheritedMode = "textMacro",
   continued = "false",
 } = {}) => ({
   kind: "Editable",
   textDocument,
   target: { kind: "statement", range: statementRange },
   properties: {
-    continued,
-    ...(message ? { statementText: { current: "当前正文😀" } } : {}),
+    ...(continued == null ? {} : { continued }),
+    ...(message ? { statementText: {
+      current: "当前正文😀",
+      mode: messageMode,
+      resolvedMode,
+      inheritedMode,
+    } } : {}),
     ...(actor ? { actorDisplayName: { current: "佳代子", scope: "fromStatement" } } : {}),
     ...(avatar ? { actorAvatar: {
       scope: "fromStatement",
@@ -344,6 +352,7 @@ async function chooseContinued(fixture, label = "强制连续") {
   assert.deepEqual(menu.items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
+    "解析模式",
     "从本条起修改人物显示名…",
     "转到源码",
   ]);
@@ -418,6 +427,74 @@ async function chooseContinued(fixture, label = "强制连续") {
   assert.equal(fixture.applyCalls.length, 1);
 }
 
+{
+  const fixture = harness({
+    bidirectionalNavigation: false,
+    targetOptions: { actor: false, message: true, continued: null },
+  });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "narration context menu was not shown");
+  assert.deepEqual(
+    fixture.contextMenus[0].items.map((item) => item.label),
+    ["编辑消息…", "解析模式"],
+    "narration must expose text editing and local parse mode without actor actions",
+  );
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.contextInputs.length === 1, "narration context input was not shown");
+  fixture.contextInputs[0].submit("新的旁白正文");
+  await operation;
+  assert.deepEqual(fixture.requestCalls[1].params.command, {
+    kind: "setStatementText",
+    value: "新的旁白正文",
+  });
+  assert.equal(fixture.applyCalls.length, 1);
+}
+
+{
+  const fixture = harness({ bidirectionalNavigation: false });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "message mode menu was not shown");
+  const modeMenu = fixture.contextMenus[0].items.find((item) => item.label === "解析模式");
+  assert.deepEqual(
+    modeMenu.children.map(({ label, checked, enabled }) => ({ label, checked, enabled })),
+    [
+      { label: "继承（当前：文本宏 t）", checked: true, enabled: true },
+      { label: "文本宏（t）", checked: false, enabled: undefined },
+      { label: "原始文本（rt）", checked: false, enabled: undefined },
+    ],
+  );
+  fixture.contextMenus[0].select("原始文本（rt）");
+  await operation;
+  assert.deepEqual(fixture.requestCalls[1].params.command, {
+    kind: "setStatementTextMode",
+    value: "textRaw",
+  });
+  assert.equal(fixture.applyCalls.length, 1);
+}
+
+{
+  const fixture = harness({
+    bidirectionalNavigation: false,
+    targetOptions: {
+      actor: false,
+      continued: null,
+      messageMode: "textMacro",
+      resolvedMode: "textMacro",
+      inheritedMode: "typstMacro",
+    },
+  });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "Typst-inherited mode menu was not shown");
+  const modeMenu = fixture.contextMenus[0].items.find((item) => item.label === "解析模式");
+  assert.equal(modeMenu.children[0].label, "继承（当前：Typst T）");
+  assert.equal(modeMenu.children[0].enabled, false);
+  assert.equal(modeMenu.children[1].checked, true);
+  fixture.contextMenus[0].select("文本宏（t）");
+  await operation;
+  assert.equal(fixture.requestCalls.length, 1, "selecting the current local mode must be a no-op");
+  assert.equal(fixture.applyCalls.length, 0);
+}
+
 for (const finishInput of [
   (session) => session.close(),
   (session) => session.submit("当前正文😀"),
@@ -460,6 +537,7 @@ for (const finishInput of [
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
+    "解析模式",
     "从本条起修改人物显示名…",
     "从本条起更换人物头像…",
     "转到源码",
@@ -510,6 +588,7 @@ for (const finishInput of [
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
+    "解析模式",
     "从本条起修改人物显示名…",
   ]);
   fixture.contextMenus[0].close();
