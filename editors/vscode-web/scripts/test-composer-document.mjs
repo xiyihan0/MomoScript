@@ -128,6 +128,74 @@ await validateComposerSnapshotAgainstDocument(
   new TestDocument(uri, 8, opaqueSource),
 );
 
+const blankSource = "- first\ncontinued\n  \n\t\n@reply: A | B";
+const blankDigest = await composerDocumentSourceDigest(blankSource);
+const blankRefs = [
+  {
+    nodeKey: "c".repeat(64),
+    nodeKind: "narration",
+    range: { start: { line: 0, character: 0 }, end: { line: 2, character: 0 } },
+  },
+  {
+    nodeKey: "d".repeat(64),
+    nodeKind: "opaque",
+    range: { start: { line: 2, character: 0 }, end: { line: 3, character: 0 } },
+  },
+  {
+    nodeKey: "e".repeat(64),
+    nodeKind: "opaque",
+    range: { start: { line: 3, character: 0 }, end: { line: 4, character: 0 } },
+  },
+  {
+    nodeKey: "f".repeat(64),
+    nodeKind: "opaque",
+    range: { start: { line: 4, character: 0 }, end: { line: 4, character: 13 } },
+  },
+];
+const blankSnapshot = parseComposerDocumentResult({
+  kind: "Snapshot",
+  textDocument: { uri, version: 9 },
+  sourceDigest: blankDigest,
+  nodes: [
+    {
+      kind: "narration",
+      nodeKey: blankRefs[0].nodeKey,
+      range: blankRefs[0].range,
+      statementRange: { start: { line: 0, character: 0 }, end: { line: 3, character: 1 } },
+      body: {
+        current: "first\ncontinued\n  \n\t",
+        mode: "inherit",
+        resolvedMode: "textMacro",
+        inheritedMode: "textMacro",
+      },
+      capabilities: { setBody: false, delete: true, moveUp: null, moveDown: null },
+    },
+    ...blankRefs.slice(1).map((ref, index) => ({
+      kind: "opaque",
+      nodeKey: ref.nodeKey,
+      range: ref.range,
+      category: index < 2 ? "blank" : "unsupported",
+      sourcePreview: ["  \n", "\t\n", "@reply: A | B"][index],
+      sourceTruncated: false,
+      summary: ["  \n", "\t\n", "@reply: A | B"][index],
+      canOpenSource: true,
+    })),
+  ],
+  boundaries: Array.from({ length: blankRefs.length + 1 }, (_, index) => ({
+    target: {
+      kind: "boundary",
+      before: index === 0 ? null : blankRefs[index - 1],
+      after: index === blankRefs.length ? null : blankRefs[index],
+    },
+    insert: null,
+  })),
+  scriptActorChoices: [],
+});
+await validateComposerSnapshotAgainstDocument(
+  blankSnapshot,
+  new TestDocument(uri, 9, blankSource),
+);
+
 for (const malformed of [
   { ...snapshotWire, unknown: true },
   { ...snapshotWire, sourceDigest: "A".repeat(64) },

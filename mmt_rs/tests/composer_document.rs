@@ -107,6 +107,49 @@ fn blank_after_statement_remains_independent_and_statement_editable() {
 }
 
 #[test]
+fn trailing_blanks_split_from_noneditable_and_empty_statements() {
+    for (source, expected_blanks) in [
+        (
+            "> 角色: first\ncontinued body\n\n\n@reply: A | B",
+            vec!["\n", "\n"],
+        ),
+        ("> 角色:\r\n\r\n@reply: A | B", vec!["\r\n"]),
+        (
+            "> 角色: first\ncontinued body\n  \n\t\r\n@reply: A | B",
+            vec!["  \n", "\t\r\n"],
+        ),
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        let ComposerDocumentNode::Message(message) = &projection.nodes[0] else {
+            panic!("first node must remain a message");
+        };
+        assert!(!message.capabilities.set_body);
+        for (offset, expected) in expected_blanks.iter().enumerate() {
+            let ComposerDocumentNode::Opaque(blank) = &projection.nodes[offset + 1] else {
+                panic!("trailing blank must remain an independent opaque node");
+            };
+            assert_eq!(blank.category, ComposerOpaqueCategory::Blank);
+            assert_eq!(&source[blank.range.start..blank.range.end], *expected);
+        }
+        assert_partition(source);
+    }
+}
+
+#[test]
+fn whitespace_and_zero_width_blank_syntax_own_full_physical_lines() {
+    let source = "\r\n  \r\n\t\n- narration";
+    let projection = project_composer_document(source, &catalog()).unwrap();
+    for (index, expected) in ["\r\n", "  \r\n", "\t\n"].iter().enumerate() {
+        let ComposerDocumentNode::Opaque(blank) = &projection.nodes[index] else {
+            panic!("physical blank line must remain opaque");
+        };
+        assert_eq!(blank.category, ComposerOpaqueCategory::Blank);
+        assert_eq!(&source[blank.range.start..blank.range.end], *expected);
+    }
+    assert_partition(source);
+}
+
+#[test]
 fn comment_looking_line_is_recoverable_error_and_keeps_diagnostic_gate() {
     let source = "// not parser syntax\n- narration\n";
     let analysis = mmt_rs::analyze_text(source, &catalog());

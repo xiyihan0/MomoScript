@@ -253,6 +253,29 @@ pub fn project_analyzed_composer_document(
         {
             return Err(ComposerDocumentProjectionError::InvalidSyntaxRange);
         }
+        if matches!(syntax_node, SyntaxNode::Blank(_)) {
+            let line = lines
+                .iter()
+                .find(|line| {
+                    line.start == syntax_range.start && line.content_end == syntax_range.end
+                })
+                .ok_or(ComposerDocumentProjectionError::InvalidSyntaxRange)?;
+            if line.start < cursor {
+                return Err(ComposerDocumentProjectionError::InvalidPartition);
+            }
+            if cursor < line.start {
+                drafts.push(NodeDraft::Opaque {
+                    range: TextRange::new(cursor, line.start),
+                    category: ComposerOpaqueCategory::Unsupported,
+                });
+            }
+            drafts.push(NodeDraft::Opaque {
+                range: TextRange::new(line.start, line.line_end),
+                category: ComposerOpaqueCategory::Blank,
+            });
+            cursor = line.line_end;
+            continue;
+        }
         let node_start = syntax_range.start.max(cursor);
         if cursor < node_start {
             drafts.push(NodeDraft::Opaque {
@@ -330,7 +353,7 @@ pub fn project_analyzed_composer_document(
         });
     }
 
-    drafts = split_trailing_statement_blanks(source, drafts);
+    drafts = split_trailing_statement_blanks(source, &lines, drafts);
     validate_partition(source, &drafts)?;
     let has_errors = analysis_has_errors(analysis);
     let mut nodes = drafts
@@ -468,43 +491,41 @@ impl NodeDraft {
     }
 }
 
-fn split_trailing_statement_blanks(source: &str, drafts: Vec<NodeDraft>) -> Vec<NodeDraft> {
+fn split_trailing_statement_blanks(
+    source: &str,
+    lines: &[PhysicalLine],
+    drafts: Vec<NodeDraft>,
+) -> Vec<NodeDraft> {
     let mut partitioned = Vec::with_capacity(drafts.len());
     for mut draft in drafts {
-        let editable_statement = match &draft {
-            NodeDraft::Message { description, .. } | NodeDraft::Narration { description, .. } => {
-                description.statement_text.is_some()
-            }
-            NodeDraft::Opaque { .. } => false,
-        };
+        let statement = matches!(
+            &draft,
+            NodeDraft::Message { .. } | NodeDraft::Narration { .. }
+        );
         let range = draft.range();
-        if !editable_statement || range.end > source.len() {
+        if !statement || range.end > source.len() {
             partitioned.push(draft);
             continue;
         }
-        let bytes = source[range.start..range.end].as_bytes();
-        let mut cursor = bytes.len();
-        let mut endings = Vec::new();
-        while cursor > 0 {
-            let start = if cursor >= 2 && &bytes[cursor - 2..cursor] == b"\r\n" {
-                cursor - 2
-            } else if bytes[cursor - 1] == b'\n' {
-                cursor - 1
-            } else {
-                break;
-            };
-            endings.push(TextRange::new(range.start + start, range.start + cursor));
-            cursor = start;
-        }
-        endings.reverse();
-        if endings.len() <= 1 {
+        let owned_lines = lines
+            .iter()
+            .filter(|line| line.start >= range.start && line.line_end <= range.end)
+            .copied()
+            .collect::<Vec<_>>();
+        let trailing_count = owned_lines
+            .iter()
+            .rev()
+            .take_while(|line| source[line.start..line.content_end].trim().is_empty())
+            .count();
+        if trailing_count == 0 || trailing_count == owned_lines.len() {
             partitioned.push(draft);
             continue;
         }
-        draft.set_range(TextRange::new(range.start, endings[1].start));
+        let trailing = &owned_lines[owned_lines.len() - trailing_count..];
+        draft.set_range(TextRange::new(range.start, trailing[0].start));
         partitioned.push(draft);
-        partitioned.extend(endings.into_iter().skip(1).map(|blank| NodeDraft::Opaque {
-            range: blank,
+        partitioned.extend(trailing.iter().map(|line| NodeDraft::Opaque {
+            range: TextRange::new(line.start, line.line_end),
             category: ComposerOpaqueCategory::Blank,
         }));
     }

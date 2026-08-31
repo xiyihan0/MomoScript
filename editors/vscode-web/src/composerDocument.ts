@@ -284,16 +284,23 @@ export async function validateComposerSnapshotAgainstDocument(
             || blank.node.kind !== "opaque"
             || blank.node.category !== "blank"
             || blank.start !== covered
-            || blank.end > statementEnd
-            || !/^(?:\r\n|\n)$/u.test(text.slice(blank.start, blank.end))
           ) {
             throw new Error("Composer statementRange may extend only across adjacent blank nodes");
           }
-          covered = blank.end;
+          if (blank.end <= statementEnd) {
+            if (text.slice(blank.start, blank.end).trim() !== "") {
+              throw new Error("Composer blank node contains non-whitespace content");
+            }
+            covered = blank.end;
+          } else {
+            const ownedPrefix = text.slice(blank.start, statementEnd);
+            const remainingTerminator = text.slice(statementEnd, blank.end);
+            if (ownedPrefix.trim() !== "" || !/^(?:\r\n|\n)$/u.test(remainingTerminator)) {
+              throw new Error("Composer statementRange splits a non-blank physical line");
+            }
+            covered = statementEnd;
+          }
           following += 1;
-        }
-        if (covered !== statementEnd) {
-          throw new Error("Composer statementRange does not end on a blank-node boundary");
         }
       }
     } else {

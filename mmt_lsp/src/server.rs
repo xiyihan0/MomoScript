@@ -2863,6 +2863,37 @@ mod tests {
         );
         assert_eq!(valid["boundaries"].as_array().unwrap().len(), 2);
 
+        let blank_uri = Url::parse("file:///workspace/blanks.mmt").unwrap();
+        open_document(
+            &mut server,
+            &blank_uri,
+            4,
+            "> 角色: first\ncontinued body\n  \n\t\n@reply: A | B",
+        );
+        let blanks = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": blank_uri, "version": 4}
+                }),
+            )
+            .unwrap();
+        assert_eq!(blanks["kind"], "Snapshot");
+        assert_eq!(blanks["nodes"].as_array().unwrap().len(), 4);
+        assert_eq!(blanks["nodes"][0]["kind"], "message");
+        assert_eq!(
+            blanks["nodes"][0]["range"]["end"],
+            serde_json::json!({"line": 2, "character": 0})
+        );
+        assert_eq!(
+            blanks["nodes"][0]["statementRange"]["end"],
+            serde_json::json!({"line": 3, "character": 1})
+        );
+        for index in [1, 2] {
+            assert_eq!(blanks["nodes"][index]["kind"], "opaque");
+            assert_eq!(blanks["nodes"][index]["category"], "blank");
+        }
+
         let empty_uri = Url::parse("file:///workspace/empty.mmt").unwrap();
         open_document(&mut server, &empty_uri, 1, "");
         let empty = server
