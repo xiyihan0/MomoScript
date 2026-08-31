@@ -50,13 +50,15 @@ export function mmtExtension(): ExtensionConfig {
       configuration: manifest.contributes.configuration,
       commands: [
         { command: "mmt.preview.open", title: "Typst 预览", icon: "$(open-preview)" },
+        { command: "mmt.composer.open", title: "打开 GUI 创作", icon: "$(layout)" },
         { command: "mmt.showTypstMapping", title: "查看 Typst 映射", icon: "$(code)" },
         { command: "mmt.history.showFileHistory", title: "显示文件历史记录", icon: "$(history)" },
         { command: "mmt.gallery.insertStickerAtCursor", title: "插入角色表情差分", icon: "$(smiley)" }
       ],
       menus: {
         "editor/title": [
-          { command: "mmt.preview.open", when: "editorLangId == mmt || editorLangId == typst", group: "navigation" }
+          { command: "mmt.preview.open", when: "editorLangId == mmt || editorLangId == typst", group: "navigation" },
+          { command: "mmt.composer.open", when: "editorLangId == mmt", group: "navigation@1" }
         ],
         "editor/context": [
           { command: "mmt.gallery.insertStickerAtCursor", when: "resourceScheme == mmtfs && editorLangId == mmt", group: "navigation@1" },
@@ -67,7 +69,8 @@ export function mmtExtension(): ExtensionConfig {
           { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
         ],
         "explorer/context": [
-          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
+          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" },
+          { command: "mmt.composer.open", when: "resourceScheme == mmtfs && resourceFilename =~ /\\.mmt(\\.txt)?$/", group: "navigation@1" }
         ]
       },
       themes: [

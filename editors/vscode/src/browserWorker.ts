@@ -73,6 +73,9 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   connection.onRequest("mmt/previewComposerTarget", (params) =>
     request("mmt/previewComposerTarget", params)
   );
+  connection.onRequest("mmt/composerDocument", (params) =>
+    request("mmt/composerDocument", params)
+  );
   connection.onRequest("mmt/composerEdit", (params) =>
     request("mmt/composerEdit", params)
   );

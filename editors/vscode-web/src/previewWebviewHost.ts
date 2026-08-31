@@ -78,11 +78,11 @@ export class PreviewWebviewHost implements vscode.Disposable {
     return this.#panel !== undefined;
   }
 
-  async open(title: string): Promise<void> {
+  async open(title: string, viewColumn: vscode.ViewColumn = vscode.ViewColumn.Beside): Promise<void> {
     if (this.#disposed) throw new Error("Preview Webview host is disposed");
     if (this.#panel) {
       this.#panel.title = title;
-      this.#panel.reveal(undefined, false);
+      this.#panel.reveal(viewColumn, false);
       await this.waitUntilReady();
       return;
     }
@@ -90,7 +90,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
     const panel = vscode.window.createWebviewPanel(
       "mmt.typstPreview",
       title,
-      vscode.ViewColumn.Beside,
+      viewColumn,
       {
         enableScripts: true,
         retainContextWhenHidden: true,

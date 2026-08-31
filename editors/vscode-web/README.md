@@ -22,6 +22,7 @@
 - 通过 `registerCustomView` 注册的 MomoScript 原生 View；
 - IndexedDB workspace 和文档持久化；
 - 本地历史 Activity View：按文件/工作区分页浏览、50 MiB / 30 天保留、named Checkpoint、文本 Diff/恢复、删除前检查与二进制导出/整文件恢复；
+- 原生 `mmt.guiComposer` Editor Pane：命令 `mmt.composer.open` 显式打开；视口宽度不超过 550px 时每个文档 incarnation 首次打开默认进入 GUI，显式返回源码后不反复跳回；
 - MMT LSP 与 Tinymist 独立 Worker；
 - revision-bound Typst projection、preview artifact 和预览交互；
 - workspace 图片、pack-v3 图片及 AVIFS materialization；
@@ -63,6 +64,9 @@
 ```text
 VS Code TextDocument / mmtfs workspace
   -> MMT LSP revision snapshot
+  -> mmt/composerDocument
+  -> one ComposerRuntime per mounted native GUI pane
+  -> native mmt.guiComposer card surface
   -> Typst projection session/revision
   -> workspace/pack resource materialization
   -> accepted render artifact
@@ -74,6 +78,8 @@ VS Code TextDocument / mmtfs workspace
 | Part 实例、当前 View container、Part 可见性 | Monaco VS Code Views Service / Part API；Part attachment disposable 进入产品 runtime owner |
 | Sidebar/main、Editor/Panel 几何与 sash | `createLayout` 创建的两个原生 `SplitView` |
 | 当前 authored 文档内容 | VS Code `TextDocument` |
+| GUI 卡片内容、版本与编辑授权 | 同一 VS Code `TextDocument` + Rust `mmt/composerDocument` snapshot；`ComposerRuntime` 只编排 freshness/cancellation，UI 不缓存第二份源码 |
+| GUI tab 恢复 | `ComposerEditorInputSerializer` 只持久化 `{version: 1, uri}`；reload 后从当前 `TextDocument` 和 Rust snapshot 重建 |
 | authored 文档持久字节 | `mmtfs` workspace provider/coordinator |
 | IndexedDB 历史 revision/head/snapshot、SHA-256 blob、保留与 Checkpoint | workspace backend/coordinator；Local History View 仅按游标读取和发命令 |
 | 产品 startup、work admission、quiesce、dispose | 单一 `EditorRuntimeController` 及其单一 `RuntimeOwner` |
@@ -550,6 +556,31 @@ Network 中能看到字体文件，渲染结果仍回退；数学公式与正文
 - 验证 HMR/unload/PWA quiesce 仍只有一个 `EditorRuntimeController`/`RuntimeOwner` disposal graph；
 - 验证旧 JS、新 WASM 或旧 Webview worker 的混合版本不会被静默当成健康状态。
 
+### 18. GUI Composer 建立第二份源码或在 UI 拼 DSL
+
+**症状**
+
+- GUI 与源码 tab 的 URI/version 不一致；
+- reload 后卡片来自持久 JSON，而不是当前 workspace bytes；
+- stale sheet 仍重定向到相似节点，或 Opaque/Error 卡片出现结构编辑按钮；
+- 551px 也自动跳 GUI，或用户显式切源码后同一文档反复跳回。
+
+**根因**
+
+把 GUI 当作独立文档编辑器，绕过 Rust Composer capability/range 和单一 `TextDocument` owner。
+
+**当前正确模式**
+
+- `mmt.guiComposer` 是原生 Editor Pane；`mmt.composer.open` 只传 URI；
+- serializer 只存 URI，`ComposerRuntime` 每次从 `mmt/composerDocument` 重建并以 URI、document incarnation、version、epoch、catalog epoch 和 digest 拒绝 stale 操作；
+- 所有 property/structure mutation 只发送 Rust/LSP intent，再通过唯一 `WorkspaceEdit` apply path 修改同一 `TextDocument`；
+- Opaque、recoverable error 和未知 wire 值 fail closed；UI 不合成 DSL；
+- 550px 默认规则按 document incarnation 记录，显式“高级源码”切换不会 bounce；551px 仍以源码为默认。
+
+**回归测试**
+
+`test:composer-document`、`test:composer-runtime`、`test:e2e:gui-composer` 和 `test:e2e:pwa-offline`；浏览器证据必须覆盖 desktop、551px、550px、320px、reload 和 offline。
+
 ## Recommended Development Flow
 
 ### 1. 确认改动所属层
@@ -630,8 +661,11 @@ npm run test:desktop
 ```bash
 cd editors/vscode-web
 npm run check
+npm run test:composer-document
+npm run test:composer-runtime
 npm run build
-npm run test:e2e
+npm run test:e2e:gui-composer
+npm run test:e2e:pwa-offline
 ```
 
 UI 改动还要浏览器实际操作和视觉检查，但不能用截图替代 E2E。
@@ -687,6 +721,9 @@ git diff --check
 - [ ] E2E 使用原生 tab/`aria-selected` 语义
 - [ ] 断言 Files Explorer tree/设置内容，而不只断言 class 或标题
 - [ ] 采用 `WorkspaceService` 前有独立 migration proposal，且不替换产品 runtime disposal
+- [ ] GUI 与源码共享一个 URI/TextDocument/model；serializer 不持久化卡片或源码副本
+- [ ] UI 只消费 Rust capability/range，Opaque/Error fail closed，stale identity 不 retarget
+- [ ] 551px/550px/320px 默认、触达尺寸、sheet inert/keyboard、reload/offline 已由真实浏览器验证
 
 ### Files And Resources
 

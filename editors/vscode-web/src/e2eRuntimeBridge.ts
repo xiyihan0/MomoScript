@@ -120,8 +120,31 @@ export interface MmtE2EComposerState {
   readonly successfulApplies: number;
 }
 
+export interface MmtE2EComposerEditorState {
+  readonly uri: string;
+  readonly guiVisible: boolean;
+  readonly sourceVisible: boolean;
+  readonly textDocumentCount: number;
+  readonly modelCount: number;
+  readonly isPreview: boolean;
+  readonly isPinned: boolean;
+}
+
+export interface MmtE2EGuiState {
+  readonly uri: string | null;
+  readonly version: number | null;
+  readonly sourceDigest: string | null;
+  readonly nodeKinds: readonly string[];
+  readonly pending: boolean;
+  readonly documentRequests: number;
+  readonly editRequests: number;
+  readonly applyAttempts: number;
+  readonly lastNotification: string | null;
+}
+
+
 export interface MmtE2EComposerInstrumentation {
-  readonly api: MmtE2EApi["composer"];
+  readonly api: Omit<MmtE2EApi["composer"], "openGui" | "openSource" | "keepEditor" | "editorState" | "deserializeEditor" | "openResource">;
   recordRequest(method: "mmt/previewComposerTarget" | "mmt/composerEdit"): void;
   requestOverride(
     method: "mmt/previewComposerTarget" | "mmt/composerEdit",
@@ -176,6 +199,15 @@ export interface MmtE2EApi {
     readonly failNextApply: () => void;
     readonly rejectNextAvatarEdit: () => void;
     readonly lastAnchor: () => PreviewContextMenuAnchor | null;
+    readonly openGui: (name: string) => Promise<MmtE2EComposerEditorState>;
+    readonly openSource: (name: string) => Promise<MmtE2EComposerEditorState>;
+    readonly keepEditor: (name: string) => Promise<MmtE2EComposerEditorState>;
+    readonly editorState: (name: string) => MmtE2EComposerEditorState;
+    readonly deserializeEditor: (serializedEditor: string) => string | null;
+    readonly openResource: (uri: string) => Promise<string | null>;
+  };
+  readonly gui: {
+    readonly state: () => MmtE2EGuiState;
   };
   readonly notifications: {
     readonly showUpdatePrompt: () => void;
@@ -460,6 +492,7 @@ export function installMmtE2EBridge(api: MmtE2EApi): vscode.Disposable {
     runtime: Object.freeze({ ...api.runtime }),
     history: Object.freeze({ ...api.history }),
     exactExport: Object.freeze({ ...api.exactExport }),
+    gui: Object.freeze({ ...api.gui }),
     security: Object.freeze({ ...api.security }),
     composer: Object.freeze({ ...api.composer }),
     notifications: Object.freeze({ ...api.notifications }),

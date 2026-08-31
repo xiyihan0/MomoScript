@@ -57,6 +57,14 @@ pub struct ComposerStatementText {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ComposerStatementBody {
+    pub current: String,
+    pub mode: StatementTextMode,
+    pub resolved_mode: Option<ComposerBodyMode>,
+    pub inherited_mode: Option<ComposerBodyMode>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PackAvatarChoice {
     pub entity_id: String,
     pub contribution_namespace: String,
@@ -73,6 +81,30 @@ pub enum ComposerAvatarCurrent {
 pub struct ComposerActorAvatar {
     pub actor_preset_id: String,
     pub current: Option<ComposerAvatarCurrent>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ComposerSpeakerDescription {
+    Actor {
+        reference: String,
+        display_name: String,
+        primary_name: String,
+        preset_id: String,
+        avatar: Option<ComposerAvatarCurrent>,
+    },
+    Builtin {
+        id: String,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ComposerStatementDescription {
+    pub body: ComposerStatementBody,
+    pub speaker: Option<ComposerSpeakerDescription>,
+    pub continued: Option<ContinuedValue>,
+    pub actor_display_name: Option<String>,
+    pub actor_avatar: Option<ComposerActorAvatar>,
+    pub statement_text: Option<ComposerStatementText>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -120,6 +152,66 @@ pub struct ComposerSourceEdit {
     pub new_text: String,
 }
 
+pub fn describe_composer_statement(
+    analysis: &AnalyzedDocument,
+    statement: &StatementSyntax,
+) -> ComposerStatementDescription {
+    let resolved_speaker = match statement.kind {
+        StatementKind::Left | StatementKind::Right => {
+            unique_statement_speaker(analysis, statement.range)
+        }
+        StatementKind::Narration => None,
+    };
+    let actor = resolved_speaker.and_then(|speaker| actor_for_speaker(analysis, speaker));
+    let speaker = resolved_speaker.and_then(|speaker| match &speaker.speaker {
+        SpeakerIdentity::Actor(_) => {
+            let (actor_id, actor, revision) = actor?;
+            let state = actor
+                .revisions
+                .iter()
+                .find(|candidate| candidate.number == revision)
+                .map(|revision| &revision.state)?;
+            serialize_scalar(&actor.primary_name, None)?;
+            Some(ComposerSpeakerDescription::Actor {
+                reference: actor.primary_name.clone(),
+                display_name: state.display_name.clone(),
+                primary_name: actor.primary_name.clone(),
+                preset_id: actor.preset_id.clone(),
+                avatar: current_avatar_for_revision(analysis, actor_id, revision).flatten(),
+            })
+        }
+        SpeakerIdentity::Builtin(builtin) => Some(ComposerSpeakerDescription::Builtin {
+            id: builtin.0.clone(),
+        }),
+    });
+    let actor_display_name = actor.and_then(|(_, actor, revision)| {
+        serialize_scalar(&actor.primary_name, None)?;
+        actor
+            .revisions
+            .iter()
+            .find(|candidate| candidate.number == revision)
+            .map(|revision| revision.state.display_name.clone())
+    });
+    let actor_avatar = actor.and_then(|(actor_id, actor, revision)| {
+        current_avatar_for_revision(analysis, actor_id, revision).map(|current| {
+            ComposerActorAvatar {
+                actor_preset_id: actor.preset_id.clone(),
+                current,
+            }
+        })
+    });
+    ComposerStatementDescription {
+        body: statement_body_description(analysis, statement),
+        speaker,
+        continued: matches!(statement.kind, StatementKind::Left | StatementKind::Right)
+            .then(|| statement_continued(statement).ok())
+            .flatten(),
+        actor_display_name,
+        actor_avatar,
+        statement_text: statement_text_capability(analysis, statement),
+    }
+}
+
 pub fn resolve_preview_statement(
     analysis: &AnalyzedDocument,
     emitted: &EmittedTypst,
@@ -158,42 +250,18 @@ pub fn resolve_preview_statement(
     if containing.next().is_some() {
         return Err(ComposerTargetFailure::UnsupportedNode);
     }
-    let actor = match statement.kind {
-        StatementKind::Left | StatementKind::Right => {
-            unique_statement_speaker(analysis, statement.range)
-                .and_then(|speaker| actor_for_speaker(analysis, speaker))
-        }
-        StatementKind::Narration => None,
-    };
-    let statement_text = statement_text_capability(analysis, statement);
-    let continued = match statement.kind {
-        StatementKind::Left | StatementKind::Right => Some(
-            statement_continued(statement).map_err(|_| ComposerTargetFailure::UnsupportedNode)?,
-        ),
-        StatementKind::Narration => None,
-    };
-    let actor_display_name = actor.and_then(|(_, actor, revision)| {
-        serialize_scalar(&actor.primary_name, None)?;
-        actor
-            .revisions
-            .iter()
-            .find(|candidate| candidate.number == revision)
-            .map(|revision| revision.state.display_name.clone())
-    });
-    let actor_avatar = actor.and_then(|(actor_id, actor, revision)| {
-        current_avatar_for_revision(analysis, actor_id, revision).map(|current| {
-            ComposerActorAvatar {
-                actor_preset_id: actor.preset_id.clone(),
-                current,
-            }
-        })
-    });
+    let description = describe_composer_statement(analysis, statement);
+    if matches!(statement.kind, StatementKind::Left | StatementKind::Right)
+        && description.continued.is_none()
+    {
+        return Err(ComposerTargetFailure::UnsupportedNode);
+    }
     Ok(ComposerTarget {
         statement_range: statement.range,
-        continued,
-        actor_display_name,
-        actor_avatar,
-        statement_text,
+        continued: description.continued,
+        actor_display_name: description.actor_display_name,
+        actor_avatar: description.actor_avatar,
+        statement_text: description.statement_text,
     })
 }
 
@@ -234,6 +302,24 @@ fn statement_text_mode(mode: BodyMode) -> Option<StatementTextMode> {
     }
 }
 
+fn statement_body_description(
+    analysis: &AnalyzedDocument,
+    statement: &StatementSyntax,
+) -> ComposerStatementBody {
+    let resolution = analysis
+        .modes
+        .bodies
+        .iter()
+        .find(|entry| entry.range == statement.body.range);
+    ComposerStatementBody {
+        current: statement.body.source.clone(),
+        mode: statement_text_mode(statement.body.mode)
+            .expect("every parser body mode has a Composer representation"),
+        resolved_mode: resolution.map(|entry| composer_body_mode(entry.mode)),
+        inherited_mode: resolution.map(|entry| composer_body_mode(entry.inherited_mode)),
+    }
+}
+
 fn composer_body_mode(mode: ResolvedBodyMode) -> ComposerBodyMode {
     match mode {
         ResolvedBodyMode::TextMacro => ComposerBodyMode::TextMacro,
@@ -248,20 +334,29 @@ fn editable_statement_text<'a>(
     statement: &'a StatementSyntax,
 ) -> Option<&'a str> {
     let current = statement.body.source.as_str();
-    if validate_statement_text_value(current).is_err()
-        || statement.body.range.len() != current.len()
+    let editable = if validate_statement_text_value(current).is_ok()
+        && statement.body.range.len() == current.len()
     {
-        return None;
-    }
+        current
+    } else {
+        let trimmed = current.trim_end_matches('\n');
+        if trimmed.len() == current.len()
+            || trimmed.contains('\n')
+            || validate_statement_text_value(trimmed).is_err()
+        {
+            return None;
+        }
+        trimmed
+    };
     analysis
         .modes
         .bodies
         .iter()
         .any(|entry| entry.range == statement.body.range)
-        .then_some(current)
+        .then_some(editable)
 }
 
-fn validate_statement_text_value(value: &str) -> Result<(), ComposerFailure> {
+pub(crate) fn validate_statement_text_value(value: &str) -> Result<(), ComposerFailure> {
     if value.is_empty()
         || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
         || value.contains(['\r', '\n'])
@@ -526,7 +621,7 @@ fn avatar_resource_kind_for_revision(
     }
 }
 
-fn current_avatar_for_revision(
+pub(crate) fn current_avatar_for_revision(
     analysis: &AnalyzedDocument,
     actor_id: ActorId,
     revision: u32,
@@ -796,20 +891,13 @@ fn statement_body_edit(
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
     validate_statement_text_value(value)?;
     let current = statement_text_mode(statement.body.mode).ok_or(ComposerFailure::TargetChanged)?;
-    if statement.body.source == value && current == mode {
+    let current_text = statement.body.source.trim_end_matches('\n');
+    if current_text == value && current == mode {
         return Err(ComposerFailure::InvalidValue);
     }
     if current == mode {
-        let range = statement.body.range;
-        if range.end > source.len()
-            || !source.is_char_boundary(range.start)
-            || !source.is_char_boundary(range.end)
-            || source.get(range.start..range.end) != Some(statement.body.source.as_str())
-        {
-            return Err(ComposerFailure::CandidateInvalid);
-        }
         return Ok(ComposerSourceEdit {
-            range,
+            range: editable_statement_body_range(statement, source)?,
             new_text: value.to_owned(),
         });
     }
@@ -823,21 +911,55 @@ fn statement_body_edit(
     if current != StatementTextMode::Inherit || mode == StatementTextMode::Inherit {
         return Err(ComposerFailure::CandidateInvalid);
     }
-    let range = statement.body.range;
-    if range.end > source.len()
-        || !source.is_char_boundary(range.start)
-        || !source.is_char_boundary(range.end)
-        || source.get(range.start..range.end) != Some(statement.body.source.as_str())
-    {
-        return Err(ComposerFailure::CandidateInvalid);
-    }
     Ok(ComposerSourceEdit {
-        range,
+        range: editable_statement_body_range(statement, source)?,
         new_text: format!("{}\"\"\"{value}\"\"\"", statement_text_mode_prefix(mode)),
     })
 }
 
-fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
+fn editable_statement_body_range(
+    statement: &StatementSyntax,
+    source: &str,
+) -> Result<TextRange, ComposerFailure> {
+    let range = statement.body.range;
+    if range.end > source.len()
+        || !source.is_char_boundary(range.start)
+        || !source.is_char_boundary(range.end)
+    {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    let physical = source
+        .get(range.start..range.end)
+        .ok_or(ComposerFailure::CandidateInvalid)?;
+    let editable = statement.body.source.trim_end_matches('\n');
+    let expected_breaks = statement.body.source.len().saturating_sub(editable.len());
+    if expected_breaks == 0 {
+        return (physical == statement.body.source)
+            .then_some(range)
+            .ok_or(ComposerFailure::CandidateInvalid);
+    }
+    if editable.contains('\n') || !physical.starts_with(editable) {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    let mut suffix = &physical[editable.len()..];
+    let mut physical_breaks = 0;
+    while !suffix.is_empty() {
+        if let Some(rest) = suffix.strip_prefix("\r\n") {
+            suffix = rest;
+        } else if let Some(rest) = suffix.strip_prefix('\n') {
+            suffix = rest;
+        } else {
+            return Err(ComposerFailure::CandidateInvalid);
+        }
+        physical_breaks += 1;
+    }
+    if physical_breaks != expected_breaks {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    Ok(TextRange::new(range.start, range.start + editable.len()))
+}
+
+pub(crate) fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
     match mode {
         StatementTextMode::Inherit => "",
         StatementTextMode::TextMacro => "t",
@@ -845,6 +967,26 @@ fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
         StatementTextMode::TypstMacro => "T",
         StatementTextMode::TypstRaw => "rT",
     }
+}
+
+pub(crate) fn serialize_statement_body(
+    value: &str,
+    mode: StatementTextMode,
+) -> Result<String, ComposerFailure> {
+    validate_statement_text_value(value)?;
+    if mode == StatementTextMode::Inherit {
+        return Ok(value.to_owned());
+    }
+    let longest_quote_run = value
+        .split(|character| character != '"')
+        .map(str::len)
+        .max()
+        .unwrap_or(0);
+    let fence = "\"".repeat(longest_quote_run.saturating_add(1).max(3));
+    Ok(format!(
+        "{}{fence}{value}{fence}",
+        statement_text_mode_prefix(mode)
+    ))
 }
 
 fn fenced_body_envelope(
@@ -1130,7 +1272,7 @@ fn newline_before_target(source: &str, offset: usize) -> Option<&'static str> {
     newline_immediately_before(source, offset)
 }
 
-fn serialize_scalar(value: &str, preferred_quote: Option<QuoteKind>) -> Option<String> {
+pub(crate) fn serialize_scalar(value: &str, preferred_quote: Option<QuoteKind>) -> Option<String> {
     if value.is_empty() || value.contains('\r') || value.contains('\n') {
         return None;
     }
@@ -1175,7 +1317,10 @@ fn quoted_scalar(value: &str, quote: QuoteKind) -> Option<String> {
     .then_some(encoded)
 }
 
-fn apply_source_edit(source: &str, edit: &ComposerSourceEdit) -> Result<String, ComposerFailure> {
+pub(crate) fn apply_source_edit(
+    source: &str,
+    edit: &ComposerSourceEdit,
+) -> Result<String, ComposerFailure> {
     if edit.range.start > edit.range.end
         || edit.range.end > source.len()
         || !source.is_char_boundary(edit.range.start)
@@ -1191,7 +1336,7 @@ fn apply_source_edit(source: &str, edit: &ComposerSourceEdit) -> Result<String, 
     Ok(candidate)
 }
 
-fn analysis_has_errors(analysis: &AnalyzedDocument) -> bool {
+pub(crate) fn analysis_has_errors(analysis: &AnalyzedDocument) -> bool {
     let groups: [&[Diagnostic]; 7] = [
         &analysis.document.diagnostics,
         &analysis.directive_diagnostics,
@@ -1380,7 +1525,13 @@ fn statements_have_same_shape_for_body(
                     && left.patch.as_ref().map(|patch| patch.raw_args.as_str())
                         == right.patch.as_ref().map(|patch| patch.raw_args.as_str())
                     && if ordinal == target_ordinal {
-                        right.body.source == expected_value && right.body.mode == expected_mode
+                        let left_text = left.body.source.trim_end_matches('\n');
+                        let right_text = right.body.source.trim_end_matches('\n');
+                        let left_suffix = &left.body.source[left_text.len()..];
+                        let right_suffix = &right.body.source[right_text.len()..];
+                        right_text == expected_value
+                            && left_suffix == right_suffix
+                            && right.body.mode == expected_mode
                     } else {
                         left.body.source == right.body.source && left.body.mode == right.body.mode
                     }

@@ -18,6 +18,7 @@ import getLocalizationServiceOverride from "@codingame/monaco-vscode-localizatio
 import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
 import getStatusBarServiceOverride from "@codingame/monaco-vscode-view-status-bar-service-override";
+import getStorageServiceOverride from "@codingame/monaco-vscode-storage-service-override";
 import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, renderStatusBarPart, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
 import { registerCustomProvider } from "@codingame/monaco-vscode-files-service-override";
 import { useWorkerFactory } from "monaco-languageclient/workerFactory";
@@ -84,6 +85,18 @@ import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle, type PwaUpdateLifecycle } from "./pwaUpdate";
 import { showMomoScriptMessage } from "./notifications";
 import { MMT_BUILD_VERSION } from "./buildInfo";
+import {
+  COMPOSER_EDITOR_ID,
+  ComposerEditorSurfaceRegistry,
+  deserializeComposerEditorResource,
+  isComposerResource,
+  registerComposerEditor,
+} from "./composerEditor.ts";
+import { ComposerRuntime, type ComposerRuntimeDocument } from "./composerRuntime.ts";
+import {
+  ComposerEditorUi,
+  type ComposerSpeakerOption,
+} from "./composerEditorUi.ts";
 import {
   PACK_MANIFEST_URL,
   TINYMIST_VERSION,
@@ -1608,6 +1621,32 @@ async function initializeRuntime(
         previewFixtureActiveSourceUri = sourceUri;
         materializationControllers.get(sourceUri)?.abort();
         preview.invalidate();
+        if (controller.stores.exactExport) {
+          const runtimeKey = await PREVIEW_RUNTIME_KEY;
+          const entryBytes = encoder.encode(project.sourceContent);
+          controller.stores.exactExport.retainInputs({
+            renderKey: artifact.renderKey,
+            materializationKey: fixtureMaterialization,
+            runtimeArtifactKey: runtimeKey,
+            renderOptionsDigest: fixtureOptions,
+            entryPath: "/main.typ",
+            files: [{
+              path: "/main.typ",
+              kind: "source",
+              contentDigest: await canonicalBytesDigest("mmt-exact-export-ui-source-v1", [entryBytes]),
+              bytes: entryBytes,
+            }],
+            packageRoots: [],
+          }, {
+            runtimeArtifactKey: runtimeKey,
+            compilerVersion: TYPST_COMPILER_VERSION,
+            compilerWasmDigest: TYPST_COMPILER_WASM_SHA256,
+            compilerWasmBytes: new Uint8Array([0]),
+            templateBundleDigest: "mmt-template-bundle-v1",
+            fontSetDigest: "mmt-exact-export-ui-fonts-v1",
+            fonts: [],
+          });
+        }
         controller.stores.previewArtifacts.put(artifact);
         controller.stores.previewArtifacts.display(sourceUri, artifact.renderKey);
         exactExportHost.latest.publish(sourceUri, artifact.renderKey);
@@ -1706,6 +1745,7 @@ async function initializeRuntime(
         ...getTextMateServiceOverride(),
         ...getThemeServiceOverride(),
       ...getStatusBarServiceOverride(),
+      ...getStorageServiceOverride(),
       ...getViewsServiceOverride(),
     },
     viewsConfig: {
@@ -1740,6 +1780,8 @@ async function initializeRuntime(
     extensions: [mmtExtension()],
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
+  const composerEditorSurfaces = own(new ComposerEditorSurfaceRegistry());
+  own(registerComposerEditor(composerEditorSurfaces));
   await api.start();
   startupProgress.stage("workbench", "complete", "界面 API 已就绪");
   const readPreviewDefaultFitMode = (): "width" | "page" => (
@@ -2652,6 +2694,255 @@ async function initializeRuntime(
     },
     workspace: composerWorkspace,
   });
+  let activeGuiRuntime: ComposerRuntime | undefined;
+  let guiDocumentRequests = 0;
+  let guiEditRequests = 0;
+  let guiApplyAttempts = 0;
+  let lastGuiNotification: string | null = null;
+  const exportExactSnapshot = async (
+    sourceUri: string,
+    format: "pdf" | "png" | "jpg" | "svg",
+    staleChoice?: "export-displayed" | "wait-for-latest",
+    scheduleWithPreviewQueue = true,
+  ): Promise<ExactExportResult | undefined> => {
+    const boundExport = exactExportUi.bind(sourceUri);
+    if (boundExport.availability === "no-document") {
+      await openPreview(sourceUri);
+      void showMomoScriptMessage("info", "已刷新同一文档的预览；渲染完成后再次导出。");
+      return undefined;
+    }
+    const sourceName = new URL(sourceUri).pathname.split("/").at(-1) ?? "document";
+    const baseName = sourceName.replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
+    const exportRenderKey = preview.displayedRenderKey;
+    let exported: ExactExportResult | undefined;
+    if (scheduleWithPreviewQueue && previewSchedulerEnabled && exportRenderKey) {
+      const sequence = previewRenderQueue.enqueueExport({
+        sourceUri,
+        renderKey: exportRenderKey,
+        traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
+      }, async (_accepted, signal) => {
+        const cancel = () => exactExportUi.cancel();
+        signal.addEventListener("abort", cancel, { once: true });
+        try {
+          exported = await exactExportUi.export(format, staleChoice);
+        } finally {
+          signal.removeEventListener("abort", cancel);
+        }
+      });
+      await previewRenderQueue.waitForExport(sourceUri, sequence);
+    } else {
+      exported = await exactExportUi.export(format, staleChoice);
+    }
+    if (!exported) {
+      const availability = exactExportUi.state.availability;
+      if (availability === "partial" || availability === "failed" || availability === "evicted" || availability === "no-document") {
+        await openPreview(sourceUri);
+        void showMomoScriptMessage("info", "已刷新同一文档的预览；渲染完成后再次导出。");
+      }
+      return undefined;
+    }
+    downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
+    log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
+    return exported;
+  };
+  const mobileComposerDocuments = new WeakSet<vscode.TextDocument>();
+  let currentComposerUri: vscode.Uri | undefined;
+  const isMmtDocument = (document: vscode.TextDocument): boolean => isComposerResource(document.uri);
+  const openComposerDocument = async (resource: vscode.Uri, mobileDefault = false): Promise<void> => {
+    if (!isComposerResource(resource)) throw new Error("GUI 创作只支持工作区 MMT 文档");
+    const opened = await vscode.workspace.openTextDocument(resource);
+    const textDocument = opened.languageId === "mmt"
+      ? opened
+      : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
+    if (!isMmtDocument(textDocument)) throw new Error("GUI 创作只支持工作区 MMT 文档");
+    mobileComposerDocuments.add(textDocument);
+    await vscode.commands.executeCommand("vscode.openWith", textDocument.uri, COMPOSER_EDITOR_ID);
+    await vscode.commands.executeCommand("workbench.action.keepEditor");
+    if (mobileDefault) setPartVisibility(Parts.SIDEBAR_PART, false);
+  };
+  const createComposerDocument = async (): Promise<void> => {
+    const name = await vscode.window.showInputBox({
+      title: "新建 MomoScript",
+      prompt: "输入工作区文件名（必须以 .mmt 结尾）",
+      placeHolder: "story.mmt",
+      validateInput(value) {
+        if (!value || value === "." || value === "..") return "文件名不能为空或使用 . / ..";
+        if (value.includes("/") || value.includes("\\")) return "文件名不能包含路径分隔符";
+        if (!/^[^/\\]+\.mmt$/u.test(value)) return "文件名必须以 .mmt 结尾";
+        return undefined;
+      },
+    });
+    if (!name) return;
+    const resource = vscode.Uri.joinPath(WORKSPACE, name);
+    try {
+      await vscode.workspace.fs.stat(resource);
+      void showMomoScriptMessage("warning", `文件已存在：${name}`);
+      return;
+    } catch (error) {
+      if (!(error instanceof vscode.FileSystemError) || error.code !== "FileNotFound") throw error;
+    }
+    await vscode.workspace.fs.writeFile(resource, new Uint8Array());
+    await openComposerDocument(resource);
+  };
+  const chooseComposerDocument = async (): Promise<void> => {
+    const files = await Promise.all([
+      vscode.workspace.findFiles("**/*.mmt"),
+      vscode.workspace.findFiles("**/*.mmt.txt"),
+    ]);
+    const byUri = new Map(files.flat().map((uri) => [uri.toString(), uri]));
+    const picked = await vscode.window.showQuickPick(
+      [...byUri.values()].map((uri) => ({ label: uri.path.split("/").at(-1) ?? uri.path, description: uri.path, uri })),
+      { title: "打开 MomoScript GUI 创作", placeHolder: "选择工作区 MMT 文档" },
+    );
+    if (picked) await openComposerDocument(picked.uri);
+  };
+  subscribe(vscode.commands.registerCommand("mmt.composer.open", async (resource?: vscode.Uri) => {
+    const selected = resource
+      ?? vscode.window.activeTextEditor?.document.uri
+      ?? currentComposerUri;
+    if (!selected) {
+      void showMomoScriptMessage("warning", "请先选择一个 MomoScript 文档。");
+      return;
+    }
+    await openComposerDocument(selected);
+  }));
+  const mobileComposerMedia = matchMedia("(max-width: 550px)");
+  const maybeOpenMobileComposer = (editor: vscode.TextEditor | undefined) => {
+    const textDocument = editor?.document;
+    if (!mobileComposerMedia.matches || !textDocument || !isMmtDocument(textDocument)) return;
+    if (mobileComposerDocuments.has(textDocument)) return;
+    mobileComposerDocuments.add(textDocument);
+    setTimeout(() => {
+      if (!controller.acceptingWork) return;
+      void openComposerDocument(textDocument.uri, true).catch((error: unknown) => {
+        void showMomoScriptMessage("error", error instanceof Error ? error.message : String(error));
+      });
+    }, 0);
+  };
+  subscribe(vscode.window.onDidChangeActiveTextEditor(maybeOpenMobileComposer));
+  maybeOpenMobileComposer(vscode.window.activeTextEditor);
+  const sendRuntimeRequest = (method: "mmt/composerDocument" | "mmt/composerEdit", params: unknown, signal: AbortSignal) => {
+    const client = activeClient;
+    if (!client) return Promise.reject(new Error("MMT language client is unavailable"));
+    const cancellation = new vscode.CancellationTokenSource();
+    const abort = () => cancellation.cancel();
+    if (signal.aborted) abort();
+    else signal.addEventListener("abort", abort, { once: true });
+    return client.sendRequest<unknown>(method, params, cancellation.token).finally(() => {
+      signal.removeEventListener("abort", abort);
+      cancellation.dispose();
+    });
+  };
+  const packSpeakerOptions = (): readonly ComposerSpeakerOption[] => galleryPacks.flatMap((pack) =>
+    pack.entities.map((entity) => ({
+      reference: `${pack.namespace}::${entity.key}`,
+      label: entity.catalogDisplayName ?? entity.displayName,
+      source: "packEntity" as const,
+    }))
+  );
+  own(composerEditorSurfaces.setMountHandler(async ({ input, container }) => {
+    const resource = vscode.Uri.parse(input.resource!.toString(), true);
+    const opened = await vscode.workspace.openTextDocument(resource);
+    const textDocument = opened.languageId === "mmt"
+      ? opened
+      : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
+    const runtimeDocument: ComposerRuntimeDocument = {
+      uri: textDocument.uri,
+      get version() { return textDocument.version; },
+      languageId: textDocument.languageId,
+      getText: () => textDocument.getText(),
+      offsetAt: (position) => textDocument.offsetAt(new vscode.Position(position.line, position.character)),
+      positionAt: (offset) => {
+        const position = textDocument.positionAt(offset);
+        return { line: position.line, character: position.character };
+      },
+    };
+    currentComposerUri = textDocument.uri;
+    const runtime = new ComposerRuntime({
+      requestDocument: async (params, signal) => {
+        guiDocumentRequests += 1;
+        return sendRuntimeRequest("mmt/composerDocument", params, signal);
+      },
+      requestEdit: (params, signal) => {
+        guiEditRequests += 1;
+        return sendRuntimeRequest("mmt/composerEdit", params, signal);
+      },
+      applyEdit: (options) => {
+        guiApplyAttempts += 1;
+        return composerApply.apply(options);
+      },
+      currentDocument: (uri) => (
+        textDocument.uri.toString() === uri
+        && vscode.workspace.textDocuments.includes(textDocument)
+          ? runtimeDocument
+          : undefined
+      ),
+      isWorkspaceDocument: (candidate) => (
+        candidate === runtimeDocument
+        && textDocument.uri.scheme === WORKSPACE.scheme
+        && textDocument.uri.authority === WORKSPACE.authority
+      ),
+      onDidChangeDocument: (listener) => vscode.workspace.onDidChangeTextDocument((event) => {
+        if (event.document === textDocument) listener({
+          document: runtimeDocument,
+          contentChanges: event.contentChanges,
+        });
+      }),
+      getPackSpeakerReferences: () => packSpeakerOptions().map((option) => option.reference),
+      onDidChangeCatalog: (listener) => galleryPacksChanged.event(listener),
+      navigateSource: async (uri, range) => {
+        const candidate = await vscode.workspace.openTextDocument(vscode.Uri.parse(uri, true));
+        mobileComposerDocuments.add(candidate);
+        const editor = await vscode.window.showTextDocument(candidate, { preserveFocus: false });
+        editor.selection = new vscode.Selection(range.start.line, range.start.character, range.end.line, range.end.character);
+        editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+      },
+      openPreview: (uri) => openPreview(uri),
+      showHistory: (uri) => vscode.commands.executeCommand("mmt.history.showFileHistory", vscode.Uri.parse(uri, true)),
+      save: async (uri) => {
+        const candidate = vscode.workspace.textDocuments.find((document) => document.uri.toString() === uri);
+        if (candidate) await candidate.save();
+      },
+      exportExact: async (uri) => {
+        const state = exactExportUi.bind(uri);
+        let staleChoice: "export-displayed" | "wait-for-latest" | undefined;
+        if (state.availability === "stale") {
+          const choice = await vscode.window.showQuickPick([
+            { label: "导出当前显示版本", value: "export-displayed" as const },
+            { label: "等待最新版本", value: "wait-for-latest" as const },
+          ], { title: "选择精确导出版本" });
+          if (!choice) return;
+          staleChoice = choice.value;
+        }
+        const format = vscode.workspace.getConfiguration("mmt.export").get<"pdf" | "png">("defaultFormat", "pdf");
+        await exportExactSnapshot(uri, format, staleChoice, false);
+      },
+      notify: (kind, message) => {
+        lastGuiNotification = `${kind}:${message}`;
+        return showMomoScriptMessage(kind, message);
+      },
+    });
+    activeGuiRuntime = runtime;
+    const ui = new ComposerEditorUi(container, {
+      runtime,
+      newDocument: createComposerDocument,
+      openDocument: chooseComposerDocument,
+      packSpeakers: packSpeakerOptions,
+      avatarCatalog: () => buildAvatarCatalog(galleryPacks),
+      diagnosticsCount: () => vscode.languages.getDiagnostics(textDocument.uri).length,
+      openProblems: () => vscode.commands.executeCommand("workbench.actions.view.problems"),
+    });
+    container.querySelector<HTMLElement>(".mmt-composer-surface")!.dataset.resource = textDocument.uri.toString();
+    runtime.bindDocument(runtimeDocument);
+    return {
+      dispose() {
+        ui.dispose();
+        if (activeGuiRuntime === runtime) activeGuiRuntime = undefined;
+        runtime.dispose();
+        if (currentComposerUri?.toString() === textDocument.uri.toString()) currentComposerUri = undefined;
+      },
+    };
+  }));
   const [
     composerContextMenu,
     composerContextInput,
@@ -2709,6 +3000,9 @@ async function initializeRuntime(
       void showMomoScriptMessage("error", `文档设置失败：${detail}`);
     }
   }));
+  const previewViewColumn = (): vscode.ViewColumn => (
+    matchMedia("(max-width: 550px)").matches ? vscode.ViewColumn.Active : vscode.ViewColumn.Beside
+  );
   previewWebviewHost = own(new PreviewWebviewHost({
     ready() {
       previewWebviewHost?.postExactExportState(exactExportUi.state);
@@ -2735,32 +3029,8 @@ async function initializeRuntime(
       return previewComposer?.handleContextPoint(point, anchor);
     },
     async exactExportRequested(message: PreviewExactExportRequest) {
-      const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
-      const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
-      let exported: ExactExportResult | undefined;
-      const exportSourceUri = displayedPreviewSourceUri;
-      const exportRenderKey = preview.displayedRenderKey;
-      if (previewSchedulerEnabled && exportSourceUri && exportRenderKey) {
-        const sequence = previewRenderQueue.enqueueExport({
-          sourceUri: exportSourceUri,
-          renderKey: exportRenderKey,
-          traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
-        }, async (_accepted, signal) => {
-          const cancel = () => exactExportUi.cancel();
-          signal.addEventListener("abort", cancel, { once: true });
-          try {
-            exported = await exactExportUi.export(message.format, message.staleChoice);
-          } finally {
-            signal.removeEventListener("abort", cancel);
-          }
-        });
-        await previewRenderQueue.waitForExport(exportSourceUri, sequence);
-      } else {
-        exported = await exactExportUi.export(message.format, message.staleChoice);
-      }
-      if (!exported) return;
-      downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
-      log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
+      if (!displayedPreviewSourceUri) return;
+      await exportExactSnapshot(displayedPreviewSourceUri, message.format, message.staleChoice);
     },
     exactExportCancelled() {
       exactExportUi.cancel();
@@ -2787,7 +3057,7 @@ async function initializeRuntime(
     exactExportUi.bind(sourceUri);
     const previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
     if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
-    await previewWebviewHost.open(previewPanelTitle);
+    await previewWebviewHost.open(previewPanelTitle, previewViewColumn());
     log("preview", `Opening ${sourceUri}`);
     if (document.languageId === "typst") {
       previewWebviewHost.postStatus("正在准备 Typst 预览…", false);
@@ -2852,9 +3122,9 @@ async function initializeRuntime(
   };
   subscribe(vscode.window.onDidChangeActiveTextEditor(maybeAutoOpenPreview));
   maybeAutoOpenPreview(vscode.window.activeTextEditor);
-  const openPreview = (sourceUri: string): void => {
-    void vscode.commands.executeCommand("mmt.preview.open", vscode.Uri.parse(sourceUri, true));
-  };
+  const openPreview = (sourceUri: string): PromiseLike<unknown> => (
+    vscode.commands.executeCommand("mmt.preview.open", vscode.Uri.parse(sourceUri, true))
+  );
 
   packCache = own(await IndexedDbPackCache.open());
   const syncConfiguredPackSources = async () => {
@@ -2956,7 +3226,8 @@ async function initializeRuntime(
   const packUrlsInput = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
   if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
-  const restoredActiveDocument = await restoreActiveWorkspaceDocument();
+  const workbenchRestoredEditor = vscode.window.tabGroups.activeTabGroup.activeTab !== undefined;
+  const restoredActiveDocument = workbenchRestoredEditor || await restoreActiveWorkspaceDocument();
   if (!restoredActiveDocument && !vscode.window.activeTextEditor) {
     const initialDocument = await vscode.workspace.openTextDocument(INTRO);
     const recognizedDocument = initialDocument.languageId === "typst"
@@ -3121,6 +3392,38 @@ async function initializeRuntime(
   });
   if (import.meta.env.VITE_MMT_E2E === "1") {
     if (!composerE2E) throw new Error("Composer E2E instrumentation is unavailable");
+    const composerEditorState = (name: string) => {
+      if (!/^[^./\\][^/\\]*\.mmt(?:\.txt)?$/u.test(name)) throw new Error("invalid MMT workspace basename");
+      const resource = vscode.Uri.joinPath(WORKSPACE, name);
+      const uri = resource.toString();
+      const activeTab = vscode.window.tabGroups.activeTabGroup.activeTab;
+      return {
+        uri,
+        guiVisible: [...document.querySelectorAll<HTMLElement>(".mmt-composer-editor [data-resource]")]
+          .some((surface) => surface.dataset.resource === uri && surface.offsetParent !== null),
+        sourceVisible: vscode.window.activeTextEditor?.document.uri.toString() === uri,
+        textDocumentCount: vscode.workspace.textDocuments.filter((candidate) => candidate.uri.toString() === uri).length,
+        modelCount: modelService.getModels().filter((model) => model.uri.toString() === uri).length,
+        isPreview: activeTab?.isPreview ?? false,
+        isPinned: activeTab?.isPinned ?? false,
+      };
+    };
+    const openComposerGui = async (name: string) => {
+      const resource = vscode.Uri.joinPath(WORKSPACE, name);
+      await vscode.commands.executeCommand("vscode.openWith", resource, COMPOSER_EDITOR_ID);
+      return composerEditorState(name);
+    };
+    const openComposerSource = async (name: string) => {
+      const resource = vscode.Uri.joinPath(WORKSPACE, name);
+      const textDocument = await vscode.workspace.openTextDocument(resource);
+      await vscode.window.showTextDocument(textDocument);
+      return composerEditorState(name);
+    };
+    const keepComposerEditor = async (name: string) => {
+      await vscode.commands.executeCommand("workbench.action.keepEditor");
+      await vscode.commands.executeCommand("workbench.action.pinEditor");
+      return composerEditorState(name);
+    };
     const e2eApi: MmtE2EApi = {
       workspace: createMmtE2EWorkspaceApi({
         workspaceUri: WORKSPACE,
@@ -3159,7 +3462,38 @@ async function initializeRuntime(
         resetTimings: () => controller.stores.previewPerformance.reset(),
         setRendererEnabled: setPreviewRendererEnabled,
       },
-      composer: composerE2E.api,
+      composer: {
+        ...composerE2E.api,
+        openGui: openComposerGui,
+        openSource: openComposerSource,
+        keepEditor: keepComposerEditor,
+        editorState: composerEditorState,
+        deserializeEditor: (serializedEditor: string) => deserializeComposerEditorResource(serializedEditor)?.toString() ?? null,
+        openResource: async (uri: string) => {
+          try {
+            await vscode.commands.executeCommand("mmt.composer.open", vscode.Uri.parse(uri, true));
+            return null;
+          } catch (error) {
+            return error instanceof Error ? error.message : String(error);
+          }
+        },
+      },
+      gui: {
+        state: () => {
+          const state = activeGuiRuntime?.state;
+          return {
+            uri: state?.bound?.uri ?? null,
+            version: state?.bound?.version ?? null,
+            sourceDigest: state?.snapshot?.sourceDigest ?? null,
+            nodeKinds: state?.snapshot?.nodes.map((node) => node.kind) ?? [],
+            pending: state?.pending ?? false,
+            documentRequests: guiDocumentRequests,
+            editRequests: guiEditRequests,
+            applyAttempts: guiApplyAttempts,
+            lastNotification: lastGuiNotification,
+          };
+        },
+      },
       notifications: {
         showUpdatePrompt() {
           void showMomoScriptMessage(
@@ -3198,7 +3532,7 @@ async function initializeRuntime(
     };
     subscribe(installMmtE2EBridge(e2eApi));
   }
-  if (import.meta.env.PROD && import.meta.env.VITE_MMT_E2E !== "1") {
+  if (import.meta.env.PROD && (import.meta.env.VITE_MMT_E2E !== "1" || import.meta.env.VITE_MMT_PWA_E2E === "1")) {
     pwaUpdateLifecycle = own(registerPwaUpdateLifecycle({
       prepareForReload: () => safeRestart.prepareForReload(10_000),
       async promptForReload(latestBuildVersion) {
@@ -3687,7 +4021,12 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   configureDocument.textContent = "配置当前文档";
   const openDocumentSettings = () => void vscode.commands.executeCommand("mmt.document.configure");
   configureDocument.addEventListener("click", openDocumentSettings);
-  documentSettings.append(documentHeading, documentDescription, configureDocument);
+  const openComposer = document.createElement("button");
+  openComposer.type = "button";
+  openComposer.textContent = "打开 GUI 创作";
+  const openComposerEditor = () => void vscode.commands.executeCommand("mmt.composer.open");
+  openComposer.addEventListener("click", openComposerEditor);
+  documentSettings.append(documentHeading, documentDescription, configureDocument, openComposer);
   const previewSettings = document.createElement("section");
   previewSettings.className = "mms-settings-section";
   const previewHeading = document.createElement("h3");
@@ -3764,6 +4103,7 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
       save.removeEventListener("click", saveSettings);
       advanced.removeEventListener("click", openAdvanced);
       configureDocument.removeEventListener("click", openDocumentSettings);
+      openComposer.removeEventListener("click", openComposerEditor);
     }
   };
 }

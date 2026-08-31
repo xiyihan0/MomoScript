@@ -1,5 +1,7 @@
 pub mod analysis;
 pub mod composer;
+pub mod composer_document;
+pub mod composer_structure;
 pub mod diag;
 pub mod emit;
 pub mod identity;
@@ -23,9 +25,26 @@ pub use analysis::{
 };
 pub use composer::{
     COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerActorAvatar, ComposerAvatarCurrent,
-    ComposerBodyMode, ComposerCommand, ComposerFailure, ComposerSourceEdit, ComposerStatementText,
-    ComposerTarget, ComposerTargetFailure, ContinuedValue, PackAvatarChoice, StatementTextMode,
-    compose_edit, compose_edit_with_pack, resolve_preview_statement, statement_continued,
+    ComposerBodyMode, ComposerCommand, ComposerFailure, ComposerSourceEdit,
+    ComposerSpeakerDescription, ComposerStatementBody, ComposerStatementDescription,
+    ComposerStatementText, ComposerTarget, ComposerTargetFailure, ContinuedValue, PackAvatarChoice,
+    StatementTextMode, compose_edit, compose_edit_with_pack, describe_composer_statement,
+    resolve_preview_statement, statement_continued,
+};
+pub use composer_document::{
+    COMPOSER_DOCUMENT_DIGEST_DOMAIN, COMPOSER_NODE_KEY_DOMAIN, ComposerBoundary,
+    ComposerBoundaryTarget, ComposerDocumentNode, ComposerDocumentNodeKind,
+    ComposerDocumentProjection, ComposerDocumentProjectionError, ComposerInsertCapability,
+    ComposerMessageCapabilities, ComposerMessageNode, ComposerMessageSide,
+    ComposerNarrationCapabilities, ComposerNarrationNode, ComposerNodeRef, ComposerOpaqueCategory,
+    ComposerOpaqueNode, ComposerScriptActorChoice, ComposerSpeakerSource,
+    composer_document_source_digest, project_analyzed_composer_document, project_composer_document,
+    project_composer_document_with_pack,
+};
+pub use composer_structure::{
+    COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, ComposerNewStatement, ComposerSpeakerChoice,
+    ComposerStatementBodyInput, ComposerStructureCommand, ComposerStructureFailure,
+    ComposerStructureTarget, compose_structure_edit, compose_structure_edit_with_pack,
 };
 pub use emit::{
     AuthoredOriginResolution, BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent,

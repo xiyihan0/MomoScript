@@ -10,6 +10,7 @@ const groups = [
   { name: "editor runtime notifications", tag: "@editor-runtime-notifications", timeout: 5 * 60_000 },
   { name: "editor runtime sashes", tag: "@editor-runtime-sashes", timeout: 5 * 60_000 },
   { name: "editor surfaces", tag: "@editor-surface", timeout: 10 * 60_000 },
+  { name: "GUI Composer", tag: "@gui-composer", timeout: 10 * 60_000 },
   { name: "local history", tag: "@local-history", timeout: 12 * 60_000 },
 ];
 

@@ -234,6 +234,7 @@ export default defineConfig({
   define: {
     "import.meta.env.VITE_MMT_BUILD_VERSION": JSON.stringify(buildVersion),
     "import.meta.env.VITE_MMT_E2E": JSON.stringify(process.env.VITE_MMT_E2E === "1" ? "1" : "0"),
+    "import.meta.env.VITE_MMT_PWA_E2E": JSON.stringify(process.env.VITE_MMT_PWA_E2E === "1" ? "1" : "0"),
   },
   build: {
     target: "esnext",

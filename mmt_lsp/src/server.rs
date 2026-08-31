@@ -13,10 +13,15 @@ use lsp_types::{
     TextDocumentSyncKind, Url,
 };
 use mmt_rs::{
-    COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent, ComposerBodyMode, ComposerCommand,
-    ComposerStatementText, ContinuedValue, PackAvatarChoice, ProjectedEditTarget,
-    ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey, SourceContentKey,
-    StatementTextMode, TypstProjectSnapshotKey,
+    COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent,
+    ComposerBodyMode, ComposerBoundaryTarget, ComposerCommand, ComposerDocumentNode,
+    ComposerDocumentNodeKind, ComposerInsertCapability, ComposerMessageCapabilities,
+    ComposerMessageSide, ComposerNarrationCapabilities, ComposerNewStatement, ComposerNodeRef,
+    ComposerOpaqueCategory, ComposerSpeakerChoice, ComposerSpeakerDescription,
+    ComposerSpeakerSource, ComposerStatementBody, ComposerStatementBodyInput,
+    ComposerStatementText, ComposerStructureCommand, ComposerStructureTarget, ContinuedValue,
+    PackAvatarChoice, ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass,
+    ProjectionKey, SourceContentKey, StatementTextMode, TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -24,7 +29,7 @@ use serde_json::Value;
 use crate::{
     LanguageService, ProjectionStore, TypstRenderProjectUpdate,
     position::{MmtClientPosition, PositionEncoding},
-    service::ComposerEditRejection,
+    service::{ComposerDocumentRejection, ComposerEditRejection},
     typst_backend::ComposerTargetUnavailable,
 };
 
@@ -198,6 +203,12 @@ struct ComposerTextDocumentParams {
     version: i32,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerDocumentParams {
+    text_document: ComposerTextDocumentParams,
+}
+
 #[derive(Debug, Clone, Copy, Deserialize)]
 #[serde(deny_unknown_fields, tag = "kind")]
 enum ComposerTargetParams {
@@ -324,13 +335,177 @@ impl From<ComposerCommandParams> for ComposerCommand {
         }
     }
 }
-
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-struct ComposerEditParams {
+struct ComposerPropertyEditParams {
     text_document: ComposerTextDocumentParams,
     target: ComposerTargetParams,
     command: ComposerCommandParams,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerNodeKindParams {
+    Message,
+    Narration,
+    Opaque,
+}
+
+impl From<ComposerNodeKindParams> for ComposerDocumentNodeKind {
+    fn from(kind: ComposerNodeKindParams) -> Self {
+        match kind {
+            ComposerNodeKindParams::Message => Self::Message,
+            ComposerNodeKindParams::Narration => Self::Narration,
+            ComposerNodeKindParams::Opaque => Self::Opaque,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerNodeRefParams {
+    node_key: String,
+    node_kind: ComposerNodeKindParams,
+    range: ComposerRange,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerBoundaryTargetParams {
+    #[serde(rename = "boundary")]
+    Boundary {
+        before: Option<ComposerNodeRefParams>,
+        after: Option<ComposerNodeRefParams>,
+    },
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerStructureTargetParams {
+    #[serde(rename = "node")]
+    Node { node: ComposerNodeRefParams },
+    #[serde(rename = "boundary")]
+    Boundary {
+        before: Option<ComposerNodeRefParams>,
+        after: Option<ComposerNodeRefParams>,
+    },
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerSpeakerChoiceParams {
+    #[serde(rename = "actor")]
+    Actor { reference: String },
+}
+
+impl From<ComposerSpeakerChoiceParams> for ComposerSpeakerChoice {
+    fn from(choice: ComposerSpeakerChoiceParams) -> Self {
+        match choice {
+            ComposerSpeakerChoiceParams::Actor { reference } => Self::Actor { reference },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerStatementBodyInputParams {
+    value: String,
+    mode: ComposerStatementTextModeParams,
+}
+
+impl From<ComposerStatementBodyInputParams> for ComposerStatementBodyInput {
+    fn from(body: ComposerStatementBodyInputParams) -> Self {
+        Self {
+            value: body.value,
+            mode: body.mode.into(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerNewStatementParams {
+    #[serde(rename = "message")]
+    Message {
+        side: ComposerMessageSideParams,
+        speaker: ComposerSpeakerChoiceParams,
+        body: ComposerStatementBodyInputParams,
+        continued: ComposerContinuedValue,
+    },
+    #[serde(rename = "narration")]
+    Narration {
+        body: ComposerStatementBodyInputParams,
+    },
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerMessageSideParams {
+    Left,
+    Right,
+}
+
+impl From<ComposerMessageSideParams> for ComposerMessageSide {
+    fn from(side: ComposerMessageSideParams) -> Self {
+        match side {
+            ComposerMessageSideParams::Left => Self::Left,
+            ComposerMessageSideParams::Right => Self::Right,
+        }
+    }
+}
+
+impl From<ComposerNewStatementParams> for ComposerNewStatement {
+    fn from(statement: ComposerNewStatementParams) -> Self {
+        match statement {
+            ComposerNewStatementParams::Message {
+                side,
+                speaker,
+                body,
+                continued,
+            } => Self::Message {
+                side: side.into(),
+                speaker: speaker.into(),
+                body: body.into(),
+                continued: continued.into(),
+            },
+            ComposerNewStatementParams::Narration { body } => Self::Narration { body: body.into() },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerStructureCommandParams {
+    #[serde(rename = "insertStatement")]
+    InsertStatement {
+        statement: ComposerNewStatementParams,
+    },
+    #[serde(rename = "deleteNode")]
+    DeleteNode,
+    #[serde(rename = "moveNode")]
+    MoveNode {
+        anchor: ComposerBoundaryTargetParams,
+    },
+    #[serde(rename = "setStatementSpeaker")]
+    SetStatementSpeaker {
+        speaker: ComposerSpeakerChoiceParams,
+    },
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerStructureEditParams {
+    text_document: ComposerTextDocumentParams,
+    source_digest: String,
+    target: ComposerStructureTargetParams,
+    command: ComposerStructureCommandParams,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum ComposerEditParams {
+    Property(ComposerPropertyEditParams),
+    Structure(ComposerStructureEditParams),
 }
 
 const MAX_COMPOSER_DISPLAY_NAME_BYTES: usize = 1024;
@@ -399,6 +574,173 @@ fn validate_composer_command(command: &ComposerCommandParams) -> Result<(), Serv
         }
         _ => Ok(()),
     }
+}
+
+fn validate_composer_structure(params: &ComposerStructureEditParams) -> Result<(), ServerError> {
+    validate_composer_digest(&params.source_digest, "sourceDigest")?;
+    validate_structure_target(&params.target)?;
+    match (&params.target, &params.command) {
+        (
+            ComposerStructureTargetParams::Boundary { .. },
+            ComposerStructureCommandParams::InsertStatement { statement },
+        ) => validate_new_statement(statement),
+        (
+            ComposerStructureTargetParams::Node { .. },
+            ComposerStructureCommandParams::DeleteNode,
+        ) => Ok(()),
+        (
+            ComposerStructureTargetParams::Node { .. },
+            ComposerStructureCommandParams::MoveNode { anchor },
+        ) => validate_boundary_target(anchor),
+        (
+            ComposerStructureTargetParams::Node { .. },
+            ComposerStructureCommandParams::SetStatementSpeaker { speaker },
+        ) => validate_speaker_choice(speaker),
+        _ => Err(ServerError::invalid_params(
+            "Composer structure target and command kinds do not match",
+        )),
+    }
+}
+
+fn validate_structure_target(target: &ComposerStructureTargetParams) -> Result<(), ServerError> {
+    match target {
+        ComposerStructureTargetParams::Node { node } => validate_node_ref(node),
+        ComposerStructureTargetParams::Boundary { before, after } => {
+            validate_boundary_refs(before.as_ref(), after.as_ref())
+        }
+    }
+}
+
+fn validate_boundary_target(target: &ComposerBoundaryTargetParams) -> Result<(), ServerError> {
+    let ComposerBoundaryTargetParams::Boundary { before, after } = target;
+    validate_boundary_refs(before.as_ref(), after.as_ref())
+}
+
+fn validate_boundary_refs(
+    before: Option<&ComposerNodeRefParams>,
+    after: Option<&ComposerNodeRefParams>,
+) -> Result<(), ServerError> {
+    if let Some(node) = before {
+        validate_node_ref(node)?;
+    }
+    if let Some(node) = after {
+        validate_node_ref(node)?;
+    }
+    Ok(())
+}
+
+fn validate_node_ref(node: &ComposerNodeRefParams) -> Result<(), ServerError> {
+    validate_composer_digest(&node.node_key, "nodeKey")
+}
+
+fn validate_new_statement(statement: &ComposerNewStatementParams) -> Result<(), ServerError> {
+    match statement {
+        ComposerNewStatementParams::Message { speaker, body, .. } => {
+            validate_speaker_choice(speaker)?;
+            validate_statement_body_input(body)
+        }
+        ComposerNewStatementParams::Narration { body } => validate_statement_body_input(body),
+    }
+}
+
+fn validate_statement_body_input(
+    body: &ComposerStatementBodyInputParams,
+) -> Result<(), ServerError> {
+    if body.value.is_empty()
+        || body.value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
+        || body.value.contains(['\r', '\n'])
+    {
+        return Err(ServerError::invalid_params(format!(
+            "statement text must be 1-{COMPOSER_STATEMENT_TEXT_MAX_BYTES} UTF-8 bytes on one line"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_speaker_choice(choice: &ComposerSpeakerChoiceParams) -> Result<(), ServerError> {
+    let ComposerSpeakerChoiceParams::Actor { reference } = choice;
+    if reference.is_empty()
+        || reference.len() > COMPOSER_SPEAKER_REFERENCE_MAX_BYTES
+        || reference.trim() != reference
+        || reference.contains(['\r', '\n'])
+        || reference.chars().any(char::is_control)
+    {
+        return Err(ServerError::invalid_params(format!(
+            "speaker reference must be 1-{COMPOSER_SPEAKER_REFERENCE_MAX_BYTES} UTF-8 bytes without surrounding whitespace, newlines or controls"
+        )));
+    }
+    Ok(())
+}
+
+fn structure_node_ref(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    node: ComposerNodeRefParams,
+) -> Result<ComposerNodeRef, ServerError> {
+    Ok(ComposerNodeRef {
+        node_key: node.node_key,
+        node_kind: node.node_kind.into(),
+        range: snapshot
+            .text_range(node.range.into())
+            .ok_or_else(|| ServerError::invalid_params("Composer node range is invalid"))?,
+    })
+}
+
+fn structure_boundary_target(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    target: ComposerBoundaryTargetParams,
+) -> Result<ComposerBoundaryTarget, ServerError> {
+    let ComposerBoundaryTargetParams::Boundary { before, after } = target;
+    Ok(ComposerBoundaryTarget {
+        before: before
+            .map(|node| structure_node_ref(snapshot, node))
+            .transpose()?,
+        after: after
+            .map(|node| structure_node_ref(snapshot, node))
+            .transpose()?,
+    })
+}
+
+fn structure_target(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    target: ComposerStructureTargetParams,
+) -> Result<ComposerStructureTarget, ServerError> {
+    match target {
+        ComposerStructureTargetParams::Node { node } => Ok(ComposerStructureTarget::Node(
+            structure_node_ref(snapshot, node)?,
+        )),
+        ComposerStructureTargetParams::Boundary { before, after } => {
+            Ok(ComposerStructureTarget::Boundary(ComposerBoundaryTarget {
+                before: before
+                    .map(|node| structure_node_ref(snapshot, node))
+                    .transpose()?,
+                after: after
+                    .map(|node| structure_node_ref(snapshot, node))
+                    .transpose()?,
+            }))
+        }
+    }
+}
+
+fn structure_command(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    command: ComposerStructureCommandParams,
+) -> Result<ComposerStructureCommand, ServerError> {
+    Ok(match command {
+        ComposerStructureCommandParams::InsertStatement { statement } => {
+            ComposerStructureCommand::InsertStatement {
+                statement: statement.into(),
+            }
+        }
+        ComposerStructureCommandParams::DeleteNode => ComposerStructureCommand::DeleteNode,
+        ComposerStructureCommandParams::MoveNode { anchor } => ComposerStructureCommand::MoveNode {
+            anchor: structure_boundary_target(snapshot, anchor)?,
+        },
+        ComposerStructureCommandParams::SetStatementSpeaker { speaker } => {
+            ComposerStructureCommand::SetStatementSpeaker {
+                speaker: speaker.into(),
+            }
+        }
+    })
 }
 
 fn validate_avatar_component(value: &str, field: &str) -> Result<(), ServerError> {
@@ -631,6 +973,8 @@ enum ComposerEditRejectedReason {
     ActorUnavailable,
     AvatarUnavailable,
     CandidateInvalid,
+    UnsupportedStructure,
+    SpeakerUnavailable,
 }
 
 impl From<ComposerEditRejection> for ComposerEditRejectedReason {
@@ -643,6 +987,8 @@ impl From<ComposerEditRejection> for ComposerEditRejectedReason {
             ComposerEditRejection::ActorUnavailable => Self::ActorUnavailable,
             ComposerEditRejection::AvatarUnavailable => Self::AvatarUnavailable,
             ComposerEditRejection::CandidateInvalid => Self::CandidateInvalid,
+            ComposerEditRejection::UnsupportedStructure => Self::UnsupportedStructure,
+            ComposerEditRejection::SpeakerUnavailable => Self::SpeakerUnavailable,
         }
     }
 }
@@ -652,6 +998,495 @@ impl From<ComposerEditRejection> for ComposerEditRejectedReason {
 enum ComposerEditResult {
     Edit { edit: lsp_types::WorkspaceEdit },
     Rejected { reason: ComposerEditRejectedReason },
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerDocumentRejectedReason {
+    StaleDocument,
+    DocumentUnavailable,
+}
+
+impl From<ComposerDocumentRejection> for ComposerDocumentRejectedReason {
+    fn from(reason: ComposerDocumentRejection) -> Self {
+        match reason {
+            ComposerDocumentRejection::StaleDocument => Self::StaleDocument,
+            ComposerDocumentRejection::DocumentUnavailable => Self::DocumentUnavailable,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerNodeKindResult {
+    Message,
+    Narration,
+    Opaque,
+}
+
+impl From<ComposerDocumentNodeKind> for ComposerNodeKindResult {
+    fn from(kind: ComposerDocumentNodeKind) -> Self {
+        match kind {
+            ComposerDocumentNodeKind::Message => Self::Message,
+            ComposerDocumentNodeKind::Narration => Self::Narration,
+            ComposerDocumentNodeKind::Opaque => Self::Opaque,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerNodeRefResult {
+    node_key: String,
+    node_kind: ComposerNodeKindResult,
+    range: Range,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerBoundaryTargetResult {
+    kind: &'static str,
+    before: Option<ComposerNodeRefResult>,
+    after: Option<ComposerNodeRefResult>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerMessageSideResult {
+    Left,
+    Right,
+}
+
+impl From<ComposerMessageSide> for ComposerMessageSideResult {
+    fn from(side: ComposerMessageSide) -> Self {
+        match side {
+            ComposerMessageSide::Left => Self::Left,
+            ComposerMessageSide::Right => Self::Right,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerOpaqueCategoryResult {
+    Blank,
+    Comment,
+    Directive,
+    RecoverableError,
+    Unsupported,
+}
+
+impl From<ComposerOpaqueCategory> for ComposerOpaqueCategoryResult {
+    fn from(category: ComposerOpaqueCategory) -> Self {
+        match category {
+            ComposerOpaqueCategory::Blank => Self::Blank,
+            ComposerOpaqueCategory::Comment => Self::Comment,
+            ComposerOpaqueCategory::Directive => Self::Directive,
+            ComposerOpaqueCategory::RecoverableError => Self::RecoverableError,
+            ComposerOpaqueCategory::Unsupported => Self::Unsupported,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+enum ComposerSpeakerSourceResult {
+    ScriptActor,
+    PackEntity,
+}
+
+impl From<ComposerSpeakerSource> for ComposerSpeakerSourceResult {
+    fn from(source: ComposerSpeakerSource) -> Self {
+        match source {
+            ComposerSpeakerSource::ScriptActor => Self::ScriptActor,
+            ComposerSpeakerSource::PackEntity => Self::PackEntity,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerSpeakerResult {
+    #[serde(rename = "actor")]
+    Actor {
+        reference: String,
+        #[serde(rename = "displayName")]
+        display_name: String,
+        #[serde(rename = "primaryName")]
+        primary_name: String,
+        #[serde(rename = "presetId")]
+        preset_id: String,
+        avatar: Option<ComposerAvatarCurrentResult>,
+    },
+    #[serde(rename = "builtin")]
+    Builtin { id: String },
+}
+
+impl From<ComposerSpeakerDescription> for ComposerSpeakerResult {
+    fn from(speaker: ComposerSpeakerDescription) -> Self {
+        match speaker {
+            ComposerSpeakerDescription::Actor {
+                reference,
+                display_name,
+                primary_name,
+                preset_id,
+                avatar,
+            } => Self::Actor {
+                reference,
+                display_name,
+                primary_name,
+                preset_id,
+                avatar: avatar.map(Into::into),
+            },
+            ComposerSpeakerDescription::Builtin { id } => Self::Builtin { id },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerStatementBodyResult {
+    current: String,
+    mode: ComposerStatementTextModeResult,
+    resolved_mode: Option<ComposerBodyModeResult>,
+    inherited_mode: Option<ComposerBodyModeResult>,
+}
+
+impl From<ComposerStatementBody> for ComposerStatementBodyResult {
+    fn from(body: ComposerStatementBody) -> Self {
+        Self {
+            current: body.current,
+            mode: body.mode.into(),
+            resolved_mode: body.resolved_mode.map(Into::into),
+            inherited_mode: body.inherited_mode.map(Into::into),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerMessageCapabilitiesResult {
+    set_body: bool,
+    set_continued: bool,
+    set_display_name: bool,
+    set_avatar: bool,
+    set_speaker: bool,
+    delete: bool,
+    move_up: Option<ComposerBoundaryTargetResult>,
+    move_down: Option<ComposerBoundaryTargetResult>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerNarrationCapabilitiesResult {
+    set_body: bool,
+    delete: bool,
+    move_up: Option<ComposerBoundaryTargetResult>,
+    move_down: Option<ComposerBoundaryTargetResult>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerDocumentNodeResult {
+    #[serde(rename = "message")]
+    Message {
+        #[serde(rename = "nodeKey")]
+        node_key: String,
+        range: Range,
+        #[serde(rename = "statementRange")]
+        statement_range: Range,
+        side: ComposerMessageSideResult,
+        speaker: Option<ComposerSpeakerResult>,
+        body: ComposerStatementBodyResult,
+        continued: Option<ComposerContinuedResult>,
+        #[serde(rename = "actorDisplayName")]
+        actor_display_name: Option<String>,
+        #[serde(rename = "actorAvatar")]
+        actor_avatar: Option<ComposerActorAvatarResult>,
+        capabilities: ComposerMessageCapabilitiesResult,
+    },
+    #[serde(rename = "narration")]
+    Narration {
+        #[serde(rename = "nodeKey")]
+        node_key: String,
+        range: Range,
+        #[serde(rename = "statementRange")]
+        statement_range: Range,
+        body: ComposerStatementBodyResult,
+        capabilities: ComposerNarrationCapabilitiesResult,
+    },
+    #[serde(rename = "opaque")]
+    Opaque {
+        #[serde(rename = "nodeKey")]
+        node_key: String,
+        range: Range,
+        category: ComposerOpaqueCategoryResult,
+        #[serde(rename = "sourcePreview")]
+        source_preview: String,
+        #[serde(rename = "sourceTruncated")]
+        source_truncated: bool,
+        summary: String,
+        #[serde(rename = "canOpenSource")]
+        can_open_source: bool,
+    },
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerInsertCapabilityResult {
+    boundary: ComposerBoundaryTargetResult,
+    message_sides: Vec<ComposerMessageSideResult>,
+    statement_modes: Vec<ComposerStatementTextModeResult>,
+    speaker_sources: Vec<ComposerSpeakerSourceResult>,
+    narration: bool,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerBoundaryResult {
+    target: ComposerBoundaryTargetResult,
+    insert: Option<ComposerInsertCapabilityResult>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerScriptActorChoiceResult {
+    reference: String,
+    display_name: String,
+    primary_name: String,
+    preset_id: String,
+    avatar: Option<ComposerAvatarCurrentResult>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerDocumentResult {
+    Snapshot {
+        #[serde(rename = "textDocument")]
+        text_document: ComposerTextDocumentResult,
+        #[serde(rename = "sourceDigest")]
+        source_digest: String,
+        nodes: Vec<ComposerDocumentNodeResult>,
+        boundaries: Vec<ComposerBoundaryResult>,
+        #[serde(rename = "scriptActorChoices")]
+        script_actor_choices: Vec<ComposerScriptActorChoiceResult>,
+    },
+    Rejected {
+        reason: ComposerDocumentRejectedReason,
+    },
+}
+
+fn composer_document_range(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    range: mmt_rs::source::TextRange,
+) -> Result<Range, ServerError> {
+    snapshot
+        .range(range)
+        .ok_or_else(|| ServerError::internal_error("Composer document range conversion failed"))
+}
+
+fn composer_node_ref_result(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    node: &ComposerNodeRef,
+) -> Result<ComposerNodeRefResult, ServerError> {
+    Ok(ComposerNodeRefResult {
+        node_key: node.node_key.clone(),
+        node_kind: node.node_kind.into(),
+        range: composer_document_range(snapshot, node.range)?,
+    })
+}
+
+fn composer_boundary_target_result(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    target: &ComposerBoundaryTarget,
+) -> Result<ComposerBoundaryTargetResult, ServerError> {
+    Ok(ComposerBoundaryTargetResult {
+        kind: "boundary",
+        before: target
+            .before
+            .as_ref()
+            .map(|node| composer_node_ref_result(snapshot, node))
+            .transpose()?,
+        after: target
+            .after
+            .as_ref()
+            .map(|node| composer_node_ref_result(snapshot, node))
+            .transpose()?,
+    })
+}
+
+fn composer_insert_capability_result(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    capability: &ComposerInsertCapability,
+) -> Result<ComposerInsertCapabilityResult, ServerError> {
+    Ok(ComposerInsertCapabilityResult {
+        boundary: composer_boundary_target_result(snapshot, &capability.boundary)?,
+        message_sides: capability
+            .message_sides
+            .iter()
+            .copied()
+            .map(Into::into)
+            .collect(),
+        statement_modes: capability
+            .statement_modes
+            .iter()
+            .copied()
+            .map(Into::into)
+            .collect(),
+        speaker_sources: capability
+            .speaker_sources
+            .iter()
+            .copied()
+            .map(Into::into)
+            .collect(),
+        narration: capability.narration,
+    })
+}
+
+fn composer_message_capabilities_result(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    capabilities: &ComposerMessageCapabilities,
+) -> Result<ComposerMessageCapabilitiesResult, ServerError> {
+    Ok(ComposerMessageCapabilitiesResult {
+        set_body: capabilities.set_body,
+        set_continued: capabilities.set_continued,
+        set_display_name: capabilities.set_display_name,
+        set_avatar: capabilities.set_avatar,
+        set_speaker: capabilities.set_speaker,
+        delete: capabilities.delete,
+        move_up: capabilities
+            .move_up
+            .as_ref()
+            .map(|target| composer_boundary_target_result(snapshot, target))
+            .transpose()?,
+        move_down: capabilities
+            .move_down
+            .as_ref()
+            .map(|target| composer_boundary_target_result(snapshot, target))
+            .transpose()?,
+    })
+}
+
+fn composer_narration_capabilities_result(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+    capabilities: &ComposerNarrationCapabilities,
+) -> Result<ComposerNarrationCapabilitiesResult, ServerError> {
+    Ok(ComposerNarrationCapabilitiesResult {
+        set_body: capabilities.set_body,
+        delete: capabilities.delete,
+        move_up: capabilities
+            .move_up
+            .as_ref()
+            .map(|target| composer_boundary_target_result(snapshot, target))
+            .transpose()?,
+        move_down: capabilities
+            .move_down
+            .as_ref()
+            .map(|target| composer_boundary_target_result(snapshot, target))
+            .transpose()?,
+    })
+}
+
+fn bounded_source_preview(source: &str) -> (String, bool) {
+    const MAX_BYTES: usize = 4096;
+    if source.len() <= MAX_BYTES {
+        return (source.to_owned(), false);
+    }
+    let mut end = MAX_BYTES;
+    while !source.is_char_boundary(end) {
+        end -= 1;
+    }
+    (source[..end].to_owned(), true)
+}
+
+fn composer_document_result(
+    snapshot: &crate::service::ComposerDocumentSnapshot<'_>,
+) -> Result<ComposerDocumentResult, ServerError> {
+    let projection = &snapshot.projection;
+    let mut nodes = Vec::with_capacity(projection.nodes.len());
+    for node in &projection.nodes {
+        nodes.push(match node {
+            ComposerDocumentNode::Message(node) => {
+                let description = &node.description;
+                ComposerDocumentNodeResult::Message {
+                    node_key: node.node_key.clone(),
+                    range: composer_document_range(snapshot, node.range)?,
+                    statement_range: composer_document_range(snapshot, node.statement_range)?,
+                    side: node.side.into(),
+                    speaker: description.speaker.clone().map(Into::into),
+                    body: description.body.clone().into(),
+                    continued: description.continued.map(Into::into),
+                    actor_display_name: description.actor_display_name.clone(),
+                    actor_avatar: description.actor_avatar.clone().map(|avatar| {
+                        ComposerActorAvatarResult {
+                            scope: ComposerActorAvatarScope::FromStatement,
+                            actor_preset_id: avatar.actor_preset_id,
+                            current: avatar.current.map(Into::into),
+                        }
+                    }),
+                    capabilities: composer_message_capabilities_result(
+                        snapshot,
+                        &node.capabilities,
+                    )?,
+                }
+            }
+            ComposerDocumentNode::Narration(node) => ComposerDocumentNodeResult::Narration {
+                node_key: node.node_key.clone(),
+                range: composer_document_range(snapshot, node.range)?,
+                statement_range: composer_document_range(snapshot, node.statement_range)?,
+                body: node.description.body.clone().into(),
+                capabilities: composer_narration_capabilities_result(snapshot, &node.capabilities)?,
+            },
+            ComposerDocumentNode::Opaque(node) => {
+                let authored = &snapshot.text[node.range.start..node.range.end];
+                let (source_preview, source_truncated) = bounded_source_preview(authored);
+                ComposerDocumentNodeResult::Opaque {
+                    node_key: node.node_key.clone(),
+                    range: composer_document_range(snapshot, node.range)?,
+                    category: node.category.into(),
+                    source_preview,
+                    source_truncated,
+                    summary: authored.chars().take(160).collect(),
+                    can_open_source: true,
+                }
+            }
+        });
+    }
+    let boundaries = projection
+        .boundaries
+        .iter()
+        .map(|boundary| {
+            Ok(ComposerBoundaryResult {
+                target: composer_boundary_target_result(snapshot, &boundary.target)?,
+                insert: boundary
+                    .insert
+                    .as_ref()
+                    .map(|capability| composer_insert_capability_result(snapshot, capability))
+                    .transpose()?,
+            })
+        })
+        .collect::<Result<Vec<_>, ServerError>>()?;
+    let script_actor_choices = projection
+        .script_actor_choices
+        .iter()
+        .map(|choice| ComposerScriptActorChoiceResult {
+            reference: choice.reference.clone(),
+            display_name: choice.display_name.clone(),
+            primary_name: choice.primary_name.clone(),
+            preset_id: choice.preset_id.clone(),
+            avatar: choice.avatar.clone().map(Into::into),
+        })
+        .collect();
+    Ok(ComposerDocumentResult::Snapshot {
+        text_document: ComposerTextDocumentResult {
+            uri: snapshot.uri.clone(),
+            version: snapshot.version,
+        },
+        source_digest: projection.source_digest.clone(),
+        nodes,
+        boundaries,
+        script_actor_choices,
+    })
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -711,6 +1546,14 @@ impl ServerError {
     fn invalid_request(error: impl ToString) -> Self {
         Self {
             code: -32600,
+            message: error.to_string(),
+            data: None,
+        }
+    }
+
+    fn internal_error(error: impl ToString) -> Self {
+        Self {
+            code: -32603,
             message: error.to_string(),
             data: None,
         }
@@ -928,18 +1771,57 @@ impl MmtLanguageServer {
                     },
                 })
             }
+            "mmt/composerDocument" => {
+                let params: ComposerDocumentParams = decode(params)?;
+                let uri = params.text_document.uri;
+                let version = params.text_document.version;
+                match self.service.composer_document(&uri, version) {
+                    Ok(snapshot) => encode(composer_document_result(&snapshot)?),
+                    Err(reason) => encode(ComposerDocumentResult::Rejected {
+                        reason: reason.into(),
+                    }),
+                }
+            }
             "mmt/composerEdit" => {
                 let params: ComposerEditParams = decode(params)?;
-                validate_composer_command(&params.command)?;
-                let target = match params.target {
-                    ComposerTargetParams::Statement { range } => range.into(),
+                let result = match params {
+                    ComposerEditParams::Property(params) => {
+                        validate_composer_command(&params.command)?;
+                        let target = match params.target {
+                            ComposerTargetParams::Statement { range } => range.into(),
+                        };
+                        self.service.composer_edit(
+                            &params.text_document.uri,
+                            params.text_document.version,
+                            target,
+                            params.command.into(),
+                        )
+                    }
+                    ComposerEditParams::Structure(params) => {
+                        validate_composer_structure(&params)?;
+                        let uri = params.text_document.uri;
+                        let version = params.text_document.version;
+                        let (target, command) = match self.service.composer_document(&uri, version)
+                        {
+                            Ok(snapshot) => (
+                                structure_target(&snapshot, params.target)?,
+                                structure_command(&snapshot, params.command)?,
+                            ),
+                            Err(_) => {
+                                return encode(ComposerEditResult::Rejected {
+                                    reason: ComposerEditRejectedReason::StaleDocument,
+                                });
+                            }
+                        };
+                        self.service.composer_structure_edit(
+                            &uri,
+                            version,
+                            &params.source_digest,
+                            target,
+                            command,
+                        )
+                    }
                 };
-                let result = self.service.composer_edit(
-                    &params.text_document.uri,
-                    params.text_document.version,
-                    target,
-                    params.command.into(),
-                );
                 encode(match result {
                     Ok(edit) => ComposerEditResult::Edit { edit },
                     Err(reason) => ComposerEditResult::Rejected {
@@ -1947,6 +2829,187 @@ mod tests {
             .request("mmt/previewComposerTarget", unknown)
             .unwrap_err();
         assert_eq!(strict.code, -32602);
+    }
+
+    #[test]
+    fn composer_document_is_strict_versioned_bounded_and_error_visible() {
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+
+        let valid_uri = Url::parse("file:///workspace/document.mmt").unwrap();
+        open_document(&mut server, &valid_uri, 3, "- Unicode 😀\r\n");
+        let valid = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": valid_uri, "version": 3}
+                }),
+            )
+            .unwrap();
+        assert_eq!(valid["kind"], "Snapshot");
+        assert_eq!(
+            valid["sourceDigest"],
+            "b764fdd6f4a8bb209bebee01873de5b29986a4ef2263ab6deae0c853ee1249f0"
+        );
+        assert_eq!(valid["nodes"][0]["kind"], "narration");
+        assert_eq!(
+            valid["nodes"][0]["range"],
+            serde_json::json!({
+                "start": {"line": 0, "character": 0},
+                "end": {"line": 1, "character": 0}
+            })
+        );
+        assert_eq!(valid["boundaries"].as_array().unwrap().len(), 2);
+
+        let empty_uri = Url::parse("file:///workspace/empty.mmt").unwrap();
+        open_document(&mut server, &empty_uri, 1, "");
+        let empty = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": empty_uri, "version": 1}
+                }),
+            )
+            .unwrap();
+        assert_eq!(empty["kind"], "Snapshot");
+        assert_eq!(empty["nodes"], serde_json::json!([]));
+        assert_eq!(empty["boundaries"].as_array().unwrap().len(), 1);
+
+        let error_uri = Url::parse("file:///workspace/error.mmt").unwrap();
+        let error_source = format!("// {}😀", "x".repeat(5000));
+        open_document(&mut server, &error_uri, 8, &error_source);
+        let error = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": error_uri, "version": 8}
+                }),
+            )
+            .unwrap();
+        assert_eq!(error["kind"], "Snapshot");
+        assert_eq!(error["nodes"][0]["kind"], "opaque");
+        assert_eq!(error["nodes"][0]["category"], "recoverableError");
+        assert_eq!(error["nodes"][0]["sourceTruncated"], true);
+        assert!(error["nodes"][0]["sourcePreview"].as_str().unwrap().len() <= 4096);
+        assert!(
+            error["nodes"][0]["summary"]
+                .as_str()
+                .unwrap()
+                .chars()
+                .count()
+                <= 160
+        );
+        assert!(
+            error["boundaries"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .all(|boundary| boundary["insert"].is_null())
+        );
+
+        assert_eq!(
+            server
+                .request(
+                    "mmt/composerDocument",
+                    serde_json::json!({
+                        "textDocument": {"uri": valid_uri, "version": 2}
+                    }),
+                )
+                .unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"staleDocument"})
+        );
+        assert!(
+            server
+                .request(
+                    "mmt/composerDocument",
+                    serde_json::json!({
+                        "textDocument": {"uri": valid_uri, "version": 3},
+                        "unknown": true
+                    }),
+                )
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn composer_structure_wire_is_strict_and_returns_one_versioned_edit() {
+        let uri = Url::parse("file:///workspace/structure.mmt").unwrap();
+        let source = "- A\n- B";
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        open_document(&mut server, &uri, 5, source);
+        let document = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 5}
+                }),
+            )
+            .unwrap();
+        let first = &document["nodes"][0];
+        let node_ref = serde_json::json!({
+            "nodeKey": first["nodeKey"],
+            "nodeKind": first["kind"],
+            "range": first["range"]
+        });
+        let params = serde_json::json!({
+            "textDocument": document["textDocument"],
+            "sourceDigest": document["sourceDigest"],
+            "target": {"kind": "node", "node": node_ref},
+            "command": {
+                "kind": "moveNode",
+                "anchor": first["capabilities"]["moveDown"]
+            }
+        });
+        let edit = server.request("mmt/composerEdit", params.clone()).unwrap();
+        assert_eq!(edit["kind"], "Edit");
+        assert!(edit["edit"].get("changes").is_none());
+        assert_eq!(edit["edit"]["documentChanges"].as_array().unwrap().len(), 1);
+        assert_eq!(
+            edit["edit"]["documentChanges"][0]["textDocument"],
+            serde_json::json!({"uri":uri,"version":5})
+        );
+        assert_eq!(
+            edit["edit"]["documentChanges"][0]["edits"],
+            serde_json::json!([{
+                "range": {
+                    "start": {"line":0,"character":0},
+                    "end": {"line":1,"character":3}
+                },
+                "newText":"- B\n- A"
+            }])
+        );
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+
+        let mut stale_digest = params.clone();
+        stale_digest["sourceDigest"] = serde_json::json!("0".repeat(64));
+        assert_eq!(
+            server.request("mmt/composerEdit", stale_digest).unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"staleDocument"})
+        );
+
+        let mut invalid_combo = params.clone();
+        invalid_combo["target"] = document["boundaries"][0]["target"].clone();
+        assert!(server.request("mmt/composerEdit", invalid_combo).is_err());
+
+        let mut unknown = params.clone();
+        unknown["command"]["unknown"] = serde_json::json!(true);
+        assert!(server.request("mmt/composerEdit", unknown).is_err());
+
+        let mut overlong = params;
+        overlong["command"] = serde_json::json!({
+            "kind":"insertStatement",
+            "statement":{
+                "kind":"narration",
+                "body":{"value":"x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1),"mode":"inherit"}
+            }
+        });
+        overlong["target"] = document["boundaries"][0]["target"].clone();
+        assert!(server.request("mmt/composerEdit", overlong).is_err());
     }
 
     #[test]

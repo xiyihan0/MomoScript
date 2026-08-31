@@ -621,8 +621,8 @@ try {
     } catch (error) {
       malformedModeError = error;
     }
-    if (!malformedModeError || !/unknown variant|decode|invalid params/i.test(malformedModeError.message)) {
-      throw new Error("browser Worker accepted an unsupported statement-text mode");
+    if (!malformedModeError || !/unknown variant|decode|invalid params|did not match/i.test(malformedModeError.message)) {
+      throw new Error(`browser Worker accepted an unsupported statement-text mode: ${malformedModeError?.message ?? "no error"}`);
     }
     let malformedMessageError;
     try {
@@ -639,8 +639,8 @@ try {
     } catch (error) {
       malformedMessageError = error;
     }
-    if (!malformedMessageError || !/unknown field|decode|invalid params/i.test(malformedMessageError.message)) {
-      throw new Error("browser Worker accepted unknown statement-text command fields");
+    if (!malformedMessageError || !/unknown field|decode|invalid params|did not match/i.test(malformedMessageError.message)) {
+      throw new Error(`browser Worker accepted unknown statement-text command fields: ${malformedMessageError?.message ?? "no error"}`);
     }
     const unchangedMessageTarget = await request("mmt/previewComposerTarget", avatarPreviewParams);
     if (unchangedMessageTarget.properties?.statementText?.current !== "Hello") {
@@ -734,6 +734,95 @@ try {
       || Object.hasOwn(composerTarget.properties, "actorAvatar")
     ) {
       throw new Error(`browser Worker preview Composer target mismatch: ${JSON.stringify(composerTarget)}`);
+    }
+    const composerDocument = await request("mmt/composerDocument", {
+      textDocument: composerTarget.textDocument
+    });
+    if (
+      composerDocument.kind !== "Snapshot"
+      || !hasExactKeys(composerDocument, [
+        "kind",
+        "textDocument",
+        "sourceDigest",
+        "nodes",
+        "boundaries",
+        "scriptActorChoices"
+      ])
+      || composerDocument.sourceDigest !== "bce2aba48a26a2a0563a796525448e08544fde34437b58b077b2f890f60ecc9a"
+      || composerDocument.textDocument.uri !== composerUri
+      || composerDocument.textDocument.version !== 7
+      || composerDocument.nodes.length !== 1
+      || composerDocument.nodes[0].kind !== "message"
+      || composerDocument.nodes[0].range.start.character !== 0
+      || composerDocument.nodes[0].range.end.character !== composerSource.length
+      || composerDocument.nodes[0].body.current !== "hello"
+      || composerDocument.nodes[0].capabilities.setSpeaker !== false
+      || composerDocument.boundaries.length !== 2
+    ) {
+      throw new Error(
+        `browser Worker Composer document mismatch: ${JSON.stringify(composerDocument)}`
+      );
+    }
+    const staleComposerDocument = await request("mmt/composerDocument", {
+      textDocument: { ...composerTarget.textDocument, version: 6 }
+    });
+    if (
+      staleComposerDocument.kind !== "Rejected"
+      || staleComposerDocument.reason !== "staleDocument"
+      || !hasExactKeys(staleComposerDocument, ["kind", "reason"])
+    ) {
+      throw new Error(
+        `browser Worker stale Composer document mismatch: ${JSON.stringify(staleComposerDocument)}`
+      );
+    }
+    const structureUri = "file:///workspace/structure-worker.mmt";
+    const structureProjectPromise = waitForNotification(
+      "mmt/typstProjectUpdated",
+      (message) => message.params.sourceUri === structureUri
+    );
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: structureUri,
+        languageId: "mmt",
+        version: 1,
+        text: "- A\n- B"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === structureUri
+    );
+    await structureProjectPromise;
+    const structureDocument = await request("mmt/composerDocument", {
+      textDocument: { uri: structureUri, version: 1 }
+    });
+    const structureNode = structureDocument.nodes?.[0];
+    const structureEdit = await request("mmt/composerEdit", {
+      textDocument: structureDocument.textDocument,
+      sourceDigest: structureDocument.sourceDigest,
+      target: {
+        kind: "node",
+        node: {
+          nodeKey: structureNode.nodeKey,
+          nodeKind: structureNode.kind,
+          range: structureNode.range
+        }
+      },
+      command: {
+        kind: "moveNode",
+        anchor: structureNode.capabilities.moveDown
+      }
+    });
+    if (
+      structureDocument.kind !== "Snapshot"
+      || structureEdit.kind !== "Edit"
+      || structureEdit.edit?.documentChanges?.length !== 1
+      || structureEdit.edit.documentChanges[0].edits?.length !== 1
+      || structureEdit.edit.documentChanges[0].edits[0].newText !== "- B\n- A"
+    ) {
+      throw new Error(
+        `browser Worker structural Composer mismatch: ${JSON.stringify({ structureDocument, structureEdit })}`
+      );
     }
     const unavailableComposerTarget = await request("mmt/previewComposerTarget", {
       ...composerPreviewParams,
@@ -1031,8 +1120,11 @@ try {
       renderNotificationIdentity: acceptedRenderProject.params.projectDigest === renderProject.projectDigest,
       composerResultKinds: [
         composerTarget.kind,
+        composerDocument.kind,
+        staleComposerDocument.kind,
         unavailableComposerTarget.kind,
         composerEdit.kind,
+        structureEdit.kind,
         rejectedComposerEdit.kind
       ],
       synchronizationVersions: [afterDuplicate.sourceVersion, afterOlder.sourceVersion],
@@ -1091,7 +1183,7 @@ try {
   if (result.semanticDiagnosticCount < 1) throw new Error("missing browser Worker semantic diagnostics");
   if (
     JSON.stringify(result.composerResultKinds)
-    !== JSON.stringify(["Editable", "Unavailable", "Edit", "Rejected"])
+    !== JSON.stringify(["Editable", "Snapshot", "Rejected", "Unavailable", "Edit", "Edit", "Rejected"])
   ) {
     throw new Error(`browser Worker Composer result unions mismatch: ${JSON.stringify(result.composerResultKinds)}`);
   }

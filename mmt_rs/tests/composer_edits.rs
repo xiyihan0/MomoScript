@@ -414,6 +414,43 @@ fn statement_text_replaces_only_body_and_preserves_parameters_crlf_and_escapes()
 }
 
 #[test]
+fn statement_text_preserves_trailing_blank_continuations() {
+    let source = "> 佳代子: original\r\n\r\n@reply: A | B\r\n@bond: bond";
+    let packs = registry();
+    let analysis = analyze_text_with_pack(source, &packs);
+    let parsed = statement(&analysis, 0);
+    assert_eq!(parsed.body.source, "original\n");
+    assert_eq!(
+        &source[parsed.body.range.start..parsed.body.range.end],
+        "original\r\n"
+    );
+    assert_eq!(
+        statement_text(source, 0, "targeted"),
+        "> 佳代子: targeted\r\n\r\n@reply: A | B\r\n@bond: bond"
+    );
+}
+
+#[test]
+fn statement_text_preserves_lf_and_multiple_blank_continuations() {
+    for (source, expected) in [
+        (
+            "> 佳代子: original\n\n@reply: A | B",
+            "> 佳代子: targeted\n\n@reply: A | B",
+        ),
+        (
+            "> 佳代子: original\n\n\n@reply: A | B",
+            "> 佳代子: targeted\n\n\n@reply: A | B",
+        ),
+        (
+            "> 佳代子: original\r\n\r\n\r\n@reply: A | B",
+            "> 佳代子: targeted\r\n\r\n\r\n@reply: A | B",
+        ),
+    ] {
+        assert_eq!(statement_text(source, 0, "targeted"), expected);
+    }
+}
+
+#[test]
 fn statement_text_edits_right_chat_and_narration_without_changing_their_markers() {
     assert_eq!(
         statement_text("< 佳代子: right before", 0, "right after"),

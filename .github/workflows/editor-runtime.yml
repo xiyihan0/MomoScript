@@ -325,6 +325,8 @@ jobs:
           npm --prefix editors/vscode run test:tinymist-worker
           npm --prefix editors/vscode run test:web
           npm --prefix editors/vscode-web run check
+          npm --prefix editors/vscode-web run test:composer-document
+          npm --prefix editors/vscode-web run test:composer-runtime
           npm --prefix editors/vscode run test:preview-renderer-protocol
           npm --prefix editors/vscode-web run test:preview-renderer-session
           npm --prefix editors/vscode-web run test:preview-render-queue

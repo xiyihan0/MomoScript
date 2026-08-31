@@ -1,4 +1,4 @@
-import { expect, test, waitForPreviewFrame } from "./fixtures";
+import { expect, invokeMmtE2E, test, waitForPreviewFrame } from "./fixtures";
 
 test("installed production editor cold-starts offline with language workers and preview", async ({ page, context }) => {
   await page.goto("/");
@@ -12,13 +12,17 @@ test("installed production editor cold-starts offline with language workers and 
     .filter((url) => url.includes("NotoSansCJK")));
   expect(notoRequests).toEqual([]);
 
+  const controlled = await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    return Boolean(navigator.serviceWorker.controller);
+  });
+  if (!controlled) {
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
+  }
   const cacheEvidence = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
-    if (!navigator.serviceWorker.controller) {
-      await new Promise<void>((resolve) => {
-        navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true });
-      });
-    }
+    if (!navigator.serviceWorker.controller) throw new Error("installed service worker does not control the production page");
     const source = await (await fetch(registration.active?.scriptURL ?? "/sw.js")).text();
     const localMatch = source.match(/const PRECACHE_URLS = (\[.*?\]);\n/);
     if (!localMatch) throw new Error("generated service-worker manifest is missing");
@@ -46,10 +50,39 @@ test("installed production editor cold-starts offline with language workers and 
   expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(6);
   expect(cacheEvidence.required.filter((entry) => !entry.cached)).toEqual([]);
 
+  await page.setViewportSize({ width: 390, height: 700 });
+  await invokeMmtE2E(page, "workspace", "openDocument", "offline-gui.mmt", "- offline GUI card\n");
+  await expect.poll(() => invokeMmtE2E(page, "composer", "editorState", "offline-gui.mmt")).toMatchObject({
+    guiVisible: true,
+    sourceVisible: false,
+    textDocumentCount: 1,
+    modelCount: 1,
+  });
+  await invokeMmtE2E(page, "composer", "keepEditor", "offline-gui.mmt");
+  await expect.poll(() => invokeMmtE2E(page, "gui", "state")).toMatchObject({
+    uri: "mmtfs://workspace/offline-gui.mmt",
+    nodeKinds: ["narration"],
+    pending: false,
+  });
+
   await page.goto("about:blank");
   await context.setOffline(true);
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
+  await expect.poll(() => invokeMmtE2E(page, "composer", "editorState", "offline-gui.mmt")).toMatchObject({
+    guiVisible: true,
+    sourceVisible: false,
+    textDocumentCount: 1,
+    modelCount: 1,
+  });
+  await expect.poll(() => invokeMmtE2E(page, "gui", "state")).toMatchObject({
+    uri: "mmtfs://workspace/offline-gui.mmt",
+    nodeKinds: ["narration"],
+    pending: false,
+  });
+  const gui = page.getByRole("region", { name: "MomoScript GUI 创作" });
+  await expect(gui.locator(".mmt-composer-card")).toContainText("offline GUI card");
+  await gui.getByRole("button", { name: "高级源码" }).click();
   const editor = page.locator(".workbench-editor .monaco-editor").first();
   await expect(editor).toBeVisible();
 

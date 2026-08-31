@@ -7,6 +7,12 @@ import type {
   TextEdit as ProtocolTextEdit,
   WorkspaceEdit as ProtocolWorkspaceEdit,
 } from "vscode-languageserver";
+import type {
+  ComposerBoundaryTarget,
+  ComposerMessageSide,
+  ComposerNodeRef,
+} from "./composerDocument";
+
 
 export type StatementContinuedValue = "auto" | "true" | "false";
 export type StatementTextMode =
@@ -106,6 +112,46 @@ export interface ComposerEditParams {
   readonly command: ComposerEditCommand;
 }
 
+export type ComposerStructureTarget =
+  | { readonly kind: "node"; readonly node: ComposerNodeRef }
+  | ComposerBoundaryTarget;
+
+export type ComposerSpeakerChoice = {
+  readonly kind: "actor";
+  readonly reference: string;
+};
+
+export type ComposerNewStatement =
+  | {
+      readonly kind: "message";
+      readonly side: ComposerMessageSide;
+      readonly speaker: ComposerSpeakerChoice;
+      readonly body: { readonly value: string; readonly mode: StatementTextMode };
+      readonly continued: StatementContinuedValue;
+    }
+  | {
+      readonly kind: "narration";
+      readonly body: { readonly value: string; readonly mode: StatementTextMode };
+    };
+
+export type ComposerStructureCommand =
+  | { readonly kind: "insertStatement"; readonly statement: ComposerNewStatement }
+  | { readonly kind: "deleteNode" }
+  | { readonly kind: "moveNode"; readonly anchor: ComposerBoundaryTarget }
+  | {
+      readonly kind: "setStatementSpeaker";
+      readonly speaker: ComposerSpeakerChoice;
+    };
+
+export interface ComposerStructureEditParams {
+  readonly textDocument: ComposerTextDocument;
+  readonly sourceDigest: string;
+  readonly target: ComposerStructureTarget;
+  readonly command: ComposerStructureCommand;
+}
+
+export type AnyComposerEditParams = ComposerEditParams | ComposerStructureEditParams;
+
 export type ComposerEditRejectedReason =
   | "staleDocument"
   | "targetChanged"
@@ -113,6 +159,8 @@ export type ComposerEditRejectedReason =
   | "invalidValue"
   | "actorUnavailable"
   | "avatarUnavailable"
+  | "unsupportedStructure"
+  | "speakerUnavailable"
   | "candidateInvalid";
 
 export interface ComposerTextDocumentEdit extends ProtocolTextDocumentEdit {
@@ -176,6 +224,8 @@ const COMPOSER_REJECTED_REASONS = [
   "actorUnavailable",
   "candidateInvalid",
   "avatarUnavailable",
+  "unsupportedStructure",
+  "speakerUnavailable",
 ] as const;
 
 const CONTINUED_VALUES = ["auto", "true", "false"] as const;

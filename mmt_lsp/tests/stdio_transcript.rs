@@ -105,6 +105,12 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let expected_edit = shared
         .request("mmt/composerEdit", composer_edit_params.clone())
         .unwrap();
+    let composer_document_params = json!({
+        "textDocument": expected_target["textDocument"]
+    });
+    let expected_document = shared
+        .request("mmt/composerDocument", composer_document_params.clone())
+        .unwrap();
     let expected_symbols = shared
         .request("textDocument/documentSymbol", fixture["query"].clone())
         .unwrap();
@@ -206,6 +212,16 @@ fn native_stdio_matches_the_shared_server_transcript() {
         }),
     );
     assert_eq!(receive(&mut stdout)["result"], expected_edit);
+    send(
+        &mut stdin,
+        &json!({
+            "jsonrpc": "2.0",
+            "id": 50,
+            "method": "mmt/composerDocument",
+            "params": composer_document_params
+        }),
+    );
+    assert_eq!(receive(&mut stdout)["result"], expected_document);
     let manifest = json!({
         "schema": "mmt-pack.v3",
         "pack": {"namespace": "ba", "name": "BA fixture", "version": "1", "type": "base"},

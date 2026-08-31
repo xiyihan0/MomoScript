@@ -341,6 +341,8 @@ for (const reason of [
   "actorUnavailable",
   "candidateInvalid",
   "avatarUnavailable",
+  "unsupportedStructure",
+  "speakerUnavailable",
 ]) {
   assert.deepEqual(parseComposerEditResult({ kind: "Rejected", reason }, textDocument), { kind: "Rejected", reason });
 }

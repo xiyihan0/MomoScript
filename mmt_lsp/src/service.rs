@@ -18,21 +18,25 @@ use mmt_rs::syntax::{
     DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
 use mmt_rs::{
-    AnalyzedDocument, AssetId, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerCommand, ComposerFailure,
-    DocumentTimezone, EmitOptions, OccurrenceSyntax, RenameBindingKey, ResolvedResourceKind,
-    ResourceArgumentReplacement, SemanticIndex, SemanticOccurrence, SemanticOccurrenceRole,
-    SemanticSymbolKey, SpeakerIdentity, StaticPresetCatalog, compose_edit, compose_edit_with_pack,
-    diagnose_analyzed, diagnose_analyzed_with_pack, valid_asset_name,
+    AnalyzedDocument, AssetId, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerCommand,
+    ComposerDocumentProjection, ComposerFailure, ComposerStructureCommand,
+    ComposerStructureFailure, ComposerStructureTarget, DocumentTimezone, EmitOptions,
+    OccurrenceSyntax, RenameBindingKey, ResolvedResourceKind, ResourceArgumentReplacement,
+    SemanticIndex, SemanticOccurrence, SemanticOccurrenceRole, SemanticSymbolKey, SpeakerIdentity,
+    StaticPresetCatalog, compose_edit, compose_edit_with_pack, compose_structure_edit,
+    compose_structure_edit_with_pack, diagnose_analyzed, diagnose_analyzed_with_pack,
+    project_analyzed_composer_document, valid_asset_name,
 };
 
 use crate::clock::StageTimer;
-use crate::position::LineIndex;
+use crate::position::{LineIndex, PositionEncoding};
 
 #[derive(Debug, Clone)]
 pub struct DocumentSnapshot {
     pub version: i32,
     pub revision: u64,
     pub text: String,
+    pub source_digest: String,
     pub analysis: Arc<AnalyzedDocument>,
     pub lines: Arc<LineIndex>,
     pub pack_revision: Option<u64>,
@@ -49,6 +53,36 @@ pub(crate) enum ComposerEditRejection {
     ActorUnavailable,
     AvatarUnavailable,
     CandidateInvalid,
+    UnsupportedStructure,
+    SpeakerUnavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ComposerDocumentRejection {
+    StaleDocument,
+    DocumentUnavailable,
+}
+
+pub(crate) struct ComposerDocumentSnapshot<'a> {
+    pub uri: &'a Url,
+    pub version: i32,
+    pub text: &'a str,
+    pub lines: &'a LineIndex,
+    pub encoding: &'a PositionEncodingKind,
+    pub projection: ComposerDocumentProjection,
+}
+
+impl ComposerDocumentSnapshot<'_> {
+    pub fn text_range(&self, range: lsp_types::Range) -> Option<TextRange> {
+        let encoding = PositionEncoding::from_lsp(self.encoding).ok()?;
+        self.lines
+            .backend_range(range, encoding)
+            .ok()
+            .map(|range| range.into_text_range())
+    }
+    pub fn range(&self, range: TextRange) -> Option<lsp_types::Range> {
+        self.lines.range(self.text, range, self.encoding)
+    }
 }
 
 impl DocumentSnapshot {
@@ -62,10 +96,12 @@ impl DocumentSnapshot {
         analysis_ms: f64,
     ) -> Self {
         let lines = Arc::new(LineIndex::new(&text));
+        let source_digest = mmt_rs::composer_document_source_digest(&text);
         Self {
             version,
             revision,
             text,
+            source_digest,
             analysis: Arc::new(analysis),
             lines,
             pack_revision,
@@ -487,6 +523,101 @@ impl LanguageService {
                     version: Some(document.version),
                 },
                 edits,
+            }])),
+            change_annotations: None,
+        })
+    }
+
+    pub(crate) fn composer_document<'a>(
+        &'a self,
+        uri: &'a Url,
+        version: i32,
+    ) -> Result<ComposerDocumentSnapshot<'a>, ComposerDocumentRejection> {
+        let document = self
+            .snapshot(uri)
+            .ok_or(ComposerDocumentRejection::DocumentUnavailable)?;
+        if document.version != version {
+            return Err(ComposerDocumentRejection::StaleDocument);
+        }
+        let projection = project_analyzed_composer_document(&document.text, &document.analysis)
+            .map_err(|_| ComposerDocumentRejection::DocumentUnavailable)?;
+        if projection.source_digest != document.source_digest {
+            return Err(ComposerDocumentRejection::DocumentUnavailable);
+        }
+        Ok(ComposerDocumentSnapshot {
+            uri,
+            version: document.version,
+            text: &document.text,
+            lines: &document.lines,
+            encoding: &self.encoding,
+            projection,
+        })
+    }
+    pub(crate) fn composer_structure_edit(
+        &self,
+        uri: &Url,
+        version: i32,
+        source_digest: &str,
+        target: ComposerStructureTarget,
+        command: ComposerStructureCommand,
+    ) -> Result<WorkspaceEdit, ComposerEditRejection> {
+        let document = self
+            .snapshot(uri)
+            .filter(|document| document.version == version)
+            .ok_or(ComposerEditRejection::StaleDocument)?;
+        let source_edit = if let Some(pack_revision) = document.pack_revision {
+            if pack_revision != self.pack_revision
+                || document.pack_registry_digest != self.pack_registry_digest
+            {
+                return Err(ComposerEditRejection::CandidateInvalid);
+            }
+            let registry = self
+                .pack_registry
+                .as_ref()
+                .ok_or(ComposerEditRejection::CandidateInvalid)?;
+            compose_structure_edit_with_pack(
+                &document.text,
+                &document.analysis,
+                registry,
+                source_digest,
+                target,
+                command,
+            )
+        } else {
+            compose_structure_edit(
+                &document.text,
+                &document.analysis,
+                &StaticPresetCatalog::default(),
+                source_digest,
+                target,
+                command,
+            )
+        }
+        .map_err(|failure| match failure {
+            ComposerStructureFailure::StaleDocument => ComposerEditRejection::StaleDocument,
+            ComposerStructureFailure::TargetChanged => ComposerEditRejection::TargetChanged,
+            ComposerStructureFailure::DocumentHasErrors => ComposerEditRejection::DocumentHasErrors,
+            ComposerStructureFailure::InvalidValue => ComposerEditRejection::InvalidValue,
+            ComposerStructureFailure::UnsupportedStructure => {
+                ComposerEditRejection::UnsupportedStructure
+            }
+            ComposerStructureFailure::SpeakerUnavailable => {
+                ComposerEditRejection::SpeakerUnavailable
+            }
+            ComposerStructureFailure::CandidateInvalid => ComposerEditRejection::CandidateInvalid,
+        })?;
+        let range = document
+            .lines
+            .range(&document.text, source_edit.range, &self.encoding)
+            .ok_or(ComposerEditRejection::CandidateInvalid)?;
+        Ok(WorkspaceEdit {
+            changes: None,
+            document_changes: Some(DocumentChanges::Edits(vec![TextDocumentEdit {
+                text_document: OptionalVersionedTextDocumentIdentifier {
+                    uri: uri.clone(),
+                    version: Some(document.version),
+                },
+                edits: vec![OneOf::Left(TextEdit::new(range, source_edit.new_text))],
             }])),
             change_annotations: None,
         })
