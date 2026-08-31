@@ -189,6 +189,26 @@ fn bom_is_an_explicit_unsupported_partition_node() {
 }
 
 #[test]
+fn bom_prefix_before_blank_physical_line_partitions_losslessly() {
+    let source = "\u{feff}\n\n- narration";
+    let projection = project_composer_document(source, &catalog()).unwrap();
+    let blank = projection
+        .nodes
+        .iter()
+        .find_map(|node| match node {
+            ComposerDocumentNode::Opaque(node)
+                if node.category == ComposerOpaqueCategory::Blank =>
+            {
+                Some(node)
+            }
+            _ => None,
+        })
+        .expect("blank physical line after BOM must remain explicit");
+    assert_eq!(&source[blank.range.start..blank.range.end], "\n");
+    assert_partition(source);
+}
+
+#[test]
 fn digest_and_node_keys_are_deterministic_and_snapshot_local() {
     let source = "- one\n- two";
     let first = project_composer_document(source, &catalog()).unwrap();
