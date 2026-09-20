@@ -776,7 +776,7 @@ export class TypstFeatureRouter {
     if (!route) return undefined;
     const signature = await this.request("textDocument/signatureHelp", {
       textDocument: { uri: route.entryUri },
-      // Tinymist 0.15.4-rc3 advances the offset before classifying arguments.
+      // The pinned Tinymist backend advances the offset before classifying arguments.
       position: wireBackendPosition(route.index.previousScalar(route.position)),
       context: signatureContext(context)
     }, route.identity, token);

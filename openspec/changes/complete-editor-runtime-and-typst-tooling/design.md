@@ -978,7 +978,6 @@ Rejected. Pinned artifact capability results have not yet been captured for thos
 
 ## 17. Deferred decisions
 
-- whether to upgrade from Tinymist 0.15.2 and under which compatibility gate;
 - whether location mapping uses Tinymist preview protocol, document trace or a compiler-owned trace adapter;
 - whether partial rendering materially improves MMT documents after pack materialization;
 - public package registry endpoint and distribution digest availability;

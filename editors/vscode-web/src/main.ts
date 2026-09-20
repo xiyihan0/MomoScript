@@ -286,6 +286,8 @@ const encoder = new TextEncoder();
 const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
   TYPST_COMPILER_VERSION,
   TYPST_COMPILER_WASM_SHA256,
+  TINYMIST_VERSION,
+  TINYMIST_WASM_SHA256,
   "mmt-template-bundle-v1",
   "c02a98146312b8756f9f23654b194885358f603eed736f037f172d617330c05c",
 );
@@ -1681,6 +1683,8 @@ async function initializeRuntime(
             compilerVersion: TYPST_COMPILER_VERSION,
             compilerWasmDigest: TYPST_COMPILER_WASM_SHA256,
             compilerWasmBytes: new Uint8Array([0]),
+            rendererVersion: TINYMIST_VERSION,
+            rendererWasmDigest: TINYMIST_WASM_SHA256,
             templateBundleDigest: "mmt-template-bundle-v1",
             fontSetDigest: "mmt-exact-export-ui-fonts-v1",
             fonts: [],

@@ -6,6 +6,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { brotliDecompressSync } from "node:zlib";
+import {
+  beginDistTransaction,
+  commitDistTransaction,
+  readTrustedTinymistVsix,
+  restoreDistTransaction,
+  tinymistGrammarNotice
+} from "./tinymist-promotion-boundaries.mjs";
 
 const exec = promisify(execFile);
 const root = path.resolve(fileURLToPath(new URL("../../..", import.meta.url)));
@@ -95,6 +102,7 @@ if (mode === "build-promote" || mode === "promote" || mode === "repin" || mode =
   const nativePath = path.join(source, pin.artifacts.native.relativePath);
   const jsPath = path.join(source, pin.artifacts.webJs.relativePath);
   const wasmPath = path.join(source, pin.artifacts.webWasm.relativePath);
+  const packagePath = path.join(path.dirname(jsPath), "package.json");
   const nativeArtifact = await describeFile(nativePath);
   const jsArtifact = await describeFile(jsPath);
   const wasmArtifact = await describeFile(wasmPath);
@@ -124,7 +132,7 @@ if (mode === "build-promote" || mode === "promote" || mode === "repin" || mode =
   // CI qualification derives a temporary authority from those build outputs,
   // emits a separate bundle, and always restores the checked canonical state.
   if (mode === "repin") {
-    runtimePublication = await repinArtifacts(promotedArtifacts, nativePath, jsPath, wasmPath);
+    runtimePublication = await repinArtifacts(promotedArtifacts, nativePath, jsPath, wasmPath, packagePath);
   } else if (mode === "qualify") {
     qualificationBundle = await writeQualificationBundle(promotedArtifacts, nativePath, jsPath);
   }
@@ -168,7 +176,7 @@ async function requireVersion(command, args, pattern, expected) {
 
 function replaceOnce(text, pattern, replacement, label) {
   if ([...text.matchAll(pattern)].length !== 1) {
-    throw new Error(`runtimeArtifacts.ts must contain exactly one ${label}`);
+    throw new Error(`managed source must contain exactly one ${label}`);
   }
   return text.replace(pattern, typeof replacement === "function" ? replacement : () => replacement);
 }
@@ -261,12 +269,13 @@ async function installImmutable(filename, bytes) {
   try {
     const existing = await readFile(filename);
     if (!existing.equals(bytes)) throw new Error(`${filename}: immutable artifact already exists with different bytes`);
-    return;
+    return false;
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
   }
   await mkdir(path.dirname(filename), { recursive: true });
   await writeFile(filename, bytes, { flag: "wx" });
+  return true;
 }
 
 function stableJson(value) {
@@ -277,6 +286,16 @@ function stableJson(value) {
       .map(([key, child]) => [key, stableJson(child)]));
   }
   return value;
+}
+
+async function readTinymistVsix() {
+  if (!process.env.TINYMIST_VSIX) {
+    throw new Error("TINYMIST_VSIX must name the matching universal VSIX for repin");
+  }
+  return await readTrustedTinymistVsix(process.env.TINYMIST_VSIX, pin, async (snapshot, name) => {
+    const { stdout } = await run("unzip", ["-p", snapshot, name], root, true);
+    return stdout;
+  });
 }
 
 function checkedManifestPolicy(manifest) {
@@ -301,6 +320,33 @@ function checkedProviderOptions(evidence, host) {
   }));
 }
 
+function updateGeneratedArtifactIdentity(text, host, identity) {
+  const pattern = new RegExp(`  "${host}": Object\\.freeze\\(\\{\\n([\\s\\S]*?)\\n  \\} as const\\)`, "g");
+  return replaceOnce(text, pattern, (_, fields) => {
+    fields = replaceOnce(fields, /^    "backendVersion": "[^"]+",$/gm,
+      `    "backendVersion": ${JSON.stringify(pin.upstream.version)},`, `${host} backend version`);
+    fields = replaceOnce(fields, /^    "checksumReference": "[^"]+",$/gm,
+      `    "checksumReference": ${JSON.stringify(identity.checksumReference)},`, `${host} checksum reference`);
+    fields = replaceOnce(fields, /^    "digest": "[0-9a-f]{64}",$/gm,
+      `    "digest": "${identity.digest}",`, `${host} digest`);
+    return `  "${host}": Object.freeze({\n${fields}\n  } as const)`;
+  }, `${host} generated provider artifact`);
+}
+
+async function seedGeneratedArtifactIdentity(artifacts) {
+  const generatedPath = qualificationPaths["tinymistProviderQualification.generated.ts"];
+  let generated = await readFile(generatedPath, "utf8");
+  generated = updateGeneratedArtifactIdentity(generated, "native", {
+    checksumReference: "tinymist-native-patched.sha256",
+    digest: artifacts.native.sha256
+  });
+  generated = updateGeneratedArtifactIdentity(generated, "web", {
+    checksumReference: `vendor/tinymist-${pin.upstream.version}/SHA256SUMS`,
+    digest: artifacts.webWasm.sha256
+  });
+  await writeFile(generatedPath, generated);
+}
+
 async function runQualification(artifacts, nativePath, jsPath) {
   const nativeEvidencePath = qualificationPaths["tinymist-native-evidence.json"];
   const webEvidencePath = qualificationPaths["tinymist-web-evidence.json"];
@@ -319,6 +365,11 @@ async function runQualification(artifacts, nativePath, jsPath) {
     JSON.parse(await readFile(webEvidencePath, "utf8")),
     "Web"
   );
+
+  // The fixed identity gate must admit only the candidate bytes while probes
+  // run. The reviewed provider classifications remain unchanged until the
+  // observed evidence regenerates this module below.
+  await seedGeneratedArtifactIdentity(artifacts);
 
   await writeFile(nativeChecksumPath, `${artifacts.native.sha256}  tinymist\n`);
   const probeEnv = {
@@ -411,6 +462,7 @@ async function writeQualificationBundle(artifacts, nativePath, jsPath) {
   const originals = new Map();
   let staging;
   let identity;
+  let distTransaction;
   const failures = [];
   try {
     for (const [index, [, filename]] of qualificationFiles.entries()) {
@@ -424,6 +476,7 @@ async function writeQualificationBundle(artifacts, nativePath, jsPath) {
       }
     }
     try {
+      distTransaction = await beginDistTransaction(extensionRoot);
       identity = await runQualification(artifacts, nativePath, jsPath);
       await mkdir(path.dirname(output), { recursive: true });
       staging = await mkdtemp(path.join(path.dirname(output), `.${path.basename(output)}-`));
@@ -444,10 +497,17 @@ async function writeQualificationBundle(artifacts, nativePath, jsPath) {
         failures.push(error);
       }
     }
+    if (distTransaction) {
+      try {
+        await restoreDistTransaction(distTransaction);
+      } catch (error) {
+        failures.push(error);
+      }
+    }
     if (failures.length > 0) {
       if (staging) await rm(staging, { recursive: true, force: true });
       if (failures.length > 1) {
-        throw new AggregateError(failures, "Tinymist qualification failed or canonical files could not all be restored");
+        throw new AggregateError(failures, "Tinymist qualification failed or canonical files/dist could not all be restored");
       }
       throw failures[0];
     }
@@ -467,7 +527,12 @@ async function writeQualificationBundle(artifacts, nativePath, jsPath) {
   }
 }
 
-async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
+async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath, packagePath) {
+  const vsix = await readTinymistVsix();
+  const webPackage = JSON.parse(await readFile(packagePath, "utf8"));
+  if (webPackage.name !== "tinymist" || webPackage.version !== pin.upstream.version) {
+    throw new Error(`${packagePath}: Tinymist Web package version does not match ${pin.upstream.version}`);
+  }
   const runtimePath = path.join(root, "editors", "vscode-web", "src", "runtimeArtifacts.ts");
   const runtime = updateDecodedRuntime(await readFile(runtimePath, "utf8"), artifacts.webWasm);
   const vendor = path.join(extensionRoot, "vendor", `tinymist-${pin.upstream.version}`);
@@ -476,10 +541,14 @@ async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
   const canonicalFiles = [
     pinPath, runtimePath, checksumsPath,
     path.join(vendor, "tinymist.js"), path.join(vendor, "tinymist_bg.wasm"), path.join(vendor, "SHA256SUMS"),
+    path.join(vendor, "package.json"), path.join(vendor, "typst.tmLanguage.json"),
+    path.join(vendor, "GRAMMAR-NOTICE.txt"), path.join(vendor, "LICENSE"),
     ...qualificationFiles.map(([, filename]) => filename)
   ];
   const backup = await mkdtemp(path.join(tmpdir(), "mmt-tinymist-repin-"));
   const originals = new Map();
+  const installedImmutables = [];
+  let distTransaction;
   try {
     for (const [index, filename] of canonicalFiles.entries()) {
       const saved = path.join(backup, String(index));
@@ -505,11 +574,15 @@ async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
       const promotedRuntime = updateEncodedRuntime(runtime, publication.encoded, url);
       const cachePath = path.join(root, "editors", "vscode-web", ".runtime-artifacts", `${publication.encoded.sha256}.brotli.bin`);
       const publicPath = path.join(root, "editors", "vscode-web", "public", url.slice(1));
-      await installImmutable(cachePath, publication.encodedBytes);
-      await installImmutable(publicPath, publication.encodedBytes);
+      if (await installImmutable(cachePath, publication.encodedBytes)) installedImmutables.push(cachePath);
+      if (await installImmutable(publicPath, publication.encodedBytes)) installedImmutables.push(publicPath);
       await mkdir(vendor, { recursive: true });
       await copyFile(jsPath, path.join(vendor, "tinymist.js"));
       await copyFile(wasmPath, path.join(vendor, "tinymist_bg.wasm"));
+      await copyFile(packagePath, path.join(vendor, "package.json"));
+      await writeFile(path.join(vendor, "typst.tmLanguage.json"), vsix.grammar);
+      await writeFile(path.join(vendor, "LICENSE"), vsix.license);
+      await writeFile(path.join(vendor, "GRAMMAR-NOTICE.txt"), tinymistGrammarNotice(vsix));
       await verifyFile(path.join(vendor, "tinymist.js"), artifacts.webJs);
       await verifyFile(path.join(vendor, "tinymist_bg.wasm"), artifacts.webWasm);
       await writeFile(path.join(vendor, "SHA256SUMS"),
@@ -519,7 +592,10 @@ async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
         ...Object.values(artifacts).map((artifact) => `${artifact.sha256}  ${artifact.relativePath}`)
       ].join("\n") + "\n");
       await writeFile(runtimePath, promotedRuntime);
+      distTransaction = await beginDistTransaction(extensionRoot);
       await runQualification(artifacts, nativePath, jsPath);
+      await commitDistTransaction(distTransaction);
+      distTransaction = undefined;
       return {
         manifestPath: publication.manifestPath,
         decodedSha256: artifacts.webWasm.sha256,
@@ -538,7 +614,21 @@ async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
           failures.push(restoreError);
         }
       }
-      if (failures.length > 1) throw new AggregateError(failures, "Tinymist repin failed and canonical files could not all be restored");
+      for (const filename of installedImmutables.reverse()) {
+        try {
+          await rm(filename, { force: true });
+        } catch (restoreError) {
+          failures.push(restoreError);
+        }
+      }
+      if (distTransaction) {
+        try {
+          await restoreDistTransaction(distTransaction);
+        } catch (restoreError) {
+          failures.push(restoreError);
+        }
+      }
+      if (failures.length > 1) throw new AggregateError(failures, "Tinymist repin failed and canonical files/dist could not all be restored");
       throw error;
     }
   } finally {

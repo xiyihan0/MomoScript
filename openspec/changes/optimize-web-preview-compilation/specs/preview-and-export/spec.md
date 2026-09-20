@@ -78,7 +78,7 @@ Ordinary typing preview work SHALL be coalesced per source. Queued superseded wo
 
 ### Requirement: Persistent renderer use is capability-qualified
 
-The editor SHALL use a pinned Tinymist 0.15.2 `new`/`diff-v1` producer and typst.ts 0.8.0-rc3 consumer behind one qualification gate. The visible Webview SHALL be the sole preview DOM and viewport owner. It SHALL retain one persistent render session, create page shells from immutable page metadata, and patch only a bounded visible document window with the package-exported structured DOM patcher. No window SHALL retain more than eight populated page buffers. Consumer replay SHALL be bounded to 64 frames and 128 MiB. The producer SHALL compile with the same pinned immutable font bytes as the browser compiler; each font SHALL be content-digested, resource-bounded, and validated before use.
+The editor SHALL use a pinned Tinymist 0.15.8 `new`/`diff-v1` producer and typst.ts 0.8.0-rc3 consumer behind one qualification gate. The visible Webview SHALL be the sole preview DOM and viewport owner. It SHALL retain one persistent render session, create page shells from immutable page metadata, and patch only a bounded visible document window with the package-exported structured DOM patcher. No window SHALL retain more than eight populated page buffers. Consumer replay SHALL be bounded to 64 frames and 128 MiB. The producer SHALL compile with the same pinned immutable font bytes as the browser compiler; each font SHALL be content-digested, resource-bounded, and validated before use.
 
 #### Scenario: One-character edit on a tall report
 

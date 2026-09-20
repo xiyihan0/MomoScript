@@ -6,6 +6,10 @@ import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+const canonicalPin = JSON.parse(
+  await readFile(path.resolve(root, "../../third_party/tinymist/pin.json"), "utf8")
+);
+const expectedTinymistVersion = canonicalPin.upstream.version;
 
 async function importBundled(entryPoint) {
   const result = await build({
@@ -36,7 +40,7 @@ const INITIALIZE_RESULT = {
       full: true
     }
   },
-  serverInfo: { name: "fixture", version: "0.15.4-rc3" }
+  serverInfo: { name: "fixture", version: expectedTinymistVersion }
 };
 
 class FakeWorker {
@@ -67,7 +71,7 @@ class FakeWorker {
       queueMicrotask(() => this.emit("message", {
         jsonrpc: "2.0",
         method: "tinymist/workerReady",
-        params: { protocolVersion: 1, backendVersion: "0.15.4-rc3" }
+        params: { protocolVersion: 1, backendVersion: expectedTinymistVersion }
       }));
       return;
     }

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { requireTrustedTinymistGrammarNotice } from "./tinymist-promotion-boundaries.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const pin = JSON.parse(await readFile(new URL("../../../third_party/tinymist/pin.json", import.meta.url), "utf8"));
@@ -27,6 +28,28 @@ for (const { name, digest } of tinymistArtifacts) {
   if (tinymistChecksums.get(name) !== digest) {
     throw new Error(`${tinymistVendor}/SHA256SUMS: ${name} does not match the maintained Tinymist pin`);
   }
+}
+const tinymistPackage = JSON.parse(
+  await readFile(path.join(root, tinymistVendor, "package.json"), "utf8")
+);
+if (tinymistPackage.name !== "tinymist" || tinymistPackage.version !== pin.upstream.version) {
+  throw new Error(`${tinymistVendor}/package.json does not match Tinymist ${pin.upstream.version}`);
+}
+const tinymistGrammar = JSON.parse(
+  await readFile(path.join(root, tinymistVendor, "typst.tmLanguage.json"), "utf8")
+);
+if (tinymistGrammar.scopeName !== "source.typst") {
+  throw new Error(`${tinymistVendor}/typst.tmLanguage.json is not the Typst TextMate grammar`);
+}
+const grammarNotice = await readFile(path.join(root, tinymistVendor, "GRAMMAR-NOTICE.txt"), "utf8");
+try {
+  requireTrustedTinymistGrammarNotice(grammarNotice, pin);
+} catch (error) {
+  throw new Error(`${tinymistVendor}/GRAMMAR-NOTICE.txt does not match the trusted Tinymist VSIX pin`, { cause: error });
+}
+const tinymistLicense = await stat(path.join(root, tinymistVendor, "LICENSE"));
+if (!tinymistLicense.isFile() || tinymistLicense.size === 0) {
+  throw new Error(`${tinymistVendor}/LICENSE is missing or empty`);
 }
 const expected = [
   ...tinymistArtifacts.map(({ name, size, digest }) => [
@@ -82,7 +105,7 @@ for (const name of mmtArtifacts) {
   await copyFile(path.join(root, "vendor", "mmt-lsp", name), path.join(wasmOutput, name));
 }
 
-console.log(`verified ${expected.length + mmtArtifacts.length + typstRendererArtifacts.length} browser language-service artifacts`);
+console.log(`verified ${expected.length + mmtArtifacts.length + typstRendererArtifacts.length + 4} browser language-service artifacts`);
 
 async function readChecksumManifest(filename, label) {
   const lines = (await readFile(filename, "utf8")).trim().split("\n").filter(Boolean);

@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import {
   PACK_BASE_URL as PACK_ROOT,
   PACK_MANIFEST_URL as MANIFEST_URL,
+  TINYMIST_VERSION,
 } from "../src/runtimeArtifacts";
 import { expect, invokeMmtE2E, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
@@ -10,6 +11,7 @@ const entityCatalog = await readFile(new URL("./fixtures/entity-catalog.json", i
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
 const alphaSequence = await readFile(new URL("./fixtures/alpha-sequence.avifs", import.meta.url));
 const ENTITY_CATALOG_URL = new URL("entity-catalog.json", MANIFEST_URL).href;
+const TINYMIST_VERSION_PATTERN = TINYMIST_VERSION.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const authored = [
   "@actor kayoko",
   "preset: ba::佳代子",
@@ -76,7 +78,7 @@ test("production editor materializes an avatar and restores the authored story a
   const expandedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
   expect(collapsedEditorHeight - expandedEditorHeight).toBeGreaterThan(100);
   await expect(outputPanel).toContainText(
-    /runtime:status.*"backendVersion":"0\.15.4-rc3".*"recoveryState":"ready"/s
+    new RegExp(`runtime:status.*"backendVersion":"${TINYMIST_VERSION_PATTERN}".*"recoveryState":"ready"`, "s")
   );
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await problemsToggle.click();
@@ -96,7 +98,7 @@ test("production editor materializes an avatar and restores the authored story a
   let preview = await waitForPreviewFrame(page);
   const buildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ });
   await expect(buildStatus).toBeVisible();
-  await expect(buildStatus).toHaveAttribute("aria-label", /Tinymist 0\.15.4-rc3 \([0-9a-f]{12}\).*position utf-16.*queued projects \d+/s);
+  await expect(buildStatus).toHaveAttribute("aria-label", new RegExp(`Tinymist ${TINYMIST_VERSION_PATTERN} \\([0-9a-f]{12}\\).*position utf-16.*queued projects \\d+`, "s"));
   await expect.poll(async () => {
     const snapshot = await invokeMmtE2E(page, "runtime", "status");
     return {
@@ -107,7 +109,7 @@ test("production editor materializes an avatar and restores the authored story a
       queuedProjectCount: snapshot.queuedProjectCount,
     };
   }).toEqual({
-    backendVersion: "0.15.4-rc3",
+    backendVersion: TINYMIST_VERSION,
     digestLength: 12,
     positionEncoding: "utf-16",
     recoveryState: "ready",

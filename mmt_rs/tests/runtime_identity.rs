@@ -14,7 +14,19 @@ struct Fixture {
     relative_path: String,
     mount_uris: Vec<String>,
     source: String,
+    runtime_inputs: RuntimeInputs,
     expected: Expected,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeInputs {
+    typst_compiler_version: String,
+    typst_wasm_digest: String,
+    renderer_version: String,
+    renderer_wasm_digest: String,
+    template_bundle_digest: String,
+    font_set_digest: String,
 }
 
 #[derive(Deserialize)]
@@ -72,8 +84,29 @@ fn rust_and_typescript_share_canonical_logical_identity_fixture() {
         &mapping_digest,
     );
     let materialization = materialization_key(&projection, "pack", "plan", "bytes");
-    let runtime = runtime_artifact_key("0.15.4-rc3", "compiler-wasm", "template", "fonts");
+    let runtime_inputs = &fixture.runtime_inputs;
+    let runtime_for_renderer_digest = |renderer_wasm_digest: &str| {
+        runtime_artifact_key(
+            &runtime_inputs.typst_compiler_version,
+            &runtime_inputs.typst_wasm_digest,
+            &runtime_inputs.renderer_version,
+            renderer_wasm_digest,
+            &runtime_inputs.template_bundle_digest,
+            &runtime_inputs.font_set_digest,
+        )
+    };
+    let runtime = runtime_for_renderer_digest(&runtime_inputs.renderer_wasm_digest);
     let render = render_key(&materialization, &runtime, "options");
+    let changed_renderer_runtime = runtime_for_renderer_digest("renderer-wasm-fixture-b");
+    assert_ne!(
+        changed_renderer_runtime, runtime,
+        "changing only renderer bytes must change RuntimeArtifactKey"
+    );
+    assert_ne!(
+        render_key(&materialization, &changed_renderer_runtime, "options"),
+        render,
+        "changing only renderer bytes must change RenderKey"
+    );
 
     assert_eq!(logical_source.0, fixture.expected.logical_source);
     assert_eq!(source_content.0, fixture.expected.source_content);

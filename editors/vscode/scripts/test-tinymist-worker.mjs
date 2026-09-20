@@ -539,8 +539,8 @@ try {
   });
 
   const completionText = JSON.stringify(result.completion);
-  assert.equal(result.ready.backendVersion, "0.15.4-rc3", "Tinymist Worker backend version");
-  assert.equal(result.initialize.serverInfo?.version, "0.15.4-rc3", "Tinymist initialize server version");
+  assert.equal(result.ready.backendVersion, canonicalPin.upstream.version, "Tinymist Worker backend version");
+  assert.equal(result.initialize.serverInfo?.version, canonicalPin.upstream.version, "Tinymist initialize server version");
   assert.equal(result.initialize.capabilities?.positionEncoding, "utf-16", "Tinymist coordinate encoding");
   assert(completionText.includes("greet"), "user-defined completion positive transcript");
   assert(result.hover, "hover positive transcript");
@@ -598,7 +598,7 @@ try {
       protocolVersion: result.ready.protocolVersion,
       digests: artifact.digests,
       checksumManifest: {
-        path: "vendor/tinymist-0.15.4-rc3/SHA256SUMS",
+        path: `vendor/tinymist-${canonicalPin.upstream.version}/SHA256SUMS`,
         entries: artifact.checksumManifest
       }
     },

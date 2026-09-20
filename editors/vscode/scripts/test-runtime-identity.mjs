@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
-import { pathToFileURL } from "node:url";
+import { readFile, writeFile } from "node:fs/promises";
 import { transform } from "esbuild";
+
+const args = process.argv.slice(2);
+if (args.length > 1 || (args.length === 1 && args[0] !== "--update")) {
+  throw new Error("Usage: node test-runtime-identity.mjs [--update]");
+}
+const updateFixture = args[0] === "--update";
 
 const moduleSource = await readFile(new URL("../src/runtimeIdentity.ts", import.meta.url), "utf8");
 const transpiled = await transform(moduleSource, { loader: "ts", format: "esm", target: "es2022" });
@@ -49,7 +54,16 @@ const project = await identity.projectSnapshotKey({
 });
 const projection = await identity.projectionKey(sourceContent, "session-a", 7, entryFile, project, mappingDigest);
 const materialization = await identity.materializationKey(projection, "pack", "plan", "bytes");
-const runtime = await identity.runtimeArtifactKey("0.15.4-rc3", "compiler-wasm", "template", "fonts");
+const runtimeInputs = fixture.runtimeInputs;
+const runtimeForRendererDigest = (rendererWasmDigest) => identity.runtimeArtifactKey(
+  runtimeInputs.typstCompilerVersion,
+  runtimeInputs.typstWasmDigest,
+  runtimeInputs.rendererVersion,
+  rendererWasmDigest,
+  runtimeInputs.templateBundleDigest,
+  runtimeInputs.fontSetDigest
+);
+const runtime = await runtimeForRendererDigest(runtimeInputs.rendererWasmDigest);
 const render = await identity.renderKey(materialization, runtime, "options");
 const actual = { logicalSource, sourceContent, project, projection, materialization, runtime, render };
 
@@ -63,7 +77,14 @@ for (const uri of fixture.mountUris) {
 }
 assert.throws(() => identity.canonicalRelativePath(fixture.mountUris[0]), /Non-canonical/);
 assert.throws(() => identity.canonicalRelativePath("file:/workspace/main.typ"), /Non-canonical/);
-assert.deepEqual(actual, fixture.expected);
+if (!updateFixture) assert.deepEqual(actual, fixture.expected);
+const changedRendererRuntime = await runtimeForRendererDigest("renderer-wasm-fixture-b");
+assert.notEqual(changedRendererRuntime, runtime, "changing only renderer bytes must change RuntimeArtifactKey");
+assert.notEqual(
+  await identity.renderKey(materialization, changedRendererRuntime, "options"),
+  render,
+  "changing only renderer bytes must change RenderKey"
+);
 const compilerSnapshot = await identity.previewCompilerSnapshotDigest("/main.typ", [
   { path: "/main.typ", contentDigest: "1".repeat(64) }
 ]);
@@ -77,4 +98,8 @@ assert.equal(
   ])
 );
 assert.throws(() => identity.canonicalCompilerMountPath("/unsafe/../main.typ"), /Non-canonical/);
-console.log(`runtime identity fixture ok: ${render}`);
+if (updateFixture) {
+  fixture.expected = actual;
+  await writeFile(fixtureUrl, `${JSON.stringify(fixture, null, 2)}\n`);
+}
+console.log(`runtime identity fixture ${updateFixture ? "updated" : "ok"}: ${render}`);

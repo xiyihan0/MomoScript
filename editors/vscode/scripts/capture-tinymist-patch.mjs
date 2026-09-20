@@ -58,7 +58,8 @@ if (mode === "package") {
     await exec("git", ["add", "--intent-to-add", "--",
       "crates/tinymist/src/preview_renderer.rs",
       "crates/tinymist/src/preview_location.rs",
-      "crates/tinymist/src/preview_text_geometry.rs"], {
+      "crates/tinymist/src/preview_text_geometry.rs",
+      "crates/tinymist-query/src/fixtures/jump_nested_frame_round_trip/nested_baseline.typ"], {
       cwd: source,
       env: environment
     });

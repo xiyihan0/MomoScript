@@ -128,4 +128,4 @@ One `installMmtSemanticMiddleware` is installed unconditionally in Desktop, Web 
 
 ## Artifact Procedure
 
-Modify the pinned Tinymist checkout, recapture the renderer patch with `capture-tinymist-patch.mjs "$TINYMIST_SRC" renderer`, update the patch digest, run patch `verify`, then `build-promote`. Run native and Worker protocol parity/transcript tests before `repin`. Only `repin` may update artifact sizes/SHA, vendored Web package, native fixture, and `third_party/tinymist/SHA256SUMS`; vendored binaries are never edited manually.
+Modify the pinned Tinymist checkout, recapture the renderer patch with `capture-tinymist-patch.mjs "$TINYMIST_SRC" renderer`, update the patch digest, run patch `verify`, then `build-promote`. Invoke `repin` with `TINYMIST_SRC` and the version-matching universal VSIX in `TINYMIST_VSIX`; the owner command runs native/Worker, navigation, and rich-provider qualification atomically. Only `repin` may update artifact sizes/SHA, vendored Web package and grammar provenance, native fixture, and `third_party/tinymist/SHA256SUMS`; vendored bytes are never edited manually.

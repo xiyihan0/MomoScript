@@ -247,10 +247,10 @@ contract and SHALL reject stale responses before source mapping.
 
 #### Scenario: Fixed Tinymist artifacts handle virtual documents
 
-- GIVEN Tinymist commit `3d63da4f93c54ddef0c63e1a6237d67aee13f5fe`
+- GIVEN Tinymist commit `32f908199ee17ea295512bbc27166e890c438175`
 - WHEN native stdio and browser Worker transcripts open an `untitled:/mmt-projection/` document
 - THEN both MUST complete initialize、completion、hover and shutdown
-- AND the Web Worker MUST report backend protocol version `1` and Tinymist version `0.15.2`
+- AND the Web Worker MUST report backend protocol version `1` and Tinymist version `0.15.8`
 
 ### Requirement: Embedded Typst features have Desktop and Web parity
 

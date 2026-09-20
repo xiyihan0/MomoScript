@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "artifacts": {
-    "native": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8",
-    "web": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78"
+    "native": "76a2c53911c9ac12f33113c4c647897f4fe02095196c80d8681ed446614f5f91",
+    "web": "0e651378d9351ba59d5f32e407da9e4aaccc77d9923fe740012c6b5e34cf771b"
   },
   "qualifiedProviders": {
     "renameProvider": "core-required",
@@ -18,7 +18,7 @@
   },
   "native": {
     "host": "native",
-    "backendVersion": "0.15.4-rc3",
+    "backendVersion": "0.15.8",
     "positionEncoding": "utf-16",
     "qualified": {
       "rename": true,
@@ -36,7 +36,7 @@
   },
   "worker": {
     "host": "worker",
-    "backendVersion": "0.15.4-rc3",
+    "backendVersion": "0.15.8",
     "positionEncoding": "utf-16",
     "qualified": {
       "rename": true,

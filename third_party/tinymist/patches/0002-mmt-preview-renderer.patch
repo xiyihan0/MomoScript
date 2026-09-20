@@ -1,8 +1,8 @@
 diff --git a/Cargo.lock b/Cargo.lock
-index 5007657cabe357831dd5404f02e668ae65b05290..039ebcd500cd1711cdb9bbda729fc900b97ac5fb 100644
+index ae8e9084670027ff851f83545108b04ecf54ced5..008a4ac5379898f466eec637cd4eee4bcf7ff59d 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -6723,6 +6723,7 @@ dependencies = [
+@@ -6684,6 +6684,7 @@ dependencies = [
   "serde-wasm-bindgen",
   "serde_json",
   "serde_yaml",
@@ -10,6 +10,277 @@ index 5007657cabe357831dd5404f02e668ae65b05290..039ebcd500cd1711cdb9bbda729fc900
   "strum",
   "sync-ls",
   "temp-env",
+diff --git a/crates/sync-lsp/Cargo.toml b/crates/sync-lsp/Cargo.toml
+index b093ccdb2bd11e4a0b905c37d9351d8cefd8ab84..0376981cd5164ca52655360d9a3b9c433058633f 100644
+--- a/crates/sync-lsp/Cargo.toml
++++ b/crates/sync-lsp/Cargo.toml
+@@ -19,7 +19,7 @@ futures.workspace = true
+ log.workspace = true
+ parking_lot.workspace = true
+ serde.workspace = true
+-serde_json.workspace = true
++serde_json = { workspace = true, features = ["float_roundtrip"] }
+ tinymist-std.workspace = true
+ 
+ dapts = { workspace = true, optional = true }
+diff --git a/crates/sync-lsp/src/lsp.rs b/crates/sync-lsp/src/lsp.rs
+index 3b6bde9b3307914a85b36c8402db0e62dc7833e4..9f5971407c075d2b47f8f3059fac6384518430a6 100644
+--- a/crates/sync-lsp/src/lsp.rs
++++ b/crates/sync-lsp/src/lsp.rs
+@@ -282,6 +282,46 @@ mod tests {
+         assert!(matches!(msg, Message::Notification(not) if not.method == "exit"));
+     }
+ 
++    #[test]
++    fn directed_preview_coordinate_survives_lsp_json() {
++        #[derive(serde::Deserialize)]
++        struct Params {
++            position: Point,
++        }
++
++        #[derive(serde::Deserialize)]
++        struct Point {
++            y: f64,
++        }
++
++        const METHOD: &str = "tinymist/previewLocation";
++        let page_height = f64::from_bits(0x40fa_1a80_0000_0000);
++        let root_y = f64::from_bits(0x40ca_a94b_ebe9_d014);
++        let directed_y = (root_y / page_height).next_down();
++        let payload = serde_json::to_string(&serde_json::json!({
++            "jsonrpc": "2.0",
++            "id": 1,
++            "method": METHOD,
++            "params": {
++                "position": {
++                    "y": directed_y,
++                },
++            },
++        }))
++        .unwrap();
++        let framed = format!("Content-Length: {}\r\n\r\n{payload}", payload.len());
++        let message = Message::read(&mut std::io::Cursor::new(framed))
++            .unwrap()
++            .expect("one LSP message");
++        let Message::Request(request) = message else {
++            panic!("request message");
++        };
++        let (_, params) = request.extract::<Params>(METHOD).unwrap();
++
++        assert_eq!(params.position.y.to_bits(), directed_y.to_bits());
++        assert!(params.position.y * page_height <= root_y);
++    }
++
+     #[test]
+     fn serialize_request_with_null_params() {
+         let msg = Message::Request(Request {
+diff --git a/crates/tinymist-query/Cargo.toml b/crates/tinymist-query/Cargo.toml
+index 47337ef588f01d226803be74b0609680a20785da..477dbd1788f5780462fc7c4754ce1ed3154f04de 100644
+--- a/crates/tinymist-query/Cargo.toml
++++ b/crates/tinymist-query/Cargo.toml
+@@ -66,7 +66,7 @@ yaml-rust2.workspace = true
+ 
+ [dev-dependencies]
+ serde.workspace = true
+-serde_json.workspace = true
++serde_json = { workspace = true, features = ["float_roundtrip"] }
+ typst-assets = { workspace = true, features = ["fonts"] }
+ tinymist-tests = { workspace = true }
+ sha2 = { version = "0.10" }
+diff --git a/crates/tinymist-query/src/fixtures/jump_nested_frame_round_trip/nested_baseline.typ b/crates/tinymist-query/src/fixtures/jump_nested_frame_round_trip/nested_baseline.typ
+new file mode 100644
+index 0000000000000000000000000000000000000000..ef5839df09ad90627ec713ad681c3b30ce38046a
+--- /dev/null
++++ b/crates/tinymist-query/src/fixtures/jump_nested_frame_round_trip/nested_baseline.typ
+@@ -0,0 +1,19 @@
++/// compile: true
++#set page(
++  width: 595.2755905511812pt,
++  height: 841.8897637795276pt,
++  margin: 0pt,
++)
++
++#block(
++  width: 100pt,
++  height: 700pt,
++  inset: (top: 114.48179577573536pt),
++)[#block(
++  width: 90pt,
++  height: 400pt,
++  inset: (top: 85.08546537201454pt),
++)[#block(
++  width: 80pt,
++  height: 100pt,
++)[/* range after 1..1 */Hello]]]
+diff --git a/crates/tinymist-query/src/jump.rs b/crates/tinymist-query/src/jump.rs
+index a46d2258bc2b5019eecbe5535174c1e206332e2e..81c2ca7286abe9a47ef4d10bb247f2d14ecaedbf 100644
+--- a/crates/tinymist-query/src/jump.rs
++++ b/crates/tinymist-query/src/jump.rs
+@@ -8,18 +8,38 @@ use tinymist_world::debug_loc::SourceSpanOffset;
+ use typst::{
+     World,
+     introspection::PagedPosition as Position,
+-    layout::{Frame, FrameItem, Point, Size},
++    layout::{Abs, Frame, FrameItem, Point, Size},
+     syntax::{LinkedNode, Source, Span, SyntaxKind},
+     visualize::Geometry,
+ };
+ use typst_shim::syntax::LinkedNodeExt;
+ 
++/// The Y translation from a nested frame to its parent.
++///
++/// The linked stack keeps the offsets on the call stack and, at a text leaf,
++/// lets us replay them from the innermost frame outwards.
++struct FrameYOffset<'a> {
++    y: Abs,
++    root_y_replay: bool,
++    parent: Option<&'a FrameYOffset<'a>>,
++}
++
+ /// Finds a span range from a clicked physical position in a rendered paged
+ /// document.
+ pub fn jump_from_click(
+     world: &LspWorld,
+     frame: &Frame,
+     click: Point,
++) -> Option<(SourceSpanOffset, SourceSpanOffset)> {
++    jump_from_click_in_frame(world, frame, click, click.y, None)
++}
++
++fn jump_from_click_in_frame(
++    world: &LspWorld,
++    frame: &Frame,
++    click: Point,
++    root_click_y: Abs,
++    frame_y_offset: Option<&FrameYOffset<'_>>,
+ ) -> Option<(SourceSpanOffset, SourceSpanOffset)> {
+     // Try to find a link first.
+     for (pos, item) in frame.items() {
+@@ -36,7 +56,22 @@ pub fn jump_from_click(
+         match item {
+             FrameItem::Group(group) => {
+                 // TODO: Handle transformation.
+-                if let Some(span) = jump_from_click(world, &group.frame, click - pos) {
++                let root_y_replay = group.transform.is_identity()
++                    && frame_y_offset
++                        .map(|offset| offset.root_y_replay)
++                        .unwrap_or(true);
++                let frame_y_offset = FrameYOffset {
++                    y: pos.y,
++                    root_y_replay,
++                    parent: frame_y_offset,
++                };
++                if let Some(span) = jump_from_click_in_frame(
++                    world,
++                    &group.frame,
++                    click - pos,
++                    root_click_y,
++                    Some(&frame_y_offset),
++                ) {
+                     return Some(span);
+                 }
+             }
+@@ -44,10 +79,12 @@ pub fn jump_from_click(
+             FrameItem::Text(text) => {
+                 for glyph in &text.glyphs {
+                     let width = glyph.x_advance.at(text.size);
+-                    if is_in_rect(
+-                        Point::new(pos.x, pos.y - text.size),
++                    if is_in_text_rect(
++                        pos,
+                         Size::new(width, text.size),
+                         click,
++                        root_click_y,
++                        frame_y_offset,
+                     ) {
+                         let (span, span_offset) = glyph.span;
+                         let mut span_offset = span_offset as usize;
+@@ -206,6 +243,45 @@ fn find_in_frame(frame: &Frame, span: Span, min_dis: &mut u64, res: &mut Point)
+     None
+ }
+ 
++/// Whether a text rectangle contains the click.
++///
++/// X stays frame-local because it also controls glyph affinity. Through
++/// identity-transformed frames, Y is compared in root-frame coordinates:
++/// cursor mapping builds a baseline from the leaf outwards, so replaying the
++/// ancestor offsets in that same order avoids crossing the inclusive baseline
++/// through nested subtraction roundoff. Transformed frames retain the prior
++/// local rectangle semantics rather than treating a rotated or sheared glyph
++/// as globally axis-aligned.
++fn is_in_text_rect(
++    pos: Point,
++    size: Size,
++    click: Point,
++    root_click_y: Abs,
++    frame_y_offset: Option<&FrameYOffset<'_>>,
++) -> bool {
++    if frame_y_offset
++        .map(|offset| offset.root_y_replay)
++        .unwrap_or(true)
++    {
++        let top = root_frame_y(pos.y - size.y, frame_y_offset);
++        let baseline = root_frame_y(pos.y, frame_y_offset);
++        pos.x <= click.x
++            && pos.x + size.x >= click.x
++            && top <= root_click_y
++            && baseline >= root_click_y
++    } else {
++        is_in_rect(Point::new(pos.x, pos.y - size.y), size, click)
++    }
++}
++
++fn root_frame_y(mut y: Abs, mut frame_y_offset: Option<&FrameYOffset<'_>>) -> Abs {
++    while let Some(offset) = frame_y_offset {
++        y += offset.y;
++        frame_y_offset = offset.parent;
++    }
++    y
++}
++
+ /// Whether a rectangle with the given size at the given position contains the
+ /// click position.
+ fn is_in_rect(pos: Point, size: Size, click: Point) -> bool {
+@@ -253,4 +329,39 @@ mod tests {
+             })
+         });
+     }
++
++    #[test]
++    fn nested_frame_source_click_round_trip() {
++        snapshot_testing("jump_nested_frame_round_trip", &|ctx, path| {
++            let source = ctx.source_by_path(&path).unwrap();
++            let document = ctx.success_doc().unwrap();
++            let cursor = find_test_range_(&source).start;
++            let target_span = LinkedNode::new(source.root())
++                .leaf_at_compat(cursor)
++                .expect("text at the marked cursor")
++                .span();
++            let locations = jump_from_cursor(document, &source, cursor);
++            assert_eq!(locations.len(), 1, "one source location");
++
++            let TypstDocument::Paged(document) = document else {
++                panic!("paged fixture");
++            };
++            let location = locations[0];
++            let page = &document.pages()[location.page.get() - 1];
++
++            let size = page.frame.size();
++            let width = size.x.to_pt();
++            assert!(width > 0.0 && size.y > Abs::zero(), "positive page size");
++            let x = (location.point.x.to_pt() / width).clamp(0.0, 1.0);
++            let y = (location.point.y / size.y).clamp(0.0, 1.0);
++            let y = if y > 0.0 { y.next_down() } else { y };
++            let wire = serde_json::to_string(&[x, y]).expect("serialize wire point");
++            let [x, y]: [f64; 2] = serde_json::from_str(&wire).expect("deserialize wire point");
++            let click = Point::new(size.x * x, size.y * y);
++            let (start, end) = jump_from_click(ctx.world(), &page.frame, click).expect("glyph hit");
++
++            assert_eq!(start.span, target_span);
++            assert_eq!(end.span, target_span);
++        });
++    }
+ }
 diff --git a/crates/tinymist/Cargo.toml b/crates/tinymist/Cargo.toml
 index 9ea3d4be73c6a4f73edd2de35d4a0e9995281bd6..925a6eb579ea88c4598537b2645a46c8e39fdff6 100644
 --- a/crates/tinymist/Cargo.toml
@@ -57,7 +328,7 @@ index e6ee63ee3c25bbac15b2bc0812f3b680407b54fd..2b4e9d8667d17dcb309caa2fb37a2182
                  })),
                  ..ServerCapabilities::default()
 diff --git a/crates/tinymist/src/preview_location.rs b/crates/tinymist/src/preview_location.rs
-index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..c6c4641a304263ce997c6ac3bffed59a18031c11 100644
+index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..c4421391b694a07d7580092387572218c316c261 100644
 --- a/crates/tinymist/src/preview_location.rs
 +++ b/crates/tinymist/src/preview_location.rs
 @@ -40,33 +40,33 @@ pub(crate) struct PreviewLocationParams {
@@ -218,8 +489,24 @@ index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..c6c4641a304263ce997c6ac3bffed59a
              .into_iter()
              .filter_map(|location| {
                  let page_index = location.page.get() - 1;
-@@ -145,9 +179,8 @@ impl ServerState {
-                     y: (location.point.y.to_pt() / height).clamp(0.0, 1.0),
+@@ -139,15 +173,23 @@ impl ServerState {
+                 if width <= 0.0 || height <= 0.0 {
+                     return None;
+                 }
++                // Cursor jumps land on the glyph baseline, the inclusive lower
++                // edge tested by `jump_from_click`. Divide the two `Abs` values
++                // directly so unit conversion cannot double-round the ratio,
++                // then encode the preceding wire value. Multiplication by the
++                // positive page height cannot carry that value past the root
++                // baseline, whose nested offsets are replayed in forward order
++                // by the click mapper. Preserve the page boundary Y = 0.
++                let y = (location.point.y / size.y).clamp(0.0, 1.0);
++                let y = if y > 0.0 { y.next_down() } else { y };
+                 Some(SourceLocationResponse {
+                     page_index,
+                     x: (location.point.x.to_pt() / width).clamp(0.0, 1.0),
+-                    y: (location.point.y.to_pt() / height).clamp(0.0, 1.0),
++                    y,
                  })
              })
 -            .collect();
@@ -232,10 +519,10 @@ index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..c6c4641a304263ce997c6ac3bffed59a
  fn schedule_response(value: impl Serialize) -> ScheduleResult {
 diff --git a/crates/tinymist/src/preview_renderer.rs b/crates/tinymist/src/preview_renderer.rs
 new file mode 100644
-index 0000000000000000000000000000000000000000..c85e6b749eefef7aa17d2959d116369c274f1738
+index 0000000000000000000000000000000000000000..de0f95f3f7378d8f403e7bfc52c244219b23a184
 --- /dev/null
 +++ b/crates/tinymist/src/preview_renderer.rs
-@@ -0,0 +1,1823 @@
+@@ -0,0 +1,1824 @@
 +//! Host-facing incremental preview vector data plane.
 +//!
 +//! This deliberately exposes only the stateful vector producer already used by
@@ -246,32 +533,33 @@ index 0000000000000000000000000000000000000000..c85e6b749eefef7aa17d2959d116369c
 +use std::path::{Path, PathBuf};
 +use std::sync::{Arc, OnceLock};
 +
-+use base64::{Engine, engine::general_purpose::STANDARD as BASE64};
-+use lsp_types::{Diagnostic, Position as LspPosition, Range as LspRange, Url, request::Request};
++use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
++use lsp_types::{request::Request, Diagnostic, Position as LspPosition, Range as LspRange, Url};
 +use reflexo_typst::{ShadowApi, TaskInputs, WorldComputeGraph};
 +use reflexo_vec2svg::IncrSvgDocServer;
 +use serde::{Deserialize, Serialize};
 +use serde_json::Value as JsonValue;
 +use sha2::{Digest, Sha256};
-+use sync_ls::{ScheduleResult, internal_error, invalid_params, just_ok};
++use sync_ls::{internal_error, invalid_params, just_ok, ScheduleResult};
 +use tinymist_project::{
++    font::{memory::MemoryFontSearcher, FontResolverImpl},
 +    EntryState, LspCompiledArtifact, LspWorld,
-+    font::{FontResolverImpl, memory::MemoryFontSearcher},
 +};
-+use tinymist_std::{ImmutPath, typst::TypstDocument};
-+use typst::{World, foundations::Bytes, syntax::VirtualPath};
++use tinymist_std::{typst::TypstDocument, ImmutPath};
++use typst::{foundations::Bytes, syntax::VirtualPath, World};
 +
 +use crate::{
-+    ServerState, as_path_,
++    as_path_,
 +    preview_location::{
-+        PreviewLocationResponse, PreviewPoint, SourceLocationResponse,
-+        preview_location_for_snapshot, source_locations_for_snapshot,
++        preview_location_for_snapshot, source_locations_for_snapshot, PreviewLocationResponse,
++        PreviewPoint, SourceLocationResponse,
 +    },
 +    preview_text_geometry::{
-+        PreviewCaretAffinity, PreviewRendererPointUncertainty, PreviewTextBox, PreviewTextCaret,
-+        PreviewTextGeometry, PreviewTextHit, PreviewTextQuery, deserialize_position,
-+        deserialize_range,
++        deserialize_position, deserialize_range, PreviewCaretAffinity,
++        PreviewRendererPointUncertainty, PreviewTextBox, PreviewTextCaret, PreviewTextGeometry,
++        PreviewTextHit, PreviewTextQuery,
 +    },
++    ServerState,
 +};
 +
 +const PROTOCOL_VERSION: &str = "mmt-preview-renderer-v1";
@@ -2061,10 +2349,10 @@ index 0000000000000000000000000000000000000000..c85e6b749eefef7aa17d2959d116369c
 +}
 diff --git a/crates/tinymist/src/preview_text_geometry.rs b/crates/tinymist/src/preview_text_geometry.rs
 new file mode 100644
-index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5f54728f0
+index 0000000000000000000000000000000000000000..3d07cd91cf7357b2ae7f2f9c08f5d8baf7b01a84
 --- /dev/null
 +++ b/crates/tinymist/src/preview_text_geometry.rs
-@@ -0,0 +1,2174 @@
+@@ -0,0 +1,2145 @@
 +//! Exact, generation-local text geometry. This is deliberately independent of
 +//! navigation's best-effort AST jumps: a source boundary is returned only when a
 +//! compiled glyph cluster proves its relationship to a literal source span.
@@ -2076,16 +2364,16 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +use lsp_types::{Position as LspPosition, Range as LspRange, Url};
 +use serde::{Deserialize, Deserializer, Serialize};
 +use tinymist_project::LspWorld;
-+use tinymist_query::{PositionEncoding, path_res_to_url};
++use tinymist_query::{path_res_to_url, PositionEncoding};
 +use tinymist_std::typst::TypstDocument;
 +use typst::{
-+    World,
 +    foundations::{Str, Value},
 +    introspection::{MetadataElem, Tag},
 +    layout::{Abs, Frame, FrameItem, Point, Size, Transform},
-+    syntax::{FileId, LinkedNode, Side, Source, Span, SyntaxKind, ast, ast::AstNode},
++    syntax::{ast, ast::AstNode, FileId, LinkedNode, Side, Source, Span, SyntaxKind},
 +    text::{Glyph, TextItem},
 +    visualize::{Curve, CurveItem},
++    World,
 +};
 +
 +use crate::{as_path_, preview_location::PreviewPoint};
@@ -3306,7 +3594,11 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +                return stop.edge;
 +            }
 +        }
-+        if end { self.right } else { self.left }
++        if end {
++            self.right
++        } else {
++            self.left
++        }
 +    }
 +
 +    fn join_grapheme(&mut self, next: &Self) -> bool {
@@ -3376,13 +3668,8 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +    clip: &Curve,
 +    renderer_transform: RendererTransform,
 +) -> bool {
-+    let [
-+        CurveItem::Move(a),
-+        CurveItem::Line(b),
-+        CurveItem::Line(c),
-+        CurveItem::Line(d),
-+        CurveItem::Close,
-+    ] = clip.0.as_slice()
++    let [CurveItem::Move(a), CurveItem::Line(b), CurveItem::Line(c), CurveItem::Line(d), CurveItem::Close] =
++        clip.0.as_slice()
 +    else {
 +        return false;
 +    };
@@ -3851,16 +4138,12 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +            x: 11.0004 / 100.0,
 +            y: 0.45,
 +        };
-+        assert!(
-+            geometry
-+                .hit_test(before, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
-+                .is_none()
-+        );
-+        assert!(
-+            geometry
-+                .hit_test(after, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(before, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++            .is_none());
++        assert!(geometry
++            .hit_test(after, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++            .is_none());
 +    }
 +
 +    #[test]
@@ -3900,24 +4183,20 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +
 +        let previous = f32::from_bits((start as f32).to_bits() - 2);
 +        let next = f32::from_bits((end as f32).to_bits() + 2);
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    renderer_point(0, previous, 45.0, size),
-+                    uncertainty(0.0, 0.0),
-+                    PositionEncoding::Utf16
-+                )
-+                .is_none()
-+        );
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    renderer_point(0, next, 45.0, size),
-+                    uncertainty(0.0, 0.0),
-+                    PositionEncoding::Utf16,
-+                )
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(
++                renderer_point(0, previous, 45.0, size),
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16
++            )
++            .is_none());
++        assert!(geometry
++            .hit_test(
++                renderer_point(0, next, 45.0, size),
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .is_none());
 +    }
 +
 +    #[test]
@@ -3944,24 +4223,20 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +        let target = || cluster(id, span, 0..4, native_x, 32.92, 50.0);
 +        let geometry = test_geometry(source.clone(), size, vec![target()]);
 +
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    point(observed_x),
-+                    uncertainty(0.0, 0.0),
-+                    PositionEncoding::Utf16,
-+                )
-+                .is_none()
-+        );
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    point(observed_x),
-+                    uncertainty(0.0001 / page_width, 0.0),
-+                    PositionEncoding::Utf16,
-+                )
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(
++                point(observed_x),
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .is_none());
++        assert!(geometry
++            .hit_test(
++                point(observed_x),
++                uncertainty(0.0001 / page_width, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .is_none());
 +        let hit = geometry
 +            .hit_test(
 +                point(observed_x),
@@ -3975,26 +4250,22 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +        );
 +        assert_eq!(hit.affinity, PreviewCaretAffinity::Before);
 +
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    point(observed_x - 0.01),
-+                    uncertainty(0.0003 / page_width, 0.0),
-+                    PositionEncoding::Utf16,
-+                )
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(
++                point(observed_x - 0.01),
++                uncertainty(0.0003 / page_width, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .is_none());
 +        let competing = cluster(id, span, 1..2, observed_x - 0.001, 0.00075, 50.0);
 +        let ambiguous = test_geometry(source, size, vec![target(), competing]);
-+        assert!(
-+            ambiguous
-+                .hit_test(
-+                    point(observed_x),
-+                    uncertainty(0.0003 / page_width, 0.0),
-+                    PositionEncoding::Utf16,
-+                )
-+                .is_none()
-+        );
++        assert!(ambiguous
++            .hit_test(
++                point(observed_x),
++                uncertainty(0.0003 / page_width, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .is_none());
 +    }
 +
 +    #[test]
@@ -4032,15 +4303,13 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +            .hit_test(point(10.0), uncertainty(0.0, 0.0), PositionEncoding::Utf16)
 +            .unwrap();
 +        assert_eq!(hit.range.start, LspPosition::new(0, 1));
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    point(10.002),
-+                    uncertainty(0.0, 0.0),
-+                    PositionEncoding::Utf16,
-+                )
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(
++                point(10.002),
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .is_none());
 +    }
 +
 +    #[test]
@@ -4075,11 +4344,9 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +            point.x += Abs::pt(0.0004);
 +        }
 +        let geometry = test_geometry(source, size, vec![left, disagreeing]);
-+        assert!(
-+            geometry
-+                .hit_test(point, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(point, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++            .is_none());
 +    }
 +
 +    #[test]
@@ -4107,11 +4374,9 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +        };
 +        let carets = geometry.caret_at(id, 1, PreviewCaretAffinity::After);
 +        assert_eq!(carets.len(), 2);
-+        assert!(
-+            carets
-+                .iter()
-+                .all(|caret| (caret.rect.x - 0.23).abs() < 1e-10)
-+        );
++        assert!(carets
++            .iter()
++            .all(|caret| (caret.rect.x - 0.23).abs() < 1e-10));
 +        let hit = geometry
 +            .hit_test(
 +                PreviewPoint {
@@ -4128,11 +4393,9 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +        let boxes = geometry.range_at(id, 1..2);
 +        assert_eq!(boxes.len(), 1);
 +        assert!((boxes[0].width - 0.03).abs() < 1e-10);
-+        assert!(
-+            geometry
-+                .caret_at(id, 4, PreviewCaretAffinity::Before)
-+                .is_empty()
-+        );
++        assert!(geometry
++            .caret_at(id, 4, PreviewCaretAffinity::Before)
++            .is_empty());
 +        assert!(geometry.range_at(id, 3..4).is_empty());
 +        assert_eq!(geometry.range_at(id, 3..6).len(), 1);
 +    }
@@ -4191,32 +4454,28 @@ index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5
 +            hit.range,
 +            LspRange::new(LspPosition::new(0, 0), LspPosition::new(0, 0))
 +        );
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    PreviewPoint {
-+                        page_index: 0,
-+                        x: 0.7,
-+                        y: 0.35
-+                    },
-+                    uncertainty(0.0, 0.0),
-+                    PositionEncoding::Utf16
-+                )
-+                .is_none()
-+        );
-+        assert!(
-+            geometry
-+                .hit_test(
-+                    PreviewPoint {
-+                        page_index: 0,
-+                        x: 0.4,
-+                        y: 0.45
-+                    },
-+                    uncertainty(0.0, 0.0),
-+                    PositionEncoding::Utf16
-+                )
-+                .is_none()
-+        );
++        assert!(geometry
++            .hit_test(
++                PreviewPoint {
++                    page_index: 0,
++                    x: 0.7,
++                    y: 0.35
++                },
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16
++            )
++            .is_none());
++        assert!(geometry
++            .hit_test(
++                PreviewPoint {
++                    page_index: 0,
++                    x: 0.4,
++                    y: 0.45
++                },
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16
++            )
++            .is_none());
 +    }
 +
 +    #[test]
