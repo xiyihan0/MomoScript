@@ -255,12 +255,13 @@ async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
   const richQualificationPath = path.join(fixtureRoot, "tinymist-rich-provider-qualification.json");
   const capabilityManifestPath = path.join(fixtureRoot, "tinymist-capability-manifest.json");
   const artifactDecisionPath = path.join(fixtureRoot, "tinymist-artifact-decision.json");
+  const providerQualificationPath = path.join(extensionRoot, "src", "tinymistProviderQualification.generated.ts");
   const output = path.join(root, ".tmp", "runtime-publication", "tinymist");
   const canonicalFiles = [
     pinPath, runtimePath, checksumsPath, nativeChecksumPath,
     path.join(vendor, "tinymist.js"), path.join(vendor, "tinymist_bg.wasm"), path.join(vendor, "SHA256SUMS"),
     nativeEvidencePath, webEvidencePath, navigationEvidencePath,
-    richQualificationPath, capabilityManifestPath, artifactDecisionPath
+    richQualificationPath, capabilityManifestPath, artifactDecisionPath, providerQualificationPath
   ];
   const backup = await mkdtemp(path.join(tmpdir(), "mmt-tinymist-repin-"));
   const originals = new Map();

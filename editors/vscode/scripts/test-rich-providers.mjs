@@ -1,9 +1,19 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { build } from "esbuild";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+const nativeEvidence = JSON.parse(await readFile(
+  path.join(root, "src", "test", "fixtures", "tinymist-native-evidence.json"),
+  "utf8"
+));
+const providerArtifactIdentity = Object.freeze({
+  backendVersion: nativeEvidence.artifact.backendVersion,
+  digest: nativeEvidence.artifact.digests.tinymist,
+  positionEncoding: nativeEvidence.initialize.capabilities.positionEncoding
+});
 const vscodeStub = `
 export const __host = { registrations: [] };
 function register(kind, selector, provider, metadata = {}) {
@@ -131,6 +141,7 @@ let pendingRequest;
 const backend = {
   backendGeneration: () => capabilities.generation,
   capabilities: () => capabilities,
+  providerArtifactIdentity: () => providerArtifactIdentity,
   on(method, handler) {
     listeners.set(method, handler);
     return { dispose() { if (listeners.get(method) === handler) listeners.delete(method); } };

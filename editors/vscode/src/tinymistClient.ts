@@ -1,6 +1,8 @@
 import type { TinymistCapabilityView } from "./tinymistCapabilities";
 export { serverRequestResponse } from "./tinymistCapabilities";
 import type { ProjectionKey, SourceContentKey, TypstProjectSnapshotKey } from "./runtimeIdentity";
+import { GENERATED_TINYMIST_PROVIDER_ARTIFACTS } from "./tinymistProviderQualification.generated";
+import type { TinymistProviderArtifactIdentity } from "./typstProviderDescriptors";
 import type {
   PreviewProjectMount,
   PreviewRendererRenderOptions,
@@ -177,6 +179,7 @@ export interface TinymistHostBackend {
   backendGeneration(): number;
   queuedProjectCount(): number;
   capabilities(): TinymistCapabilityView;
+  providerArtifactIdentity?(): TinymistProviderArtifactIdentity | undefined;
   on(method: string, handler: (params: unknown) => void): { dispose(): void };
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
   syncProject(update: TypstProjectUpdate): void;
@@ -228,10 +231,24 @@ export interface TinymistInitializeResult {
     [provider: string]: unknown;
     completionProvider?: unknown;
     hoverProvider?: unknown;
+    positionEncoding?: unknown;
     signatureHelpProvider?: unknown;
     semanticTokensProvider?: { legend?: { tokenTypes?: string[]; tokenModifiers?: string[] }; full?: unknown };
   };
   serverInfo?: { name?: string; version?: string };
+}
+
+export function tinymistProviderArtifactIdentity(
+  digest: string | undefined,
+  result: TinymistInitializeResult
+): TinymistProviderArtifactIdentity | undefined {
+  const version = result.serverInfo?.version;
+  const positionEncoding = result.capabilities?.positionEncoding;
+  if (!digest || !/^[0-9a-f]{64}$/.test(digest)
+    || typeof version !== "string" || typeof positionEncoding !== "string") {
+    return undefined;
+  }
+  return Object.freeze({ backendVersion: version, digest, positionEncoding });
 }
 
 export function validateTinymistInitialize(result: unknown): asserts result is TinymistInitializeResult {
@@ -242,8 +259,11 @@ export function validateTinymistInitialize(result: unknown): asserts result is T
   const version = serverInfo && typeof serverInfo === "object" && "version" in serverInfo
     ? serverInfo.version
     : undefined;
-  if (version !== "0.15.4-rc3") {
-    throw new Error(`Tinymist 0.15.4-rc3 required, received ${typeof version === "string" ? version : "unknown"}`);
+  const nativeVersion = GENERATED_TINYMIST_PROVIDER_ARTIFACTS.native.backendVersion;
+  const webVersion = GENERATED_TINYMIST_PROVIDER_ARTIFACTS.web.backendVersion;
+  if (version !== nativeVersion && version !== webVersion) {
+    const required = nativeVersion === webVersion ? nativeVersion : `${nativeVersion} or ${webVersion}`;
+    throw new Error(`Tinymist ${required} required, received ${typeof version === "string" ? version : "unknown"}`);
   }
   const capabilities = "capabilities" in result ? result.capabilities : undefined;
   if (!capabilities || typeof capabilities !== "object"
@@ -287,10 +307,16 @@ function semanticTokensLegendFromProviderOptions(
   };
 }
 
+declare const MMT_TINYMIST_WEB_SHA256: string;
+const BUILT_TINYMIST_WEB_DIGEST = typeof MMT_TINYMIST_WEB_SHA256 === "string"
+  && /^[0-9a-f]{64}$/.test(MMT_TINYMIST_WEB_SHA256)
+  ? MMT_TINYMIST_WEB_SHA256
+  : undefined;
 
 export class TinymistWorkerClient implements TinymistHostBackend {
   private readonly transport: JsonRpcTinymistTransport;
   private readonly session: TinymistHostSession;
+  private providerIdentity: TinymistProviderArtifactIdentity | undefined;
 
   private constructor(
     workerUri: string,
@@ -298,7 +324,8 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     wasmUri: string,
     workerFactory: TinymistWorkerFactory,
     closeGraceMs: number,
-    packageService?: TypstPackageService
+    packageService?: TypstPackageService,
+    private readonly artifactDigest?: string
   ) {
     this.transport = new JsonRpcTinymistTransport(
       () => TinymistWorkerConnection.create({ workerUri, moduleUri, wasmUri, workerFactory })
@@ -320,9 +347,10 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     wasmUri: string,
     workerFactory: TinymistWorkerFactory = (uri) => new Worker(uri),
     closeGraceMs = DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS,
-    packageService?: TypstPackageService
+    packageService?: TypstPackageService,
+    artifactDigest: string | undefined = BUILT_TINYMIST_WEB_DIGEST
   ): Promise<TinymistWorkerClient> {
-    const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri, workerFactory, closeGraceMs, packageService);
+    const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri, workerFactory, closeGraceMs, packageService, artifactDigest);
     try {
       await client.session.start();
       return client;
@@ -342,6 +370,10 @@ export class TinymistWorkerClient implements TinymistHostBackend {
 
   capabilities(): TinymistCapabilityView {
     return this.session.capabilities();
+  }
+
+  providerArtifactIdentity(): TinymistProviderArtifactIdentity | undefined {
+    return this.providerIdentity;
   }
 
   semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
@@ -413,6 +445,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   }
 
   private async bootWorker() {
+    this.providerIdentity = undefined;
     const session = await this.transport.start({
       processId: null,
       rootUri: null,
@@ -436,6 +469,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     });
     const initialize = session.initializeResult;
     validateTinymistInitialize(initialize);
+    this.providerIdentity = tinymistProviderArtifactIdentity(this.artifactDigest, initialize);
     return session;
   }
 }

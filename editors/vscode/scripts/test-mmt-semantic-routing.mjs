@@ -1,10 +1,20 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { build } from "esbuild";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+const webEvidence = JSON.parse(await readFile(
+  path.join(root, "src", "test", "fixtures", "tinymist-web-evidence.json"),
+  "utf8"
+));
+const providerArtifactIdentity = Object.freeze({
+  backendVersion: webEvidence.artifact.backendVersion,
+  digest: webEvidence.artifact.digests["tinymist_bg.wasm"],
+  positionEncoding: webEvidence.initialize.capabilities.positionEncoding
+});
 const vscodeFixture = {
   workspace: {
     textDocuments: [],
@@ -144,6 +154,7 @@ const backend = {
       list: () => [...advertised.values()],
     };
   },
+  providerArtifactIdentity: () => providerArtifactIdentity,
   backendGeneration() { return 3; },
   projectForEntry(uri) { return uri === entryUri ? project : undefined; },
   async request(method, params) {

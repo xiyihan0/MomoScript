@@ -66,6 +66,10 @@ export const workspace = {
   onDidChangeTextDocument(handler) { __host.changed.push(handler); return disposable(() => {}); },
   onDidCloseTextDocument(handler) { __host.closed.push(handler); return disposable(() => {}); }
 };
+export const commands = {
+  registerCommand() { return disposable(() => {}); },
+  async executeCommand() {}
+};
 export const Uri = { parse(value) { return { toString: () => value }; } };
 export const window = { activeTextEditor: undefined, setStatusBarMessage() {} };
 export class SemanticTokensLegend {
@@ -125,6 +129,16 @@ const {
 const fixtures = path.join(root, "src", "test", "fixtures");
 const nativeEvidence = JSON.parse(await readFile(path.join(fixtures, "tinymist-native-evidence.json"), "utf8"));
 const webEvidence = JSON.parse(await readFile(path.join(fixtures, "tinymist-web-evidence.json"), "utf8"));
+const nativeProviderArtifact = Object.freeze({
+  backendVersion: nativeEvidence.artifact.backendVersion,
+  digest: nativeEvidence.artifact.digests.tinymist,
+  positionEncoding: nativeEvidence.initialize.capabilities.positionEncoding
+});
+const webProviderArtifact = Object.freeze({
+  backendVersion: webEvidence.artifact.backendVersion,
+  digest: webEvidence.artifact.digests["tinymist_bg.wasm"],
+  positionEncoding: webEvidence.initialize.capabilities.positionEncoding
+});
 
 function applyTranscript(dispatcher, generation, transcript) {
   const response = dispatcher.dispatch({
@@ -466,8 +480,14 @@ nativeProviderRegistry.install(10, nativeEvidence.initialize);
 const webProviderRegistry = new TinymistCapabilityRegistry();
 webProviderRegistry.install(11, webEvidence.initialize);
 applyTranscript(new TinymistServerRequestDispatcher(webProviderRegistry), 11, webEvidence);
-const nativeProviderRouter = new TypstFeatureRouter({ capabilities: () => nativeProviderRegistry }, () => ({}));
-const webProviderRouter = new TypstFeatureRouter({ capabilities: () => webProviderRegistry }, () => ({}));
+const nativeProviderRouter = new TypstFeatureRouter({
+  capabilities: () => nativeProviderRegistry,
+  providerArtifactIdentity: () => nativeProviderArtifact
+}, () => ({}));
+const webProviderRouter = new TypstFeatureRouter({
+  capabilities: () => webProviderRegistry,
+  providerArtifactIdentity: () => webProviderArtifact
+}, () => ({}));
 const nativeProviderMethods = nativeProviderRouter.registrations().map((registration) => registration.method);
 const webProviderMethods = webProviderRouter.registrations().map((registration) => registration.method);
 assert.deepEqual(nativeProviderMethods, webProviderMethods, "native/Web qualified baseline provider registrations diverged");

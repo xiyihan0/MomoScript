@@ -1,3 +1,8 @@
+import { createHash } from "node:crypto";
+import { createReadStream } from "node:fs";
+import { execFile } from "node:child_process";
+import { isAbsolute } from "node:path";
+import { promisify } from "node:util";
 import type { TinymistCapabilityView } from "./tinymistCapabilities";
 import {
   createTinymistProcessTransport,
@@ -9,6 +14,7 @@ import type { TypstPackageService } from "./typstPackageService";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 import {
   semanticTokensLegendFromCapabilities,
+  tinymistProviderArtifactIdentity,
   validateTinymistInitialize,
   type PreviewProjectMount,
   type PreviewRendererRenderOptions,
@@ -19,14 +25,19 @@ import {
   type TinymistHostBackend,
   type TypstProjectUpdate
 } from "./tinymistClient";
+import type { TinymistProviderArtifactIdentity } from "./typstProviderDescriptors";
 
 export type { TinymistProcessFactory } from "./tinymistProcessTransport";
 
+const executeFile = promisify(execFile);
+
 export class TinymistProcessClient implements TinymistHostBackend {
   private readonly session: TinymistHostSession;
+  private providerIdentity: TinymistProviderArtifactIdentity | undefined;
 
   private constructor(
     private readonly transport: TinymistTransport,
+    private readonly command: string,
     closeGraceMs: number,
     packageService?: TypstPackageService
   ) {
@@ -48,7 +59,7 @@ export class TinymistProcessClient implements TinymistHostBackend {
     const transport = createTinymistProcessTransport(command, {
       processFactory
     });
-    const client = new TinymistProcessClient(transport, closeGraceMs, packageService);
+    const client = new TinymistProcessClient(transport, command, closeGraceMs, packageService);
     try {
       await client.session.start();
       return client;
@@ -68,6 +79,10 @@ export class TinymistProcessClient implements TinymistHostBackend {
 
   capabilities(): TinymistCapabilityView {
     return this.session.capabilities();
+  }
+
+  providerArtifactIdentity(): TinymistProviderArtifactIdentity | undefined {
+    return this.providerIdentity;
   }
 
   semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
@@ -139,6 +154,8 @@ export class TinymistProcessClient implements TinymistHostBackend {
   }
 
   private async bootProcess() {
+    this.providerIdentity = undefined;
+    const artifactDigest = await sha256File(this.command).catch(() => undefined);
     const session = await this.transport.start({
       processId: process.pid,
       rootUri: null,
@@ -162,6 +179,22 @@ export class TinymistProcessClient implements TinymistHostBackend {
     });
     const initialize = session.initializeResult;
     validateTinymistInitialize(initialize);
+    this.providerIdentity = tinymistProviderArtifactIdentity(artifactDigest, initialize);
     return session;
   }
+}
+
+async function sha256File(filename: string): Promise<string> {
+  if (!isAbsolute(filename)) {
+    const { stdout } = await executeFile(process.platform === "win32" ? "where" : "which", [filename], {
+      encoding: "utf8",
+      maxBuffer: 1024 * 1024
+    });
+    const resolved = stdout.split(/\r?\n/u).find((candidate) => candidate.length > 0);
+    if (!resolved) throw new Error(`Cannot resolve Tinymist executable '${filename}'`);
+    filename = resolved;
+  }
+  const hash = createHash("sha256");
+  for await (const chunk of createReadStream(filename)) hash.update(chunk);
+  return hash.digest("hex");
 }

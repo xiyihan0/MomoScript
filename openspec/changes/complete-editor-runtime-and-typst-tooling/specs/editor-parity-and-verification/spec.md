@@ -50,8 +50,9 @@ Capability manifests SHALL include protocol/backend version、artifact digest、
 - GIVEN built native and Web artifacts are promoted through the owning repin command
 - WHEN the command refreshes their canonical identities
 - THEN native/Web, navigation and rich-provider probes MUST run against those exact artifacts before their qualification identities are accepted
-- AND capability manifests and artifact decisions MUST bind the same digests while preserving reviewed provider classifications and decision policy
+- AND capability manifests, generated runtime provider qualification and artifact decisions MUST bind the same digests while preserving reviewed provider classifications and decision policy
 - AND any probe or consistency failure MUST restore all managed pin, runtime, vendor, checksum and qualification files
+- AND runtime provider admission MUST accept the evidenced artifacts and reject mismatched digests or backend versions rather than rely on a separately maintained identity table
 - AND preparing local immutable delivery MUST NOT publish remote runtime objects
 
 ### Requirement: Shared fixtures cover protocol and real hosts

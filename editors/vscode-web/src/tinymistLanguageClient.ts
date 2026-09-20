@@ -74,7 +74,8 @@ async function startTinymistBackend(
       wasmUrl,
       (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" }),
       undefined,
-      packageService
+      packageService,
+      TINYMIST_WASM_ARTIFACT.expectedRawSha256
     );
     return { backend, wasmUrl, moduleUrl };
   } catch (error) {

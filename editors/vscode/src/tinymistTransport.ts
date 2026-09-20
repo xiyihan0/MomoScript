@@ -1,3 +1,5 @@
+import { GENERATED_TINYMIST_PROVIDER_ARTIFACTS } from "./tinymistProviderQualification.generated";
+
 export type JsonRpcId = number | string;
 
 export interface JsonRpcMessage {
@@ -389,7 +391,8 @@ export class TinymistWorkerConnection implements JsonRpcConnection {
         if (event.data.method === "tinymist/workerReady") {
           const params = event.data.params;
           const record = typeof params === "object" && params !== null ? params as Record<string, unknown> : undefined;
-          if (record?.protocolVersion !== 1 || record.backendVersion !== "0.15.4-rc3") {
+          if (record?.protocolVersion !== 1
+            || record.backendVersion !== GENERATED_TINYMIST_PROVIDER_ARTIFACTS.web.backendVersion) {
             finish(new Error("Incompatible Tinymist Worker backend"));
           } else {
             finish();

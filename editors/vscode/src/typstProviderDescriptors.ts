@@ -45,6 +45,10 @@ import type {
   TinymistRequestIdentity
 } from "./tinymistRequestDispatcher";
 import {
+  GENERATED_TINYMIST_PROVIDER_ARTIFACTS,
+  GENERATED_TINYMIST_PROVIDER_QUALIFICATION
+} from "./tinymistProviderQualification.generated";
+import {
   LineIndex,
   PositionConversionError,
   convertBackendWireRange,
@@ -161,78 +165,28 @@ interface FixedProviderQualification {
   readonly reason: string;
 }
 
-export const FIXED_TINYMIST_PROVIDER_ARTIFACTS = Object.freeze({
-  native: Object.freeze({
-    backendVersion: "0.15.4-rc3",
-    digest: "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4"
-  }),
-  web: Object.freeze({
-    backendVersion: "0.15.4-rc3",
-    digest: "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8"
-  })
-});
+export interface TinymistProviderArtifactIdentity {
+  readonly backendVersion: string;
+  readonly digest: string;
+  readonly positionEncoding: string;
+}
 
-const CORE_NAVIGATION = Object.freeze({
-  classification: "core-required" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "compatible advertisement plus checked native/Web navigation transcript"
-});
-const P0_UNAVAILABLE = Object.freeze({
-  classification: "unavailable" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "P0 is advertised but lacks shared positive/negative method transcripts"
-});
-const RICH_CORE_REQUIRED = Object.freeze({
-  classification: "core-required" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "compatible advertisement plus checked native/Web rich-provider transcript"
-});
-const RICH_HOST_OPTIONAL = Object.freeze({
-  classification: "host-optional" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "qualified independently by native and Web rich-provider transcripts"
-});
-const CODE_LENS_UNSAFE = Object.freeze({
-  classification: "unavailable" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "fixed artifacts return an effectful export command and advertise no resolve provider"
-});
-const NOT_ADVERTISED = Object.freeze({
-  classification: "unavailable" as const,
-  native: false,
-  web: false,
-  sameOptions: true,
-  reason: "not advertised by either fixed artifact"
-});
+export const FIXED_TINYMIST_PROVIDER_ARTIFACTS = GENERATED_TINYMIST_PROVIDER_ARTIFACTS;
 
-export const FIXED_TINYMIST_PROVIDER_QUALIFICATION: Readonly<Record<TypstProviderCapabilityKey, FixedProviderQualification>> = Object.freeze({
-  definitionProvider: CORE_NAVIGATION,
-  typeDefinitionProvider: NOT_ADVERTISED,
-  implementationProvider: NOT_ADVERTISED,
-  referencesProvider: CORE_NAVIGATION,
-  renameProvider: RICH_CORE_REQUIRED,
-  documentFormattingProvider: RICH_CORE_REQUIRED,
-  documentRangeFormattingProvider: RICH_CORE_REQUIRED,
-  documentSymbolProvider: CORE_NAVIGATION,
-  workspaceSymbolProvider: CORE_NAVIGATION,
-  documentHighlightProvider: CORE_NAVIGATION,
-  selectionRangeProvider: CORE_NAVIGATION,
-  documentLinkProvider: RICH_CORE_REQUIRED,
-  colorProvider: RICH_HOST_OPTIONAL,
-  codeActionProvider: RICH_HOST_OPTIONAL,
-  inlayHintProvider: RICH_HOST_OPTIONAL,
-  codeLensProvider: CODE_LENS_UNSAFE
-});
+export const FIXED_TINYMIST_PROVIDER_QUALIFICATION:
+  Readonly<Partial<Record<TypstProviderCapabilityKey, FixedProviderQualification>>>
+  = GENERATED_TINYMIST_PROVIDER_QUALIFICATION;
+
+function fixedArtifactAdmits(
+  host: TypstProviderHost,
+  artifact: TinymistProviderArtifactIdentity | undefined
+): boolean {
+  const fixed = FIXED_TINYMIST_PROVIDER_ARTIFACTS[host];
+  return artifact !== undefined
+    && artifact.backendVersion === fixed.backendVersion
+    && artifact.digest === fixed.digest
+    && artifact.positionEncoding === fixed.positionEncoding;
+}
 
 const descriptors = defineDescriptors([
   descriptor("textDocument/definition", "definitionProvider", "location", "safe-item-list"),
@@ -308,13 +262,28 @@ export class TypstProviderQualificationRegistry {
   constructor(
     private readonly runtime: TinymistCapabilityView,
     private readonly host: TypstProviderHost,
-    private readonly qualification: Readonly<Record<TypstProviderCapabilityKey, FixedProviderQualification>> = FIXED_TINYMIST_PROVIDER_QUALIFICATION
+    private readonly artifact: TinymistProviderArtifactIdentity | undefined,
+    private readonly qualification: Readonly<Partial<Record<TypstProviderCapabilityKey, FixedProviderQualification>>>
+      = FIXED_TINYMIST_PROVIDER_QUALIFICATION
   ) {}
 
   capability(method: TypstProviderMethod): TypstProviderCapabilityContract {
     const provider = descriptors[method];
     const evidence = this.qualification[provider.capabilityKey];
     const runtime = this.runtime.get(method);
+    const artifactAdmitted = fixedArtifactAdmits(this.host, this.artifact);
+    if (!artifactAdmitted || !evidence) {
+      return Object.freeze({
+        kind: "CapabilityUnavailable" as const,
+        method,
+        host: this.host,
+        backendGeneration: this.runtime.generation,
+        classification: "unavailable" as const,
+        reason: artifactAdmitted
+          ? `${method} has no checked qualification for the active ${this.host} artifact`
+          : `The active ${this.host} Tinymist artifact identity is not qualified`
+      });
+    }
     const eligible = evidence.classification === "core-required"
       || (evidence.classification === "host-optional" && evidence[this.host]);
     if (!eligible || !runtime) {

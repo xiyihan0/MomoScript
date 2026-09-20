@@ -399,11 +399,19 @@ export class TypstFeatureRouter {
     host: TypstProviderHost,
     method: TypstProviderMethod
   ): TypstProviderCapabilityContract {
-    return new TypstProviderQualificationRegistry(this.backend.capabilities(), host).capability(method);
+    return new TypstProviderQualificationRegistry(
+      this.backend.capabilities(),
+      host,
+      this.backend.providerArtifactIdentity?.()
+    ).capability(method);
   }
 
   providerRegistrations(host: TypstProviderHost): readonly TypstProviderRegistrationContract[] {
-    return new TypstProviderQualificationRegistry(this.backend.capabilities(), host).registrations();
+    return new TypstProviderQualificationRegistry(
+      this.backend.capabilities(),
+      host,
+      this.backend.providerArtifactIdentity?.()
+    ).registrations();
   }
 
   validateProviderPositions<T>(

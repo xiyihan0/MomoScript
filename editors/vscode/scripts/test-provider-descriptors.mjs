@@ -28,7 +28,6 @@ const runtime = await import(
   `data:text/javascript;base64,${Buffer.from(bundle.outputFiles[0].text).toString("base64")}`
 );
 const {
-  FIXED_TINYMIST_PROVIDER_ARTIFACTS,
   FIXED_TINYMIST_PROVIDER_QUALIFICATION,
   LineIndex,
   TYPST_PROVIDER_DESCRIPTORS,
@@ -44,9 +43,18 @@ const {
 } = runtime;
 
 const fixtures = path.join(root, "src", "test", "fixtures");
-const manifest = JSON.parse(await readFile(path.join(fixtures, "tinymist-capability-manifest.json"), "utf8"));
 const nativeEvidence = JSON.parse(await readFile(path.join(fixtures, "tinymist-native-evidence.json"), "utf8"));
 const webEvidence = JSON.parse(await readFile(path.join(fixtures, "tinymist-web-evidence.json"), "utf8"));
+const nativeArtifactIdentity = Object.freeze({
+  backendVersion: nativeEvidence.artifact.backendVersion,
+  digest: nativeEvidence.artifact.digests.tinymist,
+  positionEncoding: nativeEvidence.initialize.capabilities.positionEncoding
+});
+const webArtifactIdentity = Object.freeze({
+  backendVersion: webEvidence.artifact.backendVersion,
+  digest: webEvidence.artifact.digests["tinymist_bg.wasm"],
+  positionEncoding: webEvidence.initialize.capabilities.positionEncoding
+});
 
 assert.equal(TYPST_PROVIDER_METHODS.length, 23);
 assert.deepEqual(Object.keys(TYPST_PROVIDER_DESCRIPTORS).sort(), [...TYPST_PROVIDER_METHODS].sort());
@@ -67,27 +75,6 @@ for (const [requestMethod, resolveMethod] of Object.entries(resolvePairs)) {
   assert.equal(TYPST_PROVIDER_DESCRIPTORS[requestMethod].resolveMethod, resolveMethod);
   assert.equal(TYPST_PROVIDER_DESCRIPTORS[resolveMethod].requestMethod, requestMethod);
 }
-assert.equal(FIXED_TINYMIST_PROVIDER_ARTIFACTS.native.digest, manifest.artifacts.native.digest);
-assert.equal(FIXED_TINYMIST_PROVIDER_ARTIFACTS.web.digest, manifest.artifacts.web.digest);
-for (const provider of manifest.providers) {
-  const qualification = FIXED_TINYMIST_PROVIDER_QUALIFICATION[provider.key];
-  if (!qualification) continue;
-  assert.deepEqual(
-    {
-      classification: qualification.classification,
-      native: qualification.native,
-      sameOptions: qualification.sameOptions,
-      web: qualification.web
-    },
-    {
-      classification: provider.classification,
-      native: provider.native,
-      sameOptions: provider.sameOptions,
-      web: provider.web
-    },
-    `${provider.key} fixed qualification diverged from checked artifact evidence`
-  );
-}
 
 function installedRegistry(generation, evidence) {
   const registry = new TinymistCapabilityRegistry();
@@ -96,8 +83,16 @@ function installedRegistry(generation, evidence) {
 }
 const nativeRegistry = installedRegistry(1, nativeEvidence);
 const webRegistry = installedRegistry(2, webEvidence);
-const nativeQualification = new TypstProviderQualificationRegistry(nativeRegistry, "native");
-const webQualification = new TypstProviderQualificationRegistry(webRegistry, "web");
+const nativeQualification = new TypstProviderQualificationRegistry(
+  nativeRegistry,
+  "native",
+  nativeArtifactIdentity
+);
+const webQualification = new TypstProviderQualificationRegistry(
+  webRegistry,
+  "web",
+  webArtifactIdentity
+);
 const fixedQualifiedMethods = [
   "textDocument/definition",
   "textDocument/references",
@@ -123,6 +118,26 @@ assert.equal(nativeQualification.capability("textDocument/definition").kind, "Qu
 assert.equal(nativeQualification.capability("textDocument/definition").qualification, "core-required");
 assert.equal(webQualification.capability("textDocument/inlayHint").qualification, "host-optional");
 assert.equal(webQualification.capability("textDocument/typeDefinition").classification, "unavailable");
+const unknownDigest = new TypstProviderQualificationRegistry(nativeRegistry, "native", {
+  ...nativeArtifactIdentity,
+  digest: "0".repeat(64)
+});
+const unknownDigestCapability = unknownDigest.capability("textDocument/definition");
+assert.equal(unknownDigestCapability.kind, "CapabilityUnavailable");
+assert.match(unknownDigestCapability.reason, /artifact identity is not qualified/);
+assert.deepEqual(unknownDigest.registrations(), [], "unknown artifact digest admitted fixed provider policy");
+const unknownBackend = new TypstProviderQualificationRegistry(nativeRegistry, "native", {
+  ...nativeArtifactIdentity,
+  backendVersion: "0.0.0-unknown"
+});
+assert.equal(unknownBackend.capability("textDocument/definition").kind, "CapabilityUnavailable");
+assert.deepEqual(unknownBackend.registrations(), [], "unknown backend version admitted fixed provider policy");
+const unknownEncoding = new TypstProviderQualificationRegistry(nativeRegistry, "native", {
+  ...nativeArtifactIdentity,
+  positionEncoding: "utf-8"
+});
+assert.equal(unknownEncoding.capability("textDocument/definition").kind, "CapabilityUnavailable");
+assert.deepEqual(unknownEncoding.registrations(), [], "unknown position encoding admitted fixed provider policy");
 
 const resolveRegistry = new TinymistCapabilityRegistry();
 resolveRegistry.install(3, { capabilities: {} });
@@ -164,7 +179,12 @@ const qualifiedRuntime = new TinymistCapabilityRegistry();
 qualifiedRuntime.install(4, {
   capabilities: { documentLinkProvider: { resolveProvider: true } }
 });
-const qualified = new TypstProviderQualificationRegistry(qualifiedRuntime, "native", syntheticQualification);
+const qualified = new TypstProviderQualificationRegistry(
+  qualifiedRuntime,
+  "native",
+  nativeArtifactIdentity,
+  syntheticQualification
+);
 const linkCapability = qualified.capability("textDocument/documentLink");
 assert.equal(linkCapability.kind, "QualifiedProvider");
 assert.equal(linkCapability.resolveProvider, true);
