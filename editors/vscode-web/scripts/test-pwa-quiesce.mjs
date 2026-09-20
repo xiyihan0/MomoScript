@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { setImmediate } from "node:timers/promises";
 import { PwaSafeRestartDeadlineExceeded, PwaSafeRestartQuiesceAdapter } from "../src/pwaSafeRestart.ts";
 import { EditorRuntimeController } from "../src/runtimeController.ts";
 
@@ -56,23 +57,29 @@ releaseConcurrent();
 await Promise.all([first, second]);
 assert.equal(concurrentQuiesces, 1);
 
-let deadlineResumes = 0;
-let deadlineRuntimeQuiesces = 0;
+const deadlineRuntime = new EditorRuntimeController();
+await deadlineRuntime.start(() => {});
+const lateDurableFlush = Promise.withResolvers();
 const deadline = new PwaSafeRestartQuiesceAdapter({
-  pauseNewWork() { return () => { deadlineResumes += 1; }; },
+  pauseNewWork() { return deadlineRuntime.pauseNewWork(); },
   requireWriter() {},
   assertWorkspaceSafe() {},
-  async flushDurableState() { await new Promise(() => {}); },
+  async flushDurableState() { await lateDurableFlush.promise; },
   async abortAndDrainRuntimeWork() {},
   async persistRecoveryMetadata() {},
-  runtime: { async quiesce() { deadlineRuntimeQuiesces += 1; } },
+  runtime: deadlineRuntime,
 });
 await assert.rejects(deadline.prepareForReload(5), PwaSafeRestartDeadlineExceeded);
-assert.equal(deadlineRuntimeQuiesces, 0, "deadline before the safe boundary must not quiesce the runtime owner");
-assert.equal(deadlineResumes, 1, "failed preparation must resume work");
+assert.equal(deadlineRuntime.state, "ready", "deadline before the safe boundary must preserve the live runtime");
+assert.equal(deadlineRuntime.acceptingWork, true, "failed preparation must resume work");
 assert.equal(deadline.readiness.acceptingWork, true);
 assert.equal(deadline.readiness.readyForActivation, false);
 assert.match(deadline.readiness.blocker, /within 5ms/);
+lateDurableFlush.resolve();
+await setImmediate();
+assert.equal(deadlineRuntime.state, "ready", "a late flush from an expired attempt must not quiesce the resumed editor");
+assert.equal(deadlineRuntime.acceptingWork, true);
+await deadlineRuntime.dispose();
 
 let failureResumes = 0;
 let failureRuntimeQuiesces = 0;

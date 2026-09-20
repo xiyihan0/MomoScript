@@ -432,6 +432,7 @@ dependencies = [
  "sha2",
  "time",
  "typst-syntax",
+ "unicode-segmentation",
  "wasm-bindgen",
 ]
 

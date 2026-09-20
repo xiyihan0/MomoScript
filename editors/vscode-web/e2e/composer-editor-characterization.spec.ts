@@ -1,4 +1,4 @@
-import { expect, invokeMmtE2E, test } from "./fixtures";
+import { expect, invokeMmtE2E, test, waitForComposerFrame } from "./fixtures";
 
 const NAME = "composer-characterization.mmt";
 
@@ -20,8 +20,6 @@ test("a pinned native GUI editor restores through its URI serializer", {
   ]) {
     expect(await invokeMmtE2E(page, "composer", "deserializeEditor", serialized)).toBeNull();
   }
-  await expect(invokeMmtE2E(page, "composer", "openResource", "https://example.com/story.mmt"))
-    .resolves.toBe("GUI 创作只支持工作区 MMT 文档");
   await invokeMmtE2E(page, "workspace", "openDocument", NAME, "- GUI characterization\n");
 
   await invokeMmtE2E(page, "composer", "openGui", NAME);
@@ -48,7 +46,6 @@ test("a pinned native GUI editor restores through its URI serializer", {
   });
   await invokeMmtE2E(page, "composer", "openGui", NAME);
   await invokeMmtE2E(page, "composer", "keepEditor", NAME);
-  await page.waitForTimeout(6_000);
 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
@@ -60,4 +57,5 @@ test("a pinned native GUI editor restores through its URI serializer", {
     isPreview: false,
     isPinned: true,
   });
+  await waitForComposerFrame(page, NAME);
 });

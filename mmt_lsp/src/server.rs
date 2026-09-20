@@ -12,6 +12,7 @@ use lsp_types::{
     TextDocumentIdentifier, TextDocumentPositionParams, TextDocumentSyncCapability,
     TextDocumentSyncKind, Url,
 };
+use mmt_rs::composer_text::{ComposerTextEndpoint, ComposerTextSelection};
 use mmt_rs::{
     COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent,
     ComposerBodyMode, ComposerBoundaryTarget, ComposerCommand, ComposerDocumentNode,
@@ -501,11 +502,73 @@ struct ComposerStructureEditParams {
     command: ComposerStructureCommandParams,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerTextEndpointParams {
+    node: ComposerNodeRefParams,
+    offset_utf16: usize,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerTextSelectionParams {
+    anchor: ComposerTextEndpointParams,
+    focus: ComposerTextEndpointParams,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerTextSelectionReadParams {
+    text_document: ComposerTextDocumentParams,
+    source_digest: String,
+    anchor: ComposerRange,
+    focus: ComposerRange,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerTextTargetParams {
+    #[serde(rename = "textSelection")]
+    TextSelection {
+        selection: ComposerTextSelectionParams,
+    },
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerTextCommandParams {
+    #[serde(rename = "replaceTextSelection")]
+    ReplaceTextSelection { replacement: String },
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerTextEditParams {
+    text_document: ComposerTextDocumentParams,
+    source_digest: String,
+    target: ComposerTextTargetParams,
+    command: ComposerTextCommandParams,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+struct ComposerTextProjectionParams {
+    source_uri: Url,
+    revision: u64,
+    source_content: SourceContentKey,
+    project_digest: TypstProjectSnapshotKey,
+    projection_key: ProjectionKey,
+    entry_uri: Url,
+    backend_encoding: PositionEncoding,
+    selection: ComposerTextSelectionParams,
+}
+
 #[derive(Debug, Deserialize)]
 #[serde(untagged)]
 enum ComposerEditParams {
     Property(ComposerPropertyEditParams),
     Structure(ComposerStructureEditParams),
+    Text(ComposerTextEditParams),
 }
 
 const MAX_COMPOSER_DISPLAY_NAME_BYTES: usize = 1024;
@@ -631,6 +694,58 @@ fn validate_boundary_refs(
 
 fn validate_node_ref(node: &ComposerNodeRefParams) -> Result<(), ServerError> {
     validate_composer_digest(&node.node_key, "nodeKey")
+}
+
+fn validate_composer_text_selection(
+    selection: &ComposerTextSelectionParams,
+) -> Result<(), ServerError> {
+    validate_node_ref(&selection.anchor.node)?;
+    validate_node_ref(&selection.focus.node)
+}
+
+fn validate_composer_text_replacement(replacement: &str) -> Result<(), ServerError> {
+    if replacement.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES * 2
+        || replacement.len()
+            - replacement
+                .as_bytes()
+                .windows(2)
+                .filter(|pair| *pair == b"\r\n")
+                .count()
+            > COMPOSER_STATEMENT_TEXT_MAX_BYTES
+    {
+        return Err(ServerError::invalid_params(format!(
+            "replacement exceeds {COMPOSER_STATEMENT_TEXT_MAX_BYTES} normalized UTF-8 bytes"
+        )));
+    }
+    Ok(())
+}
+
+fn composer_text_selection_params(
+    document: &crate::service::DocumentSnapshot,
+    encoding: PositionEncoding,
+    selection: ComposerTextSelectionParams,
+) -> Result<ComposerTextSelection, ComposerEditRejection> {
+    let endpoint = |endpoint: ComposerTextEndpointParams| {
+        if matches!(endpoint.node.node_kind, ComposerNodeKindParams::Opaque) {
+            return Err(ComposerEditRejection::UnsupportedStructure);
+        }
+        Ok(ComposerTextEndpoint {
+            node: ComposerNodeRef {
+                node_key: endpoint.node.node_key,
+                node_kind: endpoint.node.node_kind.into(),
+                range: document
+                    .lines
+                    .backend_range(endpoint.node.range.into(), encoding)
+                    .map_err(|_| ComposerEditRejection::TargetChanged)?
+                    .into_text_range(),
+            },
+            offset_utf16: endpoint.offset_utf16,
+        })
+    };
+    Ok(ComposerTextSelection {
+        anchor: endpoint(selection.anchor)?,
+        focus: endpoint(selection.focus)?,
+    })
 }
 
 fn validate_new_statement(statement: &ComposerNewStatementParams) -> Result<(), ServerError> {
@@ -996,8 +1111,113 @@ impl From<ComposerEditRejection> for ComposerEditRejectedReason {
 #[derive(Debug, Clone, Serialize)]
 #[serde(tag = "kind")]
 enum ComposerEditResult {
-    Edit { edit: lsp_types::WorkspaceEdit },
-    Rejected { reason: ComposerEditRejectedReason },
+    Edit {
+        edit: lsp_types::WorkspaceEdit,
+    },
+    TextEdit {
+        edit: lsp_types::WorkspaceEdit,
+        #[serde(rename = "sourceDigestAfter")]
+        source_digest_after: String,
+        #[serde(rename = "selectionAfter")]
+        selection_after: ComposerTextSelectionAfterResult,
+    },
+    Rejected {
+        reason: ComposerEditRejectedReason,
+    },
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerTextEndpointResult {
+    node: ComposerNodeRefResult,
+    offset_utf16: usize,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerTextSelectionResult {
+    anchor: ComposerTextEndpointResult,
+    focus: ComposerTextEndpointResult,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerTextEndpointAfterResult {
+    statement_range: Range,
+    offset_utf16: usize,
+}
+
+impl From<crate::service::ComposerTextEditEndpointResult> for ComposerTextEndpointAfterResult {
+    fn from(endpoint: crate::service::ComposerTextEditEndpointResult) -> Self {
+        Self {
+            statement_range: endpoint.statement_range,
+            offset_utf16: endpoint.offset_utf16,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerTextSelectionAfterResult {
+    anchor: ComposerTextEndpointAfterResult,
+    focus: ComposerTextEndpointAfterResult,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerTextSelectionReadResult {
+    Selection {
+        #[serde(rename = "textDocument")]
+        text_document: ComposerTextDocumentResult,
+        #[serde(rename = "sourceDigest")]
+        source_digest: String,
+        selection: ComposerTextSelectionResult,
+        text: String,
+    },
+    Rejected {
+        reason: ComposerEditRejectedReason,
+    },
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "kind")]
+enum ComposerTextProjectionResult {
+    Mapped {
+        anchor: Location,
+        focus: Location,
+        segments: Vec<Location>,
+    },
+    Rejected {
+        reason: ComposerEditRejectedReason,
+    },
+}
+
+fn composer_text_selection_result(
+    document: &crate::service::DocumentSnapshot,
+    encoding: &PositionEncodingKind,
+    selection: ComposerTextSelection,
+) -> Result<ComposerTextSelectionResult, ServerError> {
+    let endpoint = |endpoint: ComposerTextEndpoint| -> Result<_, ServerError> {
+        Ok(ComposerTextEndpointResult {
+            node: ComposerNodeRefResult {
+                node_key: endpoint.node.node_key,
+                node_kind: endpoint.node.node_kind.into(),
+                range: document
+                    .lines
+                    .range(&document.text, endpoint.node.range, encoding)
+                    .ok_or_else(|| {
+                        ServerError::internal_error(
+                            "Composer text endpoint range conversion failed",
+                        )
+                    })?,
+            },
+            offset_utf16: endpoint.offset_utf16,
+        })
+    };
+    Ok(ComposerTextSelectionResult {
+        anchor: endpoint(selection.anchor)?,
+        focus: endpoint(selection.focus)?,
+    })
 }
 
 #[derive(Debug, Clone, Copy, Serialize)]
@@ -1186,6 +1406,11 @@ struct ComposerNarrationCapabilitiesResult {
 }
 
 #[derive(Debug, Clone, Serialize)]
+struct ComposerTextEditingResult {
+    text: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
 #[serde(tag = "kind")]
 enum ComposerDocumentNodeResult {
     #[serde(rename = "message")]
@@ -1198,6 +1423,8 @@ enum ComposerDocumentNodeResult {
         side: ComposerMessageSideResult,
         speaker: Option<ComposerSpeakerResult>,
         body: ComposerStatementBodyResult,
+        #[serde(rename = "textEditing")]
+        text_editing: Option<ComposerTextEditingResult>,
         continued: Option<ComposerContinuedResult>,
         #[serde(rename = "actorDisplayName")]
         actor_display_name: Option<String>,
@@ -1213,6 +1440,8 @@ enum ComposerDocumentNodeResult {
         #[serde(rename = "statementRange")]
         statement_range: Range,
         body: ComposerStatementBodyResult,
+        #[serde(rename = "textEditing")]
+        text_editing: Option<ComposerTextEditingResult>,
         capabilities: ComposerNarrationCapabilitiesResult,
     },
     #[serde(rename = "opaque")]
@@ -1415,6 +1644,11 @@ fn composer_document_result(
                     side: node.side.into(),
                     speaker: description.speaker.clone().map(Into::into),
                     body: description.body.clone().into(),
+                    text_editing: node.text_editing.as_ref().map(|editing| {
+                        ComposerTextEditingResult {
+                            text: editing.text.clone(),
+                        }
+                    }),
                     continued: description.continued.map(Into::into),
                     actor_display_name: description.actor_display_name.clone(),
                     actor_avatar: description.actor_avatar.clone().map(|avatar| {
@@ -1435,6 +1669,12 @@ fn composer_document_result(
                 range: composer_document_range(snapshot, node.range)?,
                 statement_range: composer_document_range(snapshot, node.statement_range)?,
                 body: node.description.body.clone().into(),
+                text_editing: node
+                    .text_editing
+                    .as_ref()
+                    .map(|editing| ComposerTextEditingResult {
+                        text: editing.text.clone(),
+                    }),
                 capabilities: composer_narration_capabilities_result(snapshot, &node.capabilities)?,
             },
             ComposerDocumentNode::Opaque(node) => {
@@ -1782,6 +2022,86 @@ impl MmtLanguageServer {
                     }),
                 }
             }
+            "mmt/composerTextSelection" => {
+                let params: ComposerTextSelectionReadParams = decode(params)?;
+                validate_composer_digest(&params.source_digest, "sourceDigest")?;
+                let uri = params.text_document.uri;
+                let version = params.text_document.version;
+                match self.service.composer_text_selection(
+                    &uri,
+                    version,
+                    &params.source_digest,
+                    params.anchor.into(),
+                    params.focus.into(),
+                ) {
+                    Ok(resolved) => {
+                        let document = self.service.snapshot(&uri).ok_or_else(|| {
+                            ServerError::internal_error("Composer text snapshot disappeared")
+                        })?;
+                        encode(ComposerTextSelectionReadResult::Selection {
+                            text_document: ComposerTextDocumentResult { uri, version },
+                            source_digest: params.source_digest,
+                            selection: composer_text_selection_result(
+                                document,
+                                self.service.encoding(),
+                                resolved.selection,
+                            )?,
+                            text: resolved.text,
+                        })
+                    }
+                    Err(reason) => encode(ComposerTextSelectionReadResult::Rejected {
+                        reason: reason.into(),
+                    }),
+                }
+            }
+            "mmt/composerTextProjection" => {
+                let params: ComposerTextProjectionParams = decode(params)?;
+                validate_composer_digest(&params.source_content.0, "sourceContent")?;
+                validate_composer_digest(&params.project_digest.0, "projectDigest")?;
+                validate_composer_digest(&params.projection_key.0, "projectionKey")?;
+                validate_composer_text_selection(&params.selection)?;
+                let client_encoding = PositionEncoding::from_lsp(self.service.encoding())
+                    .map_err(ServerError::invalid_params)?;
+                let result = (|| {
+                    let document = self
+                        .service
+                        .snapshot(&params.source_uri)
+                        .ok_or(ComposerEditRejection::StaleDocument)?;
+                    // Authorize the projection before decoding snapshot-local
+                    // node ranges: a deleted endpoint belongs to the stale
+                    // generation, not to the replacement document.
+                    let projection = self.projections.composer_text_generation(
+                        &params.source_uri,
+                        &params.entry_uri,
+                        params.revision,
+                        &params.source_content,
+                        &params.project_digest,
+                        &params.projection_key,
+                        document,
+                    )?;
+                    let document = self.service.composer_text_snapshot(
+                        &params.source_uri,
+                        document.version,
+                        &document.source_digest,
+                    )?;
+                    let selection = composer_text_selection_params(
+                        document,
+                        client_encoding,
+                        params.selection,
+                    )?;
+                    projection.composer_text_projection(&selection, params.backend_encoding)
+                })();
+                encode(match result {
+                    Ok((anchor, focus, segments)) => ComposerTextProjectionResult::Mapped {
+                        anchor,
+                        focus,
+                        segments,
+                    },
+                    Err(reason) => ComposerTextProjectionResult::Rejected {
+                        reason: reason.into(),
+                    },
+                })
+            }
             "mmt/composerEdit" => {
                 let params: ComposerEditParams = decode(params)?;
                 let result = match params {
@@ -1820,6 +2140,48 @@ impl MmtLanguageServer {
                             target,
                             command,
                         )
+                    }
+                    ComposerEditParams::Text(params) => {
+                        validate_composer_digest(&params.source_digest, "sourceDigest")?;
+                        let ComposerTextTargetParams::TextSelection { selection } = params.target;
+                        let ComposerTextCommandParams::ReplaceTextSelection { replacement } =
+                            params.command;
+                        validate_composer_text_selection(&selection)?;
+                        validate_composer_text_replacement(&replacement)?;
+                        let client_encoding = PositionEncoding::from_lsp(self.service.encoding())
+                            .map_err(ServerError::invalid_params)?;
+                        let result = (|| {
+                            let document = self.service.composer_text_snapshot(
+                                &params.text_document.uri,
+                                params.text_document.version,
+                                &params.source_digest,
+                            )?;
+                            let selection = composer_text_selection_params(
+                                document,
+                                client_encoding,
+                                selection,
+                            )?;
+                            self.service.composer_text_edit(
+                                &params.text_document.uri,
+                                params.text_document.version,
+                                &params.source_digest,
+                                &selection,
+                                &replacement,
+                            )
+                        })();
+                        return encode(match result {
+                            Ok(result) => ComposerEditResult::TextEdit {
+                                edit: result.edit,
+                                source_digest_after: result.source_digest_after,
+                                selection_after: ComposerTextSelectionAfterResult {
+                                    anchor: result.selection_after.0.into(),
+                                    focus: result.selection_after.1.into(),
+                                },
+                            },
+                            Err(reason) => ComposerEditResult::Rejected {
+                                reason: reason.into(),
+                            },
+                        });
                     }
                 };
                 encode(match result {
@@ -2961,6 +3323,674 @@ mod tests {
                     }),
                 )
                 .is_err()
+        );
+    }
+
+    fn composer_json_request(
+        server: &mut MmtLanguageServer,
+        method: &str,
+        params: &Value,
+    ) -> Value {
+        serde_json::from_str(&server.request_json(method, &params.to_string())).unwrap()
+    }
+
+    fn apply_composer_result(
+        source: &str,
+        result: &Value,
+        encoding: &PositionEncodingKind,
+    ) -> String {
+        let edit: lsp_types::WorkspaceEdit =
+            serde_json::from_value(result["edit"].clone()).unwrap();
+        let Some(lsp_types::DocumentChanges::Edits(documents)) = edit.document_changes else {
+            panic!("expected versioned document changes");
+        };
+        assert_eq!(documents.len(), 1);
+        let lines = crate::position::LineIndex::new(source);
+        let mut edits = documents
+            .into_iter()
+            .next()
+            .unwrap()
+            .edits
+            .into_iter()
+            .map(|edit| {
+                let OneOf::Left(edit) = edit else {
+                    panic!("unexpected annotated edit")
+                };
+                (
+                    lines.offset(source, edit.range.start, encoding).unwrap(),
+                    lines.offset(source, edit.range.end, encoding).unwrap(),
+                    edit.new_text,
+                )
+            })
+            .collect::<Vec<_>>();
+        edits.sort_by_key(|edit| std::cmp::Reverse(edit.0));
+        let mut candidate = source.to_owned();
+        for (start, end, replacement) in edits {
+            candidate.replace_range(start..end, &replacement);
+        }
+        candidate
+    }
+
+    #[test]
+    fn composer_text_json_cross_node_roundtrip_uses_negotiated_ranges_and_utf16_offsets() {
+        let uri = Url::parse("file:///workspace/text-selection.mmt").unwrap();
+        let source = "- A😀e\u{301}中\n\n- 第二条\n";
+        for (wire_encoding, encoding) in [
+            ("utf-8", PositionEncodingKind::UTF8),
+            ("utf-16", PositionEncodingKind::UTF16),
+        ] {
+            let mut server = MmtLanguageServer::default();
+            server
+                .request("initialize", initialize_with_encoding(wire_encoding))
+                .unwrap();
+            open_document(&mut server, &uri, 7, source);
+            let document = server
+                .request(
+                    "mmt/composerDocument",
+                    serde_json::json!({
+                        "textDocument": {"uri": uri, "version": 7},
+                    }),
+                )
+                .unwrap();
+            assert_eq!(
+                document["nodes"][0]["textEditing"],
+                serde_json::json!({"text":"A😀e\u{301}中"})
+            );
+            assert!(document["nodes"][1].get("textEditing").is_none());
+            let lines = crate::position::LineIndex::new(source);
+            let caret = |offset| {
+                let point = lines.position(source, offset, &encoding).unwrap();
+                serde_json::json!({"start":point,"end":point})
+            };
+            let read = serde_json::json!({
+                "textDocument": document["textDocument"],
+                "sourceDigest": document["sourceDigest"],
+                "anchor": caret("- A".len()),
+                "focus": caret(source.find("第二").unwrap() + "第二".len()),
+            });
+            let selected = composer_json_request(&mut server, "mmt/composerTextSelection", &read);
+            assert_eq!(selected["result"]["kind"], "Selection");
+            assert_eq!(selected["result"]["text"], "😀e\u{301}中\n第二");
+            assert_eq!(selected["result"]["selection"]["anchor"]["offsetUtf16"], 1);
+            assert_eq!(selected["result"]["selection"]["focus"]["offsetUtf16"], 2);
+            assert_eq!(
+                selected["result"]["selection"]["anchor"]["node"]["range"],
+                document["nodes"][0]["range"],
+            );
+            let mut reverse = read.clone();
+            reverse["anchor"] = read["focus"].clone();
+            reverse["focus"] = read["anchor"].clone();
+            let reversed =
+                composer_json_request(&mut server, "mmt/composerTextSelection", &reverse);
+            assert_eq!(reversed["result"]["text"], selected["result"]["text"]);
+            assert_eq!(
+                reversed["result"]["selection"]["anchor"],
+                selected["result"]["selection"]["focus"],
+            );
+            let params = serde_json::json!({
+                "textDocument": document["textDocument"],
+                "sourceDigest": document["sourceDigest"],
+                "target": {"kind":"textSelection","selection":reversed["result"]["selection"]},
+                "command": {"kind":"replaceTextSelection","replacement":"X"},
+            });
+            let result = composer_json_request(&mut server, "mmt/composerEdit", &params);
+            assert_eq!(result["result"]["kind"], "TextEdit");
+            assert_eq!(
+                result["result"]["edit"]["documentChanges"][0]["textDocument"],
+                document["textDocument"],
+            );
+            let candidate = apply_composer_result(source, &result["result"], &encoding);
+            assert_eq!(candidate, "- AX条\n\n");
+            assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+            server
+                .notification(
+                    "textDocument/didChange",
+                    serde_json::json!({
+                        "textDocument":{"uri":uri,"version":8},
+                        "contentChanges":[{"text":candidate}],
+                    }),
+                )
+                .unwrap();
+            let after = server
+                .request(
+                    "mmt/composerDocument",
+                    serde_json::json!({
+                        "textDocument":{"uri":uri,"version":8},
+                    }),
+                )
+                .unwrap();
+            assert_eq!(
+                after["nodes"][0]["textEditing"],
+                serde_json::json!({"text":"AX条"})
+            );
+            assert_eq!(result["result"]["sourceDigestAfter"], after["sourceDigest"]);
+            assert_eq!(
+                result["result"]["selectionAfter"],
+                serde_json::json!({
+                    "anchor":{"statementRange":after["nodes"][0]["statementRange"],"offsetUtf16":2},
+                    "focus":{"statementRange":after["nodes"][0]["statementRange"],"offsetUtf16":2},
+                })
+            );
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerEdit", &params)["result"],
+                serde_json::json!({"kind":"Rejected","reason":"staleDocument"}),
+            );
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerTextSelection", &read)["result"],
+                serde_json::json!({"kind":"Rejected","reason":"staleDocument"}),
+            );
+        }
+    }
+
+    #[test]
+    fn composer_text_json_rejects_unknown_fields_nonbody_endpoints_and_invalid_input() {
+        let uri = Url::parse("file:///workspace/text-invalid.mmt").unwrap();
+        let source = "- A😀e\u{301}中\n@mode: text\n- next\n";
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        open_document(&mut server, &uri, 4, source);
+        let document = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":4},
+                }),
+            )
+            .unwrap();
+        let read = serde_json::json!({
+            "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+            "anchor":{"start":{"line":0,"character":2},"end":{"line":0,"character":2}},
+            "focus":{"start":{"line":0,"character":2},"end":{"line":0,"character":2}},
+        });
+        let selected = composer_json_request(&mut server, "mmt/composerTextSelection", &read);
+        let params = serde_json::json!({
+            "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+            "target":{"kind":"textSelection","selection":selected["result"]["selection"]},
+            "command":{"kind":"replaceTextSelection","replacement":"X"},
+        });
+        for path in ["", "/textDocument", "/anchor", "/anchor/start"] {
+            let mut invalid = read.clone();
+            invalid
+                .pointer_mut(path)
+                .unwrap()
+                .as_object_mut()
+                .unwrap()
+                .insert("unexpected".to_owned(), Value::Bool(true));
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerTextSelection", &invalid)["error"]
+                    ["code"],
+                -32602,
+            );
+        }
+        for path in [
+            "",
+            "/textDocument",
+            "/target",
+            "/target/selection",
+            "/target/selection/anchor",
+            "/target/selection/anchor/node",
+            "/target/selection/anchor/node/range",
+            "/target/selection/anchor/node/range/start",
+            "/command",
+        ] {
+            let mut invalid = params.clone();
+            invalid
+                .pointer_mut(path)
+                .unwrap()
+                .as_object_mut()
+                .unwrap()
+                .insert("unexpected".to_owned(), Value::Bool(true));
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerEdit", &invalid)["error"]["code"],
+                -32602,
+            );
+        }
+        for (path, value, reason) in [
+            (
+                "/sourceDigest",
+                serde_json::json!("0".repeat(64)),
+                "staleDocument",
+            ),
+            (
+                "/target/selection/anchor/node/nodeKey",
+                serde_json::json!("0".repeat(64)),
+                "targetChanged",
+            ),
+            (
+                "/target/selection/anchor/node/nodeKind",
+                serde_json::json!("opaque"),
+                "unsupportedStructure",
+            ),
+            (
+                "/target/selection/anchor/offsetUtf16",
+                serde_json::json!(2),
+                "invalidValue",
+            ),
+            (
+                "/target/selection/anchor/offsetUtf16",
+                serde_json::json!(4),
+                "invalidValue",
+            ),
+            (
+                "/target/selection/anchor/offsetUtf16",
+                serde_json::json!(100),
+                "invalidValue",
+            ),
+        ] {
+            let mut invalid = params.clone();
+            *invalid.pointer_mut(path).unwrap() = value;
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerEdit", &invalid)["result"],
+                serde_json::json!({"kind":"Rejected","reason":reason}),
+            );
+        }
+        for (path, value) in [
+            ("/target/kind", serde_json::json!("statement")),
+            ("/command/kind", serde_json::json!("setStatementBody")),
+            (
+                "/target/selection/anchor/node/nodeKind",
+                serde_json::json!("unknown"),
+            ),
+            (
+                "/target/selection/anchor/offsetUtf16",
+                serde_json::json!(-1),
+            ),
+            (
+                "/target/selection/anchor/offsetUtf16",
+                serde_json::json!(1.5),
+            ),
+            (
+                "/command/replacement",
+                serde_json::json!("x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1)),
+            ),
+        ] {
+            let mut invalid = params.clone();
+            *invalid.pointer_mut(path).unwrap() = value;
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerEdit", &invalid)["error"]["code"],
+                -32602,
+            );
+        }
+        let mut malformed = params.clone();
+        malformed["command"]["replacement"] = serde_json::json!("__SURROGATE__");
+        let malformed = malformed
+            .to_string()
+            .replace("\"__SURROGATE__\"", "\"\\ud800\"");
+        let invalid: Value =
+            serde_json::from_str(&server.request_json("mmt/composerEdit", &malformed)).unwrap();
+        assert_eq!(invalid["error"]["code"], -32700);
+        for (focus, reason) in [
+            (
+                serde_json::json!({"start":{"line":0,"character":4},"end":{"line":0,"character":4}}),
+                "invalidValue",
+            ),
+            (
+                serde_json::json!({"start":{"line":0,"character":2},"end":{"line":0,"character":3}}),
+                "invalidValue",
+            ),
+            (
+                serde_json::json!({"start":{"line":2,"character":3},"end":{"line":2,"character":3}}),
+                "unsupportedStructure",
+            ),
+        ] {
+            let mut invalid = read.clone();
+            invalid["focus"] = focus;
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerTextSelection", &invalid)["result"],
+                serde_json::json!({"kind":"Rejected","reason":reason}),
+            );
+        }
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+    }
+
+    #[test]
+    fn composer_text_projection_roundtrips_escaped_multiline_graphemes_in_both_encodings() {
+        let uri = Url::parse("file:///workspace/text-projection.mmt").unwrap();
+        let body = "A😀\"\\中\ne\u{301}尾";
+        let source = format!("- rt\"\"\"\n{body}\"\"\"\n- rt\"\"\"same\"\"\"\n");
+        for (wire_encoding, encoding) in [
+            ("utf-8", PositionEncodingKind::UTF8),
+            ("utf-16", PositionEncodingKind::UTF16),
+        ] {
+            for (backend_name, backend_encoding) in [
+                ("utf-8", PositionEncodingKind::UTF8),
+                ("utf-16", PositionEncodingKind::UTF16),
+            ] {
+                let mut server = MmtLanguageServer::default();
+                server
+                    .request("initialize", initialize_with_encoding(wire_encoding))
+                    .unwrap();
+                open_document(&mut server, &uri, 1, &source);
+                let document = server
+                    .request(
+                        "mmt/composerDocument",
+                        serde_json::json!({
+                            "textDocument":{"uri":uri,"version":1},
+                        }),
+                    )
+                    .unwrap();
+                let projection = server.projections.get(&uri).unwrap();
+                let update = projection.project_update();
+                let generated = projection.projection.emitted.source.clone();
+                let identity = serde_json::json!({
+                    "sourceUri":uri,"entryUri":update.entry_uri,"revision":update.revision,
+                    "sourceContent":update.source_content,"projectDigest":update.project_digest,
+                    "projectionKey":update.projection_key,"backendEncoding":backend_name,
+                });
+                let lines = crate::position::LineIndex::new(&source);
+                let caret = |prefix: &str| {
+                    let position = lines
+                        .position(&source, "- rt\"\"\"\n".len() + prefix.len(), &encoding)
+                        .unwrap();
+                    serde_json::json!({"start":position,"end":position})
+                };
+                for prefix in [
+                    "",
+                    "A",
+                    "A😀",
+                    "A😀\"",
+                    "A😀\"\\",
+                    "A😀\"\\中",
+                    "A😀\"\\中\n",
+                    "A😀\"\\中\ne\u{301}",
+                    body,
+                ] {
+                    let range = caret(prefix);
+                    let selected = composer_json_request(
+                        &mut server,
+                        "mmt/composerTextSelection",
+                        &serde_json::json!({
+                            "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+                            "anchor":range,"focus":range,
+                        }),
+                    );
+                    assert_eq!(
+                        selected["result"]["selection"]["anchor"]["offsetUtf16"],
+                        prefix.encode_utf16().count()
+                    );
+                    let mut params = identity.clone();
+                    params["selection"] = selected["result"]["selection"].clone();
+                    let mapped =
+                        composer_json_request(&mut server, "mmt/composerTextProjection", &params);
+                    assert_eq!(mapped["result"]["kind"], "Mapped", "{mapped}");
+                    assert_eq!(mapped["result"]["anchor"], mapped["result"]["focus"]);
+                    assert_eq!(mapped["result"]["anchor"].as_object().unwrap().len(), 2);
+                    assert_eq!(
+                        mapped["result"]["anchor"]["range"]["start"],
+                        mapped["result"]["anchor"]["range"]["end"]
+                    );
+                    let mut reverse = identity.clone();
+                    reverse["locations"] = serde_json::json!([mapped["result"]["anchor"]]);
+                    let authored =
+                        composer_json_request(&mut server, "mmt/mapTypstReadLocations", &reverse);
+                    assert_eq!(
+                        authored["result"][0],
+                        serde_json::json!({
+                            "kind":"authoredIdentity","uri":uri,"range":range,
+                        })
+                    );
+                }
+                let selected = composer_json_request(
+                    &mut server,
+                    "mmt/composerTextSelection",
+                    &serde_json::json!({
+                        "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+                        "anchor":caret(""),"focus":caret(body),
+                    }),
+                );
+                assert_eq!(selected["result"]["text"], body);
+                let mut params = identity.clone();
+                params["selection"] = selected["result"]["selection"].clone();
+                let mapped =
+                    composer_json_request(&mut server, "mmt/composerTextProjection", &params);
+                let generated_lines = crate::position::LineIndex::new(&generated);
+                let selected_generated = mapped["result"]["segments"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|segment| {
+                        assert_eq!(segment.as_object().unwrap().len(), 2);
+                        assert_eq!(segment["uri"], identity["entryUri"]);
+                        let range: Range =
+                            serde_json::from_value(segment["range"].clone()).unwrap();
+                        let start = generated_lines
+                            .offset(&generated, range.start, &backend_encoding)
+                            .unwrap();
+                        let end = generated_lines
+                            .offset(&generated, range.end, &backend_encoding)
+                            .unwrap();
+                        &generated[start..end]
+                    })
+                    .collect::<String>();
+                assert_eq!(selected_generated, "A😀\\\"\\\\中e\u{301}尾");
+                let newline = mapped["result"]["segments"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .find(|segment| segment["range"]["start"] == segment["range"]["end"])
+                    .unwrap();
+                let mut reverse = identity.clone();
+                reverse["locations"] = serde_json::json!([newline]);
+                let authored =
+                    composer_json_request(&mut server, "mmt/mapTypstReadLocations", &reverse);
+                assert_eq!(
+                    authored["result"][0],
+                    serde_json::json!({
+                        "kind":"authoredIdentity","uri":uri,"range":caret("A😀\"\\中"),
+                    })
+                );
+                for generated_offset in [
+                    generated.find("\\\"").unwrap() + 1,
+                    generated.find("e\u{301}").unwrap() + 1,
+                ] {
+                    let point = generated_lines
+                        .position(&generated, generated_offset, &backend_encoding)
+                        .unwrap();
+                    let mut reverse = identity.clone();
+                    reverse["locations"] = serde_json::json!([{
+                        "uri":identity["entryUri"],"range":{"start":point,"end":point},
+                    }]);
+                    let authored =
+                        composer_json_request(&mut server, "mmt/mapTypstReadLocations", &reverse);
+                    assert_ne!(authored["result"][0]["kind"], "authoredIdentity");
+                }
+                for field in ["sourceContent", "projectDigest", "projectionKey"] {
+                    let mut stale = params.clone();
+                    stale[field] = serde_json::json!("0".repeat(64));
+                    assert_eq!(
+                        composer_json_request(&mut server, "mmt/composerTextProjection", &stale)["result"],
+                        serde_json::json!({"kind":"Rejected","reason":"staleDocument"}),
+                    );
+                }
+                let mut unknown = params.clone();
+                unknown["location"] = mapped["result"]["anchor"].clone();
+                assert_eq!(
+                    composer_json_request(&mut server, "mmt/composerTextProjection", &unknown)["error"]
+                        ["code"],
+                    -32602,
+                );
+                server.notification("textDocument/didChange", serde_json::json!({
+                    "textDocument":{"uri":uri,"version":2},"contentChanges":[{"text":"- shorter\n"}],
+                })).unwrap();
+                assert_eq!(
+                    composer_json_request(&mut server, "mmt/composerTextProjection", &params)["result"],
+                    serde_json::json!({"kind":"Rejected","reason":"staleDocument"}),
+                );
+                let current = server.projections.get(&uri).unwrap().project_update();
+                params["entryUri"] = serde_json::json!(current.entry_uri);
+                params["revision"] = serde_json::json!(current.revision);
+                params["sourceContent"] = serde_json::json!(current.source_content);
+                params["projectDigest"] = serde_json::json!(current.project_digest);
+                params["projectionKey"] = serde_json::json!(current.projection_key);
+                assert_eq!(
+                    composer_json_request(&mut server, "mmt/composerTextProjection", &params)["result"],
+                    serde_json::json!({"kind":"Rejected","reason":"targetChanged"}),
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn composer_empty_text_roundtrips_multiline_input_without_hidden_characters() {
+        let uri = Url::parse("file:///workspace/empty-text.mmt").unwrap();
+        let source = "- \"\"\"\n\"\"\"\n";
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        open_document(&mut server, &uri, 1, source);
+        let document = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":1},
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            document["nodes"][0]["textEditing"],
+            serde_json::json!({"text":""})
+        );
+        let selected = composer_json_request(
+            &mut server,
+            "mmt/composerTextSelection",
+            &serde_json::json!({
+                "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+                "anchor":{"start":{"line":1,"character":0},"end":{"line":1,"character":0}},
+                "focus":{"start":{"line":1,"character":0},"end":{"line":1,"character":0}},
+            }),
+        );
+        assert_eq!(selected["result"]["text"], "");
+        let update = server.projections.get(&uri).unwrap().project_update();
+        let projected = composer_json_request(
+            &mut server,
+            "mmt/composerTextProjection",
+            &serde_json::json!({
+                "sourceUri":uri,"entryUri":update.entry_uri,"revision":update.revision,
+                "sourceContent":update.source_content,"projectDigest":update.project_digest,
+                "projectionKey":update.projection_key,"backendEncoding":"utf-16",
+                "selection":selected["result"]["selection"],
+            }),
+        );
+        assert_eq!(projected["result"]["kind"], "Mapped");
+        assert_eq!(projected["result"]["segments"], serde_json::json!([]));
+        assert_eq!(projected["result"]["anchor"], projected["result"]["focus"]);
+        let inserted = composer_json_request(
+            &mut server,
+            "mmt/composerEdit",
+            &serde_json::json!({
+                "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+                "target":{"kind":"textSelection","selection":selected["result"]["selection"]},
+                "command":{"kind":"replaceTextSelection","replacement":"\r\n> @不是语法 \"\"\""},
+            }),
+        );
+        let candidate =
+            apply_composer_result(source, &inserted["result"], &PositionEncodingKind::UTF16);
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":2},"contentChanges":[{"text":candidate}],
+                }),
+            )
+            .unwrap();
+        let after = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":2},
+                }),
+            )
+            .unwrap();
+        let normalized = "\n> @不是语法 \"\"\"";
+        assert_eq!(after["nodes"][0]["textEditing"]["text"], normalized);
+        let node = serde_json::json!({
+            "nodeKey":after["nodes"][0]["nodeKey"],"nodeKind":after["nodes"][0]["kind"],
+            "range":after["nodes"][0]["range"],
+        });
+        let deleted = composer_json_request(
+            &mut server,
+            "mmt/composerEdit",
+            &serde_json::json!({
+                "textDocument":after["textDocument"],"sourceDigest":after["sourceDigest"],
+                "target":{"kind":"textSelection","selection":{
+                    "anchor":{"node":node,"offsetUtf16":0},
+                    "focus":{"node":node,"offsetUtf16":normalized.encode_utf16().count()},
+                }},
+                "command":{"kind":"replaceTextSelection","replacement":""},
+            }),
+        );
+        assert_eq!(
+            apply_composer_result(&candidate, &deleted["result"], &PositionEncodingKind::UTF16),
+            source,
+        );
+        assert_eq!(
+            deleted["result"]["selectionAfter"]["anchor"]["offsetUtf16"],
+            0
+        );
+    }
+
+    #[test]
+    fn composer_text_projection_rejects_old_pack_generation_with_unchanged_source() {
+        let uri = Url::parse("file:///workspace/pack-text.mmt").unwrap();
+        let source = "- text";
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-8"))
+            .unwrap();
+        open_document(&mut server, &uri, 1, source);
+        let document = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":1},
+                }),
+            )
+            .unwrap();
+        let selected = composer_json_request(
+            &mut server,
+            "mmt/composerTextSelection",
+            &serde_json::json!({
+                "textDocument":document["textDocument"],"sourceDigest":document["sourceDigest"],
+                "anchor":{"start":{"line":0,"character":2},"end":{"line":0,"character":2}},
+                "focus":{"start":{"line":0,"character":6},"end":{"line":0,"character":6}},
+            }),
+        );
+        let params_for = |update: TypstProjectUpdate| {
+            serde_json::json!({
+                "sourceUri":uri,"entryUri":update.entry_uri,"revision":update.revision,
+                "sourceContent":update.source_content,"projectDigest":update.project_digest,
+                "projectionKey":update.projection_key,"backendEncoding":"utf-8",
+                "selection":selected["result"]["selection"],
+            })
+        };
+        let old = params_for(server.projections.get(&uri).unwrap().project_update());
+        assert_eq!(
+            composer_json_request(&mut server, "mmt/composerTextProjection", &old)["result"]["kind"],
+            "Mapped",
+        );
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision":1,"sources":[],
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            server.service.snapshot(&uri).unwrap().source_digest,
+            document["sourceDigest"].as_str().unwrap()
+        );
+        assert_eq!(
+            composer_json_request(&mut server, "mmt/composerTextProjection", &old)["result"],
+            serde_json::json!({"kind":"Rejected","reason":"staleDocument"}),
+        );
+        let current = params_for(server.projections.get(&uri).unwrap().project_update());
+        assert_eq!(
+            composer_json_request(&mut server, "mmt/composerTextProjection", &current)["result"]["kind"],
+            "Mapped",
         );
     }
 

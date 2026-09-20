@@ -51,6 +51,7 @@ export function mmtExtension(): ExtensionConfig {
       commands: [
         { command: "mmt.preview.open", title: "Typst 预览", icon: "$(open-preview)" },
         { command: "mmt.composer.open", title: "打开 GUI 创作", icon: "$(layout)" },
+        { command: "mmt.composer.recoverInput", title: "恢复未提交文字", icon: "$(warning)" },
         { command: "mmt.showTypstMapping", title: "查看 Typst 映射", icon: "$(code)" },
         { command: "mmt.history.showFileHistory", title: "显示文件历史记录", icon: "$(history)" },
         { command: "mmt.gallery.insertStickerAtCursor", title: "插入角色表情差分", icon: "$(smiley)" }

@@ -16,7 +16,7 @@ export default defineConfig({
   projects: [
     { name: "lifecycle", use: { ...devices["Desktop Chrome"], channel: "chrome" } }
   ],
-  webServer: {
+  webServer: process.env.MMT_E2E_EXTERNAL_SERVER ? undefined : {
     command: "VITE_MMT_E2E=1 npm run dev -- --host 127.0.0.1 --port 4174 --strictPort",
     url: "http://127.0.0.1:4174",
     reuseExistingServer: false,

@@ -756,6 +756,8 @@ try {
       || composerDocument.nodes[0].range.start.character !== 0
       || composerDocument.nodes[0].range.end.character !== composerSource.length
       || composerDocument.nodes[0].body.current !== "hello"
+      || !hasExactKeys(composerDocument.nodes[0].textEditing, ["text"])
+      || composerDocument.nodes[0].textEditing.text !== "hello"
       || composerDocument.nodes[0].capabilities.setSpeaker !== false
       || composerDocument.boundaries.length !== 2
     ) {
@@ -823,6 +825,170 @@ try {
       throw new Error(
         `browser Worker structural Composer mismatch: ${JSON.stringify({ structureDocument, structureEdit })}`
       );
+    }
+    const collapsed = (position) => ({ start: position, end: position });
+    const sameRange = (actual, expected) =>
+      hasExactKeys(actual, ["start", "end"])
+      && hasExactKeys(actual.start, ["line", "character"])
+      && hasExactKeys(actual.end, ["line", "character"])
+      && actual.start.line === expected.start.line
+      && actual.start.character === expected.start.character
+      && actual.end.line === expected.end.line
+      && actual.end.character === expected.end.character;
+    const composerSelection = await request("mmt/composerTextSelection", {
+      textDocument: composerDocument.textDocument,
+      sourceDigest: composerDocument.sourceDigest,
+      anchor: collapsed({ line: 0, character: 7 }),
+      focus: collapsed({ line: 0, character: 10 })
+    });
+    if (
+      !hasExactKeys(composerSelection, ["kind", "textDocument", "sourceDigest", "selection", "text"])
+      || composerSelection.kind !== "Selection"
+      || composerSelection.sourceDigest !== composerDocument.sourceDigest
+      || composerSelection.textDocument.uri !== composerUri
+      || composerSelection.textDocument.version !== 7
+      || composerSelection.text !== "ell"
+      || !hasExactKeys(composerSelection.selection, ["anchor", "focus"])
+      || !hasExactKeys(composerSelection.selection.anchor, ["node", "offsetUtf16"])
+      || !hasExactKeys(composerSelection.selection.anchor.node, ["nodeKey", "nodeKind", "range"])
+      || composerSelection.selection.anchor.node.nodeKey !== composerDocument.nodes[0].nodeKey
+      || composerSelection.selection.anchor.offsetUtf16 !== 1
+      || composerSelection.selection.focus.offsetUtf16 !== 4
+    ) {
+      throw new Error(`browser Worker text selection mismatch: ${JSON.stringify(composerSelection)}`);
+    }
+    const { location: _composerLocation, ...composerProjectionIdentity } = composerPreviewParams;
+    const composerTextProjection = await request("mmt/composerTextProjection", {
+      ...composerProjectionIdentity,
+      selection: composerSelection.selection
+    });
+    const expectedTextAnchor = positionAtUtf16(composerEntry.text, composerWrapper + "#text(\"".length + 1);
+    const expectedTextFocus = positionAtUtf16(composerEntry.text, composerWrapper + "#text(\"".length + 4);
+    if (
+      composerTextProjection.kind !== "Mapped"
+      || !hasExactKeys(composerTextProjection, ["kind", "anchor", "focus", "segments"])
+      || !hasExactKeys(composerTextProjection.anchor, ["uri", "range"])
+      || !hasExactKeys(composerTextProjection.focus, ["uri", "range"])
+      || composerTextProjection.anchor.uri !== composerProject.entryUri
+      || composerTextProjection.focus.uri !== composerProject.entryUri
+      || !sameRange(composerTextProjection.anchor.range, collapsed(expectedTextAnchor))
+      || !sameRange(composerTextProjection.focus.range, collapsed(expectedTextFocus))
+      || !Array.isArray(composerTextProjection.segments)
+      || composerTextProjection.segments.some((segment) =>
+        !hasExactKeys(segment, ["uri", "range"]) || segment.uri !== composerProject.entryUri)
+    ) {
+      throw new Error(`browser Worker text projection mismatch: ${JSON.stringify(composerTextProjection)}`);
+    }
+    const generatedOffsetAt = (position) => composerEntry.text.split("\n").slice(0, position.line)
+      .reduce((offset, line) => offset + line.length + 1, position.character);
+    const projectedText = composerTextProjection.segments.map(({ range }) =>
+      composerEntry.text.slice(generatedOffsetAt(range.start), generatedOffsetAt(range.end))).join("");
+    if (projectedText !== "ell") {
+      throw new Error(`browser Worker text projection included non-body source: ${JSON.stringify(projectedText)}`);
+    }
+
+    const textUri = "file:///workspace/text-selection-worker.mmt";
+    const textSource = "- A😀é中\n\n- 第二条\n";
+    const textProjectPromise = waitForNotification("mmt/typstProjectUpdated", (message) => message.params.sourceUri === textUri);
+    notify("textDocument/didOpen", {
+      textDocument: { uri: textUri, languageId: "mmt", version: 1, text: textSource }
+    });
+    await textProjectPromise;
+    const textSnapshot = await request("mmt/composerDocument", { textDocument: { uri: textUri, version: 1 } });
+    const textReadParams = {
+      textDocument: textSnapshot.textDocument,
+      sourceDigest: textSnapshot.sourceDigest,
+      anchor: collapsed({ line: 0, character: 5 }),
+      focus: collapsed({ line: 2, character: 4 })
+    };
+    const textRead = await request("mmt/composerTextSelection", textReadParams);
+    const reverseRead = await request("mmt/composerTextSelection", {
+      ...textReadParams, anchor: textReadParams.focus, focus: textReadParams.anchor
+    });
+    if (textRead.kind !== "Selection" || textRead.text !== "é中\n第二"
+      || reverseRead.text !== textRead.text
+      || reverseRead.selection.anchor.node.nodeKey !== textRead.selection.focus.node.nodeKey) {
+      throw new Error(`browser Worker cross-node copy mismatch: ${JSON.stringify({ textRead, reverseRead })}`);
+    }
+    const textEditParams = {
+      textDocument: textSnapshot.textDocument,
+      sourceDigest: textSnapshot.sourceDigest,
+      target: { kind: "textSelection", selection: textRead.selection },
+      command: { kind: "replaceTextSelection", replacement: "X" }
+    };
+    const invalidBoundary = await request("mmt/composerEdit", {
+      ...textEditParams,
+      target: {
+        kind: "textSelection",
+        selection: {
+          ...textRead.selection,
+          anchor: { ...textRead.selection.anchor, offsetUtf16: 2 }
+        }
+      }
+    });
+    if (invalidBoundary.kind !== "Rejected" || invalidBoundary.reason !== "invalidValue") {
+      throw new Error(`browser Worker split-surrogate text edit was not rejected: ${JSON.stringify(invalidBoundary)}`);
+    }
+    const staleTextRead = await request("mmt/composerTextSelection", { ...textReadParams, sourceDigest: "f".repeat(64) });
+    if (staleTextRead.kind !== "Rejected" || staleTextRead.reason !== "staleDocument") {
+      throw new Error(`browser Worker stale text digest was not rejected: ${JSON.stringify(staleTextRead)}`);
+    }
+    for (const [method, params] of [
+      ["mmt/composerTextSelection", { ...textReadParams, unknown: true }],
+      ["mmt/composerTextProjection", { ...composerProjectionIdentity, selection: composerSelection.selection, location: composerPreviewParams.location }],
+      ["mmt/composerEdit", { ...textEditParams, command: { ...textEditParams.command, unknown: true } }]
+    ]) {
+      let invalidParamsRejected = false;
+      try {
+        await request(method, params);
+      } catch {
+        invalidParamsRejected = true;
+      }
+      if (!invalidParamsRejected) throw new Error(`browser Worker ${method} accepted unknown text fields`);
+    }
+    const textEdit = await request("mmt/composerEdit", textEditParams);
+    if (
+      textEdit.kind !== "TextEdit"
+      || !hasExactKeys(textEdit, ["kind", "edit", "sourceDigestAfter", "selectionAfter"])
+      || !hasExactKeys(textEdit.edit, ["documentChanges"])
+      || textEdit.edit.documentChanges.length !== 1
+      || !hasExactKeys(textEdit.edit.documentChanges[0], ["textDocument", "edits"])
+      || textEdit.edit.documentChanges[0].textDocument.uri !== textUri
+      || textEdit.edit.documentChanges[0].textDocument.version !== 1
+      || !hasExactKeys(textEdit.selectionAfter, ["anchor", "focus"])
+      || !hasExactKeys(textEdit.selectionAfter.anchor, ["statementRange", "offsetUtf16"])
+      || !hasExactKeys(textEdit.selectionAfter.focus, ["statementRange", "offsetUtf16"])
+      || textEdit.selectionAfter.anchor.offsetUtf16 !== textEdit.selectionAfter.focus.offsetUtf16
+      || !sameRange(textEdit.selectionAfter.anchor.statementRange, textEdit.selectionAfter.focus.statementRange)
+      || textEdit.selectionAfter.focus.offsetUtf16 !== 4
+    ) {
+      throw new Error(`browser Worker TextEdit result mismatch: ${JSON.stringify(textEdit)}`);
+    }
+    const textOffsetAt = (position) => textSource.split("\n").slice(0, position.line)
+      .reduce((offset, line) => offset + line.length + 1, position.character);
+    let editedText = textSource;
+    const textChanges = textEdit.edit.documentChanges[0].edits.map((edit) => ({
+      ...edit, start: textOffsetAt(edit.range.start), end: textOffsetAt(edit.range.end)
+    })).sort((left, right) => right.start - left.start);
+    for (const edit of textChanges) editedText = editedText.slice(0, edit.start) + edit.newText + editedText.slice(edit.end);
+    if (editedText !== "- A😀X条\n\n") {
+      throw new Error(`browser Worker cross-node text edit lost blank bytes or envelope: ${JSON.stringify(editedText)}`);
+    }
+    const unchangedText = await request("mmt/composerDocument", { textDocument: textSnapshot.textDocument });
+    if (unchangedText.sourceDigest !== textSnapshot.sourceDigest) throw new Error("TextEdit request mutated the Worker document");
+    const changedTextProject = waitForNotification("mmt/typstProjectUpdated", (message) =>
+      message.params.sourceUri === textUri && message.params.sourceVersion === 2);
+    notify("textDocument/didChange", {
+      textDocument: { uri: textUri, version: 2 }, contentChanges: [{ text: editedText }]
+    });
+    await changedTextProject;
+    const afterTextSnapshot = await request("mmt/composerDocument", { textDocument: { uri: textUri, version: 2 } });
+    const afterTextNodes = afterTextSnapshot.nodes.filter((node) => node.kind !== "opaque");
+    if (afterTextSnapshot.sourceDigest !== textEdit.sourceDigestAfter
+      || afterTextNodes.length !== 1
+      || afterTextNodes[0].textEditing.text !== "A😀X条"
+      || !sameRange(afterTextNodes[0].statementRange, textEdit.selectionAfter.focus.statementRange)) {
+      throw new Error(`browser Worker post-edit authorization mismatch: ${JSON.stringify(afterTextSnapshot)}`);
     }
     const unavailableComposerTarget = await request("mmt/previewComposerTarget", {
       ...composerPreviewParams,
@@ -1127,6 +1293,16 @@ try {
         structureEdit.kind,
         rejectedComposerEdit.kind
       ],
+      textComposerContract: {
+        selection: composerSelection.kind,
+        projection: composerTextProjection.kind,
+        edit: textEdit.kind,
+        copy: textRead.text,
+        mergedSource: editedText,
+        digestRestored: afterTextSnapshot.sourceDigest === textEdit.sourceDigestAfter,
+        staleDigest: staleTextRead.reason,
+        invalidBoundary: invalidBoundary.reason
+      },
       synchronizationVersions: [afterDuplicate.sourceVersion, afterOlder.sourceVersion],
       legacyUpdateDocumentUnavailable: true,
       renderDiagnosticPhases: [...renderPhases].sort(),

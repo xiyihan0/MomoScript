@@ -1381,6 +1381,7 @@ dependencies = [
  "typst-layout",
  "typst-pdf",
  "typst-syntax",
+ "unicode-segmentation",
  "ureq",
  "url",
  "wasm-bindgen",

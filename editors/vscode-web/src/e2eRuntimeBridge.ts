@@ -11,6 +11,8 @@ import type {
 } from "./previewWebviewProtocol.ts";
 import type { RuntimeRecoveryState, RuntimeStatusSnapshot } from "./runtimeStatus.ts";
 import type { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart.ts";
+import type { ComposerDocumentNode } from "./composerDocument.ts";
+import type { PreviewRendererBox, PreviewRendererCaret } from "../../vscode/src/previewRendererProtocol.ts";
 
 export interface PreviewInteractionFixtureRequest {
   readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "active-editor-selection" | "reveal" | "overlay" | "navigate" | "restart-provider" | "resync-renderer" | "advance-source" | "state";
@@ -142,6 +144,30 @@ export interface MmtE2EGuiState {
   readonly lastNotification: string | null;
 }
 
+export interface MmtE2EComposerTextState {
+  readonly bodies: readonly {
+    readonly kind: "message" | "narration";
+    readonly nodeKey: string;
+    readonly text: string | null;
+    readonly statementRange: ComposerDocumentNode["range"];
+    readonly resolvedMode: string | null;
+  }[];
+  readonly selection: {
+    readonly anchor: { readonly bodyIndex: number; readonly offsetUtf16: number };
+    readonly focus: { readonly bodyIndex: number; readonly offsetUtf16: number };
+  } | null;
+  readonly sessionId: string | null;
+  readonly status: "ready" | "pending" | "blocked";
+  readonly recoveryText: string;
+  readonly pendingIntentCount: number;
+  readonly alternativeVersionId: number | null;
+  readonly rendererSessionId: string | null;
+  readonly rendererGeneration: number | null;
+  readonly renderKey: string | null;
+  readonly carets: readonly PreviewRendererCaret[];
+  readonly boxes: readonly PreviewRendererBox[];
+}
+
 
 export interface MmtE2EComposerInstrumentation {
   readonly api: Omit<MmtE2EApi["composer"], "openGui" | "openSource" | "keepEditor" | "editorState" | "deserializeEditor" | "openResource">;
@@ -208,6 +234,8 @@ export interface MmtE2EApi {
   };
   readonly gui: {
     readonly state: () => MmtE2EGuiState;
+    readonly textState: () => MmtE2EComposerTextState;
+    readonly setTextDelays: (delays: { readonly snapshotMs: number; readonly compileMs: number }) => void;
   };
   readonly notifications: {
     readonly showUpdatePrompt: () => void;

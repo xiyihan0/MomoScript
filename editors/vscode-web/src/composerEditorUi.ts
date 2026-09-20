@@ -31,6 +31,8 @@ export interface ComposerSpeakerOption {
 
 export interface ComposerEditorUiPorts {
   readonly runtime: ComposerRuntime;
+  readonly focus: () => unknown | PromiseLike<unknown>;
+  readonly editText: (node: ComposerNodeRef, offsetUtf16: number) => unknown | PromiseLike<unknown>;
   readonly newDocument: () => unknown | PromiseLike<unknown>;
   readonly openDocument: () => unknown | PromiseLike<unknown>;
   readonly packSpeakers: () => readonly ComposerSpeakerOption[];
@@ -40,42 +42,54 @@ export interface ComposerEditorUiPorts {
 }
 
 export class ComposerEditorUi implements ComposerRuntimeDisposable {
-  readonly #container: HTMLElement;
+  readonly typesetContainer = document.createElement("main");
+  readonly clippingContainer: HTMLElement;
   readonly #ports: ComposerEditorUiPorts;
   readonly #root = document.createElement("section");
   readonly #toolbar = document.createElement("header");
   readonly #content = document.createElement("div");
-  readonly #cards = document.createElement("main");
+  readonly #placeholder = document.createElement("div");
   readonly #inspector = document.createElement("aside");
   readonly #sheet = document.createElement("div");
   readonly #subscription: ComposerRuntimeDisposable;
+  readonly #layoutObserver: ResizeObserver;
   readonly #viewportChanged: (() => void) | undefined;
   #transient: ComposerRuntimeTransient | undefined;
   #sheetCleanup: (() => void) | undefined;
+  #active = false;
   #disposed = false;
 
   constructor(container: HTMLElement, ports: ComposerEditorUiPorts) {
-    this.#container = container;
+    this.clippingContainer = container;
     this.#ports = ports;
     this.#root.className = "mmt-composer-surface";
     this.#root.setAttribute("aria-label", "MomoScript GUI 创作");
     this.#toolbar.className = "mmt-composer-toolbar";
     this.#content.className = "mmt-composer-content";
-    this.#cards.className = "mmt-composer-cards";
-    this.#cards.tabIndex = -1;
+    this.typesetContainer.className = "mmt-composer-typeset";
+    this.typesetContainer.tabIndex = -1;
+    this.typesetContainer.setAttribute("aria-label", "排版正文编辑画布");
+    this.#placeholder.className = "mmt-composer-inactive";
+    this.#placeholder.append(
+      this.#status("此文档的排版画布当前未激活。"),
+      this.#button("在此继续创作", () => ports.focus(), "primary"),
+    );
     this.#inspector.className = "mmt-composer-inspector";
-    this.#inspector.setAttribute("aria-label", "卡片属性");
+    this.#inspector.setAttribute("aria-label", "内容属性与结构");
     this.#sheet.className = "mmt-composer-sheet";
     this.#sheet.hidden = true;
-    this.#content.append(this.#cards, this.#inspector);
+    this.#content.append(this.typesetContainer, this.#placeholder, this.#inspector);
     this.#root.append(this.#toolbar, this.#content, this.#sheet);
     container.replaceChildren(this.#root);
+    this.#layoutObserver = new ResizeObserver(() => this.#syncResponsiveLayout());
+    this.#layoutObserver.observe(container);
+    this.#syncResponsiveLayout();
     this.#subscription = ports.runtime.onDidChangeState((state) => this.#render(state));
     const viewport = globalThis.visualViewport;
     if (viewport) {
       const changed = () => {
-        this.#root.style.setProperty("--mmt-composer-viewport-height", `${viewport.height}px`);
-        this.#sheet.querySelector<HTMLElement>("input:focus, textarea:focus, button:focus")
+        this.#syncResponsiveLayout();
+        this.#sheet.querySelector<HTMLElement>("input:focus, textarea:focus, select:focus, button:focus")
           ?.scrollIntoView({ block: "nearest" });
       };
       viewport.addEventListener("resize", changed);
@@ -89,46 +103,79 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
     this.#render(ports.runtime.state);
   }
 
+  setActive(active: boolean): void {
+    if (this.#disposed || this.#active === active) return;
+    this.#active = active;
+    if (!active) this.#closeSheet();
+    this.#render(this.#ports.runtime.state);
+  }
+
   dispose(): void {
     if (this.#disposed) return;
     this.#disposed = true;
     this.#closeSheet();
+    this.#layoutObserver.disconnect();
     this.#subscription.dispose();
     this.#viewportChanged?.();
     this.#root.remove();
   }
 
+  #syncResponsiveLayout(): void {
+    const bounds = this.clippingContainer.getBoundingClientRect();
+    const viewport = globalThis.visualViewport;
+    const viewportTop = viewport?.offsetTop ?? 0;
+    const viewportBottom = viewportTop + (viewport?.height ?? globalThis.innerHeight);
+    const visibleHeight = Math.max(
+      0,
+      Math.min(bounds.bottom, viewportBottom) - Math.max(bounds.top, viewportTop),
+    );
+    const hasLayout = bounds.width > 0 && bounds.height > 0 && visibleHeight > 0;
+    this.#root.dataset.compactLayout = String(
+      hasLayout && bounds.width <= 720 && visibleHeight <= 420,
+    );
+    if (hasLayout) {
+      this.#root.style.setProperty("--mmt-composer-viewport-height", `${visibleHeight}px`);
+    } else {
+      this.#root.style.removeProperty("--mmt-composer-viewport-height");
+    }
+  }
+
   #render(state: ComposerRuntimeState): void {
     if (this.#disposed) return;
     this.#renderToolbar(state);
-    this.#cards.replaceChildren();
+    this.#root.dataset.active = String(this.#active);
+    this.typesetContainer.hidden = !this.#active || !this.#sheet.hidden;
+    this.#placeholder.hidden = this.#active;
+    this.#inspector.inert = !this.#active || state.pending;
     this.#inspector.replaceChildren();
     const snapshot = state.snapshot;
     if (!state.bound) {
-      this.#cards.append(this.#status("没有打开 MomoScript 文档。"));
+      this.#inspector.append(this.#status("没有打开 MomoScript 文档。"));
       return;
     }
     if (!snapshot) {
-      this.#cards.append(this.#status("正在读取创作文档…"));
+      this.#inspector.append(this.#status("正在读取创作文档…"));
       return;
     }
     if (snapshot.nodes.length === 0) {
-      const empty = document.createElement("div");
-      empty.className = "mmt-composer-empty";
-      empty.append(this.#status("空白故事"));
+      this.#inspector.append(this.#status("空白故事"));
       const boundary = snapshot.boundaries[0];
-      if (boundary?.insert) empty.append(this.#button("添加第一条内容", () => this.#openInsert(boundary), "primary"));
-      this.#cards.append(empty);
-    } else {
-      snapshot.boundaries.forEach((boundary, index) => {
-        if (boundary.insert) this.#cards.append(this.#insertButton(boundary, index));
-        const node = snapshot.nodes[index];
-        if (node) this.#cards.append(this.#card(snapshot, node, state.selectedNodeKey === node.nodeKey));
-      });
+      if (boundary?.insert) this.#inspector.append(this.#button("添加第一条内容", () => this.#openInsert(boundary), "primary"));
+      return;
     }
+    const selectedNode = selectField("选中内容", [
+      ["", "点击排版内容以选择"],
+      ...snapshot.nodes.map((node) => [node.nodeKey, nodeLabel(node)] as const),
+    ], state.selectedNodeKey ?? "");
+    selectedNode.control.addEventListener("change", () => this.#ports.runtime.selectNode(selectedNode.control.value || null));
+    this.#inspector.append(selectedNode.label);
     const selected = snapshot.nodes.find((node) => node.nodeKey === state.selectedNodeKey);
     if (selected) this.#renderInspector(snapshot, selected);
-    else this.#inspector.append(this.#status("选择卡片以编辑属性。"));
+    else {
+      this.#inspector.append(this.#status("在排版中选择内容以编辑属性；空行和高级内容可从上方选择后打开源码。"));
+      const end = snapshot.boundaries.at(-1);
+      if (end?.insert) this.#inspector.append(this.#button("在末尾添加内容", () => this.#openInsert(end)));
+    }
   }
 
   #renderToolbar(state: ComposerRuntimeState): void {
@@ -153,63 +200,45 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
       this.#button("保存", () => this.#ports.runtime.save()),
       this.#button("导出", () => this.#ports.runtime.exportExact()),
     );
-    for (const button of actions.querySelectorAll("button")) button.disabled = !state.bound || state.pending;
+    for (const button of actions.querySelectorAll("button")) button.disabled = !state.bound || state.pending || !this.#active;
     actions.querySelector<HTMLButtonElement>("button:first-child")!.disabled = false;
     actions.querySelector<HTMLButtonElement>("button:nth-child(2)")!.disabled = false;
     this.#toolbar.append(title, actions);
   }
 
-  #card(snapshot: ComposerDocumentSnapshot, node: ComposerDocumentNode, selected: boolean): HTMLElement {
-    const card = document.createElement("article");
-    card.className = `mmt-composer-card mmt-composer-card-${node.kind}`;
-    card.dataset.nodeKey = node.nodeKey;
-    card.tabIndex = 0;
-    card.setAttribute("aria-selected", String(selected));
-    card.addEventListener("click", () => this.#ports.runtime.selectNode(node.nodeKey));
-    card.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        this.#ports.runtime.selectNode(node.nodeKey);
-      }
-    });
-    const heading = document.createElement("header");
-    const label = document.createElement("strong");
-    if (node.kind === "message") {
-      label.textContent = node.speaker?.kind === "actor"
-        ? node.speaker.displayName
-        : node.speaker?.kind === "builtin" ? node.speaker.id : "消息";
-      heading.dataset.side = node.side;
-    } else if (node.kind === "narration") label.textContent = "旁白";
-    else label.textContent = opaqueLabel(node.category);
-    heading.append(label);
-    const body = document.createElement("p");
-    body.className = "mmt-composer-card-body";
-    body.textContent = node.kind === "opaque" ? node.summary || node.sourcePreview : node.body.current;
-    card.append(heading, body);
-    if (node.kind === "opaque") {
-      card.dataset.category = node.category;
-      if (node.category === "recoverableError") card.dataset.severity = "error";
-      card.append(this.#button("打开源码", () => this.#ports.runtime.navigateSource(node.range)));
-      return card;
-    }
-    const controls = document.createElement("div");
-    controls.className = "mmt-composer-card-actions";
-    if (node.capabilities.moveUp) controls.append(this.#button("上移", () => this.#executeMove(node, node.capabilities.moveUp!)));
-    if (node.capabilities.moveDown) controls.append(this.#button("下移", () => this.#executeMove(node, node.capabilities.moveDown!)));
-    if (node.capabilities.delete) controls.append(this.#button("删除", () => this.#executeStructure(node, { kind: "deleteNode" })));
-    card.append(controls);
-    return card;
-  }
 
   #renderInspector(snapshot: ComposerDocumentSnapshot, node: ComposerDocumentNode): void {
     const heading = document.createElement("h2");
-    heading.textContent = "编辑卡片";
+    heading.textContent = nodeLabel(node);
     this.#inspector.append(heading);
+    this.#inspector.append(this.#button("打开源码", () => this.#ports.runtime.navigateSource(node.range)));
+    const index = snapshot.nodes.indexOf(node);
+    const before = snapshot.boundaries[index];
+    const after = snapshot.boundaries[index + 1];
+    const structure = document.createElement("div");
+    structure.className = "mmt-composer-structure-actions";
+    if (before?.insert) structure.append(this.#button("在前面添加", () => this.#openInsert(before)));
+    if (after?.insert) structure.append(this.#button("在后面添加", () => this.#openInsert(after)));
+    this.#inspector.append(structure);
     if (node.kind === "opaque") {
-      this.#inspector.append(this.#status("高级源码块只支持源码编辑。"));
+      this.#inspector.append(this.#status(node.category === "blank" ? "空行保留原始源码字节。" : "此内容只能在高级源码中编辑。"));
       return;
     }
-    if (node.capabilities.setBody) this.#inspector.append(this.#button("编辑正文", () => this.#openBody(node), "primary"));
+    if (node.capabilities.moveUp) structure.append(this.#button("上移", () => this.#executeMove(node, node.capabilities.moveUp!)));
+    if (node.capabilities.moveDown) structure.append(this.#button("下移", () => this.#executeMove(node, node.capabilities.moveDown!)));
+    if (node.capabilities.delete) structure.append(this.#button("删除整条", () => this.#executeStructure(node, { kind: "deleteNode" })));
+    if (node.textEditing) {
+      this.#inspector.append(this.#button(
+        node.textEditing.text.length === 0 ? "输入正文" : "在排版中编辑",
+        () => this.#ports.editText(nodeRef(node), 0),
+        "primary",
+      ));
+      if (node.capabilities.setBody) this.#inspector.append(this.#button("文本模式", () => this.#openMode(node)));
+    } else if (node.capabilities.setBody && (node.body.resolvedMode === "typstMacro" || node.body.resolvedMode === "typstRaw")) {
+      this.#inspector.append(this.#button("编辑 Typst 正文", () => this.#openBody(node)));
+    } else {
+      this.#inspector.append(this.#status("此正文无法唯一映射，请使用源码编辑。"));
+    }
     if (node.kind === "message") {
       if (node.capabilities.setSpeaker) this.#inspector.append(this.#button("更换说话人", () => this.#openSpeaker(snapshot, node)));
       if (node.capabilities.setContinued) this.#inspector.append(this.#button("连续消息", () => this.#openContinued(node)));
@@ -218,11 +247,6 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
     }
   }
 
-  #insertButton(boundary: ComposerBoundary, index: number): HTMLButtonElement {
-    const button = this.#button(index === 0 ? "在开头添加" : "在此添加", () => this.#openInsert(boundary));
-    button.classList.add("mmt-composer-insert");
-    return button;
-  }
 
   #openInsert(boundary: ComposerBoundary): void {
     if (!boundary.insert) return;
@@ -263,6 +287,20 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
           kind: "property",
           target: { kind: "statement", range: node.statementRange },
           command: { kind: "setStatementBody", value: body.control.value, mode: mode.control.value as StatementTextMode },
+        }, identity);
+        this.#closeSheet();
+      }));
+    });
+  }
+
+  #openMode(node: Exclude<ComposerDocumentNode, { readonly kind: "opaque" }>): void {
+    this.#openSheet("文本模式", (form, identity) => {
+      const mode = modeField(["inherit", "textMacro", "textRaw", "typstMacro", "typstRaw"], node.body.mode);
+      form.append(mode.label, this.#submitButton("应用", async () => {
+        await this.#ports.runtime.execute({
+          kind: "property",
+          target: { kind: "statement", range: node.statementRange },
+          command: { kind: "setStatementBody", value: node.body.current, mode: mode.control.value as StatementTextMode },
         }, identity);
         this.#closeSheet();
       }));
@@ -359,12 +397,15 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
   }
 
   #openSheet(title: string, render: (form: HTMLFormElement, identity: ComposerRuntimeIdentity) => void): void {
+    if (!this.#active || this.#disposed) return;
     this.#closeSheet();
     const identity = this.#ports.runtime.captureIdentity();
     if (!identity) return;
     this.#sheet.hidden = false;
     this.#sheet.replaceChildren();
-    this.#cards.inert = true;
+    this.#content.inert = true;
+    this.#toolbar.inert = true;
+    this.typesetContainer.hidden = true;
     const panel = document.createElement("div");
     panel.className = "mmt-composer-sheet-panel";
     panel.setAttribute("role", "dialog");
@@ -377,6 +418,21 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
     form.addEventListener("submit", (event) => event.preventDefault());
     panel.append(heading, form, close);
     this.#sheet.append(panel);
+    panel.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        this.#closeSheet();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const controls = [...panel.querySelectorAll<HTMLElement>("input:not(:disabled), textarea:not(:disabled), select:not(:disabled), button:not(:disabled)")];
+      const next = event.shiftKey ? controls.at(-1) : controls[0];
+      const edge = event.shiftKey ? controls[0] : controls.at(-1);
+      if (document.activeElement === edge && next) {
+        event.preventDefault();
+        next.focus();
+      }
+    });
     this.#transient = this.#ports.runtime.beginTransient(() => this.#closeSheet(false));
     render(form, identity);
     panel.querySelector<HTMLElement>("input, textarea, select, button")?.focus();
@@ -389,7 +445,9 @@ export class ComposerEditorUi implements ComposerRuntimeDisposable {
     this.#sheet.replaceChildren();
     this.#sheetCleanup?.();
     this.#sheetCleanup = undefined;
-    this.#cards.inert = false;
+    this.#content.inert = false;
+    this.#toolbar.inert = false;
+    this.typesetContainer.hidden = !this.#active;
     if (closeTransient) transient?.close();
   }
 
@@ -435,6 +493,13 @@ function mergeSpeakers(
   });
   for (const choice of pack) if (!choices.has(choice.reference)) choices.set(choice.reference, choice);
   return [...choices.values()];
+}
+
+function nodeLabel(node: ComposerDocumentNode): string {
+  const kind = node.kind === "message"
+    ? node.speaker?.kind === "actor" ? `消息 · ${node.speaker.displayName}` : "消息"
+    : node.kind === "narration" ? "旁白" : opaqueLabel(node.category);
+  return `${kind} · 第 ${node.range.start.line + 1} 行`;
 }
 
 function opaqueLabel(category: string): string {

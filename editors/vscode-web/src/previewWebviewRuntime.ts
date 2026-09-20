@@ -11,6 +11,10 @@ import {
 import {
   base64ToBytes,
   isPreviewHostToWebviewMessage,
+  isComposerIntentMessage,
+  type ComposerIntent,
+  type ComposerStateMessage,
+  type ComposerSelectionBox,
   type PreviewExactExportState as ExactExportState,
   type PreviewImageAssetMessage as ImageAssetMessage,
   type PreviewMeasurementSpan as MeasurementSpan,
@@ -22,6 +26,7 @@ import {
   type PreviewRendererPageGeometry as RendererPageGeometry,
   type PreviewViewport,
   type PreviewWebviewToHostMessage,
+  float32CoordinatePrecision,
 } from "./previewWebviewProtocol.ts";
 
 interface VsCodeApi {
@@ -265,8 +270,12 @@ class PersistentPreviewRenderer {
     this.#framePayloadBytes += retainedPayload.byteLength;
     let offsetY = 0;
     const pageGeometries = this.#session.retrievePagesInfo().map((info, pageIndex) => {
-      const geometry = Object.freeze({ pageIndex, offsetY, width: info.width, height: info.height });
-      offsetY += info.height;
+      // SVG page bounds use integral extents. A temporary fractional container can
+      // clamp bottom scroll before the rendered page metadata is adopted.
+      const width = Math.ceil(Math.fround(info.width));
+      const height = Math.ceil(Math.fround(info.height));
+      const geometry = Object.freeze({ pageIndex, offsetY, width, height });
+      offsetY += height;
       return geometry;
     });
     if (pageGeometries.length === 0) throw new Error("Preview renderer produced no pages");
@@ -310,19 +319,27 @@ class PersistentPreviewRenderer {
     if (!this.#root) return;
     const renderedPages = rendererPages(this.#root);
     if (renderedPages.length !== this.#pageGeometries.length) return;
-    let offsetY = 0;
-    const canonical = renderedPages.map((renderedPage, pageIndex) => {
+    const canonical = renderedPages.map((renderedPage) => {
+      if (!(renderedPage instanceof SVGGraphicsElement) || renderedPage.transform.baseVal.numberOfItems !== 1) return undefined;
+      const { a, b, c, d, e, f } = renderedPage.transform.baseVal.getItem(0).matrix;
+      if (a !== 1 || b !== 0 || c !== 0 || d !== 1 || e !== 0 || !Number.isFinite(f) || f < 0) return undefined;
       const width = Number(renderedPage.getAttribute("data-page-width"));
       const height = Number(renderedPage.getAttribute("data-page-height"));
       if (!Number.isFinite(width) || width <= 0 || !Number.isFinite(height) || height <= 0) return undefined;
-      const geometry = Object.freeze({ pageIndex, offsetY, width, height });
-      offsetY += height;
-      return geometry;
+      return { pageIndex: 0, offsetY: f, width, height };
     });
-    if (canonical.some((geometry) => !geometry)) return;
-    this.#pageGeometries = Object.freeze(canonical as RendererPageGeometry[]);
+    if (!canonical.length || !canonical.every((geometry) => geometry !== undefined)) return;
+    // SVG reuse preserves node identity, not DOM order. Native text geometry
+    // addresses physical pages, including differently sized offscreen pages.
+    canonical.sort((left, right) => left.offsetY - right.offsetY);
+    for (let pageIndex = 0; pageIndex < canonical.length; pageIndex += 1) {
+      canonical[pageIndex].pageIndex = pageIndex;
+      Object.freeze(canonical[pageIndex]);
+    }
+    this.#pageGeometries = Object.freeze(canonical);
     intrinsicWidth = Math.max(...this.#pageGeometries.map((geometry) => geometry.width));
-    intrinsicHeight = offsetY;
+    const lastPage = canonical[canonical.length - 1];
+    intrinsicHeight = lastPage.offsetY + lastPage.height;
     page.style.width = `${intrinsicWidth * zoom}px`;
     page.style.height = `${intrinsicHeight * zoom}px`;
     page.dataset.intrinsicWidth = String(intrinsicWidth);
@@ -573,6 +590,7 @@ function applyZoom(nextZoom: number, nextFitMode: PreviewViewport["fitMode"], no
   zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
   showOverlay("preview-indicator", indicatorPoint);
   showOverlay("preview-cursor", cursorPoint);
+  composerInput.layout();
   if (layoutChanged && page.querySelector(".typst-renderer-root")) persistentRenderer.viewportChanged();
   if (notify) reportViewport();
 }
@@ -931,8 +949,8 @@ function reportViewport(): void {
   });
 }
 
-async function restoreViewport(state: PreviewViewport | undefined): Promise<void> {
-  if (!state) {
+async function restoreViewport(state: PreviewViewport | undefined, canRestore: () => boolean = () => true): Promise<void> {
+  if (!state || !canRestore()) {
     await persistentRenderer.flush();
     return;
   }
@@ -941,11 +959,13 @@ async function restoreViewport(state: PreviewViewport | undefined): Promise<void
   else applyZoom(state.zoom, "manual", false);
   await new Promise<void>((resolve) => requestAnimationFrame(() => {
     const target = documentCoordinatesForPoint({ pageIndex: state.page, x: state.x, y: state.y });
-    if (target) {
+    if (target && canRestore()) {
       const viewportBounds = viewport.getBoundingClientRect();
       const pageBounds = page.getBoundingClientRect();
-      viewport.scrollLeft += pageBounds.left + target.x * zoom - (viewportBounds.left + viewportBounds.width / 2);
-      viewport.scrollTop += pageBounds.top + target.y * zoom - (viewportBounds.top + viewportBounds.height / 2);
+      composerInput.scrollPresentation(
+        pageBounds.left + target.x * zoom - (viewportBounds.left + viewportBounds.width / 2),
+        pageBounds.top + target.y * zoom - (viewportBounds.top + viewportBounds.height / 2),
+      );
       persistentRenderer.viewportChanged();
     }
     resolve();
@@ -1251,6 +1271,7 @@ async function renderFrame(message: RendererFrameMessage): Promise<void> {
   const iframeTransferMs = Math.max(0, Date.now() - message.publishedAtEpochMs);
   const generation = ++renderGeneration;
   const domStarted = performance.now();
+  const scrollRevision = composerInput.scrollRevision;
   const viewportBounds = viewport.getBoundingClientRect();
   const oldPageBounds = page.getBoundingClientRect();
   const savedPoint = previewPointAtDocumentCoordinates(
@@ -1275,11 +1296,12 @@ async function renderFrame(message: RendererFrameMessage): Promise<void> {
   applyZoom(zoom, fitMode, false);
   showOverlay("preview-indicator", indicatorPoint);
   showOverlay("preview-cursor", cursorPoint);
-  await restoreViewport(savedViewport);
+  await restoreViewport(savedViewport, () => composerInput.scrollRevision === scrollRevision);
   await waitForVisualPaint();
   if (generation !== renderGeneration) return;
   page.dataset.renderKey = message.renderKey;
   page.dataset.requestSequence = String(message.requestSequence);
+  composerInput.rendered();
   const domUpdateMs = performance.now() - domStarted;
   vscode.postMessage({
     type: "visual-ready",
@@ -1344,6 +1366,7 @@ async function render(message: RenderMessage): Promise<void> {
       throw new Error("Preview publication has invalid page geometry");
     }
     const viewportBounds = viewport.getBoundingClientRect();
+    const scrollRevision = composerInput.scrollRevision;
     const oldPageBounds = page.getBoundingClientRect();
     const savedViewport: PreviewViewport = {
       page: 0,
@@ -1368,7 +1391,7 @@ async function render(message: RenderMessage): Promise<void> {
     viewport.hidden = false;
     showOverlay("preview-indicator", indicatorPoint);
     showOverlay("preview-cursor", cursorPoint);
-    await restoreViewport(savedViewport);
+    await restoreViewport(savedViewport, () => composerInput.scrollRevision === scrollRevision);
     const domUpdateMs = performance.now() - domStarted;
     await waitForVisualPaint();
     if (generation !== renderGeneration) return;
@@ -1377,6 +1400,7 @@ async function render(message: RenderMessage): Promise<void> {
     const locationMeasureMs = performance.now() - locationStarted;
     page.dataset.renderKey = message.renderKey;
     page.dataset.requestSequence = String(message.requestSequence);
+    composerInput.rendered();
     vscode.postMessage({
       type: "visual-ready",
       requestSequence: message.requestSequence,
@@ -1417,11 +1441,861 @@ function showStatus(message: string, error: boolean): void {
   if (!page.firstElementChild) viewport.hidden = true;
 }
 
+type ComposerPointerSample = Pick<Extract<ComposerIntent, { kind: "pointer" }>, "point" | "uncertainty">;
+
+interface ComposerPointerGesture {
+  readonly pointerId: number;
+  readonly owner: HTMLElement;
+  readonly originX: number;
+  readonly originY: number;
+  readonly extend: boolean;
+  readonly clickCount: 1 | 2;
+  clientX: number;
+  clientY: number;
+  dirty: boolean;
+  moved: boolean;
+  initialSample?: ComposerPointerSample;
+  ended: boolean;
+  deferredStart?: { readonly sample: ComposerPointerSample; readonly renderKey: string };
+}
+
+/** Retained input presentation, not a text model. All mutations are semantic host intents. */
+class ComposerInputBridge {
+  readonly #layer = document.createElement("div");
+  readonly #visuals = document.createElement("div");
+  readonly #input = document.createElement("textarea");
+  readonly #composition = document.createElement("span");
+  readonly #announcement = document.createElement("span");
+  readonly #handles = [document.createElement("button"), document.createElement("button")];
+  #state: ComposerStateMessage | undefined;
+  #geometry: ComposerStateMessage | undefined;
+  #sequence = 0;
+  #pointerSequence = 0;
+  #gesture: ComposerPointerGesture | undefined;
+  #afterPointer: ComposerIntent[] = [];
+  readonly #draftBlockedDrains = new Map<string, number>();
+  #lastClick: { readonly x: number; readonly y: number; readonly time: number } | undefined;
+  #suppressClick = false;
+  #composing = false;
+  #compositionText = "";
+  #compositionCommit: string | undefined;
+  #handledBeforeInput: { readonly inputType: string; readonly text: string | null } | undefined;
+  #layoutFrame: number | undefined;
+  #dragFrame: number | undefined;
+  #revealFrame: number | undefined;
+  /** Active keyboard/IME caret-follow request, carried across admission echoes at this scroll revision. */
+  #revealRequestedAtScroll: number | undefined;
+  #scrollRevision = 0;
+  #expectedScroll: { readonly left: number; readonly top: number } | undefined;
+  #focusWhenAuthorized = false;
+  #touchSelection = false;
+  #disposed = false;
+
+  constructor() {
+    const style = document.createElement("style");
+    style.textContent = `
+      .composer-overlays { position:fixed; inset:0; z-index:5; overflow:hidden; pointer-events:none; contain:strict; }
+      .composer-visuals { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+      .composer-caret,.composer-selection-box { position:absolute; pointer-events:none; box-sizing:border-box; }
+      .composer-caret { background:var(--vscode-editorCursor-foreground,#006bb3); min-width:1px; }
+      .composer-selection-box { background:var(--vscode-editor-selectionBackground,#75baff66); }
+      .composer-input-bridge { position:absolute; margin:0; padding:0; border:0; outline:0; resize:none; overflow:hidden; width:1px; min-width:1px; max-width:1px; background:transparent; color:transparent; caret-color:transparent; opacity:.01; font:16px/1 sans-serif; white-space:pre; pointer-events:none; }
+      .composer-composition { position:absolute; box-sizing:border-box; max-width:100%; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; background:var(--vscode-editor-background,#fff); color:var(--vscode-editor-foreground,#222); border-bottom:2px solid var(--vscode-focusBorder,#007acc); font:16px/1.3 var(--vscode-editor-font-family,monospace); }
+      .composer-touch-handle { position:absolute; width:44px; height:44px; margin:0; padding:0; border:0; background:transparent; pointer-events:auto; touch-action:none; cursor:grab; }
+      .composer-touch-handle::after { content:""; position:absolute; width:14px; height:14px; left:15px; top:4px; border-radius:50%; background:var(--vscode-editorCursor-foreground,#006bb3); box-shadow:0 0 0 1px #fff; }
+      .composer-overlays [hidden] { display:none; }
+      .composer-announcement { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+      .composer-announcement.composer-input-rejected { clip-path:none; width:auto; height:auto; max-width:calc(100% - 24px); left:12px; top:8px; padding:8px; background:var(--vscode-editor-background,#fff); color:var(--vscode-errorForeground,#b02020); border:1px solid currentColor; pointer-events:auto; font:14px/1.4 sans-serif; }
+      .composer-input-rejected button { min-height:44px; min-width:44px; margin-left:8px; }
+      body:not([data-composer-status="blocked"]) .page .tsel { user-select:none; -webkit-user-select:none; }
+      body:not([data-composer-status="blocked"]) .page { touch-action:pan-y; }
+      body:not([data-composer-status="blocked"]) .page .typst-text,
+      body:not([data-composer-status="blocked"]) .page [data-typst-label^="mmt:bubble:"],
+      body:not([data-composer-status="blocked"]) .page [data-typst-label^="mmt:narration:"] { touch-action:none; }
+    `;
+    document.head.append(style);
+    this.#layer.className = "composer-overlays";
+    this.#visuals.className = "composer-visuals";
+    this.#input.className = "composer-input-bridge";
+    this.#input.setAttribute("aria-label", "编辑消息正文");
+    this.#input.setAttribute("autocomplete", "off");
+    this.#input.setAttribute("autocapitalize", "off");
+    this.#input.spellcheck = false;
+    this.#input.disabled = true;
+    this.#input.tabIndex = -1;
+    this.#composition.className = "composer-composition";
+    this.#composition.hidden = true;
+    this.#announcement.className = "composer-announcement";
+    this.#announcement.setAttribute("role", "status");
+    this.#announcement.setAttribute("aria-live", "polite");
+    for (const [index, handle] of this.#handles.entries()) {
+      handle.className = "composer-touch-handle";
+      handle.type = "button";
+      handle.dataset.endpoint = index === 0 ? "anchor" : "focus";
+      handle.setAttribute("aria-label", index === 0 ? "移动选区起点" : "移动选区终点");
+      handle.hidden = true;
+      handle.addEventListener("pointerdown", (event) => this.#handlePointer(event, index));
+      handle.addEventListener("pointermove", (event) => this.pointerMove(event));
+      handle.addEventListener("pointerup", (event) => this.pointerUp(event));
+      handle.addEventListener("pointercancel", (event) => this.pointerCancel(event));
+      handle.addEventListener("lostpointercapture", (event) => this.pointerCancel(event));
+    }
+    this.#layer.append(this.#visuals, this.#composition, ...this.#handles, this.#input, this.#announcement);
+    // Never put the input under .page: renderer full frames legitimately replace its children.
+    document.body.append(this.#layer);
+    document.body.dataset.composerStatus = "blocked";
+    this.#input.addEventListener("keydown", (event) => this.#keyDown(event));
+    this.#input.addEventListener("beforeinput", (event) => this.#beforeInput(event));
+    this.#input.addEventListener("input", (event) => this.#onInput(event as InputEvent));
+    this.#input.addEventListener("compositionstart", () => this.#startComposition());
+    this.#input.addEventListener("compositionupdate", (event) => this.#updateComposition(event.data));
+    this.#input.addEventListener("compositionend", (event) => this.#endComposition(event.data));
+    this.#input.addEventListener("copy", (event) => {
+      if (!this.#enabled()) return;
+      event.preventDefault();
+      this.#send({ kind: "copy" });
+    });
+    this.#input.addEventListener("cut", (event) => {
+      if (!this.#enabled() || this.#composing) return;
+      event.preventDefault();
+      this.#send({ kind: "replace", origin: "cut", text: "" });
+    });
+    this.#input.addEventListener("paste", (event) => {
+      if (!this.#enabled() || this.#composing) return;
+      event.preventDefault();
+      this.#compositionCommit = undefined;
+      const text = event.clipboardData?.getData("text/plain");
+      if (text !== undefined) this.#replace(text, "paste");
+    });
+    this.#input.addEventListener("blur", () => {
+      if (this.#enabled()) {
+        const draft = this.#compositionText;
+        if (!this.#send({ kind: "composition", phase: "cancel", text: draft }) && draft) {
+          this.#send({ kind: "composition", phase: "cancel", text: "" });
+          this.#retainTransportDraft(draft);
+        }
+      }
+      this.#clearComposition();
+      this.#focusWhenAuthorized = false;
+      this.#revealRequestedAtScroll = undefined;
+    });
+  }
+
+  get active(): boolean {
+    return this.#state !== undefined && this.#state.status !== "blocked";
+  }
+
+  get scrollRevision(): number {
+    return this.#scrollRevision;
+  }
+
+  get hasTransportDraft(): boolean {
+    return this.#input.readOnly;
+  }
+
+  get hasUnsubmittedInput(): boolean {
+    return this.hasTransportDraft || this.#afterPointer.length > 0 || this.#composing;
+  }
+
+  focusFromHost(): void {
+    if (this.#disposed || this.hasTransportDraft || this.#composing) return;
+    this.#focusWhenAuthorized = true;
+    if (this.#state?.status === "ready" && this.#state.carets.length > 0
+      && this.#state.renderKey === page.dataset.renderKey) {
+      this.#input.focus({ preventScroll: true });
+      this.#focusWhenAuthorized = false;
+    }
+  }
+
+  windowBlurred(): void {
+    this.#focusWhenAuthorized = false;
+    this.#revealRequestedAtScroll = undefined;
+  }
+
+  scrollPresentation(dx: number, dy: number): void {
+    this.#scrollBy(dx, dy);
+  }
+
+  #enabled(): boolean {
+    return !this.#disposed && this.active && !this.#input.readOnly;
+  }
+
+  #pointerReady(): boolean {
+    return this.#enabled() && this.#state?.status === "ready"
+      && this.#state.renderKey === page.dataset.renderKey
+      && this.#pointerSequence <= this.#state.sequence;
+  }
+
+  acceptState(state: ComposerStateMessage): void {
+    if (this.#disposed) return;
+    const previous = this.#state;
+    const changedSession = previous?.sessionId !== state.sessionId;
+    if (previous && !changedSession && state.sequence < previous.sequence) return;
+    if (changedSession) {
+      if (previous && previous.status !== "blocked") return;
+      this.#sequence = state.sequence;
+      this.#pointerSequence = 0;
+      this.#geometry = undefined;
+      this.#clearComposition();
+    }
+    if (state.status === "blocked") this.#finishGesture();
+    if (state.status === "blocked" && previous?.sessionId === state.sessionId && this.#composing) {
+      const draft = this.#compositionText;
+      if (!this.#send({ kind: "composition", phase: "cancel", text: draft }) && draft) this.#retainTransportDraft(draft);
+      this.#clearComposition();
+    }
+    this.#state = state;
+    this.#sequence = Math.max(this.#sequence, state.sequence);
+    this.#input.disabled = state.status === "blocked" && !this.hasTransportDraft;
+    this.#input.tabIndex = this.#input.disabled ? -1 : 0;
+    if (state.status === "blocked") {
+      this.#finishGesture();
+      this.#clearComposition();
+      this.#geometry = undefined;
+      this.#visuals.replaceChildren();
+      this.#handles.forEach((handle) => { handle.hidden = true; });
+      if (!this.hasTransportDraft) this.#input.value = "";
+      this.#input.blur();
+      this.#revealRequestedAtScroll = undefined;
+      // This outbound FIFO barrier follows every intent already posted for the retiring session.
+      if (this.hasTransportDraft) {
+        this.#draftBlockedDrains.set(state.sessionId, this.#sequence);
+      } else {
+        vscode.postMessage({ type: "composer-drained", sessionId: state.sessionId, sequence: this.#sequence });
+      }
+    } else if (state.status === "ready") {
+      this.#geometry = state;
+    }
+    this.rendered();
+    if (state.status === "ready" && state.carets.length > 0 && this.#focusWhenAuthorized && document.hasFocus()
+      && (document.activeElement === document.body || document.activeElement === this.#input)) {
+      this.#input.focus({ preventScroll: true });
+      this.#focusWhenAuthorized = false;
+    }
+    this.#flushPointer();
+  }
+
+  rendered(): void {
+    const state = this.#state;
+    document.body.dataset.composerStatus = !state || state.status === "blocked" || this.hasTransportDraft ? "blocked"
+      : state.status === "ready" && state.renderKey === page.dataset.renderKey
+        && this.#pointerSequence <= state.sequence ? "ready" : "pending";
+    this.layout();
+    if (state?.status === "ready") this.#scheduleReveal();
+  }
+
+  layout(): void {
+    if (this.#layoutFrame !== undefined || this.#disposed) return;
+    this.#layoutFrame = requestAnimationFrame(() => {
+      this.#layoutFrame = undefined;
+      this.#layoutNow();
+    });
+  }
+
+  #visibleBounds(): { left: number; top: number; right: number; bottom: number } {
+    const bounds = viewport.getBoundingClientRect();
+    const visual = window.visualViewport;
+    return {
+      left: Math.max(bounds.left, visual?.offsetLeft ?? 0),
+      top: Math.max(bounds.top, visual?.offsetTop ?? 0),
+      right: Math.min(bounds.right, (visual?.offsetLeft ?? 0) + (visual?.width ?? window.innerWidth)),
+      bottom: Math.min(bounds.bottom, (visual?.offsetTop ?? 0) + (visual?.height ?? window.innerHeight)),
+    };
+  }
+
+  #screenTransform(): DOMMatrix | undefined {
+    const root = page.firstElementChild;
+    if (!(root instanceof SVGSVGElement) || !root.classList.contains("typst-renderer-root")) return undefined;
+    const transform = root.getScreenCTM();
+    if (!transform || transform.a * transform.d - transform.b * transform.c === 0) return undefined;
+    return transform;
+  }
+
+  #boxRect(
+    box: ComposerSelectionBox,
+    transform = this.#screenTransform(),
+    geometries = currentPageGeometries(),
+  ): { x: number; y: number; width: number; height: number } | undefined {
+    const geometry = geometries[box.pageIndex];
+    if (!geometry || !transform) return undefined;
+    const x = box.x * geometry.width;
+    const y = geometry.offsetY + box.y * geometry.height;
+    const width = box.width * geometry.width;
+    const height = box.height * geometry.height;
+    const widthX = transform.a * width;
+    const heightX = transform.c * height;
+    const widthY = transform.b * width;
+    const heightY = transform.d * height;
+    return {
+      x: transform.a * x + transform.c * y + transform.e + Math.min(0, widthX) + Math.min(0, heightX),
+      y: transform.b * x + transform.d * y + transform.f + Math.min(0, widthY) + Math.min(0, heightY),
+      width: Math.abs(widthX) + Math.abs(heightX),
+      height: Math.abs(widthY) + Math.abs(heightY),
+    };
+  }
+
+  #layoutNow(): void {
+    const visible = this.#visibleBounds();
+    this.#layer.style.clipPath = `inset(${Math.max(0, visible.top)}px ${Math.max(0, window.innerWidth - visible.right)}px ${Math.max(0, window.innerHeight - visible.bottom)}px ${Math.max(0, visible.left)}px)`;
+    this.#announcement.style.left = `${visible.left + 8}px`;
+    this.#announcement.style.top = `${visible.top + 8}px`;
+    this.#announcement.style.maxWidth = `${Math.max(44, visible.right - visible.left - 16)}px`;
+    const geometry = this.#geometry;
+    // Pending reflow may retain feedback, but old normalized points never get reinterpreted in a new frame.
+    if (!geometry || geometry.renderKey !== page.dataset.renderKey) return;
+    const fragments = document.createDocumentFragment();
+    const screenTransform = this.#screenTransform();
+    const pageGeometries = currentPageGeometries();
+    const appendBox = (box: ComposerSelectionBox, className: string) => {
+      const rect = this.#boxRect(box, screenTransform, pageGeometries);
+      if (!rect || rect.x + Math.max(1, rect.width) < visible.left || rect.x > visible.right
+        || rect.y + rect.height < visible.top || rect.y > visible.bottom) return;
+      const element = document.createElement("span");
+      element.className = className;
+      element.dataset.pageIndex = String(box.pageIndex);
+      element.dataset.x = String(box.x);
+      element.dataset.y = String(box.y);
+      element.dataset.width = String(box.width);
+      element.dataset.height = String(box.height);
+      if ("affinity" in box) element.dataset.affinity = String(box.affinity);
+      Object.assign(element.style, {
+        left: `${rect.x}px`, top: `${rect.y}px`, width: `${Math.max(className === "composer-caret" ? 1 : 0, rect.width)}px`, height: `${rect.height}px`,
+      });
+      fragments.append(element);
+    };
+    for (const box of geometry.boxes) appendBox(box, "composer-selection-box");
+    for (const caret of geometry.carets) appendBox(caret, "composer-caret");
+    this.#visuals.replaceChildren(fragments);
+    const caret = geometry.carets.at(-1);
+    const caretRect = caret && this.#boxRect(caret, screenTransform, pageGeometries);
+    if (caretRect && !this.hasTransportDraft) {
+      // Keep the OS candidate window near the real caret and inside the visual viewport.
+      this.#input.style.left = `${Math.max(visible.left, Math.min(visible.right - 1, caretRect.x))}px`;
+      this.#input.style.top = `${Math.max(visible.top, Math.min(visible.bottom - Math.max(16, caretRect.height), caretRect.y))}px`;
+      this.#input.style.height = `${Math.max(16, caretRect.height)}px`;
+      this.#composition.style.left = this.#input.style.left;
+      this.#composition.style.top = this.#input.style.top;
+      this.#composition.style.maxWidth = `${Math.max(1, visible.right - Math.max(visible.left, caretRect.x))}px`;
+      this.#composition.style.maxHeight = `${Math.max(1, visible.bottom - Math.max(visible.top, caretRect.y))}px`;
+    }
+    for (const [index, handle] of this.#handles.entries()) {
+      const endpoint = geometry.carets[index];
+      const rect = endpoint && this.#boxRect(endpoint, screenTransform, pageGeometries);
+      const captured = this.#gesture?.owner === handle;
+      handle.hidden = !captured && (!this.#touchSelection || geometry.carets.length !== 2 || !rect || !this.active);
+      if (!handle.hidden && !captured && rect) {
+        handle.style.left = `${Math.max(visible.left, Math.min(visible.right - 44, rect.x - 22))}px`;
+        handle.style.top = `${Math.max(visible.top, Math.min(visible.bottom - 44, rect.y + rect.height))}px`;
+      }
+    }
+  }
+
+  userScrolled(): void {
+    const expected = this.#expectedScroll;
+    this.#expectedScroll = undefined;
+    const programmatic = Boolean(expected
+      && Math.abs(expected.left - viewport.scrollLeft) <= 1
+      && Math.abs(expected.top - viewport.scrollTop) <= 1);
+    if (!programmatic) this.cancelReveal();
+    this.layout();
+    // A viewport restore or renderer rebase may follow a keyboard reveal. Re-check the
+    // retained caret-follow request rather than letting that programmatic scroll win.
+    if (programmatic) this.#scheduleReveal();
+  }
+
+  cancelReveal(): void {
+    this.#scrollRevision += 1;
+    this.#revealRequestedAtScroll = undefined;
+  }
+
+  visualViewportChanged(): void {
+    this.layout();
+    if (document.activeElement === this.#input && this.#state?.status === "ready") {
+      this.#revealRequestedAtScroll = this.#scrollRevision;
+      this.#scheduleReveal();
+    }
+  }
+
+  #scheduleReveal(): void {
+    if (this.#revealFrame !== undefined || this.#revealRequestedAtScroll === undefined) return;
+    this.#revealFrame = requestAnimationFrame(() => {
+      this.#revealFrame = undefined;
+      const revision = this.#revealRequestedAtScroll;
+      const geometry = this.#geometry;
+      if (this.#disposed || revision === undefined || revision !== this.#scrollRevision || this.#state?.status !== "ready"
+        || document.activeElement !== this.#input || !geometry || geometry.renderKey !== page.dataset.renderKey) return;
+      const caret = geometry.carets.at(-1);
+      const rect = caret && this.#boxRect(caret);
+      if (!rect) return;
+      const visible = this.#visibleBounds();
+      const dx = rect.x < visible.left + 8 ? rect.x - visible.left - 8
+        : rect.x + Math.max(1, rect.width) > visible.right - 8 ? rect.x + Math.max(1, rect.width) - visible.right + 8 : 0;
+      const dy = rect.y < visible.top + 8 ? rect.y - visible.top - 8
+        : rect.y + rect.height > visible.bottom - 8 ? rect.y + rect.height - visible.bottom + 8 : 0;
+      if (dx || dy) this.#scrollBy(dx, dy);
+      // Keep following ready geometry until an actual user scroll, pointer gesture, blur,
+      // or blocked state cancels it. The first state for an admitted intent can echo the
+      // previous geometry with the new sequence; sequence is not a geometry completion id.
+    });
+  }
+
+  #scrollBy(dx: number, dy: number): void {
+    const beforeLeft = viewport.scrollLeft;
+    const beforeTop = viewport.scrollTop;
+    viewport.scrollLeft += dx;
+    viewport.scrollTop += dy;
+    const left = viewport.scrollLeft;
+    const top = viewport.scrollTop;
+    if (left !== beforeLeft || top !== beforeTop) {
+      this.#expectedScroll = { left, top };
+      this.#scrollRevision += 1;
+      if (this.#revealRequestedAtScroll !== undefined) this.#revealRequestedAtScroll = this.#scrollRevision;
+    }
+    this.layout();
+  }
+
+  #pointerSample(clientX: number, clientY: number, requireInside: boolean): ComposerPointerSample | undefined {
+    const transform = this.#screenTransform();
+    const state = this.#state;
+    if (!transform || !state) return undefined;
+    const inverse = transform.inverse();
+    const { x, y } = new DOMPoint(clientX, clientY).matrixTransform(inverse);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return undefined;
+    const geometries = currentPageGeometries();
+    if (requireInside && !geometries.some((geometry) => x >= 0 && x <= geometry.width
+      && y >= geometry.offsetY && y <= geometry.offsetY + geometry.height)) return undefined;
+    const point = previewPointAtDocumentCoordinates(x, y);
+    const geometry = point && geometries[point.pageIndex];
+    if (!point || !geometry) return undefined;
+    // Pointer coordinates cross Float32 screen and iframe boundaries. Transform their
+    // measured precision through the actual SVG CTM, never a nominal zoom or pixel pad.
+    const radius = state.screenCoordinatePrecision + float32CoordinatePrecision(
+      Math.max(Math.abs(clientX), Math.abs(clientY), window.innerWidth, window.innerHeight),
+    );
+    const uncertainty = {
+      x: (Math.abs(inverse.a) + Math.abs(inverse.c)) * radius / geometry.width,
+      y: (Math.abs(inverse.b) + Math.abs(inverse.d)) * radius / geometry.height,
+    };
+    if (!Number.isFinite(uncertainty.x) || !Number.isFinite(uncertainty.y)
+      || uncertainty.x < 0 || uncertainty.x > 1 || uncertainty.y < 0 || uncertainty.y > 1) return undefined;
+    return { point, uncertainty };
+  }
+
+  bodyTarget(target: EventTarget | null): boolean {
+    if (!(target instanceof Element)) return false;
+    const root = target.closest("svg");
+    if (!root || !renderedDomIsActive(root)) return false;
+    const labelled = target.closest("[data-typst-label]");
+    const semantic = labelled && parsePreviewSemanticLabel(labelled.getAttribute("data-typst-label") ?? "");
+    if (semantic) return semantic.role === "bubble" || semantic.role === "narration";
+    // Native empty-body metadata can have no glyph DOM. The host's exact hit test authorizes it.
+    return true;
+  }
+
+  pointerDown(event: PointerEvent): boolean {
+    if (!this.active || event.button !== 0 || !event.isPrimary || !this.bodyTarget(event.target)) return false;
+    event.preventDefault();
+    this.#suppressClick = true;
+    const sample = this.#pointerSample(event.clientX, event.clientY, true);
+    if (!sample) return true;
+    const previous = this.#lastClick;
+    const clickCount = event.detail >= 2 || (previous && performance.now() - previous.time < 500
+      && Math.hypot(previous.x - event.clientX, previous.y - event.clientY) <= 6) ? 2 : 1;
+    if (this.#composing) return true;
+    if (!this.#pointerReady()) {
+      // The second click is part of the already admitted gesture, not authorization against pending
+      // render geometry. Re-check the identical frame after the first hit completes.
+      if (clickCount === 2 && this.#state && this.#sequence === this.#pointerSequence
+        && this.#pointerSequence > this.#state.sequence && this.#state.renderKey === page.dataset.renderKey) {
+        this.#beginGesture(event, page, event.shiftKey, 2);
+        this.#gesture!.deferredStart = { sample, renderKey: this.#state.renderKey };
+        this.#lastClick = undefined;
+      }
+      return true;
+    }
+    this.#lastClick = clickCount === 2 ? undefined : { x: event.clientX, y: event.clientY, time: performance.now() };
+    this.#beginGesture(event, page, event.shiftKey, clickCount);
+    this.#gesture!.initialSample = sample;
+    this.#sendPointer("start", sample, event.shiftKey, clickCount);
+    return true;
+  }
+
+  #beginGesture(event: PointerEvent, owner: HTMLElement, extend: boolean, clickCount: 1 | 2): void {
+    this.#finishGesture();
+    this.#compositionCommit = undefined;
+    this.#touchSelection = event.pointerType === "touch" || event.pointerType === "pen";
+    this.#gesture = {
+      pointerId: event.pointerId, owner, originX: event.clientX, originY: event.clientY,
+      clientX: event.clientX, clientY: event.clientY, extend, clickCount, dirty: false, moved: false, ended: false,
+    };
+    owner.setPointerCapture(event.pointerId);
+    document.getSelection()?.removeAllRanges();
+    this.#input.focus({ preventScroll: true });
+    this.#focusWhenAuthorized = false;
+    this.cancelReveal();
+  }
+
+  #handlePointer(event: PointerEvent, index: number): void {
+    if (!this.#pointerReady() || this.#composing || event.button !== 0 || !event.isPrimary) return;
+    const carets = this.#geometry?.carets;
+    const moving = carets?.[index];
+    const fixed = carets?.[1];
+    if (!moving || !fixed) return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.#beginGesture(event, this.#handles[index]!, true, 1);
+    this.#touchSelection = true;
+    const movingPoint = { pageIndex: moving.pageIndex, x: moving.x, y: moving.y + moving.height / 2 };
+    this.#gesture!.initialSample = { point: movingPoint, uncertainty: { x: 0, y: 0 } };
+    // Dragging the anchor starts at the opposite endpoint, retaining an explicit directional range.
+    this.#sendPointer("start", {
+      point: index === 0
+        ? { pageIndex: fixed.pageIndex, x: fixed.x, y: fixed.y + fixed.height / 2 }
+        : movingPoint,
+      uncertainty: { x: 0, y: 0 },
+    }, index !== 0, 1);
+  }
+
+  pointerMove(event: PointerEvent): boolean {
+    const gesture = this.#gesture;
+    if (!gesture || gesture.pointerId !== event.pointerId) return false;
+    event.preventDefault();
+    if (Math.hypot(event.clientX - gesture.originX, event.clientY - gesture.originY) <= 3 && !gesture.moved) return true;
+    gesture.clientX = event.clientX;
+    gesture.clientY = event.clientY;
+    gesture.dirty = true;
+    gesture.moved = true;
+    this.#flushPointer();
+    this.#startAutoscroll();
+    return true;
+  }
+
+  pointerUp(event: PointerEvent): boolean {
+    const gesture = this.#gesture;
+    if (!gesture || gesture.pointerId !== event.pointerId) return false;
+    event.preventDefault();
+    gesture.ended = true;
+    if (gesture.moved) {
+      gesture.clientX = event.clientX;
+      gesture.clientY = event.clientY;
+    }
+    this.#flushPointer();
+    return true;
+  }
+
+  pointerCancel(event: PointerEvent): void {
+    const gesture = this.#gesture;
+    if (!gesture || gesture.pointerId !== event.pointerId || gesture.ended) return;
+    const sample = this.#pointerSample(gesture.clientX, gesture.clientY, false);
+    if (sample && this.#pointerReady()) this.#sendPointer("cancel", sample, gesture.extend, gesture.clickCount);
+    this.#finishGesture();
+  }
+
+  #flushPointer(): void {
+    const gesture = this.#gesture;
+    if (gesture?.deferredStart && this.#pointerReady()) {
+      const start = gesture.deferredStart;
+      gesture.deferredStart = undefined;
+      gesture.initialSample = start.sample;
+      if (start.renderKey !== page.dataset.renderKey) {
+        this.#finishGesture();
+        return;
+      }
+      this.#sendPointer("start", start.sample, gesture.extend, gesture.clickCount);
+      return;
+    }
+    if (!gesture || !this.#pointerReady() || (!gesture.dirty && !gesture.ended)) return;
+    const sample = !gesture.moved && gesture.initialSample
+      ? gesture.initialSample : this.#pointerSample(gesture.clientX, gesture.clientY, false);
+    if (!sample) return;
+    const phase = gesture.ended ? "end" : "move";
+    this.#sendPointer(phase, sample, gesture.moved || gesture.extend, gesture.clickCount);
+    gesture.dirty = false;
+    if (gesture.ended) this.#finishGesture();
+  }
+
+  #finishGesture(): void {
+    const gesture = this.#gesture;
+    this.#gesture = undefined;
+    if (gesture?.owner.hasPointerCapture(gesture.pointerId)) gesture.owner.releasePointerCapture(gesture.pointerId);
+    if (this.#dragFrame !== undefined) cancelAnimationFrame(this.#dragFrame);
+    this.#dragFrame = undefined;
+    const queued = this.#afterPointer;
+    this.#afterPointer = [];
+    for (const intent of queued) this.#send(intent, true);
+  }
+
+  #startAutoscroll(): void {
+    if (this.#dragFrame !== undefined) return;
+    const tick = () => {
+      this.#dragFrame = undefined;
+      const gesture = this.#gesture;
+      if (!gesture || gesture.ended) return;
+      const bounds = this.#visibleBounds();
+      const speed = (value: number, low: number, high: number) => value < low + 32 ? -Math.min(18, (low + 32 - value) / 3)
+        : value > high - 32 ? Math.min(18, (value - high + 32) / 3) : 0;
+      const dx = speed(gesture.clientX, bounds.left, bounds.right);
+      const dy = speed(gesture.clientY, bounds.top, bounds.bottom);
+      if (dx || dy) {
+        this.#scrollBy(dx, dy);
+        gesture.dirty = true;
+        this.#flushPointer();
+        this.#dragFrame = requestAnimationFrame(tick);
+      }
+    };
+    this.#dragFrame = requestAnimationFrame(tick);
+  }
+
+  consumeClick(): boolean {
+    const consumed = this.#suppressClick;
+    this.#suppressClick = false;
+    return consumed;
+  }
+
+  #sendPointer(phase: "start" | "move" | "end" | "cancel", { point, uncertainty }: ComposerPointerSample, extend: boolean, clickCount: 1 | 2): void {
+    if (this.#send({ kind: "pointer", phase, point, uncertainty, extend, clickCount })) {
+      this.#pointerSequence = this.#sequence;
+      this.rendered();
+    }
+  }
+
+  #send(intent: ComposerIntent, alreadyCaptured = false): boolean {
+    const state = this.#state;
+    if ((!alreadyCaptured && !this.#enabled()) || this.#disposed || !state || this.#sequence >= Number.MAX_SAFE_INTEGER) return false;
+    const message = { type: "composer-intent" as const, sessionId: state.sessionId, renderKey: state.renderKey, sequence: this.#sequence + 1, intent };
+    if (!isComposerIntentMessage(message)) return false;
+    if (intent.kind !== "pointer" && this.#gesture) {
+      // Preserve physical event order until the final pointer location has been authorized.
+      this.#afterPointer.push(intent);
+      return true;
+    }
+    this.#sequence = message.sequence;
+    if (intent.kind === "replace" || intent.kind === "move" || intent.kind === "history"
+      || (intent.kind === "composition" && intent.phase === "end")) {
+      this.#revealRequestedAtScroll = this.#scrollRevision;
+    }
+    vscode.postMessage(message);
+    return true;
+  }
+
+  #replace(text: string, origin: "typing" | "paste"): void {
+    if (this.#send({ kind: "replace", text, origin })) {
+      this.#input.value = "";
+    } else if (text) {
+      if (origin === "paste") {
+        this.#showInputRejection("粘贴内容超过输入传输限制，未提交。原始剪贴板内容保持不变。");
+      } else {
+        this.#retainTransportDraft(text);
+      }
+    }
+  }
+
+  #showInputRejection(message: string): void {
+    this.#announcement.classList.add("composer-input-rejected");
+    const dismiss = document.createElement("button");
+    dismiss.type = "button";
+    dismiss.textContent = this.hasTransportDraft ? "丢弃临时输入" : "关闭";
+    dismiss.addEventListener("click", () => {
+      this.#input.value = "";
+      this.#input.readOnly = false;
+      for (const property of ["opacity", "color", "background", "min-width", "max-width", "pointer-events"]) {
+        this.#input.style.removeProperty(property);
+      }
+      this.#input.disabled = !this.active;
+      this.#announcement.classList.remove("composer-input-rejected");
+      this.#announcement.replaceChildren();
+      for (const [sessionId, sequence] of this.#draftBlockedDrains) {
+        vscode.postMessage({ type: "composer-drained", sessionId, sequence });
+      }
+      this.#draftBlockedDrains.clear();
+      this.rendered();
+    }, { once: true });
+    this.#announcement.replaceChildren(document.createTextNode(message), dismiss);
+    this.layout();
+  }
+
+  #retainTransportDraft(text: string): void {
+    this.#input.value = text;
+    this.#input.readOnly = true;
+    this.#input.disabled = false;
+    this.#input.style.opacity = "1";
+    this.#input.style.color = "var(--vscode-editor-foreground)";
+    this.#input.style.background = "var(--vscode-editor-background)";
+    this.#input.style.minWidth = "240px";
+    this.#input.style.maxWidth = "min(320px, 90vw)";
+    this.#input.style.pointerEvents = "auto";
+    const visible = this.#visibleBounds();
+    this.#input.style.left = `${visible.left + 8}px`;
+    this.#input.style.top = `${visible.top + 88}px`;
+    this.#input.style.height = `${Math.max(44, Math.min(120, visible.bottom - visible.top - 100))}px`;
+    this.#input.select();
+    this.#showInputRejection("输入未能提交。请复制此临时草稿后再丢弃；它不会写入文档。");
+    this.rendered();
+  }
+
+  #keyDown(event: KeyboardEvent): void {
+    if (!this.#enabled()) return;
+    if (this.#composing || event.isComposing || event.keyCode === 229) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        this.#send({ kind: "composition", phase: "cancel", text: "" });
+        this.#clearComposition();
+      }
+      return;
+    }
+    this.#compositionCommit = undefined;
+    this.#handledBeforeInput = undefined;
+    const modifier = event.ctrlKey || event.metaKey;
+    const key = event.key.toLowerCase();
+    if (modifier && !event.altKey && (key === "c" || key === "x")) {
+      event.preventDefault();
+      if (key === "c") this.#send({ kind: "copy" });
+      else this.#send({ kind: "replace", origin: "cut", text: "" });
+    } else if (modifier && !event.altKey && (key === "z" || key === "y")) {
+      event.preventDefault();
+      this.#send({ kind: "history", direction: key === "y" || event.shiftKey ? "redo" : "undo" });
+    } else if (modifier && !event.altKey && key === "a") {
+      event.preventDefault();
+      this.#send({ kind: "move", direction: "left", granularity: "document", extend: false });
+      this.#send({ kind: "move", direction: "right", granularity: "document", extend: true });
+    } else if (event.key === "Backspace" || event.key === "Delete") {
+      event.preventDefault();
+      this.#send({ kind: "replace", origin: "delete", text: "", direction: event.key === "Backspace" ? "backward" : "forward", granularity: event.ctrlKey || event.altKey ? "word" : "grapheme" });
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      this.#replace("\n", "typing");
+    } else if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      this.#send({ kind: "move", direction: event.key === "Home" ? "left" : "right", granularity: modifier ? "document" : "visualLine", extend: event.shiftKey });
+    } else if (event.key.startsWith("Arrow")) {
+      const directions = { ArrowLeft: "left", ArrowRight: "right", ArrowUp: "up", ArrowDown: "down" } as const;
+      const direction = directions[event.key as keyof typeof directions];
+      if (!direction) return;
+      event.preventDefault();
+      const vertical = direction === "up" || direction === "down";
+      const granularity = vertical ? modifier ? "document" : "visualLine"
+        : event.metaKey ? "visualLine" : event.ctrlKey || event.altKey ? "word" : "grapheme";
+      this.#send({ kind: "move", direction, granularity, extend: event.shiftKey });
+    }
+  }
+
+  #beforeInput(event: InputEvent): void {
+    if (!this.#enabled()) return;
+    if (this.#composing || event.isComposing) return;
+    if ((event.inputType === "insertFromComposition" || event.inputType === "insertCompositionText")
+      && event.data === this.#compositionCommit) {
+      event.preventDefault();
+      this.#input.value = "";
+      return;
+    }
+    // A real new beforeinput disambiguates even an identical next key from a trailing IME input.
+    this.#compositionCommit = undefined;
+    const handled = this.#inputIntent(event.inputType, event.data);
+    if (!handled) return;
+    event.preventDefault();
+    this.#handledBeforeInput = { inputType: event.inputType, text: event.data };
+  }
+
+  #onInput(event: InputEvent): void {
+    if (!this.#enabled()) return;
+    if (this.#composing || event.isComposing) {
+      if (this.#composing) this.#updateComposition(event.data ?? this.#input.value);
+      return;
+    }
+    const handled = this.#handledBeforeInput;
+    this.#handledBeforeInput = undefined;
+    if ((handled && handled.inputType === event.inputType && handled.text === event.data)
+      || (this.#compositionCommit !== undefined && event.data === this.#compositionCommit)) {
+      this.#compositionCommit = undefined;
+      this.#input.value = "";
+      return;
+    }
+    this.#compositionCommit = undefined;
+    if (!this.#inputIntent(event.inputType, event.data ?? this.#input.value) && this.#input.value) {
+      this.#replace(this.#input.value, "typing");
+    }
+    if (!this.#input.readOnly) this.#input.value = "";
+  }
+
+  #inputIntent(inputType: string, text: string | null): boolean {
+    if (inputType === "insertText" || inputType === "insertReplacementText" || inputType === "insertFromComposition") {
+      if (text !== null) this.#replace(text, "typing");
+      return text !== null;
+    }
+    if (inputType === "insertFromPaste") {
+      if (text !== null) this.#replace(text, "paste");
+      return text !== null;
+    }
+    if (inputType === "insertParagraph" || inputType === "insertLineBreak") {
+      this.#replace("\n", "typing");
+      return true;
+    }
+    if (inputType === "deleteContentBackward" || inputType === "deleteContentForward"
+      || inputType === "deleteWordBackward" || inputType === "deleteWordForward") {
+      this.#send({ kind: "replace", origin: "delete", text: "", direction: inputType.endsWith("Backward") ? "backward" : "forward", granularity: inputType.startsWith("deleteWord") ? "word" : "grapheme" });
+      return true;
+    }
+    if (inputType === "historyUndo" || inputType === "historyRedo") {
+      this.#send({ kind: "history", direction: inputType === "historyUndo" ? "undo" : "redo" });
+      return true;
+    }
+    return false;
+  }
+
+  #startComposition(): void {
+    if (!this.#enabled() || this.#composing) return;
+    this.#compositionCommit = undefined;
+    this.#handledBeforeInput = undefined;
+    this.#composing = true;
+    this.#compositionText = "";
+    this.#send({ kind: "composition", phase: "start", text: "" });
+  }
+
+  #updateComposition(text: string): void {
+    if (!this.#composing || text === this.#compositionText) return;
+    this.#compositionText = text;
+    this.#composition.textContent = text;
+    this.#composition.hidden = text.length === 0;
+    this.#send({ kind: "composition", phase: "update", text });
+    this.layout();
+  }
+
+  #endComposition(text: string): void {
+    if (!this.#composing) return;
+    if (!this.#send({ kind: "composition", phase: text ? "end" : "cancel", text }) && text) {
+      this.#retainTransportDraft(text);
+    }
+    this.#clearComposition();
+    this.#compositionCommit = text;
+  }
+
+  #clearComposition(): void {
+    this.#composing = false;
+    this.#compositionText = "";
+    this.#composition.textContent = "";
+    this.#composition.hidden = true;
+    this.#compositionCommit = undefined;
+    this.#handledBeforeInput = undefined;
+    if (!this.#input.readOnly) this.#input.value = "";
+  }
+
+  dispose(): void {
+    this.#disposed = true;
+    this.#finishGesture();
+    for (const frame of [this.#layoutFrame, this.#revealFrame]) if (frame !== undefined) cancelAnimationFrame(frame);
+    this.#clearComposition();
+    this.#layer.remove();
+  }
+}
+
+const composerInput = new ComposerInputBridge();
+
 document.querySelector('[data-zoom="out"]')?.addEventListener("click", () => applyZoomAtViewportCenter(zoom - 0.1));
 document.querySelector('[data-zoom="in"]')?.addEventListener("click", () => applyZoomAtViewportCenter(zoom + 0.1));
 document.querySelector('[data-fit="width"]')?.addEventListener("click", () => fitWidth());
 document.querySelector('[data-fit="page"]')?.addEventListener("click", () => fitPage());
 viewport.addEventListener("wheel", (event) => {
+  composerInput.cancelReveal();
   if (!event.ctrlKey && !event.metaKey) return;
   event.preventDefault();
   applyZoomAroundPoint(
@@ -1432,6 +2306,7 @@ viewport.addEventListener("wheel", (event) => {
   );
 }, { passive: false });
 viewport.addEventListener("scroll", () => {
+  composerInput.userScrolled();
   if (viewportIdleTimer !== undefined) clearTimeout(viewportIdleTimer);
   viewportIdleTimer = window.setTimeout(() => {
     viewportIdleTimer = undefined;
@@ -1447,12 +2322,33 @@ viewport.addEventListener("scroll", () => {
 page.addEventListener("pointerdown", (event) => {
   pointerOrigin = { x: event.clientX, y: event.clientY };
   pointerDragged = false;
+  composerInput.pointerDown(event);
 });
 page.addEventListener("pointermove", (event) => {
   if (pointerOrigin && Math.hypot(event.clientX - pointerOrigin.x, event.clientY - pointerOrigin.y) > 3) pointerDragged = true;
+  composerInput.pointerMove(event);
 });
-page.addEventListener("pointerup", () => { pointerOrigin = undefined; });
+page.addEventListener("pointerup", (event) => {
+  composerInput.pointerUp(event);
+  pointerOrigin = undefined;
+});
+page.addEventListener("pointercancel", (event) => composerInput.pointerCancel(event));
+page.addEventListener("lostpointercapture", (event) => composerInput.pointerCancel(event));
 page.addEventListener("click", (event) => {
+  if (composerInput.consumeClick()) {
+    event.preventDefault();
+    return;
+  }
+  if (composerInput.active) {
+    // Body input never also navigates source. Nonbody semantic labels retain the existing Picker/Sheet route.
+    if (composerInput.bodyTarget(event.target) || pointerDragged) return;
+    const contextPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, true, true);
+    if (contextPoint) {
+      event.preventDefault();
+      vscode.postMessage({ type: "context-point", point: contextPoint, anchor: { screenX: event.screenX, screenY: event.screenY } });
+    }
+    return;
+  }
   const navigationPoint = previewNavigationPointAtClientCoordinates(
     event.clientX,
     event.clientY,
@@ -1508,13 +2404,28 @@ window.addEventListener("message", (event: MessageEvent<unknown>) => {
     void persistentRenderer.reset();
     page.classList.remove("renderer-active");
     page.replaceChildren();
+    delete page.dataset.renderKey;
+    composerInput.rendered();
   }
   else if (message.type === "status") showStatus(message.message, message.error);
   else if (message.type === "restoreViewport") void restoreViewport(message.viewport);
   else if (message.type === "indicator") showOverlay("preview-indicator", message.point);
   else if (message.type === "cursor") showOverlay("preview-cursor", message.point);
   else if (message.type === "exactExportState") applyExactExportState(message.state);
+  else if (message.type === "composer-state") composerInput.acceptState(message);
 });
+
+const composerResizeObserver = new ResizeObserver(() => {
+  if (fitMode === "width") fitWidth(false);
+  else if (fitMode === "page") fitPage(false);
+  composerInput.layout();
+});
+composerResizeObserver.observe(viewport);
+window.addEventListener("resize", () => composerInput.layout());
+window.addEventListener("focus", () => composerInput.focusFromHost());
+window.addEventListener("blur", () => composerInput.windowBlurred());
+window.visualViewport?.addEventListener("resize", () => composerInput.visualViewportChanged());
+window.visualViewport?.addEventListener("scroll", () => composerInput.visualViewportChanged());
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Object.defineProperty(globalThis, "__mmtWaitForPreviewViewportSettled", {
@@ -1528,7 +2439,14 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     },
   });
 }
-window.addEventListener("beforeunload", () => {
+window.addEventListener("beforeunload", (event) => {
+  if (composerInput.hasUnsubmittedInput) {
+    event.preventDefault();
+    event.returnValue = "";
+    return;
+  }
+  composerResizeObserver.disconnect();
+  composerInput.dispose();
   persistentRenderer.dispose();
   for (const url of imageUrls.values()) URL.revokeObjectURL(url);
   imageUrls.clear();

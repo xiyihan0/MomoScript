@@ -1,3 +1,4 @@
+import type { Dimension } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/dom";
 import type { CancellationToken } from "@codingame/monaco-vscode-api/vscode/vs/base/common/cancellation";
 import type { IEditorOptions } from "@codingame/monaco-vscode-api/vscode/vs/platform/editor/common/editor";
 import type { IEditorOpenContext, IEditorSerializer } from "@codingame/monaco-vscode-api/vscode/vs/workbench/common/editor";
@@ -17,12 +18,16 @@ import {
 export const COMPOSER_EDITOR_ID = "mmt.guiComposer";
 
 export interface ComposerEditorMount {
+  layout?(): void;
+  setVisible?(visible: boolean): void;
   dispose(): void | Promise<void>;
 }
 
 export interface ComposerEditorMountContext {
   readonly input: ComposerEditorInput;
   readonly container: HTMLElement;
+  readonly clippingContainer: HTMLElement;
+  readonly group: IEditorGroup;
   readonly token: CancellationToken;
 }
 
@@ -34,6 +39,7 @@ interface ComposerEditorSlot {
   readonly context: ComposerEditorMountContext;
   generation: number;
   disposed: boolean;
+  visible: boolean | undefined;
   mount: ComposerEditorMount | undefined;
 }
 
@@ -58,25 +64,27 @@ export class ComposerEditorSurfaceRegistry {
 
   mount(context: ComposerEditorMountContext): ComposerEditorMount {
     if (this.#disposed || context.token.isCancellationRequested) return { dispose() {} };
+    for (const slot of this.#slots) {
+      if (slot.context.container === context.container) this.#disposeSlot(slot);
+    }
     context.container.textContent = "正在打开 GUI 创作…";
     const slot: ComposerEditorSlot = {
       context,
       generation: 0,
       disposed: false,
+      visible: undefined,
       mount: undefined,
     };
     this.#slots.add(slot);
     if (this.#handler) this.#activate(slot, this.#handler);
     return {
-      dispose: () => {
+      layout: () => { if (!slot.disposed) slot.mount?.layout?.(); },
+      setVisible: (visible) => {
         if (slot.disposed) return;
-        slot.disposed = true;
-        slot.generation += 1;
-        this.#slots.delete(slot);
-        this.#disposeMount(slot.mount);
-        slot.mount = undefined;
-        context.container.replaceChildren();
+        slot.visible = visible;
+        slot.mount?.setVisible?.(visible);
       },
+      dispose: () => this.#disposeSlot(slot),
     };
   }
 
@@ -84,12 +92,7 @@ export class ComposerEditorSurfaceRegistry {
     if (this.#disposed) return;
     this.#disposed = true;
     this.#handler = undefined;
-    for (const slot of this.#slots) {
-      slot.disposed = true;
-      slot.generation += 1;
-      this.#disposeMount(slot.mount);
-      slot.context.container.replaceChildren();
-    }
+    for (const slot of this.#slots) this.#disposeSlot(slot);
     this.#slots.clear();
   }
 
@@ -103,6 +106,8 @@ export class ComposerEditorSurfaceRegistry {
       }
       this.#disposeMount(slot.mount);
       slot.mount = mount;
+      if (slot.visible !== undefined) mount.setVisible?.(slot.visible);
+      mount.layout?.();
     }).catch((error: unknown) => {
       if (!slot.disposed && slot.generation === generation) {
         slot.context.container.textContent = error instanceof Error ? error.message : String(error);
@@ -114,6 +119,14 @@ export class ComposerEditorSurfaceRegistry {
     slot.generation += 1;
     this.#disposeMount(slot.mount);
     slot.mount = undefined;
+  }
+
+  #disposeSlot(slot: ComposerEditorSlot): void {
+    if (slot.disposed) return;
+    slot.disposed = true;
+    this.#deactivate(slot);
+    this.#slots.delete(slot);
+    slot.context.container.replaceChildren();
   }
 
   #disposeMount(mount: ComposerEditorMount | undefined): void {
@@ -160,6 +173,8 @@ export class ComposerEditorInputSerializer implements IEditorSerializer {
 
 export function registerComposerEditor(registry: ComposerEditorSurfaceRegistry): ComposerEditorMount {
   class BoundComposerEditorPane extends SimpleEditorPane {
+    #mount: ComposerEditorMount | undefined;
+
     constructor(group: IEditorGroup) { super(COMPOSER_EDITOR_ID, group); }
 
     initialize(): HTMLElement {
@@ -176,7 +191,32 @@ export function registerComposerEditor(registry: ComposerEditorSurfaceRegistry):
       token: CancellationToken,
     ): Promise<ComposerEditorMount> {
       if (!(input instanceof ComposerEditorInput)) throw new TypeError("Composer pane received an invalid input");
-      return registry.mount({ input, container: this.container, token });
+      this.#mount?.dispose();
+      const mount = registry.mount({
+        input,
+        container: this.container,
+        clippingContainer: this.wrapper,
+        group: this.group,
+        token,
+      });
+      this.#mount = mount;
+      mount.setVisible?.(this.isVisible());
+      return mount;
+    }
+
+    override layout(dimension: Dimension): void {
+      super.layout(dimension);
+      this.#mount?.layout?.();
+    }
+
+    protected override setEditorVisible(visible: boolean): void {
+      super.setEditorVisible(visible);
+      this.#mount?.setVisible?.(visible);
+    }
+
+    override clearInput(): void {
+      this.#mount = undefined;
+      super.clearInput();
     }
   }
 

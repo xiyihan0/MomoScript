@@ -11,6 +11,10 @@ use lsp_types::{
 };
 #[cfg(test)]
 use mmt_rs::StatementTextMode;
+use mmt_rs::composer_text::{
+    ComposerTextFailure, ComposerTextSelection, ResolvedComposerTextSelection, compose_text_edit,
+    compose_text_edit_with_pack, resolve_composer_text_selection,
+};
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
@@ -55,6 +59,35 @@ pub(crate) enum ComposerEditRejection {
     CandidateInvalid,
     UnsupportedStructure,
     SpeakerUnavailable,
+}
+
+impl From<ComposerTextFailure> for ComposerEditRejection {
+    fn from(failure: ComposerTextFailure) -> Self {
+        match failure {
+            ComposerTextFailure::StaleDocument => Self::StaleDocument,
+            ComposerTextFailure::TargetChanged => Self::TargetChanged,
+            ComposerTextFailure::DocumentHasErrors => Self::DocumentHasErrors,
+            ComposerTextFailure::InvalidValue => Self::InvalidValue,
+            ComposerTextFailure::UnsupportedStructure => Self::UnsupportedStructure,
+            ComposerTextFailure::CandidateInvalid => Self::CandidateInvalid,
+        }
+    }
+}
+
+#[derive(Debug)]
+pub(crate) struct ComposerTextEditEndpointResult {
+    pub statement_range: lsp_types::Range,
+    pub offset_utf16: usize,
+}
+
+#[derive(Debug)]
+pub(crate) struct ComposerTextEditResult {
+    pub edit: WorkspaceEdit,
+    pub source_digest_after: String,
+    pub selection_after: (
+        ComposerTextEditEndpointResult,
+        ComposerTextEditEndpointResult,
+    ),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -553,6 +586,169 @@ impl LanguageService {
             projection,
         })
     }
+
+    pub(crate) fn composer_text_snapshot(
+        &self,
+        uri: &Url,
+        version: i32,
+        source_digest: &str,
+    ) -> Result<&DocumentSnapshot, ComposerEditRejection> {
+        let document = self
+            .snapshot(uri)
+            .filter(|document| {
+                document.version == version && document.source_digest == source_digest
+            })
+            .ok_or(ComposerEditRejection::StaleDocument)?;
+        if document.pack_registry_digest != self.pack_registry_digest
+            || document.pack_revision.is_some_and(|revision| {
+                revision != self.pack_revision || self.pack_registry.is_none()
+            })
+        {
+            return Err(ComposerEditRejection::CandidateInvalid);
+        }
+        if self.snapshot_has_errors(document) {
+            return Err(ComposerEditRejection::DocumentHasErrors);
+        }
+        Ok(document)
+    }
+
+    pub(crate) fn composer_text_selection(
+        &self,
+        uri: &Url,
+        version: i32,
+        source_digest: &str,
+        anchor: lsp_types::Range,
+        focus: lsp_types::Range,
+    ) -> Result<ResolvedComposerTextSelection, ComposerEditRejection> {
+        let document = self.composer_text_snapshot(uri, version, source_digest)?;
+        let encoding = PositionEncoding::from_lsp(&self.encoding)
+            .map_err(|_| ComposerEditRejection::InvalidValue)?;
+        let endpoint = |range: lsp_types::Range| {
+            if range.start != range.end {
+                return Err(ComposerEditRejection::InvalidValue);
+            }
+            document
+                .lines
+                .backend_range(range, encoding)
+                .map(|range| range.into_text_range())
+                .map_err(|_| ComposerEditRejection::InvalidValue)
+        };
+        resolve_composer_text_selection(
+            &document.text,
+            &document.analysis,
+            source_digest,
+            endpoint(anchor)?,
+            endpoint(focus)?,
+        )
+        .map_err(Into::into)
+    }
+
+    pub(crate) fn composer_text_edit(
+        &self,
+        uri: &Url,
+        version: i32,
+        source_digest: &str,
+        selection: &ComposerTextSelection,
+        replacement: &str,
+    ) -> Result<ComposerTextEditResult, ComposerEditRejection> {
+        let document = self.composer_text_snapshot(uri, version, source_digest)?;
+        let mut result = if document.pack_revision.is_some() {
+            compose_text_edit_with_pack(
+                &document.text,
+                &document.analysis,
+                self.pack_registry
+                    .as_ref()
+                    .ok_or(ComposerEditRejection::CandidateInvalid)?,
+                source_digest,
+                selection,
+                replacement,
+            )
+        } else {
+            compose_text_edit(
+                &document.text,
+                &document.analysis,
+                &StaticPresetCatalog::default(),
+                source_digest,
+                selection,
+                replacement,
+            )
+        }
+        .map_err(ComposerEditRejection::from)?;
+
+        // Post-edit ranges belong to the actual candidate, not to the old
+        // snapshot or a client-side prediction of statement boundaries.
+        result.edits.sort_by_key(|edit| edit.range.start);
+        let mut candidate = String::with_capacity(document.text.len());
+        let mut cursor = 0;
+        for edit in &result.edits {
+            if edit.range.start < cursor || edit.range.end < edit.range.start {
+                return Err(ComposerEditRejection::CandidateInvalid);
+            }
+            candidate.push_str(
+                document
+                    .text
+                    .get(cursor..edit.range.start)
+                    .ok_or(ComposerEditRejection::CandidateInvalid)?,
+            );
+            if !document.text.is_char_boundary(edit.range.end) {
+                return Err(ComposerEditRejection::CandidateInvalid);
+            }
+            candidate.push_str(&edit.new_text);
+            cursor = edit.range.end;
+        }
+        candidate.push_str(
+            document
+                .text
+                .get(cursor..)
+                .ok_or(ComposerEditRejection::CandidateInvalid)?,
+        );
+        if mmt_rs::composer_document_source_digest(&candidate) != result.source_digest_after {
+            return Err(ComposerEditRejection::CandidateInvalid);
+        }
+        let candidate_lines = LineIndex::new(&candidate);
+        let endpoint = |endpoint: mmt_rs::composer_text::ComposerTextEditEndpointAfter|
+            -> Result<ComposerTextEditEndpointResult, ComposerEditRejection> {
+            Ok(ComposerTextEditEndpointResult {
+                statement_range: candidate_lines
+                    .range(&candidate, endpoint.statement_range, &self.encoding)
+                    .ok_or(ComposerEditRejection::CandidateInvalid)?,
+                offset_utf16: endpoint.offset_utf16,
+            })
+        };
+        let selection_after = (
+            endpoint(result.selection_after.0)?,
+            endpoint(result.selection_after.1)?,
+        );
+        let edits = result
+            .edits
+            .into_iter()
+            .map(|edit| {
+                Ok(OneOf::Left(TextEdit::new(
+                    document
+                        .lines
+                        .range(&document.text, edit.range, &self.encoding)
+                        .ok_or(ComposerEditRejection::CandidateInvalid)?,
+                    edit.new_text,
+                )))
+            })
+            .collect::<Result<Vec<_>, ComposerEditRejection>>()?;
+        Ok(ComposerTextEditResult {
+            edit: WorkspaceEdit {
+                changes: None,
+                document_changes: Some(DocumentChanges::Edits(vec![TextDocumentEdit {
+                    text_document: OptionalVersionedTextDocumentIdentifier {
+                        uri: uri.clone(),
+                        version: Some(document.version),
+                    },
+                    edits,
+                }])),
+                change_annotations: None,
+            },
+            source_digest_after: result.source_digest_after,
+            selection_after,
+        })
+    }
+
     pub(crate) fn composer_structure_edit(
         &self,
         uri: &Url,
@@ -2828,6 +3024,160 @@ mod tests {
             assert_eq!(asset_documents[0].edits.len(), 2);
             assert!(service.rename(&uri(), asset_position, "bad/name").is_none());
         }
+    }
+
+    fn apply_composer_workspace_edit(
+        source: &str,
+        edit: &WorkspaceEdit,
+        encoding: &PositionEncodingKind,
+    ) -> String {
+        let Some(DocumentChanges::Edits(documents)) = &edit.document_changes else {
+            panic!("expected versioned text document edits");
+        };
+        assert_eq!(documents.len(), 1);
+        let lines = LineIndex::new(source);
+        let mut edits = documents[0]
+            .edits
+            .iter()
+            .map(|edit| {
+                let OneOf::Left(edit) = edit else {
+                    panic!("unexpected annotated edit")
+                };
+                (
+                    lines.offset(source, edit.range.start, encoding).unwrap(),
+                    lines.offset(source, edit.range.end, encoding).unwrap(),
+                    &edit.new_text,
+                )
+            })
+            .collect::<Vec<_>>();
+        edits.sort_by_key(|edit| std::cmp::Reverse(edit.0));
+        let mut candidate = source.to_owned();
+        for (start, end, replacement) in edits {
+            candidate.replace_range(start..end, replacement);
+        }
+        candidate
+    }
+
+    #[test]
+    fn composer_text_cross_node_edit_preserves_blank_bytes_and_candidate_selection() {
+        let source = "- A😀e\u{301}中\r\n\r\n- 第二条\r\n";
+        for encoding in [PositionEncodingKind::UTF8, PositionEncodingKind::UTF16] {
+            let mut service = LanguageService::default();
+            service.set_encoding(encoding.clone());
+            service.open(uri(), 9, source.to_owned());
+            let document = service.snapshot(&uri()).unwrap();
+            let digest = document.source_digest.clone();
+            let caret = |offset| {
+                let position = lsp_position(document, offset, &encoding);
+                lsp_types::Range::new(position, position)
+            };
+            let anchor = caret("- A".len());
+            let focus = caret(source.find("第二").unwrap() + "第二".len());
+            let forward = service
+                .composer_text_selection(&uri(), 9, &digest, anchor, focus)
+                .unwrap();
+            assert_eq!(forward.text, "😀e\u{301}中\n第二");
+            assert_eq!(forward.selection.anchor.offset_utf16, 1);
+            assert_eq!(forward.selection.focus.offset_utf16, 2);
+            let backward = service
+                .composer_text_selection(&uri(), 9, &digest, focus, anchor)
+                .unwrap();
+            assert_eq!(backward.text, forward.text);
+            assert_eq!(
+                backward.selection.anchor.node.node_key,
+                forward.selection.focus.node.node_key,
+            );
+            let edit = service
+                .composer_text_edit(&uri(), 9, &digest, &backward.selection, "X\r\n> @\"\"\"")
+                .unwrap();
+            let candidate = apply_composer_workspace_edit(source, &edit.edit, &encoding);
+            assert_eq!(candidate, "- \"\"\"\"\r\nAX\r\n> @\"\"\"条\"\"\"\"\r\n\r\n");
+            assert_eq!(
+                edit.source_digest_after,
+                mmt_rs::composer_document_source_digest(&candidate),
+            );
+            let analysis = mmt_rs::analyze_text(&candidate, &StaticPresetCatalog::default());
+            let statement = analysis
+                .document
+                .nodes
+                .iter()
+                .find_map(|node| match node {
+                    SyntaxNode::Statement(statement) => Some(statement),
+                    _ => None,
+                })
+                .unwrap();
+            assert_eq!(
+                edit.selection_after.0.statement_range,
+                LineIndex::new(&candidate)
+                    .range(&candidate, statement.range, &encoding)
+                    .unwrap(),
+            );
+            assert_eq!(
+                edit.selection_after.0.offset_utf16,
+                "AX\n> @\"\"\"".encode_utf16().count()
+            );
+            assert_eq!(
+                edit.selection_after.1.statement_range,
+                edit.selection_after.0.statement_range
+            );
+            assert_eq!(
+                edit.selection_after.1.offset_utf16,
+                edit.selection_after.0.offset_utf16
+            );
+            assert_eq!(service.snapshot(&uri()).unwrap().text, source);
+        }
+    }
+
+    #[test]
+    fn composer_text_rejects_split_clusters_stale_identity_and_barriers_without_mutation() {
+        let source = "- A😀e\u{301}中\n- next\n";
+        let mut service = LanguageService::default();
+        service.open(uri(), 5, source.to_owned());
+        let digest = service.snapshot(&uri()).unwrap().source_digest.clone();
+        let point = |line, character| {
+            let position = Position::new(line, character);
+            lsp_types::Range::new(position, position)
+        };
+        let resolved = service
+            .composer_text_selection(&uri(), 5, &digest, point(0, 2), point(0, 2))
+            .unwrap();
+        for offset in [2, 4, 100] {
+            let mut selection = resolved.selection.clone();
+            selection.anchor.offset_utf16 = offset;
+            selection.focus.offset_utf16 = offset;
+            assert!(matches!(
+                service.composer_text_edit(&uri(), 5, &digest, &selection, "X"),
+                Err(ComposerEditRejection::InvalidValue),
+            ));
+        }
+        assert!(matches!(
+            service.composer_text_selection(&uri(), 5, &digest, point(0, 4), point(0, 4)),
+            Err(ComposerEditRejection::InvalidValue),
+        ));
+        assert!(matches!(
+            service.composer_text_selection(&uri(), 4, &digest, point(0, 2), point(0, 2)),
+            Err(ComposerEditRejection::StaleDocument),
+        ));
+        assert!(matches!(
+            service.composer_text_edit(&uri(), 5, &"0".repeat(64), &resolved.selection, "X"),
+            Err(ComposerEditRejection::StaleDocument),
+        ));
+        let mut changed = resolved.selection;
+        changed.anchor.node.node_key = "0".repeat(64);
+        assert!(matches!(
+            service.composer_text_edit(&uri(), 5, &digest, &changed, "X"),
+            Err(ComposerEditRejection::TargetChanged),
+        ));
+        assert_eq!(service.snapshot(&uri()).unwrap().text, source);
+
+        let barrier = "- abc\n@mode: text\n- def\n";
+        service.open(uri(), 6, barrier.to_owned());
+        let digest = service.snapshot(&uri()).unwrap().source_digest.clone();
+        assert!(matches!(
+            service.composer_text_selection(&uri(), 6, &digest, point(0, 3), point(2, 4)),
+            Err(ComposerEditRejection::UnsupportedStructure),
+        ));
+        assert_eq!(service.snapshot(&uri()).unwrap().text, barrier);
     }
 
     #[test]

@@ -74,6 +74,7 @@ const snapshotWire = {
       resolvedMode: "textMacro",
       inheritedMode: "textMacro",
     },
+    textEditing: { text: "Unicode 😀" },
     capabilities: { setBody: true, delete: true, moveUp: null, moveDown: null },
   }],
   boundaries: [
@@ -168,6 +169,7 @@ const blankSnapshot = parseComposerDocumentResult({
         resolvedMode: "textMacro",
         inheritedMode: "textMacro",
       },
+      textEditing: { text: "first\ncontinued" },
       capabilities: { setBody: false, delete: true, moveUp: null, moveDown: null },
     },
     ...blankRefs.slice(1).map((ref, index) => ({
@@ -196,11 +198,34 @@ await validateComposerSnapshotAgainstDocument(
   new TestDocument(uri, 9, blankSource),
 );
 
+const emptyBodySnapshot = parseComposerDocumentResult({
+  ...snapshotWire,
+  nodes: [{
+    ...snapshotWire.nodes[0],
+    body: { ...snapshotWire.nodes[0].body, current: "" },
+    textEditing: { text: "" },
+    capabilities: { ...snapshotWire.nodes[0].capabilities, setBody: false },
+  }],
+});
+assert.equal(emptyBodySnapshot.nodes[0].textEditing.text, "");
+const unavailableTextSnapshot = parseComposerDocumentResult({
+  ...snapshotWire,
+  nodes: [{ ...snapshotWire.nodes[0], textEditing: null }],
+});
+assert.equal(unavailableTextSnapshot.nodes[0].textEditing, null);
+
 for (const malformed of [
   { ...snapshotWire, unknown: true },
   { ...snapshotWire, sourceDigest: "A".repeat(64) },
   { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], kind: "future" }] },
   { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], extra: true }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], textEditing: undefined }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], textEditing: { text: "a\r\nb" } }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], textEditing: { text: "\ud800" } }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], textEditing: { text: "x".repeat(65537) } }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], textEditing: { text: "Unicode 😀", range: nodeRef.range } }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], body: { ...snapshotWire.nodes[0].body, mode: "typstRaw", resolvedMode: "typstRaw" } }] },
+  { ...opaqueSnapshot, nodes: [{ ...opaqueSnapshot.nodes[0], textEditing: { text: "" } }] },
   { ...snapshotWire, boundaries: [] },
   { ...snapshotWire, scriptActorChoices: [{ reference: "x", displayName: "x", primaryName: "x", presetId: "x", avatar: null, extra: true }] },
   { kind: "Rejected", reason: "future" },
@@ -229,12 +254,5 @@ for (const invalid of [
   const parsed = parseComposerDocumentResult(structuredClone(invalid));
   await assert.rejects(validateComposerSnapshotAgainstDocument(parsed, new TestDocument(uri, 7, source)));
 }
-
-const longOpaque = `// ${"😀".repeat(1100)}`;
-const longBytes = new TextEncoder().encode(longOpaque);
-let previewEnd = Math.min(4096, longBytes.length);
-while ((longBytes[previewEnd] & 0xc0) === 0x80) previewEnd -= 1;
-const preview = new TextDecoder().decode(longBytes.slice(0, previewEnd));
-assert.ok(new TextEncoder().encode(preview).length <= 4096);
 
 console.log("composer document contract tests passed");

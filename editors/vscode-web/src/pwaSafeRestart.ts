@@ -5,7 +5,7 @@ export interface PwaSafeRestartRuntimePort {
 export interface PwaSafeRestartDependencies {
   pauseNewWork: () => () => void;
   requireWriter(): void | Promise<void>;
-  assertWorkspaceSafe(): void | Promise<void>;
+  assertWorkspaceSafe(signal: AbortSignal): void | Promise<void>;
   flushDurableState(): Promise<void>;
   abortAndDrainRuntimeWork(): Promise<void>;
   persistRecoveryMetadata(): Promise<void>;
@@ -80,23 +80,32 @@ export class PwaSafeRestartQuiesceAdapter {
   }
 
   async #prepareWithDeadline(deadlineMs: number): Promise<void> {
-    let timer: number | NodeJS.Timeout | undefined;
-    const deadline = new Promise<never>((_resolve, reject) => {
-      timer = setTimeout(() => reject(new PwaSafeRestartDeadlineExceeded(deadlineMs)), deadlineMs);
-    });
+    const cancellation = new AbortController();
+    const { promise: deadline, reject } = Promise.withResolvers<never>();
+    const timer = setTimeout(() => {
+      const error = new PwaSafeRestartDeadlineExceeded(deadlineMs);
+      cancellation.abort(error);
+      reject(error);
+    }, deadlineMs);
     try {
-      await Promise.race([this.#prepare(), deadline]);
+      await Promise.race([this.#prepare(cancellation.signal), deadline]);
     } finally {
       clearTimeout(timer);
     }
   }
 
-  async #prepare(): Promise<void> {
+  async #prepare(signal: AbortSignal): Promise<void> {
+    signal.throwIfAborted();
     await this.#dependencies.requireWriter();
-    await this.#dependencies.assertWorkspaceSafe();
+    signal.throwIfAborted();
+    await this.#dependencies.assertWorkspaceSafe(signal);
+    signal.throwIfAborted();
     await this.#dependencies.flushDurableState();
+    signal.throwIfAborted();
     await this.#dependencies.abortAndDrainRuntimeWork();
+    signal.throwIfAborted();
     await this.#dependencies.persistRecoveryMetadata();
+    signal.throwIfAborted();
     await this.#dependencies.runtime.quiesce();
   }
 }

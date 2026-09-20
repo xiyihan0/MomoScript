@@ -339,7 +339,7 @@ fn editable_statement_text<'a>(
     {
         current
     } else {
-        let trimmed = current.trim_end_matches('\n');
+        let trimmed = current.trim_end_matches(['\r', '\n']);
         if trimmed.len() == current.len()
             || trimmed.contains('\n')
             || validate_statement_text_value(trimmed).is_err()
@@ -891,7 +891,7 @@ fn statement_body_edit(
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
     validate_statement_text_value(value)?;
     let current = statement_text_mode(statement.body.mode).ok_or(ComposerFailure::TargetChanged)?;
-    let current_text = statement.body.source.trim_end_matches('\n');
+    let current_text = statement.body.source.trim_end_matches(['\r', '\n']);
     if current_text == value && current == mode {
         return Err(ComposerFailure::InvalidValue);
     }
@@ -922,40 +922,14 @@ fn editable_statement_body_range(
     source: &str,
 ) -> Result<TextRange, ComposerFailure> {
     let range = statement.body.range;
-    if range.end > source.len()
-        || !source.is_char_boundary(range.start)
-        || !source.is_char_boundary(range.end)
-    {
-        return Err(ComposerFailure::CandidateInvalid);
-    }
     let physical = source
         .get(range.start..range.end)
         .ok_or(ComposerFailure::CandidateInvalid)?;
-    let editable = statement.body.source.trim_end_matches('\n');
-    let expected_breaks = statement.body.source.len().saturating_sub(editable.len());
-    if expected_breaks == 0 {
-        return (physical == statement.body.source)
-            .then_some(range)
-            .ok_or(ComposerFailure::CandidateInvalid);
-    }
-    if editable.contains('\n') || !physical.starts_with(editable) {
+    if physical != statement.body.source {
         return Err(ComposerFailure::CandidateInvalid);
     }
-    let mut suffix = &physical[editable.len()..];
-    let mut physical_breaks = 0;
-    while !suffix.is_empty() {
-        if let Some(rest) = suffix.strip_prefix("\r\n") {
-            suffix = rest;
-        } else if let Some(rest) = suffix.strip_prefix('\n') {
-            suffix = rest;
-        } else {
-            return Err(ComposerFailure::CandidateInvalid);
-        }
-        physical_breaks += 1;
-    }
-    if physical_breaks != expected_breaks {
-        return Err(ComposerFailure::CandidateInvalid);
-    }
+    let editable = physical.trim_end_matches(['\r', '\n']);
+    validate_statement_text_value(editable)?;
     Ok(TextRange::new(range.start, range.start + editable.len()))
 }
 
@@ -989,49 +963,53 @@ pub(crate) fn serialize_statement_body(
     ))
 }
 
-fn fenced_body_envelope(
+pub(crate) fn fenced_body_envelope(
     statement: &StatementSyntax,
     source: &str,
 ) -> Result<Option<(TextRange, usize)>, ComposerFailure> {
     let body = &statement.body;
-    if statement.range.end > source.len()
-        || body.range.start > body.range.end
+    if source.get(body.range.start..body.range.end) != Some(body.source.as_str())
+        || body.range.start < statement.range.start
         || body.range.end > statement.range.end
-        || !source.is_char_boundary(statement.range.start)
-        || !source.is_char_boundary(statement.range.end)
-        || !source.is_char_boundary(body.range.start)
-        || !source.is_char_boundary(body.range.end)
     {
         return Err(ComposerFailure::CandidateInvalid);
     }
-    let bytes = source.as_bytes();
-    let mut quote_start = body.range.start;
-    while quote_start > statement.range.start && bytes[quote_start - 1] == b'"' {
-        quote_start -= 1;
-    }
-    let fence_len = body.range.start - quote_start;
+    let prefix_source = source
+        .get(statement.range.start..body.range.start)
+        .ok_or(ComposerFailure::CandidateInvalid)?;
+    let opener_source = prefix_source
+        .strip_suffix("\r\n")
+        .or_else(|| prefix_source.strip_suffix('\n'))
+        .unwrap_or(prefix_source);
+    let fence_len = opener_source
+        .bytes()
+        .rev()
+        .take_while(|byte| *byte == b'"')
+        .count();
     if fence_len < 3 {
         return Ok(None);
     }
     let current = statement_text_mode(body.mode).ok_or(ComposerFailure::TargetChanged)?;
     let prefix = statement_text_mode_prefix(current);
+    let quote_start = statement.range.start + opener_source.len() - fence_len;
     let prefix_start = quote_start
         .checked_sub(prefix.len())
         .ok_or(ComposerFailure::CandidateInvalid)?;
-    if prefix_start < statement.range.start || source.get(prefix_start..quote_start) != Some(prefix)
+    let close_end = body
+        .range
+        .end
+        .checked_add(fence_len)
+        .ok_or(ComposerFailure::CandidateInvalid)?;
+    if prefix_start < statement.range.start
+        || source.get(prefix_start..quote_start) != Some(prefix)
+        || close_end > statement.range.end
+        || !source
+            .get(body.range.end..close_end)
+            .is_some_and(|close| close.bytes().all(|byte| byte == b'"'))
     {
         return Err(ComposerFailure::CandidateInvalid);
     }
-    let close = source
-        .get(body.range.end..statement.range.end)
-        .ok_or(ComposerFailure::CandidateInvalid)?;
-    if close.len() != fence_len || !close.bytes().all(|byte| byte == b'"') {
-        return Err(ComposerFailure::CandidateInvalid);
-    }
-    Ok(Some((
-        TextRange::new(prefix_start, statement.range.end),
-        fence_len,
-    )))
+    Ok(Some((TextRange::new(prefix_start, close_end), fence_len)))
 }
 
 fn continued_bool(value: ContinuedValue) -> &'static str {
@@ -1525,8 +1503,8 @@ fn statements_have_same_shape_for_body(
                     && left.patch.as_ref().map(|patch| patch.raw_args.as_str())
                         == right.patch.as_ref().map(|patch| patch.raw_args.as_str())
                     && if ordinal == target_ordinal {
-                        let left_text = left.body.source.trim_end_matches('\n');
-                        let right_text = right.body.source.trim_end_matches('\n');
+                        let left_text = left.body.source.trim_end_matches(['\r', '\n']);
+                        let right_text = right.body.source.trim_end_matches(['\r', '\n']);
                         let left_suffix = &left.body.source[left_text.len()..];
                         let right_suffix = &right.body.source[right_text.len()..];
                         right_text == expected_value
@@ -1538,7 +1516,10 @@ fn statements_have_same_shape_for_body(
             })
 }
 
-fn markers_equal(left: Option<&SpeakerMarkerSyntax>, right: Option<&SpeakerMarkerSyntax>) -> bool {
+pub(crate) fn markers_equal(
+    left: Option<&SpeakerMarkerSyntax>,
+    right: Option<&SpeakerMarkerSyntax>,
+) -> bool {
     match (left, right) {
         (None, None) => true,
         (
@@ -1757,6 +1738,28 @@ fn common_semantics_stable_using(
                         == right.render_patch.as_ref().map(|patch| &patch.raw_args)
             })
         && resolutions_equal_using(before, after, compare_avatar_resources)
+}
+
+pub(crate) fn text_edit_semantics_stable(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+) -> bool {
+    before.document_config.config == after.document_config.config
+        && non_statement_bodies_equal(before, after)
+        && before.assets.assets.len() == after.assets.assets.len()
+        && before
+            .assets
+            .assets
+            .iter()
+            .zip(&after.assets.assets)
+            .all(|(left, right)| left.id == right.id && left.source == right.source)
+        && resource_markers_equal_outside_target(
+            before,
+            after,
+            TextRange::empty(usize::MAX),
+            TextRange::empty(usize::MAX),
+        )
+        && resolutions_equal_using(before, after, false)
 }
 
 fn resolutions_equal_using(

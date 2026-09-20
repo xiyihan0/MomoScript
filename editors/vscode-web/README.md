@@ -22,9 +22,10 @@
 - 通过 `registerCustomView` 注册的 MomoScript 原生 View；
 - IndexedDB workspace 和文档持久化；
 - 本地历史 Activity View：按文件/工作区分页浏览、50 MiB / 30 天保留、named Checkpoint、文本 Diff/恢复、删除前检查与二进制导出/整文件恢复；
-- 原生 `mmt.guiComposer` Editor Pane：命令 `mmt.composer.open` 显式打开；视口宽度不超过 550px 时每个文档 incarnation 首次打开默认进入 GUI，显式返回源码后不反复跳回；
+- 原生 `mmt.guiComposer` Editor Pane：命令 `mmt.composer.open` 显式打开 SVG-first 主创作表面；可映射的 text body 支持字符级光标、跨正文选择、IME composition、剪贴板、恢复与原生 undo/redo；视口宽度不超过 550px 时每个文档 incarnation 首次打开默认进入 GUI，显式返回源码后不反复跳回；
+- 单个 retained `IOverlayWebview`：由活动 `mmt.guiComposer` 声明可编辑挂载，或由只读原生 `mmt.previewHost` 声明源码旁预览挂载；两者共享同一 renderer session、artifact store 与 webview context；
 - MMT LSP 与 Tinymist 独立 Worker；
-- revision-bound Typst projection、preview artifact 和预览交互；
+- revision-bound Typst projection、preview artifact、精确文字几何和预览交互；
 - workspace 图片、pack-v3 图片及 AVIFS materialization；
 - embedded Typst grammar、completion、hover 和 diagnostics；
 - 可取消的实时渲染与受限内存资源缓存；
@@ -62,30 +63,33 @@
 ### State owners
 
 ```text
-VS Code TextDocument / mmtfs workspace
+VS Code TextDocument / mmtfs workspace / native model history
   -> MMT LSP revision snapshot
-  -> mmt/composerDocument
-  -> one ComposerRuntime per mounted native GUI pane
-  -> native mmt.guiComposer card surface
+  -> Rust mmt/composerDocument + text selection/projection/edit authorization
+  -> one ComposerRuntime + ComposerTextSession per mounted native GUI pane
+  -> native mmt.guiComposer SVG mount
   -> Typst projection session/revision
   -> workspace/pack resource materialization
-  -> accepted render artifact
-  -> displayed preview revision
+  -> accepted render artifact + exact renderer geometry
+  -> one retained overlay claimed by active GUI or read-only mmt.previewHost
 ```
 
 | 状态 | 权威来源 |
 |---|---|
 | Part 实例、当前 View container、Part 可见性 | Monaco VS Code Views Service / Part API；Part attachment disposable 进入产品 runtime owner |
 | Sidebar/main、Editor/Panel 几何与 sash | `createLayout` 创建的两个原生 `SplitView` |
-| 当前 authored 文档内容 | VS Code `TextDocument` |
-| GUI 卡片内容、版本与编辑授权 | 同一 VS Code `TextDocument` + Rust `mmt/composerDocument` snapshot；`ComposerRuntime` 只编排 freshness/cancellation，UI 不缓存第二份源码 |
-| GUI tab 恢复 | `ComposerEditorInputSerializer` 只持久化 `{version: 1, uri}`；reload 后从当前 `TextDocument` 和 Rust snapshot 重建 |
+| 当前 authored 文档内容与原生 undo/redo | 同一个 VS Code `TextDocument` / `IModelService` model；正文 edit 只把 Rust 返回的 versioned edits 交给 `pushEditOperations`，以 `pushStackElement` 建立原生 undo group，不建立 GUI 历史栈 |
+| GUI 正文、selection 与编辑授权 | Rust `mmt/composerDocument` 的 `textEditing`、`mmt/composerTextSelection`、`mmt/composerTextProjection` 和 `mmt/composerEdit`/`replaceTextSelection`；endpoint 是 LF-normalized semantic body 的 UTF-16 offset，`ComposerTextSession` 只串行化 intent 与保存 presentation bookmark |
+| GUI property/structure 编辑授权 | 同一 VS Code `TextDocument` + Rust snapshot/capability；`ComposerRuntime` 编排 freshness/cancellation，UI 不缓存第二份源码或拼 DSL |
+| GUI text recovery | `ComposerTextSession` 在 stale/conflict、apply failure、composition cancel/失焦或关闭边界保留未提交文字供复制/丢弃；恢复内容没有文档 mutation authority |
+| GUI tab 恢复与首屏顺序 | `ComposerEditorInputSerializer` 只持久化 `{version: 1, uri}`；先等待 native editor groups `whenRestored`，再决定 workspace/fallback intro；从当前 `TextDocument` 和 Rust snapshot 重建，不持久化 selection、node key 或 IME 草稿 |
 | authored 文档持久字节 | `mmtfs` workspace provider/coordinator |
 | IndexedDB 历史 revision/head/snapshot、SHA-256 blob、保留与 Checkpoint | workspace backend/coordinator；Local History View 仅按游标读取和发命令 |
 | 产品 startup、work admission、quiesce、dispose | 单一 `EditorRuntimeController` 及其单一 `RuntimeOwner` |
 | projection/materialization、已接受 preview revision/artifact | `EditorRuntimeController` 拥有的 typed stores / `PreviewArtifactStore` |
-| 已显示 preview DOM 与 viewport interaction | runtime-owned `TypstPreviewController`，只绑定已接受 artifact identity |
-| PWA registration、waiting worker 与 activation/reload | `registerPwaUpdateLifecycle`；安全重启仅通过 adapter 调用同一个 runtime |
+| Preview webview 与 native mount | 一个 runtime-owned `PreviewWebviewHost` / retained `IOverlayWebview`；活动 GUI 或只读 `mmt.previewHost` 是 claimant，旧 claimant 的 release 不得释放新 claimant，只有产品 runtime dispose 销毁 overlay |
+| GUI caret/selection geometry | `ComposerTextGeometry` 将 committed renderer 的 `hitTestText`/`locateCaret`/`locateRange` 与 Rust projection round trip 绑定到 source/version/digest/renderKey/session/generation；unmapped/ambiguous 即 unavailable，不回退到 statement midpoint 或平均字宽 |
+| PWA registration、waiting worker 与 activation/reload | `registerPwaUpdateLifecycle`；安全重启只通过 adapter 调用同一个 runtime，且 durable flush 包含文档、workspace coordinator 与 `IStorageService` |
 | MMT 分析 | MMT LSP versioned snapshot |
 | Typst 虚拟项目 | projection session + revision |
 | Pack manifest URL 选择、用户配置 | VS Code configuration service |
@@ -93,6 +97,8 @@ VS Code TextDocument / mmtfs workspace
 | 已接受的 Pack 语义与 revision | MMT LSP monotonic `pack_revision` / `PackRegistry` |
 
 UI class、label 和 control 可以镜像权威状态，不能建立第二套 boolean、document buffer、revision map、artifact selection、persistence queue 或 disposal graph。
+
+首次 preview surface 同步等待初始 Pack 同步尝试结束，包括经校验的 empty-registry fallback；两条路径都失败时沿既有通知报告错误，仍允许画布挂载，不建立另一套重试或恢复 owner。GUI open/pin（以及移动端默认 Part 状态）完成后 flush 同一个 `IStorageService`；safe restart 在 quiesce 的 durable-flush 阶段、activation/reload 前执行同样的 flush。Native editor groups 恢复完成后才决定 workspace/intro fallback，避免覆盖已恢复的 GUI。
 
 ### Why this is not WorkspaceService
 
@@ -556,30 +562,52 @@ Network 中能看到字体文件，渲染结果仍回退；数学公式与正文
 - 验证 HMR/unload/PWA quiesce 仍只有一个 `EditorRuntimeController`/`RuntimeOwner` disposal graph；
 - 验证旧 JS、新 WASM 或旧 Webview worker 的混合版本不会被静默当成健康状态。
 
-### 18. GUI Composer 建立第二份源码或在 UI 拼 DSL
+### 18. GUI Composer 建立第二份源码、renderer 或近似文字几何
 
 **症状**
 
-- GUI 与源码 tab 的 URI/version 不一致；
-- reload 后卡片来自持久 JSON，而不是当前 workspace bytes；
-- stale sheet 仍重定向到相似节点，或 Opaque/Error 卡片出现结构编辑按钮；
-- 551px 也自动跳 GUI，或用户显式切源码后同一文档反复跳回。
+- GUI 与源码 tab 的 URI/version 不一致，或 reload 后正文来自持久 JSON；
+- 每个 GUI/preview pane 创建自己的 webview、renderer 或 artifact store，切换文档后旧 SVG 仍能编辑新文档；
+- 正文 hit-test 使用 statement midpoint、DOM 全页文本搜索或平均字宽，比例字体、连字、重复文本和重排后光标漂移；
+- stale intent 被重定向到相似节点，或 Opaque/Error/Typst body 得到可写光标；
+- 自定义 GUI undo 栈与源码/Local History 分叉，失败或 composition 草稿静默丢失。
 
 **根因**
 
-把 GUI 当作独立文档编辑器，绕过 Rust Composer capability/range 和单一 `TextDocument` owner。
+把 GUI 当作独立文档编辑器或把 preview mount 当成 renderer owner，绕过 Rust selection/edit authority、committed renderer identity 和原生 model history。
 
 **当前正确模式**
 
-- `mmt.guiComposer` 是原生 Editor Pane；`mmt.composer.open` 只传 URI；
-- serializer 只存 URI，`ComposerRuntime` 每次从 `mmt/composerDocument` 重建并以 URI、document incarnation、version、epoch、catalog epoch 和 digest 拒绝 stale 操作；
-- 所有 property/structure mutation 只发送 Rust/LSP intent，再通过唯一 `WorkspaceEdit` apply path 修改同一 `TextDocument`；
-- Opaque、recoverable error 和未知 wire 值 fail closed；UI 不合成 DSL；
-- 550px 默认规则按 document incarnation 记录，显式“高级源码”切换不会 bounce；551px 仍以源码为默认。
+- `mmt.guiComposer` 是原生 Editor Pane；serializer 只存 URI，`ComposerRuntime` 从 `mmt/composerDocument` 重建，并以 URI、document incarnation、version、epoch、catalog epoch 和 digest 拒绝 stale 操作；
+- SVG 是唯一 GUI 主创作表面；[`PreviewWebviewHost`](./src/previewWebviewHost.ts) 创建一个 retained `IOverlayWebview`，活动 GUI 与 [`mmt.previewHost`](./src/previewHostPane.ts) 通过 `attachSurface`/`releaseSurface`/`layoutSurface` 轮流 claim，同一产品 runtime 才拥有 renderer/session/store；
+- body mutation 只能经过 Rust `composerTextSelection`/`composerTextProjection` 和 `replaceTextSelection`，返回 exact UTF-16 semantic endpoints 与一个 versioned workspace edit；UI 不搜索相同正文、不拼 DSL、不预测 post-edit node；
+- [`ComposerTextSession`](./src/composerTextSession.ts) FIFO 提交输入；普通连续 typing 在 750 ms 边界内共享 native undo group，换行、paste/cut、IME、导航、结构操作和焦点切换关闭边界；undo/redo 操作同一个 Monaco model，并按 alternative version 恢复 presentation bookmark；
+- stale/conflict/apply failure 或未提交 composition 进入 recovery UI，只允许复制/丢弃，不能自动应用到别的 message；
+- [`ComposerTextGeometry`](./src/composerTextGeometry.ts) 只接受 committed source/version/digest/renderKey/session/generation，并要求 renderer caret/range 与 Rust authored projection 可逆；unmapped 或 ambiguous 时 blocked，不使用平均字宽或 statement midpoint；
+- Opaque、recoverable error、Typst body 和未知 wire 值 fail closed；550px 默认规则按 document incarnation 记录，显式“高级源码”切换不会 bounce，551px 仍以源码为默认。
 
 **回归测试**
 
-`test:composer-document`、`test:composer-runtime`、`test:e2e:gui-composer` 和 `test:e2e:pwa-offline`；浏览器证据必须覆盖 desktop、551px、550px、320px、reload 和 offline。
+`test:composer-edit`、`test:composer-document`、`test:composer-runtime`、`test:preview-webview-protocol`、`test:preview-renderer-session` 和 `test:e2e:gui-composer`。浏览器 journey 应操作真实 SVG glyph，断言 semantic selection、authored bytes、native undo/recovery 与 geometry，而不只检查 overlay 元素存在。
+
+### 19. Native restoration、Pack 与 preview 首屏顺序竞争
+
+**症状**
+
+- reload 后恢复的 GUI/source tab 被 intro 覆盖；
+- 恢复的 GUI 已挂载但 preview 永久空白，或使用 Pack registry 初始化前生成的 projection；
+- pin/open 看似成功，重载或安全更新后却丢失；
+- safe restart 在 storage/editor state 尚未 flush 时激活 waiting worker。
+
+**当前正确模式**
+
+1. `api.start()` 后取得 native services；初始 Pack 同步先 settle（失败路径也必须让 language server 接受 validated empty-registry fallback），之后才置 `previewSourcesReady` 并允许 `syncPreviewSurface`；
+2. 等待 `IEditorGroupsService.whenRestored` 后再判断 native groups 是否已经恢复 editor；
+3. 只有 native groups 没有恢复 editor 时才尝试恢复 workspace active document，二者都没有时才打开 intro；
+4. `mmt.composer.open` 完成 `openWith`、pin 与移动端 Part 调整后 flush `IStorageService`；
+5. safe restart 先暂停输入、保存 GUI dirty document、等待 persistence queues，再 flush `IStorageService` 和 workspace coordinator，之后才 drain/quiesce。
+
+这一顺序是 source restoration 的组成部分；不要用 timeout、重复 open 或 eager preview sync 修补竞态。
 
 ## Recommended Development Flow
 
@@ -661,14 +689,17 @@ npm run test:desktop
 ```bash
 cd editors/vscode-web
 npm run check
+npm run test:composer-edit
 npm run test:composer-document
 npm run test:composer-runtime
+npm run test:preview-webview-protocol
+npm run test:preview-renderer-session
 npm run build
 npm run test:e2e:gui-composer
 npm run test:e2e:pwa-offline
 ```
 
-UI 改动还要浏览器实际操作和视觉检查，但不能用截图替代 E2E。
+GUI E2E 必须在真实 renderer SVG 上完成字符/跨消息选择、输入、原生 undo/recovery、精确 caret/range geometry、reload、source/GUI/preview mount 切换和窄视口 journey。自动 IME 覆盖只派发 synthetic composition/input 事件；soft-keyboard 覆盖只缩小 viewport。CI/当前自动环境不提供物理中文 OS 输入法或真实移动软件键盘，这两项必须报告为未验证，除非另有人工设备记录。UI 改动仍需实际浏览器操作和视觉检查，但不能用截图替代行为断言。
 
 ### 6. E2E 编写顺序
 
@@ -721,9 +752,12 @@ git diff --check
 - [ ] E2E 使用原生 tab/`aria-selected` 语义
 - [ ] 断言 Files Explorer tree/设置内容，而不只断言 class 或标题
 - [ ] 采用 `WorkspaceService` 前有独立 migration proposal，且不替换产品 runtime disposal
-- [ ] GUI 与源码共享一个 URI/TextDocument/model；serializer 不持久化卡片或源码副本
-- [ ] UI 只消费 Rust capability/range，Opaque/Error fail closed，stale identity 不 retarget
-- [ ] 551px/550px/320px 默认、触达尺寸、sheet inert/keyboard、reload/offline 已由真实浏览器验证
+- [ ] GUI 与源码共享一个 URI/TextDocument/model；serializer 不持久化 selection、node key、IME 草稿或源码副本
+- [ ] 一个 retained overlay 只由活动 GUI 或只读 `mmt.previewHost` claim；没有 pane-local renderer/store，release 不能误伤新 claimant
+- [ ] 正文只消费 Rust exact UTF-16 selection/projection/edit；Opaque/Error/Typst、stale、unmapped/ambiguous fail closed，不用 midpoint/平均字宽
+- [ ] 文本 edit 使用原生 model undo/redo 与 alternative-version bookmark；冲突和未提交 composition 可恢复且不 retarget
+- [ ] initial preview sync 等待 Pack settle，fallback intro 等待 native group restore；GUI pin/open 与 safe restart 都 flush storage
+- [ ] 真实 Chrome SVG journey 覆盖 551px/550px/320px、触达尺寸、Sheet、reload/offline；synthetic IME 与 viewport shrink 不冒充当前不可用的物理输入法/真实软键盘证明
 
 ### Files And Resources
 

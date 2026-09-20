@@ -418,3 +418,143 @@ fn stale_digest_node_identity_invalid_values_and_error_documents_are_rejected() 
         Err(ComposerStructureFailure::DocumentHasErrors)
     );
 }
+
+fn cross_text(
+    source: &str,
+    anchor: (usize, usize),
+    focus: (usize, usize),
+    replacement: &str,
+) -> Result<String, mmt_rs::ComposerTextFailure> {
+    let (analysis, projection) = project(source);
+    let selection = mmt_rs::ComposerTextSelection {
+        anchor: mmt_rs::ComposerTextEndpoint {
+            node: projection.nodes[anchor.0].node_ref(),
+            offset_utf16: anchor.1,
+        },
+        focus: mmt_rs::ComposerTextEndpoint {
+            node: projection.nodes[focus.0].node_ref(),
+            offset_utf16: focus.1,
+        },
+    };
+    let edit = mmt_rs::compose_text_edit(
+        source,
+        &analysis,
+        &catalog(),
+        &projection.source_digest,
+        &selection,
+        replacement,
+    )?;
+    let mut result = source.to_owned();
+    for edit in edit.edits.iter().rev() {
+        result.replace_range(edit.range.start..edit.range.end, &edit.new_text);
+    }
+    assert_eq!(
+        mmt_rs::composer_document_source_digest(&result),
+        edit.source_digest_after
+    );
+    Ok(result)
+}
+
+#[test]
+fn cross_body_replace_merges_source_order_and_retains_blank_bytes_and_final_eol() {
+    for (source, anchor, focus, expected) in [
+        ("- abc\n- def\n", (0, 1), (1, 2), "- aXf\n"),
+        ("- abc\n- def\n", (1, 2), (0, 1), "- aXf\n"),
+        ("- abc\n- def", (0, 1), (1, 2), "- aXf"),
+        (
+            "- abc\r\n \t\r\n\r\n- def\r\n- tail",
+            (0, 1),
+            (3, 2),
+            "- aXf\r\n \t\r\n\r\n- tail",
+        ),
+    ] {
+        assert_eq!(
+            cross_text(source, anchor, focus, "X").unwrap().as_bytes(),
+            expected.as_bytes()
+        );
+    }
+}
+
+#[test]
+fn cross_body_replace_preserves_first_speaker_patch_kind_and_later_semantics() {
+    let source = ">(fill: green, continued: true) A: abc\n< B: def\n> A: tail\n";
+    let result = cross_text(source, (1, 2), (0, 1), "X").unwrap();
+    assert_eq!(
+        result,
+        ">(fill: green, continued: true) A: aXf\n> A: tail\n"
+    );
+    let (_, before) = project(source);
+    let (_, after) = project(&result);
+    let (ComposerDocumentNode::Message(first_before), ComposerDocumentNode::Message(first_after)) =
+        (&before.nodes[0], &after.nodes[0])
+    else {
+        panic!("expected message");
+    };
+    assert_eq!(first_before.side, first_after.side);
+    assert_eq!(
+        first_before.description.speaker,
+        first_after.description.speaker
+    );
+    assert_eq!(
+        first_before.description.continued,
+        first_after.description.continued
+    );
+    let (ComposerDocumentNode::Message(last_before), ComposerDocumentNode::Message(last_after)) =
+        (&before.nodes[2], &after.nodes[1])
+    else {
+        panic!("expected message");
+    };
+    assert_eq!(last_before.description, last_after.description);
+}
+
+#[test]
+fn cross_body_replace_rejects_inherited_speaker_drift_and_opaque_barriers() {
+    let drift = "> A: abc\n> B: def\n> _0: tail\n";
+    assert_eq!(
+        cross_text(drift, (0, 1), (1, 2), "X"),
+        Err(mmt_rs::ComposerTextFailure::CandidateInvalid)
+    );
+    for (source, last) in [
+        ("- abc\n@mode: t\n- def\n", 2),
+        ("- abc\n- rt\"\"\"def\"\"\"\n", 1),
+        ("- abc\n- T\"\"\"#strong[def]\"\"\"\n", 1),
+    ] {
+        assert_eq!(
+            cross_text(source, (0, 1), (last, 2), "X"),
+            Err(mmt_rs::ComposerTextFailure::UnsupportedStructure)
+        );
+    }
+    assert_eq!(
+        cross_text("not syntax\n- abc\n- def\n", (1, 1), (2, 2), "X"),
+        Err(mmt_rs::ComposerTextFailure::DocumentHasErrors),
+    );
+}
+
+#[test]
+fn cross_body_copy_and_delete_skip_blank_source_but_keep_its_bytes() {
+    let source = "- abc\n \t\n- def\n";
+    let (analysis, projection) = project(source);
+    let selection = mmt_rs::ComposerTextSelection {
+        anchor: mmt_rs::ComposerTextEndpoint {
+            node: projection.nodes[2].node_ref(),
+            offset_utf16: 2,
+        },
+        focus: mmt_rs::ComposerTextEndpoint {
+            node: projection.nodes[0].node_ref(),
+            offset_utf16: 1,
+        },
+    };
+    let read = mmt_rs::read_composer_text_selection(
+        source,
+        &analysis,
+        &projection.source_digest,
+        &selection,
+    )
+    .unwrap();
+    assert_eq!(read.text, "bc\nde");
+    assert_eq!(read.selection, selection);
+    assert_eq!(
+        cross_text(source, (2, 2), (0, 1), "").unwrap(),
+        "- af\n \t\n"
+    );
+}

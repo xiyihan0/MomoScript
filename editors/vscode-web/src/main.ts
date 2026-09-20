@@ -1,8 +1,10 @@
 import "@codingame/monaco-vscode-language-pack-zh-hans";
 import "@codingame/monaco-vscode-media-preview-default-extension";
 import * as vscode from "vscode";
-import { LogLevel } from "@codingame/monaco-vscode-api";
+import { IEditorGroupsService, IStorageService, LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
+import { IEditorService, IWebviewService, type EditorInput } from "@codingame/monaco-vscode-api/services";
+import { SIDE_GROUP } from "@codingame/monaco-vscode-api/vscode/vs/workbench/services/editor/common/editorService";
 import { registerAssets } from "@codingame/monaco-vscode-api/assets";
 import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
 import { Event } from "@codingame/monaco-vscode-api/vscode/vs/base/common/event";
@@ -92,7 +94,17 @@ import {
   isComposerResource,
   registerComposerEditor,
 } from "./composerEditor.ts";
+import {
+  PreviewHostInput,
+  PreviewHostSurfaceRegistry,
+  registerPreviewHostPane,
+} from "./previewHostPane.ts";
 import { ComposerRuntime, type ComposerRuntimeDocument } from "./composerRuntime.ts";
+import { ComposerTextGeometry, type ComposerTextGeometryBinding } from "./composerTextGeometry.ts";
+import {
+  applyComposerTextEdit,
+  getComposerNativeHistory,
+} from "./composerEdit.ts";
 import {
   ComposerEditorUi,
   type ComposerSpeakerOption,
@@ -501,7 +513,25 @@ async function initializeRuntime(
   const previewRendererSetting = import.meta.env.VITE_MMT_PREVIEW_DIFF_V1;
   let previewRendererEnabled = false;
   let previewRendererSessions: PreviewRendererSessionOwner | undefined;
+  let displayedRendererCandidate: PreviewRendererCandidate | undefined;
+  let activeGuiRuntime: ComposerRuntime | undefined;
   let preview!: TypstPreviewController;
+  let guiTextDelays = { snapshotMs: 0, compileMs: 0 };
+  const waitForTextFixture = (milliseconds: number, signal?: AbortSignal): Promise<void> => {
+    signal?.throwIfAborted();
+    const { promise, resolve, reject } = Promise.withResolvers<void>();
+    const abort = () => {
+      clearTimeout(timer);
+      signal?.removeEventListener("abort", abort);
+      reject(signal?.reason);
+    };
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", abort);
+      resolve();
+    }, milliseconds);
+    signal?.addEventListener("abort", abort, { once: true });
+    return promise;
+  };
   const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
   const immutableRendererExports = new Map<RenderKey, {
     readonly sourceUri: string;
@@ -934,10 +964,13 @@ async function initializeRuntime(
     identity: PreviewSourceIdentity,
     resolver?: PreviewLocationResolver,
     retainCompilerEntry = false,
+    rendererCandidate?: PreviewRendererCandidate,
   ): void => {
     previewComposer?.invalidate();
+    displayedRendererCandidate = rendererCandidate;
     preview.setDisplayedArtifact(artifact, retainCompilerEntry);
     previewInteraction.bindArtifact(artifact, identity, resolver);
+    void activeGuiRuntime?.textSession?.refreshGeometry();
   };
   preview = own(new TypstPreviewController({
     status(message, error, revision) {
@@ -1038,6 +1071,9 @@ async function initializeRuntime(
     let committed = false;
     try {
       const rendererStarted = performance.now();
+      if (import.meta.env.VITE_MMT_E2E === "1" && guiTextDelays.compileMs > 0) {
+        await waitForTextFixture(guiTextDelays.compileMs, binding.signal);
+      }
       candidate = await sessions.render(
         project,
         { logicalSourceId: logicalSource, fonts },
@@ -1172,7 +1208,7 @@ async function initializeRuntime(
         },
       };
       Object.freeze(resolver);
-      displayPreviewArtifact(artifact, binding.identity, resolver, false);
+      displayPreviewArtifact(artifact, binding.identity, resolver, false, candidate);
       trace?.renderKey(artifact.renderKey);
       previewBuildState.complete(identity);
       log("preview:identity", JSON.stringify({
@@ -1240,7 +1276,8 @@ async function initializeRuntime(
       if (retainedArtifact
         && retainedArtifact === preview.displayedArtifact
         && retainedArtifact.sourceUri === project.sourceUri
-        && !retainedArtifact.stale) {
+        && !retainedArtifact.stale
+        && (!activeGuiRuntime || displayedRendererCandidate?.ready.snapshotToken === retainedArtifact.renderKey)) {
         artifact = retainedArtifact;
         const retainedIdentity = currentPreviewBuildIdentity({
           sourceUri: project.sourceUri,
@@ -1250,7 +1287,7 @@ async function initializeRuntime(
           traceId: binding.traceId,
         });
         if (retainedIdentity) previewBuildState.complete(retainedIdentity);
-      } else if (previewRendererEnabled) {
+      } else if (previewRendererEnabled || activeGuiRuntime) {
         if (!previewRendererSessions || tinymist?.backend.capabilities().has(PREVIEW_RENDERER_METHOD) !== true) {
           throw new Error("Qualified incremental preview renderer is unavailable");
         }
@@ -1383,7 +1420,7 @@ async function initializeRuntime(
         };
       }
       if (request.action === "reveal") {
-        return previewWebviewHost?.reveal() ?? false;
+        return revealPreviewSurface();
       }
       if (request.action === "overlay") {
         return request.point ? Boolean(await previewWebviewHost?.postIndicator(request.point)) : false;
@@ -1475,6 +1512,7 @@ async function initializeRuntime(
           : undefined);
       if (!document) throw new Error("No active editor for preview interaction fixture");
       const sourceUri = document.uri.toString();
+      await vscode.commands.executeCommand("mmt.preview.open", document.uri);
       previewFixtureActiveSourceUri = sourceUri;
       materializationControllers.get(sourceUri)?.abort();
       preview.invalidate();
@@ -1525,9 +1563,8 @@ async function initializeRuntime(
           async locateSelection() { return [{ pageIndex: 0, x: 0.2, y: 0.15 }, { pageIndex: 1, x: 0.9, y: 0.95 }]; },
           async locatePoint() { return { uri: identity.entryUri, range: selectedRange }; },
         });
-        if (previewWebviewHost?.reveal()) {
-          await previewWebviewHost.publishFixtureArtifact(artifact);
-        }
+        if (!await revealPreviewSurface() || !previewWebviewHost) throw new Error("Preview fixture surface is unavailable");
+        await previewWebviewHost.publishFixtureArtifact(artifact);
       } else {
         fixtureProviderKey = undefined;
         const mapDigest = await canonicalBytesDigest("mmt-preview-interaction-map-v1", [encoder.encode(fixtureRenderKey)]);
@@ -1555,9 +1592,8 @@ async function initializeRuntime(
           visualSnapshot: { kind: "svg", pages, imageAssets: [] },
         });
         displayPreviewArtifact(artifact, identity);
-        if (previewWebviewHost?.reveal()) {
-          await previewWebviewHost.publishFixtureArtifact(artifact);
-        }
+        if (!await revealPreviewSurface() || !previewWebviewHost) throw new Error("Preview fixture surface is unavailable");
+        await previewWebviewHost.publishFixtureArtifact(artifact);
       }
       return true;
   };
@@ -1576,6 +1612,9 @@ async function initializeRuntime(
           : undefined);
       if (!document) throw new Error("No active preview document for exact export fixture");
       const sourceUri = document.uri.toString();
+      if (request.action === "install") {
+        await vscode.commands.executeCommand("mmt.preview.open", document.uri);
+      }
       let project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
       if (!project && document.languageId === "typst") {
         project = await buildTypstProject(document, typstRevisions);
@@ -1613,9 +1652,8 @@ async function initializeRuntime(
       });
       const renderFixturePanel = async (displayed: PreviewArtifact): Promise<void> => {
         displayPreviewArtifact(displayed, identity);
-        if (previewWebviewHost?.reveal()) {
-          await previewWebviewHost.publishFixtureArtifact(displayed);
-        }
+        if (!await revealPreviewSurface() || !previewWebviewHost) throw new Error("Preview fixture surface is unavailable");
+        await previewWebviewHost.publishFixtureArtifact(displayed);
       };
       if (request.action === "install") {
         previewFixtureActiveSourceUri = sourceUri;
@@ -1716,7 +1754,20 @@ async function initializeRuntime(
     exactExportAdvanceBySource.delete(sourceUri);
     exactExportHost?.latest.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
-    if (displayedPreviewSourceUri === sourceUri) previewWebviewHost?.close();
+    if (displayedPreviewSourceUri === sourceUri) {
+      activeGuiRuntime?.textSession?.setActive(false);
+      displayedRendererCandidate = undefined;
+      if (activePreviewSurface) previewWebviewHost?.releaseSurface(activePreviewSurface.claimant);
+      activePreviewSurface = undefined;
+      activeGuiRuntime = undefined;
+      previewComposer?.invalidate();
+      exactExportUi.bind(undefined);
+      displayedPreviewSourceUri = undefined;
+      refreshBuildStatus();
+      for (const trace of previewTraces.values()) trace.finish("aborted");
+      previewTraces.clear();
+      void preview.close();
+    }
   };
   try {
     provider = own(await MmtIndexedDbFileSystemProvider.open(UNLIMITED_HISTORY_LIMITS));
@@ -1782,7 +1833,15 @@ async function initializeRuntime(
   });
   const composerEditorSurfaces = own(new ComposerEditorSurfaceRegistry());
   own(registerComposerEditor(composerEditorSurfaces));
+  const previewHostSurfaces = own(new PreviewHostSurfaceRegistry());
+  own(registerPreviewHostPane(previewHostSurfaces));
   await api.start();
+  const nativeEditorService = await getService(IEditorService);
+  const nativeEditorGroupsService = await getService(IEditorGroupsService);
+  const nativeStorageService = await getService(IStorageService);
+  const nativeWebviewService = await getService(IWebviewService);
+  const modelService = await getService(IModelService);
+  const codeEditorService = await getService(ICodeEditorService);
   startupProgress.stage("workbench", "complete", "界面 API 已就绪");
   const readPreviewDefaultFitMode = (): "width" | "page" => (
     vscode.workspace.getConfiguration("mmt.preview").get<"width" | "page">("defaultFitMode", "width")
@@ -2450,9 +2509,7 @@ async function initializeRuntime(
     );
     const handle = tinymist;
     own({ dispose: () => handle.dispose() });
-    if (previewRendererEnabled) {
-      previewRendererSessions = own(new PreviewRendererSessionOwner({ backend: handle.backend }));
-    }
+    previewRendererSessions = own(new PreviewRendererSessionOwner({ backend: handle.backend }));
     controller.registerTermination(() => handle.terminate());
     const refreshRuntimeQueue = () => publishRuntimeQueue("project-queue-changed");
     own(handle.backend.on("tinymist/projectPrimeStarted", refreshRuntimeQueue));
@@ -2694,11 +2751,153 @@ async function initializeRuntime(
     },
     workspace: composerWorkspace,
   });
-  let activeGuiRuntime: ComposerRuntime | undefined;
+  interface PreviewSurfaceMount {
+    readonly input: EditorInput;
+    readonly document: vscode.TextDocument;
+    readonly claimant: object;
+    readonly container: HTMLElement;
+    readonly clippingContainer: HTMLElement;
+    readonly runtime?: ComposerRuntime;
+    readonly setActive?: (active: boolean) => void;
+  }
+  const previewSurfaceMounts = new Set<PreviewSurfaceMount>();
+  const textSessionRoutes = new Map<string, NonNullable<ComposerRuntime["textSession"]>>();
+  const textDrainWaiters = new Set<() => void>();
+  const waitForTextChannelDrain = (signal: AbortSignal): Promise<void> => {
+    signal.throwIfAborted();
+    if (textSessionRoutes.size === 0) return Promise.resolve();
+    const { promise, resolve, reject } = Promise.withResolvers<void>();
+    const cleanup = () => {
+      textDrainWaiters.delete(check);
+      signal.removeEventListener("abort", abort);
+    };
+    const check = () => {
+      if (textSessionRoutes.size !== 0) return;
+      cleanup();
+      resolve();
+    };
+    const abort = () => {
+      cleanup();
+      reject(signal.reason);
+    };
+    textDrainWaiters.add(check);
+    signal.addEventListener("abort", abort, { once: true });
+    return promise;
+  };
+  let activePreviewSurface: PreviewSurfaceMount | undefined;
+  let previewSourceBinding: Promise<void> = Promise.resolve();
+  // Restored native inputs can mount before the language server has a Pack registry.
+  let previewSourcesReady = false;
+  const surfaceIsVisible = (surface: PreviewSurfaceMount): boolean => (
+    surface.clippingContainer.isConnected
+    && surface.clippingContainer.clientWidth > 0
+    && surface.clippingContainer.clientHeight > 0
+    && nativeEditorService.visibleEditors.some((input) => input.matches(surface.input))
+  );
+  const syncPreviewSurface = (): void => {
+    if (!controller.acceptingWork || !previewWebviewHost || !previewSourcesReady) return;
+    const active = nativeEditorService.activeEditor;
+    const visible = [...previewSurfaceMounts].filter(surfaceIsVisible);
+    const next = visible.find((surface) => active?.matches(surface.input))
+      ?? visible.find((surface) => !surface.runtime && surface.document.uri.toString() === active?.resource?.toString())
+      ?? visible.find((surface) => !surface.runtime && surface === activePreviewSurface);
+    const changedSurface = activePreviewSurface !== next;
+    if (changedSurface) activeGuiRuntime?.textSession?.setActive(false);
+    if (changedSurface) {
+      if (activePreviewSurface) previewWebviewHost.releaseSurface(activePreviewSurface.claimant);
+      activePreviewSurface = next;
+    }
+    activeGuiRuntime = next?.runtime;
+    for (const surface of previewSurfaceMounts) surface.setActive?.(surface === next);
+    if (!next) return;
+    if (next.runtime) currentComposerUri = next.document.uri;
+    previewWebviewHost.attachSurface(next.claimant, next.container, next.clippingContainer);
+    previewWebviewHost.layoutSurface(next.claimant);
+    if (displayedPreviewSourceUri !== next.document.uri.toString()
+      || (changedSurface && (previewInteraction.identity?.sourceStaleToken.documentVersion !== next.document.version
+        || (next.runtime && !displayedRendererCandidate)))) {
+      previewSourceBinding = bindPreviewSource(next.document).catch((error: unknown) => {
+        void showMomoScriptMessage("error", error instanceof Error ? error.message : String(error));
+      });
+    }
+  };
+  const revealPreviewSurface = async (): Promise<boolean> => {
+    const sourceUri = displayedPreviewSourceUri;
+    if (!sourceUri) return false;
+    if (activePreviewSurface?.runtime && activePreviewSurface.document.uri.toString() === sourceUri) {
+      previewWebviewHost?.focusSurface(activePreviewSurface.claimant);
+      return true;
+    }
+    const input = new PreviewHostInput(URI.parse(sourceUri));
+    await nativeEditorService.openEditor(
+      input,
+      { pinned: true },
+      matchMedia("(max-width: 550px)").matches ? undefined : SIDE_GROUP,
+    );
+    await previewHostSurfaces.waitUntilMounted(input);
+    syncPreviewSurface();
+    return previewWebviewHost?.isOpen ?? false;
+  };
+  subscribe(nativeEditorService.onDidActiveEditorChange(syncPreviewSurface));
+  subscribe(nativeEditorService.onDidVisibleEditorsChange(syncPreviewSurface));
+  subscribe(onPartVisibilityChange(Parts.EDITOR_PART, syncPreviewSurface));
+  own(ownEventListener(window, "resize", syncPreviewSurface));
   let guiDocumentRequests = 0;
   let guiEditRequests = 0;
   let guiApplyAttempts = 0;
   let lastGuiNotification: string | null = null;
+  const pendingTextRecoveries: Array<{
+    readonly id: string;
+    readonly owner: NonNullable<ComposerRuntime["textSession"]>;
+    text: string;
+    reason: string;
+    readonly resolve: (expectedText: string) => boolean;
+  }> = [];
+  const recoveryStatus = own(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 40));
+  recoveryStatus.command = "mmt.composer.recoverInput";
+  recoveryStatus.tooltip = "复制或丢弃未提交文字；不会自动覆盖源码";
+  const refreshRecoveryStatus = () => {
+    recoveryStatus.text = `$(warning) 未提交输入 (${pendingTextRecoveries.length})`;
+    if (pendingTextRecoveries.length > 0) recoveryStatus.show();
+    else recoveryStatus.hide();
+  };
+  let recoveryPrompt: Promise<void> | undefined;
+  const showInputRecovery = (): Promise<void> => {
+    if (recoveryPrompt) return recoveryPrompt;
+    const record = pendingTextRecoveries[0];
+    if (!record) return Promise.resolve();
+    const offeredText = record.text;
+    recoveryPrompt = (async () => {
+      const choice = await vscode.window.showQuickPick([
+        { label: "复制未提交文字", detail: offeredText, action: "copy" },
+        { label: "丢弃未提交文字", description: "不修改当前源码", action: "discard" },
+      ], { title: record.reason, ignoreFocusOut: true });
+      if (!choice) return;
+      if (record.text !== offeredText) throw new Error("未提交文字已更新，请重新确认恢复内容");
+      if (choice.action === "copy") await navigator.clipboard.writeText(offeredText);
+      if (!record.resolve(offeredText)) throw new Error("未提交文字的恢复顺序或内容已改变，请重试");
+      pendingTextRecoveries.shift();
+      refreshRecoveryStatus();
+    })().finally(() => { recoveryPrompt = undefined; });
+    return recoveryPrompt;
+  };
+  subscribe(vscode.commands.registerCommand("mmt.composer.recoverInput", showInputRecovery));
+  own(ownEventListener(window, "beforeunload", (event) => {
+    if (pendingTextRecoveries.length === 0
+      && ![...previewSurfaceMounts].some((surface) => surface.runtime?.textSession?.hasUnsubmittedInput)) return;
+    event.preventDefault();
+    event.returnValue = true;
+  }));
+  own({
+    quiesce() {
+      for (const surface of previewSurfaceMounts) surface.runtime?.quiesce();
+    },
+    dispose() {
+      for (const surface of previewSurfaceMounts) surface.runtime?.dispose();
+      textSessionRoutes.clear();
+      for (const check of textDrainWaiters) check();
+    },
+  });
   const exportExactSnapshot = async (
     sourceUri: string,
     format: "pdf" | "png" | "jpg" | "svg",
@@ -2759,6 +2958,7 @@ async function initializeRuntime(
     await vscode.commands.executeCommand("vscode.openWith", textDocument.uri, COMPOSER_EDITOR_ID);
     await vscode.commands.executeCommand("workbench.action.keepEditor");
     if (mobileDefault) setPartVisibility(Parts.SIDEBAR_PART, false);
+    await nativeStorageService.flush();
   };
   const createComposerDocument = async (): Promise<void> => {
     const name = await vscode.window.showInputBox({
@@ -2821,7 +3021,7 @@ async function initializeRuntime(
   };
   subscribe(vscode.window.onDidChangeActiveTextEditor(maybeOpenMobileComposer));
   maybeOpenMobileComposer(vscode.window.activeTextEditor);
-  const sendRuntimeRequest = (method: "mmt/composerDocument" | "mmt/composerEdit", params: unknown, signal: AbortSignal) => {
+  const sendRuntimeRequest = (method: "mmt/composerDocument" | "mmt/composerEdit" | "mmt/composerTextSelection" | "mmt/composerTextProjection" | "mmt/mapTypstReadLocations", params: unknown, signal: AbortSignal) => {
     const client = activeClient;
     if (!client) return Promise.reject(new Error("MMT language client is unavailable"));
     const cancellation = new vscode.CancellationTokenSource();
@@ -2833,6 +3033,68 @@ async function initializeRuntime(
       cancellation.dispose();
     });
   };
+  const currentTextGeometryBinding = (): ComposerTextGeometryBinding | undefined => {
+    const snapshot = activeGuiRuntime?.state.snapshot;
+    const candidate = displayedRendererCandidate;
+    const identity = previewInteraction.identity;
+    const artifact = preview.displayedArtifact;
+    if (!snapshot || !candidate || !identity?.projectionKey || !artifact || artifact.stale
+      || (identity.backendEncoding !== "utf-8" && identity.backendEncoding !== "utf-16")
+      || snapshot.textDocument.uri !== identity.sourceUri
+      || snapshot.textDocument.version !== identity.sourceStaleToken.documentVersion
+      || candidate.sourceUri !== identity.sourceUri
+      || candidate.ready.snapshotToken !== artifact.renderKey) return undefined;
+    const current = currentPreviewIdentity(identity.sourceUri);
+    if (!current || current.sourceStaleToken.documentVersion !== snapshot.textDocument.version
+      || current.sourceStaleToken.documentIncarnation !== identity.sourceStaleToken.documentIncarnation
+      || current.projectionKey !== identity.projectionKey || current.revision !== identity.revision
+      || current.projectDigest !== identity.projectDigest || current.sourceContent !== identity.sourceContent) return undefined;
+    return {
+      snapshot,
+      candidate,
+      rendererEncoding: identity.backendEncoding,
+      identity: {
+        sourceUri: identity.sourceUri,
+        revision: identity.revision,
+        entryUri: identity.entryUri,
+        backendEncoding: identity.backendEncoding,
+        sourceContent: identity.sourceContent,
+        projectDigest: identity.projectDigest,
+        projectionKey: identity.projectionKey,
+        version: snapshot.textDocument.version,
+        sourceDigest: snapshot.sourceDigest,
+        renderKey: artifact.renderKey,
+        sessionId: candidate.sessionId,
+        generation: candidate.ready.generation,
+      },
+    };
+  };
+  const textRenderer = (): PreviewRendererSessionOwner => {
+    if (!previewRendererSessions) throw new Error("排版文字定位服务尚未就绪");
+    return previewRendererSessions;
+  };
+  const textGeometry = new ComposerTextGeometry({
+    current: currentTextGeometryBinding,
+    renderer: {
+      hitTestText: (...args) => textRenderer().hitTestText(...args),
+      locateCaret: (...args) => textRenderer().locateCaret(...args),
+      locateRange: (...args) => textRenderer().locateRange(...args),
+    },
+    readSelection: (params, signal) => sendRuntimeRequest("mmt/composerTextSelection", params, signal),
+    projectSelection: (params, signal) => sendRuntimeRequest("mmt/composerTextProjection", params, signal),
+    mapToAuthored: async (location, identity, signal) => parsePreviewSourceTargets(
+      await sendRuntimeRequest("mmt/mapTypstReadLocations", {
+        sourceUri: identity.sourceUri,
+        revision: identity.revision,
+        entryUri: identity.entryUri,
+        backendEncoding: identity.backendEncoding,
+        sourceContent: identity.sourceContent,
+        projectDigest: identity.projectDigest,
+        projectionKey: identity.projectionKey,
+        locations: [location],
+      }, signal),
+    ),
+  });
   const packSpeakerOptions = (): readonly ComposerSpeakerOption[] => galleryPacks.flatMap((pack) =>
     pack.entities.map((entity) => ({
       reference: `${pack.namespace}::${entity.key}`,
@@ -2840,7 +3102,7 @@ async function initializeRuntime(
       source: "packEntity" as const,
     }))
   );
-  own(composerEditorSurfaces.setMountHandler(async ({ input, container }) => {
+  own(composerEditorSurfaces.setMountHandler(async ({ input, container, group }) => {
     const resource = vscode.Uri.parse(input.resource!.toString(), true);
     const opened = await vscode.workspace.openTextDocument(resource);
     const textDocument = opened.languageId === "mmt"
@@ -2861,7 +3123,11 @@ async function initializeRuntime(
     const runtime = new ComposerRuntime({
       requestDocument: async (params, signal) => {
         guiDocumentRequests += 1;
-        return sendRuntimeRequest("mmt/composerDocument", params, signal);
+        const response = await sendRuntimeRequest("mmt/composerDocument", params, signal);
+        if (import.meta.env.VITE_MMT_E2E === "1" && guiTextDelays.snapshotMs > 0) {
+          await waitForTextFixture(guiTextDelays.snapshotMs, signal);
+        }
+        return response;
       },
       requestEdit: (params, signal) => {
         guiEditRequests += 1;
@@ -2886,6 +3152,7 @@ async function initializeRuntime(
         if (event.document === textDocument) listener({
           document: runtimeDocument,
           contentChanges: event.contentChanges,
+          reason: event.reason,
         });
       }),
       getPackSpeakerReferences: () => packSpeakerOptions().map((option) => option.reference),
@@ -2922,7 +3189,66 @@ async function initializeRuntime(
         return showMomoScriptMessage(kind, message);
       },
     });
-    activeGuiRuntime = runtime;
+    const textSession = runtime.attachTextSession({
+      geometry: textGeometry,
+      currentGeometryIdentity: () => activeGuiRuntime === runtime ? currentTextGeometryBinding()?.identity : undefined,
+      requestTextEdit: (params, signal) => {
+        guiEditRequests += 1;
+        return sendRuntimeRequest("mmt/composerEdit", params, signal);
+      },
+      applyTextEdit: (options) => {
+        guiApplyAttempts += 1;
+        return applyComposerTextEdit({
+          ...options,
+          modelService,
+          canApply: (candidate) => provider?.coordinator.state.lease === "writer" && options.canApply(candidate),
+        });
+      },
+      nativeHistory: (uri) => provider?.coordinator.state.lease === "writer"
+        ? getComposerNativeHistory(modelService, uri)
+        : undefined,
+      // Native ClipboardService swallows permission failures; a cut needs a real rejection.
+      writeClipboard: (text) => navigator.clipboard.writeText(text),
+      sourceSelection: async (selection, snapshot, signal) => {
+        const binding = currentTextGeometryBinding();
+        if (!binding || binding.snapshot !== snapshot || activeGuiRuntime !== runtime) return undefined;
+        const [anchor, focus] = await Promise.all([
+          textGeometry.caret(selection.anchor, binding.identity, signal),
+          textGeometry.caret(selection.focus, binding.identity, signal),
+        ]);
+        if (anchor.status !== "mapped" || focus.status !== "mapped") return undefined;
+        return { anchor: anchor.authored.range.start, focus: focus.authored.range.start };
+      },
+      recover: (text, reason, recoveryId) => {
+        const existing = pendingTextRecoveries.find((record) => record.owner === textSession && record.id === recoveryId);
+        if (existing) {
+          existing.text = text;
+          existing.reason = reason;
+          return;
+        }
+        pendingTextRecoveries.push({
+          id: recoveryId,
+          owner: textSession,
+          text,
+          reason,
+          resolve: (expectedText) => textSession.resolveRecovery(recoveryId, expectedText),
+        });
+        refreshRecoveryStatus();
+        void showMomoScriptMessage("warning", reason, ["恢复未提交文字"], { id: "composer-input-recovery" })
+          .then((choice) => choice === "恢复未提交文字" ? showInputRecovery() : undefined)
+          .catch((error: unknown) => showMomoScriptMessage("error", error instanceof Error ? error.message : String(error)));
+      },
+      notify: (kind, message) => {
+        lastGuiNotification = `${kind}:${message}`;
+        return showMomoScriptMessage(kind, message);
+      },
+    });
+    const textStateSubscription = textSession.onDidChangeState((state) => {
+      if (activeGuiRuntime === runtime && state.renderKey) {
+        textSessionRoutes.set(state.sessionId, textSession);
+        previewWebviewHost?.postComposerState(state);
+      }
+    });
     const ui = new ComposerEditorUi(container, {
       runtime,
       newDocument: createComposerDocument,
@@ -2931,15 +3257,40 @@ async function initializeRuntime(
       avatarCatalog: () => buildAvatarCatalog(galleryPacks),
       diagnosticsCount: () => vscode.languages.getDiagnostics(textDocument.uri).length,
       openProblems: () => vscode.commands.executeCommand("workbench.actions.view.problems"),
+      focus: () => { void nativeEditorService.openEditor(input, { pinned: true }, group.id); },
+      editText: async (node, offsetUtf16) => {
+        if (await textSession.enter(node, offsetUtf16)) previewWebviewHost?.focusSurface(ui);
+      },
     });
     container.querySelector<HTMLElement>(".mmt-composer-surface")!.dataset.resource = textDocument.uri.toString();
     runtime.bindDocument(runtimeDocument);
+    const surface: PreviewSurfaceMount = {
+      input,
+      document: textDocument,
+      claimant: ui,
+      container: ui.typesetContainer,
+      clippingContainer: ui.clippingContainer,
+      runtime,
+      setActive: (active) => {
+        ui.setActive(active);
+        textSession.setActive(active);
+      },
+    };
+    previewSurfaceMounts.add(surface);
+    syncPreviewSurface();
     return {
+      layout: () => { syncPreviewSurface(); previewWebviewHost?.layoutSurface(surface.claimant); },
+      setVisible: () => syncPreviewSurface(),
       dispose() {
+        textSession.setActive(false);
+        textStateSubscription.dispose();
+        previewSurfaceMounts.delete(surface);
+        previewWebviewHost?.releaseSurface(surface.claimant);
         ui.dispose();
         if (activeGuiRuntime === runtime) activeGuiRuntime = undefined;
         runtime.dispose();
         if (currentComposerUri?.toString() === textDocument.uri.toString()) currentComposerUri = undefined;
+        syncPreviewSurface();
       },
     };
   }));
@@ -3000,22 +3351,9 @@ async function initializeRuntime(
       void showMomoScriptMessage("error", `文档设置失败：${detail}`);
     }
   }));
-  const previewViewColumn = (): vscode.ViewColumn => (
-    matchMedia("(max-width: 550px)").matches ? vscode.ViewColumn.Active : vscode.ViewColumn.Beside
-  );
   previewWebviewHost = own(new PreviewWebviewHost({
     ready() {
       previewWebviewHost?.postExactExportState(exactExportUi.state);
-    },
-    closed() {
-      previewComposer?.invalidate();
-      exactExportUi.bind(undefined);
-      displayedPreviewSourceUri = undefined;
-      refreshBuildStatus();
-      for (const trace of previewTraces.values()) trace.finish("aborted");
-      previewTraces.clear();
-      void preview.close();
-      log("preview", "Preview editor closed");
     },
     viewportChanged(viewport) {
       previewInteraction.updateViewport(viewport);
@@ -3028,6 +3366,22 @@ async function initializeRuntime(
       composerE2E?.recordContextAnchor(anchor);
       return previewComposer?.handleContextPoint(point, anchor);
     },
+    composerIntent(message, admitted) {
+      const session = textSessionRoutes.get(message.sessionId);
+      if (!session) return;
+      if (controller.acceptingWork && session === activeGuiRuntime?.textSession
+        && session.isActive && session.state.sessionId === message.sessionId) {
+        session.handleIntent(message, admitted);
+      } else {
+        session.recoverRetiredIntent(message);
+      }
+    },
+    composerDrained(sessionId) {
+      const session = textSessionRoutes.get(sessionId);
+      session?.acknowledgeDrained(sessionId);
+      textSessionRoutes.delete(sessionId);
+      for (const check of textDrainWaiters) check();
+    },
     async exactExportRequested(message: PreviewExactExportRequest) {
       if (!displayedPreviewSourceUri) return;
       await exportExactSnapshot(displayedPreviewSourceUri, message.format, message.staleChoice);
@@ -3036,33 +3390,46 @@ async function initializeRuntime(
       exactExportUi.cancel();
     },
   }, {
+    webviewService: nativeWebviewService,
     defaultExportFormat: () => (
       vscode.workspace.getConfiguration("mmt.export").get<"pdf" | "png">("defaultFormat", "pdf")
     ),
   }));
-  const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
-    const resourceDocument = resource
-      ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
-      : undefined;
-    const document = resourceDocument ?? vscode.window.activeTextEditor?.document;
-    if (!document || !["mmt", "typst"].includes(document.languageId)) {
-      void showMomoScriptMessage("warning", "请先打开一个 MomoScript 或 Typst 文档，再启动预览。");
-      return;
-    }
+  own(previewHostSurfaces.setMountHandler(async ({ input, container, clippingContainer }) => {
+    const sourceDocument = await vscode.workspace.openTextDocument(vscode.Uri.parse(input.resource!.toString(), true));
+    const surface: PreviewSurfaceMount = {
+      input,
+      document: sourceDocument,
+      claimant: {},
+      container,
+      clippingContainer,
+    };
+    previewSurfaceMounts.add(surface);
+    syncPreviewSurface();
+    return {
+      layout: () => { syncPreviewSurface(); previewWebviewHost?.layoutSurface(surface.claimant); },
+      setVisible: () => syncPreviewSurface(),
+      dispose() {
+        previewSurfaceMounts.delete(surface);
+        previewWebviewHost?.releaseSurface(surface.claimant);
+        syncPreviewSurface();
+      },
+    };
+  }));
+  syncPreviewSurface();
+  async function bindPreviewSource(document: vscode.TextDocument): Promise<void> {
     const sourceUri = document.uri.toString();
     previewComposer?.invalidate();
     previewFixtureActiveSourceUri = undefined;
     displayedPreviewSourceUri = sourceUri;
     refreshBuildStatus();
     exactExportUi.bind(sourceUri);
-    const previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
     if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
-    await previewWebviewHost.open(previewPanelTitle, previewViewColumn());
     log("preview", `Opening ${sourceUri}`);
     if (document.languageId === "typst") {
       previewWebviewHost.postStatus("正在准备 Typst 预览…", false);
       const project = await buildTypstProject(document, typstRevisions);
-      if (previewFixtureActiveSourceUri === sourceUri) return;
+      if (previewFixtureActiveSourceUri === sourceUri || displayedPreviewSourceUri !== sourceUri) return;
       typstProjects.set(sourceUri, project);
       syncTinymistProject(project);
       await dispatchTypstPreview(project, document, true);
@@ -3081,6 +3448,7 @@ async function initializeRuntime(
         document.version
       );
     } catch (error) {
+      if (displayedPreviewSourceUri !== sourceUri) return;
       const detail = error instanceof Error ? error.message : String(error);
       const message = `无法为 ${document.fileName} 构建 Typst 投影：${detail}`;
       previewWebviewHost.postStatus(message, true);
@@ -3099,6 +3467,31 @@ async function initializeRuntime(
     if (tracked.advanced) syncTinymistProject(project);
     await dispatchRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
+  }
+  const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
+    const sourceDocument = resource
+      ? await vscode.workspace.openTextDocument(resource)
+      : activePreviewSurface?.document ?? vscode.window.activeTextEditor?.document;
+    if (!sourceDocument || !["mmt", "typst"].includes(sourceDocument.languageId)) {
+      void showMomoScriptMessage("warning", "请先打开一个 MomoScript 或 Typst 文档，再启动预览。");
+      return;
+    }
+    if (activePreviewSurface?.runtime && activePreviewSurface.document === sourceDocument) {
+      previewWebviewHost?.focusSurface(activePreviewSurface.claimant);
+      if (previewInteraction.identity?.sourceStaleToken.documentVersion !== sourceDocument.version) {
+        previewSourceBinding = bindPreviewSource(sourceDocument);
+      }
+    } else {
+      const input = new PreviewHostInput(URI.parse(sourceDocument.uri.toString()));
+      await nativeEditorService.openEditor(
+        input,
+        { pinned: true },
+        matchMedia("(max-width: 550px)").matches ? undefined : SIDE_GROUP,
+      );
+      await previewHostSurfaces.waitUntilMounted(input);
+      syncPreviewSurface();
+    }
+    await previewSourceBinding;
   }));
   let autoOpeningPreviewUri: string | undefined;
   const maybeAutoOpenPreview = (editor: vscode.TextEditor | undefined): void => {
@@ -3196,6 +3589,8 @@ async function initializeRuntime(
   } catch (error) {
     void showMomoScriptMessage("warning", `MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
   }
+  previewSourcesReady = true;
+  syncPreviewSurface();
   const packConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
     if (!event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) return;
     const values = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_MANIFEST_URL]);
@@ -3226,17 +3621,16 @@ async function initializeRuntime(
   const packUrlsInput = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
   if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
-  const workbenchRestoredEditor = vscode.window.tabGroups.activeTabGroup.activeTab !== undefined;
+  await nativeEditorGroupsService.whenRestored;
+  const workbenchRestoredEditor = nativeEditorService.activeEditor !== undefined;
   const restoredActiveDocument = workbenchRestoredEditor || await restoreActiveWorkspaceDocument();
-  if (!restoredActiveDocument && !vscode.window.activeTextEditor) {
+  if (!restoredActiveDocument && !nativeEditorService.activeEditor) {
     const initialDocument = await vscode.workspace.openTextDocument(INTRO);
     const recognizedDocument = initialDocument.languageId === "typst"
       ? initialDocument
       : await vscode.languages.setTextDocumentLanguage(initialDocument, "typst");
     await vscode.window.showTextDocument(recognizedDocument);
   }
-  const modelService = await getService(IModelService);
-  const codeEditorService = await getService(ICodeEditorService);
   const markerModelRegistrations: vscode.Disposable[] = [];
   const bindMarkerEditing = (model: ReturnType<IModelService["getModels"]>[number]) => {
     if (model.uri.scheme !== "mmtfs" || !model.uri.path.endsWith(".mmt") && !model.uri.path.endsWith(".mmt.txt")) return;
@@ -3358,12 +3752,23 @@ async function initializeRuntime(
   }));
   const safeRestart = new PwaSafeRestartQuiesceAdapter({
     pauseNewWork() {
-      return controller.pauseNewWork();
+      const pausedInputs = [...previewSurfaceMounts].flatMap((surface) => {
+        const paused = surface.runtime?.textSession?.pauseInput();
+        return paused ? [paused] : [];
+      });
+      const resume = controller.pauseNewWork();
+      return () => {
+        resume();
+        for (const paused of pausedInputs) paused.dispose();
+      };
     },
     requireWriter() {
       if (provider?.coordinator.state.lease !== "writer") throw new Error("Safe restart requires the workspace writer lease");
     },
-    assertWorkspaceSafe() {
+    async assertWorkspaceSafe(signal) {
+      await Promise.all([...previewSurfaceMounts].map((surface) => surface.runtime?.textSession?.prepareToLeave(signal)));
+      await waitForTextChannelDrain(signal);
+      if (pendingTextRecoveries.length > 0) throw new Error("请先复制或丢弃未提交文字，再安全重启");
       const state = provider?.coordinator.state;
       if (!state) throw new Error("Workspace is unavailable");
       if (state.blocked || state.pendingJournalIds.length > 0 || state.metadata.storage.pendingJournal) {
@@ -3376,7 +3781,11 @@ async function initializeRuntime(
       if (state.metadata.migration.state !== "complete") throw new Error("Safe restart is blocked by incomplete workspace migration");
     },
     async flushDurableState() {
+      for (const document of new Set([...previewSurfaceMounts].map((surface) => surface.document))) {
+        if (document.isDirty && !await document.save()) throw new Error("无法保存 GUI 文档，已取消安全重启");
+      }
       await Promise.all([...persistenceByUri.values()]);
+      await nativeStorageService.flush();
       await provider!.coordinator.flush();
     },
     async abortAndDrainRuntimeWork() {
@@ -3410,7 +3819,7 @@ async function initializeRuntime(
     };
     const openComposerGui = async (name: string) => {
       const resource = vscode.Uri.joinPath(WORKSPACE, name);
-      await vscode.commands.executeCommand("vscode.openWith", resource, COMPOSER_EDITOR_ID);
+      await vscode.commands.executeCommand("mmt.composer.open", resource);
       return composerEditorState(name);
     };
     const openComposerSource = async (name: string) => {
@@ -3492,6 +3901,48 @@ async function initializeRuntime(
             applyAttempts: guiApplyAttempts,
             lastNotification: lastGuiNotification,
           };
+        },
+        textState: () => {
+          const runtimeState = activeGuiRuntime?.state;
+          const session = activeGuiRuntime?.textSession;
+          const bodies = runtimeState?.snapshot?.nodes.filter((node) => node.kind !== "opaque") ?? [];
+          const selection = session?.selection;
+          const anchorIndex = selection ? bodies.findIndex((node) => node.nodeKey === selection.anchor.node.nodeKey) : -1;
+          const focusIndex = selection ? bodies.findIndex((node) => node.nodeKey === selection.focus.node.nodeKey) : -1;
+          const candidate = displayedRendererCandidate?.sourceUri === runtimeState?.bound?.uri ? displayedRendererCandidate : undefined;
+          return {
+            bodies: bodies.map((node) => ({
+              kind: node.kind,
+              nodeKey: node.nodeKey,
+              text: node.textEditing?.text ?? null,
+              statementRange: node.statementRange,
+              resolvedMode: node.body.resolvedMode,
+            })),
+            selection: selection && anchorIndex >= 0 && focusIndex >= 0 ? {
+              anchor: { bodyIndex: anchorIndex, offsetUtf16: selection.anchor.offsetUtf16 },
+              focus: { bodyIndex: focusIndex, offsetUtf16: selection.focus.offsetUtf16 },
+            } : null,
+            sessionId: session?.state.sessionId ?? null,
+            status: session?.state.status ?? "blocked",
+            recoveryText: session?.recoveryText ?? "",
+            pendingIntentCount: session?.pendingIntentCount ?? 0,
+            alternativeVersionId: runtimeState?.bound
+              ? getComposerNativeHistory(modelService, runtimeState.bound.uri)?.getAlternativeVersionId() ?? null
+              : null,
+            rendererSessionId: candidate?.sessionId ?? null,
+            rendererGeneration: candidate?.ready.generation ?? null,
+            renderKey: session?.state.renderKey || null,
+            carets: session?.state.carets ?? [],
+            boxes: session?.state.boxes ?? [],
+          };
+        },
+        setTextDelays: (delays) => {
+          if (!delays || typeof delays !== "object" || Array.isArray(delays)
+            || Object.keys(delays).sort().join(",") !== "compileMs,snapshotMs"
+            || ![delays.snapshotMs, delays.compileMs].every((value) => Number.isSafeInteger(value) && value >= 0 && value <= 10_000)) {
+            throw new RangeError("Invalid Composer response delay fixture");
+          }
+          guiTextDelays = { snapshotMs: delays.snapshotMs, compileMs: delays.compileMs };
         },
       },
       notifications: {
@@ -3782,8 +4233,10 @@ function createLayout(root: HTMLElement) {
   });
   sidebarMainSplit.addView(splitViewPart(sidebar, 180, 600), 260);
   sidebarMainSplit.addView(
-    splitViewPart(main, 320, Number.POSITIVE_INFINITY),
-    Math.max(320, primary.clientWidth - 260)
+    // Match the native pane minimum; 320px is the whole mobile viewport,
+    // not the editor width remaining after the activity/sidebar parts.
+    splitViewPart(main, 220, Number.POSITIVE_INFINITY),
+    Math.max(220, primary.clientWidth - 260)
   );
   sidebarMainSplit.layout(primary.clientWidth);
   sidebarMainSplit.resizeView(0, 260);

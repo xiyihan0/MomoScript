@@ -74,6 +74,7 @@ export type ComposerDocumentNode =
       readonly side: ComposerMessageSide;
       readonly speaker: ComposerSpeaker | null;
       readonly body: ComposerStatementBody;
+      readonly textEditing: { readonly text: string } | null;
       readonly continued: StatementContinuedValue | null;
       readonly actorDisplayName: string | null;
       readonly actorAvatar: {
@@ -89,6 +90,7 @@ export type ComposerDocumentNode =
       readonly range: Range;
       readonly statementRange: Range;
       readonly body: ComposerStatementBody;
+      readonly textEditing: { readonly text: string } | null;
       readonly capabilities: ComposerNarrationCapabilities;
     }
   | {
@@ -365,6 +367,7 @@ function parseNode(value: unknown, label: string): ComposerDocumentNode {
         "side",
         "speaker",
         "body",
+        "textEditing",
         "continued",
         "actorDisplayName",
         "actorAvatar",
@@ -387,6 +390,7 @@ function parseNode(value: unknown, label: string): ComposerDocumentNode {
       side: record.side,
       speaker: record.speaker === null ? null : parseSpeaker(record.speaker, `${label}.speaker`),
       body: parseBody(record.body, `${label}.body`),
+      textEditing: parseTextEditing(record.textEditing, record.body, `${label}.textEditing`),
       continued: record.continued,
       actorDisplayName: record.actorDisplayName as string | null,
       actorAvatar:
@@ -395,13 +399,14 @@ function parseNode(value: unknown, label: string): ComposerDocumentNode {
     };
   }
   if (record.kind === "narration") {
-    requireExactKeys(record, ["kind", "nodeKey", "range", "statementRange", "body", "capabilities"], label);
+    requireExactKeys(record, ["kind", "nodeKey", "range", "statementRange", "body", "textEditing", "capabilities"], label);
     return {
       kind: "narration",
       nodeKey: parseDigest(record.nodeKey, `${label}.nodeKey`),
       range: parseRange(record.range, `${label}.range`),
       statementRange: parseRange(record.statementRange, `${label}.statementRange`),
       body: parseBody(record.body, `${label}.body`),
+      textEditing: parseTextEditing(record.textEditing, record.body, `${label}.textEditing`),
       capabilities: parseNarrationCapabilities(record.capabilities, `${label}.capabilities`),
     };
   }
@@ -432,6 +437,26 @@ function parseNode(value: unknown, label: string): ComposerDocumentNode {
     summary,
     canOpenSource: true,
   };
+}
+
+function parseTextEditing(
+  value: unknown,
+  bodyValue: unknown,
+  label: string,
+): { readonly text: string } | null {
+  if (value === null) return null;
+  const record = requireRecord(value, label);
+  requireExactKeys(record, ["text"], label);
+  const text = requireBoundedString(record.text, MAX_BODY_BYTES, `${label}.text`);
+  const body = requireRecord(bodyValue, `${label} body`);
+  if (
+    (body.resolvedMode !== "textMacro" && body.resolvedMode !== "textRaw")
+    || text.includes("\r")
+    || !text.isWellFormed()
+  ) {
+    throw new Error(`${label} must describe the LF-normalized editable text body`);
+  }
+  return { text };
 }
 
 function parseBody(value: unknown, label: string): ComposerStatementBody {

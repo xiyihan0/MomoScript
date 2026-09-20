@@ -718,7 +718,7 @@ fn speaker_matches(
     requested.reference() == reference || requested.reference() == preset_id
 }
 
-fn same_node_exact_and_semantic(
+pub(crate) fn same_node_exact_and_semantic(
     left_source: &str,
     left: &ComposerDocumentNode,
     right_source: &str,
@@ -744,7 +744,10 @@ fn same_logical_node_exact_and_semantic(
         && same_node_semantics(left, right)
 }
 
-fn same_node_semantics(left: &ComposerDocumentNode, right: &ComposerDocumentNode) -> bool {
+pub(crate) fn same_node_semantics(
+    left: &ComposerDocumentNode,
+    right: &ComposerDocumentNode,
+) -> bool {
     match (left, right) {
         (ComposerDocumentNode::Message(left), ComposerDocumentNode::Message(right)) => {
             left.side == right.side && left.description == right.description

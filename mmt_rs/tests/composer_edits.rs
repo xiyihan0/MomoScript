@@ -419,7 +419,7 @@ fn statement_text_preserves_trailing_blank_continuations() {
     let packs = registry();
     let analysis = analyze_text_with_pack(source, &packs);
     let parsed = statement(&analysis, 0);
-    assert_eq!(parsed.body.source, "original\n");
+    assert_eq!(parsed.body.source, "original\r\n");
     assert_eq!(
         &source[parsed.body.range.start..parsed.body.range.end],
         "original\r\n"
@@ -1206,4 +1206,395 @@ fn narration_is_editable_and_error_preview_targets_remain_classified() {
         resolve_preview_statement(&broken_analysis, &empty_emitted, TextRange::new(0, 0)),
         Err(ComposerTargetFailure::DocumentHasErrors)
     );
+}
+
+fn text_selection(
+    source: &str,
+    packs: &PackRegistry,
+    anchor: (usize, usize),
+    focus: (usize, usize),
+) -> (
+    mmt_rs::AnalyzedDocument,
+    mmt_rs::ComposerDocumentProjection,
+    mmt_rs::ComposerTextSelection,
+) {
+    let analysis = analyze_text_with_pack(source, packs);
+    let projection = mmt_rs::project_analyzed_composer_document(source, &analysis).unwrap();
+    let nodes = projection
+        .nodes
+        .iter()
+        .filter(|node| node.kind() != mmt_rs::ComposerDocumentNodeKind::Opaque)
+        .collect::<Vec<_>>();
+    let selection = mmt_rs::ComposerTextSelection {
+        anchor: mmt_rs::ComposerTextEndpoint {
+            node: nodes[anchor.0].node_ref(),
+            offset_utf16: anchor.1,
+        },
+        focus: mmt_rs::ComposerTextEndpoint {
+            node: nodes[focus.0].node_ref(),
+            offset_utf16: focus.1,
+        },
+    };
+    (analysis, projection, selection)
+}
+
+fn apply_text_edits(source: &str, edit: &mmt_rs::ComposerTextEdit) -> String {
+    let mut result = source.to_owned();
+    for edit in edit.edits.iter().rev() {
+        result.replace_range(edit.range.start..edit.range.end, &edit.new_text);
+    }
+    assert_eq!(
+        mmt_rs::composer_document_source_digest(&result),
+        edit.source_digest_after
+    );
+    result
+}
+
+fn replace_text(
+    source: &str,
+    packs: &PackRegistry,
+    anchor: (usize, usize),
+    focus: (usize, usize),
+    replacement: &str,
+) -> (String, mmt_rs::ComposerTextEdit) {
+    let (analysis, projection, selection) = text_selection(source, packs, anchor, focus);
+    let edit = mmt_rs::compose_text_edit_with_pack(
+        source,
+        &analysis,
+        packs,
+        &projection.source_digest,
+        &selection,
+        replacement,
+    )
+    .unwrap();
+    (apply_text_edits(source, &edit), edit)
+}
+
+#[test]
+fn character_edits_use_utf16_graphemes_and_candidate_statement_identity() {
+    let packs = empty_registry();
+    let source = "- A😀e\u{301}中\n- 第二条\n";
+    let (inserted, edit) = replace_text(source, &packs, (0, 3), (0, 3), "X");
+    assert_eq!(inserted, "- A😀Xe\u{301}中\n- 第二条\n");
+    assert_eq!(edit.selection_after.0.offset_utf16, 4);
+    assert_eq!(edit.selection_after.0, edit.selection_after.1);
+    let after = analyze_text_with_pack(&inserted, &packs);
+    assert_eq!(
+        edit.selection_after.0.statement_range,
+        statement(&after, 0).range
+    );
+    let (restored, _) = replace_text(&inserted, &packs, (0, 4), (0, 3), "");
+    assert_eq!(restored, source);
+    let (deleted, _) = replace_text(&restored, &packs, (0, 3), (0, 1), "");
+    assert_eq!(deleted, "- Ae\u{301}中\n- 第二条\n");
+    let (started, _) = replace_text(&deleted, &packs, (0, 0), (0, 0), "start");
+    let (ended, _) = replace_text(&started, &packs, (0, 9), (0, 9), "end");
+    assert_eq!(ended, "- startAe\u{301}中end\n- 第二条\n");
+
+    for offset in [2, 4, 7] {
+        let (analysis, projection, selection) =
+            text_selection(source, &packs, (0, offset), (0, offset));
+        assert_eq!(
+            mmt_rs::compose_text_edit_with_pack(
+                source,
+                &analysis,
+                &packs,
+                &projection.source_digest,
+                &selection,
+                "X"
+            ),
+            Err(mmt_rs::ComposerTextFailure::InvalidValue),
+        );
+    }
+}
+
+#[test]
+fn text_serialization_keeps_empty_multiline_quotes_and_final_eol_exact() {
+    let packs = empty_registry();
+    let (multiline, _) = replace_text("- first", &packs, (0, 5), (0, 5), "\r\n> @不是语法 \"\"\"");
+    let analysis = analyze_text_with_pack(&multiline, &packs);
+    assert_eq!(
+        statement(&analysis, 0).body.source,
+        "first\n> @不是语法 \"\"\""
+    );
+    assert_eq!(analysis.document.nodes.len(), 1);
+    assert_eq!(multiline, "- \"\"\"\"\nfirst\n> @不是语法 \"\"\"\"\"\"\"");
+    assert!(!multiline.ends_with('\n'));
+    let length = statement(&analysis, 0).body.source.encode_utf16().count();
+    let (empty, edit) = replace_text(&multiline, &packs, (0, 0), (0, length), "");
+    assert_eq!(empty, "- \"\"\"\n\"\"\"");
+    assert_eq!(edit.selection_after.0.offset_utf16, 0);
+    let (again, _) = replace_text(&empty, &packs, (0, 0), (0, 0), "restored");
+    assert_eq!(
+        statement(&analyze_text_with_pack(&again, &packs), 0)
+            .body
+            .source,
+        "restored"
+    );
+
+    let source = "- rt\"\"\"\r\n\r\nstart\r\n\"\"\"\r\n- untouched";
+    let (edited, _) = replace_text(source, &packs, (0, 1), (0, 6), "中\r\nnew\rline");
+    assert_eq!(
+        edited,
+        "- rt\"\"\"\r\n\r\n中\r\nnew\r\nline\r\n\"\"\"\r\n- untouched"
+    );
+    let projection = mmt_rs::project_composer_document_with_pack(&edited, &packs).unwrap();
+    assert_eq!(
+        projection.nodes[0].text_editing().unwrap().text,
+        "\n中\nnew\nline\n"
+    );
+}
+
+#[test]
+fn text_selection_read_is_directional_and_rejects_stale_or_nonbody_endpoints() {
+    let packs = empty_registry();
+    let source = "- abc\n- def\n";
+    let (analysis, projection, selection) = text_selection(source, &packs, (1, 2), (0, 1));
+    let read = mmt_rs::read_composer_text_selection(
+        source,
+        &analysis,
+        &projection.source_digest,
+        &selection,
+    )
+    .unwrap();
+    assert_eq!(read.selection, selection);
+    assert_eq!(read.text, "bc\nde");
+    let authored = mmt_rs::resolve_composer_text_selection(
+        source,
+        &analysis,
+        &projection.source_digest,
+        TextRange::empty(statement(&analysis, 1).body.range.start + 2),
+        TextRange::empty(statement(&analysis, 0).body.range.start + 1),
+    )
+    .unwrap();
+    assert_eq!(authored, read);
+    assert_eq!(
+        mmt_rs::read_composer_text_selection(source, &analysis, "stale", &selection),
+        Err(mmt_rs::ComposerTextFailure::StaleDocument),
+    );
+    let mut stale = selection.clone();
+    stale.anchor.node.node_key = "old".to_owned();
+    assert_eq!(
+        mmt_rs::read_composer_text_selection(source, &analysis, &projection.source_digest, &stale),
+        Err(mmt_rs::ComposerTextFailure::TargetChanged),
+    );
+    assert_eq!(
+        mmt_rs::resolve_composer_text_selection(
+            source,
+            &analysis,
+            &projection.source_digest,
+            TextRange::empty(0),
+            TextRange::empty(0)
+        ),
+        Err(mmt_rs::ComposerTextFailure::UnsupportedStructure),
+    );
+}
+
+#[test]
+fn text_edit_rejects_mixed_eol_but_reads_normalized_copy_without_loss() {
+    let packs = empty_registry();
+    let source = "- \"\"\"\na\r\nb\nc\"\"\"\n";
+    let (analysis, projection, selection) = text_selection(source, &packs, (0, 0), (0, 5));
+    assert_eq!(
+        mmt_rs::read_composer_text_selection(
+            source,
+            &analysis,
+            &projection.source_digest,
+            &selection
+        )
+        .unwrap()
+        .text,
+        "a\nb\nc",
+    );
+    assert_eq!(
+        mmt_rs::compose_text_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            &projection.source_digest,
+            &selection,
+            "new"
+        ),
+        Err(mmt_rs::ComposerTextFailure::UnsupportedStructure),
+    );
+    let ordinary = "- abc";
+    let (analysis, projection, selection) = text_selection(ordinary, &packs, (0, 1), (0, 1));
+    assert_eq!(
+        mmt_rs::compose_text_edit_with_pack(
+            ordinary,
+            &analysis,
+            &packs,
+            &projection.source_digest,
+            &selection,
+            &"x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES)
+        ),
+        Err(mmt_rs::ComposerTextFailure::InvalidValue),
+    );
+    assert_eq!(
+        mmt_rs::compose_text_edit_with_pack(
+            ordinary,
+            &analysis,
+            &packs,
+            &projection.source_digest,
+            &selection,
+            "[:broken"
+        ),
+        Err(mmt_rs::ComposerTextFailure::CandidateInvalid),
+    );
+}
+
+#[test]
+fn text_projection_maps_utf8_escapes_crlf_and_empty_bodies_without_wrappers() {
+    let packs = empty_registry();
+    let source = "- rt\"\"\"\r\nA😀e\u{301}中\\\"\r\nnext\"\"\"\r\n- same\r\n- same\r\n";
+    let (analysis, _, selection) = text_selection(source, &packs, (0, 1), (0, 9));
+    let emitted = emit_typst(
+        &analysis.document,
+        &analysis.document_config.config,
+        &analysis.modes,
+        &analysis.actors,
+        &MaterializedContent::default(),
+        &EmitOptions::default(),
+    );
+    let projected =
+        mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &selection).unwrap();
+    let generated = projected
+        .segments
+        .iter()
+        .map(|range| &emitted.source[range.start..range.end])
+        .collect::<String>();
+    assert_eq!(generated, "😀e\u{301}中\\\\\\\"");
+    let newline = projected
+        .segments
+        .iter()
+        .find(|range| range.is_empty())
+        .unwrap();
+    let authored =
+        mmt_rs::resolve_composer_text_source_range(source, &analysis, &emitted, *newline).unwrap();
+    let resolved = mmt_rs::resolve_composer_text_selection(
+        source,
+        &analysis,
+        &mmt_rs::composer_document_source_digest(source),
+        authored,
+        authored,
+    )
+    .unwrap();
+    assert_eq!(resolved.selection.anchor.offset_utf16, 8);
+    for endpoint in [selection.anchor, selection.focus] {
+        let collapsed = mmt_rs::ComposerTextSelection {
+            anchor: endpoint.clone(),
+            focus: endpoint.clone(),
+        };
+        let projected =
+            mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &collapsed)
+                .unwrap();
+        let authored = mmt_rs::resolve_composer_text_source_range(
+            source,
+            &analysis,
+            &emitted,
+            projected.anchor,
+        )
+        .unwrap();
+        let resolved = mmt_rs::resolve_composer_text_selection(
+            source,
+            &analysis,
+            &mmt_rs::composer_document_source_digest(source),
+            authored,
+            authored,
+        )
+        .unwrap();
+        assert_eq!(resolved.selection.anchor, endpoint);
+    }
+    let escaped = projected
+        .segments
+        .iter()
+        .find(|range| &emitted.source[range.start..range.end] == "\\\\")
+        .unwrap();
+    assert_eq!(
+        emitted.map_text_caret_to_authored(source, escaped.start + 1),
+        None
+    );
+    let (_, _, second) = text_selection(source, &packs, (1, 0), (1, 4));
+    let (_, _, third) = text_selection(source, &packs, (2, 0), (2, 4));
+    let second =
+        mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &second).unwrap();
+    let third =
+        mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &third).unwrap();
+    assert_ne!(second.anchor, third.anchor);
+
+    let source = "- \"\"\"\n\"\"\"";
+    let (analysis, _, selection) = text_selection(source, &packs, (0, 0), (0, 0));
+    let emitted = emit_typst(
+        &analysis.document,
+        &analysis.document_config.config,
+        &analysis.modes,
+        &analysis.actors,
+        &MaterializedContent::default(),
+        &EmitOptions::default(),
+    );
+    let projected =
+        mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &selection).unwrap();
+    assert_eq!(projected.anchor, projected.focus);
+    assert!(projected.segments.is_empty());
+    assert_eq!(
+        mmt_rs::resolve_composer_text_source_range(source, &analysis, &emitted, projected.anchor)
+            .unwrap(),
+        statement(&analysis, 0).body.range,
+    );
+}
+
+#[test]
+fn text_projection_retains_exact_empty_line_carets_and_selection_anchors() {
+    let packs = empty_registry();
+    let source = "- rt\"\"\"\r\n\r\nfirst\r\n\r\nlast\r\n\"\"\"";
+    let (analysis, projection, _) = text_selection(source, &packs, (0, 0), (0, 0));
+    let emitted = emit_typst(
+        &analysis.document,
+        &analysis.document_config.config,
+        &analysis.modes,
+        &analysis.actors,
+        &MaterializedContent::default(),
+        &EmitOptions::default(),
+    );
+    for offset in [0, 1, 6, 7, 8, 12, 13] {
+        let (_, _, selection) = text_selection(source, &packs, (0, offset), (0, offset));
+        let projected =
+            mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &selection)
+                .unwrap();
+        let authored = mmt_rs::resolve_composer_text_source_range(
+            source,
+            &analysis,
+            &emitted,
+            projected.anchor,
+        )
+        .unwrap();
+        let resolved = mmt_rs::resolve_composer_text_selection(
+            source,
+            &analysis,
+            &projection.source_digest,
+            authored,
+            authored,
+        )
+        .unwrap();
+        assert_eq!(resolved.selection, selection);
+    }
+    let (_, _, selection) = text_selection(source, &packs, (0, 7), (0, 8));
+    let projected =
+        mmt_rs::project_composer_text_selection(source, &analysis, &emitted, &selection).unwrap();
+    let anchor = projected
+        .segments
+        .iter()
+        .find(|range| range.is_empty())
+        .unwrap();
+    let authored =
+        mmt_rs::resolve_composer_text_source_range(source, &analysis, &emitted, *anchor).unwrap();
+    let resolved = mmt_rs::resolve_composer_text_selection(
+        source,
+        &analysis,
+        &projection.source_digest,
+        authored,
+        authored,
+    )
+    .unwrap();
+    assert_eq!(resolved.selection.anchor.offset_utf16, 7);
 }

@@ -18,7 +18,12 @@ import {
   type ComposerStructureEditParams,
   type ComposerStructureTarget,
   type ComposerTextDocument,
+  type ComposerTextEditApplicationResult,
 } from "./composerEdit.ts";
+import {
+  ComposerTextSession,
+  type ComposerTextSessionPorts,
+} from "./composerTextSession.ts";
 
 export interface ComposerRuntimeDisposable {
   dispose(): void;
@@ -31,6 +36,7 @@ export interface ComposerRuntimeDocument extends ComposerTextDocumentLike {
 export interface ComposerRuntimeDocumentChange {
   readonly document: ComposerRuntimeDocument;
   readonly contentChanges: readonly unknown[];
+  readonly reason?: 1 | 2;
 }
 
 export type ComposerRuntimeNotificationKind = "warning" | "error";
@@ -112,6 +118,20 @@ const REJECTED_MESSAGE = "无法应用此编辑。";
 const APPLY_FAILED_MESSAGE = "无法应用编辑。";
 const DOCUMENT_UNAVAILABLE_MESSAGE = "无法读取当前 MMT 文档。";
 
+interface ExpectedTextChange {
+  readonly identity: ComposerRuntimeIdentity;
+  readonly sourceDigestAfter?: string;
+  readonly historyReason?: 1 | 2;
+  readonly signal: AbortSignal;
+  readonly onApplied: () => void;
+  readonly promise: Promise<ComposerDocumentSnapshot | undefined>;
+  readonly resolve: (snapshot: ComposerDocumentSnapshot | undefined) => void;
+  readonly cancel: () => void;
+  /** Undefined until the final gate is crossed; the empty string is an exact candidate. */
+  candidate?: string;
+  seen: boolean;
+}
+
 export class ComposerRuntime implements ComposerRuntimeDisposable {
   readonly #ports: ComposerRuntimePorts;
   readonly #listeners = new Set<(state: ComposerRuntimeState) => void>();
@@ -128,6 +148,8 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   #requestAbort: AbortController | null = null;
   #operationAbort: AbortController | null = null;
   #transient: { close: () => void; identity: ComposerRuntimeIdentity } | null = null;
+  #textSession: ComposerTextSession | undefined;
+  #expectedTextChange: ExpectedTextChange | undefined;
 
   constructor(ports: ComposerRuntimePorts) {
     this.#ports = ports;
@@ -147,6 +169,24 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     });
   }
 
+  get textSession(): ComposerTextSession | undefined { return this.#textSession; }
+
+  attachTextSession(ports: ComposerTextSessionPorts): ComposerTextSession {
+    if (this.#textSession) return this.#textSession;
+    if (!this.#accepting) throw new Error("Composer runtime is disposed");
+    this.#textSession = new ComposerTextSession({
+      current: () => {
+        const identity = this.captureIdentity();
+        return identity && this.#snapshot ? { identity, snapshot: this.#snapshot } : undefined;
+      },
+      isCurrent: (identity) => this.#isIdentityCurrent(identity, true),
+      selectNode: (nodeKey) => this.selectNode(nodeKey),
+      apply: (identity, result, signal, onApplied, apply) => this.#applyText(identity, result, signal, onApplied, apply),
+      history: (identity, direction, signal, operation) => this.#applyHistory(identity, direction, signal, operation),
+    }, ports);
+    return this.#textSession;
+  }
+
   onDidChangeState(listener: (state: ComposerRuntimeState) => void): ComposerRuntimeDisposable {
     if (!this.#accepting) return { dispose() {} };
     this.#listeners.add(listener);
@@ -155,6 +195,7 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
 
   bindDocument(document: ComposerRuntimeDocument): boolean {
     if (!this.#accepting || !this.#isEligibleDocument(document)) return false;
+    this.#textSession?.invalidate("文档已切换，未提交的文字已保留。");
     this.#generation += 1;
     this.#cancelAll();
     this.#bound = Object.freeze({
@@ -191,14 +232,37 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     const identity = this.captureIdentity();
     if (!identity) return undefined;
     this.#closeTransient();
-    const entry = { close, identity };
+    const session = this.#textSession;
+    const pause = session?.pauseInput();
+    let closed = false;
+    let drained = !session;
+    let pauseReleased = false;
+    const releasePause = () => {
+      if (!closed || !drained || pauseReleased) return;
+      pauseReleased = true;
+      pause?.dispose();
+    };
+    const entry = {
+      close: () => {
+        if (closed) return;
+        closed = true;
+        try { close(); } finally { releasePause(); }
+      },
+      identity,
+    };
     this.#transient = entry;
+    if (session) {
+      void session.drainAccepted().then(
+        () => { drained = true; releasePause(); },
+        () => { drained = true; releasePause(); },
+      );
+    }
     return {
       identity,
       isCurrent: () => this.#transient === entry && this.#isIdentityCurrent(identity, true),
       close: () => {
         if (this.#transient === entry) this.#transient = null;
-        close();
+        entry.close();
       },
     };
   }
@@ -221,6 +285,19 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   async execute(
     capability: ComposerRuntimeCapability,
     expectedIdentity: ComposerRuntimeIdentity | undefined = this.captureIdentity(),
+  ): Promise<void> {
+    const pause = this.#textSession?.pauseInput();
+    try {
+      if (this.#textSession) await this.#textSession.drainAccepted();
+      await this.#execute(capability, expectedIdentity);
+    } finally {
+      pause?.dispose();
+    }
+  }
+
+  async #execute(
+    capability: ComposerRuntimeCapability,
+    expectedIdentity: ComposerRuntimeIdentity | undefined,
   ): Promise<void> {
     const snapshot = this.#snapshot;
     if (!expectedIdentity || !snapshot || !this.#isIdentityCurrent(expectedIdentity, true)) {
@@ -305,6 +382,7 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   }
 
   quiesce(): void {
+    this.#textSession?.quiesce();
     if (!this.#accepting) return;
     this.#accepting = false;
     this.#generation += 1;
@@ -327,8 +405,23 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   }
 
   #documentChanged(event: ComposerRuntimeDocumentChange): void {
+    const expected = this.#expectedTextChange;
     if (!this.#accepting || event.contentChanges.length === 0 || !this.#bound) return;
     if (event.document !== this.#bound.documentIncarnation || event.document.uri.toString() !== this.#bound.uri) return;
+    const ownChange = !!expected && !expected.seen && !expected.signal.aborted
+      && expected.identity.documentIncarnation === event.document
+      && expected.identity.version + 1 === event.document.version
+      && (expected.sourceDigestAfter !== undefined
+        ? expected.candidate !== undefined && event.document.getText() === expected.candidate
+        : event.reason === expected.historyReason);
+    if (ownChange) {
+      expected.seen = true;
+      expected.onApplied();
+      this.#textSession?.documentPending();
+    } else {
+      this.#settleTextChange(undefined);
+      this.#textSession?.invalidate();
+    }
     this.#epoch += 1;
     this.#requestAbort?.abort();
     this.#operationAbort?.abort();
@@ -345,6 +438,8 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   #catalogChanged(): void {
     if (!this.#accepting) return;
     this.#catalogEpoch += 1;
+    this.#settleTextChange(undefined);
+    this.#textSession?.invalidate("素材目录已更改，未提交的文字已保留。");
     this.#closeTransient();
     this.#emit();
   }
@@ -374,15 +469,27 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
       if (!this.#isRequestCurrent(bound, generation, epoch, controller)) return;
       const result = parseComposerDocumentResult(raw);
       if (result.kind === "Rejected") {
+        this.#settleTextChange(undefined);
+        this.#textSession?.invalidate("无法读取编辑后的正文，未提交的文字已保留。");
         await this.#notify("warning", DOCUMENT_UNAVAILABLE_MESSAGE);
         return;
       }
       await validateComposerSnapshotAgainstDocument(result, bound.documentIncarnation);
       if (!this.#isRequestCurrent(bound, generation, epoch, controller)) return;
       this.#snapshot = result;
+      const expected = this.#expectedTextChange;
+      if (expected?.seen) {
+        if (expected.sourceDigestAfter !== undefined && expected.sourceDigestAfter !== result.sourceDigest) {
+          this.#settleTextChange(undefined);
+          this.#textSession?.invalidate();
+        } else this.#settleTextChange(result);
+      }
       this.#emit();
+      this.#textSession?.snapshotChanged();
     } catch (error) {
       if (!controller.signal.aborted && this.#isRequestCurrent(bound, generation, epoch, controller)) {
+        this.#settleTextChange(undefined);
+        this.#textSession?.invalidate("无法验证编辑后的源码，未提交的文字已保留。");
         await this.#notify("error", error instanceof Error ? error.message : DOCUMENT_UNAVAILABLE_MESSAGE);
       }
     }
@@ -434,7 +541,81 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     };
   }
 
+  async #applyText(
+    identity: ComposerRuntimeIdentity,
+    result: Extract<ComposerEditResult, { kind: "TextEdit" }>,
+    signal: AbortSignal,
+    onApplied: () => void,
+    apply: (canApply: (candidate: string) => boolean) => PromiseLike<ComposerTextEditApplicationResult>,
+  ): Promise<{ application: ComposerTextEditApplicationResult; snapshot?: ComposerDocumentSnapshot }> {
+    if (signal.aborted || !this.#isIdentityCurrent(identity, true) || this.#expectedTextChange) {
+      return { application: { kind: "Stale" } };
+    }
+    const pending = this.#expectTextChange(identity, signal, onApplied, { sourceDigestAfter: result.sourceDigestAfter });
+    try {
+      const application = await apply((candidate) => {
+        if (this.#expectedTextChange !== pending || pending.seen || signal.aborted
+          || !this.#isIdentityCurrent(identity, true)
+          || (pending.candidate !== undefined && pending.candidate !== candidate)) return false;
+        pending.candidate = candidate;
+        return true;
+      });
+      if (application.kind !== "Applied") {
+        if (this.#expectedTextChange === pending) this.#settleTextChange(undefined);
+        return { application };
+      }
+      onApplied();
+      const snapshot = await pending.promise;
+      return { application, ...(snapshot ? { snapshot } : {}) };
+    } finally {
+      signal.removeEventListener("abort", pending.cancel);
+      if (this.#expectedTextChange === pending) this.#settleTextChange(undefined);
+    }
+  }
+
+  async #applyHistory(
+    identity: ComposerRuntimeIdentity,
+    direction: "undo" | "redo",
+    signal: AbortSignal,
+    operation: () => void | Promise<void>,
+  ): Promise<ComposerDocumentSnapshot | undefined> {
+    if (signal.aborted || !this.#isIdentityCurrent(identity, true) || this.#expectedTextChange) return undefined;
+    const pending = this.#expectTextChange(identity, signal, () => undefined, { historyReason: direction === "undo" ? 1 : 2 });
+    try {
+      await operation();
+      return await pending.promise;
+    } finally {
+      signal.removeEventListener("abort", pending.cancel);
+      if (this.#expectedTextChange === pending) this.#settleTextChange(undefined);
+    }
+  }
+
+  #expectTextChange(
+    identity: ComposerRuntimeIdentity,
+    signal: AbortSignal,
+    onApplied: () => void,
+    proof: Pick<ExpectedTextChange, "sourceDigestAfter" | "historyReason">,
+  ): ExpectedTextChange {
+    const { promise, resolve } = Promise.withResolvers<ComposerDocumentSnapshot | undefined>();
+    const pending: ExpectedTextChange = {
+      identity, signal, onApplied, ...proof, promise, resolve, seen: false,
+      cancel: () => { if (this.#expectedTextChange === pending) this.#settleTextChange(undefined); },
+    };
+    this.#expectedTextChange = pending;
+    signal.addEventListener("abort", pending.cancel, { once: true });
+    return pending;
+  }
+
+  #settleTextChange(snapshot: ComposerDocumentSnapshot | undefined): void {
+    const pending = this.#expectedTextChange;
+    if (!pending) return;
+    this.#expectedTextChange = undefined;
+    pending.signal.removeEventListener("abort", pending.cancel);
+    pending.resolve(snapshot);
+  }
+
   #cancelAll(): void {
+    this.#settleTextChange(undefined);
     this.#requestAbort?.abort();
     this.#requestAbort = null;
     this.#operationAbort?.abort();

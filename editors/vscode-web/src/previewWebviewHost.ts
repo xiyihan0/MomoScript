@@ -1,9 +1,21 @@
-import * as vscode from "vscode";
+import type { IOverlayWebview } from "@codingame/monaco-vscode-a654b07e-8806-5425-b124-18f03ba8e11a-common/vscode/vs/workbench/contrib/webview/browser/webview";
+import { mainWindow } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/window";
+import type { IDisposable } from "@codingame/monaco-vscode-api/vscode/vs/base/common/lifecycle";
+import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
+import type { IWebviewService } from "@codingame/monaco-vscode-api/vscode/vs/workbench/contrib/webview/browser/webview.service";
+import {
+  asWebviewUri,
+  webviewGenericCspSource,
+} from "@codingame/monaco-vscode-api/vscode/vs/workbench/contrib/webview/common/webview";
 import type { TypstPreviewBinding, TypstPreviewPublication } from "./preview.ts";
 import type { PreviewArtifact } from "./previewArtifact.ts";
 import type { PreviewRendererCandidate } from "./previewRendererSession.ts";
 import previewWebviewRuntimeUrl from "./previewWebviewRuntime.ts?worker&url";
 import {
+  acceptsComposerIntent,
+  isComposerStateMessage,
+  type ComposerIntentMessage,
+  type ComposerStateMessage,
   bytesToBase64,
   escapeHtml,
   isPreviewWebviewToHostMessage,
@@ -17,23 +29,27 @@ import {
   type PreviewViewport,
   type PreviewVisualReadyMessage,
   type PreviewWebviewToHostMessage,
+  ComposerState,
+  float32CoordinatePrecision,
 } from "./previewWebviewProtocol.ts";
 
 export type PreviewExactExportRequest = Extract<PreviewWebviewToHostMessage, { type: "exact-export" }>;
 
 export interface PreviewWebviewHostEvents {
   readonly ready?: () => void;
-  readonly closed?: () => void;
   readonly viewportChanged: (viewport: PreviewViewport) => void;
   readonly navigationRequested: (point: PreviewNavigationPoint) => void | Promise<void>;
   readonly contextMenuRequested: (
     point: PreviewNavigationPoint,
     anchor: PreviewContextMenuAnchor,
   ) => void | Promise<void>;
+  readonly composerIntent: (message: ComposerIntentMessage, admitted: boolean) => void | Promise<void>;
+  readonly composerDrained: (sessionId: string) => void;
   readonly exactExportRequested: (request: PreviewExactExportRequest) => void | Promise<void>;
   readonly exactExportCancelled: () => void;
 }
 interface PreviewWebviewHostOptions {
+  readonly webviewService: IWebviewService;
   readonly defaultExportFormat?: () => "pdf" | "png";
 }
 
@@ -48,77 +64,117 @@ interface PendingPublication {
   readonly reject: (error: Error) => void;
 }
 
+interface ComposerTransportSession {
+  state: ComposerStateMessage;
+  receivedSequence: number;
+  readonly renderKeys: Set<string>;
+  readonly pending: Set<Promise<void>>;
+}
+
 interface RendererGeneration {
   readonly sessionId: string;
   readonly backendGeneration: number;
   readonly generation: number;
 }
 
-/** Owns only the preview panel and its host/webview transport lifecycle. */
-export class PreviewWebviewHost implements vscode.Disposable {
+/** Owns one retained preview webview and its transport, independently of its visible pane. */
+export class PreviewWebviewHost implements IDisposable {
   readonly #events: PreviewWebviewHostEvents;
   readonly #options: PreviewWebviewHostOptions;
   readonly #readyWaiters = new Set<PendingReadyWaiter>();
   readonly #pendingPublications = new Map<number, PendingPublication>();
-  #panel: vscode.WebviewPanel | undefined;
-  #panelDisposeRegistration: vscode.Disposable | undefined;
-  #panelMessageRegistration: vscode.Disposable | undefined;
+  #webview: IOverlayWebview | undefined;
+  #messageRegistration: IDisposable | undefined;
+  #surface: {
+    readonly claimant: object;
+    readonly container: HTMLElement;
+    readonly clippingContainer: HTMLElement;
+  } | undefined;
+  #surfaceLayoutCleanup: (() => void) | undefined;
   #ready = false;
   #publicationSequence = 1;
   #rendererGeneration: RendererGeneration | undefined;
   #rendererResyncRequested: { readonly sessionId: string; readonly generation: number } | undefined;
+  #composerState: ComposerStateMessage | undefined;
+  readonly #composerSessions = new Map<string, ComposerTransportSession>();
   #disposed = false;
 
-  constructor(events: PreviewWebviewHostEvents, options: PreviewWebviewHostOptions = {}) {
+  constructor(events: PreviewWebviewHostEvents, options: PreviewWebviewHostOptions) {
     this.#events = events;
     this.#options = options;
   }
 
   get isOpen(): boolean {
-    return this.#panel !== undefined;
+    return this.#surface !== undefined;
   }
 
-  async open(title: string, viewColumn: vscode.ViewColumn = vscode.ViewColumn.Beside): Promise<void> {
+  attachSurface(claimant: object, container: HTMLElement, clippingContainer: HTMLElement): void {
     if (this.#disposed) throw new Error("Preview Webview host is disposed");
-    if (this.#panel) {
-      this.#panel.title = title;
-      this.#panel.reveal(viewColumn, false);
-      await this.waitUntilReady();
+    if (container.ownerDocument.defaultView !== mainWindow || clippingContainer.ownerDocument !== container.ownerDocument) {
+      throw new Error("Preview surfaces must belong to the main workbench window");
+    }
+    if (this.#surface?.claimant === claimant
+      && this.#surface.container === container
+      && this.#surface.clippingContainer === clippingContainer) {
+      this.layoutSurface(claimant);
       return;
     }
-
-    const panel = vscode.window.createWebviewPanel(
-      "mmt.typstPreview",
-      title,
-      viewColumn,
-      {
-        enableScripts: true,
-        retainContextWhenHidden: true,
-        localResourceRoots: [previewWebviewRuntimeResourceRoot()],
-      },
-    );
-    this.#panel = panel;
-    this.#ready = false;
-    this.#panelDisposeRegistration = panel.onDidDispose(() => this.#handlePanelClosed(panel));
-    this.#panelMessageRegistration = panel.webview.onDidReceiveMessage((message: unknown) => {
-      if (isPreviewWebviewToHostMessage(message)) void this.#dispatch(message);
-    });
-    panel.webview.html = previewWebviewHtml(panel.webview, title, this.#options.defaultExportFormat?.() ?? "pdf");
-    await this.waitUntilReady();
+    this.#surfaceLayoutCleanup?.();
+    this.#surface = { claimant, container, clippingContainer };
+    const webview = this.#ensureWebview();
+    webview.claim(claimant, mainWindow, undefined);
+    const layout = () => this.layoutSurface(claimant);
+    const observer = new ResizeObserver(layout);
+    observer.observe(container);
+    observer.observe(clippingContainer);
+    mainWindow.addEventListener("resize", layout);
+    mainWindow.addEventListener("scroll", layout, true);
+    mainWindow.visualViewport?.addEventListener("resize", layout);
+    mainWindow.visualViewport?.addEventListener("scroll", layout);
+    this.#surfaceLayoutCleanup = () => {
+      observer.disconnect();
+      mainWindow.removeEventListener("resize", layout);
+      mainWindow.removeEventListener("scroll", layout, true);
+      mainWindow.visualViewport?.removeEventListener("resize", layout);
+      mainWindow.visualViewport?.removeEventListener("scroll", layout);
+    };
+    layout();
   }
 
-  reveal(): boolean {
-    this.#panel?.reveal(undefined, false);
-    return this.#panel !== undefined;
+  releaseSurface(claimant: object): void {
+    if (this.#surface?.claimant !== claimant) return;
+    this.#surfaceLayoutCleanup?.();
+    this.#surfaceLayoutCleanup = undefined;
+    this.#surface = undefined;
+    this.#webview?.release(claimant);
   }
 
-  close(): void {
-    this.#panel?.dispose();
+  layoutSurface(claimant: object): void {
+    const surface = this.#surface;
+    const webview = this.#webview;
+    if (this.#disposed || !surface || !webview || surface.claimant !== claimant) return;
+    const { container, clippingContainer } = surface;
+    const rect = container.getBoundingClientRect();
+    const visible = container.isConnected
+      && clippingContainer.isConnected
+      && rect.width > 0
+      && rect.height > 0
+      && mainWindow.getComputedStyle(container).visibility !== "hidden";
+    webview.container.style.visibility = visible ? "visible" : "hidden";
+    webview.container.inert = !visible;
+    if (visible) webview.layoutWebviewOverElement(container, undefined, clippingContainer);
+    if (this.#composerState && this.#composerState.screenCoordinatePrecision !== float32CoordinatePrecision(
+      Math.max(mainWindow.innerWidth, mainWindow.innerHeight),
+    )) this.postComposerState(this.#composerState);
+  }
+
+  focusSurface(claimant: object): void {
+    if (this.#surface?.claimant === claimant && !this.#webview?.container.inert) this.#webview?.focus();
   }
 
   async waitUntilReady(signal?: AbortSignal): Promise<void> {
     if (this.#ready) return;
-    if (!this.#panel) throw new Error("Preview Webview is closed");
+    if (!this.#webview || this.#disposed) throw new Error("Preview Webview is not attached");
     signal?.throwIfAborted();
     await new Promise<void>((resolve, reject) => {
       let settled = false;
@@ -156,6 +212,26 @@ export class PreviewWebviewHost implements vscode.Disposable {
 
   postCursor(point: PreviewPagePoint | undefined): void {
     void this.#post({ type: "cursor", point });
+  }
+
+  postComposerState(state: ComposerState): void {
+    if (this.#disposed) return;
+    const message: ComposerStateMessage = {
+      ...state,
+      screenCoordinatePrecision: float32CoordinatePrecision(Math.max(mainWindow.innerWidth, mainWindow.innerHeight)),
+    };
+    if (!isComposerStateMessage(message)) return;
+    let session = this.#composerSessions.get(message.sessionId);
+    if (session && message.sequence < session.state.sequence) return;
+    if (!session) {
+      session = { state: message, receivedSequence: message.sequence, renderKeys: new Set(), pending: new Set() };
+      this.#composerSessions.set(message.sessionId, session);
+    }
+    // Blocked slots retain issued identities only for draining/recovery, never mutation admission.
+    session.state = message;
+    if (message.status !== "blocked") session.renderKeys.add(message.renderKey);
+    this.#composerState = message;
+    void this.#post(message);
   }
 
   restoreViewport(viewport: PreviewViewport): void {
@@ -196,7 +272,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
   async publishFixtureArtifact(artifact: PreviewArtifact): Promise<void> {
     const visual = artifact.visualSnapshot;
     const firstPage = visual.kind === "svg" ? visual.pages[0] : undefined;
-    if (!this.#panel || !firstPage || visual.kind !== "svg") return;
+    if (!this.#webview || !firstPage || visual.kind !== "svg") return;
     await this.waitUntilReady();
     const imageAssets = await Promise.all(visual.imageAssets.map(async (asset) => ({
       digest: asset.digest,
@@ -215,8 +291,8 @@ export class PreviewWebviewHost implements vscode.Disposable {
   }
 
   async publishFullSvg(publication: TypstPreviewPublication): Promise<PreviewVisualReadyMessage> {
-    const panel = this.#panel;
-    if (!panel) throw new Error("Preview Webview is closed");
+    const webview = this.#webview;
+    if (!webview) throw new Error("Preview Webview is not attached");
     await this.waitUntilReady(publication.signal);
     publication.signal?.throwIfAborted();
     const requestSequence = this.#publicationSequence++;
@@ -236,7 +312,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
       renderKey: publication.artifact.renderKey,
       spans: publication.spans,
     });
-    if (!delivered || panel !== this.#panel) {
+    if (!delivered || webview !== this.#webview) {
       this.#pendingPublications.delete(requestSequence);
       throw new Error("Preview Webview rejected the render publication");
     }
@@ -247,8 +323,8 @@ export class PreviewWebviewHost implements vscode.Disposable {
     candidate: PreviewRendererCandidate,
     binding: TypstPreviewBinding,
   ): Promise<PreviewVisualReadyMessage> {
-    const panel = this.#panel;
-    if (!panel) throw new Error("Preview Webview is closed");
+    const webview = this.#webview;
+    if (!webview) throw new Error("Preview Webview is not attached");
     await this.waitUntilReady(binding.signal);
     binding.signal?.throwIfAborted();
     const requestSequence = this.#publicationSequence++;
@@ -270,7 +346,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
       publishedAtEpochMs: Date.now(),
     };
     const delivered = await this.#post(message);
-    if (!delivered || panel !== this.#panel) {
+    if (!delivered || webview !== this.#webview) {
       this.#pendingPublications.delete(requestSequence);
       throw new Error("Preview Webview rejected the renderer frame");
     }
@@ -294,12 +370,36 @@ export class PreviewWebviewHost implements vscode.Disposable {
   dispose(): void {
     if (this.#disposed) return;
     this.#disposed = true;
-    if (this.#panel) this.#panel.dispose();
-    else this.#rejectPending(new Error("Preview Webview host disposed"));
-    this.#panelDisposeRegistration?.dispose();
-    this.#panelMessageRegistration?.dispose();
-    this.#panelDisposeRegistration = undefined;
-    this.#panelMessageRegistration = undefined;
+    if (this.#surface) this.releaseSurface(this.#surface.claimant);
+    this.#ready = false;
+    this.clearRendererGeneration();
+    this.#composerState = undefined;
+    this.#composerSessions.clear();
+    this.#rejectPending(new Error("Preview Webview host disposed"));
+    this.#messageRegistration?.dispose();
+    this.#messageRegistration = undefined;
+    this.#webview?.dispose();
+    this.#webview = undefined;
+  }
+
+  #ensureWebview(): IOverlayWebview {
+    if (this.#webview) return this.#webview;
+    const webview = this.#options.webviewService.createWebviewOverlay({
+      providedViewType: "mmt.typstPreview",
+      title: "MomoScript 排版",
+      options: { retainContextWhenHidden: true },
+      contentOptions: {
+        allowScripts: true,
+        localResourceRoots: [previewWebviewRuntimeResourceRoot()],
+      },
+      extension: undefined,
+    });
+    this.#webview = webview;
+    this.#messageRegistration = webview.onMessage((event) => {
+      if (!this.#disposed && isPreviewWebviewToHostMessage(event.message)) void this.#dispatch(event.message);
+    });
+    webview.setHtml(previewWebviewHtml("MomoScript 排版", this.#options.defaultExportFormat?.() ?? "pdf"));
+    return webview;
   }
 
   #acknowledgement(requestSequence: number, renderKey: string): Promise<PreviewVisualReadyMessage> {
@@ -328,7 +428,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
   }
 
   #post(message: PreviewHostToWebviewMessage): Promise<boolean> {
-    return Promise.resolve(this.#panel?.webview.postMessage(message) ?? false);
+    return Promise.resolve(this.#webview?.postMessage(message) ?? false);
   }
 
   async #dispatch(message: PreviewWebviewToHostMessage): Promise<void> {
@@ -337,6 +437,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
         this.#ready = true;
         for (const waiter of [...this.#readyWaiters]) waiter.resolve();
         this.#events.ready?.();
+        if (this.#composerState) void this.#post(this.#composerState);
         return;
       case "visual-ready": {
         const pending = this.#pendingPublications.get(message.requestSequence);
@@ -373,6 +474,39 @@ export class PreviewWebviewHost implements vscode.Disposable {
           await this.#events.contextMenuRequested(message.point, message.anchor);
         }
         return;
+      case "composer-intent": {
+        const session = this.#composerSessions.get(message.sessionId);
+        if (!session || message.sequence <= session.receivedSequence) return;
+        const admitted = this.#surface !== undefined && this.#composerState?.sessionId === message.sessionId
+          && acceptsComposerIntent(message, session.state, session.receivedSequence, session.renderKeys);
+        session.receivedSequence = message.sequence;
+        if (admitted) {
+          // iframe→host postMessage is FIFO: seeing a newer issued key retires preceding keys.
+          for (const key of session.renderKeys) {
+            if (key === message.renderKey) break;
+            session.renderKeys.delete(key);
+          }
+        }
+        // Every handled sequence needs an acknowledgement. Rejected work is explicitly
+        // recovery-only; Main routes retired IDs away from the active document's handler.
+        const delivered = Promise.resolve(this.#events.composerIntent(message, admitted));
+        session.pending.add(delivered);
+        try {
+          await delivered;
+        } finally {
+          session.pending.delete(delivered);
+        }
+        return;
+      }
+      case "composer-drained": {
+        const session = this.#composerSessions.get(message.sessionId);
+        if (!session || session.state.status !== "blocked" || message.sequence !== session.receivedSequence) return;
+        await Promise.allSettled(session.pending);
+        if (this.#composerSessions.get(message.sessionId) !== session || session.state.status !== "blocked") return;
+        this.#composerSessions.delete(message.sessionId);
+        this.#events.composerDrained(message.sessionId);
+        return;
+      }
       case "exact-export":
         await this.#events.exactExportRequested(message);
         return;
@@ -382,19 +516,6 @@ export class PreviewWebviewHost implements vscode.Disposable {
     }
   }
 
-  #handlePanelClosed(panel: vscode.WebviewPanel): void {
-    if (this.#panel !== panel) return;
-    this.#panel = undefined;
-    this.#ready = false;
-    this.clearRendererGeneration();
-    this.#rejectPending(new Error("Preview Webview closed before visual readiness"));
-    this.#panelDisposeRegistration?.dispose();
-    this.#panelMessageRegistration?.dispose();
-    this.#panelDisposeRegistration = undefined;
-    this.#panelMessageRegistration = undefined;
-    this.#events.closed?.();
-  }
-
   #rejectPending(error: Error): void {
     for (const waiter of [...this.#readyWaiters]) waiter.reject(error);
     for (const pending of this.#pendingPublications.values()) pending.reject(error);
@@ -402,17 +523,17 @@ export class PreviewWebviewHost implements vscode.Disposable {
   }
 }
 
-function previewWebviewRuntimeResourceUri(): vscode.Uri {
-  return vscode.Uri.parse(new URL(previewWebviewRuntimeUrl, location.href).href);
+function previewWebviewRuntimeResourceUri(): URI {
+  return URI.parse(new URL(previewWebviewRuntimeUrl, location.href).href);
 }
 
-function previewWebviewRuntimeResourceRoot(): vscode.Uri {
-  return vscode.Uri.parse(new URL(".", previewWebviewRuntimeResourceUri().toString()).href);
+function previewWebviewRuntimeResourceRoot(): URI {
+  return URI.parse(new URL(".", previewWebviewRuntimeResourceUri().toString()).href);
 }
 
-function previewWebviewHtml(webview: vscode.Webview, title: string, defaultExportFormat: "pdf" | "png"): string {
+function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): string {
   const nonce = crypto.randomUUID().replaceAll("-", "");
-  const runtimeUri = webview.asWebviewUri(previewWebviewRuntimeResourceUri()).toString();
+  const runtimeUri = asWebviewUri(previewWebviewRuntimeResourceUri()).toString();
   const formats = [
     ["pdf", "PDF document"],
     ["png", "PNG image"],
@@ -425,11 +546,11 @@ function previewWebviewHtml(webview: vscode.Webview, title: string, defaultExpor
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src blob: ${escapeHtml(webview.cspSource)}; img-src data: blob:; style-src 'unsafe-inline'; script-src 'nonce-${nonce}' 'wasm-unsafe-eval' ${escapeHtml(webview.cspSource)}; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src blob: ${escapeHtml(webviewGenericCspSource)}; img-src data: blob:; style-src 'unsafe-inline'; script-src 'nonce-${nonce}' 'wasm-unsafe-eval' ${escapeHtml(webviewGenericCspSource)}; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)}</title>
   <style>
-    html, body { margin: 0; width: 100%; height: 100%; min-height: 0; overflow: hidden; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
     body { display: flex; flex-direction: column; box-sizing: border-box; font-family: var(--vscode-font-family); }
     .preview-toolbar { position: relative; z-index: 2; display: flex; flex: 0 0 auto; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
     .zoom-controls { display: flex; flex: 0 0 auto; align-items: center; gap: 5px; }
@@ -465,6 +586,21 @@ function previewWebviewHtml(webview: vscode.Webview, title: string, defaultExpor
       .exact-export { flex-basis: 100%; grid-template-columns: minmax(0, 1fr) auto; }
       .exact-export-format select { min-width: 0; max-width: 100%; }
       .exact-export-status { grid-column: 1 / -1; max-width: none; text-align: left; }
+    }
+    @media (max-width: 550px) {
+      .zoom-controls { flex-wrap: wrap; }
+      .zoom-controls button, .exact-export button, .exact-export select { min-width: 44px; min-height: 44px; }
+      .preview-toolbar { padding-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right)); }
+      .viewport { padding: 12px; }
+    }
+    @media (max-height: 240px) {
+      .preview-toolbar { flex-wrap: nowrap; align-items: center; justify-content: flex-start; min-width: 0; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; }
+      .preview-toolbar::-webkit-scrollbar { display: none; }
+      .zoom-controls { flex: 0 0 auto; width: auto; flex-wrap: nowrap; }
+      .exact-export { display: flex; flex: 0 0 auto; align-items: center; gap: 6px; }
+      .exact-export-format, .exact-export-stale, .exact-export-status { flex: 0 0 auto; }
+      .exact-export-format select { min-width: 0; max-width: none; }
+      .exact-export-status { grid-column: auto; max-width: 360px; text-align: left; }
     }
   </style>
 </head>

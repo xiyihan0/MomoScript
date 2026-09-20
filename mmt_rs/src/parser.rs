@@ -146,7 +146,7 @@ impl Parser<'_> {
             parse_speaker_and_body(rest, cursor)
         };
 
-        let mut body_source = first_body;
+        let body_source = first_body;
         let body_start = first_body_start;
         let mut range_end = first_line.range.end;
         self.index += 1;
@@ -168,13 +168,14 @@ impl Parser<'_> {
             if is_explicit_top_level_start(line.text) {
                 break;
             }
-            body_source.push('\n');
-            body_source.push_str(line.text);
             range_end = line.range.end;
             self.index += 1;
         }
 
-        let body = self.make_body(body_source, TextRange::new(body_start, range_end));
+        let body = self.make_body(
+            self.source.text()[body_start..range_end].to_owned(),
+            TextRange::new(body_start, range_end),
+        );
 
         StatementSyntax {
             kind,
@@ -632,64 +633,59 @@ impl Parser<'_> {
         first_line_end: usize,
     ) -> Option<(BodySyntax, usize)> {
         let open = parse_fence_open(first_text, first_start)?;
-        let mut body_start = open.content_start;
-
         if let Some(close_offset) = find_fence_close(open.remaining, open.fence_len) {
-            let source = open.remaining[..close_offset].to_string();
             let body_end = open.content_start + close_offset;
             return Some((
-                self.make_body_with_mode(open.mode, source, TextRange::new(body_start, body_end)),
+                self.make_body_with_mode(
+                    open.mode,
+                    self.source.text()[open.content_start..body_end].to_owned(),
+                    TextRange::new(open.content_start, body_end),
+                ),
                 first_line_end,
             ));
         }
 
-        let mut source = String::new();
-        if !open.remaining.is_empty() {
-            source.push_str(open.remaining);
-        }
-        let mut body_end = first_line_end;
+        // Only the delimiter immediately following a bare opening fence is syntax.
+        // Every subsequent byte, including leading blank lines and CRLF, is body.
+        let body_start = if open.remaining.is_empty() {
+            self.lines
+                .get(self.index)
+                .map_or(open.content_start, |line| line.range.start)
+        } else {
+            open.content_start
+        };
+        let mut body_end = body_start;
         let mut range_end = first_line_end;
-        let mut body_started = !open.remaining.is_empty();
-
         while self.index < self.lines.len() {
             let line = self.lines[self.index].clone();
-            if !body_started {
-                body_start = line.range.start;
-                body_started = true;
-            }
+            self.index += 1;
+            range_end = line.range.end;
             if let Some(close_offset) = find_fence_close(line.text, open.fence_len) {
-                if !source.is_empty() {
-                    source.push('\n');
-                }
-                source.push_str(&line.text[..close_offset]);
                 body_end = line.range.start + close_offset;
-                range_end = line.range.end;
-                self.index += 1;
                 return Some((
                     self.make_body_with_mode(
                         open.mode,
-                        source,
+                        self.source.text()[body_start..body_end].to_owned(),
                         TextRange::new(body_start, body_end),
                     ),
                     range_end,
                 ));
             }
-
-            if !source.is_empty() {
-                source.push('\n');
-            }
-            source.push_str(line.text);
             body_end = line.range.end;
-            range_end = line.range.end;
-            self.index += 1;
         }
-
+        if !open.remaining.is_empty() && body_end == body_start {
+            body_end = first_line_end;
+        }
         self.diagnostics.push(Diagnostic::syntax_error(
             "unterminated fenced body",
             TextRange::new(first_start, range_end),
         ));
         Some((
-            self.make_body_with_mode(open.mode, source, TextRange::new(body_start, body_end)),
+            self.make_body_with_mode(
+                open.mode,
+                self.source.text()[body_start..body_end].to_owned(),
+                TextRange::new(body_start, body_end),
+            ),
             range_end,
         ))
     }
@@ -1138,24 +1134,23 @@ fn parse_fence_open<'a>(text: &'a str, absolute_start: usize) -> Option<FenceOpe
 }
 
 fn find_fence_close(text: &str, fence_len: usize) -> Option<usize> {
-    let mut quote_run_start = None;
-    let mut quote_count = 0usize;
-
-    for (offset, ch) in text.char_indices() {
-        if ch == '"' {
-            if quote_run_start.is_none() {
-                quote_run_start = Some(offset);
-            }
-            quote_count += 1;
-            if quote_count >= fence_len {
-                return quote_run_start;
-            }
-        } else {
-            quote_run_start = None;
-            quote_count = 0;
+    let bytes = text.as_bytes();
+    let mut cursor = 0;
+    while cursor < bytes.len() {
+        if bytes[cursor] != b'"' {
+            cursor += 1;
+            continue;
+        }
+        let start = cursor;
+        while cursor < bytes.len() && bytes[cursor] == b'"' {
+            cursor += 1;
+        }
+        if cursor - start >= fence_len {
+            // A body's trailing quotes join the closer. The last N quotes are
+            // the delimiter; the leading portion of this run remains body.
+            return Some(cursor - fence_len);
         }
     }
-
     None
 }
 
@@ -1531,6 +1526,70 @@ mod tests {
         };
         assert!(statement.body.source.is_empty());
         assert!(statement.body.range.is_empty());
+    }
+
+    #[test]
+    fn fenced_bodies_keep_leading_blank_lines_and_exact_crlf_bytes() {
+        let source = "- rt\"\"\"\r\n\r\nfirst\r\n\r\nlast\r\n\"\"\"\r\n";
+        let doc = parse_text(source);
+        let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert!(doc.diagnostics.is_empty());
+        assert_eq!(statement.body.source, "\r\nfirst\r\n\r\nlast\r\n");
+        assert_eq!(
+            &source[statement.body.range.start..statement.body.range.end],
+            statement.body.source
+        );
+    }
+
+    #[test]
+    fn closing_quote_run_uses_last_delimiter_length_quotes() {
+        for suffix in ["\"", "\"\"", "\"\"\""] {
+            let body = format!("inside \"\"\" quotes{suffix}");
+            let source = format!("- \"\"\"\"\n{body}\"\"\"\"");
+            let doc = parse_text(&source);
+            let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+                panic!("expected statement");
+            };
+            assert!(doc.diagnostics.is_empty());
+            assert_eq!(statement.body.source, body);
+            assert_eq!(
+                &source[statement.body.range.start..statement.body.range.end],
+                body
+            );
+        }
+        let old = parse_text("- \"\"\"normal\"\"\"");
+        let SyntaxNode::Statement(statement) = &old.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert_eq!(statement.body.source, "normal");
+        let adjacent = parse_text("- \"\"\"\"\"\"");
+        assert!(
+            adjacent
+                .diagnostics
+                .iter()
+                .any(|diagnostic| diagnostic.message == "unterminated fenced body")
+        );
+    }
+
+    #[test]
+    fn unterminated_fence_recovery_retains_exact_body_slice() {
+        let source = "- \"\"\"\r\n\r\nlast";
+        let doc = parse_text(source);
+        let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert_eq!(statement.body.source, "\r\nlast");
+        assert_eq!(
+            &source[statement.body.range.start..statement.body.range.end],
+            "\r\nlast"
+        );
+        assert!(
+            doc.diagnostics
+                .iter()
+                .any(|diagnostic| diagnostic.message == "unterminated fenced body")
+        );
     }
 
     #[test]

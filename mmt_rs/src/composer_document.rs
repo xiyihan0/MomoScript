@@ -4,6 +4,7 @@ use crate::composer::{
     ComposerStatementDescription, analysis_has_errors, current_avatar_for_revision,
     describe_composer_statement, serialize_scalar,
 };
+use crate::composer_text::{ComposerTextEditing, describe_composer_text};
 use crate::identity::canonical_bytes_digest;
 use crate::pack::PackRegistry;
 use crate::pipeline::{AnalyzedDocument, analyze_text, analyze_text_with_pack};
@@ -108,6 +109,7 @@ pub struct ComposerMessageNode {
     pub statement_range: TextRange,
     pub side: ComposerMessageSide,
     pub description: ComposerStatementDescription,
+    pub text_editing: Option<ComposerTextEditing>,
     pub capabilities: ComposerMessageCapabilities,
 }
 
@@ -117,6 +119,7 @@ pub struct ComposerNarrationNode {
     pub range: TextRange,
     pub statement_range: TextRange,
     pub description: ComposerStatementDescription,
+    pub text_editing: Option<ComposerTextEditing>,
     pub capabilities: ComposerNarrationCapabilities,
 }
 
@@ -168,6 +171,14 @@ impl ComposerDocumentNode {
             Self::Message(_) => ComposerDocumentNodeKind::Message,
             Self::Narration(_) => ComposerDocumentNodeKind::Narration,
             Self::Opaque(_) => ComposerDocumentNodeKind::Opaque,
+        }
+    }
+
+    pub fn text_editing(&self) -> Option<&ComposerTextEditing> {
+        match self {
+            Self::Message(node) => node.text_editing.as_ref(),
+            Self::Narration(node) => node.text_editing.as_ref(),
+            Self::Opaque(_) => None,
         }
     }
 }
@@ -362,6 +373,18 @@ pub fn project_analyzed_composer_document(
         .collect::<Vec<_>>();
     let run_eols = movable_run_eols(source, &nodes);
     if !has_errors {
+        for node in &mut nodes {
+            let (range, statement_range, capability) = match node {
+                ComposerDocumentNode::Message(node) => {
+                    (node.range, node.statement_range, &mut node.text_editing)
+                }
+                ComposerDocumentNode::Narration(node) => {
+                    (node.range, node.statement_range, &mut node.text_editing)
+                }
+                ComposerDocumentNode::Opaque(_) => continue,
+            };
+            *capability = describe_composer_text(source, analysis, statement_range, range);
+        }
         authorize_node_capabilities(&mut nodes, &run_eols);
     }
     let boundaries = build_boundaries(source, &nodes, has_errors);
@@ -456,6 +479,7 @@ impl NodeDraft {
                     statement_range,
                     side,
                     description,
+                    text_editing: None,
                     capabilities,
                 })
             }
@@ -480,6 +504,7 @@ impl NodeDraft {
                         }
                     },
                     description,
+                    text_editing: None,
                 })
             }
             Self::Opaque { category, .. } => ComposerDocumentNode::Opaque(ComposerOpaqueNode {

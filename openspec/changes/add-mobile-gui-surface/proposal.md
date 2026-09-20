@@ -1,34 +1,35 @@
 ## Why
 
-MomoScript 已具备稳定的 Rust DSL v2、版本化 Composer WorkspaceEdit、Pack 人物与头像选择、Local History、revision-bound 预览、浏览器持久化、PWA 离线启动与导出。当前生产表面仍以源码编辑器为中心；普通创作者尤其在手机上，需要理解 statement、directive、正文模式和 actor revision，才能完成持续创作。
+MomoScript 已具备稳定的 Rust DSL v2、版本化 Composer WorkspaceEdit、lossless Composer document projection、Pack 人物与头像选择、Local History、revision-bound 预览、浏览器持久化、PWA 离线启动与导出。`mmt.guiComposer` 已接入唯一 TextDocument 与原生 Workbench editor，但卡片主界面仍要求作者在表单正文与真实排版之间切换，不能在排版页面上连续创作。
 
-Preview Composer 已证明 GUI intent 可以通过结构化命令进入同一 Rust 授权、候选重分析和 TextDocument apply 主链。下一步应建立不暴露源码概念的卡片式创作表面，但不能因此新增第二种文档格式、第二份可变卡片文档或由 TypeScript 拼接 MMT。结构编辑开始前还必须先证明整个源码能被投影成完整、无重叠、无空洞的字节分区；否则注释、空行、directive、recoverable error 或未知语法仍可能在卡片移动和删除时被误带或遗留。
+本未归档 change 改为 SVG-first WYSIWYG：Typst/Tinymist 的真实 SVG 是主创作画布，在可精确映射的 Message/Narration 正文上提供字符光标、拖选、连续输入、多行、IME、跨消息复制/删除/替换和同一原生撤销栈。既有 lossless partition、opaque 降级、Rust 源码授权和版本校验不能为此放宽；`.mmt` TextDocument 仍是唯一 authored state，不新增可变卡片文档、客户端 AST 或 TypeScript MMT 序列化。
 
 ## What Changes
 
-- 增加 surface-independent、版本化的 Composer document projection。Rust 将当前 `.mmt` 快照投影成有序的 message、narration 与 opaque 节点；节点范围完整覆盖 `[0, source.len)`，按原始字节拼接必须精确还原源码。当前 parser 不识别独立 comment syntax，因此 `// ...` 等 comment-looking 行仍是 `recoverableError`；`comment` 仅作为未来 parser 支持后的 wire 保留类别。
-- Opaque core 节点保留 exact source slice 以证明完整分区；wire 只发送精确 range、最多 4096 UTF-8 bytes 的 `sourcePreview`、`sourceTruncated` 与最多 160 个 Unicode scalar 的 `summary`。打开高级源码时必须从当前 TextDocument range 读取真实内容。
-- 增加纯结构化、版本化的 `insertStatement`、`deleteNode`、`moveNode` 与 `setStatementSpeaker` Composer 命令。Rust 独占 target/boundary 校验、MMT 序列化、候选重分析与单一 WorkspaceEdit 生成；TypeScript 不构造源码或 TextEdit。插入和说话人修改首版只接受 Pack 实体或脚本角色，不能显式序列化的内建 `__Sensei` 只读保留。
-- 首版 move 只跨越连续可移动 message/narration 节点，不跨 opaque barrier。Rust 必须协调移动前后的行分隔符：保持 movable run 的 LF/CRLF 风格与文件末尾是否含 EOL，防止无 EOL 的末节点移到中间后粘连，也防止含 EOL 节点移到 EOF 后改变尾部格式。混合 EOL run 显式不支持。删除只删除目标可移动节点拥有的字节；插入锚点只能位于投影节点边界。任何 stale identity、错误候选或无法保持语义的结构操作显式拒绝。
-- 增加纯 `ComposerRuntime` 产品控制器，消费不可变 projection snapshot、Pack catalog 与现有 Composer commands。桌面和移动 presentation 共享该控制器、同一 TextDocument、同一 apply/history/preview/export 主链。
-- 在当前 `editors/vscode-web` PWA 中以原生 Workbench `SimpleEditorPane`/`SimpleEditorInput` 注册 `mmt.guiComposer` editor。Input 只持有资源 URI；源码仍由唯一 TextDocument/Monaco model 持有。桌面首次打开仍默认源码；每个页面生命周期内，视口 `max-width: 550px` 的文档首次打开/恢复自动切到 GUI，用户显式切回源码后不再强制跳回。
-- GUI 提供对话/旁白卡片、插入/删除/按钮式移动、人物与资源选择、正文/模式/continued/display-name/avatar 编辑、实时预览、保存、历史和导出。unsupported/opaque 节点只读显示，并提供定位到源码的入口。
-- 为 320px 最小产品视口、软键盘、安全区、触摸目标、离线恢复和后台持久化增加浏览器合同；首版不依赖拖拽完成结构操作。
+- 保留完整、有序、无重叠、无空洞的 Message/Narration/Opaque 字节分区及 snapshot-local identity。Core 保留 exact source slice；Opaque wire 继续只发送 range、有界 `sourcePreview`/`sourceTruncated`/`summary`。当前 comment-looking 行仍是带诊断的 `recoverableError`，不是新 comment syntax。
+- 删除卡片主列表，不保留另一个卡片/画布切换模式。HTML 只承担 caret/selection、IME 临时输入、toolbar、Picker/Sheet 与源码入口；SVG 文本、头像、名字、气泡和旁白标签接现有语义操作。Typst、不可逆宏生成文字和其他 opaque 内容使用明确源码入口，不猜测正文替换范围。
+- 直接正文编辑仅覆盖 resolved mode 为 `textMacro` 或 `textRaw` 且可唯一映射的 Message/Narration。Enter 与 Shift+Enter 都插入正文 LF；折叠光标在正文首尾时 Backspace/Delete 不隐式合并节点。结构插入、删除、移动、speaker/mode/avatar/name/continued 继续现有显式控件与语义命令。
+- 同轮交付有方向的跨 Message/Narration 文本选区、复制、删除和替换。写入按源码顺序归一化，复制每段语义正文并以一个 LF 分隔。替换保留第一条 envelope，正文为首条未选前缀 + replacement + 末条未选后缀，并删除后续被选 statement nodes；只可跨 `Opaque.blank`，其原始字节保留。其他 opaque、不同 resolved body mode 显式 `unsupportedStructure`；影响未选节点继承语义的候选 `candidateInvalid`，不截断、不隐式修补。
+- 扩展既有 `mmt/composerEdit`，新增 strict `textSelection`/`replaceTextSelection`、LF-normalized UTF-16 语义端点、`textEditing` 能力、候选计算的 `TextEdit` result/digest/selectionAfter；增加只读 `mmt/composerTextSelection` 与 identity-bound `mmt/composerTextProjection`。Native stdio、WASM 和 TypeScript exact-key producer/consumer 同步迁移，不新增 mutation request 或兼容别名。
+- Rust 独占 UTF-16/grapheme/EOL 转换、正文序列化、候选 reparse/analyze 和 versioned TextDocumentEdit。保留旧 `setStatementBody` 输入合同；空值、多行和跨节点走新命令。修正 fenced body 精确切片，并规定长度至少为 N 的 closing quote run 使用最后 N 个引号作 delimiter。正文末尾 LF/引号、CRLF、空正文和 final EOL 必须可逆；不插入隐藏 sentinel，不自动删除空消息。
+- 保留原生 `mmt.guiComposer` 与 `{version:1,uri}` serializer，将同一个 PreviewWebviewHost renderer runtime 的 `IOverlayWebview` 挂入 GUI 的 SVG 容器；源码侧原生 `mmt.previewHost` 只作为同一 overlay 的另一挂载位置。一个 overlay、一个 active document、原 publication/ACK/resync/session-generation 和 export owners 不变。
+- 先沿现有 live-document/frame-readiness/glyph 路径做真实几何 characterization，再决定是否启用现有 Tinymist renderer 补丁分支。命中 offset、glyph-advance caret（误差不超过 1 CSS px）、逐行 selection rectangles、重复文本与缩放/重排必须精确；中点/平均字宽或仅出现 cursor 不算通过。仅实测证明不足才加入 `hitTestText`、`locateCaret`、`locateRange` 三 action，并走受管 build/promote/repin/runtime publication。
+- `ComposerRuntime` 的文本子会话串行执行已接受输入，以新 snapshot/digest/exact statementRange 恢复光标，不复用旧 nodeKey。IME update 只显示临时 HTML，end 提交一次；冲突/失败保留可复制未提交内容。文本编辑使用同一个 Monaco model 的 `pushEditOperations` 和原生 undo/redo，不建立第二份文档或 history stack。
+- 保持桌面源码默认、`max-width: 550px` page-lifetime 首次 GUI 默认与 320px 最小验收。真实浏览器验证软键盘、44px targets、触控选区、生命周期、History、保存/reload、PDF exact export 和离线闭环；真实 OS 中文 IME 的手动验证不能用合成事件冒充。
 
 ## Affected Capabilities
 
-- `gui-composer`（新增）：定义普通创作者的卡片投影、结构编辑、无损降级、桌面/移动表面与完整创作闭环。
-- `language-tooling`：增加完整字节分区的 Composer document projection、snapshot-local target identity 和纯结构化结构命令。
-- `web-workbench-shell`：将 GUI 表面接入现有 ViewsService/SplitView shell、唯一 EditorRuntimeController、TextDocument、PreviewArtifactStore 与 PWA 生命周期，不建立平行 owner。
-- 依赖但不修改：现有 Preview Composer 命令、Pack/角色图鉴只读 catalog、IndexedDB workspace、Local History、PWA offline、preview/export 合同。
-- `web-workbench-shell` 同时固定原生 editor 注册、URI-only input/serializer、桌面源码默认、`max-width: 550px` 首次移动默认与 320px 最小验证边界。
+- `gui-composer`（新增）：SVG 主创作表面、字符与跨正文编辑、IME/native history、精确几何、显式结构操作、opaque 源码出口及移动完整创作闭环。
+- `language-tooling`：保留完整字节分区、snapshot-local identity 和结构命令；增加严格文本选区/read/projection/edit 合同、fenced parser 消歧与候选证明。
+- `web-workbench-shell`：保留原生 editor、URI-only serializer、ViewsService/SplitView 和唯一 runtime；将现有预览改为 GUI/source 共用的可重挂载 overlay，接同一 native model/history 与 PWA 生命周期。
+- 依赖但不替换：Pack/角色图鉴、IndexedDB workspace、Local History、History/Pack/Preview/Export/PWA 主链。几何实测不合格才扩展已管理的 Tinymist renderer 协议与 runtime 制品，不新增 owner 或渲染后端。
 
 ## Non-Goals
 
 - 不新增 JSON/card 持久化格式、第二份 IndexedDB 文档、客户端 AST cache 或由 GUI 自行序列化 MMT。
 - 不迁移到旧 `web/` React 编辑器，不新建第二个 Web/App UI 代码库，不迁移 ViewsService shell 到 WorkspaceService。
-- 首版不表单化 reply、bond、任意 directive、Typst patch 或全部 DSL；这些内容作为 opaque 高级节点无损保留，并可进入源码编辑。
-- 不实现实时协作、云同步、插件市场、Git 工作流、AI 自动创作或新的渲染后端。
-- 不以拖拽作为唯一排序方式，不在首版实现多选、跨 opaque barrier 移动、任意节点组合或隐式“注释随卡片移动”启发式。
+- 不表单化 reply、bond、任意 directive 或任意 Typst AST；不将不可逆渲染文本猜成可编辑正文。这些内容无损保留并进入已有源码编辑器。
+- 不实现实时协作、云同步、插件市场、Git 工作流、AI 自动创作或新的渲染后端；不引入 Tylina 代码、sidecar 或另一个 typst.ts fork。
+- 不以拖拽作为唯一结构排序方式，不跨 opaque barrier 移动节点，不建立隐式“注释随节点移动”启发式。跨消息正文文本选区属于本轮必需范围，不等价于任意结构节点多选。
 - 不扩展 DSL comment 或内建 speaker 语法；`comment` wire 类别和显式 `__Sensei` 选择均留待独立语法变更。
 - 不在本 change 封装原生 App；PWA 移动闭环稳定后，原生容器可另行提供文件、分享、深链和系统权限能力。

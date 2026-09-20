@@ -1,5 +1,6 @@
 import type { ExactExportFormat, StaleExportChoice } from "./exactExport.ts";
 import type { RenderKey } from "../../vscode/src/runtimeIdentity.ts";
+import type { PreviewRendererPointUncertainty } from "../../vscode/src/previewRendererProtocol.ts";
 
 export type PreviewFitMode = "manual" | "width" | "page";
 
@@ -124,9 +125,87 @@ export interface PreviewVisualReadyMessage {
   readonly iframeTransferMs?: number;
 }
 
+/** Semantic input only. The iframe never supplies authored ranges or edit plans. */
+export type ComposerIntent =
+  | {
+      readonly kind: "pointer";
+      readonly phase: "start" | "move" | "end" | "cancel";
+      readonly point: PreviewPagePoint;
+      readonly uncertainty: PreviewRendererPointUncertainty;
+      readonly extend: boolean;
+      readonly clickCount: 1 | 2;
+    }
+  | {
+      readonly kind: "move";
+      readonly direction: "left" | "right" | "up" | "down";
+      readonly granularity: "grapheme" | "word" | "visualLine" | "document";
+      readonly extend: boolean;
+    }
+  | { readonly kind: "replace"; readonly text: string; readonly origin: "typing" | "paste" | "cut" }
+  | {
+      readonly kind: "replace";
+      readonly text: "";
+      readonly origin: "delete";
+      readonly direction: "backward" | "forward";
+      readonly granularity: "grapheme" | "word";
+    }
+  | { readonly kind: "composition"; readonly phase: "start" | "update" | "end" | "cancel"; readonly text: string }
+  | { readonly kind: "history"; readonly direction: "undo" | "redo" }
+  | { readonly kind: "copy" };
+
+export interface ComposerIntentMessage {
+  readonly type: "composer-intent";
+  readonly sessionId: string;
+  readonly sequence: number;
+  readonly renderKey: RenderKey;
+  readonly intent: ComposerIntent;
+}
+
+/** FIFO acknowledgement after the bridge has stopped admitting work for a blocked session. */
+export interface ComposerDrainedMessage {
+  readonly type: "composer-drained";
+  readonly sessionId: string;
+  readonly sequence: number;
+}
+
+export interface ComposerSelectionBox extends PreviewPagePoint {
+  readonly width: number;
+  readonly height: number;
+}
+
+export interface ComposerCaret extends ComposerSelectionBox {
+  readonly affinity: "before" | "after";
+}
+
+export interface ComposerState {
+  readonly type: "composer-state";
+  readonly sessionId: string;
+  /** Latest handled intent sequence, including rejection; geometry may advance independently. */
+  readonly sequence: number;
+  readonly renderKey: RenderKey;
+  readonly status: "ready" | "pending" | "blocked";
+  /** A collapsed selection has one caret; otherwise [anchor, focus]. */
+  readonly carets: readonly ComposerCaret[];
+  readonly boxes: readonly ComposerSelectionBox[];
+}
+
+export interface ComposerStateMessage extends ComposerState {
+  /** Conservative Float32 coordinate radius in top-level CSS pixels. */
+  readonly screenCoordinatePrecision: number;
+}
+
+/** One adjacent binary32 step, using the larger side at powers of two. */
+export function float32CoordinatePrecision(magnitude: number): number {
+  const rounded = Math.fround(Math.abs(magnitude));
+  if (!Number.isFinite(rounded)) return Number.POSITIVE_INFINITY;
+  if (rounded === 0) return 2 ** -149;
+  return 2 ** Math.max(-149, Math.floor(Math.log2(rounded)) - 23);
+}
+
 export type PreviewHostToWebviewMessage =
   | PreviewRenderMessage
   | PreviewRendererFrameMessage
+  | ComposerStateMessage
   | { readonly type: "renderer-reset" }
   | { readonly type: "status"; readonly message: string; readonly error: boolean }
   | { readonly type: "restoreViewport"; readonly viewport: PreviewViewport }
@@ -136,6 +215,8 @@ export type PreviewHostToWebviewMessage =
 
 export type PreviewWebviewToHostMessage =
   | { readonly type: "ready" }
+  | ComposerIntentMessage
+  | ComposerDrainedMessage
   | PreviewVisualReadyMessage
   | { readonly type: "viewport"; readonly viewport: PreviewViewport }
   | { readonly type: "navigate"; readonly point: PreviewNavigationPoint }
@@ -152,6 +233,8 @@ export type PreviewWebviewToHostMessage =
 export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewHostToWebviewMessage {
   if (!value || typeof value !== "object" || !("type" in value)) return false;
   switch (value.type) {
+    case "composer-state":
+      return isComposerStateMessage(value);
     case "render":
       return "svg" in value && typeof value.svg === "string"
         && "imageAssets" in value && Array.isArray(value.imageAssets)
@@ -196,6 +279,8 @@ export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewH
 export function isPreviewWebviewToHostMessage(value: unknown): value is PreviewWebviewToHostMessage {
   if (!value || typeof value !== "object" || !("type" in value)) return false;
   switch (value.type) {
+    case "composer-intent": return isComposerIntentMessage(value);
+    case "composer-drained": return isComposerDrainedMessage(value);
     case "ready": return isPreviewWebviewReadyMessage(value);
     case "visual-ready": return isPreviewVisualReadyMessage(value);
     case "viewport": return isPreviewViewportMessage(value);
@@ -207,6 +292,115 @@ export function isPreviewWebviewToHostMessage(value: unknown): value is PreviewW
     case "renderer-resync-needed": return isPreviewRendererResyncNeededMessage(value);
     default: return false;
   }
+}
+
+export function isComposerIntentMessage(value: unknown): value is ComposerIntentMessage {
+  return hasExactKeys(value, ["type", "sessionId", "sequence", "renderKey", "intent"])
+    && value.type === "composer-intent"
+    && isComposerIdentity(value)
+    && Number(value.sequence) > 0
+    && isComposerIntent(value.intent);
+}
+
+export function isComposerDrainedMessage(value: unknown): value is ComposerDrainedMessage {
+  return hasExactKeys(value, ["type", "sessionId", "sequence"])
+    && value.type === "composer-drained"
+    && typeof value.sessionId === "string" && value.sessionId.length > 0 && value.sessionId.length <= 256
+    && nonNegativeSafeInteger(value.sequence);
+}
+
+export function isComposerStateMessage(value: unknown): value is ComposerStateMessage {
+  return hasExactKeys(value, ["type", "sessionId", "sequence", "renderKey", "status", "carets", "boxes", "screenCoordinatePrecision"])
+    && value.type === "composer-state"
+    && isComposerIdentity(value)
+    && normalizedFinite(value.screenCoordinatePrecision)
+    && (value.status === "ready" || value.status === "pending" || value.status === "blocked")
+    && Array.isArray(value.carets) && value.carets.length <= 2
+    && value.carets.every((caret) => isComposerBox(caret, true))
+    && Array.isArray(value.boxes) && value.boxes.length <= 65_536
+    && value.boxes.every((box) => isComposerBox(box, false))
+    && (value.status !== "blocked" || (value.carets.length === 0 && value.boxes.length === 0));
+}
+
+/** The host also checks the active GUI runtime before forwarding admitted input. */
+export function acceptsComposerIntent(
+  message: unknown,
+  state: ComposerState | undefined,
+  lastSequence: number,
+  publishedRenderKeys?: ReadonlySet<string>,
+): message is ComposerIntentMessage {
+  return isComposerIntentMessage(message)
+    && state !== undefined && state.status !== "blocked"
+    && message.sessionId === state.sessionId
+    && message.sequence > Math.max(lastSequence, state.sequence)
+    && (message.intent.kind === "pointer"
+      ? state.status === "ready" && message.renderKey === state.renderKey
+      : (publishedRenderKeys?.has(message.renderKey) ?? message.renderKey === state.renderKey));
+}
+
+function isComposerIdentity(value: Record<string, unknown>): boolean {
+  return typeof value.sessionId === "string" && value.sessionId.length > 0 && value.sessionId.length <= 256
+    && typeof value.renderKey === "string" && value.renderKey.length > 0 && value.renderKey.length <= 4096
+    && nonNegativeSafeInteger(value.sequence);
+}
+
+function isComposerIntent(value: unknown): value is ComposerIntent {
+  if (!value || typeof value !== "object" || !("kind" in value)) return false;
+  switch (value.kind) {
+    case "pointer":
+      return hasExactKeys(value, ["kind", "phase", "point", "uncertainty", "extend", "clickCount"])
+        && (value.phase === "start" || value.phase === "move" || value.phase === "end" || value.phase === "cancel")
+        && hasExactKeys(value.point, ["pageIndex", "x", "y"])
+        && nonNegativeSafeInteger(value.point.pageIndex) && Number(value.point.pageIndex) < 100_000
+        && normalizedFinite(value.point.x) && normalizedFinite(value.point.y)
+        && hasExactKeys(value.uncertainty, ["x", "y"])
+        && normalizedFinite(value.uncertainty.x) && normalizedFinite(value.uncertainty.y)
+        && typeof value.extend === "boolean" && (value.clickCount === 1 || value.clickCount === 2);
+    case "move":
+      return hasExactKeys(value, ["kind", "direction", "granularity", "extend"])
+        && (value.direction === "left" || value.direction === "right" || value.direction === "up" || value.direction === "down")
+        && (value.granularity === "grapheme" || value.granularity === "word"
+          || value.granularity === "visualLine" || value.granularity === "document")
+        && typeof value.extend === "boolean";
+    case "replace":
+      if ("origin" in value && value.origin === "delete") {
+        return hasExactKeys(value, ["kind", "text", "origin", "direction", "granularity"])
+          && value.text === "" && (value.direction === "backward" || value.direction === "forward")
+          && (value.granularity === "grapheme" || value.granularity === "word");
+      }
+      return hasExactKeys(value, ["kind", "text", "origin"])
+        && (value.origin === "typing" || value.origin === "paste" || value.origin === "cut")
+        && isComposerInputText(value.text) && (value.origin !== "cut" || value.text === "");
+    case "composition":
+      return hasExactKeys(value, ["kind", "phase", "text"])
+        && (value.phase === "start" || value.phase === "update" || value.phase === "end" || value.phase === "cancel")
+        && isComposerInputText(value.text)
+        && (value.phase !== "start" || value.text === "");
+    case "history":
+      return hasExactKeys(value, ["kind", "direction"])
+        && (value.direction === "undo" || value.direction === "redo");
+    case "copy":
+      return hasExactKeys(value, ["kind"]);
+    default:
+      return false;
+  }
+}
+
+function isComposerInputText(value: unknown): value is string {
+  // Rust owns the normalized UTF-8 body limit. Bound transport without truncating input.
+  return typeof value === "string" && value.length <= 131_072 && value.isWellFormed();
+}
+
+function isComposerBox(value: unknown, caret: boolean): boolean {
+  return hasExactKeys(value, caret
+    ? ["pageIndex", "x", "y", "width", "height", "affinity"]
+    : ["pageIndex", "x", "y", "width", "height"])
+    && nonNegativeSafeInteger(value.pageIndex) && Number(value.pageIndex) < 100_000
+    && normalizedFinite(value.x) && normalizedFinite(value.y)
+    && normalizedFinite(value.width) && positiveFinite(value.height)
+    && Number(value.x) + Number(value.width) <= 1 + Number.EPSILON
+    && Number(value.y) + Number(value.height) <= 1 + Number.EPSILON
+    && (!caret || value.affinity === "before" || value.affinity === "after");
 }
 
 export function isExportMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "exact-export" }> {
@@ -401,11 +595,11 @@ function isStrictPreviewNavigationPoint(value: unknown): value is PreviewNavigat
     ));
 }
 
-function hasExactKeys(
+function hasExactKeys<const Keys extends readonly string[]>(
   value: unknown,
-  required: readonly string[],
+  required: Keys,
   optional: readonly string[] = [],
-): value is Record<string, unknown> {
+): value is Record<Keys[number], unknown> & Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const keys = Object.keys(value);
   if (keys.length < required.length || keys.length > required.length + optional.length) return false;

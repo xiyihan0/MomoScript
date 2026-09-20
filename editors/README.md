@@ -14,24 +14,24 @@
 ## 端到端架构
 
 ```text
-MMT TextDocument
-  -> mmt_lsp versioned snapshot
-  -> mmt/composerDocument
-  -> one surface-independent ComposerRuntime
-  -> native mmt.guiComposer editor (same URI/TextDocument)
+MMT TextDocument / native model and undo stack
+  -> mmt_lsp versioned Rust snapshot
+  -> mmt/composerDocument + composerTextSelection/composerTextProjection
+  -> one surface-independent ComposerRuntime + ComposerTextSession
+  -> native mmt.guiComposer SVG surface (same URI/TextDocument)
   -> Typst projection session/revision
   -> Tinymist native/WASM backend
-  -> accepted preview artifact
-  -> preview webview
+  -> accepted preview artifact + exact text geometry
+  -> one retained overlay mounted in mmt.guiComposer or read-only mmt.previewHost
 ```
 
 三个运行形态共享 Rust parser、版本化 MMT snapshot 和投影身份合同，但传输边界不同：
 
 - **VS Code Desktop**：扩展宿主启动 native `mmt-lsp` stdio server 和 native Tinymist sidecar。
 - **VS Code Web**：Web Extension Host 通过 MMT LSP WASM Worker、Tinymist WASM Worker 和浏览器 language client 通信。
-- **独立 Workbench**：浏览器 Workbench 装配 Web Extension Host、两个语言 Worker、Typst compiler/renderer、资源物化和 runtime-owned preview webview。
+- **独立 Workbench**：浏览器 Workbench 装配 Web Extension Host、两个语言 Worker、Typst compiler/renderer、资源物化，以及由产品 runtime 持有的单个 retained preview overlay；活动的原生 `mmt.guiComposer` 或只读 `mmt.previewHost` 只声明该 overlay 的挂载位置，不创建 renderer/store 副本。
 
-投影的 `session/revision`、后端 generation、render identity 和已接受 preview artifact 形成连续身份链。语言返回值、Worker 消息和 webview 消息均是不可信 wire data，必须在各自 parser/allowlist 边界验证后才能进入状态 owner。
+投影的 `session/revision`、后端 generation、render identity 和已接受 preview artifact 形成连续身份链。正文选择和替换还绑定 `TextDocument` version、`sourceDigest` 与 Rust node endpoint；语言返回值、Worker 消息和 webview 消息均是不可信 wire data，必须在各自 parser/allowlist 边界验证后才能进入状态 owner。
 
 ## 所有权与规范来源
 
@@ -54,9 +54,10 @@ MMT TextDocument
 | 扩展侧 projected-read 信任边界 | [`editors/vscode/src/projectedReads.ts`](./vscode/src/projectedReads.ts) |
 | Workbench 装配与状态连接 | [`editors/vscode-web/src/main.ts`](./vscode-web/src/main.ts) |
 | 产品 runtime 与 dispose graph | [`runtimeController.ts`](./vscode-web/src/runtimeController.ts)、[`runtimeOwner.ts`](./vscode-web/src/runtimeOwner.ts) |
-| Preview host/webview wire contract 与 iframe runtime | [`previewWebviewHost.ts`](./vscode-web/src/previewWebviewHost.ts)、[`previewWebviewProtocol.ts`](./vscode-web/src/previewWebviewProtocol.ts)、[`previewWebviewRuntime.ts`](./vscode-web/src/previewWebviewRuntime.ts) |
+| Preview retained overlay、native mount 与 webview wire contract | [`previewWebviewHost.ts`](./vscode-web/src/previewWebviewHost.ts)、[`previewHostPane.ts`](./vscode-web/src/previewHostPane.ts)、[`previewWebviewProtocol.ts`](./vscode-web/src/previewWebviewProtocol.ts)、[`previewWebviewRuntime.ts`](./vscode-web/src/previewWebviewRuntime.ts) |
 | Preview 交互与持久 renderer session | [`previewInteraction.ts`](./vscode-web/src/previewInteraction.ts)、[`previewRendererSession.ts`](./vscode-web/src/previewRendererSession.ts) |
-| GUI Composer projection、runtime、native editor 与 responsive UI | [`composerDocument.ts`](./vscode-web/src/composerDocument.ts)、[`composerRuntime.ts`](./vscode-web/src/composerRuntime.ts)、[`composerEditor.ts`](./vscode-web/src/composerEditor.ts)、[`composerEditorUi.ts`](./vscode-web/src/composerEditorUi.ts) |
+| GUI Composer projection、runtime、native editor 与 SVG UI | [`composerDocument.ts`](./vscode-web/src/composerDocument.ts)、[`composerRuntime.ts`](./vscode-web/src/composerRuntime.ts)、[`composerEditor.ts`](./vscode-web/src/composerEditor.ts)、[`composerEditorUi.ts`](./vscode-web/src/composerEditorUi.ts) |
+| GUI 正文 intent 队列、原生撤销/恢复与精确几何 | [`composerTextSession.ts`](./vscode-web/src/composerTextSession.ts)、[`composerTextGeometry.ts`](./vscode-web/src/composerTextGeometry.ts)、[`composerEdit.ts`](./vscode-web/src/composerEdit.ts) |
 | Workspace、IndexedDB、origin storage 与 PWA | [`filesystem.ts`](./vscode-web/src/filesystem.ts)、[`indexedDbWorkspace.ts`](./vscode-web/src/indexedDbWorkspace.ts)、[`originStorage.ts`](./vscode-web/src/originStorage.ts)、[`pwaUpdate.ts`](./vscode-web/src/pwaUpdate.ts) |
 | 类型化 E2E bridge 与浏览器 journeys | [`e2eRuntimeBridge.ts`](./vscode-web/src/e2eRuntimeBridge.ts)、[`e2e/`](./vscode-web/e2e/) |
 | 共享 production preview server 与 CI runners | [`production-preview-server.mjs`](./vscode-web/scripts/production-preview-server.mjs)、[`test-e2e-chrome.mjs`](./vscode-web/scripts/test-e2e-chrome.mjs)、[`test-preview-performance-ci.mjs`](./vscode-web/scripts/test-preview-performance-ci.mjs) |
@@ -77,15 +78,17 @@ MMT TextDocument
 | pack 同步重试与缓存回退 | `npm --prefix editors/vscode run test:pack-sync` | Node | `extension-web` |
 | 投影信任边界 | `npm --prefix editors/vscode run test:projected-reads` | 共享 fixture 随仓库提供 | `extension-web` |
 | Workbench 静态检查、runtime delivery 与 build | `npm --prefix editors/vscode-web run check`；`npm --prefix editors/vscode-web run test:runtime-delivery`；`npm --prefix editors/vscode-web run build` | 构建机可读取固定 runtime source；prebuild 将校验后的 Brotli 对象写入同源、content-addressed build output | `extension-web` 及浏览器 jobs |
-| Workbench focused contracts | `npm --prefix editors/vscode-web run test:preview-artifact`；`npm --prefix editors/vscode-web run test:preview-webview-protocol`；`npm --prefix editors/vscode-web run test:preview-interaction`；`npm --prefix editors/vscode-web run test:preview-render-queue`；`npm --prefix editors/vscode-web run test:preview-renderer-session`；`npm --prefix editors/vscode-web run test:exact-export`；`npm --prefix editors/vscode-web run test:runtime-controller`；`npm --prefix editors/vscode-web run test:composer-document`；`npm --prefix editors/vscode-web run test:composer-runtime` | Node 与已安装依赖 | `extension-web` |
+| Workbench focused contracts | `npm --prefix editors/vscode-web run test:preview-artifact`；`npm --prefix editors/vscode-web run test:preview-webview-protocol`；`npm --prefix editors/vscode-web run test:preview-interaction`；`npm --prefix editors/vscode-web run test:preview-render-queue`；`npm --prefix editors/vscode-web run test:preview-renderer-session`；`npm --prefix editors/vscode-web run test:exact-export`；`npm --prefix editors/vscode-web run test:runtime-controller`；`npm --prefix editors/vscode-web run test:composer-edit`；`npm --prefix editors/vscode-web run test:composer-document`；`npm --prefix editors/vscode-web run test:composer-runtime` | Node 与已安装依赖 | `extension-web` |
 | Grouped real-Chrome production journeys | `npm --prefix editors/vscode-web run test:e2e:chrome` | `TINYMIST_WEB_PKG`、`TYPST_COMPILER_WEB_PKG`、Playwright Chrome | `production-e2e` |
-| GUI Composer 原生/桌面/移动 journeys | `npm --prefix editors/vscode-web run test:e2e:gui-composer` | Playwright Chromium；production group 使用真实 Chrome | `production-e2e` |
+| SVG GUI Composer journeys | `npm --prefix editors/vscode-web run test:e2e:gui-composer` | Playwright Google Chrome；覆盖真实 renderer、字符/跨消息选区、原生 undo/recovery、精确 geometry、reload 与窄视口 | `production-e2e` |
 | HMR/runtime lifecycle | `npm --prefix editors/vscode-web run test:e2e:lifecycle` | `TINYMIST_WEB_PKG`、Playwright Chrome | `lifecycle-e2e` |
 | PWA/offline lifecycle | `npm --prefix editors/vscode-web run test:e2e:pwa-offline` | `TINYMIST_WEB_PKG`、`TYPST_COMPILER_WEB_PKG`、Playwright Chromium | `pwa-e2e` |
 | Preview differential benchmark | `npm --prefix editors/vscode-web run ci:preview-differential` | 两个 Web runtime package、Playwright Chromium | `preview-differential-e2e` |
 | Preview nightly/qualification benchmarks | `npm --prefix editors/vscode-web run ci:preview-nightly` | 两个 Web runtime package、Playwright Chromium | `preview-performance-nightly` |
 
 本地运行 `dev`/`preview` 或单个 Playwright spec 时，以 [`vscode-web/package.json`](./vscode-web/package.json) 的脚本为准；不要用缩短的 smoke 结果替代 differential 或 qualification 证据。
+
+GUI journey 中的 IME 是在真实 Chrome 内派发的 synthetic composition/input 事件，窄屏与软键盘场景是 viewport shrink。CI/当前自动环境不提供物理中文 OS 输入法或真实移动设备的软件键盘，因此候选窗、提交/取消与软件键盘行为仍未验证；不能把自动 journey 扩大为物理输入证明。
 
 ## 运行时产物与来源
 
@@ -103,8 +106,8 @@ MMT TextDocument
 | Workbench shell、Part、sash、runtime ownership 或 dispose | [Web Workbench Shell Spec](../openspec/specs/web-workbench-shell/spec.md) | [Workbench runbook](./vscode-web/README.md)；`runtimeController.ts`/`runtimeOwner.ts` focused contracts |
 | MMT/Tinymist language tooling、projection 或 provider | [Language Tooling Spec](../openspec/specs/language-tooling/spec.md) | [扩展 runbook](./vscode/README.md)；extension transcript/Worker scripts |
 | PWA、更新、离线安装或 storage quiesce | [PWA Offline Runtime change](../openspec/changes/add-pwa-offline-runtime/) | [Workbench runbook](./vscode-web/README.md) 与 `test:e2e:pwa-offline` |
-| GUI Composer、550px 默认、恢复或 stale 编辑 | [Mobile GUI Surface change](../openspec/changes/add-mobile-gui-surface/) | `composerEditor.ts`/`composerRuntime.ts`；`test:composer-document`、`test:composer-runtime`、`test:e2e:gui-composer` |
-| Preview renderer、diff/resync、artifact identity 或性能 | [Preview Compilation Optimization change](../openspec/changes/optimize-web-preview-compilation/) | `production-preview-server.mjs`、`test-e2e-chrome.mjs`、`test-preview-performance-ci.mjs` |
+| GUI Composer、SVG 正文编辑、550px 默认、恢复或 stale 编辑 | [Mobile GUI Surface change](../openspec/changes/add-mobile-gui-surface/) | `composerEditor.ts`/`composerRuntime.ts`/`composerTextSession.ts`/`composerTextGeometry.ts`；`test:composer-edit`、`test:composer-document`、`test:composer-runtime`、`test:e2e:gui-composer` |
+| Preview renderer、retained overlay/native mount、diff/resync、artifact identity 或性能 | [Preview Compilation Optimization change](../openspec/changes/optimize-web-preview-compilation/) | `previewWebviewHost.ts`/`previewHostPane.ts`/`previewRendererSession.ts`、`production-preview-server.mjs`、`test-e2e-chrome.mjs`、`test-preview-performance-ci.mjs` |
 | CI runtime delivery、digest、artifact 下载或证据缺失 | [Editor Runtime workflow](../.github/workflows/editor-runtime.yml) | 对照 compatibility producer、消费 job 环境变量和对应 runner；不要绕过 pin 或 digest 校验 |
 
 变更跨越现有 capability 或改变 runtime owner、wire semantics、shell topology、PWA 状态机时，先提交对应 OpenSpec 变更；不要在第二处建立并行事实来源。

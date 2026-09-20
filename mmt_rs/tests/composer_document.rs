@@ -257,6 +257,10 @@ fn multiline_statement_keeps_read_only_body_when_edit_capability_is_absent() {
     assert_eq!(message.description.body.current, "first\ncontinued body");
     assert!(message.description.statement_text.is_none());
     assert!(!message.capabilities.set_body);
+    assert_eq!(
+        message.text_editing.as_ref().unwrap().text,
+        "first\ncontinued body"
+    );
 }
 
 #[test]
@@ -289,4 +293,42 @@ fn valid_projection_exposes_product_descriptions_and_direct_boundaries() {
     assert!(projection.boundaries[0].insert.is_some());
     assert!(projection.boundaries[1].insert.is_some());
     assert!(projection.boundaries[2].insert.is_none());
+}
+
+#[test]
+fn text_editing_is_reversible_lf_normalized_and_separate_from_property_commands() {
+    for (source, expected) in [
+        ("- \"\"\"\n\"\"\"", ""),
+        (
+            "- rt\"\"\"\r\n\r\nA😀e\u{301}中\r\n\"\"\"",
+            "\nA😀e\u{301}中\n",
+        ),
+        ("- first\r\ncontinued\r\n\r\n- next", "first\ncontinued"),
+        ("- \"\"\"\na\r\nb\nc\"\"\"", "a\nb\nc"),
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        let first = &projection.nodes[0];
+        assert_eq!(first.text_editing().unwrap().text, expected);
+        let ComposerDocumentNode::Narration(node) = first else {
+            panic!("expected narration");
+        };
+        assert!(!node.capabilities.set_body);
+    }
+}
+
+#[test]
+fn nonreversible_macro_and_typst_bodies_never_advertise_text_editing() {
+    for source in [
+        "- T\"\"\"#strong[body]\"\"\"",
+        "- rT\"\"\"#strong[body]\"\"\"",
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        assert!(projection.nodes[0].text_editing().is_none());
+    }
+    let packs = mmt_rs::pack::PackRegistry::new(Vec::new()).unwrap();
+    let macro_source = "- [:missing:]";
+    let projection = mmt_rs::project_composer_document_with_pack(macro_source, &packs).unwrap();
+    assert!(projection.nodes[0].text_editing().is_none());
+    let raw = project_composer_document("- rt\"\"\"[:literal:]\"\"\"", &catalog()).unwrap();
+    assert_eq!(raw.nodes[0].text_editing().unwrap().text, "[:literal:]");
 }

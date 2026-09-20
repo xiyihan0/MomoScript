@@ -8,6 +8,10 @@ use lsp_types::{
     CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Location, Position,
     PositionEncodingKind, Range, TextEdit, Url,
 };
+use mmt_rs::composer_text::{
+    ComposerTextFailure, ComposerTextSelection, project_composer_text_selection,
+    resolve_composer_text_source_range,
+};
 use mmt_rs::{
     AnalyzedDocument, ComposerActorAvatar, ComposerStatementText, ComposerTargetFailure,
     ContinuedValue, EmitOptions, LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE,
@@ -29,7 +33,7 @@ use crate::{
         LineIndex, MmtClientPosition, PositionConversionError, PositionEncoding,
         TinymistBackendPosition, Utf8ByteOffset, Utf8ByteRange,
     },
-    service::DocumentSnapshot,
+    service::{ComposerEditRejection, DocumentSnapshot},
 };
 
 const EMBEDDED_TEMPLATE_TEXT_FILES: &[(&str, &str)] = &[
@@ -575,6 +579,40 @@ impl ProjectionDocument {
         )
     }
 
+    pub(crate) fn composer_text_projection(
+        &self,
+        selection: &ComposerTextSelection,
+        backend_encoding: PositionEncoding,
+    ) -> Result<(Location, Location, Vec<Location>), ComposerEditRejection> {
+        let projected = project_composer_text_selection(
+            &self.source,
+            &self.analysis,
+            &self.projection.emitted,
+            selection,
+        )
+        .map_err(ComposerEditRejection::from)?;
+        let location = |range: mmt_rs::source::TextRange| {
+            let bytes = Utf8ByteRange::new(
+                Utf8ByteOffset::new(range.start),
+                Utf8ByteOffset::new(range.end),
+            )
+            .map_err(|_| ComposerEditRejection::TargetChanged)?;
+            self.typst_lines
+                .mmt_range(bytes, backend_encoding)
+                .map(|range| Location::new(self.entry_uri.clone(), range))
+                .map_err(|_| ComposerEditRejection::TargetChanged)
+        };
+        Ok((
+            location(projected.anchor)?,
+            location(projected.focus)?,
+            projected
+                .segments
+                .into_iter()
+                .map(location)
+                .collect::<Result<Vec<_>, _>>()?,
+        ))
+    }
+
     pub fn typst_range_to_mmt(
         &self,
         range: Range,
@@ -613,6 +651,35 @@ impl ProjectionDocument {
             else {
                 return ProjectedReadLocation::stale_unknown();
             };
+            if projected.start == projected.end {
+                match resolve_composer_text_source_range(
+                    &self.source,
+                    &self.analysis,
+                    &self.projection.emitted,
+                    projected.into_text_range(),
+                ) {
+                    Ok(authored) => {
+                        let Ok(range) = Utf8ByteRange::new(
+                            Utf8ByteOffset::new(authored.start),
+                            Utf8ByteOffset::new(authored.end),
+                        )
+                        .and_then(|range| self.source_lines.mmt_range(range, client_encoding)) else {
+                            return ProjectedReadLocation::stale_unknown();
+                        };
+                        return ProjectedReadLocation {
+                            kind: ProjectionMappingKind::AuthoredIdentity,
+                            uri: Some(self.source_uri.clone()),
+                            range: Some(range),
+                        };
+                    }
+                    Err(ComposerTextFailure::InvalidValue | ComposerTextFailure::TargetChanged) => {
+                        return ProjectedReadLocation::stale_unknown();
+                    }
+                    // Generic navigation still supports advanced Typst/source
+                    // locations. It does not grant Composer text authorization.
+                    Err(_) => {}
+                }
+            }
             return self.mapped_projection_range(
                 self.projection
                     .index
@@ -1320,6 +1387,37 @@ impl ProjectionStore {
             [] => Err(PositionConversionError::ProjectionMismatch),
             _ => Err(PositionConversionError::AmbiguousGeneration),
         }
+    }
+
+    pub(crate) fn composer_text_generation(
+        &self,
+        source_uri: &Url,
+        entry_uri: &Url,
+        revision: u64,
+        source_content: &SourceContentKey,
+        project_digest: &TypstProjectSnapshotKey,
+        projection_key: &ProjectionKey,
+        snapshot: &DocumentSnapshot,
+    ) -> Result<&ProjectionDocument, ComposerEditRejection> {
+        let document = self
+            .response_generation(
+                source_uri,
+                entry_uri,
+                revision,
+                source_content,
+                project_digest,
+                projection_key,
+            )
+            .map_err(|_| ComposerEditRejection::StaleDocument)?;
+        if snapshot.version != document.source_version
+            || snapshot.revision != document.source_revision
+            || snapshot.text.as_str() != document.source.as_ref()
+            || snapshot.pack_revision != document.pack_revision
+            || snapshot.pack_registry_digest != document.pack_registry_digest
+        {
+            return Err(ComposerEditRejection::StaleDocument);
+        }
+        Ok(document)
     }
 
     pub(crate) fn resolve_composer_target(

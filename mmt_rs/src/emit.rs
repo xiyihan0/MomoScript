@@ -79,6 +79,81 @@ pub struct EmittedTypst {
 }
 
 impl EmittedTypst {
+    /// Maps only reversible text-body scalar boundaries. Generated wrappers and
+    /// macro expansions never authorize a text caret, even at their midpoint.
+    pub fn map_text_caret_to_authored(
+        &self,
+        source: &str,
+        generated_offset: usize,
+    ) -> Option<usize> {
+        let mut mapped = None;
+        for entry in &self.source_map {
+            let generated = entry.generated_range;
+            if generated_offset < generated.start || generated_offset > generated.end {
+                continue;
+            }
+            let Some(Origin::MmtRange {
+                range,
+                kind: OriginKind::TextBody,
+            }) = self.origins.get(entry.origin_id)
+            else {
+                continue;
+            };
+            let raw = source.get(range.start..range.end)?;
+            let escaped = self.source.get(generated.start..generated.end)?;
+            let offset =
+                text_boundary_offset(raw, escaped, generated_offset - generated.start, true)?;
+            let authored = range.start + offset;
+            if mapped.is_some_and(|previous| previous != authored) {
+                return None;
+            }
+            mapped = Some(authored);
+        }
+        mapped
+    }
+
+    pub(crate) fn exact_text_origin(
+        &self,
+        source: &str,
+        entry: &SourceMapEntry,
+    ) -> Option<TextRange> {
+        let Origin::MmtRange {
+            range,
+            kind: OriginKind::TextBody,
+        } = self.origins.get(entry.origin_id)?
+        else {
+            return None;
+        };
+        self.map_text_boundary_to_generated(source, entry, range.start)?;
+        Some(*range)
+    }
+
+    pub(crate) fn map_text_boundary_to_generated(
+        &self,
+        source: &str,
+        entry: &SourceMapEntry,
+        authored_offset: usize,
+    ) -> Option<usize> {
+        let Origin::MmtRange {
+            range,
+            kind: OriginKind::TextBody,
+        } = self.origins.get(entry.origin_id)?
+        else {
+            return None;
+        };
+        let raw = source.get(range.start..range.end)?;
+        let escaped = self
+            .source
+            .get(entry.generated_range.start..entry.generated_range.end)?;
+        let offset = text_boundary_offset(
+            raw,
+            escaped,
+            authored_offset.checked_sub(range.start)?,
+            false,
+        )?;
+        Some(entry.generated_range.start + offset)
+    }
+
     pub fn lookup_origin(&self, generated_range: TextRange) -> Option<&Origin> {
         let origin_id = self.lookup_origin_id(generated_range)?;
         self.origins.get(origin_id)
@@ -679,6 +754,14 @@ impl<'a> TypstEmitter<'a> {
             .copied()
             .unwrap_or(ResolvedBodyMode::TextMacro);
         match mode {
+            ResolvedBodyMode::TextMacro
+                if body
+                    .parts
+                    .iter()
+                    .all(|part| matches!(part, BodyPartSyntax::Text { .. })) =>
+            {
+                self.emit_text(body, parent);
+            }
             ResolvedBodyMode::TextMacro => self.emit_text_parts(body, parent, true),
             ResolvedBodyMode::TextRaw => self.emit_text(body, parent),
             ResolvedBodyMode::TypstRaw => self.emit_checked_typst(body, OriginKind::TypstBody),
@@ -778,7 +861,56 @@ impl<'a> TypstEmitter<'a> {
     }
 
     fn emit_text(&mut self, body: &BodySyntax, parent: usize) {
-        self.emit_text_source(&body.source, body.range, parent);
+        if body.source.len() != body.range.len() {
+            self.emit_text_source(&body.source, body.range, parent);
+            return;
+        }
+        let mut line_start = 0;
+        let mut run_start = 0;
+        for line in body.source.split('\n') {
+            let content = line.strip_suffix('\r').unwrap_or(line);
+            if content.is_empty() {
+                if run_start < line_start {
+                    self.emit_text_source(
+                        &body.source[run_start..line_start],
+                        TextRange::new(body.range.start + run_start, body.range.start + line_start),
+                        parent,
+                    );
+                }
+                self.emit_empty_text_anchor(body.range.start + line_start);
+                run_start = line_start;
+            }
+            line_start += line.len() + 1;
+        }
+        if run_start < body.source.len() {
+            self.emit_text_source(
+                &body.source[run_start..],
+                TextRange::new(body.range.start + run_start, body.range.end),
+                parent,
+            );
+        }
+    }
+
+    fn emit_empty_text_anchor(&mut self, authored_offset: usize) {
+        let range = TextRange::empty(authored_offset);
+        let parent = self.builder.register_origin(Origin::MmtRange {
+            range,
+            kind: OriginKind::TextBody,
+        });
+        // A zero-width hard box containing empty text retains Typst's real
+        // line strut and baseline without adding a hidden source character.
+        self.builder.push_generated(
+            "#box(width:0pt)[#text(\"",
+            GeneratedKind::EscapedText,
+            Some(parent),
+        );
+        let generated_offset = self.builder.source.len();
+        self.builder.push_escaped_text_body("", range);
+        self.builder.push_generated(
+            &format!("\")#metadata((mmtTextCaret:{generated_offset}))]"),
+            GeneratedKind::EscapedText,
+            Some(parent),
+        );
     }
 
     fn emit_materialized_marker(
@@ -903,6 +1035,17 @@ impl EmitBuilder {
     }
 
     fn push_escaped_text_body(&mut self, text: &str, range: TextRange) {
+        if text.is_empty() && range.is_empty() {
+            let origin_id = self.register_origin(Origin::MmtRange {
+                range,
+                kind: OriginKind::TextBody,
+            });
+            self.source_map.push(SourceMapEntry {
+                generated_range: TextRange::empty(self.source.len()),
+                origin_id,
+            });
+            return;
+        }
         if text.len() != range.len() {
             self.push_mmt(&escape_typst_string(text), range, OriginKind::TextBody);
             return;
@@ -948,6 +1091,34 @@ impl EmitBuilder {
     fn push_generated(&mut self, text: &str, kind: GeneratedKind, parent: Option<usize>) {
         self.push(text, Origin::Generated { kind, parent });
     }
+}
+
+// The emitter and both directions of the text-caret map share this exact
+// spelling contract. No byte within a Typst escape is an authored boundary.
+fn text_boundary_offset(raw: &str, escaped: &str, offset: usize, inverse: bool) -> Option<usize> {
+    let mut generated = 0;
+    let mut result = (offset == 0).then_some(0);
+    for (authored, character) in raw.char_indices() {
+        let mut utf8 = [0; 4];
+        let spelling = match character {
+            '\\' => "\\\\",
+            '"' => "\\\"",
+            '\n' => "\\n",
+            '\r' => "\\r",
+            '\t' => "\\t",
+            _ => character.encode_utf8(&mut utf8),
+        };
+        let next = generated + spelling.len();
+        if escaped.get(generated..next) != Some(spelling) {
+            return None;
+        }
+        let authored_end = authored + character.len_utf8();
+        if offset == if inverse { next } else { authored_end } {
+            result = Some(if inverse { authored_end } else { next });
+        }
+        generated = next;
+    }
+    (generated == escaped.len()).then_some(result).flatten()
 }
 
 fn escape_typst_string(text: &str) -> String {

@@ -105,12 +105,10 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
     ).toEqual(["mmt", "tinymist"]);
 
     const replacementExport = await exactExportFixture(page, { action: "state" });
-    expect(replacementExport).toMatchObject({
-      availability: "no-document",
-      phase: "idle"
-    });
-    expect(replacementExport.displayedRenderKey).toBeUndefined();
-    expect(replacementExport.requestedRenderKey).toBeUndefined();
+    // Native preview panes may restore their document and request a fresh render.
+    // They must never revive the disposed generation's fixture artifact.
+    expect(replacementExport.displayedRenderKey).not.toBe(retainedRenderKey);
+    expect(replacementExport.requestedRenderKey).not.toBe(retainedRenderKey);
     expect(replacementExport.completedRenderKey).toBeUndefined();
     expect(
       await exactExportArtifactRetained(page, retainedRenderKey),

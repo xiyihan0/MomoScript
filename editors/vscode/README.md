@@ -24,6 +24,10 @@ symbols、folding、revision-bound Typst projection/preview 事件，以及经�
 hover、signature help 和 diagnostics；稳定合同见 `openspec/specs/language-tooling/spec.md`。Desktop 使用
 native Tinymist sidecar；Web 使用固定的 Tinymist 0.15.4-rc3 WASM Worker。
 
+Composer 正文合同也由同一个 Rust service 同时暴露给 native stdio 与 WASM：`mmt/composerDocument` 发布 `textEditing` capability；`mmt/composerTextSelection` 把 authored ranges 解析为精确 UTF-16 semantic endpoints 和 copy text；`mmt/composerTextProjection` 在当前 projection identity 下返回可逆 segments；`mmt/composerEdit` 的 `replaceTextSelection` 返回原子的 versioned `TextDocumentEdit`、candidate digest 与 post-edit selection。Rust parser/model 是选择、序列化与候选验证的唯一 authority，客户端不能搜索相同字符串、拼 MMT DSL 或自行预测节点。
+
+Web Worker 的 transport registration 位于 [`src/browserWorker.ts`](./src/browserWorker.ts)；native route 与 wire exact-key validation 位于 [`mmt_lsp/src/server.rs`](../../mmt_lsp/src/server.rs)，正文语义实现位于 [`mmt_rs/src/composer_text.rs`](../../mmt_rs/src/composer_text.rs)。三条正文 request 必须与 Desktop/Web transport 同步迁移，未知 field/kind、过期 version/digest、无效 UTF-16 boundary 和不可逆 projection 均 fail closed。
+
 客户端会声明 `publishDiagnostics.versionSupport` 并拒绝版本不等于当前 projection revision 的诊断；
 实测 Tinymist 0.15.4-rc3 Web/Native backend 都可能省略 `version`。每个 MMT LSP 会话使用随机 UUID，每次
 projection revision 使用 `untitled:/mmt-projection/<source-hex>/<session>/main-<revision>.typ` 独立 entry URI。
@@ -38,6 +42,7 @@ completion/hover/folding 请求仍可正常切换 focus。
 `test:worker` 在 Chromium 中验证 MMT WASM LSP、pack-sensitive diagnostics、人物补全和渲染资源协议；
 `test:grammar` 使用固定 Tinymist grammar 验证 inline/multiline `T`/`rT`、MMT marker overlay 与长 fence；
 两个 Tinymist transcript 分别验证 native/Web backend handshake 和重启重放。
+Composer transport 变更还必须运行 `mmt_rs`/`mmt_lsp` 的 Rust 合同和独立 Workbench 的 `test:composer-edit`、`test:composer-document`、`test:composer-runtime`；不能用 Worker boot smoke 代替 selection/edit 语义证明。
 `test:web` 另在真实 VS Code Web Extension Host 中覆盖扩展激活、provider 注册和诊断发布。
 
 生产浏览器编辑器位于 `../vscode-web/`。它使用同一 MMT/Tinymist backend，但另行拥有 Monaco/VS Code

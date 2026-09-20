@@ -44,7 +44,8 @@ body {
   min-height: 0;
 }
 
-.mmt-composer-editor {
+.mmt-composer-editor,
+.mmt-preview-host-pane {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -52,8 +53,14 @@ body {
   min-height: 0;
 }
 
+.mmt-preview-host-pane {
+  position: relative;
+  overflow: hidden;
+  color: var(--vscode-editor-foreground);
+  background: var(--vscode-editor-background);
+}
+
 .mmt-composer-surface {
-  --mmt-composer-gap: 12px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -72,6 +79,7 @@ body {
 .mmt-composer-toolbar {
   display: flex;
   flex: 0 0 auto;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -81,7 +89,7 @@ body {
 }
 
 .mmt-composer-toolbar-actions,
-.mmt-composer-card-actions {
+.mmt-composer-structure-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -92,7 +100,9 @@ body {
 .mmt-composer-surface textarea,
 .mmt-composer-surface select {
   box-sizing: border-box;
-  min-height: 36px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
   color: var(--vscode-input-foreground);
   background: var(--vscode-input-background);
   border: 1px solid var(--vscode-input-border, transparent);
@@ -121,32 +131,73 @@ body {
 
 .mmt-composer-content {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 30%);
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr) minmax(200px, 28%);
   flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
 }
 
-.mmt-composer-cards {
+.mmt-composer-typeset,
+.mmt-composer-inactive {
+  position: relative;
+  grid-area: 1 / 1;
   min-width: 0;
   min-height: 0;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+
+.mmt-composer-typeset {
+  width: 100%;
+  height: 100%;
+}
+
+.mmt-composer-inactive {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 24px;
   overflow-y: auto;
-  padding: var(--mmt-composer-gap);
-  overscroll-behavior: contain;
+  text-align: center;
+}
+
+.mmt-composer-typeset[hidden],
+.mmt-composer-inactive[hidden] {
+  display: none;
 }
 
 .mmt-composer-inspector {
+  grid-area: 1 / 2;
   min-width: 0;
+  box-sizing: border-box;
   padding: 12px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   border-left: 1px solid var(--vscode-editorWidget-border);
+}
+
+.mmt-composer-inspector > label {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 6px;
+  margin-block-end: 12px;
+}
+
+.mmt-composer-inspector select {
+  width: 100%;
+}
+
+.mmt-composer-structure-actions {
+  margin-block-end: 12px;
 }
 
 .mmt-composer-inspector h2 {
   margin-block: 0 12px;
   font-size: 1rem;
+  overflow-wrap: anywhere;
 }
 
 .mmt-composer-inspector > button {
@@ -154,68 +205,14 @@ body {
   margin-block-end: 8px;
 }
 
-.mmt-composer-card {
-  box-sizing: border-box;
-  margin-block-end: var(--mmt-composer-gap);
-  padding: 12px;
-  border: 1px solid var(--vscode-editorWidget-border);
-  border-radius: 8px;
-  background: var(--vscode-editorWidget-background);
-  outline: none;
-}
-
-.mmt-composer-card[aria-selected="true"],
-.mmt-composer-card:focus-visible {
-  border-color: var(--vscode-focusBorder);
-  box-shadow: 0 0 0 1px var(--vscode-focusBorder);
-}
-
-.mmt-composer-card-message header[data-side="left"] {
-  text-align: left;
-}
-
-.mmt-composer-card-message header[data-side="right"] {
-  text-align: right;
-}
-
-.mmt-composer-card-body {
-  margin-block: 8px 12px;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.mmt-composer-card-opaque {
-  color: var(--vscode-descriptionForeground);
-  background: var(--vscode-textBlockQuote-background);
-}
-
-.mmt-composer-card-opaque[data-severity="error"] {
-  border-color: var(--vscode-inputValidation-errorBorder);
-}
-
-.mmt-composer-card-opaque[data-category="blank"] {
-  min-height: 12px;
-  padding-block: 2px;
-}
-
-.mmt-composer-insert {
-  width: 100%;
-  margin-block-end: var(--mmt-composer-gap);
-  border-style: dashed !important;
-}
-
-.mmt-composer-empty {
-  display: grid;
-  place-items: center;
-  min-height: 100%;
-  gap: 12px;
-}
 
 .mmt-composer-status {
   color: var(--vscode-descriptionForeground);
+  overflow-wrap: anywhere;
 }
 
 .mmt-composer-sheet {
+  box-sizing: border-box;
   position: absolute;
   z-index: 20;
   inset: 0;
@@ -236,7 +233,9 @@ body {
 .mmt-composer-sheet-panel {
   box-sizing: border-box;
   width: min(520px, 100%);
-  max-height: min(720px, calc(var(--mmt-composer-viewport-height, 100vh) - 32px));
+  min-width: 0;
+  min-height: 0;
+  max-height: min(720px, 100%, calc(var(--mmt-composer-viewport-height, 100vh) - 32px));
   overflow-y: auto;
   padding: 16px;
   border: 1px solid var(--vscode-editorWidget-border);
@@ -248,6 +247,7 @@ body {
 .mmt-composer-sheet-panel form,
 .mmt-composer-sheet-panel label {
   display: grid;
+  min-width: 0;
   gap: 6px;
 }
 
@@ -261,6 +261,12 @@ body {
   resize: vertical;
 }
 
+.mmt-composer-sheet-panel input,
+.mmt-composer-sheet-panel textarea,
+.mmt-composer-sheet-panel select {
+  width: 100%;
+}
+
 @media (max-width: 720px) {
   .mmt-composer-toolbar {
     align-items: flex-start;
@@ -272,6 +278,7 @@ body {
   }
 
   .mmt-composer-inspector {
+    grid-area: 2 / 1;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -280,8 +287,10 @@ body {
     border-left: 0;
   }
 
+  .mmt-composer-inspector > label,
   .mmt-composer-inspector h2,
-  .mmt-composer-inspector .mmt-composer-status {
+  .mmt-composer-inspector .mmt-composer-status,
+  .mmt-composer-inspector .mmt-composer-structure-actions {
     flex-basis: 100%;
   }
 
@@ -292,10 +301,6 @@ body {
 }
 
 @media (max-width: 550px) {
-  .mmt-composer-surface {
-    --mmt-composer-gap: 8px;
-  }
-
   .mmt-composer-toolbar {
     padding:
       max(8px, env(safe-area-inset-top))
@@ -312,13 +317,6 @@ body {
     min-height: 44px;
   }
 
-  .mmt-composer-cards {
-    padding-inline:
-      max(var(--mmt-composer-gap), env(safe-area-inset-left))
-      max(var(--mmt-composer-gap), env(safe-area-inset-right));
-    padding-block-end: max(var(--mmt-composer-gap), env(safe-area-inset-bottom));
-  }
-
   .mmt-composer-sheet {
     align-items: end;
     padding: 0;
@@ -326,7 +324,7 @@ body {
 
   .mmt-composer-sheet-panel {
     width: 100%;
-    max-height: var(--mmt-composer-viewport-height, 100vh);
+    max-height: min(100%, var(--mmt-composer-viewport-height, 100vh));
     padding:
       max(16px, env(safe-area-inset-top))
       max(16px, env(safe-area-inset-right))
@@ -334,6 +332,97 @@ body {
       max(16px, env(safe-area-inset-left));
     border-radius: 0;
   }
+}
+
+.mmt-composer-surface[data-compact-layout="true"] {
+  max-height: var(--mmt-composer-viewport-height, 100%);
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding: 4px 8px;
+  scrollbar-width: none;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar::-webkit-scrollbar,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector::-webkit-scrollbar {
+  display: none;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar > strong,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar-actions,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-structure-actions {
+  flex: 0 0 auto;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar-actions,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-structure-actions {
+  flex-wrap: nowrap;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-content {
+  grid-template: minmax(0, 1fr) auto / minmax(0, 1fr);
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector {
+  grid-area: 2 / 1;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  max-height: none;
+  padding: 4px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  border-top: 1px solid var(--vscode-editorWidget-border);
+  border-left: 0;
+  scrollbar-width: none;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector > label {
+  display: flex;
+  flex: 0 0 min(220px, calc(100% - 16px));
+  align-items: center;
+  width: auto;
+  gap: 6px;
+  margin: 0;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector > label > span,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector h2,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector .mmt-composer-status {
+  flex: 0 0 auto;
+  margin: 0;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector select {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector .mmt-composer-structure-actions,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector > button {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+}
+
+.mmt-composer-surface[data-compact-layout="true"] button,
+.mmt-composer-surface[data-compact-layout="true"] input,
+.mmt-composer-surface[data-compact-layout="true"] textarea,
+.mmt-composer-surface[data-compact-layout="true"] select {
+  min-width: 44px;
+  min-height: 44px;
 }
 
 

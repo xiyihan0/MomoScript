@@ -2,6 +2,7 @@ pub mod analysis;
 pub mod composer;
 pub mod composer_document;
 pub mod composer_structure;
+pub mod composer_text;
 pub mod diag;
 pub mod emit;
 pub mod identity;
@@ -45,6 +46,13 @@ pub use composer_structure::{
     COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, ComposerNewStatement, ComposerSpeakerChoice,
     ComposerStatementBodyInput, ComposerStructureCommand, ComposerStructureFailure,
     ComposerStructureTarget, compose_structure_edit, compose_structure_edit_with_pack,
+};
+pub use composer_text::{
+    ComposerTextEdit, ComposerTextEditEndpointAfter, ComposerTextEditing, ComposerTextEndpoint,
+    ComposerTextFailure, ComposerTextSelection, ResolvedComposerTextProjection,
+    ResolvedComposerTextSelection, compose_text_edit, compose_text_edit_with_pack,
+    project_composer_text_selection, read_composer_text_selection, resolve_composer_text_selection,
+    resolve_composer_text_source_range,
 };
 pub use emit::{
     AuthoredOriginResolution, BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent,
