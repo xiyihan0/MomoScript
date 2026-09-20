@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
-import { copyFile, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,11 +11,27 @@ const exec = promisify(execFile);
 const root = path.resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const pinPath = path.join(root, "third_party", "tinymist", "pin.json");
 const pin = JSON.parse(await readFile(pinPath, "utf8"));
+const extensionRoot = path.join(root, "editors", "vscode");
+const fixtureRoot = path.join(extensionRoot, "src", "test", "fixtures");
+const qualificationFiles = Object.freeze([
+  ["tinymist-native-evidence.json", path.join(fixtureRoot, "tinymist-native-evidence.json")],
+  ["tinymist-web-evidence.json", path.join(fixtureRoot, "tinymist-web-evidence.json")],
+  ["typst-navigation-evidence.json", path.join(fixtureRoot, "typst-navigation-evidence.json")],
+  ["tinymist-rich-provider-qualification.json", path.join(fixtureRoot, "tinymist-rich-provider-qualification.json")],
+  ["tinymist-capability-manifest.json", path.join(fixtureRoot, "tinymist-capability-manifest.json")],
+  ["tinymist-artifact-decision.json", path.join(fixtureRoot, "tinymist-artifact-decision.json")],
+  ["tinymist-native-patched.sha256", path.join(fixtureRoot, "tinymist-native-patched.sha256")],
+  ["tinymistProviderQualification.generated.ts", path.join(extensionRoot, "src", "tinymistProviderQualification.generated.ts")]
+]);
+const qualificationPaths = Object.freeze(Object.fromEntries(qualificationFiles));
 const source = path.resolve(process.env.TINYMIST_SRC ?? "");
 const mode = process.argv[2] ?? "verify";
 if (!process.env.TINYMIST_SRC) throw new Error("TINYMIST_SRC must name a Tinymist checkout");
-if (!new Set(["apply", "verify", "build-promote", "promote", "repin"]).has(mode)) {
-  throw new Error("usage: node patch-tinymist-artifacts.mjs apply|verify|build-promote|promote|repin");
+if (!new Set(["apply", "verify", "build-promote", "promote", "repin", "qualify"]).has(mode)) {
+  throw new Error("usage: node patch-tinymist-artifacts.mjs apply|verify|build-promote|promote|repin|qualify");
+}
+if (mode === "qualify" && !process.env.TINYMIST_QUALIFICATION_DIR) {
+  throw new Error("TINYMIST_QUALIFICATION_DIR must name a new qualification bundle directory");
 }
 if (pin.schema !== "mmt-tinymist-pin.v1"
   || pin.toolchain?.rust !== "1.92.0"
@@ -74,7 +90,8 @@ if (mode === "build-promote") {
 
 let promotedArtifacts = pin.artifacts;
 let runtimePublication;
-if (mode === "build-promote" || mode === "promote" || mode === "repin") {
+let qualificationBundle;
+if (mode === "build-promote" || mode === "promote" || mode === "repin" || mode === "qualify") {
   const nativePath = path.join(source, pin.artifacts.native.relativePath);
   const jsPath = path.join(source, pin.artifacts.webJs.relativePath);
   const wasmPath = path.join(source, pin.artifacts.webWasm.relativePath);
@@ -104,12 +121,23 @@ if (mode === "build-promote" || mode === "promote" || mode === "repin") {
 
   // Builds only stamp their own outputs. Canonical pin/vendor/runtime promotion
   // is a single explicit repin operation, including local immutable delivery.
+  // CI qualification derives a temporary authority from those build outputs,
+  // emits a separate bundle, and always restores the checked canonical state.
   if (mode === "repin") {
     runtimePublication = await repinArtifacts(promotedArtifacts, nativePath, jsPath, wasmPath);
+  } else if (mode === "qualify") {
+    qualificationBundle = await writeQualificationBundle(promotedArtifacts, nativePath, jsPath);
   }
 }
 
-console.log(JSON.stringify({ applied: true, mode, revision: pin.upstream.revision, artifacts: promotedArtifacts, runtimePublication }));
+console.log(JSON.stringify({
+  applied: true,
+  mode,
+  revision: pin.upstream.revision,
+  artifacts: promotedArtifacts,
+  runtimePublication,
+  qualificationBundle
+}));
 
 async function describeFile(filename) {
   const info = await stat(filename);
@@ -241,27 +269,214 @@ async function installImmutable(filename, bytes) {
   await writeFile(filename, bytes, { flag: "wx" });
 }
 
+function stableJson(value) {
+  if (Array.isArray(value)) return value.map(stableJson);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, child]) => [key, stableJson(child)]));
+  }
+  return value;
+}
+
+function checkedManifestPolicy(manifest) {
+  if (manifest?.schemaVersion !== 1 || !Array.isArray(manifest.providers)) {
+    throw new Error("Tinymist capability manifest has no checked provider policy");
+  }
+  const { artifacts: _artifacts, ...policy } = manifest;
+  return JSON.stringify(stableJson(policy));
+}
+
+function checkedProviderOptions(evidence, host) {
+  const capabilities = evidence?.initialize?.capabilities;
+  const registrations = evidence?.dynamicRegistrations;
+  if (!capabilities || typeof capabilities !== "object"
+    || !Array.isArray(registrations?.register) || !Array.isArray(registrations?.unregister)) {
+    throw new Error(`${host} Tinymist evidence has no checked provider options`);
+  }
+  return JSON.stringify(stableJson({
+    capabilities,
+    register: registrations.register,
+    unregister: registrations.unregister
+  }));
+}
+
+async function runQualification(artifacts, nativePath, jsPath) {
+  const nativeEvidencePath = qualificationPaths["tinymist-native-evidence.json"];
+  const webEvidencePath = qualificationPaths["tinymist-web-evidence.json"];
+  const richQualificationPath = qualificationPaths["tinymist-rich-provider-qualification.json"];
+  const capabilityManifestPath = qualificationPaths["tinymist-capability-manifest.json"];
+  const artifactDecisionPath = qualificationPaths["tinymist-artifact-decision.json"];
+  const nativeChecksumPath = qualificationPaths["tinymist-native-patched.sha256"];
+  const reviewedManifestPolicy = checkedManifestPolicy(
+    JSON.parse(await readFile(capabilityManifestPath, "utf8"))
+  );
+  const reviewedNativeOptions = checkedProviderOptions(
+    JSON.parse(await readFile(nativeEvidencePath, "utf8")),
+    "native"
+  );
+  const reviewedWebOptions = checkedProviderOptions(
+    JSON.parse(await readFile(webEvidencePath, "utf8")),
+    "Web"
+  );
+
+  await writeFile(nativeChecksumPath, `${artifacts.native.sha256}  tinymist\n`);
+  const probeEnv = {
+    TINYMIST_BIN: nativePath,
+    TINYMIST_WEB_PKG: path.dirname(jsPath),
+    TINYMIST_SHA256_FILE: path.join(path.dirname(nativePath), "tinymist-native-patched.sha256"),
+    TINYMIST_WEB_SHA256_FILE: path.join(path.dirname(jsPath), "SHA256SUMS")
+  };
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "build.mjs")],
+    extensionRoot, false, probeEnv);
+  await run(process.execPath, [path.join(extensionRoot, "dist", "test", "processClient.js")],
+    extensionRoot, false, {
+      ...probeEnv,
+      UPDATE_TINYMIST_EVIDENCE: "1",
+      UPDATE_TINYMIST_NATIVE_EVIDENCE: "1"
+    });
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "test-tinymist-worker.mjs")],
+    extensionRoot, false, { ...probeEnv, UPDATE_TINYMIST_EVIDENCE: "1" });
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "test-navigation-artifacts.mjs")],
+    extensionRoot, false, { ...probeEnv, UPDATE_TINYMIST_NAVIGATION_EVIDENCE: "1" });
+  const richEvidenceEnv = { ...probeEnv, UPDATE_TINYMIST_RICH_PROVIDER_EVIDENCE: "1" };
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "test-rich-provider-artifact.mjs"), "native"],
+    extensionRoot, false, richEvidenceEnv);
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "test-rich-provider-artifact.mjs"), "worker"],
+    extensionRoot, false, richEvidenceEnv);
+
+  const nativeEvidence = JSON.parse(await readFile(nativeEvidencePath, "utf8"));
+  const webEvidence = JSON.parse(await readFile(webEvidencePath, "utf8"));
+  if (nativeEvidence.artifact?.digests?.tinymist !== artifacts.native.sha256
+    || webEvidence.artifact?.digests?.["tinymist.js"] !== artifacts.webJs.sha256
+    || webEvidence.artifact?.digests?.["tinymist_bg.wasm"] !== artifacts.webWasm.sha256) {
+    throw new Error("Tinymist evidence identity does not match the observed built artifacts");
+  }
+  if (checkedProviderOptions(nativeEvidence, "native") !== reviewedNativeOptions
+    || checkedProviderOptions(webEvidence, "Web") !== reviewedWebOptions) {
+    throw new Error("Tinymist provider options changed from the reviewed qualification");
+  }
+
+  const qualification = JSON.parse(await readFile(richQualificationPath, "utf8"));
+  qualification.artifacts = {
+    ...qualification.artifacts,
+    native: artifacts.native.sha256,
+    web: artifacts.webWasm.sha256
+  };
+  await writeFile(richQualificationPath, `${JSON.stringify(qualification, null, 2)}\n`);
+
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "test-capability-manifest.mjs")],
+    extensionRoot, false, { ...probeEnv, UPDATE_TINYMIST_CAPABILITY_MANIFEST: "1" });
+  const capabilityManifest = JSON.parse(await readFile(capabilityManifestPath, "utf8"));
+  const nativeIdentity = capabilityManifest.artifacts?.native;
+  const webIdentity = capabilityManifest.artifacts?.web;
+  if (nativeIdentity?.digest !== artifacts.native.sha256
+    || webIdentity?.digest !== artifacts.webWasm.sha256
+    || typeof nativeIdentity?.backendVersion !== "string"
+    || nativeIdentity.backendVersion !== webIdentity?.backendVersion) {
+    throw new Error("Tinymist capability manifest identity does not match the observed built artifacts");
+  }
+  if (checkedManifestPolicy(capabilityManifest) !== reviewedManifestPolicy) {
+    throw new Error("Tinymist provider policy changed from the reviewed qualification");
+  }
+
+  const artifactDecision = JSON.parse(await readFile(artifactDecisionPath, "utf8"));
+  artifactDecision.artifacts = {
+    ...artifactDecision.artifacts,
+    nativeDigest: nativeIdentity.digest,
+    webDigest: webIdentity.digest,
+    backendVersion: nativeIdentity.backendVersion
+  };
+  await writeFile(artifactDecisionPath, `${JSON.stringify(artifactDecision, null, 2)}\n`);
+  await run(process.execPath, [path.join(extensionRoot, "scripts", "test-artifact-decision.mjs")],
+    extensionRoot, false, probeEnv);
+  return {
+    nativeSha256: nativeIdentity.digest,
+    webSha256: webIdentity.digest,
+    backendVersion: nativeIdentity.backendVersion
+  };
+}
+
+async function writeQualificationBundle(artifacts, nativePath, jsPath) {
+  const output = path.resolve(process.env.TINYMIST_QUALIFICATION_DIR);
+  if (!path.basename(output)) throw new Error("TINYMIST_QUALIFICATION_DIR must not be a filesystem root");
+  try {
+    await stat(output);
+    throw new Error(`qualification bundle directory already exists: ${output}`);
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+
+  const backup = await mkdtemp(path.join(tmpdir(), "mmt-tinymist-qualify-"));
+  const originals = new Map();
+  let staging;
+  let identity;
+  const failures = [];
+  try {
+    for (const [index, [, filename]] of qualificationFiles.entries()) {
+      const saved = path.join(backup, String(index));
+      try {
+        await copyFile(filename, saved);
+        originals.set(filename, saved);
+      } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+        originals.set(filename, null);
+      }
+    }
+    try {
+      identity = await runQualification(artifacts, nativePath, jsPath);
+      await mkdir(path.dirname(output), { recursive: true });
+      staging = await mkdtemp(path.join(path.dirname(output), `.${path.basename(output)}-`));
+      for (const [name, filename] of qualificationFiles) {
+        const artifact = await describeFile(filename);
+        const destination = path.join(staging, name);
+        await copyFile(filename, destination);
+        await verifyFile(destination, artifact);
+      }
+    } catch (error) {
+      failures.push(error);
+    }
+    for (const [filename, saved] of originals) {
+      try {
+        if (saved === null) await rm(filename, { force: true });
+        else await copyFile(saved, filename);
+      } catch (error) {
+        failures.push(error);
+      }
+    }
+    if (failures.length > 0) {
+      if (staging) await rm(staging, { recursive: true, force: true });
+      if (failures.length > 1) {
+        throw new AggregateError(failures, "Tinymist qualification failed or canonical files could not all be restored");
+      }
+      throw failures[0];
+    }
+    try {
+      await rename(staging, output);
+    } catch (error) {
+      await rm(staging, { recursive: true, force: true });
+      throw error;
+    }
+    return {
+      directory: output,
+      files: qualificationFiles.map(([name]) => name),
+      ...identity
+    };
+  } finally {
+    await rm(backup, { recursive: true, force: true });
+  }
+}
+
 async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
-  const extensionRoot = path.join(root, "editors", "vscode");
-  const fixtureRoot = path.join(extensionRoot, "src", "test", "fixtures");
   const runtimePath = path.join(root, "editors", "vscode-web", "src", "runtimeArtifacts.ts");
   const runtime = updateDecodedRuntime(await readFile(runtimePath, "utf8"), artifacts.webWasm);
   const vendor = path.join(extensionRoot, "vendor", `tinymist-${pin.upstream.version}`);
   const checksumsPath = path.join(root, "third_party", "tinymist", "SHA256SUMS");
-  const nativeChecksumPath = path.join(fixtureRoot, "tinymist-native-patched.sha256");
-  const nativeEvidencePath = path.join(fixtureRoot, "tinymist-native-evidence.json");
-  const webEvidencePath = path.join(fixtureRoot, "tinymist-web-evidence.json");
-  const navigationEvidencePath = path.join(fixtureRoot, "typst-navigation-evidence.json");
-  const richQualificationPath = path.join(fixtureRoot, "tinymist-rich-provider-qualification.json");
-  const capabilityManifestPath = path.join(fixtureRoot, "tinymist-capability-manifest.json");
-  const artifactDecisionPath = path.join(fixtureRoot, "tinymist-artifact-decision.json");
-  const providerQualificationPath = path.join(extensionRoot, "src", "tinymistProviderQualification.generated.ts");
   const output = path.join(root, ".tmp", "runtime-publication", "tinymist");
   const canonicalFiles = [
-    pinPath, runtimePath, checksumsPath, nativeChecksumPath,
+    pinPath, runtimePath, checksumsPath,
     path.join(vendor, "tinymist.js"), path.join(vendor, "tinymist_bg.wasm"), path.join(vendor, "SHA256SUMS"),
-    nativeEvidencePath, webEvidencePath, navigationEvidencePath,
-    richQualificationPath, capabilityManifestPath, artifactDecisionPath, providerQualificationPath
+    ...qualificationFiles.map(([, filename]) => filename)
   ];
   const backup = await mkdtemp(path.join(tmpdir(), "mmt-tinymist-repin-"));
   const originals = new Map();
@@ -299,66 +514,12 @@ async function repinArtifacts(artifacts, nativePath, jsPath, wasmPath) {
       await verifyFile(path.join(vendor, "tinymist_bg.wasm"), artifacts.webWasm);
       await writeFile(path.join(vendor, "SHA256SUMS"),
         `${artifacts.webJs.sha256}  tinymist.js\n${artifacts.webWasm.sha256}  tinymist_bg.wasm\n`);
-      await writeFile(nativeChecksumPath, `${artifacts.native.sha256}  tinymist\n`);
       await writeFile(checksumsPath, [
         ...patches.map((patch) => `${patch.sha256}  ${path.relative(path.dirname(pinPath), patch.absolutePath)}`),
         ...Object.values(artifacts).map((artifact) => `${artifact.sha256}  ${artifact.relativePath}`)
       ].join("\n") + "\n");
       await writeFile(runtimePath, promotedRuntime);
-      const probeEnv = {
-        TINYMIST_BIN: nativePath,
-        TINYMIST_WEB_PKG: path.dirname(jsPath),
-        TINYMIST_SHA256_FILE: path.join(path.dirname(nativePath), "tinymist-native-patched.sha256"),
-        TINYMIST_WEB_SHA256_FILE: path.join(path.dirname(jsPath), "SHA256SUMS")
-      };
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "build.mjs")],
-        extensionRoot, false, probeEnv);
-      await run(process.execPath, [path.join(extensionRoot, "dist", "test", "processClient.js")],
-        extensionRoot, false, {
-          ...probeEnv,
-          UPDATE_TINYMIST_EVIDENCE: "1",
-          UPDATE_TINYMIST_NATIVE_EVIDENCE: "1"
-        });
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "test-tinymist-worker.mjs")],
-        extensionRoot, false, { ...probeEnv, UPDATE_TINYMIST_EVIDENCE: "1" });
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "test-navigation-artifacts.mjs")],
-        extensionRoot, false, { ...probeEnv, UPDATE_TINYMIST_NAVIGATION_EVIDENCE: "1" });
-      const richEvidenceEnv = { ...probeEnv, UPDATE_TINYMIST_RICH_PROVIDER_EVIDENCE: "1" };
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "test-rich-provider-artifact.mjs"), "native"],
-        extensionRoot, false, richEvidenceEnv);
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "test-rich-provider-artifact.mjs"), "worker"],
-        extensionRoot, false, richEvidenceEnv);
-
-      const qualification = JSON.parse(await readFile(richQualificationPath, "utf8"));
-      qualification.artifacts = {
-        ...qualification.artifacts,
-        native: artifacts.native.sha256,
-        web: artifacts.webWasm.sha256
-      };
-      await writeFile(richQualificationPath, `${JSON.stringify(qualification, null, 2)}\n`);
-
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "test-capability-manifest.mjs")],
-        extensionRoot, false, { ...probeEnv, UPDATE_TINYMIST_CAPABILITY_MANIFEST: "1" });
-      const capabilityManifest = JSON.parse(await readFile(capabilityManifestPath, "utf8"));
-      const nativeIdentity = capabilityManifest.artifacts?.native;
-      const webIdentity = capabilityManifest.artifacts?.web;
-      if (nativeIdentity?.digest !== artifacts.native.sha256
-        || webIdentity?.digest !== artifacts.webWasm.sha256
-        || typeof nativeIdentity?.backendVersion !== "string"
-        || nativeIdentity.backendVersion !== webIdentity?.backendVersion) {
-        throw new Error("Tinymist capability manifest identity does not match the observed built artifacts");
-      }
-
-      const artifactDecision = JSON.parse(await readFile(artifactDecisionPath, "utf8"));
-      artifactDecision.artifacts = {
-        ...artifactDecision.artifacts,
-        nativeDigest: nativeIdentity.digest,
-        webDigest: webIdentity.digest,
-        backendVersion: nativeIdentity.backendVersion
-      };
-      await writeFile(artifactDecisionPath, `${JSON.stringify(artifactDecision, null, 2)}\n`);
-      await run(process.execPath, [path.join(extensionRoot, "scripts", "test-artifact-decision.mjs")],
-        extensionRoot, false, probeEnv);
+      await runQualification(artifacts, nativePath, jsPath);
       return {
         manifestPath: publication.manifestPath,
         decodedSha256: artifacts.webWasm.sha256,

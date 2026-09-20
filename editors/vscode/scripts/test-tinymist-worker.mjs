@@ -15,9 +15,10 @@ if (!packageRoot) {
   throw new Error("TINYMIST_WEB_PKG must point to the fixed tinymist-web pkg directory");
 }
 
+const canonicalPin = JSON.parse(await readFile(path.resolve(extensionRoot, "../../third_party/tinymist/pin.json"), "utf8"));
 const canonicalArtifacts = new Map([
-  ["tinymist.js", "74d4d8901e69fa36987cbfdce7f8821ae564ae83fb29e40494eacc2f82d744b1"],
-  ["tinymist_bg.wasm", "2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d"]
+  ["tinymist.js", canonicalPin.artifacts.webJs.sha256],
+  ["tinymist_bg.wasm", canonicalPin.artifacts.webWasm.sha256]
 ]);
 
 function normalize(value) {
@@ -82,7 +83,7 @@ async function verifyPinnedArtifact() {
   }
 
   const packageMetadata = JSON.parse(await readFile(path.join(packageRoot, "package.json"), "utf8"));
-  assert.equal(packageMetadata.version, "0.15.4-rc3", "vendored Tinymist package version");
+  assert.equal(packageMetadata.version, canonicalPin.upstream.version, "vendored Tinymist package version");
   return {
     packageVersion: packageMetadata.version,
     digests,

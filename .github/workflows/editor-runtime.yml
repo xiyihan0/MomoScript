@@ -159,17 +159,11 @@ jobs:
           else
             node editors/vscode/scripts/patch-tinymist-artifacts.mjs build-promote
           fi
-      - name: Verify native and Web compatibility transcripts
-        working-directory: editors/vscode
+      - name: Qualify source-built Tinymist artifacts
         env:
-          TINYMIST_BIN: ${{ runner.temp }}/tinymist/target/release/tinymist
-          TINYMIST_WEB_PKG: ${{ runner.temp }}/tinymist/crates/tinymist/pkg
-          TINYMIST_SHA256_FILE: ${{ runner.temp }}/tinymist/target/release/tinymist-native-patched.sha256
-          TINYMIST_WEB_SHA256_FILE: ${{ runner.temp }}/tinymist/crates/tinymist/pkg/SHA256SUMS
-        run: |
-          npm run test:tinymist-process
-          npm run test:tinymist-worker
-          node ./scripts/test-navigation-artifacts.mjs
+          TINYMIST_SRC: ${{ runner.temp }}/tinymist
+          TINYMIST_QUALIFICATION_DIR: ${{ github.workspace }}/.ci/tinymist/qualification
+        run: node editors/vscode/scripts/patch-tinymist-artifacts.mjs qualify
       - name: Stage immutable Tinymist artifacts
         run: |
           mkdir -p .ci/tinymist/native .ci/tinymist/web
@@ -273,6 +267,79 @@ jobs:
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
+      - &install-tinymist-qualification
+        name: Install source-built Tinymist qualification
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHash } from "node:crypto";
+          import { createReadStream } from "node:fs";
+          import { readFile, readdir } from "node:fs/promises";
+          import path from "node:path";
+          const root = process.env.GITHUB_WORKSPACE;
+          const qualification = path.join(root, ".ci", "tinymist", "qualification");
+          const expected = [
+            "tinymist-artifact-decision.json",
+            "tinymist-capability-manifest.json",
+            "tinymist-native-evidence.json",
+            "tinymist-native-patched.sha256",
+            "tinymist-rich-provider-qualification.json",
+            "tinymist-web-evidence.json",
+            "tinymistProviderQualification.generated.ts",
+            "typst-navigation-evidence.json"
+          ];
+          const entries = await readdir(qualification, { withFileTypes: true });
+          const names = entries.map(({ name }) => name).sort();
+          if (entries.some((entry) => !entry.isFile()) || JSON.stringify(names) !== JSON.stringify(expected)) {
+            throw new Error(`unexpected Tinymist qualification bundle: ${JSON.stringify(names)}`);
+          }
+          const digest = async (filename) => {
+            const hash = createHash("sha256");
+            for await (const chunk of createReadStream(filename)) hash.update(chunk);
+            return hash.digest("hex");
+          };
+          const nativeDigest = await digest(path.join(root, ".ci", "tinymist", "native", "tinymist"));
+          const webJsDigest = await digest(path.join(root, ".ci", "tinymist", "web", "tinymist.js"));
+          const webDigest = await digest(path.join(root, ".ci", "tinymist", "web", "tinymist_bg.wasm"));
+          const parse = async (name) => JSON.parse(await readFile(path.join(qualification, name), "utf8"));
+          const nativeChecksum = await readFile(path.join(qualification, "tinymist-native-patched.sha256"), "utf8");
+          if (nativeChecksum !== `${nativeDigest}  tinymist\n`) throw new Error("qualified native checksum does not match artifact");
+          const nativeEvidence = await parse("tinymist-native-evidence.json");
+          const webEvidence = await parse("tinymist-web-evidence.json");
+          const navigation = await parse("typst-navigation-evidence.json");
+          const rich = await parse("tinymist-rich-provider-qualification.json");
+          const manifest = await parse("tinymist-capability-manifest.json");
+          const decision = await parse("tinymist-artifact-decision.json");
+          for (const [label, actual, expectedDigest] of [
+            ["native evidence", nativeEvidence.artifact?.digests?.tinymist, nativeDigest],
+            ["Web JS evidence", webEvidence.artifact?.digests?.["tinymist.js"], webJsDigest],
+            ["Web WASM evidence", webEvidence.artifact?.digests?.["tinymist_bg.wasm"], webDigest],
+            ["navigation native", navigation.artifacts?.native, nativeDigest],
+            ["navigation Web", navigation.artifacts?.web, webDigest],
+            ["rich native", rich.artifacts?.native, nativeDigest],
+            ["rich Web", rich.artifacts?.web, webDigest],
+            ["manifest native", manifest.artifacts?.native?.digest, nativeDigest],
+            ["manifest Web", manifest.artifacts?.web?.digest, webDigest],
+            ["decision native", decision.artifacts?.nativeDigest, nativeDigest],
+            ["decision Web", decision.artifacts?.webDigest, webDigest]
+          ]) {
+            if (actual !== expectedDigest) throw new Error(`${label} identity does not match transported artifact`);
+          }
+          if (manifest.artifacts.native.backendVersion !== manifest.artifacts.web.backendVersion
+            || decision.artifacts?.backendVersion !== manifest.artifacts.native.backendVersion) {
+            throw new Error("qualified Tinymist backend versions disagree");
+          }
+          NODE
+          qualification=".ci/tinymist/qualification"
+          fixtures="editors/vscode/src/test/fixtures"
+          install -m 0644 "$qualification/tinymist-native-evidence.json" "$fixtures/tinymist-native-evidence.json"
+          install -m 0644 "$qualification/tinymist-web-evidence.json" "$fixtures/tinymist-web-evidence.json"
+          install -m 0644 "$qualification/typst-navigation-evidence.json" "$fixtures/typst-navigation-evidence.json"
+          install -m 0644 "$qualification/tinymist-rich-provider-qualification.json" "$fixtures/tinymist-rich-provider-qualification.json"
+          install -m 0644 "$qualification/tinymist-capability-manifest.json" "$fixtures/tinymist-capability-manifest.json"
+          install -m 0644 "$qualification/tinymist-artifact-decision.json" "$fixtures/tinymist-artifact-decision.json"
+          install -m 0644 "$qualification/tinymist-native-patched.sha256" "$fixtures/tinymist-native-patched.sha256"
+          install -m 0644 "$qualification/tinymistProviderQualification.generated.ts" \
+            "editors/vscode/src/tinymistProviderQualification.generated.ts"
       - name: Install extension dependencies
         working-directory: editors/vscode
         run: npm ci
@@ -281,7 +348,7 @@ jobs:
         env:
           TINYMIST_BIN: ${{ github.workspace }}/.ci/tinymist/native/tinymist
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
-          TINYMIST_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/native/tinymist-native-patched.sha256
+          TINYMIST_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/qualification/tinymist-native-patched.sha256
           TINYMIST_WEB_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/web/SHA256SUMS
         run: |
           chmod +x "$TINYMIST_BIN"
@@ -290,6 +357,7 @@ jobs:
           npm run test:grammar
           npm run test:position-domains
           npm run test:capability-manifest
+          npm run test:artifact-decision
           npm run test:provider-descriptors
           npm run test:provider-payload-negative
           npm run test:projected-edits
@@ -323,6 +391,7 @@ jobs:
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
+      - *install-tinymist-qualification
       - name: Install editor dependencies
         run: |
           npm ci --prefix editors/vscode
@@ -334,6 +403,9 @@ jobs:
         run: |
           npm --prefix editors/vscode run build:wasm
           npm --prefix editors/vscode run check
+          npm --prefix editors/vscode run test:capability-manifest
+          npm --prefix editors/vscode run test:artifact-decision
+          npm --prefix editors/vscode run test:provider-descriptors
           npm --prefix editors/vscode run test:pack-sync
           npm --prefix editors/vscode run test:projected-reads
           npm --prefix editors/vscode run test:tinymist-worker

@@ -55,6 +55,18 @@ Capability manifests SHALL include protocol/backend version、artifact digest、
 - AND runtime provider admission MUST accept the evidenced artifacts and reject mismatched digests or backend versions rather than rely on a separately maintained identity table
 - AND preparing local immutable delivery MUST NOT publish remote runtime objects
 
+#### Scenario: CI source builds carry their own checked qualification
+
+- GIVEN a CI build uses the pinned source, patches and toolchain but its binary digests differ from the canonical release
+- WHEN extension jobs consume that build
+- THEN the producer MUST run the complete native/Web, navigation and rich-provider qualification chain against those exact bytes
+- AND qualification MUST reject changes to reviewed provider classifications or options rather than automatically approve them
+- AND the same-run artifact MUST carry matching checksums, evidence, capability manifest, artifact decision and generated provider admission data
+- AND consumers MUST reject missing or mismatched qualification before provider registration
+- AND qualification output MUST be complete and atomic, with canonical evidence and generated modules restored on both success and failure
+- AND CI qualification MUST NOT repin, replace or publish canonical release artifacts
+- AND standalone production browser jobs MUST continue verifying their canonical vendored runtime independently
+
 ### Requirement: Shared fixtures cover protocol and real hosts
 
 Verification SHALL include shared Rust/native/WASM protocol fixtures、native process and browser Worker transcripts、Desktop Extension Host、VS Code Web Extension Host and production standalone Web interaction tests.
