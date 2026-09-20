@@ -703,7 +703,7 @@ async function sha256File(path: string): Promise<string> {
 }
 
 async function captureNativeTinymistEvidence(command: string): Promise<Record<string, unknown>> {
-  const checksumPath = process.env.TINYMIST_SHA256_FILE ?? resolve("src/test/fixtures/tinymist-native-patched.sha256");
+  const checksumPath = process.env.TINYMIST_SHA256_FILE ?? resolve("src/test/fixtures/tinymist-native.sha256");
   const checksumManifest = (await readFile(checksumPath, "utf8")).trim();
   const checksumMatch = /^([a-f0-9]{64})\s+(.+)$/.exec(checksumManifest);
   if (!checksumMatch) throw new Error(`invalid native checksum manifest: ${checksumPath}`);

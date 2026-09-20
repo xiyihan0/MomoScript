@@ -135,7 +135,7 @@ Median render-project payload: 208,599 B → 47,418 B. Warm shadow operations: m
 - **Latest-wins scheduler: promoted.** The burst published only the newest version and the soak stayed within every configured bound.
 - **Compilation-only stable compiler mount and render delta: not promoted by this baseline.** Typst compile p50 improved 34.5%, 50.6%, and 49.1% for small/medium/large; small and large remained below the required 50%. Large p95 improved 20.6%, below the required 35%. Total visual-ready p50 improved only 6.9–8.5%, below 30%. This decision predates and is superseded by the persistent renderer qualification below.
 - **Incremental Rust parser/semantic frontend: skipped.** Full parse/semantic/resolve is 0 ms p50 for every warm fixture and at most 1 ms p95. The remaining Rust emission/index work is 1–4 ms p50 and below 0.4% of visual-ready latency. Parser islands and semantic checkpoints cannot materially close the missed end-to-end target; the clean full parser remains the permanent path.
-- **Tinymist `diff-v1`: unavailable at this baseline.** Unpatched Tinymist 0.15.2 exposed no qualified `diff-v1` producer preserving selectable text, debug locations, page identity, and immutable-artifact navigation. The subsequent pinned producer patch and qualification below supersede this result.
+- **Tinymist `diff-v1`: unavailable at this baseline.** Upstream Tinymist 0.15.2 exposed no qualified `diff-v1` producer preserving selectable text, debug locations, page identity, and immutable-artifact navigation. The subsequent implementation committed to the pinned fork source and its qualification below supersede this historical result.
 
 ## Recorded failures and corrections
 

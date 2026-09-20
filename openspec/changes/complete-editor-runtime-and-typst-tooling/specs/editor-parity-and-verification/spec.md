@@ -57,7 +57,7 @@ Capability manifests SHALL include protocol/backend version、artifact digest、
 
 #### Scenario: CI source builds carry their own checked qualification
 
-- GIVEN a CI build uses the pinned source, patches and toolchain but its binary digests differ from the canonical release
+- GIVEN a CI build uses the clean full-SHA-pinned fork source and pinned toolchain but its binary digests differ from the canonical release
 - WHEN extension jobs consume that build
 - THEN the producer MUST run the complete native/Web, navigation and rich-provider qualification chain against those exact bytes
 - AND qualification MUST reject changes to reviewed provider classifications or options rather than automatically approve them

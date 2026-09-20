@@ -121,12 +121,12 @@
 - [x] 11.1 Add pure composerTextGeometry hitTest/caret/selection/move ports bound to URI/version/digest、renderKey、renderer session/generation and returning exact endpoints/page-normalized boxes/affinity
 - [x] 11.2 Reuse `.tsel` normalization、glyph bounds、preview text location and source mapping solely for exact space/span correspondence; no full-page equal-text search、midpoint or average-width fallback
 - [x] 11.3 Add strict pure `mmt/composerTextProjection` using existing PreviewComposerTarget identity fields minus location plus selection, returning anchor/focus/separate reversible segments through source-map origins and escaped-character boundaries
-- [x] 11.4 Implement required renderer `hitTestText`/`locateCaret`/`locateRange` actions in existing `0002-mmt-preview-renderer.patch`, with committed identity echo、group transforms、glyph clusters/advances、escape offsets and multiple occurrences
+- [x] 11.4 Implement required renderer `hitTestText`/`locateCaret`/`locateRange` actions in the Tinymist fork source, with committed identity echo、group transforms、glyph clusters/advances、escape offsets and multiple occurrences
 - [x] 11.5 Reject ambiguous geometry and keep empty label-bound entry; support visual up/down preferredX、word/Home/End、cross-line/page drag and no adjacent-line rectangle spill
 - [x] 11.6 Update renderer protocol/capabilities/session and native/WASM process/worker consumers together
-- [x] 11.7 Extend capture to compute renderer patch pin, then run managed apply/verify/build-promote/repin with owning toolchain; no manual patch/artifact hashes or vendor edits
-- [x] 11.8 Extend repin/publication prepare to compute decoded identity and consume encoded manifest digest/size/URL; publish only new immutable runtime digest when authorized credentials exist, not the site
-- [x] 11.9 Make Workbench runtime-delivery verify and consume newly built artifacts rather than old CDN files; missing credentials remain an explicit delivery blocker
+- [x] 11.7 Commit and push the renderer source normally, pin its full fork SHA, then run clean-checkout build-promote/repin with the owning toolchain; no patch capture/apply or manual artifact/vendor hashes
+- [x] 11.8 Extend repin/publication preparation to compute decoded identity and consume encoded manifest digest/size/URL while retaining `published: false`; do not publish a CDN object or site
+- [x] 11.9 Make Workbench runtime-delivery verify and consume the newly prepared same-origin artifact rather than an old CDN runtime
 - [x] 11.10 Re-run the full live sample matrix after implementation: exact hits including offset zero/end、caret ≤1 CSS px、selection intended lines only、repeated text and zoom/reflow/resync correspondence
 
 ## 12. Ordered input session IME clipboard and native history

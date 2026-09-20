@@ -2,17 +2,23 @@ import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { requireTrustedTinymistGrammarNotice } from "./tinymist-promotion-boundaries.mjs";
+import {
+  pinnedTinymistSource,
+  pinnedTinymistUpstream,
+  requireTrustedTinymistGrammarNotice
+} from "./tinymist-promotion-boundaries.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const pin = JSON.parse(await readFile(new URL("../../../third_party/tinymist/pin.json", import.meta.url), "utf8"));
+pinnedTinymistSource(pin);
+const upstream = pinnedTinymistUpstream(pin);
 const typstPin = JSON.parse(await readFile(new URL("../../../third_party/typst-ts/pin.json", import.meta.url), "utf8"));
 const typstChecksums = await readChecksumManifest(
   fileURLToPath(new URL("../../../third_party/typst-ts/SHA256SUMS", import.meta.url)),
   "typst.ts"
 );
 const typstRendererArtifacts = [typstPin.artifacts.rendererBinding, typstPin.artifacts.rendererWasm];
-const tinymistVendor = path.join("vendor", `tinymist-${pin.upstream.version}`);
+const tinymistVendor = path.join("vendor", `tinymist-${upstream.version}`);
 const tinymistArtifacts = [pin.artifacts.webJs, pin.artifacts.webWasm].map((artifact) => ({
   name: path.basename(artifact.relativePath),
   size: artifact.size,
@@ -32,8 +38,8 @@ for (const { name, digest } of tinymistArtifacts) {
 const tinymistPackage = JSON.parse(
   await readFile(path.join(root, tinymistVendor, "package.json"), "utf8")
 );
-if (tinymistPackage.name !== "tinymist" || tinymistPackage.version !== pin.upstream.version) {
-  throw new Error(`${tinymistVendor}/package.json does not match Tinymist ${pin.upstream.version}`);
+if (tinymistPackage.name !== "tinymist" || tinymistPackage.version !== upstream.version) {
+  throw new Error(`${tinymistVendor}/package.json does not match Tinymist ${upstream.version}`);
 }
 const tinymistGrammar = JSON.parse(
   await readFile(path.join(root, tinymistVendor, "typst.tmLanguage.json"), "utf8")

@@ -56,7 +56,7 @@ Phase 3 was not started: full parse/semantic/resolve measured 0 ms p50 for every
 
 ## 5. Qualified incremental renderer
 
-- [x] 5.1 Patch pinned Tinymist 0.15.8 with `mmt/previewRenderer.v1`, committed/staged generations, bounded sessions, and native/Web parity transcripts
+- [x] 5.1 Implement `mmt/previewRenderer.v1`, committed/staged generations and bounded sessions in the full-SHA-pinned Tinymist fork source, with native/Web parity transcripts
 - [x] 5.2 Pin typst.ts 0.8.0-rc3 renderer binding/WASM and verify content-addressed offline delivery
 - [x] 5.3 Make the visible Webview the only DOM/viewport owner and load its runtime through the local Vite asset pipeline
 - [x] 5.4 Add a persistent viewport-windowed render session using `new`/`diff-v1`, `retrievePagesInfo`, `renderSvgDiff`, and exported `patchRoot`

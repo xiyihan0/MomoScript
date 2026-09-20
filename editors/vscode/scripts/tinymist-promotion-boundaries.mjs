@@ -3,33 +3,79 @@ import { chmod, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promise
 import { tmpdir } from "node:os";
 import path from "node:path";
 
-export function trustedTinymistVsix(pin) {
-  const version = pin?.upstream?.version;
-  const repository = pin?.upstream?.repository;
-  const release = pin?.release;
-  const asset = release?.universalVsix;
-  if (typeof version !== "string" || release?.tag !== `v${version}`) {
-    throw new Error("Tinymist universal VSIX release tag does not match the maintained upstream version");
+export function pinnedTinymistSource(pin) {
+  if (pin?.schema !== "mmt-tinymist-pin.v2" || Object.hasOwn(pin, "patches")) {
+    throw new Error("Tinymist source requires a patch-free mmt-tinymist-pin.v2 pin");
   }
-  if (asset?.name !== "tinymist-universal.vsix" || !/^[0-9a-f]{64}$/.test(asset?.sha256 ?? "")) {
-    throw new Error("Tinymist universal VSIX has no trusted release asset identity");
+  const repository = pin?.source?.repository;
+  const revision = pin?.source?.revision;
+  let repositoryUrl;
+  try {
+    repositoryUrl = new URL(repository);
+  } catch {
+    throw new Error("Tinymist source repository is not a valid URL");
   }
+  if (repositoryUrl.protocol !== "https:" || repositoryUrl.hostname !== "github.com"
+    || repositoryUrl.search || repositoryUrl.hash || !repositoryUrl.pathname.endsWith(".git")
+    || !/^\/[^/]+\/[^/]+\.git$/.test(repositoryUrl.pathname)) {
+    throw new Error("Tinymist source repository must be an HTTPS GitHub clone URL");
+  }
+  if (!/^[0-9a-f]{40}$/.test(revision ?? "")) {
+    throw new Error("Tinymist source revision must be a full Git commit SHA");
+  }
+  return Object.freeze({ repository, revision });
+}
 
+export function requirePinnedTinymistCheckout(pin, actualHead, trackedStatus) {
+  const source = pinnedTinymistSource(pin);
+  if (actualHead.trim() !== source.revision) {
+    throw new Error(`Tinymist HEAD ${actualHead.trim()} does not match source revision ${source.revision}`);
+  }
+  if (trackedStatus.trim()) {
+    throw new Error("Tinymist checkout has tracked source changes");
+  }
+  return source;
+}
+
+export function pinnedTinymistUpstream(pin) {
+  const repository = pin?.upstream?.repository;
+  const revision = pin?.upstream?.revision;
+  const version = pin?.upstream?.version;
   let repositoryUrl;
   try {
     repositoryUrl = new URL(repository);
   } catch {
     throw new Error("Tinymist upstream repository is not a valid URL");
   }
+  const repositoryPath = repositoryUrl.pathname.replace(/\/$/, "").replace(/\.git$/, "");
   if (repositoryUrl.protocol !== "https:" || repositoryUrl.hostname !== "github.com"
-    || repositoryUrl.search || repositoryUrl.hash) {
-    throw new Error("Tinymist universal VSIX must come from the pinned GitHub repository");
+    || repositoryUrl.username || repositoryUrl.password || repositoryUrl.port
+    || repositoryUrl.search || repositoryUrl.hash
+    || !/^\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9._-]+$/.test(repositoryPath)) {
+    throw new Error("Tinymist upstream repository must be an HTTPS GitHub repository URL");
   }
-  const repositoryPath = repositoryUrl.pathname.replace(/\.git$/, "").replace(/\/$/, "");
-  if (!/^\/[^/]+\/[^/]+$/.test(repositoryPath)) {
-    throw new Error("Tinymist upstream repository path is invalid");
+  if (!/^[0-9a-f]{40}$/.test(revision ?? "")) {
+    throw new Error("Tinymist upstream revision must be a full lowercase Git commit SHA");
+  }
+  if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.test(version ?? "")) {
+    throw new Error("Tinymist upstream version must be a valid release version");
+  }
+  return Object.freeze({ repository, revision, version });
+}
+
+export function trustedTinymistVsix(pin) {
+  const { repository, version } = pinnedTinymistUpstream(pin);
+  const release = pin?.release;
+  const asset = release?.universalVsix;
+  if (release?.tag !== `v${version}`) {
+    throw new Error("Tinymist universal VSIX release tag does not match the maintained upstream version");
+  }
+  if (asset?.name !== "tinymist-universal.vsix" || !/^[0-9a-f]{64}$/.test(asset?.sha256 ?? "")) {
+    throw new Error("Tinymist universal VSIX has no trusted release asset identity");
   }
 
+  const repositoryUrl = new URL(repository);
+  const repositoryPath = repositoryUrl.pathname.replace(/\/$/, "").replace(/\.git$/, "");
   return Object.freeze({
     version,
     tag: release.tag,

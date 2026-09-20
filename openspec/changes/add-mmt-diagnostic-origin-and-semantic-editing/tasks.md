@@ -42,10 +42,10 @@
 
 ## 7. Fixed artifacts
 
-- [x] 7.1 Recapture the maintained renderer patch and update its pin digest
-- [x] 7.2 Verify and build-promote native/WASM Tinymist artifacts
+- [x] 7.1 Land the maintained renderer implementation as an ordinary fork commit and pin its full source SHA
+- [x] 7.2 Build-promote native/WASM Tinymist artifacts from the clean exact source checkout
 - [x] 7.3 Pass structured diagnostic, generation recovery, process/Worker parity, Desktop, and Web Extension Host transcripts
-- [x] 7.4 Repin through the artifact script and verify updated vendored package, fixtures, sizes, and SHA-256 inventory
+- [x] 7.4 Repin through `build-tinymist-artifacts.mjs` and verify updated vendored package, fixtures, sizes, and SHA-256 inventory
 
 ## 8. Verification and closure
 

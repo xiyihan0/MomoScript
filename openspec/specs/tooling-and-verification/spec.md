@@ -88,3 +88,55 @@ Python DSL、legacy JSON renderer 与 NoneBot 历史表面只在被明确修改�
 - WHEN 准备该改动的验证
 - THEN 作者 SHALL 在受影响的 npm project 中运行对应 transcript、browser、Extension Host 或 build 检查
 - AND change spec MUST 明确记录 ABI、runtime 和平台特定的验收边界
+
+### Requirement: Tinymist executable source and release provenance are independently pinned
+
+Tinymist 的可执行源码与官方发布 provenance SHALL 使用 `third_party/tinymist/pin.json` 的 `mmt-tinymist-pin.v2` 合同分开管理。`source.repository` SHALL 为 `https://github.com/xiyihan0/tinymist.git`，`source.revision` SHALL 为完整、不可变的 Git commit；`upstream.repository`、`upstream.revision` 与 `upstream.version` 只记录官方 base/release provenance，并与受信 universal VSIX metadata 一起用于认证官方发布输入。Pin MUST NOT 包含 patch 列表，产品仓库 MUST NOT 保存或应用 Tinymist source patch，也 MUST NOT 以 submodule 代替 source pin。
+
+#### Scenario: Preparing an executable source checkout
+
+- GIVEN `pin.json` names one fork repository and a 40-character lowercase full `source.revision`
+- WHEN native 或 Web artifact producer starts
+- THEN `TINYMIST_SRC` MUST name a direct checkout whose `HEAD` exactly equals `source.revision`
+- AND the checkout MUST have no tracked source dirt before build、promotion、repin or qualification
+- AND the producer MUST fail closed rather than apply a patch、switch to `upstream.revision` or build another branch tip
+- AND branch `mmt/0.15.8` SHALL carry the maintained history but MUST NOT replace the full commit as build identity
+
+#### Scenario: Changing maintained Tinymist source
+
+- GIVEN MomoScript needs a renderer、protocol、package-host change or an upstream sync
+- WHEN the Tinymist source owner prepares that change
+- THEN the owner MUST create and push ordinary commits in the `xiyihan0/tinymist` fork and move the product source pin to the resulting full commit
+- AND an upstream sync MUST remain an explicit source-owner commit or merge in that fork
+- AND pushing source MUST NOT imply product qualification、vendor refresh、runtime publication or a completed release
+
+### Requirement: One producer owns Tinymist build, qualification and repin
+
+`editors/vscode/scripts/build-tinymist-artifacts.mjs` SHALL be the only product-side Tinymist artifact producer. Its supported modes SHALL be `build-promote`、`promote`、`repin` and `qualify`; no capture/apply/verify patch workflow SHALL remain.
+
+#### Scenario: Promoting or repinning artifacts
+
+- GIVEN `TINYMIST_SRC` is the clean exact `source.revision` checkout
+- WHEN the owner runs `build-promote`
+- THEN the command MUST build native/Web outputs with the pinned toolchain and stamp their derived artifact identities
+- WHEN the owner runs `promote`
+- THEN the command MUST reuse only existing outputs from the same exact checkout and stamp their derived identities without rebuilding
+- WHEN the owner runs `repin`
+- THEN `TINYMIST_VSIX` MUST name the universal VSIX authenticated by the official release metadata
+- AND repin MUST run the owning qualification gates before atomically accepting canonical pin、evidence、generated admission policy、native fixture and vendored Web/grammar updates
+- AND source fork bytes MUST NOT substitute for official VSIX grammar/license provenance
+
+#### Scenario: Producing CI qualification evidence
+
+- GIVEN `TINYMIST_QUALIFICATION_DIR` names a new output directory
+- WHEN the owner runs `qualify`
+- THEN it MUST emit an atomic qualification bundle for the artifacts built from the exact source pin
+- AND it MUST restore canonical evidence、generated modules and pre-existing candidate output on success or failure
+- AND consumers MUST authenticate the bundle against the corresponding artifacts rather than trust a build-local checksum alone
+
+#### Scenario: Publication remains a separate authority
+
+- GIVEN build、qualification or repin succeeds
+- WHEN no separately authorized runtime publication command has completed its public verification
+- THEN no CDN object or site release MAY be claimed as published
+- AND product qualification、vendor refresh、same-origin delivery preparation and remote publication MUST remain distinct ownership steps

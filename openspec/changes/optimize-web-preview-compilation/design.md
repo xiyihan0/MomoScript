@@ -186,7 +186,7 @@ A lightweight renderer-backed `PreviewArtifact` stores immutable identity, artif
 
 ## 7. Phase 4: Qualified incremental renderer data plane
 
-Tinymist 0.15.8 is patched to expose a host-neutral `mmt/previewRenderer.v1` producer backed by `IncrSvgDocServer`. typst.ts 0.8.0-rc3 is pinned as the consumer. JSON-RPC transports the complete base64-encoded raw frame, including its `new,` or `diff-v1,` prefix, with byte length, digest, source digest, generation, and base generation validated before Webview delivery.
+The Tinymist 0.15.8 fork source pinned by full commit implements a host-neutral `mmt/previewRenderer.v1` producer backed by `IncrSvgDocServer`. typst.ts 0.8.0-rc3 is pinned as the consumer. JSON-RPC transports the complete base64-encoded raw frame, including its `new,` or `diff-v1,` prefix, with byte length, digest, source digest, generation, and base generation validated before Webview delivery.
 
 The host registers the same pinned font byte set used by the browser compiler as immutable, content-digested file records. The producer rebuilds its session font resolver from those records plus its base resolver, with the pinned records taking precedence; absent, invalid, oversized, or digest-mismatched fonts fail registration rather than producing missing or geometrically divergent glyph runs.
 

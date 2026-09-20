@@ -9,7 +9,9 @@ import { fileURLToPath } from "node:url";
 import {
   beginDistTransaction,
   commitDistTransaction,
+  pinnedTinymistUpstream,
   readTrustedTinymistVsix,
+  requirePinnedTinymistCheckout,
   requireTrustedTinymistGrammarNotice,
   restoreDistTransaction
 } from "./tinymist-promotion-boundaries.mjs";
@@ -18,6 +20,57 @@ const pin = JSON.parse(await readFile(
   fileURLToPath(new URL("../../../third_party/tinymist/pin.json", import.meta.url)),
   "utf8"
 ));
+
+test("upstream provenance is normalized and rejects malformed or missing identity", () => {
+  const normalized = pinnedTinymistUpstream({
+    ...pin,
+    upstream: { ...pin.upstream, ignored: "not provenance" }
+  });
+  assert.deepEqual(normalized, pin.upstream);
+  assert.equal(Object.isFrozen(normalized), true);
+  assert.throws(
+    () => pinnedTinymistUpstream({ ...pin, upstream: { ...pin.upstream, revision: undefined } }),
+    /full lowercase Git commit SHA/
+  );
+  assert.throws(
+    () => pinnedTinymistUpstream({ ...pin, upstream: { ...pin.upstream, revision: pin.upstream.revision.slice(1) } }),
+    /full lowercase Git commit SHA/
+  );
+  assert.throws(
+    () => pinnedTinymistUpstream({ ...pin, upstream: { ...pin.upstream, revision: "A".repeat(40) } }),
+    /full lowercase Git commit SHA/
+  );
+  assert.throws(
+    () => pinnedTinymistUpstream({ ...pin, upstream: { ...pin.upstream, repository: "https://example.com/tinymist.git" } }),
+    /HTTPS GitHub repository URL/
+  );
+  assert.throws(
+    () => pinnedTinymistUpstream({ ...pin, upstream: { ...pin.upstream, version: "" } }),
+    /valid release version/
+  );
+});
+
+test("source checkout boundary rejects the wrong revision and tracked changes", () => {
+  assert.throws(
+    () => requirePinnedTinymistCheckout(pin, "0".repeat(40), ""),
+    /does not match source revision/
+  );
+  assert.throws(
+    () => requirePinnedTinymistCheckout(pin, pin.source.revision, " M crates/tinymist/src/lib.rs\n"),
+    /tracked source changes/
+  );
+  assert.deepEqual(
+    requirePinnedTinymistCheckout(pin, `${pin.source.revision}\n`, ""),
+    pin.source
+  );
+});
+
+test("source pin boundary rejects legacy patch metadata", () => {
+  assert.throws(
+    () => requirePinnedTinymistCheckout({ ...pin, patches: [] }, pin.source.revision, ""),
+    /patch-free mmt-tinymist-pin\.v2/
+  );
+});
 
 async function absent(filename) {
   try {

@@ -458,6 +458,6 @@ The existing renderer SHALL be characterized against exact hit offsets、caret g
 - GIVEN new renderer actions are implemented
 - WHEN native/WASM protocol、capability、session and process/worker consumers are updated
 - THEN strict contracts MUST change together
-- AND existing capture/managed build-promote/repin/publication scripts MUST compute patch and artifact identities
+- AND the full fork source pin plus managed build-promote/repin/publication scripts MUST compute source and artifact identities without a patch capture/apply path
 - AND runtime delivery MUST verify and consume the new immutable artifact, not an old CDN runtime
 - AND no hand-written checksum、new sidecar、Tylina code or separate typst.ts fork MAY substitute for that delivery

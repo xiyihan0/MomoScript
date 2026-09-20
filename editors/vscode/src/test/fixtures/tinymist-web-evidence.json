@@ -6,8 +6,8 @@
       "entries": [
         {
           "name": "tinymist_bg.wasm",
-          "sha256": "0e651378d9351ba59d5f32e407da9e4aaccc77d9923fe740012c6b5e34cf771b",
-          "size": 33016651
+          "sha256": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8",
+          "size": 33016658
         },
         {
           "name": "tinymist.js",
@@ -18,7 +18,7 @@
       "path": "vendor/tinymist-0.15.8/SHA256SUMS"
     },
     "digests": {
-      "tinymist_bg.wasm": "0e651378d9351ba59d5f32e407da9e4aaccc77d9923fe740012c6b5e34cf771b",
+      "tinymist_bg.wasm": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8",
       "tinymist.js": "b0b1019417d3a33b36ada50ab8ad6f6111734e7fc5f56c9642f2d41b1946a518"
     },
     "host": "web-worker",

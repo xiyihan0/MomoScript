@@ -1,5 +1,9 @@
 {
-  "schema": "mmt-tinymist-pin.v1",
+  "schema": "mmt-tinymist-pin.v2",
+  "source": {
+    "repository": "https://github.com/xiyihan0/tinymist.git",
+    "revision": "41da5a87439017ea43003431f700b356ffa68720"
+  },
   "upstream": {
     "repository": "https://github.com/Myriad-Dreamin/tinymist.git",
     "revision": "32f908199ee17ea295512bbc27166e890c438175",
@@ -16,16 +20,6 @@
     "rust": "1.92.0",
     "wasmPack": "0.15.0"
   },
-  "patches": [
-    {
-      "path": "third_party/tinymist/patches/0001-mmt-host-package-callback.patch",
-      "sha256": "de9118c107b112a5e4973641234634fd2cdd713f36fbe894532c042d3b7fdfde"
-    },
-    {
-      "path": "third_party/tinymist/patches/0002-mmt-preview-renderer.patch",
-      "sha256": "595fb0c7120ddaad263aff291154d76c8dbf9cc85f4a6222ff5e3e08b3fe7c1c"
-    }
-  ],
   "build": {
     "native": "cargo +1.92.0 build --locked --release --bin tinymist",
     "web": "RUSTUP_TOOLCHAIN=1.92.0 wasm-pack build --target web --release -- --locked --no-default-features --features web,no-content-hint",
@@ -35,7 +29,7 @@
     "native": {
       "relativePath": "target/release/tinymist",
       "size": 77136664,
-      "sha256": "76a2c53911c9ac12f33113c4c647897f4fe02095196c80d8681ed446614f5f91"
+      "sha256": "c13aea9c65318bba6a9215234d559cdcc7bee48a0cd2f7849e7196ca226cc696"
     },
     "webJs": {
       "relativePath": "crates/tinymist/pkg/tinymist.js",
@@ -44,8 +38,8 @@
     },
     "webWasm": {
       "relativePath": "crates/tinymist/pkg/tinymist_bg.wasm",
-      "size": 33016651,
-      "sha256": "0e651378d9351ba59d5f32e407da9e4aaccc77d9923fe740012c6b5e34cf771b"
+      "size": 33016658,
+      "sha256": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8"
     }
   },
   "protocol": {

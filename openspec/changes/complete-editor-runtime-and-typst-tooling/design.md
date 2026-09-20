@@ -50,8 +50,8 @@ Before specifying a provider as required for implementation, build scripts SHALL
 
 The checked capability baseline identifies exact canonical artifact bytes. Native and
 browser Worker release builds are not assumed to be bit-reproducible across checkout
-paths, host linkers, or optimizer builds. CI pins the upstream revision, maintained
-patch digest and Rust/wasm-pack toolchains, computes SHA-256 manifests for the produced
+paths, host linkers, or optimizer builds. CI pins the full fork source commit and
+Rust/wasm-pack toolchains, computes SHA-256 manifests for the produced
 artifacts, verifies each artifact against its run-local manifest, and compares
 normalized behavior with the checked baseline while excluding only runtime digest and
 size fields. Those manifests travel with the immutable artifacts to downstream jobs;
@@ -616,7 +616,7 @@ mmt/typstPackageResponse.v1 =
   | Cancelled { request_id }
 ```
 
-The callback is accepted only from the active backend generation and current project snapshot. Cancellation propagates to shared fetch/extraction work without cancelling remaining dependents. Stage 0 must capture native and Web package-callback transcripts; if either fixed artifact cannot issue the logical callback, artifact upgrade or a maintained patch is a prerequisite and package implementation does not start.
+The callback is accepted only from the active backend generation and current project snapshot. Cancellation propagates to shared fetch/extraction work without cancelling remaining dependents. Stage 0 must capture native and Web package-callback transcripts; if either fixed artifact cannot issue the logical callback, an artifact upgrade implemented as an ordinary commit in the pinned fork source is a prerequisite and package implementation does not start.
 
 ### 9.2 Package identity
 

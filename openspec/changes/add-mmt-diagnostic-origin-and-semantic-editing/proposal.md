@@ -41,7 +41,7 @@ The language core already owns immutable analysis snapshots, exact UTF-8 syntax 
 - Affected stable capability spec: `openspec/specs/language-tooling/spec.md`
 - Rust language core: `mmt_rs/src/emit.rs`, projection diagnostic mapping, lowering/analysis semantic data
 - Rust language service: `mmt_lsp/src/service.rs`, `mmt_lsp/src/server.rs`, native/WASM protocol transcripts
-- Fixed renderer source patch: `third_party/tinymist/patches/0002-mmt-preview-renderer.patch`
+- Fixed renderer implementation in the source commit pinned by `third_party/tinymist/pin.json`
 - Shared extension/runtime: `editors/vscode/src/previewRendererProtocol.ts`, projected semantic providers and language-client middleware
 - Production Workbench: preview renderer session, diagnostic mapping/publication, preview status, and lifecycle
 - Fixed native/WASM artifacts, pin metadata, vendored Web package, and SHA-256 inventory

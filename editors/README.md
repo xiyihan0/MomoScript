@@ -76,8 +76,8 @@ MMT TextDocument / native model and undo stack
 | native Tinymist transport | `npm --prefix editors/vscode run test:tinymist-process` | `TINYMIST_BIN` 指向经过 pin/digest 验证的 binary | `tinymist-compatibility`、`extension-desktop` |
 | Web Tinymist 与 VS Code Web Host | `npm --prefix editors/vscode run test:tinymist-worker`；`npm --prefix editors/vscode run test:web` | `TINYMIST_WEB_PKG` 指向经过 pin/digest 验证的 web package | `tinymist-compatibility`、`extension-web` |
 | Tinymist promotion 回滚与 VSIX 来源 | `npm --prefix editors/vscode run test:tinymist-promotion-boundaries` | Node；验证拒绝伪造 VSIX、只从已认证快照提取、恢复既有或缺省 dist | `tinymist-compatibility` |
-| Tinymist 嵌套 frame 正反定位 | 在已应用维护补丁的 Tinymist 源码目录运行 `cargo test --locked --release -p tinymist-query jump::tests` | 固定 Rust；真实编译 fixture 与 JSON 坐标往返，不覆盖 legacy query 尚不支持的非 identity group transform | `tinymist-compatibility` |
-| LSP 坐标浮点往返精度 | 在同一 Tinymist 源码目录运行 `cargo test --locked --release -p sync-ls --features lsp lsp::tests::directed_preview_coordinate_survives_lsp_json -- --exact` | 固定 Rust；真实 Content-Length framing 与 JSON request 解码，不由 query 的 dev feature 代替生产 parser 验证 | `tinymist-compatibility` |
+| Tinymist 嵌套 frame 正反定位 | 在 `pin.json` `source.revision` 指向的 clean Tinymist fork checkout 中运行 `cargo test --locked --release -p tinymist-query jump::tests` | 固定 Rust；真实编译 fixture 与 JSON 坐标往返，不覆盖 legacy query 尚不支持的非 identity group transform | `tinymist-compatibility` |
+| LSP 坐标浮点往返精度 | 在同一 clean exact-source checkout 中运行 `cargo test --locked --release -p sync-ls --features lsp lsp::tests::directed_preview_coordinate_survives_lsp_json -- --exact` | 固定 Rust；真实 Content-Length framing 与 JSON request 解码，不由 query 的 dev feature 代替生产 parser 验证 | `tinymist-compatibility` |
 | pack 同步重试与缓存回退 | `npm --prefix editors/vscode run test:pack-sync` | Node | `extension-web` |
 | 投影信任边界 | `npm --prefix editors/vscode run test:projected-reads` | 共享 fixture 随仓库提供 | `extension-web` |
 | Workbench 静态检查、runtime delivery 与 build | `npm --prefix editors/vscode-web run check`；`npm --prefix editors/vscode-web run test:runtime-delivery`；`npm --prefix editors/vscode-web run build` | 构建机可读取固定 runtime source；prebuild 将校验后的 Brotli 对象写入同源、content-addressed build output | `extension-web` 及浏览器 jobs |
@@ -93,15 +93,42 @@ MMT TextDocument / native model and undo stack
 
 开发态依赖扫描覆盖 HTML、独立 preview webview 和 Worker 入口；仅对 `node_modules` 中实际预打包的依赖应用 import-meta URL 重写，本地 wasm-bindgen glue 保留相对资产 URL。冷启动生命周期验证要求首次加载只有一个 document generation，不能靠已有 Vite 缓存掩盖依赖扫描失败后的自动重载。
 
+materialization journey 的活动文档/布局恢复先经过既有 `prepareForReload` 持久化边界；预览就绪不能代替 native Workbench storage flush。该验证保留原生编辑器恢复优先级，不承诺未经落盘的瞬时/崩溃重载会恢复最新布局。
+
 GUI journey 中的 IME 是在真实 Chrome 内派发的 synthetic composition/input 事件，窄屏与软键盘场景是 viewport shrink。CI/当前自动环境不提供物理中文 OS 输入法或真实移动设备的软件键盘，因此候选窗、提交/取消与软件键盘行为仍未验证；不能把自动 journey 扩大为物理输入证明。
 
 ## 运行时产物与来源
 
 - 生产浏览器 journeys 使用仓库中经过校验的 [`editors/vscode/vendor/tinymist-0.15.8/`](./vscode/vendor/tinymist-0.15.8/) pinned fixtures；构建前由 `verify-web-vendor.mjs` 校验浏览器 language-service artifacts，并要求 grammar notice 与 `third_party/tinymist/pin.json` 中受信的官方 universal VSIX release tag、asset 名称和 SHA-256 完全一致。
-- `tinymist-compatibility` 从 workflow 固定 revision、补丁与工具链构建 native binary/Web package。CI 构建字节不一定等同于 canonical release；必须先运行完整 native/Web、navigation、rich-provider 资格验证，拒绝既有 provider 策略漂移，再把实际 SHA-256、证据和生成的准入模块一起上传为 `tinymist-pinned-linux-x64`。`extension-desktop` / `extension-web` 只采用该轮 artifact 对应的资格证明；独立 Workbench 的 production/lifecycle/PWA jobs 仍使用 canonical vendored 产物，不把 runner 构建当发布来源。
-- 更新已构建的 Tinymist 制品使用 `TINYMIST_SRC=/path/to/patched-source TINYMIST_VSIX=/path/to/tinymist-universal.vsix node editors/vscode/scripts/patch-tinymist-artifacts.mjs repin`（需要扩展 npm 依赖、Playwright Chromium 与 `unzip`）。输入 VSIX 必须先匹配 `pin.json` 中受信的官方 release asset SHA-256，grammar/license 随后只从同一私有只读字节快照提取。该命令在同一回滚事务内运行 native/Web、navigation 和 rich-provider 探针，生成八文件 evidence/qualification/manifest/decision/准入 bundle；保留既有 provider 资格与决策策略，任何探针或一致性校验失败都会恢复全部受管文件及执行前的 `dist`（原先无 `dist` 时只移除候选创建的目录），成功则只保留本轮已资格验证的 `dist`。它只准备本地不可变交付，不发布 CDN 对象。
-- 生产 provider 的 artifact identity 与资格策略由同一 capability manifest 生成到 `tinymistProviderQualification.generated.ts`，不再手工维护另一份 SHA/资格表；该派生模块也在 repin 回滚事务内。普通 manifest 校验同时检查生成文件，实际 provider admission 还必须接受已取证的 artifact 并拒绝错误 digest/version。
-- 仅为 CI 构建取证使用 `TINYMIST_SRC=/path/to/patched-source TINYMIST_QUALIFICATION_DIR=/path/to/new-bundle node editors/vscode/scripts/patch-tinymist-artifacts.mjs qualify`。它复用 repin 的资格链，成功后原子输出完整证明包；无论成功或失败均恢复 canonical 证据、生成模块和执行前的 `dist`，若执行前不存在 `dist` 则只移除本次候选构建创建的目录；不修改 release pin、vendor、浏览器交付或远端对象。扩展消费 job 必须先校验并安装与实际二进制对应的证明，不能仅凭构建自产的 SHA 文件获得准入。
+- `third_party/tinymist/pin.json` 使用 `mmt-tinymist-pin.v2`：`source.repository` 与完整 `source.revision` 是唯一可执行源码权威；`upstream.repository`、`upstream.revision`、`upstream.version` 只记录官方 base/release provenance，并与 `release.universalVsix` 一起认证官方 grammar/license 输入。维护历史位于 `https://github.com/xiyihan0/tinymist.git` 的 `mmt/0.15.8` 分支，但分支 tip 不能代替完整 source SHA。
+- 普通 renderer/backend 改动和 upstream sync 由 source owner 在该 fork 中形成、推送正常 Git commit，再由产品 owner 更新 source pin 并资格验证。产品仓库不保存或 capture/apply Tinymist patch，也不使用 submodule；推送 source commit 不等于更新 product vendor、发布 runtime 或完成 release。
+- 从仓库根目录准备新的直接 checkout，并始终让命令从 pin 读取 repository/revision，避免在文档中复制可漂移的 SHA：
+
+```bash
+export TINYMIST_SRC=/absolute/path/to/tinymist-source
+TINYMIST_REPOSITORY="$(node -p "require('./third_party/tinymist/pin.json').source.repository")"
+TINYMIST_REVISION="$(node -p "require('./third_party/tinymist/pin.json').source.revision")"
+git clone --no-checkout "$TINYMIST_REPOSITORY" "$TINYMIST_SRC"
+git -C "$TINYMIST_SRC" checkout --detach "$TINYMIST_REVISION"
+
+# 用固定工具链构建 native/Web，再计算并落盘候选 artifact identity。
+node editors/vscode/scripts/build-tinymist-artifacts.mjs build-promote
+
+# 已由同一 exact checkout 构建时，只重新读取/落盘候选 artifact identity。
+node editors/vscode/scripts/build-tinymist-artifacts.mjs promote
+
+# 认证官方 VSIX、运行完整资格链，并原子更新 pin/evidence/vendor/本地同源交付。
+TINYMIST_VSIX=/absolute/path/to/tinymist-universal.vsix \
+  node editors/vscode/scripts/build-tinymist-artifacts.mjs repin
+
+# CI 只输出新 qualification bundle，并恢复 canonical 文件与执行前的 dist。
+TINYMIST_QUALIFICATION_DIR=/absolute/path/to/new-bundle \
+  node editors/vscode/scripts/build-tinymist-artifacts.mjs qualify
+```
+
+- 四种 mode 都拒绝 `HEAD != pin.source.revision` 或存在 tracked source dirt；`promote`、`repin`、`qualify` 只接受该 checkout 已有的 native/Web build outputs。`repin` 要求扩展 npm 依赖、Playwright Chromium 与 `unzip`，从已认证 VSIX 的同一私有只读快照提取 grammar/license，在同一回滚事务内生成 evidence/qualification/manifest/decision/准入 bundle，并只保留通过资格验证的 `dist`。
+- `repin` 会计算 decoded/encoded identity、准备 content-addressed 本地同源对象并更新 product pin/vendor，但返回 `published: false`；它不上传 CDN、不部署站点，也不把 source push 或本地准备宣称为完整 release。远端 runtime publication 仍需独立授权、凭据和公开 CORS/media type/encoding/digest/`WebAssembly.validate` 校验。
+- 生产 provider 的 artifact identity 与资格策略由同一 capability manifest 生成到 `tinymistProviderQualification.generated.ts`，不再手工维护另一份 SHA/资格表；实际 provider admission 必须接受已取证的 artifact 并拒绝错误 digest/version。`qualify` 原子输出与实际二进制对应的证明包，无论成功或失败都恢复 canonical evidence、生成模块和执行前的 `dist`；消费 job 不能仅凭构建自产的 SHA 文件获得准入。
 - `typst-compiler-compatibility` 从固定 typst.ts revision、patch、Rust/wasm-pack/Binaryen 工具链构建 compiler WASM，校验 Binaryen 下载、WASM SHA-256 与必需 exports，再上传 `typst-compiler-pinned-web`。需要真实 compiler 的 production/PWA/preview jobs 下载该 artifact，并通过 `TYPST_COMPILER_WEB_PKG` 传入。
 - `TINYMIST_BIN`、`TINYMIST_WEB_PKG` 和 `TYPST_COMPILER_WEB_PKG` 都只是已验证产物的位置；digest/SHA 文件与 workflow pin 决定来源可信度。
 - 独立 Workbench 的 Tinymist WASM、Typst compiler WASM 与 MainFont regular/bold 在 prebuild 中按 `runtimeArtifacts.ts` 固定的压缩/原始 digest 和长度验证，作为 `*.brotli.bin` 与 `tiny-brotli-dec-wasm@1.0.1` 一起进入 Pages output。浏览器只走同源 Worker 解压边界，不保留外部 runtime fallback；Pack 仍按独立发布合同从配置的 ESA origin 获取。

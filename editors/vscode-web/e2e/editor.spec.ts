@@ -21,7 +21,7 @@ const authored = [
 ].join("\n");
 const editedIntro = "#set page(width: 420pt, height: 260pt)\n= Welcome to MomoScript\n\nIntro persisted.\n#pagebreak()\nSecond page.\n";
 
-test("production editor materializes an avatar and restores the authored story after reload", { tag: ["@editor-runtime", "@editor-runtime-materialization"] }, async ({ page }, testInfo) => {
+test("production editor materializes an avatar and restores the authored story after safe reload", { tag: ["@editor-runtime", "@editor-runtime-materialization"] }, async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
   let manifestRequests = 0;
   let avatarRequests = 0;
@@ -432,13 +432,20 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/chapter-two\.mmt\.txt$/);
   await expect.poll(() => visiblePreviewText(page), { timeout: 30_000 }).toContain("CHAPTER_TWO_EDITED");
   await page.getByRole("tab", { name: /^story\.mmt, 编辑器组\d+$/ }).click();
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
-  await expect.poll(async () => (await previewReadiness(page)).containerRenderKey).toBeTruthy();
-  preview = await waitForPreviewFrame(page);
+  preview = await waitForPreviewFrame(page, "mmtfs://workspace/story.mmt");
   await expect(preview.locator("svg image").first()).toBeAttached();
   await seedLegacyWorkspace(page, false);
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(true);
+
+  // Native editor/layout state becomes durable at the production safe-reload boundary.
+  await page.evaluate(async () => {
+    const runtime = globalThis.__mmtE2E?.runtime;
+    if (!runtime) throw new Error("MomoScript E2E runtime is unavailable");
+    await runtime.pwaSafeRestart.prepareForReload(10_000);
+  });
 
   const secondAsset = page.waitForResponse((response) => isPackAsset(response));
   await page.reload();

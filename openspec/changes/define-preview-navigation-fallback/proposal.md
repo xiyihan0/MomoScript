@@ -39,7 +39,7 @@
 
 - Affected stable capability spec: `openspec/specs/language-tooling/spec.md`
 - Related active change: `openspec/changes/complete-editor-runtime-and-typst-tooling/` 的 revision-bound preview navigation
-- Candidate Tinymist patch: `third_party/tinymist/patches/0002-mmt-preview-renderer.patch`
+- Candidate Tinymist source: an ordinary commit on the maintained fork, selected only through `pin.json` `source.revision`
 - Candidate Rust mapping: `mmt_rs/src/emit.rs`、`mmt_rs/src/projection.rs`、`mmt_lsp/src/typst_backend.rs`
 - Candidate Workbench path: `editors/vscode-web/src/preview.ts`、`previewInteraction.ts`、`main.ts`
 - Artifact rebuild boundary: fixed Tinymist native/WASM artifacts and their pinned digests

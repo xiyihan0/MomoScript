@@ -1,5 +1,7 @@
 ## 0. Prerequisite closure and characterization
 
+> Historical evidence note: checked artifact names, digests, `patchRequired`, and “maintained patch” wording below record the pre-`mmt-tinymist-pin.v2` qualification baseline. They are evidence, not current producer instructions; current source ownership and build/repin workflow are defined by the stable tooling spec and `editors/README.md`.
+
 - [x] 0.1 Complete the archived language-tooling tasks 10.1–10.7 and record their focused test evidence
   - Evidence: same-branch closure history `09096fd`–`952aff8`; exact 10.1–10.7 implementation/regression commit mapping, focused commands, and observed positive/negative normalized results are recorded under “Focused evidence for 10.1–10.7 (2026-07-17)” in the [archived task record](../archive/2026-08-09-add-mmt-lsp-vscode/tasks.md).
 - [x] 0.2 Complete the `add-workspace-storage-history-sync` workspace backend and journaled atomic batch/preimage contract before runtime cutover or multi-document edits
@@ -14,7 +16,7 @@
 - [x] 0.7 Capture native/Web preview/location method、artifact digest and coordinate-version evidence
   - Evidence: both checked artifact transcripts explicitly record that no versioned backend location method or coordinate version is advertised. `tinymist-capability-manifest.json` therefore qualifies only the retained `immutable-location-map` fallback; preview artifacts bind its digest and `typst-page-points-v1` coordinate version through `LocationProviderKey`. `npm run test:preview-artifact` and `npm run test:preview-interaction` pass.
 - [x] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
-  - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native-patched.sha256`, Web `SHA256SUMS`, SHA-256 values `b96ce119…`/`c9ff9b1d…`, backend `0.15.2`, and UTF-16.
+  - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native.sha256`, Web `SHA256SUMS`, SHA-256 values `b96ce119…`/`c9ff9b1d…`, backend `0.15.2`, and UTF-16.
 - [x] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
   - Evidence: the deterministic manifest classifies converged baseline and seven P0 transcript-qualified providers as `core-required`, rich independently qualified providers as `host-optional`, the unsafe command-only code-lens provider as `unavailable`, package callback as `core-required`, and preview location as `host-optional` with immutable-map fallback.
 - [x] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
@@ -25,7 +27,7 @@
   - Evidence: `npm run test:project-lifecycle` compares both production clients against `src/test/fixtures/project-lifecycle-baseline.json` for full/delta materialization, duplicate/unknown/retired rejection, prime, close, latest-complete restart replay and old-generation request rejection.
 - [x] 0.13 Add current standalone and embedded baseline transcripts for diagnostics, completion, hover, signature help and semantic tokens
   - Evidence: `npm run test:typst-baseline` executes current middleware/diagnostic routes and compares normalized output with `src/test/fixtures/typst-language-baseline.json`; semantic-token ownership is checked as standalone Tinymist-direct and embedded MMT-native.
-- [x] 0.14 Record the accepted Tinymist artifact upgrade/patch decision if a desired core provider、package callback or location contract is missing
+- [x] 0.14 Record the accepted Tinymist source-upgrade decision if a desired core provider、package callback or location contract is missing
   - Evidence: `npm run test:artifact-decision` checks `tinymist-artifact-decision.json`: retain the pinned `0.15.2` artifacts for qualified baseline work, keep seven unqualified P0 providers and package resolution disabled until a maintained native/Web patch plus positive/negative transcripts exists, and use only retained `immutable-location-map` data while the versioned location contract is absent.
 
 ## 1. Snapshot identity and position domains
