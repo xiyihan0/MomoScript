@@ -443,10 +443,9 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await expect(editor.locator(".view-lines")).toContainText("E2E persisted avatar message");
-  await page.getByRole("button", { name: "Typst 预览" }).click();
   const secondAssetResponse = await secondAsset;
   expect(secondAssetResponse.ok(), `reloaded pack asset returned HTTP ${secondAssetResponse.status()}`).toBe(true);
-  preview = await waitForPreviewFrame(page);
+  preview = await waitForPreviewFrame(page, "mmtfs://workspace/story.mmt");
   await expect(preview.locator('.page > :is(svg[aria-label="Rendered MomoScript preview"], .typst-renderer-root)')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   await expect(preview.locator("svg image").first()).toBeAttached();
