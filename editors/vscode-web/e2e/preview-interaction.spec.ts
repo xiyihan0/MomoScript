@@ -55,6 +55,12 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
   expect(Math.abs(indicatorAfterZoom.x - indicatorBeforeZoom.x)).toBeLessThan(0.005);
   expect(Math.abs(indicatorAfterZoom.y - indicatorBeforeZoom.y)).toBeLessThan(0.005);
   const introViewport = (await interactionState(page)).viewport;
+  const introPreviewTab = page.getByRole("tab", { name: /^intro\.typ（预览）/ });
+  for (let reveal = 0; reveal < 3; reveal += 1) {
+    expect(await callFixture(page, { action: "reveal" })).toBe(true);
+  }
+  await expect(introPreviewTab).toHaveCount(1);
+  expect((await interactionState(page)).viewport).toEqual(introViewport);
 
   expect(await callFixture(page, { action: "navigate", point: { pageIndex: 0, x: 0.2, y: 0.15 } })).toBe(true);
   await callFixture(page, { action: "restart-provider" });
@@ -76,6 +82,8 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
   );
   await callFixture(page, { action: "install-immutable" });
   desktopPreview = await waitForPreviewFrame(page);
+  await expect(page.getByRole("tab", { name: /^interaction-b\.typ（预览）/ })).toHaveCount(1);
+  await expect(introPreviewTab).toHaveCount(1);
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
   await invokeMmtE2E(page, "workspace", "showDocument", "intro.typ");
   await callFixture(page, { action: "install-immutable" });
@@ -120,6 +128,17 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
     return pageBounds.left - viewportBounds.left;
   });
   expect(accessibleLeftEdge).toBeGreaterThanOrEqual(0);
+
+  await introPreviewTab.getByRole("button", { name: /^关闭/ }).click();
+  await expect(introPreviewTab).toHaveCount(0);
+  await invokeMmtE2E(page, "workspace", "showDocument", "intro.typ");
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect(introPreviewTab).toHaveCount(1);
+  const reopenedPreview = await waitForPreviewFrame(page, "mmtfs://workspace/intro.typ");
+  await expect(reopenedPreview.locator(".page svg")).toBeVisible();
+  const reopenedZoom = (await interactionState(page)).viewport.zoom;
+  await reopenedPreview.getByRole("button", { name: "Zoom in" }).click();
+  await expect.poll(async () => (await interactionState(page)).viewport.zoom).toBeGreaterThan(reopenedZoom);
 });
 
 test("MMT Typst preview supports selectable text, workspace images, and bidirectional navigation", { tag: "@preview-navigation" }, async ({ page }) => {

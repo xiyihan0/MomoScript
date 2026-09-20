@@ -95,6 +95,7 @@ import {
   registerComposerEditor,
 } from "./composerEditor.ts";
 import {
+  PREVIEW_HOST_EDITOR_ID,
   PreviewHostInput,
   PreviewHostSurfaceRegistry,
   registerPreviewHostPane,
@@ -2821,18 +2822,29 @@ async function initializeRuntime(
       });
     }
   };
-  const revealPreviewSurface = async (): Promise<boolean> => {
-    const sourceUri = displayedPreviewSourceUri;
+  const revealPreviewSurface = async (
+    sourceUri: string | undefined = displayedPreviewSourceUri,
+  ): Promise<boolean> => {
     if (!sourceUri) return false;
     if (activePreviewSurface?.runtime && activePreviewSurface.document.uri.toString() === sourceUri) {
       previewWebviewHost?.focusSurface(activePreviewSurface.claimant);
       return true;
     }
-    const input = new PreviewHostInput(URI.parse(sourceUri));
+    const resource = URI.parse(sourceUri);
+    const openedPreview = nativeEditorService.findEditors({
+      resource,
+      typeId: PREVIEW_HOST_EDITOR_ID,
+      editorId: PREVIEW_HOST_EDITOR_ID,
+    }).find(({ editor }) => editor instanceof PreviewHostInput);
+    const input = openedPreview?.editor instanceof PreviewHostInput
+      ? openedPreview.editor
+      : new PreviewHostInput(resource);
+    // An explicit SIDE_GROUP skips the workbench's Singleton lookup. Activate the
+    // owned input in its current group before creating a new side group.
     await nativeEditorService.openEditor(
       input,
       { pinned: true },
-      matchMedia("(max-width: 550px)").matches ? undefined : SIDE_GROUP,
+      openedPreview?.groupId ?? (matchMedia("(max-width: 550px)").matches ? undefined : SIDE_GROUP),
     );
     await previewHostSurfaces.waitUntilMounted(input);
     syncPreviewSurface();
@@ -3482,14 +3494,7 @@ async function initializeRuntime(
         previewSourceBinding = bindPreviewSource(sourceDocument);
       }
     } else {
-      const input = new PreviewHostInput(URI.parse(sourceDocument.uri.toString()));
-      await nativeEditorService.openEditor(
-        input,
-        { pinned: true },
-        matchMedia("(max-width: 550px)").matches ? undefined : SIDE_GROUP,
-      );
-      await previewHostSurfaces.waitUntilMounted(input);
-      syncPreviewSurface();
+      await revealPreviewSurface(sourceDocument.uri.toString());
     }
     await previewSourceBinding;
   }));

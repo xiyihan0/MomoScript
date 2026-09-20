@@ -528,6 +528,8 @@ Network 中能看到字体文件，渲染结果仍回退；数学公式与正文
 - projection/resource 使用 Rust/TypeScript unit test；
 - reload/persistence 使用真实 E2E。
 
+Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大的 native pane 内居中，按相同 marker 对齐并只滚动 viewport。截图前逐层验证嵌套 iframe、祖先裁剪和遮挡，截图后检查 PNG 尺寸；不能把超出 webview 的全页截图、源码缩略图或相邻面板算进像素预算。保留原有 0.0005 像素比例、64 最大通道差和 0.01 平均通道差门槛。
+
 **回归测试**
 
 每个行为必须断言用户可观察结果，例如 Files Explorer tree、preview revision、workspace 文件内容，而不是只断言 class/title。
@@ -580,6 +582,8 @@ Network 中能看到字体文件，渲染结果仍回退；数学公式与正文
 
 - `mmt.guiComposer` 是原生 Editor Pane；serializer 只存 URI，`ComposerRuntime` 从 `mmt/composerDocument` 重建，并以 URI、document incarnation、version、epoch、catalog epoch 和 digest 拒绝 stale 操作；
 - SVG 是唯一 GUI 主创作表面；[`PreviewWebviewHost`](./src/previewWebviewHost.ts) 创建一个 retained `IOverlayWebview`，活动 GUI 与 [`mmt.previewHost`](./src/previewHostPane.ts) 通过 `attachSurface`/`releaseSurface`/`layoutSurface` 轮流 claim，同一产品 runtime 才拥有 renderer/session/store；
+- 同一 URI 的预览 reveal 通过原生 `IEditorService` 找到已有 input/group 并激活；只有尚未打开时才创建 side group，不能依赖显式 `SIDE_GROUP` 自动执行 Singleton 查找；
+- 完整 SVG 发布或新的 webview `ready` 会重置 consumer，宿主必须同步丢弃 renderer session/generation 基线；随后只通过既有一次 full resync 建立新基线。单纯 detach/reattach 同一个 retained consumer 不清空基线；
 - body mutation 只能经过 Rust `composerTextSelection`/`composerTextProjection` 和 `replaceTextSelection`，返回 exact UTF-16 semantic endpoints 与一个 versioned workspace edit；UI 不搜索相同正文、不拼 DSL、不预测 post-edit node；
 - [`ComposerTextSession`](./src/composerTextSession.ts) FIFO 提交输入；普通连续 typing 在 750 ms 边界内共享 native undo group，换行、paste/cut、IME、导航、结构操作和焦点切换关闭边界；undo/redo 操作同一个 Monaco model，并按 alternative version 恢复 presentation bookmark；
 - stale/conflict/apply failure 或未提交 composition 进入 recovery UI，只允许复制/丢弃，不能自动应用到别的 message；
@@ -589,6 +593,8 @@ Network 中能看到字体文件，渲染结果仍回退；数学公式与正文
 **回归测试**
 
 `test:composer-edit`、`test:composer-document`、`test:composer-runtime`、`test:preview-webview-protocol`、`test:preview-renderer-session` 和 `test:e2e:gui-composer`。浏览器 journey 应操作真实 SVG glyph，断言 semantic selection、authored bytes、native undo/recovery 与 geometry，而不只检查 overlay 元素存在。
+
+`preview-interaction.spec.ts` 还覆盖同一 URI 重复 reveal 的 tab/viewport 保留、不同 URI 的预览区分，以及关闭后重开并继续缩放。
 
 ### 19. Native restoration、Pack 与 preview 首屏顺序竞争
 

@@ -44,6 +44,7 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
     (await lifecycleState(page)).events.some((event) => event.kind === "runtime-ready")
   ), { message: "the initial runtime must reach the production ready registration path" }).toBe(true);
   const initialState = await lifecycleState(page);
+  expect(initialState.documentGeneration, "cold startup must not reload the document while discovering runtime dependencies").toBe(1);
   let generation = initialState.generation;
   let documentGeneration = initialState.documentGeneration;
   await assertLiveLanguageWorkers(page, generation, "initial runtime");

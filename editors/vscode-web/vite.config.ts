@@ -255,6 +255,14 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
+    // Runtime URL entrypoints are not reachable from the HTML dependency scan.
+    // Discover them up front instead of reloading a live Workbench on first use.
+    entries: [
+      "index.html",
+      "src/previewWebviewRuntime.ts",
+      "src/*Worker.ts",
+      "../vscode/src/*Worker.ts",
+    ],
     exclude: [
       "@myriaddreamin/typst-ts-web-compiler",
       "tiny-brotli-dec-wasm",
@@ -265,7 +273,19 @@ export default defineConfig({
       "@codingame/monaco-vscode-media-preview-default-extension",
     ],
     esbuildOptions: {
-      plugins: [importMetaUrlPlugin],
+      plugins: [{
+        ...importMetaUrlPlugin,
+        setup(build) {
+          importMetaUrlPlugin.setup({
+            ...build,
+            onLoad(options, callback) {
+              // Only prebundled dependencies move. Local wasm-bindgen glue must
+              // keep URL-relative assets, which are not package specifiers.
+              build.onLoad({ ...options, filter: /[\\/]node_modules[\\/].*\.js$/ }, callback);
+            },
+          });
+        },
+      }],
     },
   },
   resolve: {

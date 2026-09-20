@@ -23,6 +23,8 @@ import {
   type VisualParitySnapshot,
 } from "./preview-visual-parity";
 
+const PREVIEW_BENCHMARK_BROWSER_VIEWPORT = { width: 1920, height: 1080 } as const;
+
 export type BenchmarkMode = "full-oracle" | "incremental-renderer";
 
 export interface BenchmarkRendererState {
@@ -420,6 +422,7 @@ export async function runWarmBenchmarkMode(
   },
 ): Promise<WarmBenchmarkModeResult> {
   const { mode, fixture, warmEditCount, captureSnapshots, snapshotArtifactDirectory } = options;
+  if (captureSnapshots) await page.setViewportSize(PREVIEW_BENCHMARK_BROWSER_VIEWPORT);
   const { sourceUri, renderedShape } = await openBenchmarkDocument(page, fixture, mode === "incremental-renderer");
   const coldSample = await waitForPublishedTrace(page, sourceUri);
   const coldRenderer = await rendererState(page);

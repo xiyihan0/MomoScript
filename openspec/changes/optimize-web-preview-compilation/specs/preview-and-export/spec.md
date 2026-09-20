@@ -97,6 +97,23 @@ The editor SHALL use a pinned Tinymist 0.15.2 `new`/`diff-v1` producer and typst
 - AND complete glyph, clip, and style headers MUST replace or deduplicate prior headers rather than append duplicates
 - AND the resource-rule count, populated page buffers, and rendered DOM count at that viewport MUST remain bounded
 
+#### Scenario: An open native preview is revealed repeatedly
+
+- GIVEN a native preview editor is already open for a source URI
+- WHEN preview or navigation work reveals that URI again
+- THEN the existing editor input and group MUST be reused rather than creating another side group
+- AND the retained webview MUST remain under the same preview runtime owner
+- AND closing and later reopening the preview MUST still produce a usable surface
+
+#### Scenario: Differential evidence captures the composed viewport
+
+- GIVEN the full-SVG oracle and persistent renderer display a tall report
+- WHEN START, MIDDLE and END raster evidence is captured at the canonical 400-by-620 viewport
+- THEN each capture MUST verify both viewport dimensions and containment within every enclosing webview frame
+- AND scrolling MUST remain inside that bounded viewport rather than expand the screenshot to the full document height
+- AND clipped captures containing editor chrome or another pane MUST fail capture qualification
+- AND the existing pixel-count, channel-delta, semantic, image and navigation gates MUST remain unchanged
+
 #### Scenario: Renderer compiles selectable text with pinned fonts
 
 - GIVEN the projected Typst document contains text using a pinned browser font
@@ -141,6 +158,15 @@ Unknown base, restart, sequence gap, digest mismatch, or malformed frame SHALL p
 - AND the host MUST request one forced `new` frame
 - AND an accepted `new` frame MUST replace the consumer session and complete resource headers while preserving the displayed SVG root identity
 - AND no further automatic full fallback may occur
+
+#### Scenario: A reset consumer returns from full-SVG preview to renderer output
+
+- GIVEN a full-SVG publication or fresh webview runtime has reset the renderer consumer
+- WHEN renderer output resumes, including after preview close and reopen
+- THEN the host MUST invalidate its matching renderer session and generation baseline
+- AND a producer delta MUST NOT be admitted against the discarded consumer baseline
+- AND recovery MUST establish a full frame through the existing single-retry contract
+- AND detaching and reattaching the same retained consumer alone MUST preserve its qualified baseline
 
 ## MODIFIED Requirements
 

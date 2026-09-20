@@ -279,6 +279,8 @@ export class PreviewWebviewHost implements IDisposable {
       mimeType: asset.mimeType,
       dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
     })));
+    // Full-SVG publications reset the retained renderer consumer.
+    this.clearRendererGeneration();
     await this.#post({
       type: "render",
       svg: firstPage.sanitizedSvg,
@@ -301,6 +303,8 @@ export class PreviewWebviewHost implements IDisposable {
       mimeType: asset.mimeType,
       dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
     })));
+    // Full-SVG publications reset the retained renderer consumer.
+    this.clearRendererGeneration();
     const acknowledgement = this.#acknowledgement(requestSequence, publication.artifact.renderKey);
     const delivered = await this.#post({
       type: "render",
@@ -434,6 +438,8 @@ export class PreviewWebviewHost implements IDisposable {
   async #dispatch(message: PreviewWebviewToHostMessage): Promise<void> {
     switch (message.type) {
       case "ready":
+        // A newly ready runtime has no renderer frame baseline to accept deltas against.
+        this.clearRendererGeneration();
         this.#ready = true;
         for (const waiter of [...this.#readyWaiters]) waiter.resolve();
         this.#events.ready?.();

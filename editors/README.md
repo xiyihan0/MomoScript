@@ -88,12 +88,15 @@ MMT TextDocument / native model and undo stack
 
 本地运行 `dev`/`preview` 或单个 Playwright spec 时，以 [`vscode-web/package.json`](./vscode-web/package.json) 的脚本为准；不要用缩短的 smoke 结果替代 differential 或 qualification 证据。
 
+开发态依赖扫描覆盖 HTML、独立 preview webview 和 Worker 入口；仅对 `node_modules` 中实际预打包的依赖应用 import-meta URL 重写，本地 wasm-bindgen glue 保留相对资产 URL。冷启动生命周期验证要求首次加载只有一个 document generation，不能靠已有 Vite 缓存掩盖依赖扫描失败后的自动重载。
+
 GUI journey 中的 IME 是在真实 Chrome 内派发的 synthetic composition/input 事件，窄屏与软键盘场景是 viewport shrink。CI/当前自动环境不提供物理中文 OS 输入法或真实移动设备的软件键盘，因此候选窗、提交/取消与软件键盘行为仍未验证；不能把自动 journey 扩大为物理输入证明。
 
 ## 运行时产物与来源
 
 - 生产浏览器 journeys 使用仓库中经过校验的 [`editors/vscode/vendor/tinymist-0.15.4-rc3/`](./vscode/vendor/tinymist-0.15.4-rc3/) pinned fixtures；构建前由 `verify-web-vendor.mjs` 校验浏览器 language-service artifacts。
 - `tinymist-compatibility` 从 workflow 固定 revision 与补丁构建 native binary/Web package，生成并校验 SHA-256 文件，再上传 `tinymist-pinned-linux-x64`。`extension-desktop` 和 `extension-web` 下载该 artifact 验证兼容性，不把 runner 临时路径当发布来源。
+- 更新已构建的 Tinymist 制品使用 `TINYMIST_SRC=/path/to/patched-source node editors/vscode/scripts/patch-tinymist-artifacts.mjs repin`（需要扩展 npm 依赖及 Playwright Chromium）。该命令在同一回滚事务内运行 native/Web、navigation 和 rich-provider 探针，再生成六份 evidence/qualification/manifest/decision 记录；保留既有 provider 资格与决策策略，任何探针或一致性校验失败都会恢复全部受管文件。它只准备本地不可变交付，不发布 CDN 对象。
 - `typst-compiler-compatibility` 从固定 typst.ts revision、patch、Rust/wasm-pack/Binaryen 工具链构建 compiler WASM，校验 Binaryen 下载、WASM SHA-256 与必需 exports，再上传 `typst-compiler-pinned-web`。需要真实 compiler 的 production/PWA/preview jobs 下载该 artifact，并通过 `TYPST_COMPILER_WEB_PKG` 传入。
 - `TINYMIST_BIN`、`TINYMIST_WEB_PKG` 和 `TYPST_COMPILER_WEB_PKG` 都只是已验证产物的位置；digest/SHA 文件与 workflow pin 决定来源可信度。
 - 独立 Workbench 的 Tinymist WASM、Typst compiler WASM 与 MainFont regular/bold 在 prebuild 中按 `runtimeArtifacts.ts` 固定的压缩/原始 digest 和长度验证，作为 `*.brotli.bin` 与 `tiny-brotli-dec-wasm@1.0.1` 一起进入 Pages output。浏览器只走同源 Worker 解压边界，不保留外部 runtime fallback；Pack 仍按独立发布合同从配置的 ESA origin 获取。

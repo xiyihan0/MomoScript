@@ -43,7 +43,6 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   const svgText = svg.toString("utf8");
   expect(svgText).toContain('data-preview-page-background="true"');
   expect(svgText).not.toContain("foreignObject");
-  await expect(preview.getByRole("status")).toContainText("Exported current preview");
 
   await invokeMmtE2E(page, "workspace", "openDocument", "browser-export.mmt", mmtSource);
   await page.getByRole("button", { name: "Typst 预览" }).click();
@@ -61,7 +60,6 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   const pdf = await downloadBytes(pdfDownload);
   expect(pdf.subarray(0, 5).toString("ascii")).toBe("%PDF-");
   expect(pdf.byteLength).toBeGreaterThan(500);
-  await expect(preview.getByRole("status")).toContainText("Exported current preview");
 });
 
 

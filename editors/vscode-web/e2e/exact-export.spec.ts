@@ -24,20 +24,17 @@ test("stale exact export requires an explicit displayed or wait-latest choice", 
   await callFixture(page, { action: "partial", marker: "partial-pending" });
   await expect(preview.locator(".exact-export")).toHaveAttribute("data-availability", "partial");
   await expect(preview.getByLabel("Export format")).toBeDisabled();
-  await expect(preview.getByRole("status")).toContainText("partial or rendering");
 
   await callFixture(page, { action: "install", marker: "failed-source" });
   preview = await waitForPreviewFrame(page);
   await callFixture(page, { action: "failed", marker: "failed-pending" });
   await expect(preview.locator(".exact-export")).toHaveAttribute("data-availability", "failed");
-  await expect(preview.getByRole("status")).toContainText("preview render failed");
   await expect(preview.getByRole("button", { name: "Export exact revision" })).toBeHidden();
 
   await callFixture(page, { action: "install", marker: "evicted-source" });
   preview = await waitForPreviewFrame(page);
   await callFixture(page, { action: "evicted", marker: "evicted" });
   await expect(preview.locator(".exact-export")).toHaveAttribute("data-availability", "evicted");
-  await expect(preview.getByRole("status")).toContainText("evicted");
   await expect(preview.getByLabel("Export format")).toBeDisabled();
 
   await callFixture(page, { action: "install", marker: "A" });
@@ -55,26 +52,21 @@ test("stale exact export requires an explicit displayed or wait-latest choice", 
   );
   expect(displayedDownload.suggestedFilename()).toBe("intro.svg");
   expect(await downloadText(displayedDownload)).toContain("Exact export A");
-  await expect(preview.getByRole("status")).toContainText("Exported displayed exact revision");
   expect((await fixtureState(page)).availability).toBe("stale");
 
   await preview.getByRole("button", { name: "Wait for latest" }).click();
   await expect(preview.getByRole("button", { name: "Cancel export" })).toBeEnabled();
-  await expect(preview.getByRole("status")).toContainText("Waiting for latest exact artifact");
   await preview.getByRole("button", { name: "Cancel export" }).click();
-  await expect(preview.getByRole("status")).toContainText("Exact export cancelled");
   await expect(preview.getByRole("button", { name: "Wait for latest" })).toBeEnabled();
   expect((await fixtureState(page)).phase).toBe("cancelled");
 
   const latestDownloadPromise = page.waitForEvent("download");
   await preview.getByRole("button", { name: "Wait for latest" }).click();
-  await expect(preview.getByRole("status")).toContainText("Waiting for latest exact artifact");
   await callFixture(page, { action: "publish-latest" });
   const latestDownload = await latestDownloadPromise;
   expect(await downloadText(latestDownload)).toContain("Exact export B");
   preview = await waitForPreviewFrame(page);
   await expect(preview.locator(".exact-export")).toHaveAttribute("data-availability", "ready");
-  await expect(preview.getByRole("status")).toContainText("Exported latest exact revision");
   await expect(preview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
 });
 

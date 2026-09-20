@@ -12,6 +12,14 @@ The editor SHALL create MMT language service, Typst backend, project coordinatio
 - AND MUST synchronously terminate any Worker or process that misses the graceful deadline
 - AND MUST NOT publish editor-ready state
 
+#### Scenario: Cold development startup discovers isolated runtime entries
+
+- GIVEN the development dependency cache is empty
+- WHEN the Workbench first opens its language Workers and preview webview
+- THEN dependency scanning MUST include those runtime entrypoints before live interaction
+- AND local WASM asset URLs MUST retain URL-relative resolution rather than being treated as package imports
+- AND dependency discovery MUST NOT cause unsolicited document reloads before or during preview and export work
+
 #### Scenario: Runtime quiesces for controlled restart
 
 - GIVEN the editor is ready with active projects
