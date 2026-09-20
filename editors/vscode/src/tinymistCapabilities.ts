@@ -138,30 +138,33 @@ function addInitializeCapabilities(target: Map<string, unknown>, initializeResul
       target.set(TINYMIST_SOURCE_LOCATIONS_METHOD, provider);
     }
   }
-  if (isRecord(experimental) && isRecord(experimental.mmtPreviewRendererProvider)) {
-    const provider = experimental.mmtPreviewRendererProvider;
-    const actions = provider.actions;
-    const frameKinds = provider.frameKinds;
-    if (
-      provider.method === PREVIEW_RENDERER_METHOD
-      && provider.protocolVersion === PREVIEW_RENDERER_PROTOCOL_VERSION
-      && provider.transportEncoding === "base64"
-      && provider.sourceDigestDomain === "mmt-preview-compiler-snapshot-v1"
-      && Array.isArray(actions)
-      && ["register", "render", "commit", "discard", "locatePoint", "locateSource", "close"].every((action) => actions.includes(action))
-      && Array.isArray(frameKinds)
-      && frameKinds.includes("new")
-      && frameKinds.includes("diff-v1")
-      && Number.isSafeInteger(provider.maxSessions)
-      && Number(provider.maxSessions) > 0
-      && provider.retainedGenerationsPerSession === 2
-    ) {
-      target.set(PREVIEW_RENDERER_METHOD, provider);
-    }
+  if (isRecord(experimental) && isPreviewRendererProvider(experimental.mmtPreviewRendererProvider)) {
+    target.set(PREVIEW_RENDERER_METHOD, experimental.mmtPreviewRendererProvider);
   }
 }
 
+function isPreviewRendererProvider(provider: unknown): boolean {
+  if (!isRecord(provider)) return false;
+  const actions = provider.actions;
+  const frameKinds = provider.frameKinds;
+  return provider.method === PREVIEW_RENDERER_METHOD
+    && provider.protocolVersion === PREVIEW_RENDERER_PROTOCOL_VERSION
+    && provider.transportEncoding === "base64"
+    && provider.sourceDigestDomain === "mmt-preview-compiler-snapshot-v1"
+    && Array.isArray(actions)
+    && ["register", "render", "commit", "discard", "locatePoint", "locateSource",
+      "hitTestText", "locateCaret", "locateRange", "close"].every((action) => actions.includes(action))
+    && Array.isArray(frameKinds)
+    && frameKinds.includes("new")
+    && frameKinds.includes("diff-v1")
+    && Number.isSafeInteger(provider.maxSessions)
+    && Number(provider.maxSessions) > 0
+    && provider.retainedGenerationsPerSession === 2;
+}
+
 function dynamicRegistrationMethods(registration: TinymistDynamicRegistration): readonly string[] {
+  if (registration.method === PREVIEW_RENDERER_METHOD
+    && !isPreviewRendererProvider(registration.registerOptions)) return [];
   const methods = [registration.method];
   if (!isRecord(registration.registerOptions)) return methods;
   if (registration.method === "textDocument/semanticTokens") {

@@ -5,6 +5,7 @@ import {
   type TypstProjectUpdate
 } from "../tinymistClient";
 import { canonicalBytesDigest } from "../runtimeIdentity";
+import { testPreviewRendererGeometry } from "./previewRendererGeometry";
 
 interface CompletionList {
   items: Array<{ label: string | { label: string } }>;
@@ -29,7 +30,14 @@ function fixtureIdentity(revision: number): Pick<
   };
 }
 
-async function testWorkerPreviewRenderer(client: TinymistWorkerClient): Promise<boolean> {
+async function testWorkerPreviewRenderer(client: TinymistWorkerClient, fontRootUri: string): Promise<boolean> {
+  await testPreviewRendererGeometry(client, await Promise.all(
+    ["NewCMMath-Regular.otf", "DejaVuSansMono.ttf", "NotoSansCJK-Regular.ttc"].map(async (name) => {
+      const response = await fetch(new URL(name, fontRootUri));
+      if (!response.ok) throw new Error(`Geometry font fixture failed to load: ${name} (${response.status})`);
+      return new Uint8Array(await response.arrayBuffer());
+    }),
+  ));
   const sessionId = "web-transcript";
   const logicalSourceId = "a".repeat(64);
   const entryUri = "untitled:/mmt-projection/web-preview-renderer/main.typ";
@@ -261,7 +269,7 @@ async function runTinymistWorkerClientTest(
     if (client.projectForEntry(lateOldUri)) {
       throw new Error("retired worker projection session was restored by a late update");
     }
-    const renderer = await testWorkerPreviewRenderer(client);
+    const renderer = await testWorkerPreviewRenderer(client, new URL("../vendor/fonts/", workerUri).toString());
     await client.restart();
     const restartedLegend = client.semanticTokensLegend();
     if (!restartedLegend || restartedLegend.tokenTypes[0] !== "comment") {

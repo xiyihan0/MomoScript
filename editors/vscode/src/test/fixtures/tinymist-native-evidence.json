@@ -3,13 +3,13 @@
     "backendName": "tinymist",
     "backendVersion": "0.15.4-rc3",
     "checksumManifest": {
-      "expectedSha256": "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4",
+      "expectedSha256": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8",
       "reference": "tinymist-native-patched.sha256",
       "referencedArtifact": "tinymist",
       "verified": true
     },
     "digests": {
-      "tinymist": "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4"
+      "tinymist": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8"
     },
     "host": "native-process",
     "packageVersion": "0.15.4-rc3",
@@ -99,6 +99,9 @@
             "discard",
             "locatePoint",
             "locateSource",
+            "hitTestText",
+            "locateCaret",
+            "locateRange",
             "close"
           ],
           "frameKinds": [
@@ -421,6 +424,9 @@
             "discard",
             "locatePoint",
             "locateSource",
+            "hitTestText",
+            "locateCaret",
+            "locateRange",
             "close"
           ],
           "frameKinds": [

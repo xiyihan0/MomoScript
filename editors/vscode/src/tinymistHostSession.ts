@@ -173,7 +173,9 @@ export class TinymistHostSession {
     signal?: AbortSignal
   ): Promise<PreviewRendererRenderResult> {
     const synchronized = await this.syncPreviewProject(update, mount, signal);
-    if (options.forceFull) await this.projectState.ensureProjectReady(update.entryUri, signal);
+    // Renderer sessions are per source, but Tinymist's base compiler focus is shared.
+    // A retained projection must be re-primed after another document takes that focus.
+    await this.projectState.ensureProjectReady(update.entryUri, signal);
     signal?.throwIfAborted();
     await this.registerPreviewRendererProject(synchronized, options.sessionId, signal);
     signal?.throwIfAborted();

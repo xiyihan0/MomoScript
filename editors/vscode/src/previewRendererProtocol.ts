@@ -58,6 +58,31 @@ export type PreviewRendererRequest =
     }
   | {
       readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly action: "hitTestText";
+      readonly sessionId: string;
+      readonly generation: number;
+      readonly position: PreviewRendererPoint;
+      readonly uncertainty: PreviewRendererPointUncertainty;
+    }
+  | {
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly action: "locateCaret";
+      readonly sessionId: string;
+      readonly generation: number;
+      readonly uri: string;
+      readonly position: PreviewRendererPosition;
+      readonly affinity: PreviewRendererAffinity;
+    }
+  | {
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly action: "locateRange";
+      readonly sessionId: string;
+      readonly generation: number;
+      readonly uri: string;
+      readonly range: PreviewRendererRange;
+    }
+  | {
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
       readonly action: "close";
       readonly sessionId: string;
     };
@@ -97,10 +122,66 @@ export interface PreviewRendererPoint {
   readonly y: number;
 }
 
+/** Axis-aligned normalized-page error bounds for one text-hit sample. */
+export interface PreviewRendererPointUncertainty {
+  readonly x: number;
+  readonly y: number;
+}
+
 export interface PreviewRendererSourceLocation {
   readonly uri: string;
   readonly range: PreviewRendererRange;
 }
+
+export type PreviewRendererAffinity = "before" | "after";
+
+/** Geometry coordinates are normalized to the rendered page, not Typst points. */
+export interface PreviewRendererBox extends PreviewRendererPoint {
+  readonly width: number;
+  readonly height: number;
+}
+
+export interface PreviewRendererCaret extends PreviewRendererBox {
+  readonly affinity: PreviewRendererAffinity;
+}
+
+export interface PreviewRendererTextLocation extends PreviewRendererSourceLocation {
+  readonly affinity: PreviewRendererAffinity;
+}
+
+export type PreviewRendererGeometryRequest = Extract<PreviewRendererRequest, {
+  readonly action: "hitTestText" | "locateCaret" | "locateRange";
+}>;
+
+export type PreviewRendererGeometryResponse =
+  | {
+      readonly status: "textHit";
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly sessionId: string;
+      readonly generation: number;
+      readonly location: PreviewRendererTextLocation | null;
+    }
+  | {
+      readonly status: "locatedCaret";
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly sessionId: string;
+      readonly generation: number;
+      readonly carets: readonly PreviewRendererCaret[];
+    }
+  | {
+      readonly status: "locatedRange";
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly sessionId: string;
+      readonly generation: number;
+      readonly boxes: readonly PreviewRendererBox[];
+    }
+  | {
+      readonly status: "unavailable";
+      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+      readonly sessionId: string;
+      readonly generation: number;
+    };
+
 export interface PreviewRendererDiagnostic {
   readonly range: PreviewRendererRange;
   readonly severity?: 1 | 2 | 3 | 4;
@@ -127,6 +208,7 @@ export interface PreviewRendererDiagnosticRecord {
 export type PreviewRendererResponse =
   | PreviewRendererReady
   | PreviewRendererCompileFailed
+  | PreviewRendererGeometryResponse
   | {
       readonly status: "registered";
       readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
@@ -167,12 +249,6 @@ export type PreviewRendererResponse =
       readonly sessionId: string;
       readonly generation: number;
       readonly locations: readonly PreviewRendererPoint[];
-    }
-  | {
-      readonly status: "unavailable";
-      readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
-      readonly sessionId: string;
-      readonly generation: number;
     }
   | {
       readonly status: "closed";
@@ -347,6 +423,134 @@ export function validatePreviewRendererCompileFailed(
   }
   validatePreviewRendererDiagnosticRecords(response.diagnostics);
   return response as unknown as PreviewRendererCompileFailed;
+}
+
+export function validatePreviewRendererGeometryRequest(value: unknown): PreviewRendererGeometryRequest {
+  if (!isRecord(value)) throw new Error("Preview renderer geometry request must be an object");
+  const common = ["protocolVersion", "action", "sessionId", "generation"];
+  switch (value.action) {
+    case "hitTestText":
+      assertExactRecord(value, "text hit request", [...common, "position", "uncertainty"]);
+      validateNormalizedPoint(value.position, "text hit position");
+      validatePointUncertainty(value.uncertainty);
+      break;
+    case "locateCaret":
+      assertExactRecord(value, "caret request", [...common, "uri", "position", "affinity"]);
+      assertUri(value.uri, "caret URI");
+      validatePosition(value.position, "caret position");
+      validateAffinity(value.affinity);
+      break;
+    case "locateRange":
+      assertExactRecord(value, "range request", [...common, "uri", "range"]);
+      assertUri(value.uri, "range URI");
+      validateRange(value.range, "selection range");
+      break;
+    default:
+      throw new Error("Preview renderer geometry action is invalid");
+  }
+  if (value.protocolVersion !== PREVIEW_RENDERER_PROTOCOL_VERSION
+    || typeof value.sessionId !== "string"
+    || value.sessionId.length === 0
+    || !isPositiveInteger(value.generation)) {
+    throw new Error("Preview renderer geometry request identity is invalid");
+  }
+  return value as unknown as PreviewRendererGeometryRequest;
+}
+
+export function validatePreviewRendererGeometryResponse(
+  response: unknown,
+  expected: Pick<PreviewRendererGeometryRequest, "action" | "sessionId" | "generation"> & {
+    readonly pageCount: number;
+  },
+): PreviewRendererGeometryResponse {
+  if (!isRecord(response)) throw new Error("Preview renderer geometry response must be an object");
+  const status = expected.action === "hitTestText" ? "textHit"
+    : expected.action === "locateCaret" ? "locatedCaret" : "locatedRange";
+  if (response.protocolVersion !== PREVIEW_RENDERER_PROTOCOL_VERSION
+    || response.sessionId !== expected.sessionId
+    || response.generation !== expected.generation
+    || !isPositiveInteger(response.generation)
+    || (response.status !== "unavailable" && response.status !== status)) {
+    throw new Error("Preview renderer geometry response identity mismatch");
+  }
+  const common = ["status", "protocolVersion", "sessionId", "generation"];
+  switch (response.status) {
+    case "unavailable":
+      assertExactRecord(response, "unavailable geometry response", common);
+      break;
+    case "textHit":
+      assertExactRecord(response, "text hit response", [...common, "location"]);
+      if (response.location !== null) {
+        assertExactRecord(response.location, "text hit location", ["uri", "range", "affinity"]);
+        assertUri(response.location.uri, "text hit URI");
+        validateRange(response.location.range, "text hit range");
+        const { start, end } = response.location.range;
+        if (start.line !== end.line || start.character !== end.character) {
+          throw new Error("Preview renderer text hit range must be collapsed");
+        }
+        validateAffinity(response.location.affinity);
+      }
+      break;
+    case "locatedCaret":
+      assertExactRecord(response, "caret response", [...common, "carets"]);
+      if (!Array.isArray(response.carets)) throw new Error("Preview renderer carets must be an array");
+      for (const caret of response.carets) {
+        validateGeometryBox(caret, expected.pageCount, true);
+      }
+      break;
+    case "locatedRange":
+      assertExactRecord(response, "range response", [...common, "boxes"]);
+      if (!Array.isArray(response.boxes)) throw new Error("Preview renderer boxes must be an array");
+      for (const box of response.boxes) {
+        validateGeometryBox(box, expected.pageCount, false);
+      }
+      break;
+  }
+  return response as unknown as PreviewRendererGeometryResponse;
+}
+
+function validateAffinity(value: unknown): asserts value is PreviewRendererAffinity {
+  if (value !== "before" && value !== "after") {
+    throw new Error("Preview renderer caret affinity is invalid");
+  }
+}
+
+function validateNormalizedPoint(value: unknown, label: string): asserts value is PreviewRendererPoint {
+  assertExactRecord(value, label, ["pageIndex", "x", "y"]);
+  if (!isNonnegativeInteger(value.pageIndex)
+    || !isNormalizedCoordinate(value.x)
+    || !isNormalizedCoordinate(value.y)) {
+    throw new Error(`Preview renderer ${label} is invalid`);
+  }
+}
+
+function validatePointUncertainty(value: unknown): asserts value is PreviewRendererPointUncertainty {
+  assertExactRecord(value, "text hit uncertainty", ["x", "y"]);
+  if (!isNormalizedCoordinate(value.x) || !isNormalizedCoordinate(value.y)) {
+    throw new Error("Preview renderer text hit uncertainty is invalid");
+  }
+}
+
+function validateGeometryBox(value: unknown, pageCount: number, caret: boolean): void {
+  assertExactRecord(value, caret ? "caret box" : "selection box", [
+    "pageIndex", "x", "y", "width", "height", ...(caret ? ["affinity"] : []),
+  ]);
+  if (!isNonnegativeInteger(value.pageIndex)
+    || value.pageIndex >= pageCount
+    || !isNormalizedCoordinate(value.x)
+    || !isNormalizedCoordinate(value.y)
+    || !isNormalizedCoordinate(value.width)
+    || !isNormalizedCoordinate(value.height)
+    || value.height === 0
+    || value.x + value.width > 1 + Number.EPSILON
+    || value.y + value.height > 1 + Number.EPSILON) {
+    throw new Error("Preview renderer geometry box is invalid");
+  }
+  if (caret) validateAffinity(value.affinity);
+}
+
+function isNormalizedCoordinate(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
 }
 
 export function previewRendererResponseStatus(response: unknown): string | undefined {

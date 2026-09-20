@@ -7,6 +7,7 @@ import {
   validatePreviewRendererReady,
   type PreviewProjectMount,
   type PreviewRendererPoint,
+  type PreviewRendererPointUncertainty,
   type PreviewRendererCompileFailed,
   type PreviewRendererDiagnosticRecord,
   type PreviewRendererPosition,
@@ -14,6 +15,15 @@ import {
   type PreviewRendererResponse,
   type PreviewRendererSourceLocation,
   type SynchronizedPreviewProject,
+  type PreviewRendererAffinity,
+  type PreviewRendererBox,
+  type PreviewRendererCaret,
+  type PreviewRendererGeometryRequest,
+  type PreviewRendererGeometryResponse,
+  type PreviewRendererRange,
+  type PreviewRendererTextLocation,
+  validatePreviewRendererGeometryRequest,
+  validatePreviewRendererGeometryResponse,
 } from "../../vscode/src/previewRendererProtocol.ts";
 import type { TinymistHostBackend, TypstProjectUpdate } from "../../vscode/src/tinymistClient";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
@@ -273,6 +283,72 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
     return response.locations;
   }
 
+  async hitTestText(
+    candidate: PreviewRendererCandidate,
+    position: PreviewRendererPoint,
+    uncertainty: PreviewRendererPointUncertainty,
+    signal?: AbortSignal,
+  ): Promise<PreviewRendererTextLocation | undefined> {
+    const response = await this.#geometryRequest(candidate, {
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      action: "hitTestText",
+      sessionId: candidate.sessionId,
+      generation: candidate.ready.generation,
+      position,
+      uncertainty,
+    }, signal);
+    if (response.status !== "textHit" || response.location === null) return undefined;
+    const uri = candidate.originalUris.get(response.location.uri);
+    if (!uri) return undefined;
+    return { uri, range: response.location.range, affinity: response.location.affinity };
+  }
+
+  async locateCaret(
+    candidate: PreviewRendererCandidate,
+    uri: string,
+    position: PreviewRendererPosition,
+    affinity: PreviewRendererAffinity,
+    signal?: AbortSignal,
+  ): Promise<readonly PreviewRendererCaret[]> {
+    this.#requireCommitted(candidate);
+    signal?.throwIfAborted();
+    const rendererUri = candidate.sourceUris.get(uri)
+      ?? (candidate.originalUris.has(uri) ? uri : undefined);
+    if (!rendererUri) return [];
+    const response = await this.#geometryRequest(candidate, {
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      action: "locateCaret",
+      sessionId: candidate.sessionId,
+      generation: candidate.ready.generation,
+      uri: rendererUri,
+      position,
+      affinity,
+    }, signal);
+    return response.status === "locatedCaret" ? response.carets : [];
+  }
+
+  async locateRange(
+    candidate: PreviewRendererCandidate,
+    uri: string,
+    range: PreviewRendererRange,
+    signal?: AbortSignal,
+  ): Promise<readonly PreviewRendererBox[]> {
+    this.#requireCommitted(candidate);
+    signal?.throwIfAborted();
+    const rendererUri = candidate.sourceUris.get(uri)
+      ?? (candidate.originalUris.has(uri) ? uri : undefined);
+    if (!rendererUri) return [];
+    const response = await this.#geometryRequest(candidate, {
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      action: "locateRange",
+      sessionId: candidate.sessionId,
+      generation: candidate.ready.generation,
+      uri: rendererUri,
+      range,
+    }, signal);
+    return response.status === "locatedRange" ? response.boxes : [];
+  }
+
   async closeSource(sourceUri: string): Promise<void> {
     const state = this.#sessions.get(sourceUri);
     if (!state) return;
@@ -291,6 +367,28 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
     void this.closeAll();
   }
 
+
+  async #geometryRequest(
+    candidate: PreviewRendererCandidate,
+    request: PreviewRendererGeometryRequest,
+    signal?: AbortSignal,
+  ): Promise<PreviewRendererGeometryResponse> {
+    this.#requireCommitted(candidate);
+    signal?.throwIfAborted();
+    validatePreviewRendererGeometryRequest(request);
+    if (request.action === "hitTestText" && request.position.pageIndex >= candidate.ready.pageCount) {
+      throw new Error("Preview renderer text hit page is outside the committed document");
+    }
+    const response = await this.#backend.request<unknown>(PREVIEW_RENDERER_METHOD, request, signal);
+    signal?.throwIfAborted();
+    this.#requireCommitted(candidate);
+    return validatePreviewRendererGeometryResponse(response, {
+      action: request.action,
+      sessionId: candidate.sessionId,
+      generation: candidate.ready.generation,
+      pageCount: candidate.ready.pageCount,
+    });
+  }
   async #discardGeneration(
     state: RendererSessionState,
     ready: PreviewRendererReady,
@@ -324,7 +422,9 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
     const state = this.#sessions.get(candidate.sourceUri);
     if (!state
       || state.committed !== candidate.ready
-      || state.backendGeneration !== candidate.backendGeneration) {
+      || state.sessionId !== candidate.sessionId
+      || state.backendGeneration !== candidate.backendGeneration
+      || this.#backend.backendGeneration() !== candidate.backendGeneration) {
       throw new Error("Preview renderer candidate is not the committed generation");
     }
     return state;

@@ -29,6 +29,7 @@ import {
   type PackFetchResponse
 } from "../packSync";
 import { PackageTranscriptHost } from "./packageTranscriptHost";
+import { testPreviewRendererGeometry } from "./previewRendererGeometry";
 
 function fixtureIdentity(revision: number): Pick<
   TypstProjectUpdate,
@@ -1111,6 +1112,10 @@ async function verifyCheckedNativeEvidence(command: string): Promise<Record<stri
 }
 
 async function testNativePreviewRenderer(client: TinymistProcessClient): Promise<void> {
+  await testPreviewRendererGeometry(client, await Promise.all(
+    ["NewCMMath-Regular.otf", "DejaVuSansMono.ttf", "NotoSansCJK-Regular.ttc"]
+      .map((name) => readFile(resolve("vendor/fonts", name))),
+  ));
   const encoder = new TextEncoder();
   const sourceUri = "file:///workspace/preview-renderer.mmt";
   const entryUri = "untitled:/mmt-projection/preview-renderer/main.typ";

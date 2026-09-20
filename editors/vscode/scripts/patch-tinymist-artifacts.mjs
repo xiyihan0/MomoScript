@@ -1,9 +1,11 @@
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
-import { copyFile, readFile, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
+import { brotliDecompressSync } from "node:zlib";
 
 const exec = promisify(execFile);
 const root = path.resolve(fileURLToPath(new URL("../../..", import.meta.url)));
@@ -14,6 +16,11 @@ const mode = process.argv[2] ?? "verify";
 if (!process.env.TINYMIST_SRC) throw new Error("TINYMIST_SRC must name a Tinymist checkout");
 if (!new Set(["apply", "verify", "build-promote", "promote", "repin"]).has(mode)) {
   throw new Error("usage: node patch-tinymist-artifacts.mjs apply|verify|build-promote|promote|repin");
+}
+if (pin.schema !== "mmt-tinymist-pin.v1"
+  || pin.toolchain?.rust !== "1.92.0"
+  || pin.toolchain?.wasmPack !== "0.15.0") {
+  throw new Error("Tinymist artifacts require the maintained Rust 1.92.0 / wasm-pack 0.15.0 pin");
 }
 
 const patches = pin.patches.map((entry) => ({
@@ -41,13 +48,21 @@ if (!(await succeeds("git", ["apply", "--reverse", "--check", finalPatch.absolut
   throw new Error(`maintained Tinymist patch series is not reversible after apply: ${finalPatch.path}`);
 }
 
+if (mode === "verify" || mode === "build-promote") {
+  await requireVersion("rustc", [`+${pin.toolchain.rust}`, "--version"], /^rustc (\S+)/, pin.toolchain.rust);
+}
+
 if (mode === "verify") {
-  await run("cargo", ["+1.92.0", "check", "-p", "tinymist", "--locked", "--no-default-features", "--features", "system,no-content-hint"], source);
-  await run("cargo", ["+1.92.0", "check", "-p", "tinymist", "--locked", "--target", "wasm32-unknown-unknown", "--no-default-features", "--features", "web,no-content-hint"], source);
+  await run("cargo", [`+${pin.toolchain.rust}`, "check", "-p", "tinymist", "--locked", "--no-default-features", "--features", "system,no-content-hint"], source);
+  await run("cargo", [`+${pin.toolchain.rust}`, "check", "-p", "tinymist", "--locked", "--target", "wasm32-unknown-unknown", "--no-default-features", "--features", "web,no-content-hint"], source);
 }
 
 if (mode === "build-promote") {
-  await run("cargo", ["+1.92.0", "build", "--locked", "--release", "--bin", "tinymist"], source);
+  await requireVersion("wasm-pack", ["--version"], /^wasm-pack (\S+)/, pin.toolchain.wasmPack);
+  // wasm-pack 0.15 uses PATH's wasm-opt before its unpinned download fallback.
+  // Requiring this executable prevents both an accidental upgrade and fallback.
+  await requireVersion("wasm-opt", ["--version"], /^wasm-opt version (\d+)(?:\s|$)/, "116");
+  await run("cargo", [`+${pin.toolchain.rust}`, "build", "--locked", "--release", "--bin", "tinymist"], source);
   await run(
     "wasm-pack",
     ["build", "--target", "web", "--release", "--", "--locked", "--no-default-features", "--features", "web,no-content-hint"],
@@ -58,6 +73,7 @@ if (mode === "build-promote") {
 }
 
 let promotedArtifacts = pin.artifacts;
+let runtimePublication;
 if (mode === "build-promote" || mode === "promote" || mode === "repin") {
   const nativePath = path.join(source, pin.artifacts.native.relativePath);
   const jsPath = path.join(source, pin.artifacts.webJs.relativePath);
@@ -65,12 +81,10 @@ if (mode === "build-promote" || mode === "promote" || mode === "repin") {
   const nativeArtifact = await describeFile(nativePath);
   const jsArtifact = await describeFile(jsPath);
   const wasmArtifact = await describeFile(wasmPath);
-  for (const [filename, artifact] of [
-    [nativePath, nativeArtifact],
-    [jsPath, jsArtifact],
-    [wasmPath, wasmArtifact]
-  ]) {
-    if (artifact.size === 0) throw new Error(`${filename}: empty artifact`);
+  await requireVersion(nativePath, ["-V"], /^tinymist (\S+)/, pin.upstream.version);
+  await run(process.execPath, ["--check", jsPath], source);
+  if (!WebAssembly.validate(await readFile(wasmPath))) {
+    throw new Error(`${wasmPath}: invalid WebAssembly module`);
   }
 
   await writeFile(
@@ -88,52 +102,221 @@ if (mode === "build-promote" || mode === "promote" || mode === "repin") {
     webWasm: { ...pin.artifacts.webWasm, ...wasmArtifact }
   };
 
-  const canonicalArtifacts = mode === "repin" ? promotedArtifacts : pin.artifacts;
+  // Builds only stamp their own outputs. Canonical pin/vendor/runtime promotion
+  // is a single explicit repin operation, including local immutable delivery.
   if (mode === "repin") {
-    pin.artifacts = promotedArtifacts;
-    await writeFile(pinPath, `${JSON.stringify(pin, null, 2)}\n`);
-    const vendor = path.join(root, "editors", "vscode", "vendor", `tinymist-${pin.upstream.version}`);
-    await copyFile(jsPath, path.join(vendor, "tinymist.js"));
-    await copyFile(wasmPath, path.join(vendor, "tinymist_bg.wasm"));
-    await writeFile(
-      path.join(vendor, "SHA256SUMS"),
-      `${promotedArtifacts.webJs.sha256}  tinymist.js\n${promotedArtifacts.webWasm.sha256}  tinymist_bg.wasm\n`
-    );
-    await writeFile(
-      path.join(root, "editors", "vscode", "src", "test", "fixtures", "tinymist-native-patched.sha256"),
-      `${promotedArtifacts.native.sha256}  tinymist\n`
-    );
+    runtimePublication = await repinArtifacts(promotedArtifacts, jsPath, wasmPath);
   }
-
-  // Runtime builds receive adjacent checksums; only explicit repin replaces
-  // the checked canonical metadata and vendored Web package.
-  await writeFile(
-    path.join(root, "third_party", "tinymist", "SHA256SUMS"),
-    [
-      ...patches.map((patch) => `${patch.sha256}  ${path.relative(path.join(root, "third_party", "tinymist"), patch.absolutePath)}`),
-      `${canonicalArtifacts.native.sha256}  ${canonicalArtifacts.native.relativePath}`,
-      `${canonicalArtifacts.webJs.sha256}  ${canonicalArtifacts.webJs.relativePath}`,
-      `${canonicalArtifacts.webWasm.sha256}  ${canonicalArtifacts.webWasm.relativePath}`
-    ].join("\n") + "\n"
-  );
 }
 
-console.log(JSON.stringify({ applied: true, mode, revision: pin.upstream.revision, artifacts: promotedArtifacts }));
+console.log(JSON.stringify({ applied: true, mode, revision: pin.upstream.revision, artifacts: promotedArtifacts, runtimePublication }));
 
 async function describeFile(filename) {
+  const info = await stat(filename);
+  if (!info.isFile() || info.size === 0) throw new Error(`${filename}: missing or empty artifact`);
   const bytes = await readFile(filename);
-  return {
-    sha256: createHash("sha256").update(bytes).digest("hex"),
-    size: (await stat(filename)).size
-  };
+  if (bytes.byteLength !== info.size) throw new Error(`${filename}: artifact changed while reading`);
+  return { sha256: sha256(bytes), size: bytes.byteLength };
 }
 
 async function verifyFile(filename, expected) {
-  const bytes = await readFile(filename);
-  const digest = createHash("sha256").update(bytes).digest("hex");
-  if (digest !== expected.sha256) throw new Error(`${filename}: sha256 ${digest} != ${expected.sha256}`);
-  if (expected.size !== undefined && (await stat(filename)).size !== expected.size) {
+  const artifact = await describeFile(filename);
+  if (artifact.sha256 !== expected.sha256) throw new Error(`${filename}: sha256 ${artifact.sha256} != ${expected.sha256}`);
+  if (expected.size !== undefined && artifact.size !== expected.size) {
     throw new Error(`${filename}: size mismatch`);
+  }
+}
+
+function sha256(bytes) {
+  return createHash("sha256").update(bytes).digest("hex");
+}
+
+async function requireVersion(command, args, pattern, expected) {
+  const { stdout } = await run(command, args, source, true);
+  if (pattern.exec(stdout.trim())?.[1] !== expected) {
+    throw new Error(`${command}: expected version ${expected}, received ${stdout.trim()}`);
+  }
+}
+
+function replaceOnce(text, pattern, replacement, label) {
+  if ([...text.matchAll(pattern)].length !== 1) {
+    throw new Error(`runtimeArtifacts.ts must contain exactly one ${label}`);
+  }
+  return text.replace(pattern, typeof replacement === "function" ? replacement : () => replacement);
+}
+
+function updateTinymistDescriptor(text, update) {
+  return replaceOnce(text, /export const TINYMIST_WASM_ARTIFACT = bundledArtifact\(\{\n([\s\S]*?)\n\}\);/g,
+    (_, fields) => {
+      if (!/^\s+id: "tinymist-wasm",$/m.test(fields)
+        || !/^\s+encoding: "brotli",$/m.test(fields)
+        || !/^\s+expectedRawSha256: TINYMIST_WASM_SHA256,$/m.test(fields)
+        || !/^\s+mediaType: "application\/wasm",$/m.test(fields)) {
+        throw new Error("runtimeArtifacts.ts has an unsupported Tinymist descriptor");
+      }
+      return `export const TINYMIST_WASM_ARTIFACT = bundledArtifact({\n${update(fields)}\n});`;
+    }, "Tinymist runtime descriptor");
+}
+
+function updateDecodedRuntime(text, artifact) {
+  text = replaceOnce(text, /^export const TINYMIST_VERSION = "[^"]+";$/gm,
+    `export const TINYMIST_VERSION = ${JSON.stringify(pin.upstream.version)};`, "Tinymist version");
+  text = replaceOnce(text, /^export const TINYMIST_WASM_SHA256 = "[0-9a-f]{64}";$/gm,
+    `export const TINYMIST_WASM_SHA256 = "${artifact.sha256}";`, "Tinymist decoded digest");
+  return updateTinymistDescriptor(text, (fields) => replaceOnce(fields, /^  rawBytes: [\d_]+,$/gm,
+    `  rawBytes: ${artifact.size},`, "Tinymist decoded size"));
+}
+
+function updateEncodedRuntime(text, encoded, url) {
+  text = updateTinymistDescriptor(text, (fields) => {
+    fields = replaceOnce(fields, /^  url: "[^"]+",$/gm,
+      `  url: ${JSON.stringify(url)},`, "Tinymist runtime URL");
+    fields = replaceOnce(fields, /^  expectedEncodedSha256: "[0-9a-f]{64}",$/gm,
+      `  expectedEncodedSha256: "${encoded.sha256}",`, "Tinymist encoded digest");
+    return replaceOnce(fields, /^  encodedBytes: [\d_]+,$/gm,
+      `  encodedBytes: ${encoded.bytes},`, "Tinymist encoded size");
+  });
+  // The decoded pin remains the sole authority for the CDN object path. The
+  // publication manifest is checked against that path before this is called.
+  return replaceOnce(text, /    artifact: TINYMIST_WASM_ARTIFACT,\n    sourceUrl: `[^\n]+`,/g,
+    '    artifact: TINYMIST_WASM_ARTIFACT,\n    sourceUrl: `${RUNTIME_ORIGIN}/wasm/tinymist/${TINYMIST_VERSION}/${TINYMIST_WASM_SHA256}/tinymist_bg.wasm.br?delivery=br-v1`,',
+    "Tinymist publication source");
+}
+
+async function readPublication(output, artifact) {
+  const manifestPath = path.join(output, "manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  const prefix = `wasm/tinymist/${pin.upstream.version}/${artifact.sha256}`;
+  if (manifest.schema !== "mmt-runtime-publication.v1"
+    || manifest.runtime !== "tinymist"
+    || manifest.version !== pin.upstream.version
+    || manifest.decodedSha256 !== artifact.sha256
+    || manifest.decodedBytes !== artifact.size
+    || manifest.objectPrefix !== prefix
+    || !Array.isArray(manifest.objects)
+    || manifest.objects.length !== 2) {
+    throw new Error(`${manifestPath}: publication identity does not match the built Tinymist WASM`);
+  }
+  let encoded;
+  let encodedBytes;
+  for (const delivery of ["identity", "br-v1"]) {
+    const objects = manifest.objects.filter((object) => object?.delivery === delivery);
+    if (objects.length !== 1) throw new Error(`${manifestPath}: expected one ${delivery} object`);
+    const object = objects[0];
+    const name = delivery === "identity" ? "tinymist_bg.wasm" : "tinymist_bg.wasm.br";
+    if (object.localPath !== path.join(output, name)
+      || object.objectName !== `${prefix}/${name}`
+      || !/^[0-9a-f]{64}$/.test(object.sha256)
+      || !Number.isSafeInteger(object.bytes) || object.bytes <= 0
+      || object.metadata?.["Content-Type"] !== "application/wasm"
+      || object.metadata?.["Content-Encoding"] !== (delivery === "br-v1" ? "br" : undefined)
+      || object.metadata?.["Cache-Control"] !== "public,max-age=31536000,immutable") {
+      throw new Error(`${manifestPath}: invalid ${delivery} object`);
+    }
+    const bytes = await readFile(object.localPath);
+    if (sha256(bytes) !== object.sha256 || bytes.byteLength !== object.bytes) {
+      throw new Error(`${object.localPath}: publication bytes do not match the manifest`);
+    }
+    const decoded = delivery === "identity" ? bytes : brotliDecompressSync(bytes);
+    if (decoded.byteLength !== artifact.size || sha256(decoded) !== artifact.sha256) {
+      throw new Error(`${object.localPath}: decoded publication does not match the built Tinymist WASM`);
+    }
+    if (delivery === "br-v1") {
+      encoded = object;
+      encodedBytes = bytes;
+    }
+  }
+  return { manifestPath, encoded, encodedBytes };
+}
+
+async function installImmutable(filename, bytes) {
+  try {
+    const existing = await readFile(filename);
+    if (!existing.equals(bytes)) throw new Error(`${filename}: immutable artifact already exists with different bytes`);
+    return;
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  await mkdir(path.dirname(filename), { recursive: true });
+  await writeFile(filename, bytes, { flag: "wx" });
+}
+
+async function repinArtifacts(artifacts, jsPath, wasmPath) {
+  const runtimePath = path.join(root, "editors", "vscode-web", "src", "runtimeArtifacts.ts");
+  const runtime = updateDecodedRuntime(await readFile(runtimePath, "utf8"), artifacts.webWasm);
+  const vendor = path.join(root, "editors", "vscode", "vendor", `tinymist-${pin.upstream.version}`);
+  const checksumsPath = path.join(root, "third_party", "tinymist", "SHA256SUMS");
+  const nativeChecksumPath = path.join(root, "editors", "vscode", "src", "test", "fixtures", "tinymist-native-patched.sha256");
+  const output = path.join(root, ".tmp", "runtime-publication", "tinymist");
+  const canonicalFiles = [
+    pinPath, runtimePath, checksumsPath, nativeChecksumPath,
+    path.join(vendor, "tinymist.js"), path.join(vendor, "tinymist_bg.wasm"), path.join(vendor, "SHA256SUMS")
+  ];
+  const backup = await mkdtemp(path.join(tmpdir(), "mmt-tinymist-repin-"));
+  const originals = new Map();
+  try {
+    for (const [index, filename] of canonicalFiles.entries()) {
+      const saved = path.join(backup, String(index));
+      try {
+        await copyFile(filename, saved);
+        originals.set(filename, saved);
+      } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+        originals.set(filename, null);
+      }
+    }
+    try {
+      // The publication owner requires decoded runtime identity to agree with
+      // the pin. Roll both back if preparation or any later promotion fails.
+      await writeFile(pinPath, `${JSON.stringify({ ...pin, artifacts }, null, 2)}\n`);
+      await writeFile(runtimePath, runtime);
+      await run(process.execPath, [
+        path.join(root, "tools", "cdn", "publish_tinymist_runtime.mjs"),
+        "--source", wasmPath, "--output", output
+      ], root);
+      const publication = await readPublication(output, artifacts.webWasm);
+      const url = `/runtime/${publication.encoded.sha256}/tinymist_bg.wasm.brotli.bin`;
+      const promotedRuntime = updateEncodedRuntime(runtime, publication.encoded, url);
+      const cachePath = path.join(root, "editors", "vscode-web", ".runtime-artifacts", `${publication.encoded.sha256}.brotli.bin`);
+      const publicPath = path.join(root, "editors", "vscode-web", "public", url.slice(1));
+      await installImmutable(cachePath, publication.encodedBytes);
+      await installImmutable(publicPath, publication.encodedBytes);
+      await mkdir(vendor, { recursive: true });
+      await copyFile(jsPath, path.join(vendor, "tinymist.js"));
+      await copyFile(wasmPath, path.join(vendor, "tinymist_bg.wasm"));
+      await verifyFile(path.join(vendor, "tinymist.js"), artifacts.webJs);
+      await verifyFile(path.join(vendor, "tinymist_bg.wasm"), artifacts.webWasm);
+      await writeFile(path.join(vendor, "SHA256SUMS"),
+        `${artifacts.webJs.sha256}  tinymist.js\n${artifacts.webWasm.sha256}  tinymist_bg.wasm\n`);
+      await writeFile(nativeChecksumPath, `${artifacts.native.sha256}  tinymist\n`);
+      await writeFile(checksumsPath, [
+        ...patches.map((patch) => `${patch.sha256}  ${path.relative(path.dirname(pinPath), patch.absolutePath)}`),
+        ...Object.values(artifacts).map((artifact) => `${artifact.sha256}  ${artifact.relativePath}`)
+      ].join("\n") + "\n");
+      await writeFile(runtimePath, promotedRuntime);
+      return {
+        manifestPath: publication.manifestPath,
+        decodedSha256: artifacts.webWasm.sha256,
+        encodedSha256: publication.encoded.sha256,
+        encodedBytes: publication.encoded.bytes,
+        url, cachePath, publicPath,
+        published: false
+      };
+    } catch (error) {
+      const failures = [error];
+      for (const [filename, saved] of originals) {
+        try {
+          if (saved === null) await rm(filename, { force: true });
+          else await copyFile(saved, filename);
+        } catch (restoreError) {
+          failures.push(restoreError);
+        }
+      }
+      if (failures.length > 1) throw new AggregateError(failures, "Tinymist repin failed and canonical files could not all be restored");
+      throw error;
+    }
+  } finally {
+    await rm(backup, { recursive: true, force: true });
   }
 }
 

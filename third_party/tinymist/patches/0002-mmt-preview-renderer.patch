@@ -1,5 +1,5 @@
 diff --git a/Cargo.lock b/Cargo.lock
-index 2db4317385f5ee45465d4e7d6e007300c36aadca..f587898864e512717a68dea6e28df8594413c7a8 100644
+index 5007657cabe357831dd5404f02e668ae65b05290..039ebcd500cd1711cdb9bbda729fc900b97ac5fb 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
 @@ -6723,6 +6723,7 @@ dependencies = [
@@ -23,19 +23,20 @@ index 9ea3d4be73c6a4f73edd2de35d4a0e9995281bd6..925a6eb579ea88c4598537b2645a46c8
  serde_yaml.workspace = true
  strum.workspace = true
 diff --git a/crates/tinymist/src/lib.rs b/crates/tinymist/src/lib.rs
-index 482f4030d4aa68ad7da6fd7ac0b815707e0139dd..0fa69264465415c6ceda823b4ec0f2417db59fdc 100644
+index 482f4030d4aa68ad7da6fd7ac0b815707e0139dd..16b3d86993b5bd36b41e605ae270f63fe94a637d 100644
 --- a/crates/tinymist/src/lib.rs
 +++ b/crates/tinymist/src/lib.rs
-@@ -54,6 +54,7 @@ mod log_;
+@@ -54,6 +54,8 @@ mod log_;
  mod lsp;
  mod package_callback;
  mod preview_location;
 +mod preview_renderer;
++mod preview_text_geometry;
  mod resource;
  mod server;
  mod stats;
 diff --git a/crates/tinymist/src/lsp/init.rs b/crates/tinymist/src/lsp/init.rs
-index e6ee63ee3c25bbac15b2bc0812f3b680407b54fd..d4faf6ca18a65f1d53437a15967b6d9498df905b 100644
+index e6ee63ee3c25bbac15b2bc0812f3b680407b54fd..2b4e9d8667d17dcb309caa2fb37a21820d14e20e 100644
 --- a/crates/tinymist/src/lsp/init.rs
 +++ b/crates/tinymist/src/lsp/init.rs
 @@ -208,6 +208,16 @@ impl Initializer for SuperInit {
@@ -46,7 +47,7 @@ index e6ee63ee3c25bbac15b2bc0812f3b680407b54fd..d4faf6ca18a65f1d53437a15967b6d94
 +                    "mmtPreviewRendererProvider": {
 +                        "method": "mmt/previewRenderer.v1",
 +                        "protocolVersion": "mmt-preview-renderer-v1",
-+                        "actions": ["register", "render", "commit", "discard", "locatePoint", "locateSource", "close"],
++                        "actions": ["register", "render", "commit", "discard", "locatePoint", "locateSource", "hitTestText", "locateCaret", "locateRange", "close"],
 +                        "frameKinds": ["new", "diff-v1"],
 +                        "transportEncoding": "base64",
 +                        "sourceDigestDomain": "mmt-preview-compiler-snapshot-v1",
@@ -56,17 +57,19 @@ index e6ee63ee3c25bbac15b2bc0812f3b680407b54fd..d4faf6ca18a65f1d53437a15967b6d94
                  })),
                  ..ServerCapabilities::default()
 diff --git a/crates/tinymist/src/preview_location.rs b/crates/tinymist/src/preview_location.rs
-index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..21334ab7cc966cbf3dfab722c8936770d11c7afe 100644
+index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..c6c4641a304263ce997c6ac3bffed59a18031c11 100644
 --- a/crates/tinymist/src/preview_location.rs
 +++ b/crates/tinymist/src/preview_location.rs
-@@ -41,32 +41,32 @@ pub(crate) struct PreviewLocationParams {
+@@ -40,33 +40,33 @@ pub(crate) struct PreviewLocationParams {
+ }
  
  #[derive(Debug, Deserialize, Serialize)]
- #[serde(rename_all = "camelCase")]
+-#[serde(rename_all = "camelCase")]
 -struct PreviewPoint {
 -    page_index: usize,
 -    x: f64,
 -    y: f64,
++#[serde(rename_all = "camelCase", deny_unknown_fields)]
 +pub(crate) struct PreviewPoint {
 +    pub(crate) page_index: usize,
 +    pub(crate) x: f64,
@@ -229,10 +232,10 @@ index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..21334ab7cc966cbf3dfab722c8936770
  fn schedule_response(value: impl Serialize) -> ScheduleResult {
 diff --git a/crates/tinymist/src/preview_renderer.rs b/crates/tinymist/src/preview_renderer.rs
 new file mode 100644
-index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035be7774fc9
+index 0000000000000000000000000000000000000000..c85e6b749eefef7aa17d2959d116369c274f1738
 --- /dev/null
 +++ b/crates/tinymist/src/preview_renderer.rs
-@@ -0,0 +1,1511 @@
+@@ -0,0 +1,1823 @@
 +//! Host-facing incremental preview vector data plane.
 +//!
 +//! This deliberately exposes only the stateful vector producer already used by
@@ -241,10 +244,10 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +
 +use std::collections::{HashMap, HashSet};
 +use std::path::{Path, PathBuf};
-+use std::sync::Arc;
++use std::sync::{Arc, OnceLock};
 +
 +use base64::{Engine, engine::general_purpose::STANDARD as BASE64};
-+use lsp_types::{Diagnostic, Position as LspPosition, Url, request::Request};
++use lsp_types::{Diagnostic, Position as LspPosition, Range as LspRange, Url, request::Request};
 +use reflexo_typst::{ShadowApi, TaskInputs, WorldComputeGraph};
 +use reflexo_vec2svg::IncrSvgDocServer;
 +use serde::{Deserialize, Serialize};
@@ -263,6 +266,11 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +    preview_location::{
 +        PreviewLocationResponse, PreviewPoint, SourceLocationResponse,
 +        preview_location_for_snapshot, source_locations_for_snapshot,
++    },
++    preview_text_geometry::{
++        PreviewCaretAffinity, PreviewRendererPointUncertainty, PreviewTextBox, PreviewTextCaret,
++        PreviewTextGeometry, PreviewTextHit, PreviewTextQuery, deserialize_position,
++        deserialize_range,
 +    },
 +};
 +
@@ -289,7 +297,8 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +#[serde(
 +    rename_all = "camelCase",
 +    rename_all_fields = "camelCase",
-+    tag = "action"
++    tag = "action",
++    deny_unknown_fields
 +)]
 +pub(crate) enum PreviewRendererParams {
 +    #[serde(rename = "register")]
@@ -341,7 +350,35 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +        session_id: String,
 +        generation: u64,
 +        uri: Url,
++        #[serde(deserialize_with = "deserialize_position")]
 +        position: LspPosition,
++    },
++    #[serde(rename = "hitTestText")]
++    HitTestText {
++        protocol_version: String,
++        session_id: String,
++        generation: u64,
++        position: PreviewPoint,
++        uncertainty: PreviewRendererPointUncertainty,
++    },
++    #[serde(rename = "locateCaret")]
++    LocateCaret {
++        protocol_version: String,
++        session_id: String,
++        generation: u64,
++        uri: Url,
++        #[serde(deserialize_with = "deserialize_position")]
++        position: LspPosition,
++        affinity: PreviewCaretAffinity,
++    },
++    #[serde(rename = "locateRange")]
++    LocateRange {
++        protocol_version: String,
++        session_id: String,
++        generation: u64,
++        uri: Url,
++        #[serde(deserialize_with = "deserialize_range")]
++        range: LspRange,
 +    },
 +    #[serde(rename = "close")]
 +    Close {
@@ -351,14 +388,14 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +}
 +
 +#[derive(Debug, Deserialize, Serialize)]
-+#[serde(rename_all = "camelCase")]
++#[serde(rename_all = "camelCase", deny_unknown_fields)]
 +pub(crate) struct PreviewRendererMount {
 +    path: String,
 +    content_digest: String,
 +}
 +
 +#[derive(Debug, Deserialize, Serialize)]
-+#[serde(rename_all = "camelCase")]
++#[serde(rename_all = "camelCase", deny_unknown_fields)]
 +pub(crate) struct PreviewRendererFileRecord {
 +    content_digest: String,
 +    data_base64: String,
@@ -437,6 +474,27 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +        generation: u64,
 +        locations: Vec<SourceLocationResponse>,
 +    },
++    #[serde(rename = "textHit")]
++    TextHit {
++        protocol_version: &'static str,
++        session_id: String,
++        generation: u64,
++        location: Option<PreviewTextHit>,
++    },
++    #[serde(rename = "locatedCaret")]
++    LocatedCaret {
++        protocol_version: &'static str,
++        session_id: String,
++        generation: u64,
++        carets: Vec<PreviewTextCaret>,
++    },
++    #[serde(rename = "locatedRange")]
++    LocatedRange {
++        protocol_version: &'static str,
++        session_id: String,
++        generation: u64,
++        boxes: Vec<PreviewTextBox>,
++    },
 +    #[serde(rename = "unavailable")]
 +    Unavailable {
 +        protocol_version: &'static str,
@@ -514,6 +572,7 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +    page_count: usize,
 +    artifact: LspCompiledArtifact,
 +    entry_uri: Url,
++    text_geometry: Arc<OnceLock<Option<PreviewTextGeometry>>>,
 +}
 +
 +struct StagedPreviewRendererGeneration {
@@ -861,6 +920,40 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +                    locations,
 +                })
 +            }
++            PreviewRendererParams::HitTestText {
++                session_id,
++                generation,
++                position,
++                uncertainty,
++                ..
++            } => Ok(self.preview_renderer_text_geometry(
++                session_id,
++                generation,
++                PreviewTextQuery::HitTest(position, uncertainty),
++            )),
++            PreviewRendererParams::LocateCaret {
++                session_id,
++                generation,
++                uri,
++                position,
++                affinity,
++                ..
++            } => Ok(self.preview_renderer_text_geometry(
++                session_id,
++                generation,
++                PreviewTextQuery::Caret(uri, position, affinity),
++            )),
++            PreviewRendererParams::LocateRange {
++                session_id,
++                generation,
++                uri,
++                range,
++                ..
++            } => Ok(self.preview_renderer_text_geometry(
++                session_id,
++                generation,
++                PreviewTextQuery::Range(uri, range),
++            )),
 +            PreviewRendererParams::Close { session_id, .. } => {
 +                self.preview_renderer.sessions.remove(&session_id);
 +                Ok(PreviewRendererResponse::Closed {
@@ -868,6 +961,72 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +                    session_id,
 +                })
 +            }
++        }
++    }
++
++    fn preview_renderer_text_geometry(
++        &mut self,
++        session_id: String,
++        generation: u64,
++        query: PreviewTextQuery,
++    ) -> PreviewRendererResponse {
++        let encoding = self.const_config().position_encoding;
++        let state = &mut self.preview_renderer;
++        let last_used = state.touch();
++        let committed = state.sessions.get_mut(&session_id).and_then(|session| {
++            session.last_used = last_used;
++            session
++                .committed
++                .as_ref()
++                .filter(|state| state.generation == generation)
++        });
++        let geometry = committed.and_then(|committed| {
++            committed
++                .text_geometry
++                .get_or_init(|| {
++                    PreviewTextGeometry::new(
++                        committed.artifact.world(),
++                        committed.artifact.doc.as_ref()?,
++                        &committed.entry_uri,
++                    )
++                })
++                .as_ref()
++                .map(|geometry| (committed, geometry))
++        });
++        let Some((committed, geometry)) = geometry else {
++            return PreviewRendererResponse::Unavailable {
++                protocol_version: PROTOCOL_VERSION,
++                session_id,
++                generation,
++            };
++        };
++        match query {
++            PreviewTextQuery::HitTest(point, uncertainty) => PreviewRendererResponse::TextHit {
++                protocol_version: PROTOCOL_VERSION,
++                session_id,
++                generation,
++                location: geometry.hit_test(point, uncertainty, encoding),
++            },
++            PreviewTextQuery::Caret(uri, position, affinity) => {
++                PreviewRendererResponse::LocatedCaret {
++                    protocol_version: PROTOCOL_VERSION,
++                    session_id,
++                    generation,
++                    carets: geometry.caret(
++                        committed.artifact.world(),
++                        &uri,
++                        position,
++                        affinity,
++                        encoding,
++                    ),
++                }
++            }
++            PreviewTextQuery::Range(uri, range) => PreviewRendererResponse::LocatedRange {
++                protocol_version: PROTOCOL_VERSION,
++                session_id,
++                generation,
++                boxes: geometry.range(committed.artifact.world(), &uri, range, encoding),
++            },
 +        }
 +    }
 +
@@ -1318,6 +1477,7 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +                page_count,
 +                artifact,
 +                entry_uri: render_entry_uri,
++                text_geometry: Arc::new(OnceLock::new()),
 +            },
 +            base_generation: response_base_generation,
 +            frame_kind,
@@ -1419,6 +1579,21 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +            session_id,
 +            ..
 +        }
++        | PreviewRendererParams::HitTestText {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::LocateCaret {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::LocateRange {
++            protocol_version,
++            session_id,
++            ..
++        }
 +        | PreviewRendererParams::Close {
 +            protocol_version,
 +            session_id,
@@ -1503,7 +1678,36 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +                return Err(invalid_params("invalid generation-bound preview point"));
 +            }
 +        }
-+        PreviewRendererParams::LocateSource { generation, .. } => {
++        PreviewRendererParams::HitTestText {
++            generation,
++            position,
++            uncertainty,
++            ..
++        } => {
++            if *generation == 0
++                || !position.x.is_finite()
++                || !position.y.is_finite()
++                || !(0.0..=1.0).contains(&position.x)
++                || !(0.0..=1.0).contains(&position.y)
++            {
++                return Err(invalid_params("invalid generation-bound preview point"));
++            }
++            if !uncertainty.x.is_finite()
++                || !uncertainty.y.is_finite()
++                || !(0.0..=1.0).contains(&uncertainty.x)
++                || !(0.0..=1.0).contains(&uncertainty.y)
++            {
++                return Err(invalid_params(
++                    "preview text hit uncertainty must have finite normalized components",
++                ));
++            }
++        }
++        PreviewRendererParams::LocateRange { range, .. } if range.start > range.end => {
++            return Err(invalid_params("preview text range must be source-ordered"));
++        }
++        PreviewRendererParams::LocateSource { generation, .. }
++        | PreviewRendererParams::LocateCaret { generation, .. }
++        | PreviewRendererParams::LocateRange { generation, .. } => {
 +            if *generation == 0 {
 +                return Err(invalid_params(
 +                    "preview renderer generation must be positive",
@@ -1705,6 +1909,117 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +    }
 +
 +    #[test]
++    fn rejects_unknown_text_geometry_fields_at_every_wire_level() {
++        let request = serde_json::json!({
++            "action": "locateCaret",
++            "protocolVersion": PROTOCOL_VERSION,
++            "sessionId": "geometry",
++            "generation": 1,
++            "uri": "file:///main.typ",
++            "position": { "line": 0, "character": 0 },
++            "affinity": "before"
++        });
++        let params: PreviewRendererParams = serde_json::from_value(request.clone()).unwrap();
++        assert!(validate_params(&params).is_ok());
++        let mut unknown = request.clone();
++        unknown["sourceDigest"] = serde_json::json!("untrusted");
++        assert!(serde_json::from_value::<PreviewRendererParams>(unknown).is_err());
++        let mut unknown = request.clone();
++        unknown["position"]["byteOffset"] = serde_json::json!(0);
++        assert!(serde_json::from_value::<PreviewRendererParams>(unknown).is_err());
++        let mut unknown = request.clone();
++        unknown["affinity"] = serde_json::json!("nearest");
++        assert!(serde_json::from_value::<PreviewRendererParams>(unknown).is_err());
++        let mut stale = request;
++        stale["generation"] = serde_json::json!(0);
++        let params: PreviewRendererParams = serde_json::from_value(stale).unwrap();
++        assert!(validate_params(&params).is_err());
++        let range = serde_json::json!({
++            "action": "locateRange",
++            "protocolVersion": PROTOCOL_VERSION,
++            "sessionId": "geometry",
++            "generation": 1,
++            "uri": "file:///main.typ",
++            "range": {
++                "start": { "line": 0, "character": 0 },
++                "end": { "line": 0, "character": 1, "offset": 1 }
++            }
++        });
++        assert!(serde_json::from_value::<PreviewRendererParams>(range).is_err());
++        let point = serde_json::json!({
++            "action": "hitTestText",
++            "protocolVersion": PROTOCOL_VERSION,
++            "sessionId": "geometry",
++            "generation": 1,
++            "position": { "pageIndex": 0, "x": 0.5, "y": 0.5, "text": "forged" },
++            "uncertainty": { "x": 0.0, "y": 0.0 }
++        });
++        assert!(serde_json::from_value::<PreviewRendererParams>(point).is_err());
++    }
++
++    #[test]
++    fn hit_test_text_requires_exact_normalized_uncertainty() {
++        let request = serde_json::json!({
++            "action": "hitTestText",
++            "protocolVersion": PROTOCOL_VERSION,
++            "sessionId": "geometry",
++            "generation": 1,
++            "position": { "pageIndex": 0, "x": 0.25, "y": 0.75 },
++            "uncertainty": { "x": 0.125, "y": 0.5 }
++        });
++        let params: PreviewRendererParams = serde_json::from_value(request.clone()).unwrap();
++        assert!(validate_params(&params).is_ok());
++        assert_eq!(serde_json::to_value(&params).unwrap(), request);
++
++        let mut missing = request.clone();
++        missing.as_object_mut().unwrap().remove("uncertainty");
++        assert!(serde_json::from_value::<PreviewRendererParams>(missing).is_err());
++        let mut missing_component = request.clone();
++        missing_component["uncertainty"]
++            .as_object_mut()
++            .unwrap()
++            .remove("y");
++        assert!(serde_json::from_value::<PreviewRendererParams>(missing_component).is_err());
++        let mut unknown = request.clone();
++        unknown["uncertainty"]["radius"] = serde_json::json!(0.0);
++        assert!(serde_json::from_value::<PreviewRendererParams>(unknown).is_err());
++
++        for invalid_uncertainty in [
++            PreviewRendererPointUncertainty { x: -0.01, y: 0.0 },
++            PreviewRendererPointUncertainty { x: 0.0, y: 1.01 },
++            PreviewRendererPointUncertainty {
++                x: f64::NAN,
++                y: 0.0,
++            },
++            PreviewRendererPointUncertainty {
++                x: 0.0,
++                y: f64::INFINITY,
++            },
++        ] {
++            let mut params: PreviewRendererParams =
++                serde_json::from_value(request.clone()).unwrap();
++            let PreviewRendererParams::HitTestText { uncertainty, .. } = &mut params else {
++                unreachable!();
++            };
++            *uncertainty = invalid_uncertainty;
++            assert!(validate_params(&params).is_err());
++        }
++
++        let locate_point = serde_json::json!({
++            "action": "locatePoint",
++            "protocolVersion": PROTOCOL_VERSION,
++            "sessionId": "geometry",
++            "generation": 1,
++            "position": { "pageIndex": 0, "x": 0.25, "y": 0.75 }
++        });
++        let params: PreviewRendererParams = serde_json::from_value(locate_point.clone()).unwrap();
++        assert!(validate_params(&params).is_ok());
++        let mut widened = locate_point;
++        widened["uncertainty"] = serde_json::json!({ "x": 0.0, "y": 0.0 });
++        assert!(serde_json::from_value::<PreviewRendererParams>(widened).is_err());
++    }
++
++    #[test]
 +    fn canonical_digest_matches_typescript_framing() {
 +        assert_eq!(
 +            canonical_bytes_digest(
@@ -1744,6 +2059,2186 @@ index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035b
 +        assert!(!state.sessions.contains_key("s0"));
 +    }
 +}
+diff --git a/crates/tinymist/src/preview_text_geometry.rs b/crates/tinymist/src/preview_text_geometry.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..95151d82b5d299dd43eb3d2c439770b5f54728f0
+--- /dev/null
++++ b/crates/tinymist/src/preview_text_geometry.rs
+@@ -0,0 +1,2174 @@
++//! Exact, generation-local text geometry. This is deliberately independent of
++//! navigation's best-effort AST jumps: a source boundary is returned only when a
++//! compiled glyph cluster proves its relationship to a literal source span.
++
++use std::collections::HashMap;
++use std::fmt::{self, Write as _};
++use std::ops::Range;
++
++use lsp_types::{Position as LspPosition, Range as LspRange, Url};
++use serde::{Deserialize, Deserializer, Serialize};
++use tinymist_project::LspWorld;
++use tinymist_query::{PositionEncoding, path_res_to_url};
++use tinymist_std::typst::TypstDocument;
++use typst::{
++    World,
++    foundations::{Str, Value},
++    introspection::{MetadataElem, Tag},
++    layout::{Abs, Frame, FrameItem, Point, Size, Transform},
++    syntax::{FileId, LinkedNode, Side, Source, Span, SyntaxKind, ast, ast::AstNode},
++    text::{Glyph, TextItem},
++    visualize::{Curve, CurveItem},
++};
++
++use crate::{as_path_, preview_location::PreviewPoint};
++
++// The incremental SVG renderer lowers geometry to f32, then uses distinct
++// shortest, three-decimal, and two-decimal SVG representations. Hit testing
++// replays those representations; caret stops remain the compiled f64 edges.
++const SVG_TEXT_METRIC_SCALE: f64 = 16.0;
++
++#[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq)]
++#[serde(rename_all = "camelCase")]
++pub(crate) enum PreviewCaretAffinity {
++    Before,
++    After,
++}
++
++#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
++#[serde(rename_all = "camelCase", deny_unknown_fields)]
++pub(crate) struct PreviewRendererPointUncertainty {
++    pub(crate) x: f64,
++    pub(crate) y: f64,
++}
++
++#[derive(Debug, Serialize)]
++#[serde(rename_all = "camelCase")]
++pub(crate) struct PreviewTextHit {
++    pub(crate) uri: Url,
++    pub(crate) range: LspRange,
++    pub(crate) affinity: PreviewCaretAffinity,
++}
++
++#[derive(Clone, Debug, Serialize, PartialEq)]
++#[serde(rename_all = "camelCase")]
++pub(crate) struct PreviewTextBox {
++    pub(crate) page_index: usize,
++    pub(crate) x: f64,
++    pub(crate) y: f64,
++    pub(crate) width: f64,
++    pub(crate) height: f64,
++}
++
++#[derive(Debug, Serialize)]
++#[serde(rename_all = "camelCase")]
++pub(crate) struct PreviewTextCaret {
++    #[serde(flatten)]
++    pub(crate) rect: PreviewTextBox,
++    pub(crate) affinity: PreviewCaretAffinity,
++}
++
++// lsp-types intentionally accepts extension fields. These renderer requests do
++// not: in particular an untrusted caller cannot smuggle a second position into
++// a nested record and have different transports interpret it differently.
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct ExactPosition {
++    line: u32,
++    character: u32,
++}
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct ExactRange {
++    start: ExactPosition,
++    end: ExactPosition,
++}
++
++pub(crate) fn deserialize_position<'de, D: Deserializer<'de>>(
++    deserializer: D,
++) -> Result<LspPosition, D::Error> {
++    let value = ExactPosition::deserialize(deserializer)?;
++    Ok(LspPosition::new(value.line, value.character))
++}
++
++pub(crate) fn deserialize_range<'de, D: Deserializer<'de>>(
++    deserializer: D,
++) -> Result<LspRange, D::Error> {
++    let value = ExactRange::deserialize(deserializer)?;
++    Ok(LspRange::new(
++        LspPosition::new(value.start.line, value.start.character),
++        LspPosition::new(value.end.line, value.end.character),
++    ))
++}
++
++pub(crate) enum PreviewTextQuery {
++    HitTest(PreviewPoint, PreviewRendererPointUncertainty),
++    Caret(Url, LspPosition, PreviewCaretAffinity),
++    Range(Url, LspRange),
++}
++
++pub(crate) struct PreviewTextGeometry {
++    sources: HashMap<FileId, GeometrySource>,
++    pages: Vec<GeometryPage>,
++}
++
++struct GeometrySource {
++    source: Source,
++    uri: Url,
++}
++
++struct GeometryPage {
++    size: Size,
++    clusters: Vec<TextCluster>,
++}
++
++/// Both edges are in page points, including every enclosing group transform.
++/// Unknown clusters are retained as hit-test obstructions, not silently skipped
++/// to authorize text painted underneath an unassignable glyph.
++struct TextCluster {
++    left: [Point; 2],
++    right: [Point; 2],
++    baseline: [Point; 2],
++    rendered_left: [Point; 2],
++    rendered_right: [Point; 2],
++    rendered_seams: Vec<[Point; 2]>,
++    mapped: Option<MappedCluster>,
++    marker_band: Option<MarkerBand>,
++}
++
++#[derive(Clone, Copy)]
++struct ScalarInterval {
++    lo: f64,
++    hi: f64,
++}
++
++struct HitTestPoint {
++    point: Point,
++    x: ScalarInterval,
++    y: ScalarInterval,
++}
++
++struct MappedCluster {
++    id: FileId,
++    span: Span,
++    source: Range<usize>,
++    marker: bool,
++    starts_grapheme: bool,
++    ends_grapheme: bool,
++    stops: Vec<CaretStop>,
++}
++
++#[derive(Clone, Copy)]
++struct BodyBounds {
++    inverse: Transform,
++    size: Size,
++}
++
++struct MarkerBand {
++    body: BodyBounds,
++    inverse: Transform,
++    height: Abs,
++}
++
++struct CaretStop {
++    offset: usize,
++    edge: [Point; 2],
++    // Interior font-defined ligature carets support either affinity.
++    affinity: Option<PreviewCaretAffinity>,
++}
++
++/// Exact decoded-byte -> source-byte boundaries for one literal. There is no
++/// substring search: glyph.span.1 indexes this precise source node's value.
++struct TextOrigin {
++    id: FileId,
++    text: String,
++    boundaries: Vec<(usize, usize)>,
++    graphemes: Vec<usize>,
++}
++
++struct GeometryBuilder<'a> {
++    world: &'a LspWorld,
++    entry_uri: &'a Url,
++    sources: HashMap<FileId, GeometrySource>,
++    origins: HashMap<Span, Option<TextOrigin>>,
++}
++
++impl PreviewTextGeometry {
++    pub(crate) fn new(world: &LspWorld, document: &TypstDocument, entry_uri: &Url) -> Option<Self> {
++        let TypstDocument::Paged(document) = document else {
++            return None;
++        };
++        let mut builder = GeometryBuilder {
++            world,
++            entry_uri,
++            sources: HashMap::new(),
++            origins: HashMap::new(),
++        };
++        let mut pages = Vec::with_capacity(document.pages().len());
++        for page in document.pages() {
++            let mut geometry = GeometryPage {
++                size: page.frame.size(),
++                clusters: Vec::new(),
++            };
++            let renderer_transform = RendererTransform::page(page.frame.size())?;
++            builder.frame(
++                &page.frame,
++                Transform::identity(),
++                renderer_transform,
++                None,
++                &mut geometry.clusters,
++            );
++            pages.push(geometry);
++        }
++        Some(Self {
++            sources: builder.sources,
++            pages,
++        })
++    }
++
++    pub(crate) fn hit_test(
++        &self,
++        position: PreviewPoint,
++        uncertainty: PreviewRendererPointUncertainty,
++        encoding: PositionEncoding,
++    ) -> Option<PreviewTextHit> {
++        let page = self.pages.get(position.page_index)?;
++        if !position.x.is_finite()
++            || !position.y.is_finite()
++            || !(0.0..=1.0).contains(&position.x)
++            || !(0.0..=1.0).contains(&position.y)
++            || !uncertainty.x.is_finite()
++            || !uncertainty.y.is_finite()
++            || !(0.0..=1.0).contains(&uncertainty.x)
++            || !(0.0..=1.0).contains(&uncertainty.y)
++        {
++            return None;
++        }
++        let rendered_y_offset = self
++            .pages
++            .get(..position.page_index)?
++            .iter()
++            .try_fold(0.0, |offset, page| {
++                Some(offset + renderer_page_extent(page.size.y)?)
++            })?;
++        let point = HitTestPoint::new(position, uncertainty, page.size, rendered_y_offset)?;
++        let mut best: Option<(FileId, &CaretStop, f64)> = None;
++        for cluster in &page.clusters {
++            if !cluster.contains(&point) {
++                continue;
++            }
++            let mapped = cluster.mapped.as_ref()?;
++            let mut nearest: Option<(&CaretStop, f64)> = None;
++            for stop in &mapped.stops {
++                let distance = distance_to_edge(point.point, stop.edge);
++                if nearest.as_ref().is_none_or(|(_, old)| distance < *old) {
++                    nearest = Some((stop, distance));
++                }
++            }
++            let (stop, distance) = nearest?;
++            if let Some((id, old, old_distance)) = &best {
++                // Overlapping glyphs from distinct sources are not reversible.
++                // Ordinary neighbouring glyphs agree at their shared edge.
++                if *id != mapped.id || old.offset != stop.offset {
++                    return None;
++                }
++                if distance >= *old_distance {
++                    continue;
++                }
++            }
++            best = Some((mapped.id, stop, distance));
++        }
++        let (id, stop, _) = best?;
++        let source = self.sources.get(&id)?;
++        let position = offset_to_position(&source.source, encoding, stop.offset)?;
++        Some(PreviewTextHit {
++            uri: source.uri.clone(),
++            range: LspRange::new(position, position),
++            affinity: stop.affinity.unwrap_or(PreviewCaretAffinity::Before),
++        })
++    }
++
++    pub(crate) fn caret(
++        &self,
++        world: &LspWorld,
++        uri: &Url,
++        position: LspPosition,
++        affinity: PreviewCaretAffinity,
++        encoding: PositionEncoding,
++    ) -> Vec<PreviewTextCaret> {
++        let Some(id) = world.id_for_path(as_path_(uri).as_path()) else {
++            return Vec::new();
++        };
++        let Some(source) = self.sources.get(&id) else {
++            return Vec::new();
++        };
++        let Some(offset) = position_to_offset(&source.source, encoding, position) else {
++            return Vec::new();
++        };
++        self.caret_at(id, offset, affinity)
++    }
++
++    fn caret_at(
++        &self,
++        id: FileId,
++        offset: usize,
++        affinity: PreviewCaretAffinity,
++    ) -> Vec<PreviewTextCaret> {
++        let mut preferred = Vec::new();
++        let mut other = Vec::new();
++        for (page_index, page) in self.pages.iter().enumerate() {
++            for cluster in &page.clusters {
++                let Some(mapped) = &cluster.mapped else {
++                    continue;
++                };
++                if mapped.id != id {
++                    continue;
++                }
++                for stop in &mapped.stops {
++                    if stop.offset != offset {
++                        continue;
++                    }
++                    let Some(rect) = normalized_box(page_index, page.size, &stop.edge) else {
++                        continue;
++                    };
++                    let target = if stop.affinity.is_none_or(|value| value == affinity) {
++                        &mut preferred
++                    } else {
++                        &mut other
++                    };
++                    if !target
++                        .iter()
++                        .any(|caret: &PreviewTextCaret| same_box(&caret.rect, &rect))
++                    {
++                        target.push(PreviewTextCaret { rect, affinity });
++                    }
++                }
++            }
++        }
++        // At a soft wrap, before selects the following line and after selects
++        // the preceding line. At document endpoints only one side exists.
++        if preferred.is_empty() {
++            other
++        } else {
++            preferred
++        }
++    }
++
++    pub(crate) fn range(
++        &self,
++        world: &LspWorld,
++        uri: &Url,
++        range: LspRange,
++        encoding: PositionEncoding,
++    ) -> Vec<PreviewTextBox> {
++        let Some(id) = world.id_for_path(as_path_(uri).as_path()) else {
++            return Vec::new();
++        };
++        let Some(source) = self.sources.get(&id) else {
++            return Vec::new();
++        };
++        let Some(start) = position_to_offset(&source.source, encoding, range.start) else {
++            return Vec::new();
++        };
++        let Some(end) = position_to_offset(&source.source, encoding, range.end) else {
++            return Vec::new();
++        };
++        self.range_at(id, start..end)
++    }
++
++    fn range_at(&self, id: FileId, range: Range<usize>) -> Vec<PreviewTextBox> {
++        if range.start > range.end {
++            return Vec::new();
++        }
++        let mut result = Vec::new();
++        let mut found_start = false;
++        let mut found_end = false;
++        for (page_index, page) in self.pages.iter().enumerate() {
++            for cluster in &page.clusters {
++                let Some(mapped) = &cluster.mapped else {
++                    continue;
++                };
++                if mapped.id != id {
++                    continue;
++                }
++                found_start |= mapped.stops.iter().any(|stop| stop.offset == range.start);
++                found_end |= mapped.stops.iter().any(|stop| stop.offset == range.end);
++                if mapped.marker
++                    && range.start <= mapped.source.start
++                    && mapped.source.start <= range.end
++                {
++                    if let Some(rect) = normalized_box(page_index, page.size, &cluster.left) {
++                        if !result.iter().any(|old| same_box(old, &rect)) {
++                            result.push(rect);
++                        }
++                    }
++                    continue;
++                }
++                let start = range.start.max(mapped.source.start);
++                let end = range.end.min(mapped.source.end);
++                if start >= end {
++                    continue;
++                }
++                let start_edge = if start == mapped.source.start {
++                    Some(cluster.source_edge(false))
++                } else {
++                    mapped
++                        .stops
++                        .iter()
++                        .find(|stop| stop.offset == start)
++                        .map(|stop| stop.edge)
++                };
++                let end_edge = if end == mapped.source.end {
++                    Some(cluster.source_edge(true))
++                } else {
++                    mapped
++                        .stops
++                        .iter()
++                        .find(|stop| stop.offset == end)
++                        .map(|stop| stop.edge)
++                };
++                let (Some(a), Some(b)) = (start_edge, end_edge) else {
++                    // Do not paint an entire ligature for a partial range when
++                    // its font does not provide a real interior caret.
++                    return Vec::new();
++                };
++                if let Some(rect) = normalized_box(page_index, page.size, &[a[0], a[1], b[0], b[1]])
++                {
++                    if !result.iter().any(|old| same_box(old, &rect)) {
++                        result.push(rect);
++                    }
++                }
++            }
++        }
++        if found_start && found_end {
++            result
++        } else {
++            Vec::new()
++        }
++    }
++}
++
++impl GeometryBuilder<'_> {
++    fn frame(
++        &mut self,
++        frame: &Frame,
++        transform: Transform,
++        renderer_transform: RendererTransform,
++        body: Option<BodyBounds>,
++        clusters: &mut Vec<TextCluster>,
++    ) {
++        if let Some(marker) = self.empty_line_marker(frame, transform, body) {
++            clusters.push(marker);
++        }
++        for (position, item) in frame.items() {
++            let transform = transform.pre_concat(Transform::translate(position.x, position.y));
++            let renderer_transform =
++                renderer_transform.pre_concat(RendererTransform::translation(*position));
++            match item {
++                FrameItem::Group(group) => {
++                    let transform = transform.pre_concat(group.transform);
++                    let renderer_transform =
++                        renderer_transform.pre_concat(RendererTransform::matrix(group.transform));
++                    let body = group
++                        .label
++                        .filter(|label| {
++                            let label = label.resolve();
++                            label.starts_with("mmt:bubble:") || label.starts_with("mmt:narration:")
++                        })
++                        .and_then(|_| {
++                            transform.invert().map(|inverse| BodyBounds {
++                                inverse,
++                                size: group.frame.size(),
++                            })
++                        })
++                        .or(body);
++                    if let Some(clip) = &group.clip {
++                        let mut inner = Vec::new();
++                        self.frame(
++                            &group.frame,
++                            transform,
++                            renderer_transform,
++                            body,
++                            &mut inner,
++                        );
++                        for cluster in &mut inner {
++                            // Rectangular clips can prove full visibility. An
++                            // arbitrary or partial clip is an obstruction, not
++                            // permission to hit invisible text underneath.
++                            if !inside_rectangular_clip(cluster, clip, renderer_transform) {
++                                cluster.mapped = None;
++                                cluster.marker_band = None;
++                            }
++                        }
++                        clusters.extend(inner);
++                    } else {
++                        self.frame(&group.frame, transform, renderer_transform, body, clusters);
++                    }
++                }
++                FrameItem::Text(text) => self.text(text, transform, renderer_transform, clusters),
++                _ => {}
++            }
++        }
++    }
++
++    fn empty_line_marker(
++        &mut self,
++        frame: &Frame,
++        transform: Transform,
++        body: Option<BodyBounds>,
++    ) -> Option<TextCluster> {
++        if !frame.kind().is_hard() || frame.width() != Abs::zero() || frame.height() <= Abs::zero()
++        {
++            return None;
++        }
++        let mut marker = None;
++        for (_, item) in frame.items() {
++            let FrameItem::Tag(Tag::Start(content, _)) = item else {
++                continue;
++            };
++            let Some(metadata) = content.to_packed::<MetadataElem>() else {
++                continue;
++            };
++            let Value::Dict(value) = &metadata.value else {
++                continue;
++            };
++            let Ok(offset) = value.get("mmtTextCaret") else {
++                continue;
++            };
++            if value.len() != 1 || marker.is_some() {
++                return None;
++            }
++            let Value::Int(offset) = offset else {
++                return None;
++            };
++            let offset = usize::try_from(*offset).ok()?;
++            let id = content.span().id()?;
++            let source = &self.load_source(id)?.source;
++            let span = empty_marker_span(source, content.span(), offset)?;
++            marker = Some((id, span, offset));
++        }
++        let (id, span, offset) = marker?;
++        let edge = [
++            Point::zero().transform(transform),
++            Point::new(Abs::zero(), frame.height()).transform(transform),
++        ];
++        let baseline = Point::new(Abs::zero(), frame.baseline()).transform(transform);
++        Some(TextCluster {
++            left: edge,
++            right: edge,
++            baseline: [baseline, baseline],
++            rendered_left: edge,
++            rendered_right: edge,
++            rendered_seams: Vec::new(),
++            mapped: Some(MappedCluster {
++                id,
++                span,
++                source: offset..offset,
++                marker: true,
++                starts_grapheme: true,
++                ends_grapheme: true,
++                stops: vec![CaretStop {
++                    offset,
++                    edge,
++                    affinity: None,
++                }],
++            }),
++            marker_band: body.and_then(|body| {
++                transform.invert().map(|inverse| MarkerBand {
++                    body,
++                    inverse,
++                    height: frame.height(),
++                })
++            }),
++        })
++    }
++
++    fn text(
++        &mut self,
++        text: &TextItem,
++        transform: Transform,
++        renderer_transform: RendererTransform,
++        clusters: &mut Vec<TextCluster>,
++    ) {
++        let top = -text.font.metrics().ascender.at(text.size);
++        let bottom = -text.font.metrics().descender.at(text.size);
++        let mut cursor = Point::zero();
++        let mut renderer_cursor = (0.0f32, 0.0f32);
++        let mut index = 0;
++        let descending = text.glyphs.windows(2).find_map(|pair| {
++            (pair[0].range.start != pair[1].range.start)
++                .then_some(pair[0].range.start > pair[1].range.start)
++        });
++        while let Some(glyph) = text.glyphs.get(index) {
++            let start = cursor;
++            let renderer_start = renderer_cursor;
++            let first = index;
++            while let Some(next) = text.glyphs.get(index) {
++                if next.range != glyph.range || next.span != glyph.span {
++                    break;
++                }
++                let x_advance = next.x_advance.at(text.size);
++                let y_advance = next.y_advance.at(text.size);
++                cursor.x += x_advance;
++                cursor.y -= y_advance;
++                renderer_cursor.0 += x_advance.to_pt() as f32;
++                renderer_cursor.1 -= y_advance.to_pt() as f32;
++                index += 1;
++            }
++            let edge = |at: Point| {
++                [
++                    Point::new(at.x, at.y + top).transform(transform),
++                    Point::new(at.x, at.y + bottom).transform(transform),
++                ]
++            };
++            let left = edge(start);
++            let right = edge(cursor);
++            let baseline = [start.transform(transform), cursor.transform(transform)];
++            let mut renderer_end_x = f64::from(renderer_cursor.0);
++            if index == text.glyphs.len() {
++                renderer_end_x = svg_text_width(text).unwrap_or(f64::NAN);
++            }
++            let (renderer_top, renderer_bottom) =
++                svg_text_vertical_bounds(text).unwrap_or((f64::NAN, f64::NAN));
++            let rendered_left = [
++                renderer_transform.point(
++                    f64::from(renderer_start.0),
++                    f64::from(renderer_start.1) + renderer_top,
++                ),
++                renderer_transform.point(
++                    f64::from(renderer_start.0),
++                    f64::from(renderer_start.1) + renderer_bottom,
++                ),
++            ];
++            let rendered_right = [
++                renderer_transform
++                    .point(renderer_end_x, f64::from(renderer_cursor.1) + renderer_top),
++                renderer_transform.point(
++                    renderer_end_x,
++                    f64::from(renderer_cursor.1) + renderer_bottom,
++                ),
++            ];
++            let mapped = self.origin(glyph.span.0).and_then(|origin| {
++                let value = text.text.get(glyph.range())?;
++                let from = usize::from(glyph.span.1);
++                let to = from.checked_add(value.len())?;
++                // span offsets and item ranges are u16 in Typst. Saturated or
++                // wrapped values cannot authorize an edit, even if text repeats.
++                if glyph.span.1 == u16::MAX
++                    || glyph.range.end == u16::MAX
++                    || origin.text.len() > usize::from(u16::MAX)
++                    || origin.text.get(from..to)? != value
++                    || value.is_empty()
++                {
++                    return None;
++                }
++                // A singleton RTL run has no ordering evidence in TextItem.
++                // Never invent its logical direction from an advance width.
++                let rtl = descending.unwrap_or(false);
++                if descending.is_none() && value.chars().any(is_rtl_or_bidi_control) {
++                    return None;
++                }
++                let source = origin.source_offset(from)?..origin.source_offset(to)?;
++                let starts_grapheme = origin.is_grapheme(from);
++                let ends_grapheme = origin.is_grapheme(to);
++                let mut stops = Vec::new();
++                if starts_grapheme {
++                    stops.push(CaretStop {
++                        offset: source.start,
++                        edge: if rtl { right } else { left },
++                        affinity: Some(PreviewCaretAffinity::Before),
++                    });
++                }
++                let interior = origin
++                    .graphemes
++                    .iter()
++                    .copied()
++                    .filter(|&at| from < at && at < to)
++                    .collect::<Vec<_>>();
++                if !interior.is_empty() && index - first == 1 && starts_grapheme && ends_grapheme {
++                    if let Some(mut carets) = ligature_carets(text, glyph, interior.len()) {
++                        if rtl {
++                            carets.reverse();
++                        }
++                        for (decoded, x) in interior.into_iter().zip(carets) {
++                            let at = Point::new(
++                                start.x + glyph.x_offset.at(text.size) + Abs::pt(x),
++                                start.y,
++                            );
++                            let caret = edge(at);
++                            // Broken font data is not an excuse to leave the
++                            // actual compiled cluster's advance interval.
++                            let advance = (cursor.x - start.x).to_pt();
++                            let advance_x = (at.x - start.x).to_pt();
++                            if !(0.0..=advance).contains(&advance_x) {
++                                return None;
++                            }
++                            stops.push(CaretStop {
++                                offset: origin.source_offset(decoded)?,
++                                edge: caret,
++                                affinity: None,
++                            });
++                        }
++                    }
++                }
++                if ends_grapheme {
++                    stops.push(CaretStop {
++                        offset: source.end,
++                        edge: if rtl { left } else { right },
++                        affinity: Some(PreviewCaretAffinity::After),
++                    });
++                }
++                Some(MappedCluster {
++                    id: origin.id,
++                    span: glyph.span.0,
++                    source,
++                    marker: false,
++                    starts_grapheme,
++                    ends_grapheme,
++                    stops,
++                })
++            });
++            let cluster = TextCluster {
++                left,
++                right,
++                baseline,
++                rendered_left,
++                rendered_right,
++                rendered_seams: Vec::new(),
++                mapped,
++                marker_band: None,
++            };
++            if let Some(previous) = clusters.last_mut() {
++                if previous.join_grapheme(&cluster) {
++                    continue;
++                }
++            }
++            clusters.push(cluster);
++        }
++    }
++
++    fn origin(&mut self, span: Span) -> Option<&TextOrigin> {
++        if !self.origins.contains_key(&span) {
++            let origin = span
++                .id()
++                .and_then(|id| TextOrigin::from_source(&self.load_source(id)?.source, span));
++            self.origins.insert(span, origin);
++        }
++        self.origins.get(&span)?.as_ref()
++    }
++
++    fn load_source(&mut self, id: FileId) -> Option<&GeometrySource> {
++        if !self.sources.contains_key(&id) {
++            let source = self.world.source(id).ok()?;
++            let uri = if self.world.id_for_path(as_path_(self.entry_uri).as_path()) == Some(id) {
++                self.entry_uri.clone()
++            } else {
++                path_res_to_url(self.world.path_for_id(id).ok()?).ok()?
++            };
++            self.sources.insert(id, GeometrySource { source, uri });
++        }
++        self.sources.get(&id)
++    }
++}
++
++impl TextOrigin {
++    fn from_source(source: &Source, span: Span) -> Option<Self> {
++        let node = source.find(span)?;
++        // text("literal") attaches the call's span after converting its string
++        // argument into Content. Resolve only this structurally exact form, not
++        // the first string found somewhere below an arbitrary macro call.
++        let literal_span = if let Some(call) = node.cast::<ast::FuncCall>() {
++            let ast::Expr::Ident(callee) = call.callee() else {
++                return None;
++            };
++            if callee.as_str() != "text" {
++                return None;
++            }
++            let mut args = call.args().items();
++            let ast::Arg::Pos(ast::Expr::Str(literal)) = args.next()? else {
++                return None;
++            };
++            if args.next().is_some() {
++                return None;
++            }
++            Some(literal.span())
++        } else {
++            None
++        };
++        let node = if let Some(literal_span) = literal_span {
++            source.find(literal_span)?
++        } else {
++            node
++        };
++        let range = node.range();
++        let raw = source.text().get(range.clone())?;
++        let (text, boundaries) = match node.kind() {
++            SyntaxKind::Str => decode_string(raw, range.start)?,
++            SyntaxKind::Text | SyntaxKind::Space | SyntaxKind::MathText => {
++                let boundaries = raw
++                    .char_indices()
++                    .map(|(i, _)| (i, range.start + i))
++                    .chain(std::iter::once((raw.len(), range.end)))
++                    .collect();
++                (raw.to_owned(), boundaries)
++            }
++            SyntaxKind::Escape => {
++                let value = node.cast::<ast::Escape>()?.get().to_string();
++                let len = value.len();
++                (value, vec![(0, range.start), (len, range.end)])
++            }
++            _ => return None,
++        };
++        let mut graphemes = vec![0];
++        // Reuse Typst's own Unicode segmentation instead of maintaining another
++        // Unicode table or accepting scalar boundaries inside a grapheme.
++        let mut offset = 0;
++        for cluster in Str::from(text.as_str()).clusters().iter() {
++            let typst::foundations::Value::Str(cluster) = cluster else {
++                return None;
++            };
++            offset += cluster.len();
++            graphemes.push(offset);
++        }
++        Some(Self {
++            id: source.id(),
++            text,
++            boundaries,
++            graphemes,
++        })
++    }
++
++    fn source_offset(&self, offset: usize) -> Option<usize> {
++        let index = self
++            .boundaries
++            .binary_search_by_key(&offset, |&(decoded, _)| decoded)
++            .ok()?;
++        Some(self.boundaries[index].1)
++    }
++
++    fn is_grapheme(&self, offset: usize) -> bool {
++        self.graphemes.binary_search(&offset).is_ok()
++    }
++}
++
++/// Parse only Typst's reversible string escapes. Unknown/malformed escapes are
++/// rejected, rather than guessed or sliced at a non-UTF-8 boundary.
++fn decode_string(raw: &str, base: usize) -> Option<(String, Vec<(usize, usize)>)> {
++    let inner = raw.strip_prefix('"')?.strip_suffix('"')?;
++    let mut text = String::with_capacity(inner.len());
++    let mut boundaries = vec![(0, base + 1)];
++    let mut offset = 0;
++    while offset < inner.len() {
++        let ch = inner.get(offset..)?.chars().next()?;
++        offset += ch.len_utf8();
++        let value = if ch == '\\' {
++            let escaped = inner.get(offset..)?.chars().next()?;
++            offset += escaped.len_utf8();
++            match escaped {
++                '\\' => '\\',
++                '"' => '"',
++                'n' => '\n',
++                'r' => '\r',
++                't' => '\t',
++                'u' => {
++                    if inner.as_bytes().get(offset) != Some(&b'{') {
++                        return None;
++                    }
++                    offset += 1;
++                    let start = offset;
++                    while inner
++                        .as_bytes()
++                        .get(offset)
++                        .is_some_and(u8::is_ascii_hexdigit)
++                    {
++                        offset += 1;
++                    }
++                    if start == offset || inner.as_bytes().get(offset) != Some(&b'}') {
++                        return None;
++                    }
++                    let value =
++                        char::from_u32(u32::from_str_radix(inner.get(start..offset)?, 16).ok()?)?;
++                    offset += 1;
++                    value
++                }
++                _ => return None,
++            }
++        } else {
++            ch
++        };
++        text.push(value);
++        boundaries.push((text.len(), base + 1 + offset));
++    }
++    Some((text, boundaries))
++}
++
++struct FloatBuffer {
++    bytes: [u8; 64],
++    len: usize,
++}
++
++impl FloatBuffer {
++    fn new() -> Self {
++        Self {
++            bytes: [0; 64],
++            len: 0,
++        }
++    }
++
++    fn parse(&self) -> Option<f64> {
++        std::str::from_utf8(&self.bytes[..self.len])
++            .ok()?
++            .parse()
++            .ok()
++    }
++}
++
++impl fmt::Write for FloatBuffer {
++    fn write_str(&mut self, value: &str) -> fmt::Result {
++        let end = self.len.checked_add(value.len()).ok_or(fmt::Error)?;
++        let target = self.bytes.get_mut(self.len..end).ok_or(fmt::Error)?;
++        target.copy_from_slice(value.as_bytes());
++        self.len = end;
++        Ok(())
++    }
++}
++
++#[derive(Clone, Copy)]
++struct RendererTransform {
++    sx: f64,
++    ky: f64,
++    kx: f64,
++    sy: f64,
++    tx: f64,
++    ty: f64,
++}
++
++impl RendererTransform {
++    fn page(size: Size) -> Option<Self> {
++        renderer_page_extent(size.x)?;
++        renderer_page_extent(size.y)?;
++        // Frame edges and serialized SVG transforms share page-point units.
++        // Integral page extents belong only to the normalized wire boundary.
++        Some(Self {
++            sx: 1.0,
++            ky: 0.0,
++            kx: 0.0,
++            sy: 1.0,
++            tx: 0.0,
++            ty: 0.0,
++        })
++    }
++
++    fn translation(point: Point) -> Self {
++        Self {
++            sx: 1.0,
++            ky: 0.0,
++            kx: 0.0,
++            sy: 1.0,
++            tx: svg_fixed_3(point.x.to_pt() as f32).unwrap_or(f64::NAN),
++            ty: svg_fixed_3(point.y.to_pt() as f32).unwrap_or(f64::NAN),
++        }
++    }
++
++    fn matrix(transform: Transform) -> Self {
++        let number = |value: f32| svg_shortest(value).unwrap_or(f64::NAN);
++        Self {
++            sx: number(transform.sx.get() as f32),
++            ky: number(transform.ky.get() as f32),
++            kx: number(transform.kx.get() as f32),
++            sy: number(transform.sy.get() as f32),
++            tx: number(transform.tx.to_pt() as f32),
++            ty: number(transform.ty.to_pt() as f32),
++        }
++    }
++
++    fn pre_concat(self, previous: Self) -> Self {
++        Self {
++            sx: self.sx * previous.sx + self.kx * previous.ky,
++            ky: self.ky * previous.sx + self.sy * previous.ky,
++            kx: self.sx * previous.kx + self.kx * previous.sy,
++            sy: self.ky * previous.kx + self.sy * previous.sy,
++            tx: self.sx * previous.tx + self.kx * previous.ty + self.tx,
++            ty: self.ky * previous.tx + self.sy * previous.ty + self.ty,
++        }
++    }
++
++    fn point(self, x: f64, y: f64) -> Point {
++        Point::new(
++            Abs::pt(self.sx * x + self.kx * y + self.tx),
++            Abs::pt(self.ky * x + self.sy * y + self.ty),
++        )
++    }
++}
++
++impl ScalarInterval {
++    fn shifted(self, value: f64) -> Self {
++        Self {
++            lo: self.lo + value,
++            hi: self.hi + value,
++        }
++    }
++
++    fn expanded(self, radius: f64) -> Option<Self> {
++        if !radius.is_finite() || radius < 0.0 {
++            return None;
++        }
++        let expanded = Self {
++            lo: self.lo - radius,
++            hi: self.hi + radius,
++        };
++        expanded.is_finite().then_some(expanded)
++    }
++
++    fn scaled(self, value: f64) -> Self {
++        let a = self.lo * value;
++        let b = self.hi * value;
++        Self {
++            lo: a.min(b),
++            hi: a.max(b),
++        }
++    }
++
++    fn add(self, other: Self) -> Self {
++        Self {
++            lo: self.lo + other.lo,
++            hi: self.hi + other.hi,
++        }
++    }
++
++    fn is_finite(self) -> bool {
++        self.lo.is_finite() && self.hi.is_finite() && self.lo <= self.hi
++    }
++
++    fn overlaps(self, lo: f64, hi: f64) -> bool {
++        self.hi >= lo && self.lo <= hi
++    }
++}
++
++impl HitTestPoint {
++    fn new(
++        position: PreviewPoint,
++        uncertainty: PreviewRendererPointUncertainty,
++        size: Size,
++        rendered_y_offset: f64,
++    ) -> Option<Self> {
++        let rendered_width = renderer_page_extent(size.x)?;
++        let rendered_height = renderer_page_extent(size.y)?;
++        let rendered_x = position.x * rendered_width;
++        let rendered_y = rendered_y_offset + position.y * rendered_height;
++        let uncertainty_x = uncertainty.x * rendered_width;
++        let uncertainty_y = uncertainty.y * rendered_height;
++        Some(Self {
++            point: Point::new(Abs::pt(rendered_x), Abs::pt(position.y * rendered_height)),
++            x: f32_precision_interval(rendered_x)?.expanded(uncertainty_x)?,
++            y: f32_precision_interval(rendered_y)?
++                .shifted(-rendered_y_offset)
++                .expanded(uncertainty_y)?,
++        })
++    }
++}
++
++fn renderer_page_extent(value: Abs) -> Option<f64> {
++    let value = value.to_pt() as f32;
++    if !value.is_finite() || value <= 0.0 {
++        return None;
++    }
++    Some(f64::from(value.ceil().round().max(1.0) as u32))
++}
++
++/// Retain the residual adjacent-f32 cell from normalized wire coordinates.
++/// Screen sampling and inverse-transform uncertainty is supplied separately and
++/// expands containment only.
++fn f32_precision_interval(value: f64) -> Option<ScalarInterval> {
++    let rounded = value as f32;
++    if !rounded.is_finite() {
++        return None;
++    }
++    let previous = rounded.next_down();
++    let next = rounded.next_up();
++    if !previous.is_finite() || !next.is_finite() {
++        return None;
++    }
++    let lo = value - (f64::from(rounded) - f64::from(previous));
++    let hi = value + (f64::from(next) - f64::from(rounded));
++    Some(ScalarInterval { lo, hi })
++}
++
++fn svg_shortest(value: f32) -> Option<f64> {
++    if !value.is_finite() {
++        return None;
++    }
++    let mut output = FloatBuffer::new();
++    write!(&mut output, "{value}").ok()?;
++    output.parse()
++}
++
++fn svg_fixed_3(value: f32) -> Option<f64> {
++    if !value.is_finite() {
++        return None;
++    }
++    let mut output = FloatBuffer::new();
++    write!(&mut output, "{value:.3}").ok()?;
++    output.parse()
++}
++
++fn svg_fixed_2(value: f32) -> Option<f64> {
++    if !value.is_finite() {
++        return None;
++    }
++    let mut output = FloatBuffer::new();
++    write!(&mut output, "{value:.2}").ok()?;
++    output.parse()
++}
++
++fn svg_text_width(text: &TextItem) -> Option<f64> {
++    let size = text.size.to_pt() as f32;
++    let upem = text.font.units_per_em() as f32;
++    if !size.is_finite() || !upem.is_finite() || size <= 0.0 || upem <= 0.0 {
++        return None;
++    }
++    let mut width = 0.0f32;
++    for glyph in &text.glyphs {
++        width += glyph.x_advance.at(text.size).to_pt() as f32;
++    }
++    let ppem = size / upem;
++    let metric = width * upem / size / SVG_TEXT_METRIC_SCALE as f32;
++    Some(svg_fixed_2(metric)? * SVG_TEXT_METRIC_SCALE * svg_shortest(ppem)?)
++}
++
++fn svg_text_vertical_bounds(text: &TextItem) -> Option<(f64, f64)> {
++    let size = text.size.to_pt() as f32;
++    let upem = text.font.units_per_em() as f32;
++    if !size.is_finite() || !upem.is_finite() || size <= 0.0 || upem <= 0.0 {
++        return None;
++    }
++    let ascender = text.font.metrics().ascender.get() as f32 * upem;
++    let ppem = svg_shortest(size / upem)?;
++    let top = -svg_fixed_2(ascender / SVG_TEXT_METRIC_SCALE as f32)? * SVG_TEXT_METRIC_SCALE * ppem;
++    let bottom = (-svg_fixed_2(ascender / SVG_TEXT_METRIC_SCALE as f32)?
++        + svg_fixed_2(upem / SVG_TEXT_METRIC_SCALE as f32)?)
++        * SVG_TEXT_METRIC_SCALE
++        * ppem;
++    Some((top.min(bottom), top.max(bottom)))
++}
++fn affine_intervals(
++    px: ScalarInterval,
++    py: ScalarInterval,
++    origin: Point,
++    x: Point,
++    y: Point,
++    determinant: f64,
++) -> (ScalarInterval, ScalarInterval) {
++    let px = px.shifted(-origin.x.to_pt());
++    let py = py.shifted(-origin.y.to_pt());
++    let u = px
++        .scaled(y.y.to_pt())
++        .add(py.scaled(-y.x.to_pt()))
++        .scaled(1.0 / determinant);
++    let v = py
++        .scaled(x.x.to_pt())
++        .add(px.scaled(-x.y.to_pt()))
++        .scaled(1.0 / determinant);
++    (u, v)
++}
++
++fn affine_point(point: Point, origin: Point, x: Point, y: Point, determinant: f64) -> (f64, f64) {
++    let point = point - origin;
++    (
++        (point.x.to_pt() * y.y.to_pt() - point.y.to_pt() * y.x.to_pt()) / determinant,
++        (x.x.to_pt() * point.y.to_pt() - x.y.to_pt() * point.x.to_pt()) / determinant,
++    )
++}
++
++impl TextCluster {
++    fn contains(&self, hit: &HitTestPoint) -> bool {
++        if let Some(band) = &self.marker_band {
++            for x in [hit.x.lo, hit.point.x.to_pt(), hit.x.hi] {
++                for y in [hit.y.lo, hit.point.y.to_pt(), hit.y.hi] {
++                    let point = Point::new(Abs::pt(x), Abs::pt(y));
++                    let body_point = point.transform(band.body.inverse);
++                    let line_point = point.transform(band.inverse);
++                    if (Abs::zero()..=band.body.size.x).contains(&body_point.x)
++                        && (Abs::zero()..=band.body.size.y).contains(&body_point.y)
++                        && (Abs::zero()..=band.height).contains(&line_point.y)
++                    {
++                        return true;
++                    }
++                }
++            }
++            return false;
++        }
++        let x = self.baseline[1] - self.baseline[0];
++        let y = self.left[1] - self.left[0];
++        let determinant = x.x.to_pt() * y.y.to_pt() - x.y.to_pt() * y.x.to_pt();
++        if determinant.abs() < 1e-10 || !hit.x.is_finite() || !hit.y.is_finite() {
++            return false;
++        }
++        let (hit_u, hit_v) = affine_intervals(hit.x, hit.y, self.left[0], x, y, determinant);
++        let mut min_u: f64 = 0.0;
++        let mut max_u: f64 = 1.0;
++        let mut min_v: f64 = 0.0;
++        let mut max_v: f64 = 1.0;
++        for point in self
++            .rendered_left
++            .iter()
++            .chain(&self.rendered_right)
++            .chain(self.rendered_seams.iter().flatten())
++        {
++            let (u, v) = affine_point(*point, self.left[0], x, y, determinant);
++            if !u.is_finite() || !v.is_finite() {
++                return false;
++            }
++            min_u = min_u.min(u);
++            max_u = max_u.max(u);
++            min_v = min_v.min(v);
++            max_v = max_v.max(v);
++        }
++        hit_u.overlaps(min_u, max_u) && hit_v.overlaps(min_v, max_v)
++    }
++
++    fn source_edge(&self, end: bool) -> [Point; 2] {
++        if let Some(mapped) = &self.mapped {
++            let offset = if end {
++                mapped.source.end
++            } else {
++                mapped.source.start
++            };
++            if let Some(stop) = mapped.stops.iter().find(|stop| stop.offset == offset) {
++                return stop.edge;
++            }
++        }
++        if end { self.right } else { self.left }
++    }
++
++    fn join_grapheme(&mut self, next: &Self) -> bool {
++        let (Some(a), Some(b)) = (&mut self.mapped, &next.mapped) else {
++            return false;
++        };
++        if a.id != b.id
++            || a.span != b.span
++            || a.source.end != b.source.start
++            || a.ends_grapheme
++            || b.starts_grapheme
++            || (self.baseline[1] - next.baseline[0]).hypot().to_pt() > 1e-7
++        {
++            return false;
++        }
++        a.source.end = b.source.end;
++        a.ends_grapheme = b.ends_grapheme;
++        a.stops.extend(b.stops.iter().map(|stop| CaretStop {
++            offset: stop.offset,
++            edge: stop.edge,
++            affinity: stop.affinity,
++        }));
++        self.rendered_seams.push(self.rendered_right);
++        self.rendered_seams.push(next.rendered_left);
++        self.rendered_seams
++            .extend(next.rendered_seams.iter().copied());
++        self.right = next.right;
++        self.rendered_right = next.rendered_right;
++        self.baseline[1] = next.baseline[1];
++        true
++    }
++}
++
++/// A marker may refer only to the empty text literal in its own enclosing box,
++/// not an arbitrary integer-selected source position or a neighbouring body.
++fn empty_marker_span(source: &Source, metadata_span: Span, offset: usize) -> Option<Span> {
++    let leaf = LinkedNode::new(source.root()).leaf_at(offset, Side::After)?;
++    if leaf.kind() != SyntaxKind::Str {
++        return None;
++    }
++    let literal = TextOrigin::from_source(source, leaf.span())?;
++    if !literal.text.is_empty() || literal.source_offset(0)? != offset {
++        return None;
++    }
++    let args = leaf.parent()?;
++    let text_call = args.parent()?;
++    let text = TextOrigin::from_source(source, text_call.span())?;
++    if !text.text.is_empty() || text.source_offset(0)? != offset {
++        return None;
++    }
++    let mut metadata = source.find(metadata_span)?;
++    loop {
++        if let Some(call) = metadata.cast::<ast::FuncCall>() {
++            if matches!(call.callee(), ast::Expr::Ident(name) if name.as_str() == "box") {
++                let range = metadata.range();
++                return (range.start <= text_call.range().start
++                    && text_call.range().end <= range.end)
++                    .then_some(leaf.span());
++            }
++        }
++        metadata = metadata.parent()?.clone();
++    }
++}
++
++fn inside_rectangular_clip(
++    cluster: &TextCluster,
++    clip: &Curve,
++    renderer_transform: RendererTransform,
++) -> bool {
++    let [
++        CurveItem::Move(a),
++        CurveItem::Line(b),
++        CurveItem::Line(c),
++        CurveItem::Line(d),
++        CurveItem::Close,
++    ] = clip.0.as_slice()
++    else {
++        return false;
++    };
++    if a.y != b.y || b.x != c.x || c.y != d.y || d.x != a.x {
++        return false;
++    }
++    let render = |point: Point| {
++        Some(renderer_transform.point(
++            svg_shortest(point.x.to_pt() as f32)?,
++            svg_shortest(point.y.to_pt() as f32)?,
++        ))
++    };
++    let (Some(a), Some(b), Some(_c), Some(d)) = (render(*a), render(*b), render(*c), render(*d))
++    else {
++        return false;
++    };
++    let x = b - a;
++    let y = d - a;
++    let determinant = x.x.to_pt() * y.y.to_pt() - x.y.to_pt() * y.x.to_pt();
++    if determinant.abs() < 1e-10 {
++        return false;
++    }
++    // Full visibility must be proven in the same serialized coordinate space
++    // as the SVG clip. Any partial/uncertain clip remains an obstruction.
++    cluster
++        .rendered_left
++        .iter()
++        .chain(&cluster.rendered_right)
++        .chain(cluster.rendered_seams.iter().flatten())
++        .all(|point| {
++            let (u, v) = affine_point(*point, a, x, y, determinant);
++            (0.0..=1.0).contains(&u) && (0.0..=1.0).contains(&v)
++        })
++}
++
++fn distance_to_edge(point: Point, edge: [Point; 2]) -> f64 {
++    let direction = edge[1] - edge[0];
++    let relative = point - edge[0];
++    let dx = direction.x.to_pt();
++    let dy = direction.y.to_pt();
++    let length = dx * dx + dy * dy;
++    let t = if length > 0.0 {
++        ((relative.x.to_pt() * dx + relative.y.to_pt() * dy) / length).clamp(0.0, 1.0)
++    } else {
++        0.0
++    };
++    (point - (edge[0] + direction * t)).hypot().to_pt()
++}
++
++fn normalized_box(page_index: usize, size: Size, points: &[Point]) -> Option<PreviewTextBox> {
++    let width = renderer_page_extent(size.x)?;
++    let height = renderer_page_extent(size.y)?;
++    let mut left = f64::INFINITY;
++    let mut right = f64::NEG_INFINITY;
++    let mut top = f64::INFINITY;
++    let mut bottom = f64::NEG_INFINITY;
++    for point in points {
++        let x = point.x.to_pt();
++        let y = point.y.to_pt();
++        if !x.is_finite() || !y.is_finite() {
++            return None;
++        }
++        left = left.min(x);
++        right = right.max(x);
++        top = top.min(y);
++        bottom = bottom.max(y);
++    }
++    if right < 0.0 || left > width || bottom <= 0.0 || top >= height {
++        return None;
++    }
++    let x = (left / width).clamp(0.0, 1.0);
++    let y = (top / height).clamp(0.0, 1.0);
++    let right = (right / width).clamp(0.0, 1.0);
++    let bottom = (bottom / height).clamp(0.0, 1.0);
++    if bottom <= y {
++        return None;
++    }
++    Some(PreviewTextBox {
++        page_index,
++        x,
++        y,
++        width: right - x,
++        height: bottom - y,
++    })
++}
++
++fn same_box(a: &PreviewTextBox, b: &PreviewTextBox) -> bool {
++    a.page_index == b.page_index
++        && (a.x - b.x).abs() < 1e-10
++        && (a.y - b.y).abs() < 1e-10
++        && (a.width - b.width).abs() < 1e-10
++        && (a.height - b.height).abs() < 1e-10
++}
++
++fn position_to_offset(
++    source: &Source,
++    encoding: PositionEncoding,
++    position: LspPosition,
++) -> Option<usize> {
++    let start = source.lines().line_to_byte(position.line as usize)?;
++    let end = source
++        .lines()
++        .line_to_byte(position.line as usize + 1)
++        .unwrap_or(source.text().len());
++    let line = source
++        .text()
++        .get(start..end)?
++        .trim_end_matches(['\r', '\n']);
++    let requested = position.character as usize;
++    match encoding {
++        PositionEncoding::Utf8 => (requested <= line.len() && line.is_char_boundary(requested))
++            .then_some(start + requested),
++        PositionEncoding::Utf16 => {
++            let mut units = 0;
++            for (offset, ch) in line.char_indices() {
++                if units == requested {
++                    return Some(start + offset);
++                }
++                units += ch.len_utf16();
++                if units > requested {
++                    return None;
++                }
++            }
++            (units == requested).then_some(start + line.len())
++        }
++    }
++}
++
++fn offset_to_position(
++    source: &Source,
++    encoding: PositionEncoding,
++    offset: usize,
++) -> Option<LspPosition> {
++    if !source.text().is_char_boundary(offset) {
++        return None;
++    }
++    let line = source.lines().byte_to_line(offset)?;
++    let start = source.lines().line_to_byte(line)?;
++    let prefix = source.text().get(start..offset)?;
++    let character = match encoding {
++        PositionEncoding::Utf8 => prefix.len(),
++        PositionEncoding::Utf16 => prefix.encode_utf16().count(),
++    };
++    Some(LspPosition::new(
++        u32::try_from(line).ok()?,
++        u32::try_from(character).ok()?,
++    ))
++}
++
++fn is_rtl_or_bidi_control(ch: char) -> bool {
++    matches!(ch as u32, 0x0590..=0x08ff | 0xfb1d..=0xfdff | 0xfe70..=0xfefc | 0x10800..=0x10fff | 0x1e800..=0x1eeff | 0x200e..=0x200f | 0x202a..=0x202e | 0x2066..=0x2069)
++}
++
++/// OpenType GDEF LigCaretList. Format-1 coordinates are real font geometry;
++/// point-index/device/variation carets require information this API does not
++/// have, and are rejected. No equal-width subdivision is ever used.
++fn ligature_carets(text: &TextItem, glyph: &Glyph, count: usize) -> Option<Vec<f64>> {
++    let data = text
++        .font
++        .ttf()
++        .raw_face()
++        .table(ttf_parser::Tag::from_bytes(b"GDEF"))?;
++    let list = usize::from(read_u16(data, 8)?);
++    if list == 0 {
++        return None;
++    }
++    let coverage = list.checked_add(usize::from(read_u16(data, list)?))?;
++    let index = coverage_index(data, coverage, glyph.id)?;
++    if index >= usize::from(read_u16(data, list + 2)?) {
++        return None;
++    }
++    let ligature = list.checked_add(usize::from(read_u16(data, list + 4 + index * 2)?))?;
++    if usize::from(read_u16(data, ligature)?) != count {
++        return None;
++    }
++    let mut result = Vec::with_capacity(count);
++    for index in 0..count {
++        let caret = ligature.checked_add(usize::from(read_u16(data, ligature + 2 + index * 2)?))?;
++        if read_u16(data, caret)? != 1 {
++            return None;
++        }
++        let coordinate = read_u16(data, caret + 2)? as i16;
++        result.push(text.font.to_em(coordinate).at(text.size).to_pt());
++    }
++    result.sort_by(f64::total_cmp);
++    if result.windows(2).any(|pair| pair[0] >= pair[1]) {
++        return None;
++    }
++    Some(result)
++}
++
++fn read_u16(data: &[u8], offset: usize) -> Option<u16> {
++    Some(u16::from_be_bytes(
++        data.get(offset..offset.checked_add(2)?)?.try_into().ok()?,
++    ))
++}
++
++fn coverage_index(data: &[u8], offset: usize, glyph: u16) -> Option<usize> {
++    let count = usize::from(read_u16(data, offset + 2)?);
++    match read_u16(data, offset)? {
++        1 => (0..count).find(|index| read_u16(data, offset + 4 + index * 2) == Some(glyph)),
++        2 => {
++            for index in 0..count {
++                let at = offset + 4 + index * 6;
++                let start = read_u16(data, at)?;
++                let end = read_u16(data, at + 2)?;
++                if (start..=end).contains(&glyph) {
++                    return usize::from(read_u16(data, at + 4)?)
++                        .checked_add(usize::from(glyph - start));
++                }
++            }
++            None
++        }
++        _ => None,
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use typst::syntax::LinkedNode;
++
++    fn literal_origin(source: &Source) -> TextOrigin {
++        fn call(node: typst::syntax::LinkedNode<'_>) -> Option<Span> {
++            if node.kind() == SyntaxKind::FuncCall {
++                return Some(node.span());
++            }
++            node.children().find_map(call)
++        }
++        TextOrigin::from_source(source, call(LinkedNode::new(source.root())).unwrap()).unwrap()
++    }
++
++    #[test]
++    fn escaped_unicode_source_boundaries_are_exact_and_grapheme_safe() {
++        let source = Source::detached(r#"#text("A😀é中\n\"\\\u{1f600}")"#);
++        let origin = literal_origin(&source);
++        assert_eq!(origin.text, "A😀é中\n\"\\😀");
++        assert_eq!(origin.source_offset(0), Some(7));
++        assert_eq!(origin.source_offset(1), Some(8));
++        assert_eq!(origin.source_offset(5), Some(12));
++        assert!(origin.source_offset(2).is_none());
++        assert!(!origin.is_grapheme(6));
++        assert!(origin.is_grapheme(8));
++        for &(decoded, raw) in &origin.boundaries {
++            assert!(origin.text.is_char_boundary(decoded));
++            assert!(source.text().is_char_boundary(raw));
++            for encoding in [PositionEncoding::Utf8, PositionEncoding::Utf16] {
++                let position = offset_to_position(&source, encoding, raw).unwrap();
++                assert_eq!(position_to_offset(&source, encoding, position), Some(raw));
++            }
++        }
++        assert_eq!(
++            origin.source_offset(origin.text.len()),
++            Some(source.text().len() - 2)
++        );
++    }
++
++    #[test]
++    fn rejects_nonliteral_calls_and_invalid_unicode_positions() {
++        let source = Source::detached("#text(\"😀\")\nother");
++        assert_eq!(
++            position_to_offset(&source, PositionEncoding::Utf16, LspPosition::new(0, 8)),
++            None
++        );
++        assert_eq!(
++            position_to_offset(&source, PositionEncoding::Utf8, LspPosition::new(0, 8)),
++            None
++        );
++        assert_eq!(
++            position_to_offset(&source, PositionEncoding::Utf16, LspPosition::new(0, 100)),
++            None
++        );
++        assert_eq!(
++            position_to_offset(&source, PositionEncoding::Utf16, LspPosition::new(99, 0)),
++            None
++        );
++        assert!(decode_string(r#""bad\q""#, 0).is_none());
++        assert!(decode_string(r#""\u{d800}""#, 0).is_none());
++        let source = Source::detached("#other(\"same\")");
++        let node = LinkedNode::new(source.root())
++            .children()
++            .find(|node| node.kind() == SyntaxKind::FuncCall)
++            .unwrap();
++        assert!(TextOrigin::from_source(&source, node.span()).is_none());
++    }
++
++    #[test]
++    fn empty_marker_cannot_target_nonempty_or_other_box_source() {
++        let source = Source::detached(
++            r#"#box(width:0pt)[#text("")#metadata((mmtTextCaret:22))] #box(width:0pt)[#text("")]"#,
++        );
++        fn find_call(node: LinkedNode<'_>, name: &str) -> Option<Span> {
++            if node.cast::<ast::FuncCall>().is_some_and(
++                |call| matches!(call.callee(), ast::Expr::Ident(callee) if callee.as_str() == name),
++            ) {
++                return Some(node.span());
++            }
++            node.children().find_map(|child| find_call(child, name))
++        }
++        let metadata = find_call(LinkedNode::new(source.root()), "metadata").unwrap();
++        let first = source.text().find("#text(\"").unwrap() + 7;
++        let other = source.text().rfind("#text(\"").unwrap() + 7;
++        assert!(empty_marker_span(&source, metadata, first).is_some());
++        assert!(empty_marker_span(&source, metadata, first - 1).is_none());
++        assert!(empty_marker_span(&source, metadata, other).is_none());
++        let nonempty =
++            Source::detached(r#"#box(width:0pt)[#text("x")#metadata((mmtTextCaret:22))]"#);
++        let metadata = find_call(LinkedNode::new(nonempty.root()), "metadata").unwrap();
++        assert!(empty_marker_span(&nonempty, metadata, first).is_none());
++    }
++
++    fn cluster(
++        id: FileId,
++        span: Span,
++        range: Range<usize>,
++        x: f64,
++        width: f64,
++        y: f64,
++    ) -> TextCluster {
++        let edge = |x| {
++            [
++                Point::new(Abs::pt(x), Abs::pt(y)),
++                Point::new(Abs::pt(x), Abs::pt(y + 10.0)),
++            ]
++        };
++        let left = edge(x);
++        let right = edge(x + width);
++        TextCluster {
++            left,
++            right,
++            baseline: [left[1], right[1]],
++            rendered_left: left,
++            rendered_right: right,
++            rendered_seams: Vec::new(),
++            mapped: Some(MappedCluster {
++                id,
++                span,
++                source: range.clone(),
++                marker: false,
++                starts_grapheme: true,
++                ends_grapheme: true,
++                stops: vec![
++                    CaretStop {
++                        offset: range.start,
++                        edge: left,
++                        affinity: Some(PreviewCaretAffinity::Before),
++                    },
++                    CaretStop {
++                        offset: range.end,
++                        edge: right,
++                        affinity: Some(PreviewCaretAffinity::After),
++                    },
++                ],
++            }),
++            marker_band: None,
++        }
++    }
++    fn test_geometry(
++        source: Source,
++        size: Size,
++        clusters: Vec<TextCluster>,
++    ) -> PreviewTextGeometry {
++        let id = source.id();
++        PreviewTextGeometry {
++            sources: HashMap::from([(
++                id,
++                GeometrySource {
++                    source,
++                    uri: Url::parse("file:///main.typ").unwrap(),
++                },
++            )]),
++            pages: vec![GeometryPage { size, clusters }],
++        }
++    }
++
++    fn renderer_point(page_index: usize, x: f32, y: f32, size: Size) -> PreviewPoint {
++        PreviewPoint {
++            page_index,
++            x: f64::from(x) / renderer_page_extent(size.x).unwrap(),
++            y: f64::from(y) / renderer_page_extent(size.y).unwrap(),
++        }
++    }
++
++    fn uncertainty(x: f64, y: f64) -> PreviewRendererPointUncertainty {
++        PreviewRendererPointUncertainty { x, y }
++    }
++
++    #[test]
++    fn fractional_page_extents_round_trip_rendered_points_and_boxes() {
++        let source = Source::detached("a");
++        let id = source.id();
++        let span = source.root().span();
++        let size = Size::new(Abs::pt(100.1), Abs::pt(80.25));
++        let geometry = test_geometry(
++            source,
++            size,
++            vec![cluster(id, span, 0..1, 10.25, 20.5, 60.5)],
++        );
++        let caret = geometry
++            .caret_at(id, 1, PreviewCaretAffinity::After)
++            .pop()
++            .unwrap();
++        assert!((caret.rect.x * 101.0 - 30.75).abs() < 1e-10);
++        assert!((caret.rect.y * 81.0 - 60.5).abs() < 1e-10);
++        let range = geometry.range_at(id, 0..1).pop().unwrap();
++        assert!((range.x * 101.0 - 10.25).abs() < 1e-10);
++        assert!((range.width * 101.0 - 20.5).abs() < 1e-10);
++        assert!((range.y * 81.0 - 60.5).abs() < 1e-10);
++        let hit = geometry
++            .hit_test(
++                PreviewPoint {
++                    page_index: 0,
++                    x: 10.25 / 101.0,
++                    y: 65.5 / 81.0,
++                },
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .unwrap();
++        assert_eq!(hit.range.start, LspPosition::new(0, 0));
++    }
++
++    fn transform_cluster(cluster: &mut TextCluster, transform: Transform) {
++        for point in cluster
++            .left
++            .iter_mut()
++            .chain(cluster.right.iter_mut())
++            .chain(cluster.baseline.iter_mut())
++            .chain(cluster.rendered_left.iter_mut())
++            .chain(cluster.rendered_right.iter_mut())
++            .chain(cluster.rendered_seams.iter_mut().flatten())
++            .chain(
++                cluster
++                    .mapped
++                    .as_mut()
++                    .unwrap()
++                    .stops
++                    .iter_mut()
++                    .flat_map(|stop| stop.edge.iter_mut()),
++            )
++        {
++            *point = point.transform(transform);
++        }
++    }
++
++    #[test]
++    fn svg_number_replay_is_directional_and_exact_values_add_no_padding() {
++        assert_eq!(svg_fixed_3(10.0), Some(10.0));
++        assert_eq!(svg_fixed_3(10.00049), Some(10.0));
++        assert_eq!(svg_fixed_3(10.00051), Some(10.001));
++        assert_eq!(svg_shortest(0.1), Some(0.1));
++        assert_ne!(f64::from(0.1f32), svg_shortest(0.1).unwrap());
++
++        let source = Source::detached("x");
++        let id = source.id();
++        let span = source.root().span();
++        let size = Size::splat(Abs::pt(100.0));
++        let geometry = test_geometry(source, size, vec![cluster(id, span, 0..1, 10.0, 1.0, 40.0)]);
++        let before = PreviewPoint {
++            page_index: 0,
++            x: 9.9996 / 100.0,
++            y: 0.45,
++        };
++        let after = PreviewPoint {
++            page_index: 0,
++            x: 11.0004 / 100.0,
++            y: 0.45,
++        };
++        assert!(
++            geometry
++                .hit_test(before, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++                .is_none()
++        );
++        assert!(
++            geometry
++                .hit_test(after, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++                .is_none()
++        );
++    }
++
++    #[test]
++    fn f32_endpoint_cells_hit_both_edges_but_not_adjacent_float_values() {
++        let source = Source::detached("x");
++        let id = source.id();
++        let span = source.root().span();
++        let size = Size::splat(Abs::pt(100.0));
++        let start = 10.000_000_1;
++        let end = 11.000_000_6;
++        let at_start = renderer_point(0, start as f32, 45.0, size);
++        let at_end = renderer_point(0, end as f32, 45.0, size);
++        assert!(size.x.to_pt() * at_start.x < start);
++        assert!(size.x.to_pt() * at_end.x > end);
++        let geometry = test_geometry(
++            source,
++            size,
++            vec![cluster(id, span, 0..1, start, end - start, 40.0)],
++        );
++
++        let hit = geometry
++            .hit_test(at_start, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++            .unwrap();
++        assert_eq!(
++            hit.range,
++            LspRange::new(LspPosition::new(0, 0), LspPosition::new(0, 0))
++        );
++        assert_eq!(hit.affinity, PreviewCaretAffinity::Before);
++        let hit = geometry
++            .hit_test(at_end, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++            .unwrap();
++        assert_eq!(
++            hit.range,
++            LspRange::new(LspPosition::new(0, 1), LspPosition::new(0, 1))
++        );
++        assert_eq!(hit.affinity, PreviewCaretAffinity::After);
++
++        let previous = f32::from_bits((start as f32).to_bits() - 2);
++        let next = f32::from_bits((end as f32).to_bits() + 2);
++        assert!(
++            geometry
++                .hit_test(
++                    renderer_point(0, previous, 45.0, size),
++                    uncertainty(0.0, 0.0),
++                    PositionEncoding::Utf16
++                )
++                .is_none()
++        );
++        assert!(
++            geometry
++                .hit_test(
++                    renderer_point(0, next, 45.0, size),
++                    uncertainty(0.0, 0.0),
++                    PositionEncoding::Utf16,
++                )
++                .is_none()
++        );
++    }
++
++    #[test]
++    fn measured_uncertainty_recovers_minimum_zoom_boundary_but_stays_fail_closed() {
++        let source = Source::detached("mmmm");
++        let id = source.id();
++        let span = source.root().span();
++        let size = Size::new(Abs::pt(595.28), Abs::pt(841.89));
++        let page_width = renderer_page_extent(size.x).unwrap();
++        let page_height = renderer_page_extent(size.y).unwrap();
++        assert_eq!(page_width, 596.0);
++        assert_eq!(page_height, 842.0);
++
++        // Captured at 10% zoom: Float32 screen coordinates invert to just
++        // outside the native 133.54pt start edge.
++        let observed_x = 133.539_715_296_495_61;
++        let native_x = 133.54;
++        let observed_y = 58.799_991_576_819_366;
++        let point = |x| PreviewPoint {
++            page_index: 0,
++            x: x / page_width,
++            y: observed_y / page_height,
++        };
++        let target = || cluster(id, span, 0..4, native_x, 32.92, 50.0);
++        let geometry = test_geometry(source.clone(), size, vec![target()]);
++
++        assert!(
++            geometry
++                .hit_test(
++                    point(observed_x),
++                    uncertainty(0.0, 0.0),
++                    PositionEncoding::Utf16,
++                )
++                .is_none()
++        );
++        assert!(
++            geometry
++                .hit_test(
++                    point(observed_x),
++                    uncertainty(0.0001 / page_width, 0.0),
++                    PositionEncoding::Utf16,
++                )
++                .is_none()
++        );
++        let hit = geometry
++            .hit_test(
++                point(observed_x),
++                uncertainty(0.0003 / page_width, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .unwrap();
++        assert_eq!(
++            hit.range,
++            LspRange::new(LspPosition::new(0, 0), LspPosition::new(0, 0))
++        );
++        assert_eq!(hit.affinity, PreviewCaretAffinity::Before);
++
++        assert!(
++            geometry
++                .hit_test(
++                    point(observed_x - 0.01),
++                    uncertainty(0.0003 / page_width, 0.0),
++                    PositionEncoding::Utf16,
++                )
++                .is_none()
++        );
++        let competing = cluster(id, span, 1..2, observed_x - 0.001, 0.00075, 50.0);
++        let ambiguous = test_geometry(source, size, vec![target(), competing]);
++        assert!(
++            ambiguous
++                .hit_test(
++                    point(observed_x),
++                    uncertainty(0.0003 / page_width, 0.0),
++                    PositionEncoding::Utf16,
++                )
++                .is_none()
++        );
++    }
++
++    #[test]
++    fn transformed_text_metric_envelope_is_subpixel_and_bounded() {
++        let source = Source::detached("x");
++        let id = source.id();
++        let span = source.root().span();
++        let size = Size::splat(Abs::pt(100.0));
++        let transform = Transform {
++            sx: typst::layout::Ratio::new(1.2),
++            ky: typst::layout::Ratio::new(0.25),
++            kx: typst::layout::Ratio::new(0.3),
++            sy: typst::layout::Ratio::new(0.9),
++            tx: Abs::pt(10.0),
++            ty: Abs::pt(5.0),
++        };
++        // A two-decimal semantic width under scale(16) * 0.01 ppem can
++        // render 9.9996pt at exactly 10pt. Only that outward side expands.
++        let mut target = cluster(id, span, 0..1, 0.0, 9.9996, 0.0);
++        for point in &mut target.rendered_right {
++            point.x = Abs::pt(10.0);
++        }
++        transform_cluster(&mut target, transform);
++        let geometry = test_geometry(source, size, vec![target]);
++        let point = |x: f64| {
++            let point = Point::new(Abs::pt(x), Abs::pt(5.0)).transform(transform);
++            PreviewPoint {
++                page_index: 0,
++                x: point.x.to_pt() / size.x.to_pt(),
++                y: point.y.to_pt() / size.y.to_pt(),
++            }
++        };
++
++        let hit = geometry
++            .hit_test(point(10.0), uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++            .unwrap();
++        assert_eq!(hit.range.start, LspPosition::new(0, 1));
++        assert!(
++            geometry
++                .hit_test(
++                    point(10.002),
++                    uncertainty(0.0, 0.0),
++                    PositionEncoding::Utf16,
++                )
++                .is_none()
++        );
++    }
++
++    #[test]
++    fn representation_overlap_requires_exact_source_boundary_agreement() {
++        let source = Source::detached("abc");
++        let id = source.id();
++        let span = source.root().span();
++        let size = Size::splat(Abs::pt(100.0));
++        let mut left = cluster(id, span, 0..1, 10.0, 10.0, 40.0);
++        let agreeing = cluster(id, span, 1..2, 20.0, 10.0, 40.0);
++        for point in &mut left.rendered_right {
++            point.x += Abs::pt(0.0004);
++        }
++        let point = PreviewPoint {
++            page_index: 0,
++            x: 20.0004 / 100.0,
++            y: 0.45,
++        };
++        let agreeing_geometry = test_geometry(source.clone(), size, vec![left, agreeing]);
++        let hit = agreeing_geometry
++            .hit_test(
++                PreviewPoint { ..point },
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .unwrap();
++        assert_eq!(hit.range.start, LspPosition::new(0, 1));
++
++        let mut left = cluster(id, span, 0..1, 10.0, 10.0, 40.0);
++        let disagreeing = cluster(id, span, 2..3, 20.0, 10.0, 40.0);
++        for point in &mut left.rendered_right {
++            point.x += Abs::pt(0.0004);
++        }
++        let geometry = test_geometry(source, size, vec![left, disagreeing]);
++        assert!(
++            geometry
++                .hit_test(point, uncertainty(0.0, 0.0), PositionEncoding::Utf16)
++                .is_none()
++        );
++    }
++
++    #[test]
++    fn preserves_advance_edges_occurrences_and_wrap_affinity_without_subdivision() {
++        let source = Source::detached("Wi\nffi");
++        let id = source.id();
++        let span = source.root().span();
++        let geometry = PreviewTextGeometry {
++            sources: HashMap::from([(
++                id,
++                GeometrySource {
++                    source,
++                    uri: Url::parse("file:///main.typ").unwrap(),
++                },
++            )]),
++            pages: vec![GeometryPage {
++                size: Size::splat(Abs::pt(100.0)),
++                clusters: vec![
++                    cluster(id, span, 0..1, 10.0, 13.0, 10.0),
++                    cluster(id, span, 1..2, 23.0, 3.0, 10.0),
++                    cluster(id, span, 3..6, 10.0, 16.0, 30.0),
++                    cluster(id, span, 0..1, 10.0, 13.0, 60.0),
++                ],
++            }],
++        };
++        let carets = geometry.caret_at(id, 1, PreviewCaretAffinity::After);
++        assert_eq!(carets.len(), 2);
++        assert!(
++            carets
++                .iter()
++                .all(|caret| (caret.rect.x - 0.23).abs() < 1e-10)
++        );
++        let hit = geometry
++            .hit_test(
++                PreviewPoint {
++                    page_index: 0,
++                    x: 0.229,
++                    y: 0.15,
++                },
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .unwrap();
++        assert_eq!(hit.range.start, LspPosition::new(0, 1));
++        assert_eq!(hit.range.start, hit.range.end);
++        let boxes = geometry.range_at(id, 1..2);
++        assert_eq!(boxes.len(), 1);
++        assert!((boxes[0].width - 0.03).abs() < 1e-10);
++        assert!(
++            geometry
++                .caret_at(id, 4, PreviewCaretAffinity::Before)
++                .is_empty()
++        );
++        assert!(geometry.range_at(id, 3..4).is_empty());
++        assert_eq!(geometry.range_at(id, 3..6).len(), 1);
++    }
++
++    #[test]
++    fn empty_line_hit_is_bounded_by_real_body_and_range_preserves_zero_width() {
++        let source = Source::detached("");
++        let id = source.id();
++        let span = source.root().span();
++        let mut marker = cluster(id, span, 0..0, 10.0, 0.0, 30.0);
++        let mapped = marker.mapped.as_mut().unwrap();
++        mapped.marker = true;
++        mapped.stops.truncate(1);
++        mapped.stops[0].affinity = None;
++        marker.marker_band = Some(MarkerBand {
++            body: BodyBounds {
++                inverse: Transform::translate(Abs::pt(-5.0), Abs::pt(-20.0)),
++                size: Size::new(Abs::pt(50.0), Abs::pt(40.0)),
++            },
++            inverse: Transform::translate(Abs::pt(-10.0), Abs::pt(-30.0)),
++            height: Abs::pt(10.0),
++        });
++        let geometry = PreviewTextGeometry {
++            sources: HashMap::from([(
++                id,
++                GeometrySource {
++                    source,
++                    uri: Url::parse("file:///main.typ").unwrap(),
++                },
++            )]),
++            pages: vec![GeometryPage {
++                size: Size::splat(Abs::pt(100.0)),
++                clusters: vec![marker],
++            }],
++        };
++        let before = geometry.caret_at(id, 0, PreviewCaretAffinity::Before);
++        let after = geometry.caret_at(id, 0, PreviewCaretAffinity::After);
++        assert_eq!(before.len(), 1);
++        assert_eq!(before[0].rect, after[0].rect);
++        let selected = geometry.range_at(id, 0..0);
++        assert_eq!(selected, vec![before[0].rect.clone()]);
++        assert_eq!(selected[0].width, 0.0);
++        assert!((selected[0].height - 0.1).abs() < 1e-10);
++        let hit = geometry
++            .hit_test(
++                PreviewPoint {
++                    page_index: 0,
++                    x: 0.4,
++                    y: 0.35,
++                },
++                uncertainty(0.0, 0.0),
++                PositionEncoding::Utf16,
++            )
++            .unwrap();
++        assert_eq!(
++            hit.range,
++            LspRange::new(LspPosition::new(0, 0), LspPosition::new(0, 0))
++        );
++        assert!(
++            geometry
++                .hit_test(
++                    PreviewPoint {
++                        page_index: 0,
++                        x: 0.7,
++                        y: 0.35
++                    },
++                    uncertainty(0.0, 0.0),
++                    PositionEncoding::Utf16
++                )
++                .is_none()
++        );
++        assert!(
++            geometry
++                .hit_test(
++                    PreviewPoint {
++                        page_index: 0,
++                        x: 0.4,
++                        y: 0.45
++                    },
++                    uncertainty(0.0, 0.0),
++                    PositionEncoding::Utf16
++                )
++                .is_none()
++        );
++    }
++
++    #[test]
++    fn group_transform_applies_to_real_edges_and_page_clipping() {
++        let transform = Transform::translate(Abs::pt(10.0), Abs::pt(20.0))
++            .pre_concat(Transform::scale(
++                typst::layout::Ratio::new(2.0),
++                typst::layout::Ratio::new(3.0),
++            ))
++            .pre_concat(Transform::translate(Abs::pt(4.0), Abs::pt(5.0)));
++        let edge = [
++            Point::new(Abs::pt(7.0), Abs::pt(0.0)).transform(transform),
++            Point::new(Abs::pt(7.0), Abs::pt(10.0)).transform(transform),
++        ];
++        let rect = normalized_box(2, Size::splat(Abs::pt(100.0)), &edge).unwrap();
++        assert!((rect.x - 0.32).abs() < 1e-10);
++        assert!((rect.y - 0.35).abs() < 1e-10);
++        assert!((rect.height - 0.30).abs() < 1e-10);
++        assert_eq!(rect.width, 0.0);
++        assert_eq!(rect.page_index, 2);
++    }
++}
 diff --git a/crates/tinymist/src/server.rs b/crates/tinymist/src/server.rs
 index 8b03b2768c4ae36112cbbe20d0922bc5700dab71..7598b8f15908f5e475534926bb888ddf8bda58d5 100644
 --- a/crates/tinymist/src/server.rs
@@ -1781,3 +4276,19 @@ index 8b03b2768c4ae36112cbbe20d0922bc5700dab71..7598b8f15908f5e475534926bb888ddf
              .with_request_::<SemanticTokensFullRequest>(State::semantic_tokens_full)
              .with_request_::<SemanticTokensFullDeltaRequest>(State::semantic_tokens_full_delta)
              .with_request_::<DocumentHighlightRequest>(State::document_highlight)
+diff --git a/crates/tinymist/src/web.rs b/crates/tinymist/src/web.rs
+index 74fd0f0f0a1b4cb0f678dd9c10d406f6c04101e2..782883dfc2cd79fb45dc6f852183a2b0e3683bb2 100644
+--- a/crates/tinymist/src/web.rs
++++ b/crates/tinymist/src/web.rs
+@@ -177,5 +177,10 @@ fn lsp_serialize<T: serde::Serialize>(value: &T) -> JsValue {
+ // todo: poor performance, struct -> serde_json -> serde_wasm_bindgen ->
+ // serialize -> deserialize??
+ fn to_js_value<T: serde::Serialize>(value: &T) -> Result<JsValue, serde_wasm_bindgen::Error> {
+-    value.serialize(&serde_wasm_bindgen::Serializer::new().serialize_maps_as_objects(true))
++    // LSP is a JSON protocol: explicit nulls must survive the JS boundary.
++    value.serialize(
++        &serde_wasm_bindgen::Serializer::new()
++            .serialize_maps_as_objects(true)
++            .serialize_missing_as_null(true),
++    )
+ }

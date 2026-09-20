@@ -6,20 +6,20 @@
       "entries": [
         {
           "name": "tinymist_bg.wasm",
-          "sha256": "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8",
-          "size": 32911559
+          "sha256": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78",
+          "size": 33002039
         },
         {
           "name": "tinymist.js",
-          "sha256": "6bd83bd7fab279cdfddabeb6a37a13d1e5d6a6d2d24a5a35dbccfc8e0ca411ea",
+          "sha256": "b0b1019417d3a33b36ada50ab8ad6f6111734e7fc5f56c9642f2d41b1946a518",
           "size": 29720
         }
       ],
       "path": "vendor/tinymist-0.15.4-rc3/SHA256SUMS"
     },
     "digests": {
-      "tinymist_bg.wasm": "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8",
-      "tinymist.js": "6bd83bd7fab279cdfddabeb6a37a13d1e5d6a6d2d24a5a35dbccfc8e0ca411ea"
+      "tinymist_bg.wasm": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78",
+      "tinymist.js": "b0b1019417d3a33b36ada50ab8ad6f6111734e7fc5f56c9642f2d41b1946a518"
     },
     "host": "web-worker",
     "packageVersion": "0.15.4-rc3",
@@ -147,6 +147,9 @@
             "discard",
             "locatePoint",
             "locateSource",
+            "hitTestText",
+            "locateCaret",
+            "locateRange",
             "close"
           ],
           "frameKinds": [
@@ -419,7 +422,7 @@
       },
       {
         "method": "tinymist/previewLocation:invalid-coordinate",
-        "outcome": "unexpected"
+        "outcome": "null"
       }
     ],
     "qualifiedMethod": null,
@@ -429,7 +432,7 @@
   "transcripts": {
     "negative": {
       "backendNetworkIsolated": true,
-      "invalidPreviewCoordinateRejected": false,
+      "invalidPreviewCoordinateRejected": true,
       "packageCancellationObserved": true,
       "packageErrorObserved": true,
       "packageUnavailableObserved": true

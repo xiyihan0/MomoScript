@@ -142,6 +142,7 @@ const nativeServerRequests = new TinymistServerRequestDispatcher(nativeRegistry)
 applyTranscript(nativeServerRequests, 1, nativeEvidence);
 assert.equal(nativeRegistry.has("textDocument/completion"), true);
 assert.equal(nativeRegistry.has("textDocument/semanticTokens/full"), true);
+assert.equal(nativeRegistry.has("mmt/previewRenderer.v1"), true, "native renderer must advertise exact text geometry");
 assert.equal(
   nativeRegistry.get("textDocument/semanticTokens").dynamicRegistrations.length,
   0,
@@ -160,6 +161,26 @@ assert.equal(
   "Web semantic-token dynamic registration was not retained"
 );
 assert.equal(webRegistry.has("textDocument/semanticTokens/full"), true);
+assert.equal(webRegistry.has("mmt/previewRenderer.v1"), true, "Web renderer must advertise exact text geometry");
+for (const missingAction of ["hitTestText", "locateCaret", "locateRange"]) {
+  const initialize = structuredClone(webEvidence.initialize);
+  const provider = initialize.capabilities.experimental.mmtPreviewRendererProvider;
+  provider.actions = provider.actions.filter((action) => action !== missingAction);
+  const incomplete = new TinymistCapabilityRegistry();
+  incomplete.install(1, initialize);
+  incomplete.register(1, [{ id: "renderer", method: "mmt/previewRenderer.v1", registerOptions: provider }]);
+  assert.equal(incomplete.has("mmt/previewRenderer.v1"), false, `renderer without ${missingAction} is not qualified`);
+}
+const dynamicRenderer = new TinymistCapabilityRegistry();
+dynamicRenderer.install(1, { capabilities: {} });
+dynamicRenderer.register(1, [{ id: "unqualified-renderer", method: "mmt/previewRenderer.v1" }]);
+assert.equal(dynamicRenderer.has("mmt/previewRenderer.v1"), false, "method-only registration must not bypass geometry qualification");
+dynamicRenderer.register(1, [{
+  id: "qualified-renderer",
+  method: "mmt/previewRenderer.v1",
+  registerOptions: webEvidence.initialize.capabilities.experimental.mmtPreviewRendererProvider,
+}]);
+assert.equal(dynamicRenderer.has("mmt/previewRenderer.v1"), true);
 assert.equal(
   webRegistry.get("textDocument/semanticTokens/full").dynamicRegistrations.length,
   1,

@@ -16,7 +16,7 @@
     },
     {
       "path": "third_party/tinymist/patches/0002-mmt-preview-renderer.patch",
-      "sha256": "cd0a49fc5b3bd39cf399ae8e1d7260ece1b94229711f898ccee672fdb298e886"
+      "sha256": "1c61f334383d8f0d24f1854dbcfdf8d0e5ae62cd351a380844af8fcde16869f1"
     }
   ],
   "build": {
@@ -27,18 +27,18 @@
   "artifacts": {
     "native": {
       "relativePath": "target/release/tinymist",
-      "size": 76964488,
-      "sha256": "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4"
+      "size": 77085720,
+      "sha256": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8"
     },
     "webJs": {
       "relativePath": "crates/tinymist/pkg/tinymist.js",
       "size": 29720,
-      "sha256": "6bd83bd7fab279cdfddabeb6a37a13d1e5d6a6d2d24a5a35dbccfc8e0ca411ea"
+      "sha256": "b0b1019417d3a33b36ada50ab8ad6f6111734e7fc5f56c9642f2d41b1946a518"
     },
     "webWasm": {
       "relativePath": "crates/tinymist/pkg/tinymist_bg.wasm",
-      "size": 32911559,
-      "sha256": "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8"
+      "size": 33002039,
+      "sha256": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78"
     }
   },
   "protocol": {

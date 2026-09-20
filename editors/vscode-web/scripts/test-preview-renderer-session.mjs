@@ -47,6 +47,7 @@ class FakeBackend {
   transitions = [];
   requests = [];
   responses = [];
+  geometryResponses = [];
 
   backendGeneration() { return this.generation; }
   async previewRenderer(update, requestedMount, options, signal) {
@@ -98,6 +99,11 @@ class FakeBackend {
   async closePreviewRenderer(sessionId) { this.closes.push(sessionId); }
   async request(_method, request) {
     this.requests.push(request);
+    if (["hitTestText", "locateCaret", "locateRange"].includes(request.action)) {
+      const response = this.geometryResponses.shift();
+      if (!response) throw new Error("Geometry response was not supplied");
+      return response(request);
+    }
     if (request.action === "locateSource") {
       return {
         status: "locatedSource",
@@ -139,6 +145,83 @@ assert.deepEqual(sourcePoints, [{ pageIndex: 0, x: 12, y: 18 }]);
 assert.equal(backend.requests.at(-1).uri, first.synchronized.project.entryUri);
 const sourceLocation = await owner.locatePoint(first, sourcePoints[0]);
 assert.equal(sourceLocation.uri, entryUri);
+assert.deepEqual(backend.requests.at(-1), {
+  protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+  action: "locatePoint",
+  sessionId: first.sessionId,
+  generation: first.ready.generation,
+  position: sourcePoints[0],
+}, "ordinary point navigation must not acquire text-hit uncertainty");
+
+const geometryIdentity = {
+  protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+  sessionId: first.sessionId,
+  generation: first.ready.generation,
+};
+const point = { pageIndex: 0, x: 0.2, y: 0.3 };
+const uncertainty = { x: 0.01, y: 0.02 };
+const caretPosition = { line: 0, character: 1 };
+const textRange = { start: caretPosition, end: { line: 0, character: 3 } };
+const textHit = {
+  ...geometryIdentity,
+  status: "textHit",
+  location: {
+    uri: first.synchronized.project.entryUri,
+    range: { start: caretPosition, end: caretPosition },
+    affinity: "after",
+  },
+};
+const carets = [
+  { ...point, width: 0, height: 0.1, affinity: "after" },
+  { ...point, y: 0.6, width: 0, height: 0.1, affinity: "after" },
+];
+const boxes = [{ ...point, width: 0.1, height: 0.1 }];
+const requestsBeforeInvalidUncertainty = backend.requests.length;
+await assert.rejects(() => owner.hitTestText(first, point), /uncertainty/);
+await assert.rejects(() => owner.hitTestText(first, point, { x: 0, y: Number.NaN }), /uncertainty/);
+await assert.rejects(() => owner.hitTestText(first, point, { x: 0, y: 0, radius: 0 }), /shape/);
+assert.equal(backend.requests.length, requestsBeforeInvalidUncertainty, "malformed uncertainty must be rejected before transport");
+backend.geometryResponses.push((request) => {
+  assert.deepEqual(request, {
+    ...geometryIdentity,
+    action: "hitTestText",
+    position: point,
+    uncertainty,
+  });
+  return textHit;
+});
+assert.deepEqual(await owner.hitTestText(first, point, uncertainty), { ...textHit.location, uri: entryUri });
+backend.geometryResponses.push(() => ({ ...geometryIdentity, status: "locatedCaret", carets }));
+assert.deepEqual(await owner.locateCaret(first, entryUri, caretPosition, "after"), carets);
+assert.equal(Object.hasOwn(backend.requests.at(-1), "uncertainty"), false, "caret lookup must keep its ordinary shape");
+backend.geometryResponses.push(() => ({ ...geometryIdentity, status: "locatedRange", boxes }));
+assert.deepEqual(await owner.locateRange(first, entryUri, textRange), boxes);
+assert.equal(Object.hasOwn(backend.requests.at(-1), "uncertainty"), false, "range lookup must keep its ordinary shape");
+backend.geometryResponses.push(() => ({ ...textHit, location: { ...textHit.location, uri: "file:///unknown.typ" } }));
+assert.equal(await owner.hitTestText(first, point, uncertainty), undefined, "unmapped source identity must not authorize a hit");
+assert.deepEqual(await owner.locateCaret(first, "file:///unknown.typ", caretPosition, "after"), []);
+assert.deepEqual(await owner.locateRange(first, "file:///unknown.typ", textRange), []);
+backend.geometryResponses.push(() => ({ ...geometryIdentity, status: "unavailable" }));
+assert.deepEqual(await owner.locateCaret(first, entryUri, caretPosition, "after"), []);
+backend.geometryResponses.push(() => ({ ...geometryIdentity, status: "unavailable", generation: 999 }));
+await assert.rejects(() => owner.hitTestText(first, point, uncertainty), /identity mismatch/);
+backend.geometryResponses.push(() => ({ ...textHit, unexpected: true }));
+await assert.rejects(() => owner.hitTestText(first, point, uncertainty), /invalid shape/);
+await assert.rejects(() => owner.hitTestText(first, { ...point, pageIndex: 1 }, uncertainty), /outside the committed document/);
+
+let releaseAbortedGeometry;
+const delayedGeometry = new Promise((resolve) => { releaseAbortedGeometry = resolve; });
+backend.geometryResponses.push(() => delayedGeometry);
+const geometryAbort = new AbortController();
+const abortedGeometry = owner.locateCaret(first, entryUri, caretPosition, "after", geometryAbort.signal);
+geometryAbort.abort(new DOMException("geometry superseded", "AbortError"));
+releaseAbortedGeometry({ ...geometryIdentity, status: "locatedCaret", carets });
+await assert.rejects(abortedGeometry, /geometry superseded/);
+
+let releaseStaleGeometry;
+const staleGeometry = new Promise((resolve) => { releaseStaleGeometry = resolve; });
+backend.geometryResponses.push(() => staleGeometry);
+const replacedGeometry = owner.locateRange(first, entryUri, textRange);
 
 backend.responses.push(async (_synchronized, options) => ({
   status: "resync",
@@ -152,6 +235,9 @@ assert.equal(replacement.ready.frameKind, "new", "resync must retry once with a 
 assert.deepEqual(backend.calls.slice(-2).map((call) => call.options.forceFull ?? false), [false, true]);
 await owner.commit(replacement);
 await assert.rejects(() => owner.locateSource(first, entryUri, { line: 0, character: 1 }), /not the committed generation/);
+releaseStaleGeometry({ ...geometryIdentity, status: "locatedRange", boxes });
+await assert.rejects(replacedGeometry, /not the committed generation/);
+await assert.rejects(() => owner.hitTestText(first, point, uncertainty), /not the committed generation/);
 backend.responses.push(async (synchronized, options) => ({
   status: "compileFailed",
   protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
@@ -217,6 +303,7 @@ assert.equal(restarted.ready.frameKind, "diff-v1");
 await owner.commit(restarted);
 
 backend.generation = 2;
+await assert.rejects(() => owner.locateCaret(restarted, entryUri, caretPosition, "after"), /not the committed generation/);
 const afterRestart = await owner.render(project(5), mount, renderKey("5"));
 assert.equal(afterRestart.sessionId, "session-2");
 assert.equal(afterRestart.ready.frameKind, "new", "a backend restart must force a full frame");
