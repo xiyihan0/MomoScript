@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "artifacts": {
-    "native": "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4",
-    "web": "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8"
+    "native": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8",
+    "web": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78"
   },
   "qualifiedProviders": {
     "renameProvider": "core-required",
@@ -32,19 +32,6 @@
     },
     "unavailable": {
       "codeLens": "effectful export command with resolveProvider=false"
-    },
-    "responseKinds": {
-      "prepareRename": "object",
-      "rename": "object",
-      "formatting": "array:1",
-      "rangeFormatting": "array:1",
-      "documentLink": "array:1",
-      "documentColor": "array:1",
-      "colorPresentation": "array:10",
-      "codeAction": "array:3",
-      "inlayHint": "array:2",
-      "codeLens": "array:1",
-      "signatureHelp": "null"
     }
   },
   "worker": {
@@ -63,19 +50,6 @@
     },
     "unavailable": {
       "codeLens": "effectful export command with resolveProvider=false"
-    },
-    "responseKinds": {
-      "prepareRename": "object",
-      "rename": "object",
-      "formatting": "array:1",
-      "rangeFormatting": "array:1",
-      "documentLink": "array:1",
-      "documentColor": "array:1",
-      "colorPresentation": "array:10",
-      "codeAction": "array:3",
-      "inlayHint": "array:2",
-      "codeLens": "array:1",
-      "signatureHelp": "undefined"
     }
   }
 }

@@ -3,13 +3,13 @@
     "native": {
       "backendVersion": "0.15.4-rc3",
       "checksumReference": "tinymist-native-patched.sha256",
-      "digest": "24ee75d84a2fd2a554db52482b159000ff23272be5ff9da2593c2c6425953da4",
+      "digest": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8",
       "positionEncoding": "utf-16"
     },
     "web": {
       "backendVersion": "0.15.4-rc3",
       "checksumReference": "vendor/tinymist-0.15.4-rc3/SHA256SUMS",
-      "digest": "ea5f5d289c143b321543c1bc04bf2d20c8c6e212eab8e397a4ff763088a7e1e8",
+      "digest": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78",
       "positionEncoding": "utf-16"
     }
   },

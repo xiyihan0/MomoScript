@@ -45,6 +45,15 @@ Capability manifests SHALL include protocol/backend version、artifact digest、
 - THEN capability qualification MUST rerun
 - AND incompatible provider or option changes MUST fail the parity gate
 
+#### Scenario: Artifact promotion refreshes the complete qualification chain
+
+- GIVEN built native and Web artifacts are promoted through the owning repin command
+- WHEN the command refreshes their canonical identities
+- THEN native/Web, navigation and rich-provider probes MUST run against those exact artifacts before their qualification identities are accepted
+- AND capability manifests and artifact decisions MUST bind the same digests while preserving reviewed provider classifications and decision policy
+- AND any probe or consistency failure MUST restore all managed pin, runtime, vendor, checksum and qualification files
+- AND preparing local immutable delivery MUST NOT publish remote runtime objects
+
 ### Requirement: Shared fixtures cover protocol and real hosts
 
 Verification SHALL include shared Rust/native/WASM protocol fixtures、native process and browser Worker transcripts、Desktop Extension Host、VS Code Web Extension Host and production standalone Web interaction tests.

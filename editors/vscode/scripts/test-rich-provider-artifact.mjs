@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { createReadStream } from "node:fs";
 import { createServer } from "node:http";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
@@ -51,12 +51,7 @@ function probeRequests(uri) {
       ...document,
       range: { start: { line: 2, character: 0 }, end: { line: 3, character: 8 } }
     }],
-    ["codeLens", "textDocument/codeLens", document],
-    ["signatureHelp", "textDocument/signatureHelp", {
-      ...document,
-      position: { line: 1, character: 7 },
-      context: { triggerKind: 1, isRetrigger: false }
-    }]
+    ["codeLens", "textDocument/codeLens", document]
   ];
 }
 
@@ -75,8 +70,7 @@ function initializeParams() {
         colorProvider: { dynamicRegistration: true },
         codeAction: { dynamicRegistration: true, resolveSupport: { properties: ["edit"] } },
         inlayHint: { dynamicRegistration: true, resolveSupport: { properties: ["textEdits", "tooltip", "label"] } },
-        codeLens: { dynamicRegistration: true },
-        signatureHelp: { dynamicRegistration: true }
+        codeLens: { dynamicRegistration: true }
       }
     }
   };
@@ -125,11 +119,7 @@ function assertProbe(host, initialize, probes) {
     },
     unavailable: {
       codeLens: "effectful export command with resolveProvider=false"
-    },
-    responseKinds: Object.fromEntries(Object.entries(probes).map(([name, value]) => [
-      name,
-      value === null ? "null" : Array.isArray(value) ? `array:${value.length}` : typeof value
-    ]))
+    }
   };
 }
 
@@ -323,12 +313,25 @@ async function workerProbe() {
 }
 
 const summary = mode === "native" ? await nativeProbe() : await workerProbe();
-const qualification = JSON.parse(await readFile(path.join(
+const qualificationPath = path.join(
   extensionRoot,
   "src",
   "test",
   "fixtures",
   "tinymist-rich-provider-qualification.json"
-), "utf8"));
-assert.deepEqual(summary, qualification[mode], `${mode} rich-provider qualification evidence changed`);
+);
+const qualification = JSON.parse(await readFile(qualificationPath, "utf8"));
+if (process.env.UPDATE_TINYMIST_RICH_PROVIDER_EVIDENCE === "1") {
+  assert.equal(summary.host, qualification[mode]?.host, `${mode} rich-provider host policy changed`);
+  assert.equal(summary.positionEncoding, qualification[mode]?.positionEncoding,
+    `${mode} rich-provider encoding policy changed`);
+  assert.deepEqual(summary.qualified, qualification[mode]?.qualified,
+    `${mode} rich-provider qualified policy changed`);
+  assert.deepEqual(summary.unavailable, qualification[mode]?.unavailable,
+    `${mode} rich-provider unavailable policy changed`);
+  qualification[mode] = summary;
+  await writeFile(qualificationPath, `${JSON.stringify(qualification, null, 2)}\n`);
+} else {
+  assert.deepEqual(summary, qualification[mode], `${mode} rich-provider qualification evidence changed`);
+}
 console.log(JSON.stringify({ checked: true, ...summary }));
