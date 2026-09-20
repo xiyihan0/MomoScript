@@ -1,24 +1,25 @@
 {
-  "schema": "mmt-tinymist-pin.v1",
+  "schema": "mmt-tinymist-pin.v2",
+  "source": {
+    "repository": "https://github.com/xiyihan0/tinymist.git",
+    "revision": "41da5a87439017ea43003431f700b356ffa68720"
+  },
   "upstream": {
     "repository": "https://github.com/Myriad-Dreamin/tinymist.git",
-    "revision": "e54ace4f49a84baf60d9d1b059fd0cab7a780295",
-    "version": "0.15.4-rc3"
+    "revision": "32f908199ee17ea295512bbc27166e890c438175",
+    "version": "0.15.8"
+  },
+  "release": {
+    "tag": "v0.15.8",
+    "universalVsix": {
+      "name": "tinymist-universal.vsix",
+      "sha256": "99371312f06cc9c08bd815bd12798a25fc9937768be81fc6f25f259c14c1a23a"
+    }
   },
   "toolchain": {
     "rust": "1.92.0",
     "wasmPack": "0.15.0"
   },
-  "patches": [
-    {
-      "path": "third_party/tinymist/patches/0001-mmt-host-package-callback.patch",
-      "sha256": "de9118c107b112a5e4973641234634fd2cdd713f36fbe894532c042d3b7fdfde"
-    },
-    {
-      "path": "third_party/tinymist/patches/0002-mmt-preview-renderer.patch",
-      "sha256": "1c61f334383d8f0d24f1854dbcfdf8d0e5ae62cd351a380844af8fcde16869f1"
-    }
-  ],
   "build": {
     "native": "cargo +1.92.0 build --locked --release --bin tinymist",
     "web": "RUSTUP_TOOLCHAIN=1.92.0 wasm-pack build --target web --release -- --locked --no-default-features --features web,no-content-hint",
@@ -27,8 +28,8 @@
   "artifacts": {
     "native": {
       "relativePath": "target/release/tinymist",
-      "size": 77085720,
-      "sha256": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8"
+      "size": 77136664,
+      "sha256": "c13aea9c65318bba6a9215234d559cdcc7bee48a0cd2f7849e7196ca226cc696"
     },
     "webJs": {
       "relativePath": "crates/tinymist/pkg/tinymist.js",
@@ -37,8 +38,8 @@
     },
     "webWasm": {
       "relativePath": "crates/tinymist/pkg/tinymist_bg.wasm",
-      "size": 33002039,
-      "sha256": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78"
+      "size": 33016658,
+      "sha256": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8"
     }
   },
   "protocol": {

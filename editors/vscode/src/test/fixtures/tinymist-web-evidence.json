@@ -1,13 +1,13 @@
 {
   "artifact": {
     "backendName": "tinymist-web",
-    "backendVersion": "0.15.4-rc3",
+    "backendVersion": "0.15.8",
     "checksumManifest": {
       "entries": [
         {
           "name": "tinymist_bg.wasm",
-          "sha256": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78",
-          "size": 33002039
+          "sha256": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8",
+          "size": 33016658
         },
         {
           "name": "tinymist.js",
@@ -15,14 +15,14 @@
           "size": 29720
         }
       ],
-      "path": "vendor/tinymist-0.15.4-rc3/SHA256SUMS"
+      "path": "vendor/tinymist-0.15.8/SHA256SUMS"
     },
     "digests": {
-      "tinymist_bg.wasm": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78",
+      "tinymist_bg.wasm": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8",
       "tinymist.js": "b0b1019417d3a33b36ada50ab8ad6f6111734e7fc5f56c9642f2d41b1946a518"
     },
     "host": "web-worker",
-    "packageVersion": "0.15.4-rc3",
+    "packageVersion": "0.15.8",
     "protocolVersion": 1
   },
   "dynamicRegistrations": {
@@ -196,7 +196,7 @@
     },
     "serverInfo": {
       "name": "tinymist",
-      "version": "0.15.4-rc3"
+      "version": "0.15.8"
     }
   },
   "normalization": {

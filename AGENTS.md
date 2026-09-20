@@ -38,8 +38,8 @@ MomoScript (MMT) is a DSL and product toolchain for scripted Momotalk/MoeTalk-st
 | **Preview Host and Protocol** | `previewWebviewHost.ts`, `previewWebviewProtocol.ts`, `previewWebviewRuntime.ts` under `editors/vscode-web/src/` | Typed host/webview boundary and isolated preview runtime |
 | **Preview Interaction and Composer** | `previewInteraction.ts`, `previewComposer.ts`, `previewContextMenu.ts`, `avatarPicker.ts` under `editors/vscode-web/src/` | Navigation, semantic context editing, and native Workbench UI |
 | **Workspace and PWA** | `filesystem.ts`, `indexedDbWorkspace.ts`, `originStorage.ts`, `pwaUpdate.ts` under `editors/vscode-web/src/` | Persistence, quota, recovery, and offline lifecycle |
-| **Runtime Pins and Delivery** | `third_party/tinymist/pin.json`, `editors/vscode-web/src/runtimeArtifacts.ts`, `.github/workflows/editor-runtime.yml` | Source revisions, patches, digests, same-origin artifacts, and CI producer/consumer contracts |
-| **Stable Editor Specs** | `openspec/specs/language-tooling/spec.md`, `openspec/specs/web-workbench-shell/spec.md` | Normative language tooling and Workbench topology contracts |
+| **Runtime Pins and Delivery** | `third_party/tinymist/pin.json`, `editors/vscode-web/src/runtimeArtifacts.ts`, `.github/workflows/editor-runtime.yml` | Fork source commit, upstream/release provenance, digests, same-origin artifacts, and CI producer/consumer contracts |
+| **Stable Editor Specs** | `openspec/specs/language-tooling/spec.md`, `openspec/specs/web-workbench-shell/spec.md`, `openspec/specs/tooling-and-verification/spec.md` | Normative language tooling, Workbench topology, and artifact ownership contracts |
 | **Rendering Templates** | `typst_sandbox/mmt_render` | Typst layout and rendering templates |
 | **Rust Validation** | `mmt_rs/tests/`, `mmt_lsp/tests/` | Public API, pack, CLI, composer, projection, source-map, and transport contracts |
 | **Legacy Python DSL** | `mmt_core/`, `tools/dsl_refactor_check.py` | Historical v1 behavior and golden regression only |
@@ -50,7 +50,7 @@ MomoScript (MMT) is a DSL and product toolchain for scripted Momotalk/MoeTalk-st
 - **OpenSpec**: Changes to DSL semantics, rendering, resource resolution, editor behavior, runtime ownership, wire contracts, or public workflows require aligned specs under `openspec/`; validate changed proposals with `openspec validate <change> --strict`.
 - **Wire Boundaries**: LSP responses, Worker messages, webview messages, pack manifests, and persisted state are untrusted. Parse with explicit allowlists before state ownership or source mutation.
 - **Preview Editing**: Rust/LSP semantic Composer requests are the sole source-edit authority. Webview and Workbench UI pass normalized intent, identity, and coordinates only.
-- **Runtime Artifacts**: Revisions, patches, sizes, and SHA-256 values are pinned. Update vendored artifacts through repository scripts; never hand-copy WASM or manually rewrite digests.
+- **Runtime Artifacts**: The full fork source commit, artifact sizes, and SHA-256 values are pinned. Build only from the clean checkout named by `pin.json` and update vendor/evidence through repository scripts; never capture/apply source patches, hand-copy WASM, or manually rewrite digests.
 - **Browser Delivery**: Workbench production runtimes are verified, content-addressed, same-origin Brotli build artifacts with no external runtime fallback. Pack delivery remains a separate ESA contract.
 - **Workspace Tooling**: Rust uses Cargo, editor packages use npm, and Python/NoneBot compatibility workflows use the root `uv` workspace.
 - **Logging**: Follow the owning subsystem. Python uses `loguru`; Rust and TypeScript must not introduce a second logging path beside existing runtime/reporting facilities.
@@ -108,7 +108,7 @@ uv run bot.py
 - **OpenSpec Entry**: Start with `openspec/project.md`, then the relevant stable spec and active change. Research notes are not approved implementation contracts.
 - **Web Product**: `editors/vscode-web/` is the production browser editor. `web/` is a retired prototype.
 - **Typst**: Native final compilation targets Typst 0.15; browser preview uses pinned Tinymist/Typst compiler artifacts described by the editor guide and workflow.
-- **Runtime Publication**: `tools/cdn/publish_tinymist_runtime.mjs` publishes immutable identity/Brotli objects; it does not re-run `wasm-opt`. Publication must verify public CORS, media type, encoding, digest, and `WebAssembly.validate`.
+- **Runtime Publication**: Tinymist repin/preparation remains local and must report unpublished. Only separately authorized `tools/cdn/publish_tinymist_runtime.mjs --publish` publishes immutable identity/Brotli objects; it does not re-run `wasm-opt`, and completion requires public CORS, media type, encoding, digest, and `WebAssembly.validate` verification.
 - **Credentials**: Never read, print, or modify ambient credential contents. Use a `mktemp` copy created under `umask 077`, pass it explicitly, and delete it with a trap.
 - **EULA**: Some packs require user-specific acceptance and are not redistributed under the repository license.
 - **Legacy Engine**: `MMT_DSL_ENGINE=legacy` is deprecated and unsupported for new behavior.

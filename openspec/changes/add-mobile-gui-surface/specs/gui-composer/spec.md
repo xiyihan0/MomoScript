@@ -369,7 +369,7 @@ Every body hit、caret and range SHALL be tied to current source URI/version/dig
 
 - GIVEN actual characterization proves at least one required geometry result unavailable or outside tolerance
 - WHEN the implementation branch is chosen
-- THEN the existing Tinymist renderer patch MUST be extended with identity-bound `hitTestText`、`locateCaret` and `locateRange`
+- THEN the Tinymist fork implementation pinned by the full `source.revision` MUST provide identity-bound `hitTestText`、`locateCaret` and `locateRange`
 - AND the product MUST NOT substitute approximate carets or body forms
 - AND if every required case qualifies without it, that renderer branch MUST NOT be introduced
 

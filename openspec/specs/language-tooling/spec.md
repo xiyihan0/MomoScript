@@ -245,12 +245,14 @@ contract and SHALL reject stale responses before source mapping.
 - AND it MUST replay the latest version of every still-open virtual project before accepting new requests
 - AND a recovery failure MUST be surfaced to the extension host
 
-#### Scenario: Fixed Tinymist artifacts handle virtual documents
+#### Scenario: Source-pinned Tinymist artifacts handle virtual documents
 
-- GIVEN Tinymist commit `3d63da4f93c54ddef0c63e1a6237d67aee13f5fe`
-- WHEN native stdio and browser Worker transcripts open an `untitled:/mmt-projection/` document
+- GIVEN `third_party/tinymist/pin.json` is `mmt-tinymist-pin.v2`
+- AND its `source.repository` identifies the MomoScript Tinymist fork and `source.revision` is a full immutable commit
+- WHEN native stdio and browser Worker transcripts built from that exact source revision open an `untitled:/mmt-projection/` document
 - THEN both MUST complete initialize、completion、hover and shutdown
-- AND the Web Worker MUST report backend protocol version `1` and Tinymist version `0.15.2`
+- AND the Web Worker MUST report backend protocol version `1` and Tinymist version `0.15.8`
+- AND `upstream.revision` MUST remain release/base provenance rather than select executable source
 
 ### Requirement: Embedded Typst features have Desktop and Web parity
 

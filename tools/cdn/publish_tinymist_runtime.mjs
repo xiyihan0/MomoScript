@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { brotliCompress, constants as zlibConstants } from "node:zlib";
 import {
+  pinnedTinymistSource,
+  pinnedTinymistUpstream
+} from "../../editors/vscode/scripts/tinymist-promotion-boundaries.mjs";
+import {
   DEFAULT_BUCKET,
   DEFAULT_ORIGIN,
   DEFAULT_REGION,
@@ -19,9 +23,10 @@ const compress = promisify(brotliCompress);
 const root = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const options = parseArguments(process.argv.slice(2));
 const pin = JSON.parse(await readFile(path.join(root, "third_party/tinymist/pin.json"), "utf8"));
-const version = pin.upstream?.version;
+const sourceProvenance = pinnedTinymistSource(pin);
+const upstreamProvenance = pinnedTinymistUpstream(pin);
+const version = upstreamProvenance.version;
 const pinnedWasm = pin.artifacts?.webWasm;
-if (typeof version !== "string" || !version) throw new Error("Tinymist pin has no upstream version");
 if (!pinnedWasm || typeof pinnedWasm.sha256 !== "string" || typeof pinnedWasm.size !== "number") {
   throw new Error("Tinymist pin has no Web WASM identity");
 }
@@ -70,6 +75,8 @@ const manifest = {
   schema: "mmt-runtime-publication.v1",
   runtime: "tinymist",
   version,
+  source: sourceProvenance,
+  upstream: upstreamProvenance,
   decodedSha256: identityDigest,
   decodedBytes: identityBytes.byteLength,
   objectPrefix,

@@ -11,7 +11,7 @@ The change spans four coupled layers:
 3. keep the clean Rust frontend because stage evidence proves it is already immaterial; and
 4. activate a capability-gated persistent renderer because presentation and eager location work now dominate warm visual-ready latency.
 
-The renderer uses a pinned Tinymist 0.15.2 `new`/`diff-v1` producer and pinned typst.ts 0.8.0-rc3 consumer. The visible Webview is the sole DOM and viewport owner. Full sanitized SVG remains an explicit differential/recovery oracle, not the ordinary per-edit publication path.
+The renderer uses a pinned Tinymist 0.15.8 `new`/`diff-v1` producer and pinned typst.ts 0.8.0-rc3 consumer. The visible Webview is the sole DOM and viewport owner. Full sanitized SVG remains an explicit differential/recovery oracle, not the ordinary per-edit publication path.
 
 ## Why
 

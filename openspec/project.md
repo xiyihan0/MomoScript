@@ -54,7 +54,7 @@ MomoScript 是一个面向 Momotalk / MoeTalk 风格视觉叙事的 DSL 与渲�
 - `openspec/specs/dsl-syntax/spec.md`：已实现 Python v1 语法的 legacy baseline；Rust v2 主线以 active change delta 为准，归档时将替换该 baseline
 - `openspec/specs/dsl-compilation/spec.md`：Rust v2 确定性、strict/permissive pipeline 与诊断要求
 - `openspec/specs/rendering-pipeline/spec.md`：Typst 沙箱、资源安全与 pack 驱动行为
-- `openspec/specs/tooling-and-verification/spec.md`：Rust v2 默认验证与端到端验收路径
+- `openspec/specs/tooling-and-verification/spec.md`：Rust v2 默认验证、端到端验收及 Tinymist source/qualification/publication ownership
 - `openspec/specs/change-management/spec.md`：OpenSpec 变更管理要求
 
 ## Active Mainline Map

@@ -1,18 +1,18 @@
 {
   "artifact": {
     "backendName": "tinymist",
-    "backendVersion": "0.15.4-rc3",
+    "backendVersion": "0.15.8",
     "checksumManifest": {
-      "expectedSha256": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8",
-      "reference": "tinymist-native-patched.sha256",
+      "expectedSha256": "c13aea9c65318bba6a9215234d559cdcc7bee48a0cd2f7849e7196ca226cc696",
+      "reference": "tinymist-native.sha256",
       "referencedArtifact": "tinymist",
       "verified": true
     },
     "digests": {
-      "tinymist": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8"
+      "tinymist": "c13aea9c65318bba6a9215234d559cdcc7bee48a0cd2f7849e7196ca226cc696"
     },
     "host": "native-process",
-    "packageVersion": "0.15.4-rc3",
+    "packageVersion": "0.15.8",
     "protocolVersion": "LSP 3.17"
   },
   "dynamicRegistrations": {
@@ -188,7 +188,7 @@
     },
     "serverInfo": {
       "name": "tinymist",
-      "version": "0.15.4-rc3"
+      "version": "0.15.8"
     }
   },
   "normalization": {

@@ -11,8 +11,8 @@ npm run check
 npm run test:grammar
 npm run test:worker
 TINYMIST_BIN=/path/to/tinymist npm run test:tinymist-process
-TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.4-rc3" npm run test:tinymist-worker
-TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.4-rc3" npm run test:web
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.8" npm run test:tinymist-worker
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.8" npm run test:web
 npm run build
 ```
 
@@ -22,14 +22,14 @@ npm run build
 当前扩展发布由同一 pure analysis 生成的完整、去重 live diagnostics，并提供 pack-aware character completion、
 symbols、folding、revision-bound Typst projection/preview 事件，以及经投影映射的 Tinymist completion、
 hover、signature help 和 diagnostics；稳定合同见 `openspec/specs/language-tooling/spec.md`。Desktop 使用
-native Tinymist sidecar；Web 使用固定的 Tinymist 0.15.4-rc3 WASM Worker。
+native Tinymist sidecar；Web 使用固定的 Tinymist 0.15.8 WASM Worker。
 
 Composer 正文合同也由同一个 Rust service 同时暴露给 native stdio 与 WASM：`mmt/composerDocument` 发布 `textEditing` capability；`mmt/composerTextSelection` 把 authored ranges 解析为精确 UTF-16 semantic endpoints 和 copy text；`mmt/composerTextProjection` 在当前 projection identity 下返回可逆 segments；`mmt/composerEdit` 的 `replaceTextSelection` 返回原子的 versioned `TextDocumentEdit`、candidate digest 与 post-edit selection。Rust parser/model 是选择、序列化与候选验证的唯一 authority，客户端不能搜索相同字符串、拼 MMT DSL 或自行预测节点。
 
 Web Worker 的 transport registration 位于 [`src/browserWorker.ts`](./src/browserWorker.ts)；native route 与 wire exact-key validation 位于 [`mmt_lsp/src/server.rs`](../../mmt_lsp/src/server.rs)，正文语义实现位于 [`mmt_rs/src/composer_text.rs`](../../mmt_rs/src/composer_text.rs)。三条正文 request 必须与 Desktop/Web transport 同步迁移，未知 field/kind、过期 version/digest、无效 UTF-16 boundary 和不可逆 projection 均 fail closed。
 
 客户端会声明 `publishDiagnostics.versionSupport` 并拒绝版本不等于当前 projection revision 的诊断；
-实测 Tinymist 0.15.4-rc3 Web/Native backend 都可能省略 `version`。每个 MMT LSP 会话使用随机 UUID，每次
+实测 Tinymist 0.15.8 Web/Native backend 都可能省略 `version`。每个 MMT LSP 会话使用随机 UUID，每次
 projection revision 使用 `untitled:/mmt-projection/<source-hex>/<session>/main-<revision>.typ` 独立 entry URI。
 切换时旧 entry 立即退出当前 projection 索引，但 host 保留最近两个文件代际；更旧且无 owner 的文件经过
 revision 校验的 30 秒 bounded grace 后才 `didClose`。晚到的无版本诊断仍指向已退休 URI，不能映射到当前

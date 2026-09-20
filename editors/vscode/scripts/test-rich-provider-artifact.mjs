@@ -8,6 +8,9 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
 const extensionRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+const canonicalPin = JSON.parse(
+  await readFile(path.resolve(extensionRoot, "../../third_party/tinymist/pin.json"), "utf8")
+);
 const mode = process.argv[2];
 if (mode !== "native" && mode !== "worker") {
   throw new Error("usage: node scripts/test-rich-provider-artifact.mjs native|worker");
@@ -78,7 +81,7 @@ function initializeParams() {
 
 function assertProbe(host, initialize, probes) {
   const capabilities = initialize.capabilities;
-  assert.equal(initialize.serverInfo?.version, "0.15.4-rc3", `${host} version`);
+  assert.equal(initialize.serverInfo?.version, canonicalPin.upstream.version, `${host} version`);
   assert.equal(capabilities.positionEncoding, "utf-16", `${host} encoding`);
   assert.equal(capabilities.renameProvider?.prepareProvider, true, `${host} prepare rename advertisement`);
   for (const key of [

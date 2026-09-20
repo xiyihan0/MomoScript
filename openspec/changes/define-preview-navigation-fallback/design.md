@@ -15,7 +15,7 @@ Text | MathText → node range start + glyph offset
 other           → node offset
 ```
 
-Tinymist 0.15.2 returns `SourceSpanOffset` and the MMT preview patch currently resolves every result as `node.range().start + offset`, which loses that distinction.
+At this investigation baseline, Tinymist 0.15.2 returns `SourceSpanOffset` and the MMT preview implementation resolved every result as `node.range().start + offset`, which loses that distinction.
 
 ## Evidence
 
@@ -130,13 +130,13 @@ Before implementation, decide:
 1. Whether MMT fallback targets the full statement line start or the `TextBody` authored range start. Current emitter parent origins can identify the former for generated statement wrappers; tests must pin the choice.
 2. Whether the public projection result adds `authoredFallback` or carries an explicit precision field.
 3. Whether `refineRenderTextLocation` is deleted or retained as constrained best-effort.
-4. Whether the correctness fix is submitted upstream to Tinymist before or in parallel with rebuilding pinned artifacts.
+4. When to submit the correctness fix upstream; upstream contribution timing is independent of delivery as a normal commit in the pinned MomoScript fork.
 5. Whether coarse navigation is enabled immediately for all MMT text mode or guarded until native/WASM artifact parity is proven.
 
 ## Rollout and Verification
 
 1. Add pure Tinymist regression tests for ASCII/CJK direct text and `#text(...)` fallback.
-2. Rebuild native and WASM artifacts from the same pinned revision plus patch; verify digests and protocol transcripts.
+2. Commit the fix to the maintained fork, pin its full source revision, and rebuild native and WASM artifacts from a clean checkout at that exact commit; verify digests and protocol transcripts.
 3. Add Rust projection tests proving parent-origin fallback cannot map edits.
 4. Add Desktop/Web protocol tests for exact、fallback、generated and stale targets.
 5. Browser-drive preview clicks on direct Typst text、MMT ASCII/CJK text and escaped MMT text; observe the opened URI and cursor line.

@@ -2,15 +2,15 @@
 
 export const GENERATED_TINYMIST_PROVIDER_ARTIFACTS = Object.freeze({
   "native": Object.freeze({
-    "backendVersion": "0.15.4-rc3",
-    "checksumReference": "tinymist-native-patched.sha256",
-    "digest": "40553af233b8991682452cf8679cbf1d6c8ced5673dc6648cf4df06a16a953a8",
+    "backendVersion": "0.15.8",
+    "checksumReference": "tinymist-native.sha256",
+    "digest": "c13aea9c65318bba6a9215234d559cdcc7bee48a0cd2f7849e7196ca226cc696",
     "positionEncoding": "utf-16"
   } as const),
   "web": Object.freeze({
-    "backendVersion": "0.15.4-rc3",
-    "checksumReference": "vendor/tinymist-0.15.4-rc3/SHA256SUMS",
-    "digest": "5c4472466c6137f8fcdd968ace1230e8d2f42eb66b18da2628a627ecce5eaf78",
+    "backendVersion": "0.15.8",
+    "checksumReference": "vendor/tinymist-0.15.8/SHA256SUMS",
+    "digest": "0e56f1f3fffebf8b9c03ae7cbfb6cb77020defabf69632d11007344879a28bb8",
     "positionEncoding": "utf-16"
   } as const)
 } as const);

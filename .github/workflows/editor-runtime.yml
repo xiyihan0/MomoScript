@@ -30,7 +30,6 @@ env:
   WASM_PACK_VERSION: 0.15.0
   TYPST_VERSION: 0.15.0
   TYPST_LINUX_SHA256: 59b207df01be2dab9f13e80f73d04d7ff8273ffd46b3dd1b9eef5c60f3eeabea
-  TINYMIST_REVISION: e54ace4f49a84baf60d9d1b059fd0cab7a780295
   TINYMIST_BINARYEN_VERSION: 116
   TINYMIST_BINARYEN_SHA256: c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd
   TYPST_TS_REVISION: e1974e566ba63dcf8ecdd6730cff25de26c7dbd2
@@ -120,12 +119,35 @@ jobs:
       - name: Install extension dependencies
         working-directory: editors/vscode
         run: npm ci
+      - name: Verify Tinymist promotion boundaries
+        working-directory: editors/vscode
+        run: npm run test:tinymist-promotion-boundaries
       - name: Build MomoScript Web language server
         working-directory: editors/vscode
         run: npm run build:wasm
-      - name: Check out pinned Tinymist source
+      - name: Resolve pinned Tinymist source
+        id: tinymist-source
         run: |
-          git clone --filter=blob:none https://github.com/Myriad-Dreamin/tinymist.git "$RUNNER_TEMP/tinymist"
+          node --input-type=module <<'NODE'
+          import { createHash } from "node:crypto";
+          import { appendFile, readFile } from "node:fs/promises";
+          import { pinnedTinymistSource } from "./editors/vscode/scripts/tinymist-promotion-boundaries.mjs";
+          const pin = JSON.parse(await readFile("third_party/tinymist/pin.json", "utf8"));
+          const source = pinnedTinymistSource(pin);
+          const sourceKey = createHash("sha256").update(JSON.stringify(source)).digest("hex");
+          await appendFile(process.env.GITHUB_OUTPUT, [
+            `repository=${source.repository}`,
+            `revision=${source.revision}`,
+            `source-key=${sourceKey}`,
+            ""
+          ].join("\n"));
+          NODE
+      - name: Check out pinned Tinymist fork source
+        env:
+          TINYMIST_REPOSITORY: ${{ steps.tinymist-source.outputs.repository }}
+          TINYMIST_REVISION: ${{ steps.tinymist-source.outputs.revision }}
+        run: |
+          git clone --filter=blob:none --no-checkout "$TINYMIST_REPOSITORY" "$RUNNER_TEMP/tinymist"
           git -C "$RUNNER_TEMP/tinymist" checkout --detach "$TINYMIST_REVISION"
       - name: Restore pinned Tinymist artifacts
         id: tinymist-artifact-cache
@@ -136,7 +158,7 @@ jobs:
             ${{ runner.temp }}/tinymist/crates/tinymist/pkg/tinymist.js
             ${{ runner.temp }}/tinymist/crates/tinymist/pkg/tinymist_bg.wasm
             ${{ runner.temp }}/tinymist/crates/tinymist/pkg/package.json
-          key: tinymist-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.RUST_TOOLCHAIN }}-${{ env.WASM_PACK_VERSION }}-${{ env.TINYMIST_BINARYEN_VERSION }}-${{ env.TINYMIST_REVISION }}-${{ hashFiles('third_party/tinymist/pin.json', 'third_party/tinymist/patches/*.patch') }}
+          key: tinymist-v4-${{ runner.os }}-${{ runner.arch }}-${{ env.RUST_TOOLCHAIN }}-${{ env.WASM_PACK_VERSION }}-${{ env.TINYMIST_BINARYEN_VERSION }}-${{ steps.tinymist-source.outputs.source-key }}-${{ hashFiles('third_party/tinymist/pin.json') }}
       - name: Install pinned Tinymist Binaryen
         if: steps.tinymist-artifact-cache.outputs.cache-hit != 'true'
         run: |
@@ -149,26 +171,32 @@ jobs:
           binaryen_bin="$RUNNER_TEMP/binaryen-version_${TINYMIST_BINARYEN_VERSION}/bin"
           echo "$binaryen_bin" >> "$GITHUB_PATH"
           "$binaryen_bin/wasm-opt" --version
-      - name: Apply maintained patch and verify pinned artifacts
+      - name: Build or verify pinned fork artifacts
         env:
           TINYMIST_SRC: ${{ runner.temp }}/tinymist
           CACHE_HIT: ${{ steps.tinymist-artifact-cache.outputs.cache-hit }}
         run: |
           if [ "$CACHE_HIT" = "true" ]; then
-            node editors/vscode/scripts/patch-tinymist-artifacts.mjs promote
+            node editors/vscode/scripts/build-tinymist-artifacts.mjs promote
           else
-            node editors/vscode/scripts/patch-tinymist-artifacts.mjs build-promote
+            node editors/vscode/scripts/build-tinymist-artifacts.mjs build-promote
           fi
+      - name: Verify nested source-to-preview mapping
+        working-directory: ${{ runner.temp }}/tinymist
+        run: cargo test --locked --release -p tinymist-query jump::tests
+      - name: Verify exact LSP coordinate transport
+        working-directory: ${{ runner.temp }}/tinymist
+        run: cargo test --locked --release -p sync-ls --features lsp lsp::tests::directed_preview_coordinate_survives_lsp_json -- --exact
       - name: Qualify source-built Tinymist artifacts
         env:
           TINYMIST_SRC: ${{ runner.temp }}/tinymist
           TINYMIST_QUALIFICATION_DIR: ${{ github.workspace }}/.ci/tinymist/qualification
-        run: node editors/vscode/scripts/patch-tinymist-artifacts.mjs qualify
+        run: node editors/vscode/scripts/build-tinymist-artifacts.mjs qualify
       - name: Stage immutable Tinymist artifacts
         run: |
           mkdir -p .ci/tinymist/native .ci/tinymist/web
           cp "$RUNNER_TEMP/tinymist/target/release/tinymist" .ci/tinymist/native/tinymist
-          cp "$RUNNER_TEMP/tinymist/target/release/tinymist-native-patched.sha256" .ci/tinymist/native/tinymist-native-patched.sha256
+          cp "$RUNNER_TEMP/tinymist/target/release/tinymist-native.sha256" .ci/tinymist/native/tinymist-native.sha256
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist.js" .ci/tinymist/web/tinymist.js
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist_bg.wasm" .ci/tinymist/web/tinymist_bg.wasm
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/package.json" .ci/tinymist/web/package.json
@@ -281,7 +309,7 @@ jobs:
             "tinymist-artifact-decision.json",
             "tinymist-capability-manifest.json",
             "tinymist-native-evidence.json",
-            "tinymist-native-patched.sha256",
+            "tinymist-native.sha256",
             "tinymist-rich-provider-qualification.json",
             "tinymist-web-evidence.json",
             "tinymistProviderQualification.generated.ts",
@@ -301,7 +329,7 @@ jobs:
           const webJsDigest = await digest(path.join(root, ".ci", "tinymist", "web", "tinymist.js"));
           const webDigest = await digest(path.join(root, ".ci", "tinymist", "web", "tinymist_bg.wasm"));
           const parse = async (name) => JSON.parse(await readFile(path.join(qualification, name), "utf8"));
-          const nativeChecksum = await readFile(path.join(qualification, "tinymist-native-patched.sha256"), "utf8");
+          const nativeChecksum = await readFile(path.join(qualification, "tinymist-native.sha256"), "utf8");
           if (nativeChecksum !== `${nativeDigest}  tinymist\n`) throw new Error("qualified native checksum does not match artifact");
           const nativeEvidence = await parse("tinymist-native-evidence.json");
           const webEvidence = await parse("tinymist-web-evidence.json");
@@ -337,7 +365,7 @@ jobs:
           install -m 0644 "$qualification/tinymist-rich-provider-qualification.json" "$fixtures/tinymist-rich-provider-qualification.json"
           install -m 0644 "$qualification/tinymist-capability-manifest.json" "$fixtures/tinymist-capability-manifest.json"
           install -m 0644 "$qualification/tinymist-artifact-decision.json" "$fixtures/tinymist-artifact-decision.json"
-          install -m 0644 "$qualification/tinymist-native-patched.sha256" "$fixtures/tinymist-native-patched.sha256"
+          install -m 0644 "$qualification/tinymist-native.sha256" "$fixtures/tinymist-native.sha256"
           install -m 0644 "$qualification/tinymistProviderQualification.generated.ts" \
             "editors/vscode/src/tinymistProviderQualification.generated.ts"
       - name: Install extension dependencies
@@ -348,7 +376,7 @@ jobs:
         env:
           TINYMIST_BIN: ${{ github.workspace }}/.ci/tinymist/native/tinymist
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
-          TINYMIST_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/qualification/tinymist-native-patched.sha256
+          TINYMIST_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/qualification/tinymist-native.sha256
           TINYMIST_WEB_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/web/SHA256SUMS
         run: |
           chmod +x "$TINYMIST_BIN"
@@ -456,7 +484,7 @@ jobs:
       - name: Run real-Chrome production editor journeys
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.8
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: |
           npm run test:e2e:chrome
@@ -492,7 +520,7 @@ jobs:
       - name: Run HMR and runtime lifecycle journeys
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.8
         run: npm run test:e2e:lifecycle
       - name: Upload lifecycle failure diagnostics
         if: failure()
@@ -530,7 +558,7 @@ jobs:
       - name: Run PWA offline lifecycle journey
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.8
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run test:e2e:pwa-offline
       - name: Upload PWA failure diagnostics
@@ -583,7 +611,7 @@ jobs:
             "editors/vscode/scripts" \
             "editors/vscode/package.json" \
             "editors/vscode/package-lock.json" \
-            "editors/vscode/vendor/tinymist-0.15.4-rc3" \
+            "editors/vscode/vendor/tinymist-0.15.8" \
             "third_party/tinymist" \
             "third_party/typst-ts"
           then
@@ -614,7 +642,7 @@ jobs:
         if: steps.scope.outputs.run == 'true'
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.8
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run ci:preview-differential
       - name: Upload preview differential evidence
@@ -655,7 +683,7 @@ jobs:
       - name: Run nightly preview performance qualification
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.4-rc3
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.8
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run ci:preview-nightly
       - name: Upload preview performance evidence

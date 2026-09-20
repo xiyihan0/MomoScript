@@ -18,7 +18,7 @@ Typst package network and filesystem I/O SHALL be performed by an explicit host 
 - GIVEN either fixed native or Web artifact cannot issue the versioned callback
 - WHEN package implementation reaches its artifact gate
 - THEN host-mediated package fetching MUST remain disabled
-- AND an artifact upgrade or maintained patch with native/Web transcripts MUST complete first
+- AND an ordinary fork source upgrade pinned by full commit, with native/Web transcripts, MUST complete first
 
 ### Requirement: Package identity is fully versioned and normalized
 

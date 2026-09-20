@@ -1,6 +1,6 @@
 # MomoScript 复用 Tinymist 实现嵌入式 Typst LSP 的调研
 
-> 状态：研究结论，不是已批准设计或实施承诺  
+> 状态：历史研究快照，不是当前设计或 producer 合同；其中基线 SHA、fork 取舍和构建建议均不得覆盖 `openspec/specs/language-tooling/spec.md`、`openspec/specs/tooling-and-verification/spec.md` 与 `third_party/tinymist/pin.json`。  
 > 调研日期：2026-07-11  
 > Tinymist 基线：`3d63da4f93c54ddef0c63e1a6237d67aee13f5fe`（仓库版本 `0.15.2`）
 

@@ -298,9 +298,9 @@ type ComposerTextProjectionResult =
 
 每例 hit offset 必须正确；有 glyph 的 caret 落在 glyph advance 边界且 CSS 测量误差不超过 1 px，语义空行 caret 使用上述真实 layout anchor；selection 只覆盖目标行；缩放/重排后重新查询仍对应同一语义选区。整条空正文仍可用 semantic label bounds 的显式 GUI 空区；重复文本不能串消息；比例字体/ligature 或空行均不得用平均字宽/行距近似。
 
-由以上实测触发的唯一底层分支：扩展现有 `0002-mmt-preview-renderer.patch` 的 `mmt/previewRenderer.v1`，加入 `hitTestText`（normalized page point + required `uncertainty:{x,y}` → source caret + affinity）、`locateCaret`（uri/position/affinity → caret boxes）、`locateRange`（uri/range → selection boxes）。三者均要求且回显 committed sessionId/generation，输出 page-normalized coordinates，支持一处源码多个 rendered occurrences，不提供 edit plan。`hitTestText` 必须严格验证 uncertainty 的 exact keys、有限性与 `[0,1]` 范围，不能默认或 clamp；Frame traversal 累计 group transform，按 glyph cluster span/advance 定位并解析字符串转义偏移。Uncertainty 仅扩展 containment，不改变精确 stop edge/source/affinity/distance 或 nearest-stop 排序；扩展后出现多个不同 source 仍拒绝。坐标按 `ceil(f32(native page extent))` 归一化；不能精确归属的 span 必须拒绝，不取 AST 节点中点。视觉上下键以 caret/line geometry 保持 preferredX，无需移植通用 navigation/AST service。
+由以上实测触发的唯一底层分支：在 `third_party/tinymist/pin.json` 的 fork source revision 中实现 `mmt/previewRenderer.v1` 的 `hitTestText`（normalized page point + required `uncertainty:{x,y}` → source caret + affinity）、`locateCaret`（uri/position/affinity → caret boxes）、`locateRange`（uri/range → selection boxes）。三者均要求且回显 committed sessionId/generation，输出 page-normalized coordinates，支持一处源码多个 rendered occurrences，不提供 edit plan。`hitTestText` 必须严格验证 uncertainty 的 exact keys、有限性与 `[0,1]` 范围，不能默认或 clamp；Frame traversal 累计 group transform，按 glyph cluster span/advance 定位并解析字符串转义偏移。Uncertainty 仅扩展 containment，不改变精确 stop edge/source/affinity/distance 或 nearest-stop 排序；扩展后出现多个不同 source 仍拒绝。坐标按 `ceil(f32(native page extent))` 归一化；不能精确归属的 span 必须拒绝，不取 AST 节点中点。视觉上下键以 caret/line geometry 保持 preferredX，无需移植通用 navigation/AST service。
 
-同步 `previewRendererProtocol.ts`、`tinymistCapabilities.ts`、`previewRendererSession.ts` 和 native/WASM process/worker 合同；扩展 capture 脚本按计算值更新 renderer patch pin，再走 managed apply/verify/build-promote/repin。Repin 从新产物取得 decoded identity，消费 publication prepare manifest 更新 encoded digest/size/URL，不手填 hashes。仅发布新 digest 不可变 runtime 制品，不部署站点；无凭据不绕过校验。Workbench runtime-delivery 必须消费并验证新制品，不能仍读取旧 CDN。若未来重新执行此实验并全部通过，则该条件分支不做；当前已触发，不在本轮跳过。
+同步 `previewRendererProtocol.ts`、`tinymistCapabilities.ts`、`previewRendererSession.ts` 和 native/WASM process/worker 合同；将 renderer 实现作为普通 commit 推送到 `xiyihan0/tinymist` 的维护分支，更新完整 `source.revision`，再从 clean exact checkout 走 `build-tinymist-artifacts.mjs build-promote`/`repin`。Repin 从新产物取得 decoded identity，消费 publication prepare manifest 更新 encoded digest/size/URL，不手填 hashes；不再 capture/apply patch，也不使用 submodule。仅在另行授权后发布新 digest 不可变 runtime 制品，不部署站点；无凭据不绕过校验。Workbench runtime-delivery 必须消费并验证新制品，不能仍读取旧 CDN。若未来重新执行此实验并全部通过，则该条件分支不做；当前已触发，不在本轮跳过。
 
 ### 10. 串行文本输入、跨消息剪贴板与 IME
 
@@ -375,7 +375,7 @@ Input/Sheet/drag/clipboard 在 runtime quiesce/dispose 停止新工作，所有 
 1. 在本 change 冻结 SVG-first 产品/wire/parser/acceptance 合同，重新打开受影响任务；运行 strict OpenSpec，并完成真实 geometry characterization。当前已观测几何失败要求 renderer 分支。
 2. Rust/core/LSP 定义文本端点、read/edit/result、可逆 fenced/EOL、候选 proof 与 stdio/WASM exact-key cutover；先查 exported symbol references，不做客户端兼容层。
 3. 合同冻结后并行推进 core/LSP、shared overlay/native panes 和 geometry/renderer；`main.ts`、共享 wire 与规范只设一个集成负责人，分支编辑期间不跑全局 build/lint/suite。
-4. Core/wire 一致后接 input session、原生 history、跨消息/IME；几何补丁用已有 capture/apply/verify/build-promote/repin 与 runtime publication owning scripts 生成，不手改 vendor/digest。
+4. Core/wire 一致后接 input session、原生 history、跨消息/IME；几何实现作为普通 fork source commit 推送并更新完整 source pin，再由 `build-tinymist-artifacts.mjs` 的 build-promote/repin 与独立 runtime publication owner 生成制品，不 capture/apply patch、不手改 vendor/digest。
 5. 按既有 Rust core/LSP、MMT WASM vendor、native/WASM contracts、TypeScript checks、runtime-delivery、production build、preview/gui/lifecycle/PWA E2E 顺序集中验证；源码、History、Pack、Export、PWA owner 不换。
 6. 留下 ASCII/CJK/emoji/组合字符、fence/newline/empty/CRLF/final-EOL、跨消息正反向/blank/barrier/继承、快输入/延迟/stale、真实 IME、caret ≤1px/跨页/重排、GUI/source undo/redo、两个文档 overlay、320px/keyboard/offline/PDF 的真实行为证明。
 
