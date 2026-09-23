@@ -74,7 +74,10 @@ pub use pipeline::{
     AnalyzedDocument, Compilation, CompilationFailure, analyze_text, analyze_text_with_pack,
     compile_text, compile_text_strict,
 };
-pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_template_library};
+pub use project::{
+    ProjectMaterializer, ProjectMaterializerOptions, VirtualMaterializer,
+    VirtualMaterializerOptions, export_template_library,
+};
 pub use projected_edit::{
     PROJECTED_EDIT_PROTOCOL_VERSION, ProjectedEditDocumentIdentity, ProjectedEditEncoding,
     ProjectedEditFailure, ProjectedEditPosition, ProjectedEditRange, ProjectedEditTarget,

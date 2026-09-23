@@ -364,7 +364,6 @@ pub fn project_analyzed_composer_document(
         });
     }
 
-    drafts = split_trailing_statement_blanks(source, &lines, drafts);
     validate_partition(source, &drafts)?;
     let has_errors = analysis_has_errors(analysis);
     let mut nodes = drafts
@@ -438,13 +437,6 @@ impl NodeDraft {
             Self::Opaque { .. } => ComposerDocumentNodeKind::Opaque,
         }
     }
-    fn set_range(&mut self, updated: TextRange) {
-        match self {
-            Self::Message { range, .. }
-            | Self::Narration { range, .. }
-            | Self::Opaque { range, .. } => *range = updated,
-        }
-    }
 
     fn finish(self, source_digest: &str, has_errors: bool) -> ComposerDocumentNode {
         let range = self.range();
@@ -514,47 +506,6 @@ impl NodeDraft {
             }),
         }
     }
-}
-
-fn split_trailing_statement_blanks(
-    source: &str,
-    lines: &[PhysicalLine],
-    drafts: Vec<NodeDraft>,
-) -> Vec<NodeDraft> {
-    let mut partitioned = Vec::with_capacity(drafts.len());
-    for mut draft in drafts {
-        let statement = matches!(
-            &draft,
-            NodeDraft::Message { .. } | NodeDraft::Narration { .. }
-        );
-        let range = draft.range();
-        if !statement || range.end > source.len() {
-            partitioned.push(draft);
-            continue;
-        }
-        let owned_lines = lines
-            .iter()
-            .filter(|line| line.start >= range.start && line.line_end <= range.end)
-            .copied()
-            .collect::<Vec<_>>();
-        let trailing_count = owned_lines
-            .iter()
-            .rev()
-            .take_while(|line| source[line.start..line.content_end].trim().is_empty())
-            .count();
-        if trailing_count == 0 || trailing_count == owned_lines.len() {
-            partitioned.push(draft);
-            continue;
-        }
-        let trailing = &owned_lines[owned_lines.len() - trailing_count..];
-        draft.set_range(TextRange::new(range.start, trailing[0].start));
-        partitioned.push(draft);
-        partitioned.extend(trailing.iter().map(|line| NodeDraft::Opaque {
-            range: TextRange::new(line.start, line.line_end),
-            category: ComposerOpaqueCategory::Blank,
-        }));
-    }
-    partitioned
 }
 
 fn composer_node_key(

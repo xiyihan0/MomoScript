@@ -862,7 +862,7 @@ mod tests {
     #[test]
     fn escaped_text_suffix_preserves_plain_prefix_identity() {
         let text = "终端目前能正常启动。先读取它保存的维护状态。";
-        let source = format!("< {text}\n\n- next\n");
+        let source = format!("< {text}\ncontinued body\n- next\n");
         let projection = project_text(&source, &catalog(), &EmitOptions::default()).unwrap();
         assert!(projection.diagnostics.is_empty());
 

@@ -14,7 +14,7 @@
 
 - [x] 1.1 Define surface-independent `ComposerDocumentProjection` and Message/Narration/Opaque unions with UTF-8 ranges、snapshot-local keys and no AST/ActorId leakage
 - [x] 1.2 Scan physical lines and partition every nonempty source byte exactly once; preserve UTF-8 boundaries、whole CRLF/LF terminators、BOM and unterminated final lines
-- [x] 1.3 Keep each blank line separate; project directives、Reply/Bond、recoverable errors、comment-looking errors and unsupported gaps as explicit Opaque nodes
+- [x] 1.3 Keep each parser-owned separator blank line separate; keep internal/fenced blank lines in semantic bodies and project directives、Reply/Bond、recoverable errors、comment-looking errors and unsupported gaps as explicit Opaque nodes
 - [x] 1.4 Share one statement product descriptor with Preview Composer; separate immutable product descriptions from server-authorized mutation capabilities
 - [x] 1.5 Compute canonical `mmt-composer-document-v1` digest and `mmt-composer-node-v1` snapshot-local keys
 - [x] 1.6 Prove ordered adjacency、`[0, len)` coverage、CRLF indivisibility and byte-exact concatenation for valid、recoverable and empty documents
@@ -96,7 +96,7 @@
 ## 9. Reversible fenced parser and exact text wire cutover
 
 - [x] 9.1 Change `try_parse_fenced_body` to exact raw source slicing after body_start/body_end discovery; retain opening delimiter exclusion、leading/trailing blank lines、CRLF、empty range and unterminated recovery
-- [x] 9.2 Build reversible raw/semantic EOL mapping without trimming body trailing LF; normalize incoming CRLF/CR to semantic LF
+- [x] 9.2 Build reversible raw/semantic EOL mapping without trimming fenced-body trailing LF; keep unfenced trailing separator classification parser-owned and normalize incoming CRLF/CR to semantic LF
 - [x] 9.3 Preserve safe existing inline text or serialize a fenced envelope with `N=max(3,longest quote run+1)`, standalone opener and original mode/inherit prefix
 - [x] 9.4 Make `find_fence_close` scan a whole run and use its final N quotes; prove trailing 1/2/N−1 quotes、internal short runs、historical fences and recovery without adding body LF
 - [x] 9.5 Put nonempty closer immediately after final body character and empty closer on opener's next line; keep adjacent six quotes as opener, not empty shorthand
@@ -149,7 +149,7 @@
 ## 13. Required end-to-end SVG behavior proof
 
 - [x] 13.1 Prove `A😀é中` insertion/deletion removes whole emoji/graphemes, never half surrogates, and supports body offset zero/end
-- [x] 13.2 Prove Enter/Shift+Enter keep `first` plus `> @不是语法 """` in one exact semantic body; erase to empty and re-enter with no sentinel; assert LF/CRLF/leading/trailing blank/final-EOL bytes
+- [x] 13.2 Prove Enter/Shift+Enter keep `first` plus `> @不是语法 """` in one exact semantic body; erase to empty and re-enter with no sentinel; distinguish parser-owned unfenced separator blanks from internal blanks and fenced leading/trailing semantic LF/CRLF while preserving final-EOL bytes
 - [x] 13.3 Prove forward/reverse first-offset-1 to second-offset-2 copy of `abc`/`def` is `bc\nde`, replacement `X` gives `aXf`, one undo restores original bytes and redo merges; cover different speakers、blanks and unaffected inherited semantics
 - [x] 13.4 Prove directive/error/Typst/different-mode barriers、unknown keys、stale identities/wrong generation and surrogate/grapheme interiors fail without partial mutation/copy
 - [x] 13.5 Prove delayed snapshot/compile fast input/newlines are ordered and lossless, own edits keep bridge open, external conflicts stop old authorization and expose recovery
@@ -160,3 +160,24 @@
 - [x] 13.9 Prove 320px/soft-keyboard caret and Picker/Sheet access、44px targets、offline cached-project editing/saving and export exclusion of uncommitted IME
   - Note: Keyboard evidence uses a shrunken viewport, not a real-device software keyboard.
 - [x] 13.10 Finish all required implementation and centralized validation before delivery; report inaccessible real-IME/Chrome/publication prerequisites honestly, never call geometry-only or single-field work complete
+
+## 14. Planned icon-first chat chrome（not implemented）
+
+- [ ] 14.1 Replace the current tool-oriented chrome with the approved three-region shell: slim document/status + undo/redo/export/more icon bar、dominant retained SVG canvas、and compact persistent bottom Composer; keep desktop source default and existing native pane/overlay ownership
+- [ ] 14.2 Add the bottom new-message flow with current-role avatar、single-line growing draft input、image/send icons、compact grouped tools and a horizontal role tray; do not create a local projected message or write source before send
+- [ ] 14.3 On send, revalidate the latest URI/version/digest、authorized insertion boundary、speaker and mode, invoke one Rust `insertStatement`, and clear only the successfully applied draft; preserve it on stale/rejection/apply failure
+- [ ] 14.4 Automatically retain every selected role in stable tray positions, including roles selected before any send; add the confirmed Teacher/Sensei quick-switch affordance and an on-demand complete-library Picker/Sheet without favorites or a permanent character sidebar, resolving teacher submission through an explicit Rust capability rather than client-authored `__Sensei`
+- [ ] 14.5 Keep direct SVG editing for existing messages; replace permanent inspector/checkbox/up-down chrome with capability-bound contextual actions and an explicit enter/exit bulk arrange mode
+- [ ] 14.6 Preserve an unsent new-message draft and selected new-message role while editing existing SVG content; keep draft out of canonical MMT、projection、native undo/redo、save、Local History、render and export until successful send
+- [ ] 14.7 Resolve and document the still-open implementation details before coding their final behavior: real mobile-keyboard interaction、exact icon ordering、narrow-width tray placement/overflow and draft recovery across close/reload; do not add a new persistence owner
+- [ ] 14.8 Give every icon a stable accessible name、desktop tooltip and visible state; retain at least 44 CSS px primary touch targets, and use text labels in menus/Sheets for unfamiliar、destructive and low-frequency actions
+
+## 15. Planned interaction acceptance（not yet qualified）
+
+- [ ] 15.1 Qualify desktop layout with the SVG owning the available center, no permanent inspector/sidebar or large verbose button row, compact top/bottom chrome, and native undo/redo/save/export observing only the canonical TextDocument
+- [ ] 15.2 Qualify the two simultaneous flows: an unsent bottom draft survives direct body/property edits to an old SVG message, while those accepted old-message edits remain independently undoable in the native model
+- [ ] 15.3 Qualify send success and failure: one accepted send creates exactly one Rust-projected statement and clears its draft; stale capability、Pack drift、candidate rejection or apply failure creates no optimistic canvas message and retains recoverable text
+- [ ] 15.4 Qualify role tray behavior: selecting without sending retains the role, adding another role does not move existing avatars, Teacher/Sensei remains one-step reachable, and the full library opens on demand without becoming a canvas sidebar
+- [ ] 15.5 Qualify contextual and bulk modes with pointer、keyboard、touch and screen reader: single-message actions appear only for the current selection, arrange mode has an explicit exit, and no visual selection bypasses Rust capabilities or opaque barriers
+- [ ] 15.6 Qualify 550px and 320px responsive surfaces with safe-area、one SVG scroll owner、no outer horizontal overflow、reachable Composer/tray/menus and actual software-keyboard behavior; report synthetic or unavailable device evidence separately
+- [ ] 15.7 Verify draft/source boundaries across GUI/source switching、save、Local History、reload and PDF export after the persistence policy is approved; no unsubmitted draft or tray state may be mistaken for authored MMT

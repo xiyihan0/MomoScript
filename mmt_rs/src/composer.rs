@@ -334,26 +334,17 @@ fn editable_statement_text<'a>(
     statement: &'a StatementSyntax,
 ) -> Option<&'a str> {
     let current = statement.body.source.as_str();
-    let editable = if validate_statement_text_value(current).is_ok()
-        && statement.body.range.len() == current.len()
+    if validate_statement_text_value(current).is_err()
+        || statement.body.range.len() != current.len()
     {
-        current
-    } else {
-        let trimmed = current.trim_end_matches(['\r', '\n']);
-        if trimmed.len() == current.len()
-            || trimmed.contains('\n')
-            || validate_statement_text_value(trimmed).is_err()
-        {
-            return None;
-        }
-        trimmed
-    };
+        return None;
+    }
     analysis
         .modes
         .bodies
         .iter()
         .any(|entry| entry.range == statement.body.range)
-        .then_some(editable)
+        .then_some(current)
 }
 
 pub(crate) fn validate_statement_text_value(value: &str) -> Result<(), ComposerFailure> {
@@ -891,8 +882,7 @@ fn statement_body_edit(
 ) -> Result<ComposerSourceEdit, ComposerFailure> {
     validate_statement_text_value(value)?;
     let current = statement_text_mode(statement.body.mode).ok_or(ComposerFailure::TargetChanged)?;
-    let current_text = statement.body.source.trim_end_matches(['\r', '\n']);
-    if current_text == value && current == mode {
+    if statement.body.source.as_str() == value && current == mode {
         return Err(ComposerFailure::InvalidValue);
     }
     if current == mode {
@@ -928,9 +918,8 @@ fn editable_statement_body_range(
     if physical != statement.body.source {
         return Err(ComposerFailure::CandidateInvalid);
     }
-    let editable = physical.trim_end_matches(['\r', '\n']);
-    validate_statement_text_value(editable)?;
-    Ok(TextRange::new(range.start, range.start + editable.len()))
+    validate_statement_text_value(physical)?;
+    Ok(range)
 }
 
 pub(crate) fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
@@ -1503,13 +1492,7 @@ fn statements_have_same_shape_for_body(
                     && left.patch.as_ref().map(|patch| patch.raw_args.as_str())
                         == right.patch.as_ref().map(|patch| patch.raw_args.as_str())
                     && if ordinal == target_ordinal {
-                        let left_text = left.body.source.trim_end_matches(['\r', '\n']);
-                        let right_text = right.body.source.trim_end_matches(['\r', '\n']);
-                        let left_suffix = &left.body.source[left_text.len()..];
-                        let right_suffix = &right.body.source[right_text.len()..];
-                        right_text == expected_value
-                            && left_suffix == right_suffix
-                            && right.body.mode == expected_mode
+                        right.body.source == expected_value && right.body.mode == expected_mode
                     } else {
                         left.body.source == right.body.source && left.body.mode == right.body.mode
                     }

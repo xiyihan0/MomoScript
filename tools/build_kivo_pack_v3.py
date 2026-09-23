@@ -1056,6 +1056,30 @@ def _sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def _inspect_avifs(
+    path: Path, *, avifdec_bin: str = "avifdec"
+) -> tuple[tuple[int, int], int] | None:
+    if not path.is_file():
+        return None
+    result = subprocess.run(
+        [avifdec_bin, "-i", str(path)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    res_m = re.search(r"Resolution\s*:\s*(\d+)x(\d+)", result.stdout)
+    frames_m = re.search(r"\((\d+)\s+expected frames?\)", result.stdout)
+    if frames_m is None:
+        frames_m = re.search(r"\b(\d+)\s+frames?\b", result.stdout)
+    if res_m and frames_m:
+        width, height, frames = int(res_m.group(1)), int(res_m.group(2)), int(frames_m.group(1))
+        if width > 0 and height > 0 and frames > 0:
+            return (width, height), frames
+    return None
+
+
 def _image_info(paths: list[Path]) -> tuple[list[tuple[int, int]], bool]:
     sizes: list[tuple[int, int]] = []
     has_alpha = False
@@ -1255,7 +1279,7 @@ def _encode_avif_sequences(
             aspect_ratio = max(
                 target_size[0] / target_size[1], target_size[1] / target_size[0]
             )
-            record["size"] = [target_size[0], target_size[1]]
+            record["target_size"] = [target_size[0], target_size[1]]
             record["pixels"] = target_pixels
             record["aspect_ratio"] = round(aspect_ratio, 3)
             record["alpha"] = bool(has_alpha)
@@ -1278,11 +1302,24 @@ def _encode_avif_sequences(
                     f"canvas edge too large: {target_size[0]}x{target_size[1]}"
                 )
 
+            avifdec_bin = str(getattr(args, "avifdec_bin", "avifdec"))
+            verified_info: tuple[tuple[int, int], int] | None = None
             if (
                 bool(args.resume)
                 and output_path.exists()
                 and output_path.stat().st_size > 0
             ):
+                actual_info = _inspect_avifs(output_path, avifdec_bin=avifdec_bin)
+                if actual_info is not None:
+                    actual_size, actual_frames = actual_info
+                    if actual_size == target_size and actual_frames == len(variants):
+                        verified_info = actual_info
+                    else:
+                        output_path.unlink(missing_ok=True)
+                else:
+                    output_path.unlink(missing_ok=True)
+
+            if verified_info is not None:
                 status = "reused"
             else:
                 encode_inputs = image_paths
@@ -1322,6 +1359,23 @@ def _encode_avif_sequences(
                         or f"avifenc exited {result.returncode}"
                     )
                 status = "encoded"
+
+            final_info = verified_info or _inspect_avifs(output_path, avifdec_bin=avifdec_bin)
+            if final_info is None:
+                raise RuntimeError(f"could not inspect encoded AVIFS: {output_path}")
+            final_size, final_frames = final_info
+            if final_size != target_size:
+                raise RuntimeError(
+                    f"AVIFS resolution {final_size[0]}x{final_size[1]} "
+                    f"does not match expected target size {target_size[0]}x{target_size[1]}: {output_path}"
+                )
+            if final_frames != len(variants):
+                raise RuntimeError(
+                    f"AVIFS frame count {final_frames} "
+                    f"does not match expected variant count {len(variants)}: {output_path}"
+                )
+            record["measured_size"] = list(final_size)
+            record["measured_frames"] = final_frames
             thumbnail_dir = (
                 out_dir / "assets" / "thumbnails" / record["entity"] / job["set_id"]
             )
@@ -1342,9 +1396,9 @@ def _encode_avif_sequences(
                 "path": output_rel.as_posix(),
                 "container": "avifs",
                 "codec": "av1",
-                "frame_count": len(variants),
+                "frame_count": final_frames,
                 "fps": 1,
-                "size": [target_size[0], target_size[1]],
+                "size": list(final_size),
                 "alpha": bool(has_alpha),
                 "sha256": _sha256_file(output_path),
                 "profile": summary["profile"],
@@ -1358,6 +1412,7 @@ def _encode_avif_sequences(
             storage_update["path"] = output_rel.as_posix()
             record["status"] = status
             record["bytes"] = output_path.stat().st_size
+            record["blob_sha256"] = storage_update["sha256"]
             return {
                 **job,
                 "record": record,
@@ -1411,8 +1466,7 @@ def _encode_avif_sequences(
                 "entity": entity_id,
                 "set": set_id,
                 "storage": storage_id,
-                "frames": len(set_data.get("variants") or []),
-                "encoded_frames": len(variant_pairs),
+                "target_frames": len(variant_pairs),
             }
             if skipped_variants:
                 record["skipped_variants"] = skipped_variants
@@ -1970,6 +2024,11 @@ def build_argparser() -> argparse.ArgumentParser:
         type=int,
         default=3000,
         help="Skip encoding sets whose padded canvas width or height exceeds this value.",
+    )
+    parser.add_argument(
+        "--avifdec-bin",
+        default="avifdec",
+        help="avifdec binary path for inspecting and validating AVIFS sequences.",
     )
     return parser
 

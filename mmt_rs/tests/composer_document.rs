@@ -97,6 +97,11 @@ fn blank_after_statement_remains_independent_and_statement_editable() {
     let ComposerDocumentNode::Message(message) = &projection.nodes[0] else {
         panic!("first node must remain a message");
     };
+    assert_eq!(message.description.body.current, "original");
+    assert_eq!(
+        message.description.statement_text.as_ref().unwrap().current,
+        "original"
+    );
     assert!(message.capabilities.set_body);
     let ComposerDocumentNode::Opaque(blank) = &projection.nodes[1] else {
         panic!("blank line must remain opaque");
@@ -107,32 +112,76 @@ fn blank_after_statement_remains_independent_and_statement_editable() {
 }
 
 #[test]
-fn trailing_blanks_split_from_noneditable_and_empty_statements() {
-    for (source, expected_blanks) in [
+fn statement_bodies_and_separator_blanks_follow_parser_boundaries() {
+    for (source, expected_body, set_body, expected_blanks) in [
         (
             "> 角色: first\ncontinued body\n\n\n@reply: A | B",
+            "first\ncontinued body",
+            false,
             vec!["\n", "\n"],
         ),
-        ("> 角色:\r\n\r\n@reply: A | B", vec!["\r\n"]),
+        ("> 角色:\r\n\r\n@reply: A | B", "", false, vec!["\r\n"]),
         (
             "> 角色: first\ncontinued body\n  \n\t\r\n@reply: A | B",
+            "first\ncontinued body",
+            false,
             vec!["  \n", "\t\r\n"],
+        ),
+        (
+            "> 角色: kept  \n \n@reply: A | B",
+            "kept  ",
+            true,
+            vec![" \n"],
         ),
     ] {
         let projection = project_composer_document(source, &catalog()).unwrap();
         let ComposerDocumentNode::Message(message) = &projection.nodes[0] else {
             panic!("first node must remain a message");
         };
-        assert!(!message.capabilities.set_body);
+        assert_eq!(message.description.body.current, expected_body);
+        assert_eq!(message.text_editing.as_ref().unwrap().text, expected_body);
+        assert_eq!(message.capabilities.set_body, set_body);
         for (offset, expected) in expected_blanks.iter().enumerate() {
             let ComposerDocumentNode::Opaque(blank) = &projection.nodes[offset + 1] else {
-                panic!("trailing blank must remain an independent opaque node");
+                panic!("separator blank must remain an independent opaque node");
             };
             assert_eq!(blank.category, ComposerOpaqueCategory::Blank);
             assert_eq!(&source[blank.range.start..blank.range.end], *expected);
         }
         assert_partition(source);
     }
+}
+
+#[test]
+fn final_bare_cr_blank_projects_as_a_physical_separator() {
+    for (source, expected_blank) in [
+        ("- first\n \r", " \r"),
+        ("- first\n \n", " \n"),
+        ("- first\r\n \r\n", " \r\n"),
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        assert_eq!(projection.nodes.len(), 2);
+        let ComposerDocumentNode::Narration(narration) = &projection.nodes[0] else {
+            panic!("first physical line must be narration");
+        };
+        assert_eq!(narration.description.body.current, "first");
+        let ComposerDocumentNode::Opaque(blank) = &projection.nodes[1] else {
+            panic!("separator must remain opaque");
+        };
+        assert_eq!(blank.category, ComposerOpaqueCategory::Blank);
+        assert_eq!(&source[blank.range.start..blank.range.end], expected_blank);
+        assert_eq!(blank.range.end, source.len());
+        assert_partition(source);
+    }
+
+    let source = "- first\n \r\ncontinued";
+    let projection = project_composer_document(source, &catalog()).unwrap();
+    assert_eq!(projection.nodes.len(), 1);
+    let ComposerDocumentNode::Narration(narration) = &projection.nodes[0] else {
+        panic!("internal blank belongs to the continuing narration");
+    };
+    assert_eq!(narration.description.body.current, "first\n \r\ncontinued");
+    assert_partition(source);
 }
 
 #[test]

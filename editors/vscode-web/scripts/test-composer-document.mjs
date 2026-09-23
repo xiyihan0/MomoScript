@@ -162,9 +162,9 @@ const blankSnapshot = parseComposerDocumentResult({
       kind: "narration",
       nodeKey: blankRefs[0].nodeKey,
       range: blankRefs[0].range,
-      statementRange: { start: { line: 0, character: 0 }, end: { line: 3, character: 1 } },
+      statementRange: { start: { line: 0, character: 0 }, end: { line: 1, character: 9 } },
       body: {
-        current: "first\ncontinued\n  \n\t",
+        current: "first\ncontinued",
         mode: "inherit",
         resolvedMode: "textMacro",
         inheritedMode: "textMacro",

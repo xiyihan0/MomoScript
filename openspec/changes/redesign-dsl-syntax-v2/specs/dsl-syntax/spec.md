@@ -237,8 +237,34 @@
 
 - GIVEN 一条顶层 `>`、`<` 或 `-` statement
 - WHEN 后续行不是明确的新顶层节点起始或当前上下文结束标记
+- AND 该行不属于下一顶层节点或 EOF 前 maximal trailing whitespace-only physical-line suffix
 - THEN parser MUST append that line as continuation text of the previous statement
 - AND preserve the line break between statement content and continuation text
+
+#### Scenario: Unfenced trailing whitespace-only lines are formatting separators
+
+- GIVEN a top-level `>`、`<` or `-` statement uses an unfenced implicit body
+- AND a maximal suffix of whitespace-only physical lines appears immediately before the next top-level node or EOF
+- WHEN parser establishes the body and statement range
+- THEN parser MUST exclude that entire suffix from `BodySyntax` and the statement range
+- AND MUST preserve the separator bytes in the source document outside that statement
+- AND downstream Composer、lowering、emission or UI code MUST NOT trim or split the parsed body to rediscover this boundary
+
+#### Scenario: Internal blank continuations remain body content
+
+- GIVEN an unfenced implicit body contains a whitespace-only physical line
+- AND an ordinary continuation text line follows it before the next top-level node or EOF
+- WHEN parser establishes the body
+- THEN the whitespace-only line and its line ending MUST remain body content
+- AND whitespace at the end of every nonblank body line MUST remain exact
+
+#### Scenario: Fenced bodies retain semantic edge whitespace
+
+- GIVEN a statement uses a fenced body
+- WHEN its exact body slice has leading or trailing whitespace、blank physical lines、LF or CRLF
+- THEN parser MUST preserve that semantic whitespace exactly inside `BodySyntax`
+- AND MUST NOT apply the unfenced trailing-separator rule inside the fence
+- AND a genuinely empty fenced body MUST remain a legal empty body
 
 #### Scenario: Statement continuation stops at explicit node starts
 

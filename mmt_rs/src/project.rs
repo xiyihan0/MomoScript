@@ -6,11 +6,11 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use sha2::{Digest, Sha256};
+use typst_syntax::VirtualPath;
 
 use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
 use crate::resolve::{PackStorageSource, ResolvedResource, ResolvedResourceKind};
 use crate::semantic::AssetSource;
-
 #[derive(Debug, Clone)]
 pub struct ProjectMaterializerOptions {
     pub output_dir: PathBuf,
@@ -21,27 +21,29 @@ pub struct ProjectMaterializerOptions {
     pub decoder_profile: String,
 }
 
-pub struct ProjectMaterializer {
-    options: ProjectMaterializerOptions,
-    copied: HashMap<PathBuf, String>,
-    verified_sequences: HashSet<(PathBuf, String)>,
-    next_id: usize,
+#[derive(Debug, Clone)]
+pub struct AssetResolverOptions {
+    pub workspace_root: PathBuf,
+    pub pack_roots: HashMap<String, PathBuf>,
+    pub cache_dir: PathBuf,
+    pub avifdec_bin: PathBuf,
+    pub decoder_profile: String,
 }
 
-impl ProjectMaterializer {
-    pub fn new(options: ProjectMaterializerOptions) -> Result<Self, MaterializeError> {
-        fs::create_dir_all(options.output_dir.join("assets")).map_err(|error| {
-            MaterializeError::new(format!("cannot create project assets: {error}"))
-        })?;
-        Ok(Self {
+pub struct AssetResolver {
+    options: AssetResolverOptions,
+    verified_sequences: HashSet<(PathBuf, String)>,
+}
+
+impl AssetResolver {
+    pub fn new(options: AssetResolverOptions) -> Self {
+        Self {
             options,
-            copied: HashMap::new(),
             verified_sequences: HashSet::new(),
-            next_id: 0,
-        })
+        }
     }
 
-    fn source_path(&self, resource: &ResolvedResource) -> Result<PathBuf, MaterializeError> {
+    pub fn source_path(&self, resource: &ResolvedResource) -> Result<PathBuf, MaterializeError> {
         match &resource.kind {
             ResolvedResourceKind::Sticker { source, .. }
             | ResolvedResourceKind::Avatar { source, .. }
@@ -64,7 +66,7 @@ impl ProjectMaterializer {
         }
     }
 
-    fn pack_root(&self, namespace: &str) -> Result<PathBuf, MaterializeError> {
+    pub fn pack_root(&self, namespace: &str) -> Result<PathBuf, MaterializeError> {
         self.options
             .pack_roots
             .get(namespace)
@@ -81,7 +83,7 @@ impl ProjectMaterializer {
             })
     }
 
-    fn checked_pack_path(
+    pub fn checked_pack_path(
         &self,
         source: &PackStorageSource,
         relative: &Path,
@@ -102,7 +104,7 @@ impl ProjectMaterializer {
         Ok(path)
     }
 
-    fn pack_image_path(&self, source: &PackStorageSource) -> Result<PathBuf, MaterializeError> {
+    pub fn pack_image_path(&self, source: &PackStorageSource) -> Result<PathBuf, MaterializeError> {
         if source.storage.kind != "image-dir" {
             return Err(MaterializeError::new(format!(
                 "storage '{}::{}' uses unsupported kind '{}' for direct image copying",
@@ -119,10 +121,10 @@ impl ProjectMaterializer {
         self.checked_pack_path(source, &Path::new(base).join(path))
     }
 
-    fn materialize_sequence(
+    pub fn resolve_sequence_frame(
         &mut self,
         source: &PackStorageSource,
-    ) -> Result<MaterializedImage, MaterializeError> {
+    ) -> Result<PathBuf, MaterializeError> {
         let container = source.storage.path.as_deref().ok_or_else(|| {
             MaterializeError::new("image-sequence storage requires a container path")
         })?;
@@ -226,7 +228,34 @@ impl ProjectMaterializer {
         } else {
             validate_png(&cache_path, width, height)?;
         }
-        self.copy_asset(cache_path)
+        Ok(cache_path)
+    }
+}
+
+pub struct ProjectMaterializer {
+    output_dir: PathBuf,
+    resolver: AssetResolver,
+    copied: HashMap<PathBuf, String>,
+    next_id: usize,
+}
+
+impl ProjectMaterializer {
+    pub fn new(options: ProjectMaterializerOptions) -> Result<Self, MaterializeError> {
+        fs::create_dir_all(options.output_dir.join("assets")).map_err(|error| {
+            MaterializeError::new(format!("cannot create project assets: {error}"))
+        })?;
+        Ok(Self {
+            output_dir: options.output_dir,
+            resolver: AssetResolver::new(AssetResolverOptions {
+                workspace_root: options.workspace_root,
+                pack_roots: options.pack_roots,
+                cache_dir: options.cache_dir,
+                avifdec_bin: options.avifdec_bin,
+                decoder_profile: options.decoder_profile,
+            }),
+            copied: HashMap::new(),
+            next_id: 0,
+        })
     }
 
     fn copy_asset(&mut self, source: PathBuf) -> Result<MaterializedImage, MaterializeError> {
@@ -254,7 +283,7 @@ impl ProjectMaterializer {
             .unwrap_or("bin");
         let relative = format!("assets/{:06}.{extension}", self.next_id);
         self.next_id += 1;
-        fs::copy(&source, self.options.output_dir.join(&relative)).map_err(|error| {
+        fs::copy(&source, self.output_dir.join(&relative)).map_err(|error| {
             MaterializeError::new(format!(
                 "cannot copy resource '{}': {error}",
                 source.display()
@@ -265,20 +294,6 @@ impl ProjectMaterializer {
             typst_path: relative,
         })
     }
-}
-
-fn verify_sha256(path: &Path, expected: &str) -> Result<(), MaterializeError> {
-    let bytes = fs::read(path).map_err(|error| {
-        MaterializeError::new(format!("cannot hash AVIFS '{}': {error}", path.display()))
-    })?;
-    let actual = format!("{:x}", Sha256::digest(bytes));
-    if !actual.eq_ignore_ascii_case(expected) {
-        return Err(MaterializeError::new(format!(
-            "AVIFS sha256 mismatch for '{}': expected {expected}, got {actual}",
-            path.display()
-        )));
-    }
-    Ok(())
 }
 
 impl ResourceMaterializer for ProjectMaterializer {
@@ -292,14 +307,138 @@ impl ResourceMaterializer for ProjectMaterializer {
             | ResolvedResourceKind::PackAsset { source, .. }
                 if source.storage.kind == "image-sequence" =>
             {
-                self.materialize_sequence(source)
+                let cache_path = self.resolver.resolve_sequence_frame(source)?;
+                self.copy_asset(cache_path)
             }
             _ => {
-                let source = self.source_path(resource)?;
+                let source = self.resolver.source_path(resource)?;
                 self.copy_asset(source)
             }
         }
     }
+}
+
+#[derive(Debug, Clone)]
+pub struct VirtualMaterializerOptions {
+    pub workspace_root: PathBuf,
+    pub pack_roots: HashMap<String, PathBuf>,
+    pub cache_dir: PathBuf,
+    pub avifdec_bin: PathBuf,
+    pub decoder_profile: String,
+}
+
+impl From<ProjectMaterializerOptions> for VirtualMaterializerOptions {
+    fn from(options: ProjectMaterializerOptions) -> Self {
+        Self {
+            workspace_root: options.workspace_root,
+            pack_roots: options.pack_roots,
+            cache_dir: options.cache_dir,
+            avifdec_bin: options.avifdec_bin,
+            decoder_profile: options.decoder_profile,
+        }
+    }
+}
+
+pub struct VirtualMaterializer {
+    resolver: AssetResolver,
+    registered: HashMap<PathBuf, String>,
+    virtual_files: HashMap<VirtualPath, PathBuf>,
+    next_id: usize,
+}
+
+impl VirtualMaterializer {
+    pub fn new(options: VirtualMaterializerOptions) -> Self {
+        Self {
+            resolver: AssetResolver::new(AssetResolverOptions {
+                workspace_root: options.workspace_root,
+                pack_roots: options.pack_roots,
+                cache_dir: options.cache_dir,
+                avifdec_bin: options.avifdec_bin,
+                decoder_profile: options.decoder_profile,
+            }),
+            registered: HashMap::new(),
+            virtual_files: HashMap::new(),
+            next_id: 0,
+        }
+    }
+
+    pub fn virtual_files(&self) -> &HashMap<VirtualPath, PathBuf> {
+        &self.virtual_files
+    }
+
+    pub fn into_virtual_files(self) -> HashMap<VirtualPath, PathBuf> {
+        self.virtual_files
+    }
+
+    fn register_asset(&mut self, source: PathBuf) -> Result<MaterializedImage, MaterializeError> {
+        let source = source.canonicalize().map_err(|error| {
+            MaterializeError::new(format!(
+                "cannot read resource '{}': {error}",
+                source.display()
+            ))
+        })?;
+        if let Some(path) = self.registered.get(&source) {
+            return Ok(MaterializedImage {
+                typst_path: path.clone(),
+            });
+        }
+        if !source.is_file() {
+            return Err(MaterializeError::new(format!(
+                "resource '{}' is not a file",
+                source.display()
+            )));
+        }
+        let extension = source
+            .extension()
+            .and_then(|value| value.to_str())
+            .filter(|value| value.chars().all(|ch| ch.is_ascii_alphanumeric()))
+            .unwrap_or("bin");
+        let relative = format!("assets/{:06}.{extension}", self.next_id);
+        self.next_id += 1;
+        self.registered.insert(source.clone(), relative.clone());
+        let virtual_path = VirtualPath::new(&relative).map_err(|error| {
+            MaterializeError::new(format!("invalid virtual path '{relative}': {error}"))
+        })?;
+        self.virtual_files.insert(virtual_path, source);
+        Ok(MaterializedImage {
+            typst_path: relative,
+        })
+    }
+}
+
+impl ResourceMaterializer for VirtualMaterializer {
+    fn materialize(
+        &mut self,
+        resource: &ResolvedResource,
+    ) -> Result<MaterializedImage, MaterializeError> {
+        match &resource.kind {
+            ResolvedResourceKind::Sticker { source, .. }
+            | ResolvedResourceKind::Avatar { source, .. }
+            | ResolvedResourceKind::PackAsset { source, .. }
+                if source.storage.kind == "image-sequence" =>
+            {
+                let cache_path = self.resolver.resolve_sequence_frame(source)?;
+                self.register_asset(cache_path)
+            }
+            _ => {
+                let source = self.resolver.source_path(resource)?;
+                self.register_asset(source)
+            }
+        }
+    }
+}
+fn verify_sha256(path: &Path, expected: &str) -> Result<(), MaterializeError> {
+    let bytes = fs::read(path).map_err(|error| {
+        MaterializeError::new(format!("cannot hash AVIFS '{}': {error}", path.display()))
+    })?;
+    let actual = format!("{:x}", Sha256::digest(bytes));
+    if !actual.eq_ignore_ascii_case(expected) {
+        return Err(MaterializeError::new(format!(
+            "AVIFS sha256 mismatch for '{}': expected {expected}, got {actual}",
+            path.display()
+        )));
+    }
+    Ok(())
 }
 
 fn validate_png(
@@ -408,6 +547,43 @@ mod tests {
         assert_eq!(first, second);
         assert_eq!(first.typst_path, "assets/000000.svg");
         assert!(output.join(first.typst_path).is_file());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn virtual_materializer_registers_virtual_paths_without_disk_copy() {
+        let root = temp_dir("virtual-materialize");
+        fs::create_dir_all(&root).unwrap();
+        let image_file = root.join("avatar.png");
+        fs::write(&image_file, b"\x89PNG\r\n\x1a\n").unwrap();
+        let mut materializer = VirtualMaterializer::new(VirtualMaterializerOptions {
+            workspace_root: root.clone(),
+            pack_roots: HashMap::new(),
+            cache_dir: root.join("cache"),
+            avifdec_bin: PathBuf::from("avifdec"),
+            decoder_profile: "test".to_string(),
+        });
+        let resource = ResolvedResource {
+            range: TextRange::new(0, 1),
+            target: ResourceTarget::Inline,
+            kind: ResolvedResourceKind::WorkspaceFile {
+                path: "avatar.png".to_string(),
+            },
+            render_patch: None,
+        };
+
+        let first = materializer.materialize(&resource).unwrap();
+        let second = materializer.materialize(&resource).unwrap();
+
+        assert_eq!(first, second);
+        assert_eq!(first.typst_path, "assets/000000.png");
+        let vpath = VirtualPath::new(&first.typst_path).unwrap();
+        assert_eq!(
+            materializer.virtual_files().get(&vpath),
+            Some(&image_file.canonicalize().unwrap())
+        );
+        // Ensure no output assets dir was created
+        assert!(!root.join("assets").exists());
         fs::remove_dir_all(root).unwrap();
     }
 

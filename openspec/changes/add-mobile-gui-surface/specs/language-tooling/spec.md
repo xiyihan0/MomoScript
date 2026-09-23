@@ -14,6 +14,24 @@ The Rust language core SHALL project each current MMT source snapshot into order
 - AND every boundary MUST be a UTF-8 character boundary
 - AND concatenating the exact core source slice for every node MUST byte-equal the original source
 
+#### Scenario: Projection honors the parser-owned unfenced body boundary
+
+- GIVEN an unfenced Message or Narration has a maximal trailing suffix of whitespace-only physical lines before the next top-level node or EOF
+- WHEN Rust builds the Composer document projection
+- THEN the parser MUST be the sole authority that excludes that suffix from `BodySyntax` and the statement range
+- AND projection MUST represent every excluded physical line from the source gap as an exact `Opaque.blank` node
+- AND an internal whitespace-only line followed by ordinary continuation text MUST remain inside the Message/Narration body
+- AND trailing whitespace on a nonblank body line MUST remain exact
+- AND Composer core、language service and clients MUST NOT independently trim or split a parsed body to manufacture separator nodes
+
+#### Scenario: Fenced semantic whitespace bypasses separator classification
+
+- GIVEN a Message or Narration uses a fenced body with leading or trailing semantic whitespace、a trailing LF/CRLF or a genuinely empty body
+- WHEN parser and Composer projection resolve it
+- THEN all bytes inside the established fenced body range MUST remain body content
+- AND none of those bytes may become an `Opaque.blank` separator
+- AND LF-normalized `textEditing.text` MUST retain every semantic line boundary with reversible raw-source positions
+
 #### Scenario: CRLF ownership is indivisible
 
 - GIVEN a document uses CRLF line endings
@@ -27,7 +45,7 @@ The Rust language core SHALL project each current MMT source snapshot into order
 - GIVEN parser recovery produces an error node、unknown syntax or an unconsumed source gap
 - WHEN projection is built
 - THEN those bytes MUST become Opaque nodes categorized as `recoverableError` or `unsupported`
-- AND each physical blank line、directives、Reply/Bond and BOM/residual gaps MUST remain explicit Opaque nodes
+- AND each parser-classified physical separator blank line、directives、Reply/Bond and BOM/residual gaps MUST remain explicit Opaque nodes
 - AND current comment-looking `// ...` lines MUST remain parser diagnostics and project as `recoverableError`, not be reclassified by a client/projection heuristic
 - AND `comment` MUST remain only an allowlisted reserved category until the Rust parser recognizes a real comment syntax
 - AND no malformed or unknown bytes may be omitted、attached through an undocumented heuristic or interpreted by TypeScript
@@ -88,6 +106,26 @@ The Rust language core SHALL project each current MMT source snapshot into order
 - AND MUST preserve every existing node byte exactly
 - AND MUST return one current-version single-document WorkspaceEdit
 - AND TypeScript MUST NOT supply replacement source、byte offsets or a TextEdit
+
+#### Scenario: A transient new-message draft is submitted only at send
+
+- GIVEN the GUI holds a selected role and unsent bottom-composer text outside the Composer projection
+- WHEN the author changes that role or draft、selects another role before sending、or edits an existing SVG message
+- THEN those unsent values MUST NOT create a node、change source bytes、advance the TextDocument version or enter `mmt/composerEdit` as a speculative mutation
+- AND an existing-message edit MUST contain only its own current authorized target and command; language tooling MUST remain unaware of unrelated draft presentation state
+- WHEN the author invokes send
+- THEN the host MUST re-read the latest URI/version/sourceDigest and use an exact currently authorized insertion BoundaryTarget
+- AND the role、body、mode、side and continued values MUST be submitted only as one strict `insertStatement` command using the current server-provided capability
+- AND Rust MUST serialize、reanalyze and return the ordinary versioned WorkspaceEdit without accepting a client-created projection node、raw MMT replacement or stale boundary
+- AND the draft MUST remain outside save、history、render and export authority until that edit is successfully applied and the next canonical snapshot contains the statement
+
+#### Scenario: Send loses authority before application
+
+- GIVEN a valid draft was composed while an earlier snapshot exposed an insertion boundary or speaker choice
+- WHEN source、Pack catalog or document identity changes before send or apply
+- THEN the old boundary、node keys and speaker capability MUST NOT be retried、retargeted or inferred from visual position
+- AND language tooling MUST return the existing stale、changed、speaker-unavailable or candidate rejection without a partial edit
+- AND no failed response may claim the draft as authored source
 
 #### Scenario: Movable node is deleted
 
@@ -348,7 +386,7 @@ Fenced-body parsing SHALL derive body text from the exact original source slice 
 
 ### Requirement: Rust serializes multiline and empty bodies reversibly
 
-The text serializer SHALL preserve inline syntax only when an originally inline candidate still parses exactly to the intended semantic body. Otherwise it SHALL use a fenced envelope with delimiter length `max(3, longest body quote run + 1)`, an independent opener line and the original mode prefix.
+The text serializer SHALL preserve inline syntax only when an originally inline candidate still parses exactly to the intended semantic body. Otherwise it SHALL use a fenced envelope with delimiter length `max(3, longest body quote run + 1)`, an independent opener line and the original mode prefix. In particular, unfenced trailing whitespace-only physical lines are parser-owned separators, so an intentional semantic trailing LF SHALL use a fenced envelope rather than depend on those separator bytes.
 
 #### Scenario: Body requires a fence
 
@@ -360,6 +398,14 @@ The text serializer SHALL preserve inline syntax only when an originally inline 
 - AND an empty body's closer MUST occupy the line immediately after the opener
 - AND a body ending in LF MUST naturally put the closer on the next line without adding another body newline
 - AND no hidden character MUST be inserted
+
+#### Scenario: GUI serialization preserves an intentional trailing line break
+
+- GIVEN an accepted GUI edit produces a semantic body ending in LF
+- WHEN Rust serializes and reparses the candidate
+- THEN it MUST use a fenced envelope that retains that LF inside the fenced body range
+- AND reparsing MUST reproduce the exact intended semantic body
+- AND the serializer MUST NOT encode the LF as an unfenced trailing separator or ask Composer to reclaim separator bytes
 
 #### Scenario: EOL style and file ending survive
 
@@ -402,6 +448,14 @@ The service SHALL expose pure `mmt/composerTextProjection` with all identity fie
 - AND metadata、box and wrapper bytes MUST NOT become semantic copy text or a broad editable source range
 - AND this generated-only anchor MUST NOT modify authored MMT、insert a hidden sentinel or create a second source state
 - AND the exception MUST be limited to semantic empty lines, not used to infer arbitrary missing source spans
+
+#### Scenario: Formatting separators do not become message layout rows
+
+- GIVEN the parser excludes trailing whitespace-only physical lines from an unfenced body and projection exposes them as `Opaque.blank`
+- WHEN the statement is lowered、emitted and rendered
+- THEN those separator bytes MUST NOT create a semantic LF、empty-line anchor or extra message-body row
+- AND a boundary defect MUST be fixed in the parser rather than hidden with template padding、Composer trimming or a compiler/runtime workaround
+- AND the measured-anchor requirement for a genuine semantic empty line MUST remain unchanged
 
 #### Scenario: Selected line breaks have no glyph ink
 

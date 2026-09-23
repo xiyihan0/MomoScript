@@ -150,6 +150,7 @@ impl Parser<'_> {
         let body_start = first_body_start;
         let mut range_end = first_line.range.end;
         self.index += 1;
+        let mut retained_index = self.index;
 
         if let Some((body, statement_range_end)) =
             self.try_parse_fenced_body(&body_source, body_start, range_end)
@@ -168,9 +169,14 @@ impl Parser<'_> {
             if is_explicit_top_level_start(line.text) {
                 break;
             }
-            range_end = line.range.end;
             self.index += 1;
+            if !line.text.trim().is_empty() {
+                range_end = line.range.end;
+                retained_index = self.index;
+            }
         }
+        // Replay a trailing blank run so the outer loop can preserve it as blank syntax.
+        self.index = retained_index;
 
         let body = self.make_body(
             self.source.text()[body_start..range_end].to_owned(),
@@ -709,8 +715,11 @@ fn collect_lines(text: &str) -> Vec<Line<'_>> {
     let mut offset = 0;
 
     for segment in text.split_inclusive('\n') {
-        let line_text = segment.strip_suffix('\n').unwrap_or(segment);
-        let line_text = line_text.strip_suffix('\r').unwrap_or(line_text);
+        let line_text = if let Some(line_text) = segment.strip_suffix('\n') {
+            line_text.strip_suffix('\r').unwrap_or(line_text)
+        } else {
+            segment
+        };
         let end = offset + line_text.len();
         result.push(Line {
             text: line_text,
@@ -1416,6 +1425,120 @@ mod tests {
             panic!("expected second statement");
         };
         assert_eq!(second.body.source, "新节点");
+    }
+
+    #[test]
+    fn trailing_plain_body_blank_lines_are_top_level_separators() {
+        struct Case<'a> {
+            source: &'a str,
+            expected_body: &'a str,
+            body_range: (usize, usize),
+            expected_separator: &'a str,
+            blank_ranges: &'a [(usize, usize)],
+            next_start: Option<usize>,
+        }
+
+        let cases = [
+            Case {
+                source: "> one\n\n< next",
+                expected_body: "one",
+                body_range: (2, 5),
+                expected_separator: "\n\n",
+                blank_ranges: &[(6, 6)],
+                next_start: Some(7),
+            },
+            Case {
+                source: "> one\r\n \t\r\n\r\n@reply: next",
+                expected_body: "one",
+                body_range: (2, 5),
+                expected_separator: "\r\n \t\r\n\r\n",
+                blank_ranges: &[(7, 9), (11, 11)],
+                next_start: Some(13),
+            },
+            Case {
+                source: "- first\n \r",
+                expected_body: "first",
+                body_range: (2, 7),
+                expected_separator: "\n \r",
+                blank_ranges: &[(8, 10)],
+                next_start: None,
+            },
+            Case {
+                source: "< \n\n\t",
+                expected_body: "",
+                body_range: (2, 2),
+                expected_separator: "\n\n\t",
+                blank_ranges: &[(3, 3), (4, 5)],
+                next_start: None,
+            },
+        ];
+
+        for case in cases {
+            let doc = parse_text(case.source);
+            assert!(doc.diagnostics.is_empty(), "{:?}", doc.diagnostics);
+
+            let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+                panic!("expected statement");
+            };
+            assert_eq!(statement.body.source, case.expected_body);
+            assert_eq!(
+                statement.body.range,
+                TextRange::new(case.body_range.0, case.body_range.1)
+            );
+            assert_eq!(
+                &case.source[statement.body.range.start..statement.body.range.end],
+                case.expected_body
+            );
+            assert_eq!(statement.range, TextRange::new(0, statement.body.range.end));
+
+            let blank_ranges = doc
+                .nodes
+                .iter()
+                .filter_map(|node| match node {
+                    SyntaxNode::Blank(blank) => Some((blank.range.start, blank.range.end)),
+                    _ => None,
+                })
+                .collect::<Vec<_>>();
+            assert_eq!(blank_ranges.as_slice(), case.blank_ranges);
+
+            let next_start = doc
+                .nodes
+                .iter()
+                .skip(1)
+                .find(|node| !matches!(node, SyntaxNode::Blank(_)))
+                .map(|node| node.range().start);
+            assert_eq!(next_start, case.next_start);
+            assert_eq!(
+                &case.source[statement.range.end..next_start.unwrap_or(case.source.len())],
+                case.expected_separator
+            );
+        }
+    }
+
+    #[test]
+    fn plain_body_keeps_leading_and_internal_blanks_before_continuation() {
+        for (source, expected_body) in [
+            ("> \n \t\ncontinued", "\n \t\ncontinued"),
+            (
+                "- first\r\n \t\r\ncontinued  ",
+                "first\r\n \t\r\ncontinued  ",
+            ),
+        ] {
+            let doc = parse_text(source);
+            assert!(doc.diagnostics.is_empty(), "{:?}", doc.diagnostics);
+            assert_eq!(doc.nodes.len(), 1);
+
+            let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+                panic!("expected statement");
+            };
+            assert_eq!(statement.body.source, expected_body);
+            assert_eq!(
+                &source[statement.body.range.start..statement.body.range.end],
+                expected_body
+            );
+            assert_eq!(statement.body.range.end, source.len());
+            assert_eq!(statement.range.end, source.len());
+        }
     }
 
     #[test]
