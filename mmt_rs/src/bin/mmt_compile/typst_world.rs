@@ -1,9 +1,9 @@
-use std::fs;
-use std::path::{Path, PathBuf};
-
 use mmt_rs::diag::{Diagnostic, DiagnosticPhase, Severity};
 use mmt_rs::emit::EmittedTypst;
 use mmt_rs::source::TextRange;
+use std::collections::HashMap;
+use std::fs;
+use std::path::{Path, PathBuf};
 use typst::World;
 use typst::diag::{FileError, FileResult, SourceDiagnostic, Warned};
 use typst::foundations::{Bytes, Datetime, Duration};
@@ -69,6 +69,166 @@ pub fn compile_pdf(
         return Err(diagnostics);
     }
     Ok(diagnostics)
+}
+
+pub fn compile_pdf_virtual(
+    main_source: &str,
+    template_dir: &Path,
+    virtual_assets: &HashMap<VirtualPath, PathBuf>,
+    output: &Path,
+    emitted: &EmittedTypst,
+) -> Result<Vec<Diagnostic>, Vec<Diagnostic>> {
+    let world =
+        VirtualWorld::new(main_source, template_dir, virtual_assets).map_err(|message| {
+            vec![Diagnostic::new(
+                Severity::Error,
+                DiagnosticPhase::Typst,
+                message,
+                None,
+            )]
+        })?;
+    let Warned {
+        output: document,
+        warnings,
+    } = typst::compile::<PagedDocument>(&world);
+    let mut diagnostics = warnings
+        .iter()
+        .map(|diagnostic| map_diagnostic(&world, emitted, diagnostic))
+        .collect::<Vec<_>>();
+    let document = match document {
+        Ok(document) => document,
+        Err(errors) => {
+            diagnostics.extend(
+                errors
+                    .iter()
+                    .map(|diagnostic| map_diagnostic(&world, emitted, diagnostic)),
+            );
+            return Err(diagnostics);
+        }
+    };
+    let pdf = match typst_pdf::pdf(&document, &PdfOptions::default()) {
+        Ok(pdf) => pdf,
+        Err(errors) => {
+            diagnostics.extend(
+                errors
+                    .iter()
+                    .map(|diagnostic| map_diagnostic(&world, emitted, diagnostic)),
+            );
+            return Err(diagnostics);
+        }
+    };
+    if let Err(message) = write_atomic(output, &pdf) {
+        diagnostics.push(Diagnostic::new(
+            Severity::Error,
+            DiagnosticPhase::Typst,
+            message,
+            None,
+        ));
+        return Err(diagnostics);
+    }
+    Ok(diagnostics)
+}
+
+struct VirtualWorld {
+    library: LazyHash<Library>,
+    fonts: FontStore,
+    files: FileStore<VirtualFiles>,
+}
+
+impl VirtualWorld {
+    fn new(
+        main_source: &str,
+        template_dir: &Path,
+        virtual_assets: &HashMap<VirtualPath, PathBuf>,
+    ) -> Result<Self, String> {
+        let template_dir = template_dir.canonicalize().map_err(|error| {
+            format!(
+                "cannot resolve Typst template directory '{}': {error}",
+                template_dir.display()
+            )
+        })?;
+        let virtual_main = VirtualPath::new("main.typ")
+            .map_err(|error| format!("cannot virtualize Typst main entry: {error}"))?;
+        let main = RootedPath::new(VirtualRoot::Project, virtual_main).intern();
+        let mut font_store = FontStore::new();
+        font_store.extend(fonts::system());
+        Ok(Self {
+            library: LazyHash::new(Library::default()),
+            fonts: font_store,
+            files: FileStore::new(VirtualFiles {
+                main,
+                main_source: Bytes::new(main_source.as_bytes().to_vec()),
+                template: FsRoot::new(template_dir),
+                virtual_assets: virtual_assets.clone(),
+            }),
+        })
+    }
+}
+
+impl World for VirtualWorld {
+    fn library(&self) -> &LazyHash<Library> {
+        &self.library
+    }
+
+    fn book(&self) -> &LazyHash<FontBook> {
+        self.fonts.book()
+    }
+
+    fn main(&self) -> FileId {
+        self.files.loader().main
+    }
+
+    fn source(&self, id: FileId) -> FileResult<Source> {
+        self.files.source(id)
+    }
+
+    fn file(&self, id: FileId) -> FileResult<Bytes> {
+        self.files.file(id)
+    }
+
+    fn font(&self, index: usize) -> Option<Font> {
+        self.fonts.font(index)
+    }
+
+    fn today(&self, _offset: Option<Duration>) -> Option<Datetime> {
+        None
+    }
+}
+
+struct VirtualFiles {
+    main: FileId,
+    main_source: Bytes,
+    template: FsRoot,
+    virtual_assets: HashMap<VirtualPath, PathBuf>,
+}
+
+impl FileLoader for VirtualFiles {
+    fn load(&self, id: FileId) -> FileResult<Bytes> {
+        match id.root() {
+            VirtualRoot::Project => {
+                if id == self.main {
+                    return Ok(self.main_source.clone());
+                }
+                let vpath = id.vpath();
+                if let Some(source_path) = self.virtual_assets.get(vpath) {
+                    return fs::read(source_path)
+                        .map(Bytes::new)
+                        .map_err(|error| FileError::from_io(error, source_path));
+                }
+                let rooted = vpath.get_with_slash();
+                if let Some(relative) = rooted.strip_prefix("/template") {
+                    let rel_clean = relative.trim_start_matches('/');
+                    let rel_vpath = VirtualPath::new(rel_clean)
+                        .map_err(|_| FileError::NotFound(vpath.get_without_slash().into()))?;
+                    return self.template.load(&rel_vpath);
+                }
+                Err(FileError::NotFound(vpath.get_without_slash().into()))
+            }
+            VirtualRoot::Package(_) => Err(FileError::Other(Some(
+                "Typst package imports are disabled in the self-contained MMT world".into(),
+            ))),
+        }
+    }
 }
 
 struct ProjectWorld {
@@ -159,7 +319,7 @@ impl FileLoader for ProjectFiles {
 }
 
 fn map_diagnostic(
-    world: &ProjectWorld,
+    world: &impl World,
     emitted: &EmittedTypst,
     diagnostic: &SourceDiagnostic,
 ) -> Diagnostic {

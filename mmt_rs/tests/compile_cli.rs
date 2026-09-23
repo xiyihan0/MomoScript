@@ -599,3 +599,129 @@ fn cli_decodes_pack_avifs_with_dav1d_and_compiles_the_project() {
     fs::remove_dir_all(output_dir).unwrap();
     fs::remove_dir_all(cache_dir).unwrap();
 }
+
+#[test]
+fn cli_compiles_pdf_directly_in_memory_without_output_dir() {
+    let pdf_path = temp_dir("cli-direct-pdf").with_extension("pdf");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output"])
+        .arg(&pdf_path)
+        .arg("--template-dir")
+        .arg(template_dir())
+        .arg("--no-header")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all("- direct in-memory compilation test\n@reply: Option A | Option B".as_bytes())
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+
+    assert!(
+        output.status.success(),
+        "stdout: {}\nstderr: {}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["success"], true);
+    assert_eq!(report["output_dir"], serde_json::Value::Null);
+    assert_eq!(report["pdf"], pdf_path.display().to_string());
+    assert_eq!(report["output"], pdf_path.display().to_string());
+    assert!(pdf_path.is_file());
+    let pdf_bytes = fs::read(&pdf_path).unwrap();
+    assert!(pdf_bytes.starts_with(b"%PDF-"));
+
+    fs::remove_file(pdf_path).unwrap();
+}
+
+#[test]
+fn cli_compiles_pdf_in_memory_with_remote_pack_without_output_dir() {
+    let pdf_path = temp_dir("cli-direct-pack-pdf").with_extension("pdf");
+    let cache_dir = temp_dir("cli-direct-pack-cache");
+    let svg = br#"<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="blue"/></svg>"#.to_vec();
+    let (base_url, server) = serve_remote_pack(svg);
+
+    let manifest_url = format!("{base_url}manifest.json");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--pdf"])
+        .arg(&pdf_path)
+        .arg("--manifest")
+        .arg(&manifest_url)
+        .arg("--allow-insecure-http")
+        .arg("--cache-dir")
+        .arg(&cache_dir)
+        .arg("--template-dir")
+        .arg(template_dir())
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(
+            "@actor remote\npreset: remote_fixture::remote\n@end\n> remote: in-memory pack test"
+                .as_bytes(),
+        )
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    let served = server.join().unwrap();
+
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    assert_eq!(served, 2, "compiler did not request manifest and resource");
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["success"], true);
+    assert_eq!(report["output_dir"], serde_json::Value::Null);
+    assert_eq!(report["pdf"], pdf_path.display().to_string());
+    assert!(fs::read(&pdf_path).unwrap().starts_with(b"%PDF-"));
+    assert!(cache_dir.join("remote-packs").is_dir());
+
+    fs::remove_dir_all(cache_dir).unwrap();
+    fs::remove_file(pdf_path).unwrap();
+}
+
+#[test]
+fn cli_fails_when_neither_output_dir_nor_output_target_is_given() {
+    let output = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .arg("--template-dir")
+        .arg(template_dir())
+        .output()
+        .unwrap();
+
+    assert!(!output.status.success());
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["success"], false);
+    let msg = report["diagnostics"][0]["message"].as_str().unwrap();
+    assert!(
+        msg.contains("at least one of --output-dir, --output (-o), or --pdf must be specified"),
+        "unexpected message: {msg}"
+    );
+}
+
+#[test]
+fn cli_fails_when_output_and_pdf_conflict() {
+    let output = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output", "foo.pdf", "--pdf", "bar.pdf"])
+        .output()
+        .unwrap();
+
+    assert!(!output.status.success());
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["success"], false);
+    let msg = report["diagnostics"][0]["message"].as_str().unwrap();
+    assert!(
+        msg.contains("cannot specify conflicting --output and --pdf targets"),
+        "unexpected message: {msg}"
+    );
+}

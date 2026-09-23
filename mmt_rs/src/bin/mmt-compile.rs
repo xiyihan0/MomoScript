@@ -13,8 +13,8 @@ use std::process::ExitCode;
 use mmt_rs::pack::PackRegistry;
 use mmt_rs::{
     DocumentOverrides, EmitOptions, HostTimestamp, ProjectMaterializer, ProjectMaterializerOptions,
-    SourceSpan, analyze_text_with_pack, compile_text_strict, diagnose_analyzed_with_pack,
-    export_template_library,
+    SourceSpan, VirtualMaterializer, VirtualMaterializerOptions, analyze_text_with_pack,
+    compile_text_strict, diagnose_analyzed_with_pack, export_template_library,
 };
 use serde::Serialize;
 use time::{OffsetDateTime, format_description::well_known::Rfc3339};
@@ -24,7 +24,8 @@ const LOCAL_TEMPLATE_PACKAGE: &str = "@local/mmt-render:0.1.0";
 #[derive(Debug)]
 struct Options {
     input: Option<PathBuf>,
-    output_dir: PathBuf,
+    output_dir: Option<PathBuf>,
+    output: Option<PathBuf>,
     manifests: Vec<String>,
     pdf: Option<PathBuf>,
     allow_insecure_http: bool,
@@ -46,6 +47,8 @@ struct CliReport {
     success: bool,
     output_dir: Option<String>,
     pdf: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    output: Option<String>,
     diagnostics: Vec<CliDiagnostic>,
 }
 
@@ -98,6 +101,7 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
             success: false,
             output_dir: None,
             pdf: None,
+            output: None,
             diagnostics: diagnostics(&source, &preflight_diagnostics),
         });
     }
@@ -110,15 +114,7 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
     } else {
         "template/lib.typ"
     };
-    let mut materializer = ProjectMaterializer::new(ProjectMaterializerOptions {
-        output_dir: options.output_dir.clone(),
-        workspace_root: options.workspace_root,
-        pack_roots,
-        cache_dir: options.cache_dir.clone(),
-        avifdec_bin: options.avifdec_bin,
-        decoder_profile: options.decoder_profile,
-    })
-    .map_err(|error| host_error(error.message))?;
+    let target_pdf = options.output.as_ref().or(options.pdf.as_ref());
     let emit_options = EmitOptions {
         template_import: template_import.to_string(),
         document_overrides: DocumentOverrides {
@@ -130,63 +126,126 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
         timestamp: Some(timestamp),
     };
 
-    match compile_text_strict(&source, &registry, &mut materializer, &emit_options) {
-        Ok(compilation) => {
-            if !options.use_local_template_package {
-                export_template_library(&options.template_dir, &options.output_dir)
-                    .map_err(|error| host_error(error.message))?;
+    if let Some(output_dir) = &options.output_dir {
+        let mut materializer = ProjectMaterializer::new(ProjectMaterializerOptions {
+            output_dir: output_dir.clone(),
+            workspace_root: options.workspace_root,
+            pack_roots,
+            cache_dir: options.cache_dir.clone(),
+            avifdec_bin: options.avifdec_bin,
+            decoder_profile: options.decoder_profile,
+        })
+        .map_err(|error| host_error(error.message))?;
+
+        match compile_text_strict(&source, &registry, &mut materializer, &emit_options) {
+            Ok(compilation) => {
+                if !options.use_local_template_package {
+                    export_template_library(&options.template_dir, output_dir)
+                        .map_err(|error| host_error(error.message))?;
+                }
+                fs::write(output_dir.join("main.typ"), &compilation.typst.source)
+                    .map_err(|error| host_error(format!("cannot write main.typ: {error}")))?;
+                fs::write(output_dir.join("source.mmt"), &source)
+                    .map_err(|error| host_error(format!("cannot write source.mmt: {error}")))?;
+                let source_map = serde_json::to_vec_pretty(&SourceMapReport {
+                    schema: "mmt.source-map.v1",
+                    generated_file: "main.typ",
+                    source_file: "source.mmt",
+                    origins: &compilation.typst.origins,
+                    source_map: &compilation.typst.source_map,
+                })
+                .map_err(|error| host_error(format!("cannot serialize source map: {error}")))?;
+                fs::write(output_dir.join("source-map.json"), source_map).map_err(|error| {
+                    host_error(format!("cannot write source-map.json: {error}"))
+                })?;
+                let mut compilation_diagnostics = compilation.diagnostics.clone();
+                if let Some(pdf) = target_pdf {
+                    match typst_world::compile_pdf(output_dir, pdf, &compilation.typst) {
+                        Ok(typst_diagnostics) => compilation_diagnostics.extend(typst_diagnostics),
+                        Err(typst_diagnostics) => {
+                            compilation_diagnostics.extend(typst_diagnostics);
+                            return Err(CliReport {
+                                success: false,
+                                output_dir: Some(output_dir.display().to_string()),
+                                pdf: None,
+                                output: None,
+                                diagnostics: diagnostics(&source, &compilation_diagnostics),
+                            });
+                        }
+                    }
+                }
+                Ok(CliReport {
+                    success: true,
+                    output_dir: Some(output_dir.display().to_string()),
+                    pdf: target_pdf.map(|path| path.display().to_string()),
+                    output: target_pdf.map(|path| path.display().to_string()),
+                    diagnostics: diagnostics(&source, &compilation_diagnostics),
+                })
             }
-            fs::write(
-                options.output_dir.join("main.typ"),
-                &compilation.typst.source,
-            )
-            .map_err(|error| host_error(format!("cannot write main.typ: {error}")))?;
-            fs::write(options.output_dir.join("source.mmt"), &source)
-                .map_err(|error| host_error(format!("cannot write source.mmt: {error}")))?;
-            let source_map = serde_json::to_vec_pretty(&SourceMapReport {
-                schema: "mmt.source-map.v1",
-                generated_file: "main.typ",
-                source_file: "source.mmt",
-                origins: &compilation.typst.origins,
-                source_map: &compilation.typst.source_map,
-            })
-            .map_err(|error| host_error(format!("cannot serialize source map: {error}")))?;
-            fs::write(options.output_dir.join("source-map.json"), source_map)
-                .map_err(|error| host_error(format!("cannot write source-map.json: {error}")))?;
-            let mut compilation_diagnostics = compilation.diagnostics.clone();
-            if let Some(pdf) = &options.pdf {
-                match typst_world::compile_pdf(&options.output_dir, pdf, &compilation.typst) {
+            Err(failure) => Err(CliReport {
+                success: false,
+                output_dir: None,
+                pdf: None,
+                output: None,
+                diagnostics: diagnostics(&source, &failure.diagnostics),
+            }),
+        }
+    } else {
+        let pdf =
+            target_pdf.expect("target document path must be present when output_dir is omitted");
+        let mut materializer = VirtualMaterializer::new(VirtualMaterializerOptions {
+            workspace_root: options.workspace_root,
+            pack_roots,
+            cache_dir: options.cache_dir,
+            avifdec_bin: options.avifdec_bin,
+            decoder_profile: options.decoder_profile,
+        });
+
+        match compile_text_strict(&source, &registry, &mut materializer, &emit_options) {
+            Ok(compilation) => {
+                let mut compilation_diagnostics = compilation.diagnostics.clone();
+                match typst_world::compile_pdf_virtual(
+                    &compilation.typst.source,
+                    &options.template_dir,
+                    materializer.virtual_files(),
+                    pdf,
+                    &compilation.typst,
+                ) {
                     Ok(typst_diagnostics) => compilation_diagnostics.extend(typst_diagnostics),
                     Err(typst_diagnostics) => {
                         compilation_diagnostics.extend(typst_diagnostics);
                         return Err(CliReport {
                             success: false,
-                            output_dir: Some(options.output_dir.display().to_string()),
+                            output_dir: None,
                             pdf: None,
+                            output: None,
                             diagnostics: diagnostics(&source, &compilation_diagnostics),
                         });
                     }
                 }
+                Ok(CliReport {
+                    success: true,
+                    output_dir: None,
+                    pdf: Some(pdf.display().to_string()),
+                    output: Some(pdf.display().to_string()),
+                    diagnostics: diagnostics(&source, &compilation_diagnostics),
+                })
             }
-            Ok(CliReport {
-                success: true,
-                output_dir: Some(options.output_dir.display().to_string()),
-                pdf: options.pdf.as_ref().map(|path| path.display().to_string()),
-                diagnostics: diagnostics(&source, &compilation_diagnostics),
-            })
+            Err(failure) => Err(CliReport {
+                success: false,
+                output_dir: None,
+                pdf: None,
+                output: None,
+                diagnostics: diagnostics(&source, &failure.diagnostics),
+            }),
         }
-        Err(failure) => Err(CliReport {
-            success: false,
-            output_dir: None,
-            pdf: None,
-            diagnostics: diagnostics(&source, &failure.diagnostics),
-        }),
     }
 }
 
 fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
     let mut input = None;
     let mut output_dir = None;
+    let mut output = None;
     let mut manifests = Vec::new();
     let mut pdf = None;
     let mut allow_insecure_http = false;
@@ -218,6 +277,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         match arg.as_str() {
             "--input" => input = Some(PathBuf::from(value(&mut args, "--input")?)),
             "--output-dir" => output_dir = Some(PathBuf::from(value(&mut args, "--output-dir")?)),
+            "--output" | "-o" => output = Some(PathBuf::from(value(&mut args, "--output")?)),
             "--manifest" => manifests.push(value(&mut args, "--manifest")?),
             "--pdf" => pdf = Some(PathBuf::from(value(&mut args, "--pdf")?)),
             "--allow-insecure-http" => allow_insecure_http = true,
@@ -239,9 +299,24 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
             _ => return Err(format!("unknown argument '{arg}'\n{}", usage())),
         }
     }
+    let target_pdf = match (&output, &pdf) {
+        (Some(out), Some(p)) if out != p => {
+            return Err("cannot specify conflicting --output and --pdf targets".to_string());
+        }
+        (Some(out), _) => Some(out.clone()),
+        (None, Some(p)) => Some(p.clone()),
+        (None, None) => None,
+    };
+    if output_dir.is_none() && target_pdf.is_none() {
+        return Err(format!(
+            "at least one of --output-dir, --output (-o), or --pdf must be specified\n{}",
+            usage()
+        ));
+    }
     Ok(Options {
         input,
-        output_dir: output_dir.ok_or_else(usage)?,
+        output_dir,
+        output,
         manifests,
         pdf,
         allow_insecure_http,
@@ -258,7 +333,6 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         decoder_profile,
     })
 }
-
 fn set_header_override(target: &mut Option<bool>, value: bool) -> Result<(), String> {
     if target.replace(value).is_some() {
         return Err("only one of --show-header or --no-header may be supplied".to_string());
@@ -300,7 +374,7 @@ fn current_clock() -> Result<HostTimestamp, String> {
 }
 
 fn usage() -> String {
-    "usage: mmt-compile [--input FILE] --output-dir DIR [--pdf FILE] [--manifest FILE_OR_HTTPS_URL ...] [--allow-insecure-http] [--template-dir DIR] [--use-local-template-package] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
+    "usage: mmt-compile [--input FILE] [--output-dir DIR] [--output FILE | --pdf FILE] [--manifest FILE_OR_HTTPS_URL ...] [--allow-insecure-http] [--template-dir DIR] [--use-local-template-package] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
 }
 
 fn read_source(path: Option<&Path>) -> Result<String, String> {
@@ -339,6 +413,7 @@ fn host_error(message: impl Into<String>) -> CliReport {
         success: false,
         pdf: None,
         output_dir: None,
+        output: None,
         diagnostics: vec![CliDiagnostic {
             phase: "host".to_string(),
             severity: "error".to_string(),
