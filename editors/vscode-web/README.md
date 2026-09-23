@@ -564,7 +564,7 @@ Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大�
 - 验证 HMR/unload/PWA quiesce 仍只有一个 `EditorRuntimeController`/`RuntimeOwner` disposal graph；
 - 验证旧 JS、新 WASM 或旧 Webview worker 的混合版本不会被静默当成健康状态。
 
-### 18. GUI Composer 建立第二份源码、renderer 或近似文字几何
+### 18. GUI Composer 建立第二份源码、重判正文边界、renderer 或近似文字几何
 
 **症状**
 
@@ -572,11 +572,12 @@ Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大�
 - 每个 GUI/preview pane 创建自己的 webview、renderer 或 artifact store，切换文档后旧 SVG 仍能编辑新文档；
 - 正文 hit-test 使用 statement midpoint、DOM 全页文本搜索或平均字宽，比例字体、连字、重复文本和重排后光标漂移；
 - stale intent 被重定向到相似节点，或 Opaque/Error/Typst body 得到可写光标；
-- 自定义 GUI undo 栈与源码/Local History 分叉，失败或 composition 草稿静默丢失。
+- 自定义 GUI undo 栈与源码/Local History 分叉，失败或 composition 草稿静默丢失；
+- 单行 unfenced 消息因节点间空白 separator 被当作正文尾部 LF 而多出一行气泡高度，随后又尝试用模板 padding、Composer trim 或 compiler runtime 特判掩盖。
 
 **根因**
 
-把 GUI 当作独立文档编辑器或把 preview mount 当成 renderer owner，绕过 Rust selection/edit authority、committed renderer identity 和原生 model history。
+把 GUI 当作独立文档编辑器或把 preview mount 当成 renderer owner，绕过 Rust selection/edit authority、committed renderer identity 和原生 model history；或者让 Composer/模板/renderer 重判本应由 parser 唯一决定的正文边界。
 
 **当前正确模式**
 
@@ -585,6 +586,9 @@ Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大�
 - 同一 URI 的预览 reveal 通过原生 `IEditorService` 找到已有 input/group 并激活；只有尚未打开时才创建 side group，不能依赖显式 `SIDE_GROUP` 自动执行 Singleton 查找；
 - 完整 SVG 发布或新的 webview `ready` 会重置 consumer，宿主必须同步丢弃 renderer session/generation 基线；随后只通过既有一次 full resync 建立新基线。单纯 detach/reattach 同一个 retained consumer 不清空基线；
 - body mutation 只能经过 Rust `composerTextSelection`/`composerTextProjection` 和 `replaceTextSelection`，返回 exact UTF-16 semantic endpoints 与一个 versioned workspace edit；UI 不搜索相同正文、不拼 DSL、不预测 post-edit node；
+- unfenced implicit Message/Narration 在下一顶层节点或 EOF 前的 maximal trailing whitespace-only physical lines 由 parser 排除在 `BodySyntax`/statement range 外；内部空白行若后续仍有普通 continuation text 则保留在正文，非空行尾随空白保持 exact；
+- projection 只把 parser range 之间保留在源码中的 separator gaps 逐物理行映射为 exact `Opaque.blank`，不再 trim/split parser body。Fenced body 内前导/尾部语义空白与 LF/CRLF 保持 exact；GUI 要保留末尾语义 LF 时由 Rust serializer 选 fence 并 reparse 证明；
+- formatting separator 不生成 message empty-line anchor 或额外气泡行，也不以模板 padding 或 compiler/runtime workaround 补偿；真实 semantic LF 的 measured layout anchor 与空正文 label-bound caret 合同保持不变；
 - [`ComposerTextSession`](./src/composerTextSession.ts) FIFO 提交输入；普通连续 typing 在 750 ms 边界内共享 native undo group，换行、paste/cut、IME、导航、结构操作和焦点切换关闭边界；undo/redo 操作同一个 Monaco model，并按 alternative version 恢复 presentation bookmark；
 - stale/conflict/apply failure 或未提交 composition 进入 recovery UI，只允许复制/丢弃，不能自动应用到别的 message；
 - [`ComposerTextGeometry`](./src/composerTextGeometry.ts) 只接受 committed source/version/digest/renderKey/session/generation，并要求 renderer caret/range 与 Rust authored projection 可逆；unmapped 或 ambiguous 时 blocked，不使用平均字宽或 statement midpoint；
@@ -593,6 +597,8 @@ Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大�
 **回归测试**
 
 `test:composer-edit`、`test:composer-document`、`test:composer-runtime`、`test:preview-webview-protocol`、`test:preview-renderer-session` 和 `test:e2e:gui-composer`。浏览器 journey 应操作真实 SVG glyph，断言 semantic selection、authored bytes、native undo/recovery 与 geometry，而不只检查 overlay 元素存在。
+
+Parser/core 与 CLI visual regression 应覆盖连续 statement 后接 separator blank：第二条 semantic body 不含尾部 LF、separator bytes 仍逐行投影为 `Opaque.blank`，而“内部空白后继续正文”和 fenced 末尾语义 LF 两个对照仍分别保留正文与空行 caret geometry。
 
 `preview-interaction.spec.ts` 还覆盖同一 URI 重复 reveal 的 tab/viewport 保留、不同 URI 的预览区分，以及关闭后重开并继续缩放。
 

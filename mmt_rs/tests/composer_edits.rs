@@ -414,15 +414,19 @@ fn statement_text_replaces_only_body_and_preserves_parameters_crlf_and_escapes()
 }
 
 #[test]
-fn statement_text_preserves_trailing_blank_continuations() {
+fn statement_text_preserves_crlf_separator_outside_body() {
     let source = "> 佳代子: original\r\n\r\n@reply: A | B\r\n@bond: bond";
     let packs = registry();
     let analysis = analyze_text_with_pack(source, &packs);
     let parsed = statement(&analysis, 0);
-    assert_eq!(parsed.body.source, "original\r\n");
+    assert_eq!(parsed.body.source, "original");
     assert_eq!(
         &source[parsed.body.range.start..parsed.body.range.end],
-        "original\r\n"
+        "original"
+    );
+    assert_eq!(
+        &source[parsed.body.range.end..],
+        "\r\n\r\n@reply: A | B\r\n@bond: bond"
     );
     assert_eq!(
         statement_text(source, 0, "targeted"),
@@ -431,7 +435,7 @@ fn statement_text_preserves_trailing_blank_continuations() {
 }
 
 #[test]
-fn statement_text_preserves_lf_and_multiple_blank_continuations() {
+fn statement_text_preserves_lf_and_multiple_blank_separators() {
     for (source, expected) in [
         (
             "> 佳代子: original\n\n@reply: A | B",
@@ -1343,6 +1347,36 @@ fn text_serialization_keeps_empty_multiline_quotes_and_final_eol_exact() {
         projection.nodes[0].text_editing().unwrap().text,
         "\n中\nnew\nline\n"
     );
+}
+
+#[test]
+fn text_serializer_fences_terminal_lf_and_preserves_empty_body_separators() {
+    let packs = empty_registry();
+    let source = "- first\r\n\r\n- next";
+    let (trailing_lf, _) = replace_text(source, &packs, (0, 5), (0, 5), "\n");
+    assert_eq!(trailing_lf, "- \"\"\"\r\nfirst\r\n\"\"\"\r\n\r\n- next");
+    let analysis = analyze_text_with_pack(&trailing_lf, &packs);
+    assert_eq!(statement(&analysis, 0).body.source, "first\r\n");
+    let projection = mmt_rs::project_analyzed_composer_document(&trailing_lf, &analysis).unwrap();
+    let mmt_rs::ComposerDocumentNode::Narration(first) = &projection.nodes[0] else {
+        panic!("first node must remain narration");
+    };
+    assert_eq!(first.description.body.current, "first\r\n");
+    assert!(first.description.statement_text.is_none());
+    assert!(!first.capabilities.set_body);
+    assert_eq!(first.text_editing.as_ref().unwrap().text, "first\n");
+    let mmt_rs::ComposerDocumentNode::Opaque(separator) = &projection.nodes[1] else {
+        panic!("separator must remain opaque");
+    };
+    assert_eq!(separator.category, mmt_rs::ComposerOpaqueCategory::Blank);
+    assert_eq!(
+        &trailing_lf[separator.range.start..separator.range.end],
+        "\r\n"
+    );
+
+    let empty_source = "- \n\n- next";
+    let (filled, _) = replace_text(empty_source, &packs, (0, 0), (0, 0), "filled");
+    assert_eq!(filled, "- filled\n\n- next");
 }
 
 #[test]

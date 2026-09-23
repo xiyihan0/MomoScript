@@ -36,6 +36,61 @@ fn copy_dir_all(source: &std::path::Path, destination: &std::path::Path) {
         }
     }
 }
+
+fn render_mmt_png(name: &str, source: &str) -> Vec<u8> {
+    let output_dir = temp_dir(name);
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output-dir"])
+        .arg(&output_dir)
+        .arg("--template-dir")
+        .arg(template_dir())
+        .arg("--no-header")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(source.as_bytes())
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    assert!(
+        output.status.success(),
+        "mmt-compile failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+
+    let typst = Command::new("typst")
+        .args(["compile", "main.typ", "output.png", "--root", "."])
+        .current_dir(&output_dir)
+        .output()
+        .unwrap();
+    assert!(
+        typst.status.success(),
+        "Typst failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&typst.stdout),
+        String::from_utf8_lossy(&typst.stderr)
+    );
+
+    let png = fs::read(output_dir.join("output.png")).unwrap();
+    fs::remove_dir_all(output_dir).unwrap();
+    png
+}
+
+fn png_dimensions(png: &[u8]) -> (u32, u32) {
+    assert!(png.len() >= 24, "renderer returned a truncated PNG");
+    assert_eq!(&png[..8], b"\x89PNG\r\n\x1a\n");
+    assert_eq!(&png[12..16], b"IHDR");
+    (
+        u32::from_be_bytes(png[16..20].try_into().unwrap()),
+        u32::from_be_bytes(png[20..24].try_into().unwrap()),
+    )
+}
+
 fn serve_remote_pack(svg: Vec<u8>) -> (String, thread::JoinHandle<usize>) {
     let listener = TcpListener::bind("127.0.0.1:0").unwrap();
     listener.set_nonblocking(true).unwrap();
@@ -178,6 +233,25 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
     );
     assert!(output_dir.join("output.pdf").is_file());
     fs::remove_dir_all(output_dir).unwrap();
+}
+
+#[test]
+fn cli_renders_blank_separated_messages_like_adjacent_ones_but_keeps_multiline_height() {
+    let adjacent = render_mmt_png("bubble-adjacent", "< Sent!\n< Next.");
+    let separated = render_mmt_png("bubble-separated", "< Sent!\n\n< Next.");
+    assert!(
+        separated == adjacent,
+        "a formatting-only blank separator changed the rendered pixels"
+    );
+
+    let multiline = render_mmt_png("bubble-multiline", "< Sent!\nSecond line\n< Next.");
+    let (adjacent_width, adjacent_height) = png_dimensions(&adjacent);
+    let (multiline_width, multiline_height) = png_dimensions(&multiline);
+    assert_eq!(multiline_width, adjacent_width);
+    assert!(
+        multiline_height > adjacent_height,
+        "semantic multiline text must remain taller than a single-line message"
+    );
 }
 
 #[test]

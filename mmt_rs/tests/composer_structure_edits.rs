@@ -176,6 +176,16 @@ fn delete_removes_only_owned_statement_bytes() {
     .unwrap();
     assert_eq!(deleted, "\n@mode: text\n- second\n");
 
+    let separated = "- first\n \t\n- second\n";
+    let (_, separated_projection) = project(separated);
+    let deleted = structure(
+        separated,
+        ComposerStructureTarget::Node(separated_projection.nodes[0].node_ref()),
+        ComposerStructureCommand::DeleteNode,
+    )
+    .unwrap();
+    assert_eq!(deleted, " \t\n- second\n");
+
     let opaque = projection.nodes[0].node_ref();
     assert_eq!(
         structure(
@@ -254,7 +264,11 @@ fn move_handles_duplicate_and_unicode_statement_payloads() {
 
 #[test]
 fn move_fails_closed_for_opaque_barriers_mixed_eol_and_stale_anchor() {
-    for source in ["- A\n@mode: text\n- B\n", "- A\n- B\r\n- C\n"] {
+    for source in [
+        "- A\n@mode: text\n- B\n",
+        "- A\n\n- B\n",
+        "- A\n- B\r\n- C\n",
+    ] {
         let (_, projection) = project(source);
         for node in projection.nodes {
             if let ComposerDocumentNode::Narration(node) = node {

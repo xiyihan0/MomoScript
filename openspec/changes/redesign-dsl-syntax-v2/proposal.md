@@ -16,6 +16,7 @@ Python v1 DSL 已能承载实际创作，但 Typst 模式、查询占位、人�
 - 重新设计人物与资源配置语法，倾向使用聚合声明，并在需要时提供统一短行简写
 - 将人物配置收束为作者侧的 `@actor` 模型：资源包 character preset 提供初值，脚本 actor 保存随时间演进的状态，角色名称用于确定性引用
 - 明确正文模式 `t` / `T` / `rt` / `rT`，并将 `[:...:]` 定义为 MMT overlay inline macro
+- 明确 unfenced implicit statement 的 parser-owned 正文边界：下一节点或 EOF 前 maximal trailing whitespace-only physical lines 是源码 separator，内部空白 continuation 仍属正文；fenced body 保留精确语义首尾空白
 - Typst 正文优先通过 `typst-syntax` 做语法检查与可替换区间识别，不在第一版 fork Typst 语法
 - 收敛值层命名空间、短行参数、字面量和字符串规则
 - 明确废弃候选语法，例如 `(target)[expr]`

@@ -175,6 +175,8 @@ syntax parser 第一版只负责检查外层 `(...)` 是否闭合，并保留 pa
 
 顶层节点识别只看未缩进的行首。缩进后的 `> `、`@reply` 等文本不切断当前 statement，而是作为 continuation 原样保留；parser 可以为这种“缩进后看起来像节点头”的行给出 info 级 diagnostic。
 
+Unfenced implicit body 还在同一个 parser 边界处理中区分正文空行与排版 separator：下一明确顶层节点或 EOF 前 maximal trailing whitespace-only physical lines 从 `BodySyntax` 和 statement range 排除，但原字节仍留在文档中；若空白行之后还有普通 continuation text，则该空白行仍属于正文。非空正文行的尾随空白保持 exact。这个分类只能由 parser 作出，Composer、lowering、emitter 与模板都不能再 trim/split 正文猜测边界。
+
 `"""..."""` 这类 fenced block 不是为了“启用多行”，而是为了保护内容不被行头标记打断：
 
 ```text
@@ -185,6 +187,8 @@ syntax parser 第一版只负责检查外层 `(...)` 是否闭合，并保留 pa
 ```
 
 fence 内部保持为当前 statement 的正文，不参与顶层行头识别。是否继续扫描 `[:...:]` marker 取决于该 statement 的正文模式，而不是 fence 本身。
+
+Fence 内部不应用上述 unfenced separator 规则；已确定 body range 后，前导/尾部空白、blank physical lines、LF/CRLF 与合法空正文都按原始 source slice 保留。需要表达末尾语义 LF 的编辑器序列化必须使用能 reparse 到同一正文的 fence，不能借节点间 separator 表达。
 
 fence 至少使用 3 个连续双引号。若正文需要包含 `"""`，作者可以使用更长 fence，例如 `""""...""""`；closing fence 需要使用不少于 opening fence 长度的连续双引号。
 

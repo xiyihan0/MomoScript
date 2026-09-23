@@ -1,8 +1,8 @@
 ## Context
 
-生产 Web Workbench 已将当前 authored state 固定在一个 VS Code `TextDocument` 与 `mmtfs` workspace 中。Rust language service 拥有 parser、recoverable syntax、semantic analysis、Pack resolve、Composer target/command、lossless document projection 与版本化 WorkspaceEdit；Web 侧拥有单一 `EditorRuntimeController`、PreviewArtifactStore、Local History、PWA 持久化和导出。既有原生 `mmt.guiComposer` 卡片表面证明了 GUI intent → Rust 授权 → 候选重分析 → TextDocument apply 的路径，但不是最终主创作表面。
+生产 Web Workbench 已将当前 authored state 固定在一个 VS Code `TextDocument` 与 `mmtfs` workspace 中。Rust language service 拥有 parser、recoverable syntax、semantic analysis、Pack resolve、Composer target/command、lossless document projection 与版本化 WorkspaceEdit；Web 侧拥有单一 `EditorRuntimeController`、PreviewArtifactStore、Local History、PWA 持久化和导出。原生 `mmt.guiComposer`、共享 Typst/Tinymist SVG overlay、精确正文编辑、IME 和 native history 已经构成已实现的 SVG-first 架构，不是本轮产品布局文档仍待证明的设想。
 
-本 change 在这些合同上切换为 Typst/Tinymist SVG-first WYSIWYG，而非另建竞争规范。Lossless partition 仍是结构与跨正文编辑的基础；字符编辑还必须证明语义正文、原始 MMT、generated Typst 与真实 glyph geometry 的精确、版本化对应。导航中点、旧 nodeKey、平均字宽或 DOM textContent 都不能成为编辑权限。
+下一轮是在该架构上更换交互 chrome，而不是新建 renderer 或第二种文档模型：真实 SVG 继续作为已写消息的最终排版画布；持续新增消息改由固定在底部的紧凑输入区承担。以下新增布局和交互决策均为**计划行为，尚未实现**。Lossless partition、字符几何、版本化 Rust 授权和唯一 `.mmt` TextDocument 合同保持不变；导航中点、旧 nodeKey、平均字宽或 DOM textContent 都不能成为编辑权限。
 
 ## Goals / Non-Goals
 
@@ -23,6 +23,8 @@
 - 创建第二个 runtime owner、workspace provider、history store、preview store 或持久化 schema。
 
 ## Decisions
+
+第 1–12 节记录已经实现并验收过的 SVG-first architecture contracts；第 13 节单独记录下一轮尚未实现的产品 chrome。后者复用前者，不重新打开 parser、renderer 或 source-authority 设计。
 
 ### 1. Composer document projection 是完整源码分区
 
@@ -51,14 +53,17 @@ Opaque      当前 GUI 不直接编辑的精确源码片段
 
 投影使用当前 TextDocument URI/version 与 `sourceDigest = canonical_bytes_digest("mmt-composer-document-v1", &[source.as_bytes()])`。Wire digest 固定为 64 个小写十六进制 SHA-256 字符；TypeScript 必须以同一 length-prefixed canonical framing 对当前 `document.getText()` 重算并比较，而非只验证格式。节点 `nodeKey` 使用独立 domain `mmt-composer-node-v1`，framed fields 依次为 sourceDigest、节点 kind、byte range start/end；它只在当前 snapshot 内有效，不跨 version 恢复，也不替代 target range。
 
-### 2. Trivia ownership 采用保守、可证明规则
+### 2. Parser 独占正文边界，projection 只分配 range 与 gap
 
-节点 partition 在 parser ranges 之上增加 physical-line 分配：
+Unfenced implicit Message/Narration 的语义正文边界只由 Rust parser 决定：下一顶层节点或 EOF 前 maximal trailing whitespace-only physical lines 不进入 `BodySyntax` 与 statement range；若空白行后仍有普通 continuation text，则空白行仍在正文内。非空正文行的尾随空白保持原字节。Fenced body 不应用这条 separator 规则，fence 内前导/尾部空白、LF/CRLF 和合法空正文全部属于语义正文。
+
+节点 partition 在 parser ranges 与其源文件 gaps 上增加 physical-line 分配，但不再次裁剪正文：
 
 - 原始字节扫描必须记录每行 `content_end` 与完整 LF/CRLF `line_end`；parser range 自身不拥有 terminator。
-- 每个 parser node 扩展到其最后物理行的完整 terminator。Chat/Narration 分别成为 Message/Narration；`Blank` 成为 `Opaque.blank`；directive line/block 成为 `Opaque.directive`；Reply、Bond 和当前 GUI 未建模的合法节点成为 `Opaque.unsupported`；`Error` 以及 directive 内的恢复错误成为 `Opaque.recoverableError`。
-- Parser 未消费 gap、BOM、文件前后残余字节必须成为 `Opaque.unsupported`，不能丢弃。
-- 每条物理 blank line 保持独立 node identity；UI 可以视觉压缩连续 blank，但 runtime partition 不合并。
+- 每个 parser node 扩展到其最后物理行的完整 terminator。Chat/Narration 分别成为 Message/Narration；directive line/block 成为 `Opaque.directive`；Reply、Bond 和当前 GUI 未建模的合法节点成为 `Opaque.unsupported`；`Error` 以及 directive 内的恢复错误成为 `Opaque.recoverableError`。
+- Parser 排除的每条 separator physical line 从 source gap 逐行成为 exact `Opaque.blank`；Composer core、language service 与客户端都不得对已解析正文另做 trim/split 来制造 blank node。
+- Parser 其他未消费 gap、BOM、文件前后残余字节必须成为 `Opaque.unsupported`，不能丢弃。
+- 每条 physical separator blank 保持独立 node identity；UI 可以视觉压缩连续 blank，但 runtime partition 不合并。
 - 当前 comment-looking 行不做客户端或 projection 启发式分类；它继续是 `recoverableError`。未来 parser 产生真正 comment node 后才启用保留的 `comment` 类别。
 - 最后一行没有 terminator 时，节点精确结束于 `source.len`；所有 UTF-8 boundary 与 CRLF indivisibility 必须在 core projection 中验证。
 
@@ -220,7 +225,7 @@ Enter 与 Shift+Enter 都是正文换行。折叠光标位于正文边界时 Bac
 
 Rust 正文序列化规则：
 
-1. 当前无 fence 且修改后仍能逐字解析为目标正文时保留 inline；否则转 fenced envelope。
+1. 当前无 fence 且修改后仍能逐字 reparse 为目标正文时保留 inline；否则转 fenced envelope。特别是语义末尾 LF 不能借 unfenced separator 表达，必须用 fence 将该 LF 保留在 body range 内。
 2. Delimiter 长度 `N = max(3, 正文最长连续引号数 + 1)`；opener 独立一行，避免正文开头引号被吞进 opener。保留原模式前缀，包括 inherit，不擅自改为显式模式。
 3. 非空正文 closer 紧随最后一个正文字符，空正文 closer 位于 opener 的下一行。正文末尾 LF 自然使 closer 出现在下一行，不额外追加一个正文换行；六个相邻引号仍按 opener 解析，不能表示空正文。
 4. `find_fence_close` 扫描完整 quote run。Run 长度至少 N 时，最后 N 个引号才是 closing delimiter，之前的引号属于正文；短于 N 不关闭。这是明确的 parser 行为变更，必须覆盖末尾 1、2、N−1 个引号、内部短 quote runs、正常历史 fences 和未闭合恢复，不能用追加正文换行回避。
@@ -228,15 +233,15 @@ Rust 正文序列化规则：
 
 新 `composer_text.rs` 保存正文选区解析与原子编辑，但复用现有 AST、projection 与 candidate proof，不创建第二份 AST。Rust core/LSP 的 service/server、stdio/WASM、browserWorker 以及 `composerDocument.ts`/`composerEdit.ts`/`composerRuntime.ts` 必须同一 cutover 更新 exact-key request/command/result、编码转换与 dispatch；未知字段/enum 全部拒绝。
 
-### 7. SVG 是唯一主创作表面
+### 7. SVG 是唯一主创作画布，而不是唯一输入控件
 
-原生 `mmt.guiComposer` 的主内容改为 SVG placeholder + 原 toolbar/属性 Sheet/Picker/源码入口。删除主卡片列表的 renderer、events 与 CSS，不隐藏保留第二条创作路径，不增加 card/canvas 模式开关。HTML 只承担 caret/selection、IME 临时文本、toolbar、Picker/Sheet 与源码入口。
+原生 `mmt.guiComposer` 的主内容保持真实 Typst/Tinymist SVG；已写 Message/Narration 的点击、光标、选区和正文修改继续发生在最终排版上。底部新增消息输入区属于同一 GUI 的输入 chrome，不是卡片列表、第二画布或第二文档。主卡片列表的 renderer、events 与 CSS 仍应删除而非藏在模式开关后。HTML 可以承担 caret/selection、IME 临时文本、下一轮底部输入区、紧凑工具组、上下文菜单、Picker/Sheet 与源码入口。
 
 Projection 所有节点仍有明确产品/源码对应；unsupported/recoverable 内容具有可发现的高级源码 affordance 和当前 TextDocument range。Blank 可以紧凑展示，但保留独立 identity、结构移动 barrier 和跨文本操作的精确保留规则。不能从图中“不显示”推导源码已不存在。
 
-Body 点击优先正文编辑，不同时触发 source navigation；头像、名字、气泡和旁白标签继续原 Picker/Sheet/PreviewComposer 与结构命令。Speaker/mode/avatar/display-name/continued 仍走原语义入口。Insert/delete/up/down 继续显式、键盘/触摸/读屏可达的非拖拽控件；Typst/opaque 的源码编辑器是高级出口，不新增通用 Typst AST editor 或内嵌 Monaco Lens。
+点击已有正文优先进入已实现的精确 SVG 正文编辑，不同时触发 source navigation，也不得用永久 inspector 或另一份表单替代。点击已有头像、名字、气泡或旁白标签时，speaker/mode/avatar/display-name/continued 仍走现有 Picker/Sheet/PreviewComposer 与 Rust 语义命令。单条选择的操作采用靠近选择对象的上下文入口；批量排列是显式进入和退出的独立模式，不能把复选框、上移/下移工具条或全量属性表单永久铺在画布上。Typst/opaque 的源码编辑器仍是高级出口，不新增通用 Typst AST editor 或内嵌 Monaco Lens。
 
-`ComposerRuntime` 仍是 surface-independent orchestration owner，不拥有 DOM、Workbench context-view 或独立文档。桌面/移动共享当前 snapshot、Pack/catalog ports、结构/属性命令与拒绝映射；新增文本子会话仅处理授权 selection 和事务状态。
+`ComposerRuntime` 仍是 surface-independent orchestration owner，不拥有 DOM、Workbench context-view、底部 draft 的持久副本或独立文档。桌面/移动共享当前 snapshot、Pack/catalog ports、结构/属性命令与拒绝映射；文本子会话只处理已有正文的授权 selection 和事务状态。新增消息只在发送时通过当前 snapshot 的 Rust `insertStatement` 能力进入 canonical source。
 
 ### 8. 同一 preview overlay 在原生 pane 间重挂载
 
@@ -294,7 +299,7 @@ type ComposerTextProjectionResult =
 
 纯读取 `mmt/composerTextProjection` 使用 `typst_backend.rs` 现有 projection identity gate 和 `emit.rs` source-map origins。只返回唯一、可逆正文片段，按 emitted escaped text 的字符边界转换；fence/Typst wrapper 不进入 selection，多段不压成跨 wrapper 的大 range。全部 identity 字段保留，不凭客户端正文搜索补映射。
 
-前导、连续或末尾 LF 形成的语义空行需要明确的 generated layout anchor，因为上游会丢弃空文本 source span。Typst 0.15 的真实 compile/query 已验证 `#box(width:0pt)[#text("")#metadata((mmtTextCaret:N))]` 保留实际 hard-frame 空文本 strut/baseline，且不引入任何字符。Emitter 仅为这些语义空行生成该 metadata-only anchor；N 是空 text literal 内的 generated UTF-8 offset，经 collapsed `TextBody` origin 精确对应 authored raw LF boundary。Metadata、box 和 wrapper 不成为复制正文或任意 source-edit range；不修改 authored MMT、不插入 sentinel，也不建立第二份 source state。Renderer 必须读取真实 box extent、baseline 与累计 transform，不以平均行距、邻行推算或虚构 glyph 代替。
+前导、连续或末尾 LF 形成的**语义空行**需要明确的 generated layout anchor，因为上游会丢弃空文本 source span。Typst 0.15 的真实 compile/query 已验证 `#box(width:0pt)[#text("")#metadata((mmtTextCaret:N))]` 保留实际 hard-frame 空文本 strut/baseline，且不引入任何字符。Emitter 仅为这些语义空行生成该 metadata-only anchor；N 是空 text literal 内的 generated UTF-8 offset，经 collapsed `TextBody` origin 精确对应 authored raw LF boundary。Metadata、box 和 wrapper 不成为复制正文或任意 source-edit range；不修改 authored MMT、不插入 sentinel，也不建立第二份 source state。Parser 已排除、由 projection 表示为 `Opaque.blank` 的 formatting separator 不是语义空行，不生成 anchor 或气泡正文行；若 separator 错入正文，必须修 parser boundary，不能用模板 padding、Composer trim/split 或 compiler/runtime 特判隐藏。Renderer 必须读取真实 semantic-empty-line box extent、baseline 与累计 transform，不以平均行距、邻行推算或虚构 glyph 代替。
 
 每例 hit offset 必须正确；有 glyph 的 caret 落在 glyph advance 边界且 CSS 测量误差不超过 1 px，语义空行 caret 使用上述真实 layout anchor；selection 只覆盖目标行；缩放/重排后重新查询仍对应同一语义选区。整条空正文仍可用 semantic label bounds 的显式 GUI 空区；重复文本不能串消息；比例字体/ligature 或空行均不得用平均字宽/行距近似。
 
@@ -350,6 +355,52 @@ Copy/Cut 使用 Rust read 的 plain text；cut 必须 clipboard 写成功后才�
 
 Input/Sheet/drag/clipboard 在 runtime quiesce/dispose 停止新工作，所有 owned subscriptions/overlay 按原 disposal graph 释放。已 apply 文本进入现有持久化、History 和 PWA；不新建存储。Export 只使用已确认 canonical revision，未提交 IME 不进入文件或 PDF。
 
+### 13. 下一轮 icon-first chat chrome（计划，未实现）
+
+#### 13.1 参考产品只提供交互取舍
+
+MoeTalk（<https://moetalk.xiyihan.cn>）与 U1805 Momotalk（<https://u1805.github.io/momotalk/chat>）截图确认了三项可迁移原则：对话成品应占据绝大多数视觉空间；连续新增消息需要固定、低摩擦的底部输入；常用角色应以头像快速切换，而不是反复打开大型表单。这里只采用信息层级和交互节奏，不复制其聊天 renderer、皮肤、数据模型或源码行为。
+
+`editors/vscode-web/.tmp/ui-design/gui-panel-concept-a.webp` 与早期 `gui-wireframe-a.svg` 是被反馈否定的探索物，不是规范资产。Concept A 仍然过大、文字按钮过多，不能作为尺寸、组件或实现参考，也不能据其生成新的聊天 renderer。
+
+#### 13.2 桌面布局
+
+桌面从上到下固定为三个区：
+
+1. **纤细顶栏**：只保留文档名/保存或同步状态等短状态，以及 undo、redo、export、more 的图标组。动作按语义分组并留出间距，不使用一排大型说明文字按钮；低频和陌生动作放入带文字的菜单。
+2. **主 SVG 画布**：占据剩余空间并继续是既有消息的最终排版、点击和编辑表面。没有永久角色侧栏、永久属性 inspector、逐条复选框或常驻排列工具条。
+3. **紧凑底部 Composer**：第一行显示当前角色头像、默认单行且随内容增长的输入框、image 图标和 send 图标；其下是紧凑分组工具与水平角色头像 tray。Image 的最终命令语义只能复用届时已有的授权资源能力，未验证前不能扩展 DSL 或伪造本地消息。
+
+#### 13.3 移动布局
+
+移动端保留同样的三个区域和操作语义，不降级成另一套卡片 UI。顶栏可压缩分组，SVG 仍是唯一主画布滚动 owner；底部 Composer 留出 safe-area，并随 `visualViewport` 和软键盘保持输入、发送与当前 caret 可达。320 CSS px、至少 44 CSS px 的主要触控目标、无外层横向滚动和既有触控选区合同继续成立。
+
+移动键盘的真实设备细节、精确图标顺序、tray 在极窄宽度下的折叠/滚动微规则仍须原型和实机验证；这些开放项不能被某张探索图提前定案，也不能改变唯一 source 或 Rust 授权边界。
+
+#### 13.4 新消息与已有消息是两条明确流程
+
+- **新增消息**：作者在底部 Composer 选择角色并输入 draft；选择角色本身和每次按键都不创建 projection node、不写 MMT。点击 send 时，宿主针对最新 URI/version/digest 重新取得当前合法插入 boundary、角色和模式能力，并提交一个 Rust `insertStatement`。只有 WorkspaceEdit 成功应用并出现新 snapshot 后才清除已发送 draft；失败或 stale 时保留可恢复文本，不在画布中制造乐观消息。
+- **编辑已有消息**：作者直接点击 SVG 正文，继续使用已实现的精确几何、选区、IME 和 native undo。选择头像/气泡/标签显示与该对象相邻的上下文动作；编辑期间底部未发送 draft 及当前新消息角色选择必须保留，不能被旧消息正文或属性值覆盖。
+- **结构操作**：单条删除、属性和可用移动入口只在上下文中出现；需要多条选择/排列时显式进入 bulk arrange mode，并提供清楚的退出。该模式仍只发送 server capability 授权的结构命令，不允许拖拽、复选状态或视觉顺序取得源码权限。
+
+#### 13.5 角色 tray 由使用行为自动维护
+
+角色 tray 不是用户维护的“收藏夹”。当前 runtime presentation scope 中被选中的角色会自动进入 tray，包括只选择、尚未发送消息的角色；新增条目不得重排已有角色，确保位置稳定。Teacher/Sensei 的独立 quick-switch affordance 是已确认产品原则；完整角色库通过按需 Picker/Sheet 打开，不常驻占用画布侧边。当前结构 wire 不把 Builtin speaker 放入 picker，因此 quick switch 的提交映射必须在实施前通过 Rust server capability 明确解决，不能由客户端拼出 `__Sensei`、伪造 actor reference，或用一个无法发送的视觉按钮冒充完成。
+
+Tray 只保存角色选择的 presentation state，不改变 `scriptActorChoices`/Pack catalog，也不授予 speaker mutation。角色在最新 catalog 中失效时按既有 `speakerUnavailable`/Pack 漂移规则处理；UI 不保留一个可绕过 Rust 的旧 reference。跨 reload 是否恢复未发送 draft/角色 tray、恢复多长时间以及使用哪个既有 storage owner 属于待验证策略，不在此轮文档中暗示已实现或另建存储。
+
+#### 13.6 Source、draft、history 与导出不变量
+
+`.mmt` TextDocument 始终是唯一 canonical authored state。底部 draft 是可丢弃/可恢复的 transient presentation state，不是第二份 canonical document、client AST、隐藏 projection node 或 preview 输入。它必须在用户编辑已有 SVG 内容时保持不变，但在发送成功前不得进入 save、Local History、native undo/redo、render 或 export；发送成功后产生的普通 TextDocument edit 才由这些既有 owner 观察。GUI/source 切换和已有正文编辑继续共享同一 native model 与 undo 栈。
+
+URI-only editor serializer 仍不得持久化 draft。Draft 在关闭、reload、冲突和安全更新中的最终保留政策尚未由用户确认；实施前必须在“不静默丢失”和“不建立第二 canonical source”之间给出可验证方案，并与既有未提交输入 recovery 合同一致。
+
+#### 13.7 可访问性与未决细节
+
+所有纯图标按钮必须有稳定 accessible name；桌面提供 tooltip；触控目标满足现有尺寸要求。图标不能只靠颜色或位置表达 disabled/selected 状态。陌生、破坏性或低频动作可以且应该在菜单/Sheet 中显示文字；icon-first 不等于 icon-only everywhere。
+
+已确认原则是 SVG 主画布、紧凑顶/底 chrome、底部连续新增、上下文编辑、自动角色 tray、独立 bulk arrange mode 和唯一 source。尚未确认的是移动软键盘实机行为、精确图标顺序、tray 的窄屏微布局以及未发送 draft 的跨生命周期持久策略；实现和验收必须把这些列为开放决策，不能自行补成产品功能。
+
 ## Failure Mapping
 
 - URI/version/sourceDigest 不匹配：`staleDocument`；nodeKey/range/kind 或无法唯一精确定位：`targetChanged`。
@@ -370,7 +421,9 @@ Input/Sheet/drag/clipboard 在 runtime quiesce/dispose 停止新工作，所有 
 - 几何 baseline 已触发 renderer 分支；没有精确新 runtime 不得交付近似表面。Tylina 0.15.2 只作静态架构参考，不复制代码、不运行其二进制或引入 sidecar。
 - OS IME、真实 Chrome 或 runtime publication 凭据缺失时，完成可达实现/验证并明确列出未验证/阻塞项；合成事件、旧 CDN 或 typecheck 不能冒充验收。
 
-## Migration Plan
+## 已实现架构的历史 Migration Plan
+
+以下步骤保留为第 1–12 节既有实现的交付记录，不是第 13 节 icon-first chrome 已完成或已部署的声明。下一轮未完成实施与验收只以 `tasks.md` 第 14–15 节为准。
 
 1. 在本 change 冻结 SVG-first 产品/wire/parser/acceptance 合同，重新打开受影响任务；运行 strict OpenSpec，并完成真实 geometry characterization。当前已观测几何失败要求 renderer 分支。
 2. Rust/core/LSP 定义文本端点、read/edit/result、可逆 fenced/EOL、候选 proof 与 stdio/WASM exact-key cutover；先查 exported symbol references，不做客户端兼容层。
