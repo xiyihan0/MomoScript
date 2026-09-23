@@ -165,6 +165,14 @@ pack manifest 的确定性解析语义。
 - AND `pack.manifest_sha256` 等于最终 manifest 字节的 SHA-256
 - AND Catalog entity key 与同一 manifest 的本地 entity id 对应
 
+#### Scenario: Repaired manifest remains bound to its Entity Catalog
+
+- GIVEN a local pack has `manifest.json` and `entity-catalog.json`
+- WHEN an audited sequence repair rewrites the pack manifest
+- THEN the Catalog `pack.manifest_sha256` MUST bind to the exact repaired manifest bytes
+- AND a separate output path MUST NOT silently modify the original pack's Catalog
+- AND failure to keep both artifacts consistent MUST prevent applying the repair
+
 #### Scenario: Kivo provenance 和许可可审计
 
 - GIVEN Catalog 数据来自 Kivo Wiki API
@@ -221,6 +229,22 @@ pack manifest 的确定性解析语义。
 - GIVEN 构建器完成素材下载与 AVIFS 编码
 - WHEN 写出构建报告
 - THEN 报告包含 source API version、成功 set 数、跳过 set 数、原始体积、压缩体积、编码 profile、sha256 与失败原因列表
+
+#### Scenario: Sequence encoding and reuse rely on inspected media
+
+- GIVEN an AVIFS set contains one or more frames
+- WHEN the builder reuses or finishes encoding its blob
+- THEN it MUST inspect the actual dimensions and frame count before accepting the blob
+- AND the encode report MUST distinguish measured media values from planned input values
+- AND an uninspectable or mismatched blob MUST NOT produce a successful storage entry
+
+#### Scenario: Sequence reconciliation requires verified evidence
+
+- GIVEN a manifest declares image-sequence storage metadata
+- WHEN a repair audits local media or a successful encode report
+- THEN it MUST use inspected dimensions and frame count, not planned or failed/skipped encode values
+- AND insufficient evidence MUST NOT silently report a verified match or rewrite the manifest
+- AND reducing a frame count MUST keep matching entity and contribution sticker variants within bounds
 
 ### Requirement: Language core uses a narrow platform materializer contract
 

@@ -22,6 +22,7 @@
 - [x] 3.3 实现可选 AVIFS 编码、profile 参数、canvas guard 和失败报告
 - [x] 3.4 实测 AVIFS 在体积、透明度、抽帧速度与画质上的 tradeoff
 - [x] 3.5 保留 browser AVIF decoder 调研为后续迁移参考；不把 Web/WASM 实现列为当前 parser 主线任务
+- [x] 3.6 对 AVIFS 编码结果与 resume 候选检查实际尺寸/帧数；对账只接受可核验 blob/报告，并同步修复贡献槽位、缩略图索引和 Entity Catalog digest
 
 ## 4. 剩余实施与验收
 
