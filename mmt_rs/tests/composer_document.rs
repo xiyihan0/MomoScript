@@ -153,6 +153,38 @@ fn statement_bodies_and_separator_blanks_follow_parser_boundaries() {
 }
 
 #[test]
+fn final_bare_cr_blank_projects_as_a_physical_separator() {
+    for (source, expected_blank) in [
+        ("- first\n \r", " \r"),
+        ("- first\n \n", " \n"),
+        ("- first\r\n \r\n", " \r\n"),
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        assert_eq!(projection.nodes.len(), 2);
+        let ComposerDocumentNode::Narration(narration) = &projection.nodes[0] else {
+            panic!("first physical line must be narration");
+        };
+        assert_eq!(narration.description.body.current, "first");
+        let ComposerDocumentNode::Opaque(blank) = &projection.nodes[1] else {
+            panic!("separator must remain opaque");
+        };
+        assert_eq!(blank.category, ComposerOpaqueCategory::Blank);
+        assert_eq!(&source[blank.range.start..blank.range.end], expected_blank);
+        assert_eq!(blank.range.end, source.len());
+        assert_partition(source);
+    }
+
+    let source = "- first\n \r\ncontinued";
+    let projection = project_composer_document(source, &catalog()).unwrap();
+    assert_eq!(projection.nodes.len(), 1);
+    let ComposerDocumentNode::Narration(narration) = &projection.nodes[0] else {
+        panic!("internal blank belongs to the continuing narration");
+    };
+    assert_eq!(narration.description.body.current, "first\n \r\ncontinued");
+    assert_partition(source);
+}
+
+#[test]
 fn whitespace_and_zero_width_blank_syntax_own_full_physical_lines() {
     let source = "\r\n  \r\n\t\n- narration";
     let projection = project_composer_document(source, &catalog()).unwrap();

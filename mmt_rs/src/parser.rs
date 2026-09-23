@@ -715,8 +715,11 @@ fn collect_lines(text: &str) -> Vec<Line<'_>> {
     let mut offset = 0;
 
     for segment in text.split_inclusive('\n') {
-        let line_text = segment.strip_suffix('\n').unwrap_or(segment);
-        let line_text = line_text.strip_suffix('\r').unwrap_or(line_text);
+        let line_text = if let Some(line_text) = segment.strip_suffix('\n') {
+            line_text.strip_suffix('\r').unwrap_or(line_text)
+        } else {
+            segment
+        };
         let end = offset + line_text.len();
         result.push(Line {
             text: line_text,
@@ -1451,6 +1454,14 @@ mod tests {
                 expected_separator: "\r\n \t\r\n\r\n",
                 blank_ranges: &[(7, 9), (11, 11)],
                 next_start: Some(13),
+            },
+            Case {
+                source: "- first\n \r",
+                expected_body: "first",
+                body_range: (2, 7),
+                expected_separator: "\n \r",
+                blank_ranges: &[(8, 10)],
+                next_start: None,
             },
             Case {
                 source: "< \n\n\t",
