@@ -248,6 +248,15 @@ export function composerText(frame: Frame, fragment: string | RegExp, occurrence
   return frame.locator(".tsel").filter({ hasText: pattern }).nth(occurrence);
 }
 
+export interface ComposerGlyphPoint {
+  x: number;
+  y: number;
+  top: number;
+  bottom: number;
+  lineTop: number;
+  pageIndex: number;
+}
+
 /**
  * Read the native SVG glyph origin, not its ink edge or a browser-font/average-width estimate.
  * The renderer's foreignObject width is its exact full-run advance and supplies the final edge.
@@ -258,61 +267,76 @@ export async function composerGlyphBoundary(
   boundary: number | "end",
   occurrence = 0,
   scroll = true,
-): Promise<{ x: number; y: number; top: number; bottom: number; lineTop: number; pageIndex: number }> {
+): Promise<ComposerGlyphPoint> {
   const text = composerText(frame, fragment, occurrence);
-  if (scroll) {
-    // The renderer virtualizes .tsel runs. Exercise viewport scrolling until this fixture run is materialized.
-    await expect.poll(async () => {
-      if (await text.count() > 0) return true;
+  let point: ComposerGlyphPoint | undefined;
+  await expect.poll(async () => {
+    // Edge-drag autoscroll keeps native glyphs moving and virtualizes .tsel.
+    // Discover, reveal, and measure one live SVG run in a single browser turn;
+    // Playwright's stability wait would instead pin a run until it detaches.
+    point = await text.evaluateAll((elements, options) => {
+      const element = elements[0];
+      if (!element) return undefined;
+      const run = element.closest(".typst-text");
+      const root = element.closest("svg.typst-renderer-root");
+      const foreignObject = element.closest("foreignObject");
+      if (!(foreignObject instanceof SVGForeignObjectElement) || !run || !root) {
+        throw new Error("The expected native SVG text run is unavailable");
+      }
+      const glyphs = [...run.querySelectorAll<SVGUseElement>(":scope > use")];
+      if (glyphs.length === 0) throw new Error("The expected native SVG glyphs are unavailable");
+      const requested = options.boundary;
+      const glyph = requested === "end" ? glyphs.at(-1)! : glyphs[requested];
+      if (!glyph) throw new Error(`Native glyph boundary ${requested} is unavailable`);
+      if (options.scroll) {
+        const viewport = root.closest(".viewport");
+        if (!viewport) throw new Error("The native SVG viewport is unavailable");
+        const bounds = foreignObject.getBoundingClientRect();
+        const visible = viewport.getBoundingClientRect();
+        if (bounds.left < visible.left || bounds.right > visible.right || bounds.top < visible.top || bounds.bottom > visible.bottom) {
+          foreignObject.scrollIntoView({ block: "center", inline: "nearest", behavior: "instant" });
+        }
+      }
+      const transform = requested === "end" ? foreignObject.getScreenCTM() : glyph.getScreenCTM();
+      if (!transform) throw new Error("The native SVG glyph transform is unavailable");
+      const origin = requested === "end"
+        ? new DOMPoint(foreignObject.x.baseVal.value + foreignObject.width.baseVal.value, foreignObject.y.baseVal.value)
+        : new DOMPoint(glyph.x.baseVal.value, glyph.y.baseVal.value);
+      const position = origin.matrixTransform(transform);
+      const ink = glyph.getBoundingClientRect();
+      // Reused SVG groups retain DOM identity, not physical page order.
+      const pages = [...root.children]
+        .filter((candidate): candidate is SVGGraphicsElement => (
+          candidate instanceof SVGGraphicsElement && candidate.classList.contains("typst-page")
+        ))
+        .sort((left, right) => (
+          left.transform.baseVal.getItem(0).matrix.f - right.transform.baseVal.getItem(0).matrix.f
+        ));
+      const pageIndex = pages.findIndex((candidate) => candidate.contains(element));
+      if (pageIndex < 0) throw new Error("The native renderer page identity is unavailable");
+      return {
+        x: position.x,
+        y: ink.top + ink.height / 2,
+        top: ink.top,
+        bottom: ink.bottom,
+        lineTop: foreignObject.getBoundingClientRect().top,
+        pageIndex,
+      };
+    }, { boundary, scroll });
+    if (point) return true;
+    if (scroll) {
+      // The renderer virtualizes .tsel runs. Scan the real viewport only until
+      // the requested fixture run can be measured from its native SVG geometry.
       await frame.locator(".viewport").evaluate((element) => {
         const end = Math.max(0, element.scrollHeight - element.clientHeight);
         element.scrollTop = element.scrollTop >= end - 1
           ? 0
           : Math.min(end, element.scrollTop + element.clientHeight * 0.8);
       });
-      return false;
-    }, { intervals: [100, 250, 500], timeout: 30_000 }).toBe(true);
-    await text.scrollIntoViewIfNeeded();
-  } else {
-    await expect(text).toBeAttached();
-  }
-  return await text.evaluate((element, requested) => {
-    const run = element.closest(".typst-text");
-    const root = element.closest("svg.typst-renderer-root");
-    const foreignObject = element.closest("foreignObject");
-    if (!(foreignObject instanceof SVGForeignObjectElement) || !run || !root) {
-      throw new Error("The expected native SVG text run is unavailable");
     }
-    const glyphs = [...run.querySelectorAll<SVGUseElement>(":scope > use")];
-    if (glyphs.length === 0) throw new Error("The expected native SVG glyphs are unavailable");
-    const glyph = requested === "end" ? glyphs.at(-1)! : glyphs[requested];
-    if (!glyph) throw new Error(`Native glyph boundary ${requested} is unavailable`);
-    const transform = requested === "end" ? foreignObject.getScreenCTM() : glyph.getScreenCTM();
-    if (!transform) throw new Error("The native SVG glyph transform is unavailable");
-    const origin = requested === "end"
-      ? new DOMPoint(foreignObject.x.baseVal.value + foreignObject.width.baseVal.value, foreignObject.y.baseVal.value)
-      : new DOMPoint(glyph.x.baseVal.value, glyph.y.baseVal.value);
-    const point = origin.matrixTransform(transform);
-    const ink = glyph.getBoundingClientRect();
-    // Reused SVG groups retain DOM identity, not physical page order.
-    const pages = [...root.children]
-      .filter((candidate): candidate is SVGGraphicsElement => (
-        candidate instanceof SVGGraphicsElement && candidate.classList.contains("typst-page")
-      ))
-      .sort((left, right) => (
-        left.transform.baseVal.getItem(0).matrix.f - right.transform.baseVal.getItem(0).matrix.f
-      ));
-    const pageIndex = pages.findIndex((candidate) => candidate.contains(element));
-    if (pageIndex < 0) throw new Error("The native renderer page identity is unavailable");
-    return {
-      x: point.x,
-      y: ink.top + ink.height / 2,
-      top: ink.top,
-      bottom: ink.bottom,
-      lineTop: foreignObject.getBoundingClientRect().top,
-      pageIndex,
-    };
-  }, boundary);
+    return false;
+  }, scroll ? { intervals: [100, 250, 500], timeout: 30_000 } : {}).toBe(true);
+  return point!;
 }
 
 export async function clickComposerBoundary(

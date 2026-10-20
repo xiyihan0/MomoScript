@@ -161,10 +161,8 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     rendererGeneration: 1,
     rendererFrameKind: "new",
   });
-  await expect(previewFrame.locator("svg image").first()).toBeAttached({ timeout: 60_000 });
-  await expect(page.locator(".typst-preview-page")).toHaveCount(0);
-  await expect(previewFrame.locator("svg")).toHaveCount(1);
-  await expect(previewFrame.locator("svg image").first().evaluate(async (element) => {
+  await expect(previewFrame.locator(".page svg image").first()).toBeAttached({ timeout: 60_000 });
+  await expect(previewFrame.locator(".page svg image").first().evaluate(async (element) => {
     const href = element.getAttribute("href") ?? "";
     if (!href.startsWith("blob:")) return { external: false, loaded: false };
     const probe = document.createElement("img");

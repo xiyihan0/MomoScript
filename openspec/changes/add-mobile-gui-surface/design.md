@@ -24,7 +24,7 @@
 
 ## Decisions
 
-第 1–12 节记录已经实现并验收过的 SVG-first architecture contracts；第 13 节单独记录下一轮尚未实现的产品 chrome。后者复用前者，不重新打开 parser、renderer 或 source-authority 设计。
+第 1–12 节记录 SVG-first architecture contracts；第 13 节定义连续创作与上下文编辑的产品 chrome，实施状态以 `tasks.md` 和实际浏览器验收为准。所有新增入口复用现有 parser、renderer 与 source-authority 边界。
 
 ### 1. Composer document projection 是完整源码分区
 
@@ -105,11 +105,12 @@ interface ComposerNodeRef { nodeKey: string; nodeKind: NodeKind; range: Range }
 interface NodeTarget { kind: "node"; node: ComposerNodeRef }
 interface BoundaryTarget { kind: "boundary"; before: ComposerNodeRef | null; after: ComposerNodeRef | null }
 type SpeakerChoice = { kind: "actor"; reference: string };
+type NewSpeakerChoice = SpeakerChoice | { kind: "builtin" };
 type NewStatement =
   | {
       kind: "message";
       side: "left" | "right";
-      speaker: SpeakerChoice;
+      speaker: NewSpeakerChoice;
       body: { value: string; mode: StatementTextMode };
       continued: "auto" | "true" | "false";
     }
@@ -121,7 +122,8 @@ type StructureCommand =
   | { kind: "insertStatement"; statement: NewStatement }
   | { kind: "deleteNode" }
   | { kind: "moveNode"; anchor: BoundaryTarget }
-  | { kind: "setStatementSpeaker"; speaker: SpeakerChoice };
+  | { kind: "setStatementSpeaker"; speaker: SpeakerChoice }
+  | { kind: "replaceNodeSource"; source: string };
 interface StructureEditParams {
   textDocument: { uri: string; version: number };
   sourceDigest: string;
@@ -130,7 +132,7 @@ interface StructureEditParams {
 }
 ```
 
-Server 对每层对象执行 exact-key、enum、字符串长度与现有 body 最大字节数验证。`insertStatement` 必须配 BoundaryTarget；其他结构命令必须配 NodeTarget。空文档唯一边界为 `{ before: null, after: null }`；开头/结尾边界分别只有 `after`/`before`；内部 boundary 的 `before`/`after` 必须是严格相邻节点。结构 payload 不含 raw replacement source、任意 byte offset、客户端 TextEdit 或 AST 数据。
+Server 对每层对象执行 exact-key、enum、字符串长度与现有 body 最大字节数验证。`insertStatement` 必须配 BoundaryTarget；其他结构命令必须配 NodeTarget。空文档唯一边界为 `{ before: null, after: null }`；开头/结尾边界分别只有 `after`/`before`；内部 boundary 的 `before`/`after` 必须是严格相邻节点。除局部源码编辑专用的 `replaceNodeSource` 外，结构 payload 不含 raw replacement source；任何命令均不得携带任意 byte offset、客户端 TextEdit 或 AST 数据。
 
 Rust 对每个命令执行：
 
@@ -157,9 +159,20 @@ Rust 对每个命令执行：
 
 `deleteNode` 只删除目标 owned range，不删除相邻 Opaque；若删除会使候选非法或改变后续继承/resource 产品语义则拒绝。`insertStatement` 只在 capability 携带的合法 boundary 插入 Rust canonical statement；Message 明确携带 side、Pack/脚本角色 reference、body/mode/continued，Narration 只携带 body/mode。`setStatementSpeaker` 只接受 capability 明确授权的 Message 和 Pack/脚本角色；已有 Builtin speaker 的正文仍可编辑，但不暴露 speaker capability。Choice 不能重新解析或不能精确序列化时返回 `speakerUnavailable`。
 
+`replaceNodeSource` 只接受当前 snapshot 明确授予 `replaceSource` 的 exact NodeTarget。
+文本来自作者显式打开的局部源码编辑器，不来自 SVG 或客户端生成的 DSL。
+Rust 验证候选分区与原始目标两侧的源码/节点归属，拒绝未闭合 fence/block 吞并邻居、越界、stale 和不合法候选；
+返回单一版本化 WorkspaceEdit 后仍由原有 TextDocument/history/preview 链路应用。
+
+新消息的 builtin 选择仅为 `{kind:"builtin"}`，不是可输入的 actor reference。
+Boundary insertion capability 必须显式给出可证明的 builtin message sides；没有合法 side 时 UI 禁用该选择，
+Rust 直接请求同样拒绝。现有 named right-speaker history 无法通过当前 DSL 重置时，不伪造 `__Sensei` 或另建隐式 reset 语法。
+已有 Builtin statement 的 speaker mutation 继续只读。
+
+
 ### 5. 字符与跨正文选区由 Rust 授权
 
-直接正文端点只属于 resolved mode 为 `textMacro` 或 `textRaw`、并可唯一对应原始正文的 Message/Narration。Typst 模式、不可逆宏生成文本、opaque 节点与无法唯一定位的 rendered occurrence 不提供猜测写入。已有 `setStatementBody` 属性输入合同不放宽：它保留非空、单行及原 Typst-mode 属性路径；空值、多行、逐字和跨节点统一使用新文本命令。
+直接正文端点只属于 resolved mode 为 `textMacro` 或 `textRaw`、并可唯一对应原始正文的 Message/Narration。Typst 模式、不可逆宏生成文本、opaque 节点与无法唯一定位的 rendered occurrence 不提供猜测写入。`setStatementBody` 与新语句插入共享 Rust 的可逆正文序列化，允许空值和多行；逐字与跨节点替换仍使用文本命令。局部 Typst/高级源码编辑通过独立的显式 UI 与 Rust capability，不把生成的视觉字符串升级为正文。
 
 以下类型扩展现有 `mmt/composerEdit`；不是第二 mutation method，也不是现有 `Edit` 分支的兼容 alias：
 
@@ -249,21 +262,27 @@ Projection 所有节点仍有明确产品/源码对应；unsupported/recoverable
 
 GUI 的 `openWith` 与 `keepEditor` 完成后必须 flush Workbench 已注入的同一个 `IStorageService`，使 URI-only input 与 pin 状态在返回前 durable；PWA safe restart 在 reload 前也 flush 这一实例。这里不引入另一份 editor-state storage、持久化队列或 retry subsystem。
 
-启动先等待 `IEditorGroupsService.whenRestored`，再判断是否需要 remembered-source 或 intro fallback；已由原生 serializer 恢复的 GUI input 必须胜出，不能被 fallback 覆盖。恢复的 pane 可以先 mount，但首次 `syncPreviewSurface`/SVG source bind 必须等初始 Pack registry 同步落定（包括已验证的 empty-registry fallback），之后才请求 `mmt/getTypstRenderProject`；该门槛不依赖自动预览是否开启，并继续复用既有 Pack fallback 合同。
+启动先等待 `IEditorGroupsService.whenRestored`，再判断是否需要 remembered-source 或 intro fallback；已由原生 serializer 恢复的 GUI input 必须胜出，不能被 fallback 覆盖。恢复的 pane 可以先 mount，但首次 Composer authority 绑定与 `syncPreviewSurface`/SVG source bind 必须等初始 Pack registry 同步落定（包括已验证的 empty-registry fallback），之后才请求 Composer snapshot 与 `mmt/getTypstRenderProject`；该门槛不依赖自动预览是否开启，并继续复用既有 Pack fallback 合同。
+
+原生 GUI pane 的 mount/restoration 不等待 Pack readiness；仅在现有 surface activation 路径中延后 `runtime.bindDocument`，避免原生编辑器恢复与 Pack 初始化形成依赖环。
+
+Pack/catalog 语义上下文变化即撤销已接受的 Composer snapshot、selection 和 transient authority，并在保留未提交文本恢复的同时请求当前 source version 的新 snapshot。Source digest/version 不变不代表语义权限未变；完成同步后不能继续持有初始化时的全只读快照，也不能通过修改 source version 或重试循环恢复权限。
 
 `previewWebviewHost.ts` 通过同一 VS Code `IWebviewService.createWebviewOverlay` 创建一次 overlay，保持 `retainContextWhenHidden:true`、scripts、localResourceRoots、CSP、ready/publication ACK/resync/committed generation 合同。传输改为 `setHtml`/`postMessage`/`onMessage`（读取 `event.message`），URI/CSP 使用同一 VS Code 的 `asWebviewUri`/`webviewGenericCspSource`。
 
 ```ts
-attachSurface(claimant: object, container: HTMLElement, clippingContainer: HTMLElement): void;
+attachSurface(claimant: object, container: HTMLElement, clippingContainer: HTMLElement, presentation: "gui" | "preview"): void;
 releaseSurface(claimant: object): void;
 layoutSurface(claimant: object): void;
 ```
 
 内部使用 `claim(claimant, mainWindow, undefined)`、`layoutWebviewOverElement` 和 `release`。旧 claimant 释放不得关闭新 claimant；pane 隐藏/切换不销毁 iframe，只有产品 runtime dispose 销毁 shared overlay。ResizeObserver、pane/window resize、shell part visibility/layout 变化触发布局，使用 clippingContainer，不能覆盖 Sidebar/其他 editor group。
 
+Surface owner 显式提供 presentation；host 在 attach、release 与 webview ready 时发送严格的 `{type:"presentation",presentation:"gui"|"preview"}`。该消息只控制视觉：GUI 保持单行缩放工具、隐藏重复导出表单，普通 preview 保留原工具栏；暂停、blocked 或局部编辑不能把 GUI 误判为普通预览。Presentation 不授予任何编辑权限。
+
 新 `previewHostPane.ts` 按现有 native pane 模式注册 `mmt.previewHost`，供源码侧只读预览；它只是另一挂载目标，不拥有 renderer/session/store。`main.ts` 由一个集成负责人将 source/render/export binding 提取为 `bindPreviewSource(document)`；GUI 打开/激活也调用。GUI 的“预览”只聚焦当前 SVG，源码侧预览才打开旁边 native preview pane；source→preview navigation 保留。删除 panel-only open/reveal/close 与 ViewColumn 辅助，fixture reveal/export callsites 同步迁移。
 
-使用 native `IEditorService.onDidActiveEditorChange/onDidVisibleEditorsChange` 判断 GUI 激活，不能只依赖 TextEditor 事件。一个 overlay 仅显示一个 active document，其他 GUI pane 提供可聚焦 inactive placeholder。切换后先验证 sourceUri/identity 再收输入，不得把 A 的旧图当 B 的编辑图。
+GUI 激活与可见 pane 以 `IEditorGroupsService` 的 native main editor part 为准，并订阅其 active-group 变化及既有原生编辑器可见性事件。局部 Monaco widget 的 synthetic editor group 不得抢走 canonical GUI/preview owner；显式打开真实源码 tab 仍正常切换。一个 overlay 仅显示一个 active document，其他 GUI pane 提供可聚焦 inactive placeholder。切换后先验证 sourceUri/identity 再收输入，不得把 A 的旧图当 B 的编辑图。
 
 ### 9. 几何以真实 characterization 为门槛
 
@@ -315,15 +334,19 @@ type ComposerTextProjectionResult =
 { type: "composer-intent", sessionId, sequence, renderKey, intent }
 { type: "composer-state", sessionId, sequence, renderKey,
   status: "ready" | "pending" | "blocked", carets, boxes,
-  screenCoordinatePrecision }
+  screenCoordinatePrecision, clipboard: { authorization, text } | null }
 { type: "composer-drained", sessionId, sequence }
 ```
 
-具体 outer message discriminator 沿既有 `previewWebviewProtocol.ts` 约定使用；消息名固定为 `composer-intent`/`composer-state`，另有只确认传输排空的 `composer-drained`，不新增同义 envelope。Intent 固定为 `pointer`（phase start/move/end/cancel、point、extend、归一化 `clickCount:1|2`）、`move`（direction left/right/up/down、granularity grapheme/word/visualLine/document、extend）、`replace`（typing/paste/cut 只带 text、origin；delete 必须带 `text:""`、`origin:"delete"`、`direction:"backward"|"forward"`、`granularity:"grapheme"|"word"`）、`composition`（phase start/update/end/cancel、text）、`history`（direction undo/redo）、`copy`。`clickCount` 显式区分单击与双击词选择，不由宿主按时间间隔猜测，也不携带 raw source/text。Delete 的 direction/granularity 让宿主区分折叠光标的正文内删除与已显式选中的跨正文删除；不能用合成 move+Backspace 产生隐式跨消息合并。非 delete replace 必须拒绝多余 direction/granularity，delete 必须拒绝非空 text、缺失或未知 deletion 字段。严格 exact-key producer/consumer 按 variant 同步迁移，不增加用户可见模式。消费入口验证 exact keys、size、sequence、session、identity；不接收 DOM text 作为源码、任意 TextEdit 或 raw MMT range。
+具体 outer message discriminator 沿既有 `previewWebviewProtocol.ts` 约定使用；消息名固定为 `composer-intent`/`composer-state`，另有只确认传输排空的 `composer-drained`，不新增同义 envelope。
+Intent 为 `pointer`（phase start/move/end/cancel、point、extend、`clickCount:1|2|3`）、`move`（direction、granularity、extend）、`replace`（typing/paste 带 text/origin；delete 带空 text、direction 和 grapheme/word granularity）、`composition`（phase/text）、`history`（undo/redo）、`focus`（backward）、`clipboard`（copy/cut 与 host-issued authorization）、`clipboardRequest`（pending selection 后有序执行的 copy/cut）与 `contextMenu`（视觉 anchor）。
+单击定位、双击词选择、三击整正文由 Webview 显式区分，宿主不根据时间猜测。旧异步 `copy` intent 与直接 `replace` cut 分支删除，不保留同义路径。
+非 delete replace 拒绝多余 deletion 字段，delete 拒绝非空 text、缺失或未知字段；所有 variant 同时验证 exact keys、size、sequence、session 和 identity。
+消息不接收 DOM text 作为源码、任意 TextEdit 或 raw MMT range。
 
 Pointer intent 还必须携带 exact `uncertainty:{x,y}`；其 finite `[0,1]` 分量由 host 顶层 Float32 `screenCoordinatePrecision` 与实际 PointerEvent local Float32 precision 组合，再以 inverse SVG CTM 绝对行和保守映射为 normalized page uncertainty，不能使用固定 CSS-pixel padding。Host 必须在 overlay layout/resize 时刷新 wire precision；touch-handle 等合成 native caret sample 使用 `{x:0,y:0}`。该字段逐层原样传给 geometry/native renderer。
 
-Webview 以 HTML caret/selection overlay 和 caret 附近透明 textarea 桥接输入，不保存正文。Pointer hit → existing mapping → Rust selection read → host 授权 selection；支持 Shift、双击词选择、视觉上下/Home/End、Pointer Events 拖选和边缘滚动。Drag 可合并 latest point；已经接受的文字 intent 不可丢弃。
+Webview 以 HTML caret/selection overlay 和 caret 附近透明 textarea 桥接输入，不保存正文。Pointer hit → existing mapping → Rust selection read → host 授权 selection；支持 Shift、双击词选择、三击整正文、视觉上下/Home/End、Pointer Events 拖选和边缘滚动。Drag 可合并 latest point；暂时落入未映射空白时保留 gesture 与最后一个合法端点，但不能借此获得跨 barrier 权限。已经接受的文字 intent 不可丢弃。
 
 每个文字 intent 串行：当前授权 selection → `replaceTextSelection` → 严格验证结果 → 一次 apply → 等新 document/snapshot → 用候选 digest 和 exact statementRange 恢复新节点 → 下一个 intent。自身预期 document event 更新会话但不关闭输入桥；外部编辑/切文档/Pack 变化取消授权，停止自动 apply pending。普通输入按事件提交，不用 300ms 整字段防抖；render queue 保持 latest-wins，授权输入队列必须按序无损。Mapping pending 可保留旧视觉 caret，但旧几何不授权新指针编辑。
 
@@ -335,7 +358,11 @@ Iframe 处理 blocked state 后发送 `composer-drained`，sequence 为最后发
 
 IME compositionstart 捕获 selection/version；update 只更新临时输入/候选 overlay，不申请 WorkspaceEdit；end 一次 replace 并去重随后 input；cancel 不改源码。重排不能重建 textarea、夺焦点或重置 composition；不创建临时 MMT/Typst 编译副本。真实提交后由 Typst SVG 替换临时 HTML。Blur 时若 oversized composition 无法序列化为 cancel/recovery payload，必须先保留完整、可复制的本地 draft 再清除 composition；不得截断 draft 或修改 source。
 
-Copy/Cut 使用 Rust read 的 plain text；cut 必须 clipboard 写成功后才删，权限失败文件不变。Paste 一律正文，即使含 `>`、`@` 或引号也交 Rust 序列化，不解释成 DSL。任何跨 barrier 失败不得部分 copy/replace。
+Copy/Cut 使用 Rust read 的 plain text。Host 仅在 session、selection、source 和 committed geometry 均为当前时发布一次性 `clipboard` payload；pending、blocked 或任何相关漂移立即撤销。
+可信浏览器 ClipboardEvent（`isTrusted`）同步向 `clipboardData` 写入该 payload，成功后才发送 host-issued authorization 的 acknowledgement；Cut 再由宿主核对当前授权并请求 Rust 删除。合成 Copy/Cut 事件既不发送 acknowledgement，也不进入 pending clipboard request。
+原生菜单的剪贴板操作使用已授权的当前文本，在用户激活 turn 内调用浏览器 clipboard API，不先异步查询几何；写失败或完成时 identity 已变均不得删除源码。
+若 Copy/Cut 紧随仍在排队的 navigation/typing，桥接器发送 `clipboardRequest` 而非丢弃请求或复用旧 payload；宿主在 FIFO 中等先前工作完成，以得到的当前 Rust selection 调用既有 native clipboard service。浏览器权限失败必须可见；外部 source/session 冲突取消请求，renderer 漂移拒绝请求，不重新绑定其他 selection。Cut 只在真实写入成功且同一 authorization 再次通过 freshness 检查后删除。
+Paste 一律正文，即使含 `>`、`@` 或引号也交 Rust 序列化，不解释成 DSL。任何跨 barrier 失败不得部分 copy/replace。
 
 外部冲突、后端失败、invalid candidate 保留未提交输入为可复制临时恢复内容，通过现有 notification/Sheet 说明原因；不跳到相似消息，不静默丢字。关闭/切换有 pending 时先等待队列或提示复制/丢弃，不把 IME 草稿写入持久 workspace。
 
@@ -355,11 +382,15 @@ Copy/Cut 使用 Rust read 的 plain text；cut 必须 clipboard 写成功后才�
 
 Input/Sheet/drag/clipboard 在 runtime quiesce/dispose 停止新工作，所有 owned subscriptions/overlay 按原 disposal graph 释放。已 apply 文本进入现有持久化、History 和 PWA；不新建存储。Export 只使用已确认 canonical revision，未提交 IME 不进入文件或 PDF。
 
-### 13. 下一轮 icon-first chat chrome（计划，未实现）
+### 13. Icon-first chat chrome 与局部上下文编辑
 
-#### 13.1 参考产品只提供交互取舍
+#### 13.1 参考产品定义聊天创作的视觉与交互层
 
-MoeTalk（<https://moetalk.xiyihan.cn>）与 U1805 Momotalk（<https://u1805.github.io/momotalk/chat>）截图确认了三项可迁移原则：对话成品应占据绝大多数视觉空间；连续新增消息需要固定、低摩擦的底部输入；常用角色应以头像快速切换，而不是反复打开大型表单。这里只采用信息层级和交互节奏，不复制其聊天 renderer、皮肤、数据模型或源码行为。
+参考 [MoeTalk](https://github.com/ggg555ttt/Moetalk)、[U1805/momotalk](https://github.com/U1805/momotalk) 与 [ClosureTalk](https://github.com/ClosureTalk/closure-talk)。采用 Momotalk 的粉色标题带、Sensei 蓝操作、圆形角色头像、柔和浅色表面和圆角聊天输入；采用 MoeTalk 的连续写作节奏、U1805 的双层输入/角色栏、ClosureTalk 的就近上下文动作。GUI 控件使用独立的聊天产品样式，不继承 Workbench 开发工具控件的外观；高级源码与设置仍使用原生编辑器能力。视觉与布局独立实现，保留当前 Typst SVG renderer、唯一 TextDocument 和 Rust 编辑权威。
+
+GUI 样式限定在自身 surface、菜单和 Sheet：标题带 `#f6b2c1`，Sensei 蓝 `#4a8ac6`，浅背景 `#edf4f8`，白色表面，正文 `#28465f`；使用系统中文字体栈。选中、禁用、焦点状态同时通过形状/轮廓与 accessible state 表达。普通 preview 与 Workbench 全局主题不随 GUI 换肤。
+
+GUI 菜单复用现有 menu coordinator 和 `IContextViewService`，以公开的原生 `ActionBar`/`ActionViewItem` 提供完整点击、键盘导航、取消与 checked/disabled 语义。GUI 的连续消息子选项展开为带分组前缀的平面条目；只读 preview 保持既有 `ContextMenuService` 菜单。两种 presentation 共用原有失效、单次结果与 disposal 生命周期。
 
 `editors/vscode-web/.tmp/ui-design/gui-panel-concept-a.webp` 与早期 `gui-wireframe-a.svg` 是被反馈否定的探索物，不是规范资产。Concept A 仍然过大、文字按钮过多，不能作为尺寸、组件或实现参考，也不能据其生成新的聊天 renderer。
 
@@ -367,15 +398,15 @@ MoeTalk（<https://moetalk.xiyihan.cn>）与 U1805 Momotalk（<https://u1805.git
 
 桌面从上到下固定为三个区：
 
-1. **纤细顶栏**：只保留文档名/保存或同步状态等短状态，以及 undo、redo、export、more 的图标组。动作按语义分组并留出间距，不使用一排大型说明文字按钮；低频和陌生动作放入带文字的菜单。
+1. **纤细顶栏**：只保留文档名/保存或同步状态等短状态，以及 undo、redo、save、export、more 的图标组。动作按语义分组，不使用一排大型说明文字按钮；低频和陌生动作放入带文字的菜单。响应式布局依据实际 native pane 宽度，极窄时去除横向 padding/gap，保留完整的 44px 操作目标。
 2. **主 SVG 画布**：占据剩余空间并继续是既有消息的最终排版、点击和编辑表面。没有永久角色侧栏、永久属性 inspector、逐条复选框或常驻排列工具条。
-3. **紧凑底部 Composer**：第一行显示当前角色头像、默认单行且随内容增长的输入框、image 图标和 send 图标；其下是紧凑分组工具与水平角色头像 tray。Image 的最终命令语义只能复用届时已有的授权资源能力，未验证前不能扩展 DSL 或伪造本地消息。
+3. **紧凑底部 Composer**：第一行显示当前角色头像、默认单行且随内容增长的圆角输入框和 send 图标；其下是水平角色头像 tray、Teacher 与按需角色库入口。只有真实可执行的动作进入工具组；Image 的最终命令语义只能复用届时已有的授权资源能力，未验证前不能扩展 DSL、放置无效按钮或伪造本地消息。
 
 #### 13.3 移动布局
 
-移动端保留同样的三个区域和操作语义，不降级成另一套卡片 UI。顶栏可压缩分组，SVG 仍是唯一主画布滚动 owner；底部 Composer 留出 safe-area，并随 `visualViewport` 和软键盘保持输入、发送与当前 caret 可达。320 CSS px、至少 44 CSS px 的主要触控目标、无外层横向滚动和既有触控选区合同继续成立。
+移动端保留同样的三个区域和操作语义，不降级成另一套卡片 UI。进入、恢复 compact GUI 或从桌面跨入 ≤550px 时，通过既有原生 visibility 操作收起主/辅助导航栏，避免 Workbench 的最小宽度把 GUI 推出视口；普通 layout 刷新不反复收起用户显式重开的视图。保留原生 ViewsService/SplitView 拓扑、桌面/源码入口和视图开关，不新增布局 owner 或偏好存储。顶栏按实际 pane 宽度排列；SVG 仍是唯一主画布滚动 owner；底部 Composer 留出 safe-area，并随 `visualViewport` 保持输入、发送与当前 caret 可达。320 CSS px、至少 44 CSS px 的主要触控目标、无外层横向滚动和既有触控选区合同继续成立。
 
-移动键盘的真实设备细节、精确图标顺序、tray 在极窄宽度下的折叠/滚动微规则仍须原型和实机验证；这些开放项不能被某张探索图提前定案，也不能改变唯一 source 或 Rust 授权边界。
+短视口进一步压缩为单行 44px 顶栏，收起重复的角色 tray、文档摘要和快捷操作，保留当前角色/角色库、Teacher、输入与发送；低频操作仍可从既有上下文菜单访问。空 draft 不因 placeholder 换行而撑高输入区，剩余空间继续分配给可见 SVG，而不是让工具栏耗尽画布。图标顺序、窄幅 tray 横向滚动和 320×360 键盘高度模拟已在实际浏览器中验证；真实手机软键盘、OS IME 和屏幕阅读器仍需对应设备资格验证。
 
 #### 13.4 新消息与已有消息是两条明确流程
 
@@ -385,21 +416,23 @@ MoeTalk（<https://moetalk.xiyihan.cn>）与 U1805 Momotalk（<https://u1805.git
 
 #### 13.5 角色 tray 由使用行为自动维护
 
-角色 tray 不是用户维护的“收藏夹”。当前 runtime presentation scope 中被选中的角色会自动进入 tray，包括只选择、尚未发送消息的角色；新增条目不得重排已有角色，确保位置稳定。Teacher/Sensei 的独立 quick-switch affordance 是已确认产品原则；完整角色库通过按需 Picker/Sheet 打开，不常驻占用画布侧边。当前结构 wire 不把 Builtin speaker 放入 picker，因此 quick switch 的提交映射必须在实施前通过 Rust server capability 明确解决，不能由客户端拼出 `__Sensei`、伪造 actor reference，或用一个无法发送的视觉按钮冒充完成。
+角色 tray 不是用户维护的“收藏夹”。当前 runtime presentation scope 中被选中的角色会自动进入 tray，包括只选择、尚未发送消息的角色；新增条目不得重排已有角色，确保位置稳定。Teacher/Sensei 提供独立 quick-switch affordance；只有 Rust boundary capability 明确允许的 builtin side 才能提交。完整角色库通过按需 Picker/Sheet 打开，不常驻占用画布侧边；客户端不得拼出 `__Sensei`、伪造 actor reference 或在能力不足时默默换成另一位角色。
 
-Tray 只保存角色选择的 presentation state，不改变 `scriptActorChoices`/Pack catalog，也不授予 speaker mutation。角色在最新 catalog 中失效时按既有 `speakerUnavailable`/Pack 漂移规则处理；UI 不保留一个可绕过 Rust 的旧 reference。跨 reload 是否恢复未发送 draft/角色 tray、恢复多长时间以及使用哪个既有 storage owner 属于待验证策略，不在此轮文档中暗示已实现或另建存储。
+Tray 只保存角色选择的 presentation state，不改变 `scriptActorChoices`/Pack catalog，也不授予 speaker mutation。角色在最新 catalog 中失效时按既有 `speakerUnavailable`/Pack 漂移规则处理；UI 不保留一个可绕过 Rust 的旧 reference。本轮不持久化跨 reload 的 tray 或 draft，临时文本的丢失风险按下节的既有 recovery 合同处理。
 
 #### 13.6 Source、draft、history 与导出不变量
 
 `.mmt` TextDocument 始终是唯一 canonical authored state。底部 draft 是可丢弃/可恢复的 transient presentation state，不是第二份 canonical document、client AST、隐藏 projection node 或 preview 输入。它必须在用户编辑已有 SVG 内容时保持不变，但在发送成功前不得进入 save、Local History、native undo/redo、render 或 export；发送成功后产生的普通 TextDocument edit 才由这些既有 owner 观察。GUI/source 切换和已有正文编辑继续共享同一 native model 与 undo 栈。
 
-URI-only editor serializer 仍不得持久化 draft。Draft 在关闭、reload、冲突和安全更新中的最终保留政策尚未由用户确认；实施前必须在“不静默丢失”和“不建立第二 canonical source”之间给出可验证方案，并与既有未提交输入 recovery 合同一致。
+URI-only editor serializer 不持久化 draft。同 URI 的 GUI/source 切换通过既有 composition owner 的临时 presentation state 保留 draft/角色；
+关闭、切换文档或 reload 若会丢失文本，复用既有 copy/discard/cancel recovery 或浏览器 unload protection。
+不另建 IndexedDB、localStorage 或 GUI 专用持久化协议，未发送文本不混入 canonical source。
 
 #### 13.7 可访问性与未决细节
 
 所有纯图标按钮必须有稳定 accessible name；桌面提供 tooltip；触控目标满足现有尺寸要求。图标不能只靠颜色或位置表达 disabled/selected 状态。陌生、破坏性或低频动作可以且应该在菜单/Sheet 中显示文字；icon-first 不等于 icon-only everywhere。
 
-已确认原则是 SVG 主画布、紧凑顶/底 chrome、底部连续新增、上下文编辑、自动角色 tray、独立 bulk arrange mode 和唯一 source。尚未确认的是移动软键盘实机行为、精确图标顺序、tray 的窄屏微布局以及未发送 draft 的跨生命周期持久策略；实现和验收必须把这些列为开放决策，不能自行补成产品功能。
+已确认原则是 SVG 主画布、紧凑顶/底 chrome、底部连续新增、上下文编辑、自动角色 tray、独立 bulk arrange mode 和唯一 source。窄屏布局、菜单和 draft recovery 通过实际浏览器验收；真实移动软键盘与物理 OS IME 的可用性必须单独报告。
 
 ## Failure Mapping
 

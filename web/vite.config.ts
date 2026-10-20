@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,8 +11,8 @@ export default defineConfig({
   server: {
     fs: {
       allow: [
-        "/home/xiyihan/MomoScript/web",
-        "/home/xiyihan/MomoScript/typst_sandbox",
+        fileURLToPath(new URL(".", import.meta.url)),
+        fileURLToPath(new URL("../typst_sandbox", import.meta.url)),
       ],
     },
     allowedHosts: ["test.xiyihan.cn"],

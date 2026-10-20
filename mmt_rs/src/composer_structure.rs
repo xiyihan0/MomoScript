@@ -3,11 +3,12 @@
 use crate::composer::{
     ComposerFailure, ComposerSourceEdit, ComposerSpeakerDescription, ContinuedValue,
     StatementTextMode, analysis_has_errors, apply_source_edit, serialize_statement_body,
+    statement_body_value_with_eol,
 };
 use crate::composer_document::{
     ComposerBoundaryTarget, ComposerDocumentNode, ComposerDocumentNodeKind,
-    ComposerDocumentProjection, ComposerMessageSide, ComposerNodeRef,
-    project_analyzed_composer_document,
+    ComposerDocumentProjection, ComposerMessageSide, ComposerNodeRef, eof_insert_separator,
+    project_analyzed_composer_document, replaceable_source_node,
 };
 use crate::pack::PackRegistry;
 use crate::pipeline::{AnalyzedDocument, analyze_text, analyze_text_with_pack};
@@ -31,6 +32,12 @@ impl ComposerSpeakerChoice {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ComposerNewStatementSpeaker {
+    Actor { reference: String },
+    Builtin,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ComposerStatementBodyInput {
     pub value: String,
     pub mode: StatementTextMode,
@@ -40,7 +47,7 @@ pub struct ComposerStatementBodyInput {
 pub enum ComposerNewStatement {
     Message {
         side: ComposerMessageSide,
-        speaker: ComposerSpeakerChoice,
+        speaker: ComposerNewStatementSpeaker,
         body: ComposerStatementBodyInput,
         continued: ContinuedValue,
     },
@@ -61,6 +68,7 @@ pub enum ComposerStructureCommand {
     DeleteNode,
     MoveNode { anchor: ComposerBoundaryTarget },
     SetStatementSpeaker { speaker: ComposerSpeakerChoice },
+    ReplaceNodeSource { source: String },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -162,19 +170,18 @@ fn command_speakers_available(
     catalog: &impl CharacterPresetCatalog,
     command: &ComposerStructureCommand,
 ) -> bool {
-    let choice = match command {
+    let reference = match command {
         ComposerStructureCommand::InsertStatement {
-            statement: ComposerNewStatement::Message { speaker, .. },
-        }
-        | ComposerStructureCommand::SetStatementSpeaker { speaker } => Some(speaker),
-        ComposerStructureCommand::InsertStatement {
-            statement: ComposerNewStatement::Narration { .. },
-        }
-        | ComposerStructureCommand::DeleteNode
-        | ComposerStructureCommand::MoveNode { .. } => None,
+            statement:
+                ComposerNewStatement::Message {
+                    speaker: ComposerNewStatementSpeaker::Actor { reference },
+                    ..
+                },
+        } => Some(reference.as_str()),
+        ComposerStructureCommand::SetStatementSpeaker { speaker } => Some(speaker.reference()),
+        _ => None,
     };
-    choice.is_none_or(|choice| {
-        let reference = choice.reference();
+    reference.is_none_or(|reference| {
         analysis.actors.actors.iter().any(|actor| {
             actor.primary_name == reference || actor.names.iter().any(|name| name == reference)
         }) || matches!(catalog.resolve(reference), PresetLookup::Found(_))
@@ -231,6 +238,14 @@ impl PreparedOperation {
                 *target_index,
                 speaker,
             ),
+            OperationProof::ReplaceSource { target_index } => prove_replace_source(
+                before_source,
+                before,
+                after_source,
+                after,
+                *target_index,
+                &self.edit,
+            ),
         }
     }
 }
@@ -251,6 +266,9 @@ enum OperationProof {
         target_index: usize,
         speaker: ComposerSpeakerChoice,
     },
+    ReplaceSource {
+        target_index: usize,
+    },
 }
 
 fn prepare_operation(
@@ -264,7 +282,7 @@ fn prepare_operation(
         (
             ComposerStructureTarget::Boundary(target),
             ComposerStructureCommand::InsertStatement { statement },
-        ) => prepare_insert(projection, target, statement),
+        ) => prepare_insert(source, projection, target, statement),
         (ComposerStructureTarget::Node(target), ComposerStructureCommand::DeleteNode) => {
             prepare_delete(projection, target)
         }
@@ -275,14 +293,21 @@ fn prepare_operation(
             ComposerStructureTarget::Node(target),
             ComposerStructureCommand::SetStatementSpeaker { speaker },
         ) => prepare_set_speaker(source, analysis, projection, target, speaker),
+        (
+            ComposerStructureTarget::Node(target),
+            ComposerStructureCommand::ReplaceNodeSource {
+                source: replacement,
+            },
+        ) => prepare_replace_source(source, analysis, projection, target, replacement),
         _ => Err(ComposerStructureFailure::UnsupportedStructure),
     }
 }
 
 fn prepare_insert(
+    source: &str,
     projection: &ComposerDocumentProjection,
     target: ComposerBoundaryTarget,
-    statement: ComposerNewStatement,
+    mut statement: ComposerNewStatement,
 ) -> Result<PreparedOperation, ComposerStructureFailure> {
     let (boundary_index, capability) = projection
         .boundaries
@@ -296,14 +321,39 @@ fn prepare_insert(
                 .map(|capability| (index, capability))
         })
         .ok_or(ComposerStructureFailure::UnsupportedStructure)?;
-    let serialized = serialize_new_statement(&statement)?;
+    if let ComposerNewStatement::Message {
+        side,
+        speaker: ComposerNewStatementSpeaker::Builtin,
+        ..
+    } = &statement
+    {
+        if !capability.builtin_message_sides.contains(side) {
+            return Err(ComposerStructureFailure::UnsupportedStructure);
+        }
+    }
+    let body = match &mut statement {
+        ComposerNewStatement::Message { body, .. } | ComposerNewStatement::Narration { body } => {
+            body
+        }
+    };
+    body.value = statement_body_value_with_eol(std::mem::take(&mut body.value), &capability.eol)
+        .map_err(map_composer_failure)?;
+    let serialized = serialize_new_statement(&statement, &capability.eol)?;
     let offset = target
         .after
         .as_ref()
         .map(|node| node.range.start)
         .or_else(|| target.before.as_ref().map(|node| node.range.end))
         .unwrap_or(0);
-    let mut new_text = String::with_capacity(serialized.len() + capability.eol.len());
+    let separator = (boundary_index == projection.nodes.len())
+        .then(|| eof_insert_separator(source))
+        .flatten();
+    let mut new_text = String::with_capacity(
+        serialized.len() + capability.eol.len() + separator.map_or(0, str::len),
+    );
+    if let Some(separator) = separator {
+        new_text.push_str(separator);
+    }
     new_text.push_str(&serialized);
     new_text.push_str(&capability.eol);
     Ok(PreparedOperation {
@@ -338,6 +388,61 @@ fn prepare_delete(
         },
         proof: OperationProof::Delete { target_index },
     })
+}
+
+fn prepare_replace_source(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    projection: &ComposerDocumentProjection,
+    target: ComposerNodeRef,
+    replacement: String,
+) -> Result<PreparedOperation, ComposerStructureFailure> {
+    let (target_index, node) = exact_node(projection, &target)?;
+    let allowed = match node {
+        ComposerDocumentNode::Message(node) => node.capabilities.replace_source,
+        ComposerDocumentNode::Narration(node) => node.capabilities.replace_source,
+        ComposerDocumentNode::Opaque(node) => node.capabilities.replace_source,
+    };
+    if !allowed {
+        return Err(ComposerStructureFailure::UnsupportedStructure);
+    }
+    if replacement.is_empty()
+        || replacement.len() > crate::composer::COMPOSER_STATEMENT_TEXT_MAX_BYTES
+        || source.get(node.range().start..node.range().end) == Some(replacement.as_str())
+    {
+        return Err(ComposerStructureFailure::InvalidValue);
+    }
+    let before_syntax = replaceable_source_node(analysis, node.range())
+        .ok_or(ComposerStructureFailure::UnsupportedStructure)?;
+    let parsed = crate::parse_text(&replacement);
+    if !parsed.diagnostics.is_empty()
+        || parsed.nodes.len() != 1
+        || !same_source_syntax_kind(before_syntax, &parsed.nodes[0])
+    {
+        return Err(ComposerStructureFailure::CandidateInvalid);
+    }
+    Ok(PreparedOperation {
+        edit: ComposerSourceEdit {
+            range: node.range(),
+            new_text: replacement,
+        },
+        proof: OperationProof::ReplaceSource { target_index },
+    })
+}
+
+fn same_source_syntax_kind(before: &SyntaxNode, after: &SyntaxNode) -> bool {
+    match (before, after) {
+        (SyntaxNode::Statement(before), SyntaxNode::Statement(after)) => before.kind == after.kind,
+        (SyntaxNode::DirectiveLine(before), SyntaxNode::DirectiveLine(after)) => {
+            before.name == after.name
+        }
+        (SyntaxNode::DirectiveBlock(before), SyntaxNode::DirectiveBlock(after)) => {
+            before.name == after.name
+        }
+        (SyntaxNode::Reply(_), SyntaxNode::Reply(_))
+        | (SyntaxNode::Bond(_), SyntaxNode::Bond(_)) => true,
+        _ => false,
+    }
 }
 
 fn prepare_move(
@@ -464,6 +569,7 @@ fn prepare_set_speaker(
 
 fn serialize_new_statement(
     statement: &ComposerNewStatement,
+    eol: &str,
 ) -> Result<String, ComposerStructureFailure> {
     match statement {
         ComposerNewStatement::Message {
@@ -472,23 +578,36 @@ fn serialize_new_statement(
             body,
             continued,
         } => {
-            let reference = validate_speaker_reference(speaker.reference())?;
-            let body =
-                serialize_statement_body(&body.value, body.mode).map_err(map_composer_failure)?;
+            let reference = match speaker {
+                ComposerNewStatementSpeaker::Actor { reference } => {
+                    validate_speaker_reference(reference)?
+                }
+                ComposerNewStatementSpeaker::Builtin => "_0",
+            };
             let sigil = match side {
                 ComposerMessageSide::Left => '>',
                 ComposerMessageSide::Right => '<',
             };
             let patch = match continued {
-                ContinuedValue::Auto => String::new(),
-                ContinuedValue::True => "(continued: true)".to_owned(),
-                ContinuedValue::False => "(continued: false)".to_owned(),
+                ContinuedValue::Auto => "",
+                ContinuedValue::True => "(continued: true)",
+                ContinuedValue::False => "(continued: false)",
             };
-            Ok(format!("{sigil}{patch} {reference}: {body}"))
+            let mut serialized =
+                String::with_capacity(reference.len() + patch.len() + body.value.len() + 32);
+            serialized.push(sigil);
+            serialized.push_str(patch);
+            serialized.push(' ');
+            serialized.push_str(reference);
+            serialized.push_str(": ");
+            let body = serialize_statement_body(&body.value, body.mode, eol, None, &serialized)
+                .map_err(map_composer_failure)?;
+            serialized.push_str(&body);
+            Ok(serialized)
         }
         ComposerNewStatement::Narration { body } => {
-            let body =
-                serialize_statement_body(&body.value, body.mode).map_err(map_composer_failure)?;
+            let body = serialize_statement_body(&body.value, body.mode, eol, None, "- ")
+                .map_err(map_composer_failure)?;
             Ok(format!("- {body}"))
         }
     }
@@ -564,12 +683,31 @@ fn prove_insert(
     if after.nodes.len() != before.nodes.len() + 1 || boundary_index >= after.nodes.len() {
         return false;
     }
+    let separator = (boundary_index == before.nodes.len())
+        .then(|| eof_insert_separator(before_source))
+        .flatten();
     for index in 0..before.nodes.len() {
         let after_index = if index < boundary_index {
             index
         } else {
             index + 1
         };
+        if index + 1 == before.nodes.len() {
+            if let Some(separator) = separator {
+                let left = &before.nodes[index];
+                let right = &after.nodes[after_index];
+                if right.range().start != left.range().start
+                    || right.range().end != left.range().end + separator.len()
+                    || before_source.get(left.range().start..left.range().end)
+                        != after_source.get(right.range().start..left.range().end)
+                    || after_source.get(left.range().end..right.range().end) != Some(separator)
+                    || !same_node_semantics(left, right)
+                {
+                    return false;
+                }
+                continue;
+            }
+        }
         if !same_node_exact_and_semantic(
             before_source,
             &before.nodes[index],
@@ -605,6 +743,41 @@ fn prove_delete(
                 after_source,
                 &after.nodes[after_index],
             )
+        })
+}
+
+fn prove_replace_source(
+    before_source: &str,
+    before: &ComposerDocumentProjection,
+    after_source: &str,
+    after: &ComposerDocumentProjection,
+    target_index: usize,
+    edit: &ComposerSourceEdit,
+) -> bool {
+    if before.nodes.len() != after.nodes.len()
+        || target_index >= after.nodes.len()
+        || after.nodes[target_index].range()
+            != TextRange::new(edit.range.start, edit.range.start + edit.new_text.len())
+    {
+        return false;
+    }
+    before
+        .nodes
+        .iter()
+        .zip(&after.nodes)
+        .enumerate()
+        .all(|(index, (left, right))| {
+            if index == target_index {
+                left.kind() == right.kind()
+            } else {
+                let expected_start = if index < target_index {
+                    left.range().start
+                } else {
+                    left.range().start - edit.range.len() + edit.new_text.len()
+                };
+                right.range().start == expected_start
+                    && same_node_exact_and_semantic(before_source, left, after_source, right)
+            }
         })
 }
 
@@ -694,7 +867,15 @@ fn inserted_node_matches(node: &ComposerDocumentNode, requested: &ComposerNewSta
                 && node.description.body.current == body.value
                 && node.description.body.mode == body.mode
                 && node.description.continued == Some(*continued)
-                && speaker_matches(node.description.speaker.as_ref(), speaker)
+                && match speaker {
+                    ComposerNewStatementSpeaker::Actor { reference } => {
+                        actor_speaker_matches(node.description.speaker.as_ref(), reference)
+                    }
+                    ComposerNewStatementSpeaker::Builtin => matches!(
+                        node.description.speaker.as_ref(),
+                        Some(ComposerSpeakerDescription::Builtin { id }) if id == "__Sensei"
+                    ),
+                }
         }
         (ComposerDocumentNode::Narration(node), ComposerNewStatement::Narration { body }) => {
             node.description.body.current == body.value && node.description.body.mode == body.mode
@@ -707,6 +888,10 @@ fn speaker_matches(
     speaker: Option<&ComposerSpeakerDescription>,
     requested: &ComposerSpeakerChoice,
 ) -> bool {
+    actor_speaker_matches(speaker, requested.reference())
+}
+
+fn actor_speaker_matches(speaker: Option<&ComposerSpeakerDescription>, requested: &str) -> bool {
     let Some(ComposerSpeakerDescription::Actor {
         reference,
         preset_id,
@@ -715,7 +900,7 @@ fn speaker_matches(
     else {
         return false;
     };
-    requested.reference() == reference || requested.reference() == preset_id
+    requested == reference || requested == preset_id
 }
 
 pub(crate) fn same_node_exact_and_semantic(

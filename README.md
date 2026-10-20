@@ -43,6 +43,8 @@ MomoScript（MMT）是一套面向 Momotalk / MoeTalk 风格视觉叙事的领�
 - Typst 0.15（原生最终编译）
 - 可选：`avifdec`，用于原生 AVIFS 帧物化
 
+仓库不依赖固定的本机目录；旧版 `web/` 的 Vite 文件访问白名单也从配置文件位置解析。迁移目录时保留 `.git`、本地资源包和固定运行时制品，使用 `git worktree repair` 修复关联工作树，并在新位置重建 `.venv`、运行 `npm ci` 后重新验证构建。
+
 ## 快速开始
 
 ### 启动 Web 编辑器
@@ -197,6 +199,8 @@ Netlify 配置位于仓库根目录 `netlify.toml`，构建目标为 `editors/vs
 npx netlify deploy --build
 npx netlify deploy --build --prod
 ```
+
+保留 `netlify.toml` 中的 `pretty_urls = false`：原生 Webview 使用带大小写 hash 的 `.html` 资源路径和查询参数。Pretty URLs 会将其 301 重定向到小写无扩展名路径，导致受 PWA 控制的画布导航失败；部署后应确认原始 Webview URL 直接返回 200，并实际打开 GUI 检查 SVG。
 
 生产 Web 编辑器默认从 HTTPS pack-v3 manifest 获取资源，不依赖旧版 `VITE_MMT_*` 环境变量。
 

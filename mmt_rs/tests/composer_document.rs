@@ -117,14 +117,14 @@ fn statement_bodies_and_separator_blanks_follow_parser_boundaries() {
         (
             "> 角色: first\ncontinued body\n\n\n@reply: A | B",
             "first\ncontinued body",
-            false,
+            true,
             vec!["\n", "\n"],
         ),
-        ("> 角色:\r\n\r\n@reply: A | B", "", false, vec!["\r\n"]),
+        ("> 角色:\r\n\r\n@reply: A | B", "", true, vec!["\r\n"]),
         (
             "> 角色: first\ncontinued body\n  \n\t\r\n@reply: A | B",
             "first\ncontinued body",
-            false,
+            true,
             vec!["  \n", "\t\r\n"],
         ),
         (
@@ -297,15 +297,19 @@ fn canonical_source_digest_has_a_fixed_cross_language_fixture() {
 }
 
 #[test]
-fn multiline_statement_keeps_read_only_body_when_edit_capability_is_absent() {
+fn multiline_statement_exposes_whole_body_and_source_lens_capabilities() {
     let source = "> 角色: first\ncontinued body";
     let projection = project_composer_document(source, &catalog()).unwrap();
     let ComposerDocumentNode::Message(message) = &projection.nodes[0] else {
         panic!("multiline statement must remain a Message");
     };
     assert_eq!(message.description.body.current, "first\ncontinued body");
-    assert!(message.description.statement_text.is_none());
-    assert!(!message.capabilities.set_body);
+    assert_eq!(
+        message.description.statement_text.as_ref().unwrap().current,
+        "first\ncontinued body"
+    );
+    assert!(message.capabilities.set_body);
+    assert!(message.capabilities.replace_source);
     assert_eq!(
         message.text_editing.as_ref().unwrap().text,
         "first\ncontinued body"
@@ -341,11 +345,11 @@ fn valid_projection_exposes_product_descriptions_and_direct_boundaries() {
     assert!(message.capabilities.move_down.is_some());
     assert!(projection.boundaries[0].insert.is_some());
     assert!(projection.boundaries[1].insert.is_some());
-    assert!(projection.boundaries[2].insert.is_none());
+    assert_eq!(projection.boundaries[2].insert.as_ref().unwrap().eol, "\n");
 }
 
 #[test]
-fn text_editing_is_reversible_lf_normalized_and_separate_from_property_commands() {
+fn text_editing_preserves_semantic_lf_for_empty_and_multiline_bodies() {
     for (source, expected) in [
         ("- \"\"\"\n\"\"\"", ""),
         (
@@ -358,10 +362,7 @@ fn text_editing_is_reversible_lf_normalized_and_separate_from_property_commands(
         let projection = project_composer_document(source, &catalog()).unwrap();
         let first = &projection.nodes[0];
         assert_eq!(first.text_editing().unwrap().text, expected);
-        let ComposerDocumentNode::Narration(node) = first else {
-            panic!("expected narration");
-        };
-        assert!(!node.capabilities.set_body);
+        assert!(matches!(first, ComposerDocumentNode::Narration(_)));
     }
 }
 
@@ -380,4 +381,69 @@ fn nonreversible_macro_and_typst_bodies_never_advertise_text_editing() {
     assert!(projection.nodes[0].text_editing().is_none());
     let raw = project_composer_document("- rt\"\"\"[:literal:]\"\"\"", &catalog()).unwrap();
     assert_eq!(raw.nodes[0].text_editing().unwrap().text, "[:literal:]");
+}
+
+#[test]
+fn source_lens_capability_distinguishes_content_from_metadata_and_blank_partitions() {
+    let source = concat!(
+        "@mode: text\n",
+        "\n",
+        "@typ\n#strong[advanced]\n@end\n",
+        "@reply: A | B\n",
+        "@bond: bond\n",
+        "- body\n",
+    );
+    let projection = project_composer_document(source, &catalog()).unwrap();
+    assert!(!projection.has_errors);
+    for (index, expected) in [false, false, true, true, true, true]
+        .into_iter()
+        .enumerate()
+    {
+        let allowed = match &projection.nodes[index] {
+            ComposerDocumentNode::Message(node) => node.capabilities.replace_source,
+            ComposerDocumentNode::Narration(node) => node.capabilities.replace_source,
+            ComposerDocumentNode::Opaque(node) => node.capabilities.replace_source,
+        };
+        assert_eq!(allowed, expected, "node {index}");
+    }
+    let broken = project_composer_document("@typ\n#strong[unclosed\n@end\n", &catalog()).unwrap();
+    assert!(broken.has_errors);
+    assert!(
+        matches!(&broken.nodes[0], ComposerDocumentNode::Opaque(node) if !node.capabilities.replace_source)
+    );
+}
+
+#[test]
+fn complete_unterminated_eof_advertises_parser_owned_local_eol_insertion() {
+    for (source, eol) in [
+        ("- old", "\n"),
+        ("- before\r\n- old", "\r\n"),
+        ("- before\r\n- middle\n- old", "\n"),
+        ("- rt\"\"\"\r\nold\"\"\"", "\r\n"),
+        ("@typ\n#strong[old]\n@end", "\n"),
+        (" \t", "\n"),
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        let boundary = projection.boundaries.last().unwrap();
+        let insert = boundary
+            .insert
+            .as_ref()
+            .expect("complete EOF must allow append");
+        assert_eq!(insert.eol, eol);
+        assert_eq!(insert.boundary, boundary.target);
+        assert_eq!(
+            boundary.target.before,
+            projection.nodes.last().map(ComposerDocumentNode::node_ref)
+        );
+        assert!(boundary.target.after.is_none());
+    }
+    for source in [
+        "\u{feff}",
+        "- old\r",
+        "- \"\"\"\nunclosed",
+        "@typ\n#strong[old]",
+    ] {
+        let projection = project_composer_document(source, &catalog()).unwrap();
+        assert!(projection.boundaries.last().unwrap().insert.is_none());
+    }
 }

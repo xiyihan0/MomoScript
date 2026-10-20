@@ -112,6 +112,14 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 - THEN 该 student 默认映射为一个独立 entity id
 - AND 不同 skin 的 student 记录通过 Entity Catalog `related_entities` 关联，而不是隐式合并或写入主 manifest
 
+#### Scenario: Missing upstream avatar does not create a dangling image
+
+- GIVEN a Kivo student detail has no avatar URL
+- WHEN the builder emits that entity
+- THEN it SHALL preserve the entity's available metadata without inventing an avatar file reference
+- AND it SHALL omit the avatar slot unless an actual source image is available
+
+
 #### Scenario: entity id 和 deterministic names 使用不同命名规则
 
 - GIVEN Kivo Wiki student detail 提供国服翻译
@@ -143,6 +151,28 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 - WHEN 构建器写出 build report
 - THEN it MUST list the conflicting name and all owning entity ids
 - AND MUST NOT silently select one entity as the winner
+
+#### Scenario: Physical sequence reordering preserves logical variants
+
+- GIVEN the Kivo builder is invoked with `--avif-frame-order nearest`
+- WHEN it encodes a sticker set
+- THEN it SHALL downsample the padded inputs to 48×48 RGBA and choose a deterministic greedy nearest-neighbor path using L1 distance
+- AND the first logical variant SHALL remain physical frame zero, with ties resolved by original logical index
+- AND variant ids, ordinals, handles, default selection and thumbnail associations SHALL remain unchanged
+- AND each variant `frame` SHALL be the inverse permutation of the actual encoder input order
+- AND the encode report SHALL record the physical-to-logical permutation and actual encoding profile
+- AND resumed encoding SHALL NOT reuse a blob whose physical ordering or encoding profile cannot be established
+
+#### Scenario: Automatic GOP records the actual per-set interval
+
+- GIVEN the builder is invoked with `--avif-keyframe auto`
+- WHEN a sticker set with N encodable variants is encoded
+- THEN its keyframe interval SHALL be `max(1, N)`
+- AND its storage profile SHALL record that actual numeric interval
+- AND numeric `--avif-keyframe` values SHALL retain their existing meaning
+- AND builds without explicit frame-order or keyframe options SHALL use nearest-neighbor reordering and the automatic per-set interval
+- AND explicit `--avif-frame-order source` and numeric `--avif-keyframe` options SHALL remain available for controlled comparisons and latency-sensitive builds
+
 
 #### Scenario: 主 manifest 不输出 entity meta
 

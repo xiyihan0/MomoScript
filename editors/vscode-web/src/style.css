@@ -60,6 +60,22 @@ body {
   background: var(--vscode-editor-background);
 }
 
+.mmt-composer-surface,
+.mmt-chat-chrome,
+.mmt-chat-menu {
+  --mmt-chat-font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mmt-chat-header: #f6b2c1;
+  --mmt-chat-background: #edf4f8;
+  --mmt-chat-surface: #ffffff;
+  --mmt-chat-text: #28465f;
+  --mmt-chat-muted: #60788b;
+  --mmt-chat-accent: #4a8ac6;
+  --mmt-chat-accent-hover: #3675b0;
+  --mmt-chat-border: #d8e5ee;
+  --mmt-chat-selection: #e4f1fb;
+  color-scheme: light;
+}
+
 .mmt-composer-surface {
   position: relative;
   display: flex;
@@ -69,30 +85,60 @@ body {
   height: 100%;
   min-width: 0;
   min-height: 0;
+  container-name: mmt-composer;
+  container-type: inline-size;
   overflow: hidden;
-  color: var(--vscode-foreground);
-  background: var(--vscode-editor-background);
-  font-family: var(--vscode-font-family);
-  font-size: var(--vscode-font-size);
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-background);
+  font: 14px/1.45 var(--mmt-chat-font);
 }
 
 .mmt-composer-toolbar {
   display: flex;
   flex: 0 0 auto;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   box-sizing: border-box;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--vscode-editorWidget-border);
+  padding: 5px 14px;
+  border-bottom: 1px solid #e8a5b4;
+  background: var(--mmt-chat-header);
+}
+
+.mmt-composer-document-identity {
+  display: grid;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 1px;
+}
+
+.mmt-composer-document-title {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mmt-composer-save-state {
+  color: var(--mmt-chat-text);
+  font-size: 11px;
+  line-height: 15px;
+  white-space: nowrap;
 }
 
 .mmt-composer-toolbar-actions,
-.mmt-composer-structure-actions {
+.mmt-composer-context-actions {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  flex-wrap: nowrap;
   gap: 6px;
+}
+
+.mmt-composer-toolbar-actions {
+  flex: 0 0 auto;
 }
 
 .mmt-composer-surface button,
@@ -103,35 +149,100 @@ body {
   min-width: 0;
   max-width: 100%;
   min-height: 44px;
-  color: var(--vscode-input-foreground);
-  background: var(--vscode-input-background);
-  border: 1px solid var(--vscode-input-border, transparent);
-  border-radius: 4px;
+  border: 1px solid var(--mmt-chat-border);
+  border-radius: 14px;
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-surface);
   font: inherit;
 }
 
 .mmt-composer-surface button {
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 13px;
+  font-weight: 650;
   cursor: pointer;
 }
 
-.mmt-composer-surface button:hover {
-  background: var(--vscode-toolbar-hoverBackground);
+.mmt-composer-surface button:hover:not(:disabled) {
+  border-color: var(--mmt-chat-accent);
+  background: var(--mmt-chat-selection);
+}
+
+.mmt-composer-surface :is(button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--mmt-chat-accent);
+  outline-offset: 2px;
 }
 
 .mmt-composer-surface button[data-kind="primary"] {
-  color: var(--vscode-button-foreground);
-  background: var(--vscode-button-background);
+  border-color: transparent;
+  color: #ffffff;
+  background: var(--mmt-chat-accent);
+}
+
+.mmt-composer-surface button[data-kind="primary"]:hover:not(:disabled) {
+  background: var(--mmt-chat-accent-hover);
 }
 
 .mmt-composer-surface button:disabled {
   cursor: default;
-  opacity: .55;
+  opacity: .46;
+}
+
+.mmt-composer-surface svg {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mmt-composer-surface .mmt-composer-icon-action {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--mmt-chat-text);
+  background: #ffffff70;
+}
+
+.mmt-composer-surface .mmt-composer-icon-action:hover:not(:disabled) {
+  background: var(--mmt-chat-surface);
+}
+
+.mmt-composer-surface .mmt-composer-icon-action[data-kind="primary"] {
+  isolation: isolate;
+  color: #ffffff;
+  background: transparent;
+}
+
+.mmt-composer-icon-action[data-kind="primary"]::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px 1px;
+  border-radius: 10px;
+  background: var(--mmt-chat-accent);
+  content: "";
+  transform: skewX(-8deg);
+}
+
+.mmt-composer-icon-action[data-kind="primary"]:hover:not(:disabled)::before {
+  background: var(--mmt-chat-accent-hover);
 }
 
 .mmt-composer-content {
   display: grid;
-  grid-template: minmax(0, 1fr) / minmax(0, 1fr) minmax(200px, 28%);
+  grid-template: minmax(0, 1fr) auto / minmax(0, 1fr);
   flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
@@ -163,71 +274,292 @@ body {
 }
 
 .mmt-composer-typeset[hidden],
-.mmt-composer-inactive[hidden] {
+.mmt-composer-inactive[hidden],
+.mmt-composer-context-actions[hidden],
+.mmt-composer-draft-status[hidden],
+.mmt-composer-sheet[hidden] {
   display: none;
 }
 
-.mmt-composer-inspector {
-  grid-area: 1 / 2;
+.mmt-composer-context-actions {
+  grid-area: 2 / 1;
   min-width: 0;
-  box-sizing: border-box;
-  padding: 12px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  border-left: 1px solid var(--vscode-editorWidget-border);
+  padding: 5px 12px;
+  overflow-x: auto;
+  border-top: 1px solid var(--mmt-chat-border);
+  background: var(--mmt-chat-surface);
+  scrollbar-width: thin;
 }
 
-.mmt-composer-inspector > label {
-  display: grid;
-  width: 100%;
+.mmt-composer-context-actions button {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 24px;
+  background: var(--mmt-chat-selection);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.mmt-composer-context-actions label {
+  display: flex;
+  flex: 0 0 min(240px, 72vw);
+  align-items: center;
   min-width: 0;
   gap: 6px;
-  margin-block-end: 12px;
 }
 
-.mmt-composer-inspector select {
+.mmt-composer-context-actions label span {
+  white-space: nowrap;
+}
+
+.mmt-composer-context-actions select {
   width: 100%;
 }
 
-.mmt-composer-structure-actions {
-  margin-block-end: 12px;
+.mmt-composer-selected-label {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 220px;
+  overflow: hidden;
+  color: var(--mmt-chat-muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.mmt-composer-inspector h2 {
-  margin-block: 0 12px;
-  font-size: 1rem;
+.mmt-composer-bottom {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding: 10px max(12px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  border-top: 1px solid var(--mmt-chat-border);
+  background: var(--mmt-chat-surface);
+  box-shadow: 0 -3px 12px #28465f08;
+}
+
+.mmt-composer-draft-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+}
+
+.mmt-composer-surface .mmt-composer-current-role {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.mmt-composer-current-role .mmt-composer-avatar {
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 0 0 2px var(--mmt-chat-accent);
+}
+
+.mmt-composer-surface .mmt-composer-draft {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 48px;
+  max-height: 128px;
+  padding: 11px 14px;
+  resize: none;
+  border: 2px solid var(--mmt-chat-border);
+  border-radius: 20px;
+  background: var(--mmt-chat-surface);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.mmt-composer-surface input::placeholder,
+.mmt-composer-surface textarea::placeholder,
+.mmt-chat-chrome input::placeholder,
+.mmt-chat-chrome textarea::placeholder {
+  color: var(--mmt-chat-muted) !important;
+  opacity: 1 !important;
+}
+
+.mmt-composer-draft:focus {
+  border-color: var(--mmt-chat-accent);
+}
+
+.mmt-composer-surface .mmt-composer-send[data-kind="primary"] {
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 auto;
+  align-self: end;
+  min-width: 56px;
+  height: 48px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 16px;
+  color: #ffffff;
+  background: transparent;
+}
+
+.mmt-composer-send > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.mmt-composer-send::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 3px;
+  border-radius: 15px;
+  background: var(--mmt-chat-accent);
+  content: "";
+  transform: skewX(-8deg);
+}
+
+.mmt-composer-surface .mmt-composer-send[data-kind="primary"]:hover:not(:disabled) {
+  background: transparent;
+}
+
+.mmt-composer-send:hover:not(:disabled)::before {
+  background: var(--mmt-chat-accent-hover);
+}
+
+.mmt-composer-role-tray {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  min-width: 0;
+  gap: 7px;
+  margin-block-start: 8px;
+  padding: 2px 1px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+.mmt-composer-surface .mmt-composer-role-chip {
+  flex: 0 0 auto;
+  min-height: 46px;
+  gap: 7px;
+  padding: 4px 12px 4px 5px;
+  border: 1px solid transparent;
+  border-radius: 28px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.mmt-composer-surface .mmt-composer-role-chip[aria-pressed="true"] {
+  border-color: var(--mmt-chat-accent);
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-selection);
+}
+
+.mmt-composer-surface .mmt-composer-role-library {
+  border: 1px dashed var(--mmt-chat-border);
+  background: var(--mmt-chat-background);
+}
+
+.mmt-composer-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 50%;
+  color: var(--mmt-chat-accent);
+  background: var(--mmt-chat-selection);
+}
+
+.mmt-composer-avatar[data-kind="teacher"] {
+  color: var(--mmt-chat-text);
+  background: #dcebf8;
+}
+
+.mmt-composer-avatar > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--mmt-chat-surface);
+  object-fit: cover;
+}
+
+.mmt-composer-draft-status {
+  display: block;
+  margin-block-start: 5px;
+  color: var(--mmt-chat-muted);
+  font-size: 12px;
+}
+
+.mmt-composer-speaker-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 8px;
+  max-height: min(360px, 52vh);
+  overflow-y: auto;
+}
+
+.mmt-composer-surface .mmt-composer-library-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 48px minmax(18px, auto);
+  align-content: start;
+  justify-items: center;
+  min-width: 0;
+  min-height: 88px;
+  height: auto;
+  max-height: none;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 18px;
+  font-size: 12px;
+}
+
+.mmt-composer-library-card .mmt-composer-avatar {
+  width: 48px;
+  height: 48px;
+}
+
+.mmt-composer-library-card > span:last-child {
+  width: 100%;
+  min-width: 0;
+  min-height: 18px;
+  line-height: 18px;
+  white-space: normal;
   overflow-wrap: anywhere;
+  text-align: center;
 }
 
-.mmt-composer-inspector > button {
-  width: 100%;
-  margin-block-end: 8px;
+.mmt-composer-library-card[aria-pressed="true"] {
+  border-color: var(--mmt-chat-accent);
+  background: var(--mmt-chat-selection);
 }
-
 
 .mmt-composer-status {
-  color: var(--vscode-descriptionForeground);
+  color: var(--mmt-chat-muted);
   overflow-wrap: anywhere;
 }
 
 .mmt-composer-sheet {
-  box-sizing: border-box;
   position: absolute;
   z-index: 20;
   inset: 0;
   display: grid;
   place-items: center;
+  box-sizing: border-box;
   padding:
     max(16px, env(safe-area-inset-top))
     max(16px, env(safe-area-inset-right))
     max(16px, env(safe-area-inset-bottom))
     max(16px, env(safe-area-inset-left));
-  background: color-mix(in srgb, var(--vscode-editor-background) 55%, transparent);
-}
-
-.mmt-composer-sheet[hidden] {
-  display: none;
+  background: #28465f30;
 }
 
 .mmt-composer-sheet-panel {
@@ -236,12 +568,19 @@ body {
   min-width: 0;
   min-height: 0;
   max-height: min(720px, 100%, calc(var(--mmt-composer-viewport-height, 100vh) - 32px));
+  padding: 22px;
   overflow-y: auto;
-  padding: 16px;
-  border: 1px solid var(--vscode-editorWidget-border);
-  border-radius: 10px;
-  background: var(--vscode-editorWidget-background);
-  box-shadow: 0 10px 36px var(--vscode-widget-shadow);
+  border: 1px solid var(--mmt-chat-border);
+  border-radius: 22px;
+  background: var(--mmt-chat-surface);
+  box-shadow: 0 14px 40px #28465f30;
+}
+
+.mmt-composer-sheet-panel h2 {
+  margin: 0 0 16px;
+  color: var(--mmt-chat-text);
+  font-size: 19px;
+  font-weight: 750;
 }
 
 .mmt-composer-sheet-panel form,
@@ -252,8 +591,14 @@ body {
 }
 
 .mmt-composer-sheet-panel form {
-  gap: 12px;
+  gap: 14px;
   margin-block: 12px;
+}
+
+.mmt-composer-sheet-panel label > span {
+  color: var(--mmt-chat-muted);
+  font-size: 12px;
+  font-weight: 650;
 }
 
 .mmt-composer-sheet-panel textarea {
@@ -261,60 +606,61 @@ body {
   resize: vertical;
 }
 
-.mmt-composer-sheet-panel input,
-.mmt-composer-sheet-panel textarea,
-.mmt-composer-sheet-panel select {
+.mmt-composer-sheet-panel :is(input, textarea, select) {
   width: 100%;
+  padding: 10px 12px;
+  border-width: 2px;
 }
 
 @media (max-width: 720px) {
-  .mmt-composer-toolbar {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .mmt-composer-content {
-    grid-template: minmax(0, 1fr) auto / minmax(0, 1fr);
-  }
-
-  .mmt-composer-inspector {
-    grid-area: 2 / 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    max-height: 132px;
-    border-top: 1px solid var(--vscode-editorWidget-border);
-    border-left: 0;
-  }
-
-  .mmt-composer-inspector > label,
-  .mmt-composer-inspector h2,
-  .mmt-composer-inspector .mmt-composer-status,
-  .mmt-composer-inspector .mmt-composer-structure-actions {
-    flex-basis: 100%;
-  }
-
-  .mmt-composer-inspector > button {
-    width: auto;
-    margin: 0;
+  .mmt-composer-selected-label {
+    display: none;
   }
 }
 
 @media (max-width: 550px) {
   .mmt-composer-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
     padding:
-      max(8px, env(safe-area-inset-top))
+      max(6px, env(safe-area-inset-top))
       max(8px, env(safe-area-inset-right))
-      8px
+      5px
       max(8px, env(safe-area-inset-left));
   }
 
-  .mmt-composer-surface button,
-  .mmt-composer-surface input,
-  .mmt-composer-surface textarea,
-  .mmt-composer-surface select {
+  .mmt-composer-document-identity {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .mmt-composer-document-title {
+    flex: 1 1 auto;
+  }
+
+  .mmt-composer-toolbar-actions {
+    justify-content: flex-end;
+  }
+
+  .mmt-composer-surface :is(button, input, textarea, select) {
     min-width: 44px;
     min-height: 44px;
+  }
+
+  .mmt-composer-bottom {
+    padding-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right));
+  }
+
+  .mmt-composer-draft-row {
+    gap: 7px;
+  }
+
+  .mmt-composer-surface .mmt-composer-send[data-kind="primary"] {
+    min-width: 56px;
+    padding-inline: 10px;
+    gap: 4px;
   }
 
   .mmt-composer-sheet {
@@ -326,11 +672,11 @@ body {
     width: 100%;
     max-height: min(100%, var(--mmt-composer-viewport-height, 100vh));
     padding:
-      max(16px, env(safe-area-inset-top))
+      20px
       max(16px, env(safe-area-inset-right))
       max(16px, env(safe-area-inset-bottom))
       max(16px, env(safe-area-inset-left));
-    border-radius: 0;
+    border-radius: 22px 22px 0 0;
   }
 }
 
@@ -339,91 +685,147 @@ body {
 }
 
 .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar {
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  padding: 4px 8px;
-  scrollbar-width: none;
-}
-
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar::-webkit-scrollbar,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector::-webkit-scrollbar {
-  display: none;
-}
-
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar > strong,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar-actions,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-structure-actions {
-  flex: 0 0 auto;
-}
-
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar-actions,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-structure-actions {
-  flex-wrap: nowrap;
-}
-
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-content {
-  grid-template: minmax(0, 1fr) auto / minmax(0, 1fr);
-}
-
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector {
-  grid-area: 2 / 1;
   display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
   gap: 6px;
-  max-height: none;
   padding: 4px 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  border-top: 1px solid var(--vscode-editorWidget-border);
-  border-left: 0;
-  scrollbar-width: none;
 }
 
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector > label {
-  display: flex;
-  flex: 0 0 min(220px, calc(100% - 16px));
-  align-items: center;
-  width: auto;
-  gap: 6px;
-  margin: 0;
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-document-identity {
+  display: grid;
+  gap: 0;
 }
 
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector > label > span,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector h2,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector .mmt-composer-status {
-  flex: 0 0 auto;
-  margin: 0;
-  white-space: nowrap;
-  overflow-wrap: normal;
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar-actions {
+  gap: 2px;
 }
 
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector select {
-  flex: 1 1 auto;
-  width: auto;
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-context-actions,
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-bottom {
+  padding-block: 4px;
 }
 
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector .mmt-composer-structure-actions,
-.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-inspector > button {
-  flex: 0 0 auto;
-  width: auto;
-  margin: 0;
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-role-tray {
+  margin-block-start: 3px;
 }
 
-.mmt-composer-surface[data-compact-layout="true"] button,
-.mmt-composer-surface[data-compact-layout="true"] input,
-.mmt-composer-surface[data-compact-layout="true"] textarea,
-.mmt-composer-surface[data-compact-layout="true"] select {
-  min-width: 44px;
-  min-height: 44px;
+.mmt-composer-surface[data-compact-layout="true"] .mmt-composer-draft {
+  max-height: 66px;
 }
+
+@container mmt-composer (max-width: 320px) {
+  .mmt-composer-toolbar,
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding-inline: 0;
+  }
+
+  .mmt-composer-document-identity,
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-document-identity {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding-inline: 8px;
+  }
+
+  .mmt-composer-document-title {
+    flex: 1 1 auto;
+  }
+
+  .mmt-composer-toolbar-actions,
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar-actions {
+    width: 100%;
+    min-width: 0;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-toolbar {
+    display: block;
+    padding-block: 0;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-document-identity {
+    display: none;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-context-actions {
+    padding: 0 8px;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-context-actions > button:not(.mmt-composer-context-menu) {
+    display: none;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-selected-label,
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-context-actions > label {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-context-actions > label > span {
+    display: none;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-bottom {
+    display: grid;
+    grid-template-columns: 44px minmax(44px, 1fr) 44px 44px;
+    align-items: center;
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-draft-row,
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-role-tray {
+    display: contents;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-role-tray > :not(.mmt-composer-role-teacher) {
+    display: none;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-current-role {
+    grid-area: 1 / 1;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-draft {
+    grid-area: 1 / 2;
+    min-height: 44px;
+    padding: 9px 10px;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-role-teacher {
+    grid-area: 1 / 3;
+    justify-content: center;
+    width: 44px;
+    min-height: 44px;
+    height: 44px;
+    padding: 6px;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-role-teacher .mmt-composer-avatar {
+    display: none;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-send[data-kind="primary"] {
+    grid-area: 1 / 4;
+    align-self: center;
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    height: 44px;
+    padding: 0;
+  }
+
+  .mmt-composer-surface[data-compact-layout="true"] .mmt-composer-draft-status {
+    grid-column: 1 / -1;
+    margin-block-start: 0;
+  }
+}
+
 
 
 .workbench-primary {
@@ -1182,6 +1584,7 @@ body {
   overflow: hidden;
   box-sizing: border-box;
   padding: 10px;
+  max-height: calc(100dvh - 24px);
   border: 1px solid var(--vscode-widget-border, transparent);
   flex-direction: column;
   color: var(--vscode-foreground);
@@ -1203,14 +1606,15 @@ body {
   gap: 4px;
 }
 .mmt-preview-message-editor__mode {
-  padding: 2px 7px;
+  padding: 5px 9px;
   border: 1px solid var(--vscode-button-border, transparent);
   border-radius: 2px;
   color: var(--vscode-button-secondaryForeground);
   background: var(--vscode-button-secondaryBackground);
   cursor: pointer;
   font: inherit;
-  font-size: 11px;
+  min-height: 36px;
+  font-size: 12px;
 }
 .mmt-preview-message-editor__mode:hover {
   background: var(--vscode-button-secondaryHoverBackground);
@@ -1225,7 +1629,9 @@ body {
 }
 .mmt-preview-message-editor__editor {
   overflow: hidden;
-  height: 34px;
+  flex: 1 1 auto;
+  height: min(240px, 34dvh);
+  min-height: 72px;
   border: 1px solid var(--vscode-input-border, transparent);
   background: var(--vscode-input-background);
 }
@@ -1243,6 +1649,46 @@ body {
 .mmt-preview-message-editor__hint {
   color: var(--vscode-descriptionForeground);
   font-size: 10px;
+}
+
+.mmt-preview-message-editor__modes[hidden] {
+  display: none;
+}
+
+.mmt-preview-message-editor__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.mmt-preview-message-editor__actions button {
+  min-width: 56px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 4px;
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+  cursor: pointer;
+  font: inherit;
+}
+
+.mmt-preview-message-editor__actions button[data-kind="primary"] {
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+}
+
+@media (max-width: 550px) {
+  .mmt-preview-message-editor__mode,
+  .mmt-preview-message-editor__actions button {
+    min-height: 44px;
+  }
+
+  .mmt-preview-message-editor__hint {
+    display: none;
+  }
 }
 
 .mmt-avatar-picker {
@@ -1347,12 +1793,244 @@ body {
   font-size: 10px;
 }
 
+.mmt-chat-chrome,
+.mmt-chat-menu {
+  --vscode-foreground: var(--mmt-chat-text);
+  --vscode-descriptionForeground: var(--mmt-chat-muted);
+  --vscode-editorWidget-background: var(--mmt-chat-surface);
+  --vscode-widget-border: var(--mmt-chat-border);
+  --vscode-widget-shadow: #28465f24;
+  --vscode-input-background: var(--mmt-chat-surface);
+  --vscode-input-foreground: var(--mmt-chat-text);
+  --vscode-input-border: var(--mmt-chat-border);
+  --vscode-focusBorder: var(--mmt-chat-accent);
+  --vscode-menu-background: var(--mmt-chat-surface);
+  --vscode-menu-foreground: var(--mmt-chat-text);
+  --vscode-menu-selectionBackground: var(--mmt-chat-selection);
+  --vscode-menu-selectionForeground: var(--mmt-chat-text);
+  --vscode-menu-selectionBorder: var(--mmt-chat-accent);
+  --vscode-menu-border: var(--mmt-chat-border);
+  color: var(--mmt-chat-text);
+  font: 14px/1.45 var(--mmt-chat-font);
+}
+
+.mmt-chat-menu {
+  border: 1px solid var(--mmt-chat-border);
+  border-radius: 14px;
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-surface);
+  font-family: var(--mmt-chat-font);
+  box-shadow: 0 10px 30px #28465f24;
+}
+
+.mmt-chat-menu--actions {
+  box-sizing: border-box;
+  width: max-content;
+  min-width: min(224px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.mmt-chat-menu .monaco-action-bar.vertical {
+  height: auto;
+  padding: 5px;
+}
+
+.mmt-chat-menu .monaco-action-bar.vertical .actions-container {
+  display: block;
+  height: auto;
+}
+
+.mmt-chat-menu .monaco-action-bar.vertical .action-menu-item {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 9px;
+  color: var(--mmt-chat-text);
+  font: 13px/1.4 var(--mmt-chat-font);
+  text-decoration: none;
+}
+
+.mmt-chat-menu .monaco-action-bar.vertical .action-menu-item > .action-label {
+  min-width: 0;
+  padding: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  font: inherit;
+}
+
+.mmt-chat-menu-check {
+  display: block;
+  flex: 0 0 16px;
+  visibility: hidden;
+}
+
+.mmt-chat-menu-check::before {
+  display: block;
+  width: 8px;
+  height: 4px;
+  border: solid currentColor;
+  border-width: 0 0 2px 2px;
+  content: "";
+  transform: rotate(-45deg);
+}
+
+.mmt-chat-menu .action-menu-item.checked > .mmt-chat-menu-check {
+  visibility: visible;
+}
+
+.mmt-chat-menu .monaco-action-bar.vertical .action-item.focused:not(.disabled) > .action-menu-item {
+  color: var(--mmt-chat-text) !important;
+  background: var(--mmt-chat-selection) !important;
+}
+
+.mmt-chat-menu .monaco-action-bar.vertical .action-item.disabled {
+  opacity: .45;
+}
+
+.mmt-chat-chrome.mmt-preview-context-input,
+.mmt-chat-chrome.mmt-preview-message-editor,
+.mmt-chat-chrome.mmt-avatar-picker {
+  border: 1px solid var(--mmt-chat-border);
+  border-radius: 18px;
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-surface);
+  box-shadow: 0 12px 34px #28465f24;
+}
+
+.mmt-chat-chrome .monaco-inputbox {
+  min-height: 44px;
+  border: 2px solid var(--mmt-chat-border);
+  border-radius: 16px;
+  background: var(--mmt-chat-surface);
+}
+
+.mmt-chat-chrome .monaco-inputbox input {
+  min-height: 40px;
+  padding: 9px 12px;
+  color: var(--mmt-chat-text);
+  font: 14px/22px var(--mmt-chat-font);
+}
+
+.mmt-chat-chrome .monaco-inputbox.synthetic-focus {
+  border-color: var(--mmt-chat-accent);
+  outline: 2px solid var(--mmt-chat-selection);
+}
+
+.mmt-chat-chrome.mmt-preview-message-editor {
+  padding: 14px;
+  gap: 8px;
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__title,
+.mmt-chat-chrome .mmt-avatar-picker__title {
+  color: var(--mmt-chat-text);
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__mode,
+.mmt-chat-chrome .mmt-preview-message-editor__actions button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--mmt-chat-border);
+  border-radius: 20px;
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-surface);
+  font-family: var(--mmt-chat-font);
+  font-size: 12px;
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__mode:hover,
+.mmt-chat-chrome .mmt-preview-message-editor__mode.is-selected,
+.mmt-chat-chrome .mmt-preview-message-editor__actions button:hover {
+  border-color: var(--mmt-chat-accent);
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-selection);
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__actions button[data-kind="primary"] {
+  border-color: transparent;
+  color: #ffffff;
+  background: var(--mmt-chat-accent);
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__actions button[data-kind="primary"]:hover {
+  background: var(--mmt-chat-accent-hover);
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__editor {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.mmt-chat-chrome .mmt-preview-message-editor__hint,
+.mmt-chat-chrome .mmt-avatar-picker__current-status,
+.mmt-chat-chrome .mmt-avatar-picker__empty,
+.mmt-chat-chrome .mmt-avatar-picker__section-title,
+.mmt-chat-chrome .mmt-avatar-picker__actor-label,
+.mmt-chat-chrome .mmt-avatar-picker__detail {
+  color: var(--mmt-chat-muted);
+  font-size: 12px;
+}
+
+.mmt-chat-chrome .mmt-avatar-picker__item {
+  grid-template-rows: 64px auto auto;
+  padding: 10px 6px;
+  border: 1px solid var(--mmt-chat-border);
+  border-radius: 16px;
+  color: var(--mmt-chat-text);
+  background: var(--mmt-chat-surface);
+  text-align: center;
+}
+
+.mmt-chat-chrome .mmt-avatar-picker__item > img {
+  width: 64px;
+  height: 64px;
+  margin-inline: auto;
+  border-radius: 50%;
+  background: var(--mmt-chat-background);
+  object-fit: cover;
+}
+
+.mmt-chat-chrome .mmt-avatar-picker__item:hover:not(:disabled),
+.mmt-chat-chrome .mmt-avatar-picker__item.is-current {
+  border-color: var(--mmt-chat-accent);
+  background: var(--mmt-chat-selection);
+}
+
+.mmt-chat-chrome :is(button, input):focus-visible {
+  outline: 2px solid var(--mmt-chat-accent);
+  outline-offset: 2px;
+}
+
 @container (max-width: 210px) {
   .mms-gallery-variant-grid { grid-template-columns: minmax(0, 1fr); }
   .mms-gallery-control-footer { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 320px) {
+  .mmt-preview-context-menu .monaco-menu {
+    box-sizing: border-box;
+    max-width: calc(100vw - 8px);
+  }
+
+  .mmt-preview-context-menu .monaco-menu .monaco-action-bar.vertical .action-menu-item {
+    height: auto;
+    min-height: 2em;
+  }
+
+  .mmt-preview-context-menu .monaco-menu .monaco-action-bar.vertical .action-label {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   .quick-input-widget {
     position: fixed !important;
     right: 8px !important;

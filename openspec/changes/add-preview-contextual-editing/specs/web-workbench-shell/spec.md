@@ -29,10 +29,18 @@ The production Web Workbench MAY expose contextual editing from the displayed pr
 
 #### Scenario: Author has selected preview text
 
-- GIVEN a non-collapsed rendered text selection exists
+- GIVEN a non-collapsed browser-rendered text selection exists outside the active GUI text session
 - WHEN the author right-clicks the selection
-- THEN contextual editing MUST NOT replace the browser's text-selection/copy interaction
+- THEN preview point targeting MUST NOT replace the browser's text-selection/copy interaction
 - AND no Composer target request may be sent for that gesture
+
+#### Scenario: GUI owns an authorized semantic text selection
+
+- GIVEN the active GUI text session owns a current Rust-authorized text selection
+- WHEN the author invokes contextual editing
+- THEN the host MUST use the GUI text-session context menu and retain that selection
+- AND clipboard、replacement and history actions MUST follow the GUI Composer identity and activation contracts
+- AND the gesture MUST NOT fall through to a nearby preview statement property target
 
 #### Scenario: Context UI outlives its identity
 

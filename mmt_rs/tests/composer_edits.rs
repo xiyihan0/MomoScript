@@ -333,7 +333,7 @@ fn classified_origin_distinguishes_unmapped_and_mixed_ancestry() {
 }
 
 #[test]
-fn preview_target_exposes_single_line_chat_and_narration_text() {
+fn preview_target_exposes_whole_chat_and_narration_bodies() {
     let packs = registry();
     let left = preview_target("> 佳代子: 当前正文😀", &packs)
         .statement_text
@@ -361,8 +361,11 @@ fn preview_target_exposes_single_line_chat_and_narration_text() {
     assert_eq!(narration.actor_display_name, None);
     assert_eq!(narration.actor_avatar, None);
     assert_eq!(
-        preview_target("> 佳代子: first\ncontinued body", &packs).statement_text,
-        None
+        preview_target("> 佳代子: first\ncontinued body", &packs)
+            .statement_text
+            .unwrap()
+            .current,
+        "first\ncontinued body"
     );
 
     let builtin = empty_registry();
@@ -470,7 +473,7 @@ fn statement_text_edits_right_chat_and_narration_without_changing_their_markers(
 fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
     assert_eq!(
         statement_text_mode("> 佳代子: plain body", 0, StatementTextMode::TextMacro,),
-        "> 佳代子: t\"\"\"plain body\"\"\""
+        "> 佳代子: t\"\"\"\nplain body\"\"\""
     );
     assert_eq!(
         statement_text_mode(
@@ -478,7 +481,7 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
             0,
             StatementTextMode::TextRaw,
         ),
-        "- rt\"\"\"narration body\"\"\""
+        "- rt\"\"\"\nnarration body\"\"\""
     );
     assert_eq!(
         statement_text_mode(
@@ -486,7 +489,7 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
             0,
             StatementTextMode::Inherit,
         ),
-        "< 佳代子: \"\"\"right body\"\"\""
+        "< 佳代子: \"\"\"\nright body\"\"\""
     );
     assert_eq!(
         statement_text_mode(
@@ -494,7 +497,7 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
             0,
             StatementTextMode::TypstMacro,
         ),
-        "< _0: T\"\"\"right body\"\"\""
+        "< _0: T\"\"\"\nright body\"\"\""
     );
 
     assert_eq!(
@@ -503,7 +506,7 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
             0,
             StatementTextMode::TypstRaw,
         ),
-        "- rT\"\"\"#strong[body]\"\"\""
+        "- rT\"\"\"\n#strong[body]\"\"\""
     );
     assert_eq!(
         statement_text_mode(
@@ -511,7 +514,7 @@ fn statement_text_mode_wraps_plain_body_and_minimally_rewrites_fence_prefix() {
             0,
             StatementTextMode::Inherit,
         ),
-        "@mode: T\n- \"\"\"local text\"\"\""
+        "@mode: T\n- \"\"\"\nlocal text\"\"\""
     );
 }
 #[test]
@@ -532,56 +535,45 @@ fn statement_body_changes_text_and_mode_in_one_source_edit() {
     )
     .unwrap();
     assert_eq!(edit.range, statement.body.range);
-    assert_eq!(edit.new_text, "rT\"\"\"new #strong[Typst]\"\"\"");
+    assert_eq!(edit.new_text, "rT\"\"\"\nnew #strong[Typst]\"\"\"");
     assert_eq!(
         apply(source, &edit),
-        ">(fill: green) 佳代子: rT\"\"\"new #strong[Typst]\"\"\""
+        ">(fill: green) 佳代子: rT\"\"\"\nnew #strong[Typst]\"\"\""
     );
 }
 
 #[test]
-fn statement_text_mode_rejects_noop_and_invalid_fence_candidate() {
+fn statement_text_mode_rejects_noop_and_grows_fences_for_quoted_body() {
     let packs = registry();
-    for (source, value, expected) in [
-        (
-            "> 佳代子: plain",
-            StatementTextMode::Inherit,
-            ComposerFailure::InvalidValue,
+    let source = "> 佳代子: plain";
+    let analysis = analyze_text_with_pack(source, &packs);
+    assert_eq!(
+        compose_edit_with_pack(
+            source,
+            &analysis,
+            &packs,
+            statement(&analysis, 0).range,
+            ComposerCommand::SetStatementBody {
+                value: "plain".to_owned(),
+                mode: StatementTextMode::Inherit,
+            },
         ),
-        (
-            "> 佳代子: contains \"\"\" fence",
-            StatementTextMode::TextRaw,
-            ComposerFailure::CandidateInvalid,
-        ),
-    ] {
-        let analysis = analyze_text_with_pack(source, &packs);
-        assert_eq!(
-            compose_edit_with_pack(
-                source,
-                &analysis,
-                &packs,
-                statement(&analysis, 0).range,
-                ComposerCommand::SetStatementBody {
-                    value: statement(&analysis, 0).body.source.clone(),
-                    mode: value,
-                },
-            ),
-            Err(expected),
-            "source: {source}",
-        );
-    }
+        Err(ComposerFailure::InvalidValue),
+    );
+    let quoted = "> 佳代子: contains \"\"\" fence";
+    let edited = statement_text_mode(quoted, 0, StatementTextMode::TextRaw);
+    let parsed = analyze_text_with_pack(&edited, &packs);
+    assert_eq!(statement(&parsed, 0).body.source, "contains \"\"\" fence");
+    assert!(edited.starts_with("> 佳代子: rt\"\"\"\"\n"));
 }
 
 #[test]
-fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
+fn statement_text_rejects_noop_oversize_and_invalid_candidate() {
     let packs = registry();
     let source = "> 佳代子: current";
     let analysis = analyze_text_with_pack(source, &packs);
     let target = statement(&analysis, 0).range;
     for value in [
-        String::new(),
-        "line one\nline two".to_string(),
-        "line one\rline two".to_string(),
         "current".to_string(),
         "x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1),
     ] {
@@ -628,19 +620,18 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
 
     let multiline = "> 佳代子: first\ncontinued body";
     let multiline_analysis = analyze_text_with_pack(multiline, &packs);
-    assert_eq!(
-        compose_edit_with_pack(
-            multiline,
-            &multiline_analysis,
-            &packs,
-            statement(&multiline_analysis, 0).range,
-            ComposerCommand::SetStatementBody {
-                value: "replacement".to_string(),
-                mode: StatementTextMode::Inherit,
-            },
-        ),
-        Err(ComposerFailure::TargetChanged)
-    );
+    let edited = compose_edit_with_pack(
+        multiline,
+        &multiline_analysis,
+        &packs,
+        statement(&multiline_analysis, 0).range,
+        ComposerCommand::SetStatementBody {
+            value: "replacement".to_string(),
+            mode: StatementTextMode::Inherit,
+        },
+    )
+    .unwrap();
+    assert_eq!(apply(multiline, &edited), "> 佳代子: replacement");
 
     let builtin = empty_registry();
     let builtin_source = "< _0: builtin";
@@ -657,6 +648,37 @@ fn statement_text_rejects_empty_multiline_noop_and_invalid_candidate() {
     )
     .unwrap();
     assert_eq!(apply(builtin_source, &edit), "< _0: replacement");
+}
+
+#[test]
+fn statement_body_multiline_empty_and_fence_growth_preserve_neighbor_bytes() {
+    for eol in ["\n", "\r\n"] {
+        let source =
+            format!("> 佳代子: before{eol}>(fill: green) _0: old{eol}{eol}@reply: A | B{eol}");
+        for replacement in [
+            "",
+            "first\nsecond",
+            "\n> not a new message\n@mode: T\n\"\"\" C:\\path\"",
+        ] {
+            let edited = statement_text(&source, 1, replacement);
+            let analysis = analyze_text_with_pack(&edited, &registry());
+            assert_eq!(
+                statement(&analysis, 1).body.source,
+                replacement.replace('\n', eol)
+            );
+            assert!(edited.starts_with(&format!("> 佳代子: before{eol}>(fill: green) _0: ")));
+            assert!(edited.ends_with(&format!("{eol}{eol}@reply: A | B{eol}")));
+        }
+        let fenced = format!("- rt\"\"\"\"{eol}old\"\"\"\"{eol}- after{eol}");
+        let edited = statement_text(&fenced, 0, "new \"\"\"\" trailing\"");
+        let analysis = analyze_text_with_pack(&edited, &registry());
+        assert_eq!(
+            statement(&analysis, 0).body.source,
+            "new \"\"\"\" trailing\""
+        );
+        assert!(edited.starts_with(&format!("- rt\"\"\"\"\"{eol}")));
+        assert!(edited.ends_with(&format!("{eol}- after{eol}")));
+    }
 }
 
 #[test]
@@ -1313,6 +1335,36 @@ fn character_edits_use_utf16_graphemes_and_candidate_statement_identity() {
 }
 
 #[test]
+fn markerless_message_colon_edit_preserves_body_and_speaker_identity() {
+    let packs = registry();
+    for (source, ordinal) in [("< hello", 0), ("> 佳代子: before\n> hello", 1)] {
+        let before = analyze_text_with_pack(source, &packs);
+        let original = statement(&before, ordinal);
+        assert!(original.marker.is_none());
+        let (text_edited, _) = replace_text(source, &packs, (ordinal, 5), (ordinal, 5), ":");
+        let property_edited = statement_text(source, ordinal, "hello:");
+        for edited in [text_edited, property_edited] {
+            let after = analyze_text_with_pack(&edited, &packs);
+            let changed = statement(&after, ordinal);
+            assert_eq!(changed.body.source, "hello:");
+            assert_eq!(changed.kind, original.kind);
+            assert!(changed.marker.is_none());
+            assert_eq!(
+                before.actors.speakers[ordinal].speaker,
+                after.actors.speakers[ordinal].speaker
+            );
+            assert_eq!(
+                before.actors.speakers[ordinal].revision,
+                after.actors.speakers[ordinal].revision
+            );
+            if ordinal == 1 {
+                assert!(edited.starts_with("> 佳代子: before\n"));
+            }
+        }
+    }
+}
+
+#[test]
 fn text_serialization_keeps_empty_multiline_quotes_and_final_eol_exact() {
     let packs = empty_registry();
     let (multiline, _) = replace_text("- first", &packs, (0, 5), (0, 5), "\r\n> @不是语法 \"\"\"");
@@ -1326,15 +1378,26 @@ fn text_serialization_keeps_empty_multiline_quotes_and_final_eol_exact() {
     assert!(!multiline.ends_with('\n'));
     let length = statement(&analysis, 0).body.source.encode_utf16().count();
     let (empty, edit) = replace_text(&multiline, &packs, (0, 0), (0, length), "");
-    assert_eq!(empty, "- \"\"\"\n\"\"\"");
+    let empty_analysis = analyze_text_with_pack(&empty, &packs);
+    assert_eq!(statement(&empty_analysis, 0).body.source, "");
+    assert_eq!(empty_analysis.document.nodes.len(), 1);
+    assert!(!empty.ends_with('\n'));
     assert_eq!(edit.selection_after.0.offset_utf16, 0);
     let (again, _) = replace_text(&empty, &packs, (0, 0), (0, 0), "restored");
-    assert_eq!(
-        statement(&analyze_text_with_pack(&again, &packs), 0)
-            .body
-            .source,
-        "restored"
+    let restored_analysis = analyze_text_with_pack(&again, &packs);
+    let restored_body = &statement(&restored_analysis, 0).body.source;
+    assert_eq!(restored_body, "restored");
+    assert!(!again.ends_with('\n'));
+    let (empty_again, _) = replace_text(
+        &again,
+        &packs,
+        (0, 0),
+        (0, restored_body.encode_utf16().count()),
+        "",
     );
+    // Repeated edits keep the existing delimiter envelope stable instead of
+    // increasing its quote count on each serialization.
+    assert_eq!(empty_again, empty);
 
     let source = "- rt\"\"\"\r\n\r\nstart\r\n\"\"\"\r\n- untouched";
     let (edited, _) = replace_text(source, &packs, (0, 1), (0, 6), "中\r\nnew\rline");
@@ -1362,8 +1425,6 @@ fn text_serializer_fences_terminal_lf_and_preserves_empty_body_separators() {
         panic!("first node must remain narration");
     };
     assert_eq!(first.description.body.current, "first\r\n");
-    assert!(first.description.statement_text.is_none());
-    assert!(!first.capabilities.set_body);
     assert_eq!(first.text_editing.as_ref().unwrap().text, "first\n");
     let mmt_rs::ComposerDocumentNode::Opaque(separator) = &projection.nodes[1] else {
         panic!("separator must remain opaque");

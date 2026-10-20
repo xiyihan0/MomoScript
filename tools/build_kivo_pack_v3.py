@@ -766,12 +766,12 @@ def _build_manifest(
             skipped_entities.append(entity_id)
             print(f"[info] excluded entity {entity_id} (marker match)")
             continue
+        slots: dict[str, Any] = {}
         avatar_url = _normalize_url(_safe_text(detail.get("avatar")))
-        avatar_ext = _url_ext(avatar_url, default=".png")
-        avatar_filename = f"{entity_id}{avatar_ext}"
-
-        slots: dict[str, Any] = {
-            "avatar": {
+        if avatar_url:
+            avatar_ext = _url_ext(avatar_url, default=".png")
+            avatar_filename = f"{entity_id}{avatar_ext}"
+            slots["avatar"] = {
                 "default": "default",
                 "items": {
                     "default": {
@@ -780,9 +780,6 @@ def _build_manifest(
                     }
                 },
             }
-        }
-
-        if avatar_url:
             tasks.append(
                 DownloadTask(
                     url=avatar_url,
@@ -1080,12 +1077,26 @@ def _inspect_avifs(
     return None
 
 
+def _imagemagick_command(operation: str) -> list[str]:
+    magick = shutil.which("magick")
+    if magick:
+        return [magick, "identify"] if operation == "identify" else [magick]
+    executable = shutil.which(operation)
+    if executable:
+        return [executable]
+    raise RuntimeError(
+        f"ImageMagick {operation} is unavailable; install ImageMagick 7 (magick) "
+        f"or ImageMagick 6 ({operation})."
+    )
+
+
 def _image_info(paths: list[Path]) -> tuple[list[tuple[int, int]], bool]:
     sizes: list[tuple[int, int]] = []
     has_alpha = False
+    command = _imagemagick_command("identify")
     for path in paths:
         result = subprocess.run(
-            ["magick", "identify", "-format", "%w %h %[channels]", str(path)],
+            [*command, "-format", "%w %h %[channels]", str(path)],
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -1093,7 +1104,8 @@ def _image_info(paths: list[Path]) -> tuple[list[tuple[int, int]], bool]:
         )
         if result.returncode != 0:
             raise RuntimeError(
-                (result.stderr or result.stdout).strip() or f"identify failed: {path}"
+                f"identify failed for {path}: "
+                + ((result.stderr or result.stdout).strip() or f"exit {result.returncode}")
             )
         width, height, channels = result.stdout.strip().split(maxsplit=2)
         sizes.append((int(width), int(height)))
@@ -1107,11 +1119,12 @@ def _prepare_padded_frames(
     out_dir.mkdir(parents=True, exist_ok=True)
     background = "none" if alpha else "white"
     prepared: list[Path] = []
+    command = _imagemagick_command("convert")
     for index, src in enumerate(paths, start=1):
         target = out_dir / f"{index:03d}.png"
         result = subprocess.run(
             [
-                "magick",
+                *command,
                 str(src),
                 "-background",
                 background,
@@ -1128,7 +1141,8 @@ def _prepare_padded_frames(
         )
         if result.returncode != 0:
             raise RuntimeError(
-                (result.stderr or result.stdout).strip() or f"padding failed: {src}"
+                f"padding failed for {src}: "
+                + ((result.stderr or result.stdout).strip() or f"exit {result.returncode}")
             )
         prepared.append(target)
     return prepared
@@ -1147,7 +1161,7 @@ def _prepare_thumbnails(
             continue
         result = subprocess.run(
             [
-                "magick",
+                *_imagemagick_command("convert"),
                 f"{source}[0]",
                 "-auto-orient",
                 "-thumbnail",
@@ -1164,10 +1178,88 @@ def _prepare_thumbnails(
         )
         if result.returncode != 0 or not target.exists():
             raise RuntimeError(
-                (result.stdout or "").strip()[-1000:]
-                or f"thumbnail conversion failed for {source}"
+                f"thumbnail conversion failed for {source}: "
+                + ((result.stdout or "").strip()[-1000:] or f"exit {result.returncode}")
             )
     return names
+
+
+_FRAME_SAMPLE_EDGE = 48
+_FRAME_SAMPLE_BYTES = _FRAME_SAMPLE_EDGE * _FRAME_SAMPLE_EDGE * 4
+
+
+def _rgba_sample(path: Path) -> bytes:
+    result = subprocess.run(
+        [
+            *_imagemagick_command("convert"),
+            f"{path}[0]",
+            "-colorspace",
+            "sRGB",
+            "-alpha",
+            "on",
+            "-resize",
+            f"{_FRAME_SAMPLE_EDGE}x{_FRAME_SAMPLE_EDGE}!",
+            "-depth",
+            "8",
+            "rgba:-",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        error = result.stderr.decode("utf-8", errors="replace").strip()[-1000:]
+        raise RuntimeError(
+            f"RGBA sampling failed for {path}: {error or f'exit {result.returncode}'}"
+        )
+    if len(result.stdout) != _FRAME_SAMPLE_BYTES:
+        raise RuntimeError(
+            f"RGBA sampling returned {len(result.stdout)} bytes for {path}; "
+            f"expected {_FRAME_SAMPLE_BYTES} (48x48 RGBA, 8-bit)."
+        )
+    return result.stdout
+
+
+def _nearest_frame_order(paths: list[Path]) -> list[int]:
+    """Return physical-to-logical frame indices, starting at logical frame zero."""
+    if len(paths) < 2:
+        return list(range(len(paths)))
+    try:
+        import numpy as np
+    except ImportError as exc:
+        raise RuntimeError(
+            "Nearest AVIFS frame ordering requires NumPy; run `uv sync` from the "
+            "repository root, then `uv run python tools/build_kivo_pack_v3.py ...`."
+        ) from exc
+
+    samples = np.frombuffer(
+        b"".join(_rgba_sample(path) for path in paths), dtype=np.uint8
+    ).reshape(len(paths), _FRAME_SAMPLE_BYTES).astype(np.int16)
+    difference = np.empty(_FRAME_SAMPLE_BYTES, dtype=np.int16)
+    order = [0]
+    remaining = list(range(1, len(paths)))
+
+    def distance(logical_index: int) -> tuple[int, int]:
+        np.subtract(samples[logical_index], samples[order[-1]], out=difference)
+        np.abs(difference, out=difference)
+        return int(difference.sum(dtype=np.int32)), logical_index
+
+    while remaining:
+        nearest = min(remaining, key=distance)
+        order.append(nearest)
+        remaining.remove(nearest)
+    return order
+
+
+def _parse_avif_keyframe(value: str) -> int | str:
+    if value == "auto":
+        return value
+    try:
+        return int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "AVIF keyframe interval must be an integer or 'auto'."
+        ) from exc
 
 
 def _run_avifenc(
@@ -1231,6 +1323,13 @@ def _encode_avif_sequences(
     out_dir: Path, manifest: dict[str, Any], args: argparse.Namespace
 ) -> dict[str, Any]:
     report_path = out_dir / "encode_report.jsonl"
+    frame_order = str(args.avif_frame_order)
+    requested_keyframe = args.avif_keyframe
+    reuse_encoded = frame_order == "source" and requested_keyframe != "auto"
+    ordering = {
+        "mode": frame_order,
+        "algorithm": "rgba48-l1-greedy-v1" if frame_order == "nearest" else "source",
+    }
     summary: dict[str, Any] = {
         "enabled": True,
         "concurrency": int(args.avif_concurrency),
@@ -1240,11 +1339,13 @@ def _encode_avif_sequences(
             "qcolor": int(args.avif_qcolor),
             "qalpha": int(args.avif_qalpha),
             "yuv": str(args.avif_yuv),
-            "keyframe_interval": int(args.avif_keyframe),
+            "keyframe_interval": requested_keyframe,
             "fps": 1,
             "speed": int(args.avif_speed),
             "jobs": str(args.avif_jobs),
         },
+        "frame_order": ordering,
+        "reuse_encoded": reuse_encoded,
         "total": 0,
         "encoded": 0,
         "failed": 0,
@@ -1269,6 +1370,29 @@ def _encode_avif_sequences(
         try:
             if any(not path.exists() for path in image_paths):
                 raise RuntimeError("missing input image")
+            effective_profile = {
+                **summary["profile"],
+                "keyframe_interval": (
+                    max(1, len(variants))
+                    if requested_keyframe == "auto"
+                    else int(requested_keyframe)
+                ),
+            }
+            record["profile"] = effective_profile
+            record["source_variants"] = [
+                {
+                    "logical_index": index,
+                    "id": variant["id"],
+                    "ordinal": variant.get("ordinal"),
+                    "path": path.relative_to(out_dir).as_posix(),
+                    "sha256": _sha256_file(path),
+                }
+                for index, (variant, path) in enumerate(zip(variants, image_paths))
+            ]
+            physical_to_logical = list(range(len(variants)))
+            variant_frames = list(range(len(variants)))
+            record["frame_order"] = dict(ordering)
+            record["reuse_encoded"] = reuse_encoded
 
             sizes, has_alpha = _image_info(image_paths)
             target_size = (
@@ -1283,6 +1407,9 @@ def _encode_avif_sequences(
             record["pixels"] = target_pixels
             record["aspect_ratio"] = round(aspect_ratio, 3)
             record["alpha"] = bool(has_alpha)
+            record["padded"] = len(set(sizes)) > 1
+            if record["padded"]:
+                record["source_sizes"] = sorted(set(sizes))
 
             if target_pixels > int(args.sticker_max_canvas_pixels):
                 record["status"] = "skipped"
@@ -1305,7 +1432,8 @@ def _encode_avif_sequences(
             avifdec_bin = str(getattr(args, "avifdec_bin", "avifdec"))
             verified_info: tuple[tuple[int, int], int] | None = None
             if (
-                bool(args.resume)
+                reuse_encoded
+                and bool(args.resume)
                 and output_path.exists()
                 and output_path.stat().st_size > 0
             ):
@@ -1324,20 +1452,26 @@ def _encode_avif_sequences(
             else:
                 encode_inputs = image_paths
                 temp_dir_obj: tempfile.TemporaryDirectory[str] | None = None
-                if len(set(sizes)) > 1:
-                    temp_dir_obj = tempfile.TemporaryDirectory(prefix="mmt-avif-")
-                    encode_inputs = _prepare_padded_frames(
-                        image_paths,
-                        Path(temp_dir_obj.name),
-                        size=target_size,
-                        alpha=has_alpha,
-                    )
-                    record["padded"] = True
-                    record["source_sizes"] = sorted(set(sizes))
-                else:
-                    record["padded"] = False
-
                 try:
+                    if record["padded"]:
+                        temp_dir_obj = tempfile.TemporaryDirectory(prefix="mmt-avif-")
+                        encode_inputs = _prepare_padded_frames(
+                            image_paths,
+                            Path(temp_dir_obj.name),
+                            size=target_size,
+                            alpha=has_alpha,
+                        )
+                    if frame_order == "nearest":
+                        physical_to_logical = _nearest_frame_order(encode_inputs)
+                        encode_inputs = [
+                            encode_inputs[logical] for logical in physical_to_logical
+                        ]
+                        for physical, logical in enumerate(physical_to_logical):
+                            variant_frames[logical] = physical
+                    record["frame_order"].update(
+                        physical_to_logical=physical_to_logical,
+                        logical_to_physical=variant_frames,
+                    )
                     output_path.unlink(missing_ok=True)
                     result = _run_avifenc(
                         encode_inputs,
@@ -1345,7 +1479,7 @@ def _encode_avif_sequences(
                         qcolor=int(args.avif_qcolor),
                         qalpha=int(args.avif_qalpha),
                         yuv=str(args.avif_yuv),
-                        keyframe=int(args.avif_keyframe),
+                        keyframe=effective_profile["keyframe_interval"],
                         speed=int(args.avif_speed),
                         jobs=str(args.avif_jobs),
                     )
@@ -1359,6 +1493,10 @@ def _encode_avif_sequences(
                         or f"avifenc exited {result.returncode}"
                     )
                 status = "encoded"
+            record["frame_order"].update(
+                physical_to_logical=physical_to_logical,
+                logical_to_physical=variant_frames,
+            )
 
             final_info = verified_info or _inspect_avifs(output_path, avifdec_bin=avifdec_bin)
             if final_info is None:
@@ -1401,7 +1539,7 @@ def _encode_avif_sequences(
                 "size": list(final_size),
                 "alpha": bool(has_alpha),
                 "sha256": _sha256_file(output_path),
-                "profile": summary["profile"],
+                "profile": effective_profile,
             }
             blob_digest_name = f"{storage_update['sha256']}{output_rel.suffix.lower()}"
             blob_new_rel = output_rel.with_name(blob_digest_name)
@@ -1418,6 +1556,7 @@ def _encode_avif_sequences(
                 "record": record,
                 "storage_update": storage_update,
                 "thumbnail_names": thumbnail_names,
+                "variant_frames": variant_frames,
             }
         except Exception as exc:
             record["status"] = "failed"
@@ -1482,7 +1621,11 @@ def _encode_avif_sequences(
                 "output_rel": Path("blobs")
                 / "stickers"
                 / entity_id
-                / f"{set_id}.avifs",
+                / (
+                    f"{set_id}.avifs"
+                    if reuse_encoded
+                    else f"{set_id}.{frame_order}.encoding.avifs"
+                ),
                 "record": record,
                 "renames": {},
             }
@@ -1521,7 +1664,7 @@ def _encode_avif_sequences(
                     manifest["thumbnails"].pop(resource_id, None)
             for index, variant in enumerate(result["variants"]):
                 variant.pop("path", None)
-                variant["frame"] = index
+                variant["frame"] = result["variant_frames"][index]
             storage = result["storage"]
             storage.clear()
             storage.update(result["storage_update"])
@@ -1991,7 +2134,16 @@ def build_argparser() -> argparse.ArgumentParser:
         help="AVIF chroma format.",
     )
     parser.add_argument(
-        "--avif-keyframe", type=int, default=30, help="AVIF sequence keyframe interval."
+        "--avif-keyframe",
+        type=_parse_avif_keyframe,
+        default="auto",
+        help="AVIF keyframe interval; defaults to 'auto' (the frame count for each set).",
+    )
+    parser.add_argument(
+        "--avif-frame-order",
+        choices=["source", "nearest"],
+        default="nearest",
+        help="Physical AVIFS frame order; defaults to nearest using RGBA48 L1 distance (NumPy required).",
     )
     parser.add_argument("--avif-speed", type=int, default=8, help="avifenc speed.")
     parser.add_argument("--avif-jobs", default="4", help="avifenc worker jobs.")

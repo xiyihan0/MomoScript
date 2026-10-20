@@ -22,7 +22,7 @@
 - 通过 `registerCustomView` 注册的 MomoScript 原生 View；
 - IndexedDB workspace 和文档持久化；
 - 本地历史 Activity View：按文件/工作区分页浏览、50 MiB / 30 天保留、named Checkpoint、文本 Diff/恢复、删除前检查与二进制导出/整文件恢复；
-- 原生 `mmt.guiComposer` Editor Pane：命令 `mmt.composer.open` 显式打开 SVG-first 主创作表面；可映射的 text body 支持字符级光标、跨正文选择、IME composition、剪贴板、恢复与原生 undo/redo；视口宽度不超过 550px 时每个文档 incarnation 首次打开默认进入 GUI，显式返回源码后不反复跳回；
+- 原生 `mmt.guiComposer` Editor Pane：命令 `mmt.composer.open` 打开 SVG-first 主创作表面；底部连续发送新消息，画布直接修改旧消息，选区/整条内容使用原生上下文菜单，复杂内容使用就近的多行 Monaco 源码编辑器；视口宽度不超过 550px 时每个文档 incarnation 首次打开默认进入 GUI，显式返回源码后不反复跳回；
 - 单个 retained `IOverlayWebview`：由活动 `mmt.guiComposer` 声明可编辑挂载，或由只读原生 `mmt.previewHost` 声明源码旁预览挂载；两者共享同一 renderer session、artifact store 与 webview context；
 - MMT LSP 与 Tinymist 独立 Worker；
 - revision-bound Typst projection、preview artifact、精确文字几何和预览交互；
@@ -44,6 +44,17 @@
 `IndexedDbPackCache` 当前只持久化 manifest/ETag；`BoundedStringCache` 是页面内 32 MiB 内存 LRU，不能视为离线资源缓存。当前 `/sw.js` 的 install-time precache 也不等同于 active PWA spec 中显式 reservation、artifact verification、probation 与 rollback 均完成的 offline shell。
 
 `npm run dev` / `npm run build` 的 lifecycle 会运行 `scripts/prepare-runtime-artifacts.mjs`：从 `runtimeArtifacts.ts` 的 build-only source catalog 取得固定 Brotli 对象，逐项校验压缩 SHA-256/长度、解压 SHA-256/长度后写入被忽略的 `public/runtime/`。浏览器只请求 content-addressed `*.brotli.bin` 同源路径；该后缀故意不以 `.br` 结尾，防止静态服务器误加 `Content-Encoding: br`。`test:runtime-delivery` 覆盖 catalog、生成文件、解码器 pin 与协议 allowlist。
+
+### GUI 连续创作与局部编辑
+
+GUI 使用独立的 Momotalk 浅色界面；手机进入时收起导航，源码与设置仍跟随 Workbench 主题。导航视图仍可通过原生开关打开。
+
+- 在底部选择角色并输入新消息；Enter 发送，Shift+Enter 换行。发送成功只清空正文，角色选择保留；“老师”仅在当前 Rust 插入能力允许时可用。
+- 点击画布正文直接编辑；双击选择词，三击选择整段。选中文字后右键可剪切、复制、粘贴、删除或全选。
+- 选中整条内容后，使用其上下文入口进行插入、移动、删除、说话人及属性编辑；“更多操作 → 整理”提供显式结构操作模式，完成后退出。
+- 局部正文/源码编辑器中 Enter 换行、Ctrl/Cmd+Enter 应用、Escape 取消；仍需完整文件时使用“更多操作 → 高级源码”。
+- 编辑旧消息不会覆盖底部未发送草稿。草稿不写入 MMT、保存、历史或导出；离开时若可能丢失文本，使用既有复制/丢弃恢复或关闭保护，不另建草稿数据库。
+
 
 ## Architecture Boundaries
 
@@ -585,18 +596,18 @@ Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大�
 - SVG 是唯一 GUI 主创作表面；[`PreviewWebviewHost`](./src/previewWebviewHost.ts) 创建一个 retained `IOverlayWebview`，活动 GUI 与 [`mmt.previewHost`](./src/previewHostPane.ts) 通过 `attachSurface`/`releaseSurface`/`layoutSurface` 轮流 claim，同一产品 runtime 才拥有 renderer/session/store；
 - 同一 URI 的预览 reveal 通过原生 `IEditorService` 找到已有 input/group 并激活；只有尚未打开时才创建 side group，不能依赖显式 `SIDE_GROUP` 自动执行 Singleton 查找；
 - 完整 SVG 发布或新的 webview `ready` 会重置 consumer，宿主必须同步丢弃 renderer session/generation 基线；随后只通过既有一次 full resync 建立新基线。单纯 detach/reattach 同一个 retained consumer 不清空基线；
-- body mutation 只能经过 Rust `composerTextSelection`/`composerTextProjection` 和 `replaceTextSelection`，返回 exact UTF-16 semantic endpoints 与一个 versioned workspace edit；UI 不搜索相同正文、不拼 DSL、不预测 post-edit node；
+- 字符与跨正文修改经过 Rust `composerTextSelection`/`composerTextProjection` 和 `replaceTextSelection`，返回 exact UTF-16 semantic endpoints 与一个 versioned workspace edit；离散正文、插入和局部源码使用相应 Rust Composer 命令。UI 不搜索相同正文、不拼 DSL、不预测 post-edit node；
 - unfenced implicit Message/Narration 在下一顶层节点或 EOF 前的 maximal trailing whitespace-only physical lines 由 parser 排除在 `BodySyntax`/statement range 外；内部空白行若后续仍有普通 continuation text 则保留在正文，非空行尾随空白保持 exact；
 - projection 只把 parser range 之间保留在源码中的 separator gaps 逐物理行映射为 exact `Opaque.blank`，不再 trim/split parser body。Fenced body 内前导/尾部语义空白与 LF/CRLF 保持 exact；GUI 要保留末尾语义 LF 时由 Rust serializer 选 fence 并 reparse 证明；
 - formatting separator 不生成 message empty-line anchor 或额外气泡行，也不以模板 padding 或 compiler/runtime workaround 补偿；真实 semantic LF 的 measured layout anchor 与空正文 label-bound caret 合同保持不变；
 - [`ComposerTextSession`](./src/composerTextSession.ts) FIFO 提交输入；普通连续 typing 在 750 ms 边界内共享 native undo group，换行、paste/cut、IME、导航、结构操作和焦点切换关闭边界；undo/redo 操作同一个 Monaco model，并按 alternative version 恢复 presentation bookmark；
 - stale/conflict/apply failure 或未提交 composition 进入 recovery UI，只允许复制/丢弃，不能自动应用到别的 message；
 - [`ComposerTextGeometry`](./src/composerTextGeometry.ts) 只接受 committed source/version/digest/renderKey/session/generation，并要求 renderer caret/range 与 Rust authored projection 可逆；unmapped 或 ambiguous 时 blocked，不使用平均字宽或 statement midpoint；
-- Opaque、recoverable error、Typst body 和未知 wire 值 fail closed；550px 默认规则按 document incarnation 记录，显式“高级源码”切换不会 bounce，551px 仍以源码为默认。
+- 字符编辑对 Opaque、recoverable error、不可逆 Typst body 和未知 wire 值 fail closed；局部源码编辑只使用当前 Rust `replaceSource` capability 和完整 node identity。550px 默认规则按 document incarnation 记录，显式“更多操作 → 高级源码”切换不会 bounce，551px 仍以源码为默认。
 
 **回归测试**
 
-`test:composer-edit`、`test:composer-document`、`test:composer-runtime`、`test:preview-webview-protocol`、`test:preview-renderer-session` 和 `test:e2e:gui-composer`。浏览器 journey 应操作真实 SVG glyph，断言 semantic selection、authored bytes、native undo/recovery 与 geometry，而不只检查 overlay 元素存在。
+`test:composer-edit`、`test:composer-document`、`test:composer-runtime`、`test:preview-webview-protocol`、`test:preview-renderer-session` 和 `test:e2e:gui-composer`（包含 `gui-text-context.spec.ts`）。浏览器 journey 应操作真实 SVG glyph，断言 semantic selection、authored bytes、native undo/recovery、ClipboardEvent 与 geometry，而不只检查 overlay 元素存在。
 
 Parser/core 与 CLI visual regression 应覆盖连续 statement 后接 separator blank：第二条 semantic body 不含尾部 LF、separator bytes 仍逐行投影为 `Opaque.blank`，而“内部空白后继续正文”和 fenced 末尾语义 LF 两个对照仍分别保留正文与空行 caret geometry。
 

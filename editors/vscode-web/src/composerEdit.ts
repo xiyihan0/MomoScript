@@ -133,7 +133,7 @@ export type ComposerNewStatement =
   | {
       readonly kind: "message";
       readonly side: ComposerMessageSide;
-      readonly speaker: ComposerSpeakerChoice;
+      readonly speaker: ComposerSpeakerChoice | { readonly kind: "builtin" };
       readonly body: { readonly value: string; readonly mode: StatementTextMode };
       readonly continued: StatementContinuedValue;
     }
@@ -145,6 +145,7 @@ export type ComposerNewStatement =
 export type ComposerStructureCommand =
   | { readonly kind: "insertStatement"; readonly statement: ComposerNewStatement }
   | { readonly kind: "deleteNode" }
+  | { readonly kind: "replaceNodeSource"; readonly source: string }
   | { readonly kind: "moveNode"; readonly anchor: ComposerBoundaryTarget }
   | {
       readonly kind: "setStatementSpeaker";
@@ -1055,10 +1056,8 @@ function parseTargetProperties(value: unknown): PreviewComposerTargetProperties 
     );
     if (
       typeof statementText.current !== "string"
-      || statementText.current.length === 0
+      || !statementText.current.isWellFormed()
       || UTF8_ENCODER.encode(statementText.current).length > MAX_COMPOSER_STATEMENT_TEXT_BYTES
-      || statementText.current.includes("\r")
-      || statementText.current.includes("\n")
       || !isAllowedString(statementText.mode, STATEMENT_TEXT_MODES)
       || !isAllowedString(statementText.resolvedMode, COMPOSER_BODY_MODES)
       || !isAllowedString(statementText.inheritedMode, COMPOSER_BODY_MODES)

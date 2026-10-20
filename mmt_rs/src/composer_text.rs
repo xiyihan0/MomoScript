@@ -4,7 +4,8 @@ use unicode_segmentation::UnicodeSegmentation;
 
 use crate::composer::{
     COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerSourceEdit, ComposerStatementDescription,
-    analysis_has_errors, fenced_body_envelope, markers_equal, text_edit_semantics_stable,
+    StatementTextMode, analysis_has_errors, fenced_body_envelope, first_terminator, markers_equal,
+    normalize_eols, serialize_statement_body, text_edit_semantics_stable,
 };
 use crate::composer_document::{
     ComposerDocumentNode, ComposerDocumentProjection, ComposerNodeRef, ComposerOpaqueCategory,
@@ -585,32 +586,6 @@ fn semantic_byte(text: &str, offset_utf16: usize) -> Result<usize, ComposerTextF
     }
 }
 
-fn normalize_eols(raw: &str) -> (String, Option<&'static str>, bool) {
-    let mut text = String::with_capacity(raw.len());
-    let mut chars = raw.chars().peekable();
-    let mut eol = None;
-    let mut mixed = false;
-    while let Some(character) = chars.next() {
-        let ending = match character {
-            '\r' if chars.peek() == Some(&'\n') => {
-                chars.next();
-                Some("\r\n")
-            }
-            '\r' => Some("\r"),
-            '\n' => Some("\n"),
-            _ => None,
-        };
-        if let Some(ending) = ending {
-            mixed |= eol.is_some_and(|previous| previous != ending);
-            eol.get_or_insert(ending);
-            text.push('\n');
-        } else {
-            text.push(character);
-        }
-    }
-    (text, eol, mixed)
-}
-
 // Both maps walk Unicode scalars, treating CRLF as one semantic LF. Neither
 // direction admits a boundary between CR and LF or inside a UTF-8 scalar.
 fn eol_boundary(raw: &str, target: usize, inverse: bool) -> Option<usize> {
@@ -650,15 +625,6 @@ fn final_terminator(source: &str) -> Option<&'static str> {
     }
 }
 
-fn first_terminator(source: &str) -> Option<&'static str> {
-    let offset = source.find('\n')?;
-    Some(if offset > 0 && source.as_bytes()[offset - 1] == b'\r' {
-        "\r\n"
-    } else {
-        "\n"
-    })
-}
-
 fn node_terminator(source: &str, node: &ComposerDocumentNode) -> Option<&'static str> {
     final_terminator(source.get(node.range().start..node.range().end)?)
 }
@@ -671,45 +637,26 @@ fn serialize_body_edit(
 ) -> Result<ComposerSourceEdit, ComposerTextFailure> {
     let fenced = fenced_body_envelope(body.statement, source)
         .map_err(|_| ComposerTextFailure::TargetChanged)?;
-    if fenced.is_none() && !raw.is_empty() {
-        let mut probe = source[body.statement.range.start..body.range.start].to_owned();
-        probe.push_str(raw);
-        let parsed = crate::parse_text(&probe);
-        if let [SyntaxNode::Statement(candidate)] = parsed.nodes.as_slice() {
-            if parsed.diagnostics.is_empty()
-                && candidate.kind == body.statement.kind
-                && markers_equal(candidate.marker.as_ref(), body.statement.marker.as_ref())
-                && candidate.patch.as_ref().map(|patch| &patch.raw_args)
-                    == body.statement.patch.as_ref().map(|patch| &patch.raw_args)
-                && candidate.body.mode == body.statement.body.mode
-                && candidate.body.source == raw
-            {
-                return Ok(ComposerSourceEdit {
-                    range: body.range,
-                    new_text: raw.to_owned(),
-                });
-            }
-        }
-    }
-    let fence_length = raw
-        .split(|character| character != '"')
-        .map(str::len)
-        .max()
-        .unwrap_or(0)
-        .saturating_add(1)
-        .max(3);
-    let fence = "\"".repeat(fence_length);
-    let prefix = match body.statement.body.mode {
-        BodyMode::Inherit => "",
-        BodyMode::TextMacro => "t",
-        BodyMode::TextRaw => "rt",
+    let mode = match body.statement.body.mode {
+        BodyMode::Inherit => StatementTextMode::Inherit,
+        BodyMode::TextMacro => StatementTextMode::TextMacro,
+        BodyMode::TextRaw => StatementTextMode::TextRaw,
         BodyMode::TypstMacro | BodyMode::TypstRaw => {
             return Err(ComposerTextFailure::UnsupportedStructure);
         }
     };
     Ok(ComposerSourceEdit {
         range: fenced.map_or(body.range, |(range, _)| range),
-        new_text: format!("{prefix}{fence}{eol}{raw}{fence}"),
+        new_text: serialize_statement_body(
+            raw,
+            mode,
+            eol,
+            fenced.map(|(_, length)| length),
+            source
+                .get(body.statement.range.start..body.statement.body.range.start)
+                .ok_or(ComposerTextFailure::TargetChanged)?,
+        )
+        .map_err(|_| ComposerTextFailure::InvalidValue)?,
     })
 }
 

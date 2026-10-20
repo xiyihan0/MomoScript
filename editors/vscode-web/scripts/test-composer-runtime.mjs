@@ -65,6 +65,7 @@ async function narrationSnapshot(document, body, options = {}) {
       capabilities: {
         setBody: options.setBody ?? true,
         delete: options.delete ?? true,
+        replaceSource: options.replaceSource ?? true,
         moveUp: null,
         moveDown: null,
       },
@@ -197,8 +198,9 @@ async function settle() {
   harness.catalogChanges.emit();
   assert.equal(closed, 1);
   assert.equal(transient.isCurrent(), false);
-  assert.equal(runtime.state.snapshot, acceptedSnapshot);
-  assert.equal(harness.documentRequests.length, 2);
+  assert.equal(runtime.state.snapshot, null, "catalog changes revoke source-unchanged capabilities");
+  assert.equal(harness.documentRequests.length, 3, "a completed semantic catalog change requests one fresh snapshot");
+  assert.deepEqual(harness.documentRequests[2].params, { textDocument: { uri: document.uri.toString(), version: 2 } });
   await runtime.execute({
     kind: "property",
     target: { range: acceptedSnapshot.nodes[0].statementRange },
@@ -206,9 +208,15 @@ async function settle() {
   }, captured);
   assert.equal(harness.editRequests.length, 0);
 
-  runtime.selectNode(acceptedSnapshot.nodes[0].nodeKey);
-  runtime.expandNode(acceptedSnapshot.nodes[0].nodeKey);
-  await runtime.navigateSource(acceptedSnapshot.nodes[0].range);
+  harness.documentRequests[2].pending.resolve(secondSnapshot);
+  await waitFor(() => runtime.state.snapshot !== null);
+  const refreshedSnapshot = runtime.state.snapshot;
+  assert.notEqual(refreshedSnapshot, acceptedSnapshot);
+  assert.equal(refreshedSnapshot.sourceDigest, acceptedSnapshot.sourceDigest);
+  assert.equal(runtime.captureIdentity().catalogEpoch, captured.catalogEpoch + 1);
+  runtime.selectNode(refreshedSnapshot.nodes[0].nodeKey);
+  runtime.expandNode(refreshedSnapshot.nodes[0].nodeKey);
+  await runtime.navigateSource(refreshedSnapshot.nodes[0].range);
   await runtime.openPreview();
   await runtime.showHistory();
   await runtime.save();
@@ -224,6 +232,73 @@ async function settle() {
   assert.equal(runtime.state.snapshot, null);
   assert.equal(runtime.state.selectedNodeKey, null);
   assert.equal(runtime.state.expandedNodeKey, null);
+  runtime.dispose();
+}
+
+{
+  const harness = createHarness();
+  const document = new TestDocument("file:///workspace/catalog-ready.mmt", 1, "- A");
+  harness.documents.set(document.uri.toString(), document);
+  const runtime = new ComposerRuntime(harness.ports);
+  const unavailable = await narrationSnapshot(document, "A", { setBody: false, delete: false, replaceSource: false });
+  unavailable.nodes[0].textEditing = null;
+  runtime.bindDocument(document);
+  harness.documentRequests[0].pending.resolve(unavailable);
+  await waitFor(() => runtime.state.snapshot !== null);
+  assert.equal(runtime.state.snapshot.boundaries.at(-1).insert, null);
+  const initialIdentity = runtime.captureIdentity();
+  runtime.selectNode(runtime.state.snapshot.nodes[0].nodeKey);
+  runtime.expandNode(runtime.state.snapshot.nodes[0].nodeKey);
+  let closed = 0;
+  const transient = runtime.beginTransient(() => { closed += 1; });
+
+  harness.catalogChanges.emit();
+  assert.equal(runtime.state.snapshot, null);
+  assert.equal(runtime.state.selectedNodeKey, null);
+  assert.equal(runtime.state.expandedNodeKey, null);
+  assert.equal(closed, 1);
+  assert.equal(transient.isCurrent(), false);
+  assert.equal(harness.documentRequests.length, 2);
+  harness.catalogChanges.emit();
+  assert.equal(harness.documentRequests[1].signal.aborted, true);
+  assert.equal(harness.documentRequests.length, 3);
+  harness.documentRequests[1].pending.resolve(unavailable);
+  await settle();
+  assert.equal(runtime.state.snapshot, null, "a superseded catalog response cannot restore stale restrictions");
+
+  const ready = await narrationSnapshot(document, "A");
+  ready.boundaries[1].insert = {
+    boundary: ready.boundaries[1].target,
+    messageSides: ["left", "right"],
+    builtinMessageSides: ["right"],
+    statementModes: ["textRaw"],
+    speakerSources: ["packEntity"],
+    narration: true,
+  };
+  harness.documentRequests[2].pending.resolve(ready);
+  await waitFor(() => runtime.state.snapshot !== null);
+  assert.equal(runtime.state.bound.version, 1);
+  assert.equal(document.getText(), "- A");
+  assert.equal(runtime.state.snapshot.sourceDigest, unavailable.sourceDigest);
+  assert.equal(runtime.state.snapshot.nodes[0].capabilities.setBody, true);
+  assert.equal(runtime.state.snapshot.nodes[0].textEditing.text, "A");
+  assert.ok(runtime.state.snapshot.boundaries.at(-1).insert);
+  assert.equal(runtime.state.selectedNodeKey, null, "semantic refresh does not guess a selection rebind");
+  const insertion = {
+    kind: "structure",
+    target: runtime.state.snapshot.boundaries.at(-1).target,
+    command: { kind: "insertStatement", statement: {
+      kind: "message", side: "left", speaker: { kind: "actor", reference: "pack::A" },
+      continued: "auto", body: { value: "new message", mode: "textRaw" },
+    } },
+  };
+  assert.equal(await runtime.execute(insertion, initialIdentity), false);
+  assert.equal(harness.editRequests.length, 0, "an old catalog identity remains stale at the same source version");
+  const execution = runtime.execute(insertion, runtime.captureIdentity());
+  assert.equal(harness.editRequests.length, 1, "the refreshed pack-backed insertion is now authorized");
+  harness.editRequests[0].pending.resolve(editResult(document, '- A\n> pack::A: rt"""\nnew message"""\n'));
+  assert.equal(await execution, true);
+  assert.equal(harness.applyCalls.length, 1);
   runtime.dispose();
 }
 
@@ -245,7 +320,7 @@ async function settle() {
   });
   assert.equal(harness.editRequests.length, 1);
   harness.editRequests[0].pending.resolve(editResult(document));
-  await execution;
+  assert.equal(await execution, true, "only an applied discrete command may clear a continuous draft");
   assert.equal(harness.editRequests.length, 1);
   assert.equal(harness.applyCalls.length, 1);
   assert.equal(runtime.state.snapshot, acceptedSnapshot);
@@ -286,7 +361,7 @@ async function settle() {
 
   const rejected = runtime.execute(capability);
   harness.editRequests[0].pending.resolve({ kind: "Rejected", reason: "candidateInvalid" });
-  await rejected;
+  assert.equal(await rejected, false);
   assert.equal(harness.notifications.at(-1)[0], "warning");
 
   harness.setApply(async (options) => {
@@ -295,7 +370,7 @@ async function settle() {
   });
   const failed = runtime.execute(capability);
   harness.editRequests[1].pending.resolve(editResult(document));
-  await failed;
+  assert.equal(await failed, false);
   assert.equal(harness.notifications.at(-1)[0], "error");
   const appliedBeforeWrongKind = harness.applyCalls.length;
   const wrongKind = runtime.execute(capability);
@@ -306,7 +381,7 @@ async function settle() {
     sourceDigestAfter: snapshot.sourceDigest,
     selectionAfter: { anchor: afterEndpoint, focus: afterEndpoint },
   });
-  await wrongKind;
+  assert.equal(await wrongKind, false);
   assert.equal(harness.applyCalls.length, appliedBeforeWrongKind, "discrete commands cannot apply text-selection results");
   assert.equal(document.getText(), "- A");
   runtime.dispose();
@@ -336,7 +411,7 @@ async function settle() {
     command: { kind: "deleteNode" },
   });
   harness.editRequests[0].pending.resolve(editResult(document, ""));
-  await execution;
+  assert.equal(await execution, false, "stale application cannot report success to the continuous composer");
   assert.equal(harness.applyCalls.length, 1);
 
   const listenerStates = [];
@@ -387,6 +462,8 @@ async function createTextHarness(initialRecords) {
   const clipboard = [];
   const states = [];
   const hitTests = [];
+  const menus = [];
+  const focusChanges = [];
   let records = initialRecords;
   let renderIdentity;
   let sequence = 0;
@@ -459,7 +536,14 @@ async function createTextHarness(initialRecords) {
         return { status: "mapped", identity, endpoint, caret: caret(endpoint), carets: [caret(endpoint)],
           authored: { uri: document.uri.toString(), range: { start: node.range.start, end: node.range.start } } };
       },
-      async move(selection, _direction, _granularity, _extend, _preferredX, identity) { return mapped(selection, identity); },
+      async move(selection, direction, granularity, extend, _preferredX, identity) {
+        if (granularity !== "document") return mapped(selection, identity);
+        const nodes = runtime.state.snapshot.nodes;
+        const node = direction === "left" ? nodes[0] : nodes.at(-1);
+        const focus = { node: { nodeKey: node.nodeKey, nodeKind: node.kind, range: node.range },
+          offsetUtf16: direction === "left" ? 0 : node.textEditing.text.length };
+        return mapped({ anchor: extend ? selection.anchor : focus, focus }, identity);
+      },
       async caret(endpoint, identity) {
         return { status: "mapped", identity, endpoint, caret: caret(endpoint), carets: [caret(endpoint)],
           authored: { uri: document.uri.toString(), range: { start: endpoint.node.range.start, end: endpoint.node.range.start } } };
@@ -506,6 +590,9 @@ async function createTextHarness(initialRecords) {
       if (clipboardFailure) throw new Error("permission denied");
       clipboard.push(text);
     },
+    async readClipboard() { return clipboard.at(-1) ?? ""; },
+    async showContextMenu(request, signal) { menus.push({ request, signal }); return undefined; },
+    navigateFocus(backward) { focusChanges.push(backward); },
     recover(text, reason, id) {
       const existing = recovery.find((entry) => entry.id === id);
       if (existing) { existing.text = text; existing.reason = reason; }
@@ -567,7 +654,7 @@ async function createTextHarness(initialRecords) {
   }
   async function idle() { await waitFor(() => session.pendingIntentCount === 0); }
   return {
-    ...harness, runtime, session, document, ports, requests, recovery, clipboard, states, history, hitTests,
+    ...harness, runtime, session, document, ports, requests, recovery, clipboard, states, history, hitTests, menus, focusChanges,
     nodeRef, send, respond, publishSnapshot, publishRender, idle,
     failClipboard(value = true) { clipboardFailure = value; },
     corruptOwnEvent() { corruptEvent = true; },
@@ -819,11 +906,11 @@ async function createTextHarness(initialRecords) {
   h.send({ kind: "pointer", phase: "end", point: { pageIndex: 1, x: 0.02, y: 0.1 },
     uncertainty: { x: 0, y: 0 }, extend: true, clickCount: 1 });
   await h.idle();
-  h.send({ kind: "copy" });
+  await h.session.runContextAction("copy");
   await h.idle();
   assert.equal(h.clipboard.at(-1), "bc\nde");
   h.failClipboard();
-  h.send({ kind: "replace", origin: "cut", text: "" });
+  await h.session.runContextAction("cut");
   await h.idle();
   assert.equal(h.document.text, "- abc\n- def\n");
   assert.equal(h.requests.length, 0, "failed clipboard writes must not authorize cut deletion");
@@ -998,12 +1085,13 @@ async function createTextHarness(initialRecords) {
     clipboardStarted = true;
     await permission.promise;
   };
-  h.send({ kind: "replace", origin: "cut", text: "" });
+  const cutting = h.session.runContextAction("cut");
   await waitFor(() => clipboardStarted);
   assert.equal(h.requests.length, 0, "cut authorization must wait until clipboard permission succeeds");
   h.external([{ source: "- elsewhere", body: "elsewhere" }]);
   permission.resolve();
   await h.idle();
+  await cutting;
   assert.equal(h.document.text, "- elsewhere");
   assert.equal(h.requests.length, 0, "clipboard completion cannot revive a stale selection");
   h.runtime.dispose();
@@ -1105,7 +1193,7 @@ async function createTextHarness(initialRecords) {
   h.send({ kind: "pointer", phase: "start", point: { pageIndex: 0, x: 0.03, y: 0.1 },
     uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 2 });
   await h.idle();
-  h.send({ kind: "copy" });
+  await h.session.runContextAction("copy");
   await h.idle();
   assert.equal(h.clipboard.at(-1), "one", "double-click at a glyph's trailing caret selects its word, not the following space");
   h.runtime.dispose();
@@ -1152,6 +1240,305 @@ async function createTextHarness(initialRecords) {
   assert.equal(h.session.hasUnsubmittedInput, true, "an aborted leave cannot later cancel IME in a resumed activation");
   assert.equal(h.session.recoveryText, "");
   assert.equal(h.document.text, "- Ax");
+  h.runtime.dispose();
+}
+
+{
+  // Baseline: a mapped hit whose complete range crosses an unmapped/opaque span
+  // published blocked, clearing host selection and releasing iframe pointer capture.
+  const h = await createTextHarness([{ source: "- abcdef", body: "abcdef" }]);
+  const hit = h.ports.geometry.hitTest;
+  const selection = h.ports.geometry.selection;
+  h.ports.geometry.hitTest = async (point, uncertainty, identity, signal) => point.x === 0.04
+    ? { status: "unavailable", reason: "unmapped" } : hit(point, uncertainty, identity, signal);
+  h.ports.geometry.selection = async (candidate, identity, signal) => candidate.focus.offsetUtf16 === 5
+    ? { status: "unavailable", reason: "unsupportedStructure" } : selection(candidate, identity, signal);
+  const pointer = (phase, x) => h.send({ kind: "pointer", phase, point: { pageIndex: 0, x, y: 0.1 },
+    uncertainty: { x: 0, y: 0 }, extend: phase !== "start", clickCount: 1 });
+  pointer("start", 0.01);
+  await h.idle();
+  pointer("move", 0.03);
+  await h.idle();
+  const sessionId = h.session.state.sessionId;
+  const proved = h.session.selection;
+  pointer("move", 0.04);
+  await h.idle();
+  assert.deepEqual(h.session.selection, proved, "an unmapped margin retains the last proved directional range");
+  assert.equal(h.session.state.status, "ready");
+  pointer("move", 0.05);
+  await h.idle();
+  assert.deepEqual(h.session.selection, proved, "denied cross-barrier geometry is not a truncated new selection");
+  assert.equal(h.session.state.clipboard, null, "an unproved drag range cannot authorize clipboard deletion");
+  assert.equal(h.send({ kind: "replace", origin: "typing", text: "must-not-cross" }), false);
+  assert.equal(h.requests.length, 0);
+  pointer("move", 0.02);
+  await h.idle();
+  pointer("end", 0.02);
+  await h.idle();
+  assert.equal(h.session.state.sessionId, sessionId, "returning to text must not retire the pointer session");
+  assert.deepEqual([h.session.selection.anchor.offsetUtf16, h.session.selection.focus.offsetUtf16], [1, 2]);
+  assert.equal(h.session.state.clipboard.text, "b");
+  assert.equal(h.document.text, "- abcdef");
+  h.runtime.dispose();
+}
+
+{
+  const body = "one 😀\ntwo e\u0301";
+  const h = await createTextHarness([{ source: '- """\none 😀\ntwo e\u0301"""', body }]);
+  for (const phase of ["start", "end"]) {
+    h.send({ kind: "pointer", phase, point: { pageIndex: 0, x: 0.04, y: 0.1 },
+      uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 3 });
+    await h.idle();
+  }
+  assert.deepEqual([h.session.selection.anchor.offsetUtf16, h.session.selection.focus.offsetUtf16], [0, body.length],
+    "triple-click selects the entire semantic body and pointerup must not collapse it");
+  assert.equal(h.session.state.clipboard.text, body, "whole-body copy text is Rust-authorized plaintext, not fenced DSL");
+  assert.equal(h.requests.length, 0);
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  h.send({ kind: "pointer", phase: "start", point: { pageIndex: 0, x: 0.01, y: 0.1 },
+    uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 3 });
+  await h.idle();
+  const payload = h.session.state.clipboard;
+  assert.equal(payload.text, "abc");
+  await h.session.enter(h.nodeRef(), 1);
+  h.send({ kind: "clipboard", action: "cut", authorization: payload.authorization });
+  await h.idle();
+  assert.equal(h.requests.length, 0, "a late keyboard cut acknowledgement must not delete a new selection");
+  assert.equal(h.clipboard.length, 0, "keyboard clipboard acknowledgement never starts async clipboard writes");
+  h.send({ kind: "pointer", phase: "start", point: { pageIndex: 0, x: 0.01, y: 0.1 },
+    uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 3 });
+  await h.idle();
+  const current = h.session.state.clipboard;
+  assert.notEqual(current.authorization, payload.authorization);
+  h.send({ kind: "clipboard", action: "cut", authorization: current.authorization });
+  await waitFor(() => h.requests.length === 1);
+  assert.equal(h.requests[0].params.command.replacement, "");
+  assert.deepEqual([h.requests[0].params.target.selection.anchor.offsetUtf16,
+    h.requests[0].params.target.selection.focus.offsetUtf16], [0, 3]);
+  await h.respond([{ source: "- ", body: "" }], 0);
+  await h.publishSnapshot();
+  await h.idle();
+  assert.equal(h.document.text, "- ");
+  assert.equal(h.clipboard.length, 0, "confirmed synchronous clipboard writes must not be repeated asynchronously");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  h.send({ kind: "pointer", phase: "start", point: { pageIndex: 0, x: 0.01, y: 0.1 },
+    uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 3 });
+  await h.idle();
+  const payload = h.session.state.clipboard;
+  const selected = h.session.selection;
+  const choice = deferred();
+  let opened;
+  h.ports.showContextMenu = (request, signal) => {
+    opened = { request, signal };
+    return choice.promise;
+  };
+  h.send({ kind: "contextMenu", anchor: { screenX: 120, screenY: 240 } });
+  await waitFor(() => !!opened);
+  assert.deepEqual(h.session.selection, selected, "native right-click does not retarget or collapse the range");
+  assert.deepEqual(opened.request.actions.filter((item) => item.enabled).map((item) => item.id),
+    ["cut", "copy", "paste", "delete", "selectAll"]);
+  h.external([{ source: "- xyz", body: "xyz" }]);
+  assert.equal(opened.signal.aborted, true, "external source changes dismiss the native menu immediately");
+  choice.resolve("delete");
+  await h.idle();
+  await h.publishSnapshot();
+  await h.publishRender();
+  assert.equal(h.session.selection, null, "equal old offsets and statement ranges do not rebind across external drift");
+  h.send({ kind: "clipboard", action: "cut", authorization: payload.authorization });
+  await h.idle();
+  assert.equal(h.requests.length, 0, "a stale menu choice or clipboard token cannot revive old source authority");
+  assert.equal(h.document.text, "- xyz");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const choice = deferred();
+  let opened;
+  h.ports.showContextMenu = (_request, signal) => { opened = signal; return choice.promise; };
+  h.send({ kind: "contextMenu", anchor: { screenX: 120, screenY: 240 } });
+  await waitFor(() => !!opened);
+  const identity = h.ports.currentGeometryIdentity();
+  h.ports.currentGeometryIdentity = () => ({ ...identity, generation: identity.generation + 1, renderKey: "rerendered" });
+  await h.session.refreshGeometry();
+  assert.equal(opened.aborted, true, "a new committed renderer generation dismisses the old native menu");
+  choice.resolve("paste");
+  await h.idle();
+  assert.equal(h.requests.length, 0);
+  assert.equal(h.document.text, "- abc");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const choice = deferred();
+  let opened;
+  h.ports.showContextMenu = (_request, signal) => { opened = signal; return choice.promise; };
+  h.send({ kind: "contextMenu", anchor: { screenX: 120, screenY: 240 } });
+  await waitFor(() => !!opened);
+  h.send({ kind: "pointer", phase: "start", point: { pageIndex: 0, x: 0.02, y: 0.1 },
+    uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 1 });
+  choice.resolve("delete");
+  await h.idle();
+  assert.equal(opened.aborted, true, "a newer physical selection cancels the previous menu before its choice can execute");
+  assert.equal(h.session.selection.focus.offsetUtf16, 2);
+  assert.equal(h.requests.length, 0);
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc\n", body: "abc" }, { source: "- def", body: "def" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  await h.session.runContextAction("selectAll");
+  assert.equal(h.session.state.clipboard.text, "abc\ndef");
+  assert.deepEqual([h.session.selection.anchor.offsetUtf16, h.session.selection.focus.offsetUtf16], [0, 3]);
+  h.ports.showContextMenu = async () => "copy";
+  h.send({ kind: "contextMenu", anchor: { screenX: 100, screenY: 200 } });
+  await h.idle();
+  assert.equal(h.clipboard.at(-1), "abc\ndef", "native selection Copy uses the whole authorized directional range");
+  h.clipboard.push('> @literal\n"""');
+  const pasting = h.session.runContextAction("paste");
+  await waitFor(() => h.requests.length === 1);
+  assert.equal(h.requests[0].params.command.replacement, '> @literal\n"""', "native Paste forwards literal plaintext to Rust");
+  h.requests[0].pending.resolve({ kind: "Rejected", reason: "candidateInvalid" });
+  await pasting;
+  await h.idle();
+  assert.equal(h.document.text, "- abc\n- def", "rejected native paste leaves canonical source untouched");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- A", body: "A" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  h.send({ kind: "replace", origin: "typing", text: "x" });
+  h.send({ kind: "focus", backward: false });
+  await waitFor(() => h.requests.length === 1);
+  assert.deepEqual(h.focusChanges, [], "Tab focus navigation cannot overtake already admitted body input");
+  await h.respond([{ source: "- Ax", body: "Ax" }], 2);
+  await h.publishSnapshot();
+  await h.idle();
+  assert.deepEqual(h.focusChanges, [false]);
+  assert.equal(h.document.text, "- Ax", "Tab changes visible focus without inserting whitespace or DSL");
+  h.runtime.dispose();
+}
+
+{
+  // Recorded Chrome failure: Home/Shift+End/Copy arrived before multi-line
+  // geometry settled. Copy must join the FIFO rather than consume old plaintext.
+  const body = "\n中\nnew\nline\n";
+  const h = await createTextHarness([{ source: '- """\r\n\r\n中\r\nnew\r\nline\r\n"""\r\n', body }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const move = h.ports.geometry.move;
+  const gate = deferred();
+  let extending = false;
+  h.ports.geometry.move = async (...args) => {
+    if (args[0] && args[1] === "right" && args[3]) {
+      extending = true;
+      await gate.promise;
+    }
+    return move(...args);
+  };
+  h.send({ kind: "move", direction: "left", granularity: "document", extend: false });
+  h.send({ kind: "move", direction: "right", granularity: "document", extend: true });
+  h.send({ kind: "clipboardRequest", action: "copy" });
+  await waitFor(() => extending);
+  assert.equal(h.session.state.clipboard, null);
+  assert.deepEqual(h.clipboard, [], "pending Copy cannot write the previous collapsed selection");
+  assert.equal(h.requests.length, 0);
+  gate.resolve();
+  await h.idle();
+  assert.deepEqual(h.clipboard, [body], "ordered Copy writes the resulting Rust-authorized semantic LF text");
+  assert.deepEqual([h.session.selection.anchor.offsetUtf16, h.session.selection.focus.offsetUtf16], [0, body.length]);
+  assert.equal(h.document.text, '- """\r\n\r\n中\r\nnew\r\nline\r\n"""\r\n');
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const move = h.ports.geometry.move;
+  const gate = deferred();
+  let extending = false;
+  h.ports.geometry.move = async (...args) => {
+    if (args[1] === "right") { extending = true; await gate.promise; }
+    return move(...args);
+  };
+  h.failClipboard();
+  h.send({ kind: "move", direction: "left", granularity: "document", extend: false });
+  h.send({ kind: "move", direction: "right", granularity: "document", extend: true });
+  h.send({ kind: "clipboardRequest", action: "cut" });
+  await waitFor(() => extending);
+  assert.equal(h.requests.length, 0);
+  gate.resolve();
+  await h.idle();
+  assert.equal(h.document.text, "- abc");
+  assert.equal(h.requests.length, 0, "a failed native write after delayed movement must not authorize Cut deletion");
+  assert.deepEqual(h.clipboard, []);
+  assert.equal(h.notifications.at(-1)[0], "warning", "clipboard permission failure remains visible");
+  h.failClipboard(false);
+  h.send({ kind: "clipboardRequest", action: "cut" });
+  await waitFor(() => h.requests.length === 1);
+  assert.deepEqual(h.clipboard, ["abc"]);
+  assert.deepEqual([h.requests[0].params.target.selection.anchor.offsetUtf16,
+    h.requests[0].params.target.selection.focus.offsetUtf16], [0, 3]);
+  await h.respond([{ source: "- ", body: "" }], 0);
+  await h.publishSnapshot();
+  await h.idle();
+  assert.equal(h.document.text, "- ");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  await h.session.runContextAction("selectAll");
+  const permission = deferred();
+  const writes = [];
+  h.ports.writeClipboard = async (text) => { writes.push(text); await permission.promise; };
+  h.send({ kind: "clipboardRequest", action: "cut" });
+  await waitFor(() => writes.length === 1);
+  h.send({ kind: "clipboardRequest", action: "copy" });
+  const old = h.ports.currentGeometryIdentity();
+  h.ports.currentGeometryIdentity = () => ({ ...old, generation: old.generation + 1, renderKey: "external-render" });
+  permission.resolve();
+  await h.idle();
+  assert.equal(h.requests.length, 0, "Cut must revalidate its exact renderer authorization after native write acknowledgement");
+  assert.deepEqual(writes, ["abc"], "the queued Copy request cannot rebind to a newer renderer generation");
+  assert.equal(h.document.text, "- abc");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const move = h.ports.geometry.move;
+  const gate = deferred();
+  let extending = false;
+  h.ports.geometry.move = async (...args) => {
+    if (args[1] === "right") { extending = true; await gate.promise; }
+    return args[6].aborted ? { status: "unavailable", reason: "aborted" } : move(...args);
+  };
+  h.send({ kind: "move", direction: "left", granularity: "document", extend: false });
+  h.send({ kind: "move", direction: "right", granularity: "document", extend: true });
+  h.send({ kind: "clipboardRequest", action: "cut" });
+  await waitFor(() => extending);
+  h.external([{ source: "- elsewhere", body: "elsewhere" }]);
+  gate.resolve();
+  await h.idle();
+  assert.deepEqual(h.clipboard, [], "source invalidation retires a pending clipboard request before any write");
+  assert.equal(h.requests.length, 0);
+  assert.equal(h.session.selection, null);
+  assert.equal(h.document.text, "- elsewhere");
   h.runtime.dispose();
 }
 

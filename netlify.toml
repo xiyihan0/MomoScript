@@ -5,3 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "22.12.0"
+
+# Native Webview HTML uses exact, case-sensitive Vite asset URLs.
+[build.processing.html]
+  pretty_urls = false

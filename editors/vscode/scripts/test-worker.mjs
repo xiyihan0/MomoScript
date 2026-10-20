@@ -603,7 +603,7 @@ try {
       || Object.hasOwn(messageModeEdit.edit, "changes")
       || messageModeEdit.edit?.documentChanges?.length !== 1
       || messageModeEdit.edit.documentChanges[0].edits?.length !== 1
-      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rT\"\"\"Worker #strong[正文]\"\"\""
+      || messageModeEdit.edit.documentChanges[0].edits[0].newText !== "rT\"\"\"\nWorker #strong[正文]\"\"\""
     ) {
       throw new Error(`browser Worker message-mode edit mismatch: ${JSON.stringify(messageModeEdit)}`);
     }
@@ -826,6 +826,93 @@ try {
         `browser Worker structural Composer mismatch: ${JSON.stringify({ structureDocument, structureEdit })}`
       );
     }
+    const eofBoundary = structureDocument.boundaries.at(-1);
+    if (!eofBoundary?.insert) throw new Error("Complete EOF without final EOL must allow insertion");
+    const eofEdit = await request("mmt/composerEdit", {
+      textDocument: structureDocument.textDocument,
+      sourceDigest: structureDocument.sourceDigest,
+      target: eofBoundary.target,
+      command: {
+        kind: "insertStatement",
+        statement: { kind: "narration", body: { value: "EOF append", mode: "inherit" } },
+      },
+    });
+    const eofSourceEdit = eofEdit.edit?.documentChanges?.[0]?.edits?.[0];
+    if (eofEdit.kind !== "Edit"
+      || eofSourceEdit?.newText !== "\n- EOF append\n"
+      || eofSourceEdit.range.start.line !== 1
+      || eofSourceEdit.range.start.character !== 3
+      || eofSourceEdit.range.end.line !== 1
+      || eofSourceEdit.range.end.character !== 3) {
+      throw new Error(`Worker EOF insertion changed existing bytes: ${JSON.stringify(eofEdit)}`);
+    }
+    for (const body of ["", "first\n> literal\n\"\"\" C:\\path\""]) {
+      const bodyEdit = await request("mmt/composerEdit", {
+        textDocument: structureDocument.textDocument,
+        target: { kind: "statement", range: structureNode.statementRange },
+        command: { kind: "setStatementBody", value: body, mode: "textRaw" },
+      });
+      const insertEdit = await request("mmt/composerEdit", {
+        textDocument: structureDocument.textDocument,
+        sourceDigest: structureDocument.sourceDigest,
+        target: structureDocument.boundaries[0].target,
+        command: {
+          kind: "insertStatement",
+          statement: {
+            kind: "message", side: "right", speaker: { kind: "builtin" },
+            body: { value: body, mode: "textRaw" }, continued: "auto",
+          },
+        },
+      });
+      if (bodyEdit.kind !== "Edit" || insertEdit.kind !== "Edit"
+        || bodyEdit.edit.documentChanges[0].edits[0].newText.length === 0
+        || !insertEdit.edit.documentChanges[0].edits[0].newText.startsWith("< _0: rt")) {
+        throw new Error(`Worker whole-body/insertion mismatch: ${JSON.stringify({ bodyEdit, insertEdit })}`);
+      }
+    }
+    if (structureNode.capabilities.replaceSource !== true
+      || JSON.stringify(structureDocument.boundaries[0].insert.builtinMessageSides) !== '["right"]') {
+      throw new Error("Worker is missing declared SourceLens or Teacher insertion capabilities");
+    }
+    const lensUri = "file:///workspace/source-lens-worker.mmt";
+    const lensSource = "- before😀\r\n\r\n@typ\r\n#strong[old]\r\n@end\r\n- after\r\n";
+    const lensProject = waitForNotification("mmt/typstProjectUpdated", (message) => message.params.sourceUri === lensUri);
+    notify("textDocument/didOpen", { textDocument: {
+      uri: lensUri, languageId: "mmt", version: 7, text: lensSource,
+    } });
+    await waitForNotification("textDocument/publishDiagnostics", (message) => message.params.uri === lensUri);
+    await lensProject;
+    const lensDocument = await request("mmt/composerDocument", { textDocument: { uri: lensUri, version: 7 } });
+    const lensNode = lensDocument.nodes[2];
+    const lensParams = {
+      textDocument: lensDocument.textDocument,
+      sourceDigest: lensDocument.sourceDigest,
+      target: { kind: "node", node: { nodeKey: lensNode.nodeKey, nodeKind: lensNode.kind, range: lensNode.range } },
+      command: { kind: "replaceNodeSource", source: "@typ\r\n#strong[new😀]\r\n@end\r\n" },
+    };
+    const lensEdit = await request("mmt/composerEdit", lensParams);
+    if (lensNode.capabilities.replaceSource !== true
+      || lensDocument.nodes[1].capabilities.replaceSource !== false
+      || lensEdit.kind !== "Edit"
+      || lensEdit.edit.documentChanges[0].textDocument.version !== 7
+      || lensEdit.edit.documentChanges[0].edits[0].newText !== lensParams.command.source) {
+      throw new Error(`Worker SourceLens edit mismatch: ${JSON.stringify(lensEdit)}`);
+    }
+    for (const command of [
+      { kind: "replaceNodeSource", source: "@typ\r\n#strong[swallowed]" },
+      { kind: "replaceNodeSource", source: "@typ\r\n#strong[ok]\r\n@end\r\n- injected\r\n" },
+    ]) {
+      const rejected = await request("mmt/composerEdit", { ...lensParams, command });
+      if (rejected.kind !== "Rejected" || rejected.reason !== "candidateInvalid") {
+        throw new Error(`Worker SourceLens crossed its source partition: ${JSON.stringify(rejected)}`);
+      }
+    }
+    const staleLens = await request("mmt/composerEdit", { ...lensParams, sourceDigest: "0".repeat(64) });
+    if (staleLens.kind !== "Rejected" || staleLens.reason !== "staleDocument") {
+      throw new Error(`Worker SourceLens accepted stale identity: ${JSON.stringify(staleLens)}`);
+    }
+    const unchangedLens = await request("mmt/composerDocument", { textDocument: lensDocument.textDocument });
+    if (unchangedLens.sourceDigest !== lensDocument.sourceDigest) throw new Error("SourceLens request mutated the Worker snapshot");
     const collapsed = (position) => ({ start: position, end: position });
     const sameRange = (actual, expected) =>
       hasExactKeys(actual, ["start", "end"])

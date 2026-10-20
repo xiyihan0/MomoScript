@@ -18,7 +18,7 @@
     "test:e2e:lifecycle": "playwright test --config=playwright.lifecycle.config.ts",
     "test:e2e:chrome": "node ./scripts/test-e2e-chrome.mjs",
     "test:e2e:pwa-offline": "VITE_MMT_E2E=1 VITE_MMT_PWA_E2E=1 npm run build && playwright test --config=playwright.pwa.config.ts",
-    "test:e2e:gui-composer": "playwright test --project=chrome --workers=1 gui-composer.spec.ts",
+    "test:e2e:gui-composer": "playwright test --project=chrome --workers=1 gui-composer.spec.ts gui-text-context.spec.ts",
     "test:runtime-delivery": "node --experimental-strip-types ./scripts/prepare-runtime-artifacts.mjs && node --experimental-strip-types ./scripts/verify-runtime-delivery.mjs",
     "test:avifs-worker": "npm run build && node ./scripts/test-avifs-worker.mjs",
     "test:resource-cache": "node --experimental-strip-types ./scripts/test-bounded-string-cache.mjs",

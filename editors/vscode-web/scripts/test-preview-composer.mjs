@@ -95,10 +95,6 @@ class FakeMessageEditorSession {
   }
 
   submit(value, mode = this.options.mode) {
-    if (value.length === 0) {
-      this.validationMessage = this.options.requiredMessage;
-      return;
-    }
     this.finish({ value, mode });
   }
 
@@ -394,6 +390,7 @@ async function chooseContinued(fixture, label = "强制连续") {
   assert.deepEqual(menu.items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
+    "文本模式",
     "从本条起修改人物显示名…",
     "转到源码",
   ]);
@@ -479,7 +476,7 @@ async function chooseContinued(fixture, label = "强制连续") {
   await waitFor(() => fixture.contextMenus.length === 1, "narration context menu was not shown");
   assert.deepEqual(
     fixture.contextMenus[0].items.map((item) => item.label),
-    ["编辑消息…"],
+    ["编辑消息…", "文本模式"],
     "narration must expose the integrated message editor without actor actions",
   );
   fixture.contextMenus[0].select("编辑消息…");
@@ -498,9 +495,9 @@ async function chooseContinued(fixture, label = "强制连续") {
   const operation = fixture.controller.handleContextPoint(point, anchor);
   await waitFor(() => fixture.contextMenus.length === 1, "message editor menu was not shown");
   assert.equal(
-    fixture.contextMenus[0].items.some((item) => item.label === "解析模式"),
-    false,
-    "parse mode must not remain as an outer context-menu submenu",
+    fixture.contextMenus[0].items.some((item) => item.label === "文本模式"),
+    true,
+    "body modes remain available as closed native actions as well as in the code editor",
   );
   fixture.contextMenus[0].select("编辑消息…");
   await waitFor(() => fixture.messageEditors.length === 1, "message editor was not shown");
@@ -572,6 +569,30 @@ for (const finishInput of [
   assert.equal(fixture.applyCalls.length, 0, "cancelled or unchanged text must not apply");
 }
 
+for (const value of ["第一行\n第二行", ""]) {
+  const fixture = harness({ bidirectionalNavigation: false });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "multiline context menu was not shown");
+  fixture.contextMenus[0].select("编辑消息…");
+  await waitFor(() => fixture.messageEditors.length === 1, "multiline editor was not shown");
+  fixture.messageEditors[0].submit(value, "textRaw");
+  await operation;
+  assert.deepEqual(fixture.requestCalls[1].params.command, { kind: "setStatementBody", value, mode: "textRaw" });
+  assert.equal(fixture.applyCalls.length, 1, "multiline and empty bodies use the ordinary atomic Composer command");
+}
+
+{
+  const fixture = harness({ bidirectionalNavigation: false });
+  const operation = fixture.controller.handleContextPoint(point, anchor);
+  await waitFor(() => fixture.contextMenus.length === 1, "body-mode native submenu was not shown");
+  fixture.contextMenus[0].select("纯文本 · rt");
+  await operation;
+  assert.equal(fixture.messageEditors.length, 0);
+  assert.deepEqual(fixture.requestCalls[1].params.command, {
+    kind: "setStatementBody", value: "当前正文😀", mode: "textRaw",
+  });
+}
+
 {
   const fixture = harness({ targetOptions: { message: false } });
   const operation = fixture.controller.handleContextPoint(point, anchor);
@@ -599,6 +620,7 @@ for (const finishInput of [
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
+    "文本模式",
     "从本条起修改人物显示名…",
     "从本条起更换人物头像…",
     "转到源码",
@@ -649,6 +671,7 @@ for (const finishInput of [
   assert.deepEqual(fixture.contextMenus[0].items.map((item) => item.label), [
     "编辑连续消息状态…",
     "编辑消息…",
+    "文本模式",
     "从本条起修改人物显示名…",
   ]);
   fixture.contextMenus[0].close();

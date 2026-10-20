@@ -49,6 +49,10 @@ export type PreviewComposerContextMenuSelection =
   | { readonly kind: "displayName" }
   | { readonly kind: "avatar" }
   | { readonly kind: "messageText" }
+  | { readonly kind: "bodyMode"; readonly value: StatementTextMode }
+  | { readonly kind: "text"; readonly action: "cut" | "copy" | "paste" | "delete" | "selectAll" | "undo" | "redo" }
+  | { readonly kind: "canvas"; readonly action: "edit" | "body" | "source" | "mode" | "speaker" | "insertBefore" | "insertAfter" | "moveUp" | "moveDown" | "delete" }
+  | { readonly kind: "toolbar"; readonly action: "new" | "open" | "source" | "problems" | "preview" | "history" | "arrange" }
   | { readonly kind: "navigate" };
 
 export interface PreviewComposerContextMenuItem {
@@ -94,7 +98,8 @@ export interface PreviewComposerMessageEditorOptions {
   readonly value: string;
   readonly mode: StatementTextMode;
   readonly inheritedMode: ComposerBodyMode;
-  readonly requiredMessage: string;
+  readonly kind?: "body" | "source";
+  readonly onDidChange?: (value: string, mode: StatementTextMode) => void;
 }
 
 export interface PreviewComposerMessageEditorResult {
@@ -200,7 +205,6 @@ const UNAVAILABLE_MESSAGE = "无法编辑此预览内容。";
 const REJECTED_MESSAGE = "无法应用此预览编辑。";
 const APPLY_FAILED_MESSAGE = "无法应用预览编辑。";
 const INPUT_REQUIRED_MESSAGE = "显示名不能为空。";
-const MESSAGE_INPUT_REQUIRED_MESSAGE = "消息不能为空。";
 const EDIT_AVATAR_LABEL = "从本条起更换人物头像…";
 const AVATAR_UNAVAILABLE_MESSAGE = "所选头像已不可用，未应用编辑。";
 
@@ -447,9 +451,13 @@ export class PreviewComposerController implements Disposable {
         return;
       }
       command = { kind: "setStatementBody", value: body.value, mode: body.mode };
+    } else if (selection.kind === "bodyMode") {
+      const body = targetResult.properties.statementText;
+      if (!body) return;
+      command = { kind: "setStatementBody", value: body.current, mode: selection.value };
     } else if (selection.kind === "continued") {
       command = { kind: "setStatementContinued", value: selection.value };
-    } else {
+    } else if (selection.kind === "displayName") {
       const actorDisplayName = targetResult.properties.actorDisplayName;
       if (!actorDisplayName) return;
       const value = await this.inputDisplayName(operation, anchor, actorDisplayName.current);
@@ -460,6 +468,8 @@ export class PreviewComposerController implements Disposable {
         return;
       }
       command = { kind: "setActorDisplayNameFromStatement", value };
+    } else {
+      return;
     }
     await this.applyComposerCommand(
       operation,
@@ -622,6 +632,15 @@ export class PreviewComposerController implements Disposable {
         label: EDIT_MESSAGE_LABEL,
         selection: { kind: "messageText" },
       });
+      items.push({
+        label: "文本模式",
+        children: (["inherit", "textMacro", "textRaw", "typstMacro", "typstRaw"] as const).map((mode) => ({
+          label: mode === "inherit" ? "继承" : mode === "textMacro" ? "文本宏 · t"
+            : mode === "textRaw" ? "纯文本 · rt" : mode === "typstMacro" ? "Typst · T" : "原始 Typst · rT",
+          checked: statementText.mode === mode,
+          selection: { kind: "bodyMode", value: mode },
+        })),
+      });
     }
     if (actorAvailable) {
       items.push({
@@ -672,7 +691,6 @@ export class PreviewComposerController implements Disposable {
       value: current.current,
       mode: current.mode,
       inheritedMode: current.inheritedMode,
-      requiredMessage: MESSAGE_INPUT_REQUIRED_MESSAGE,
     });
     const active: ActiveTransientUi = {
       close: () => session.close(),
@@ -681,12 +699,7 @@ export class PreviewComposerController implements Disposable {
     operation.transient = active;
     const body = await session.result;
     if (operation.transient === active) operation.transient = undefined;
-    return body
-      && body.value.length > 0
-      && !body.value.includes("\r")
-      && !body.value.includes("\n")
-      ? body
-      : undefined;
+    return body;
   }
 
   private async inputDisplayName(

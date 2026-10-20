@@ -43,15 +43,23 @@ The GUI SHALL use the real Typst/Tinymist SVG as its sole primary authoring canv
 - AND body clicks MUST NOT also navigate away to source
 - AND avatar/name/bubble/narration-label actions MUST continue to use existing semantic Picker/Sheet/PreviewComposer commands
 
+#### Scenario: Production hosting preserves native Webview asset URLs
+
+- GIVEN the GUI uses the native Webview and the production PWA controls the parent page
+- WHEN the Webview navigates to its versioned HTML asset with native identity and service-worker query parameters
+- THEN hosting MUST serve the exact case-sensitive `.html` URL directly without Pretty URL redirection
+- AND the native SVG canvas MUST become ready without bypassing the PWA or adding a runtime retry/fallback
+
 #### Scenario: Advanced content is encountered
 
 - GIVEN content is Typst-mode、irreversible macro-generated text or an Opaque node
-- WHEN the author selects its source affordance
-- THEN the GUI MUST navigate to its current authored TextDocument range
-- AND MUST NOT guess a body replacement range from rendered content
+- WHEN the author chooses its local source affordance
+- THEN the GUI MUST offer a pointer-adjacent multiline source editor only when the current Rust snapshot authorizes replacement of that exact node
+- AND full authored-source navigation MUST remain available
+- AND the GUI MUST NOT guess a body replacement range from rendered content
 - AND every directive/error/unsupported projection node MUST remain discoverable even if it has no rendered glyph
 - AND a comment-looking line MUST remain a diagnostic-preserving `recoverableError`, not a fabricated `comment`
-- AND Opaque nodes MUST NOT expose direct property、delete or move commands
+- AND Opaque nodes MUST NOT acquire ordinary property、delete or move capabilities through their source editor
 
 #### Scenario: Blank nodes are visually compact
 
@@ -408,3 +416,164 @@ Acceptance SHALL exercise the actual Workbench SVG surface, same TextDocument an
 - THEN manual verification MUST observe candidate-window anchoring、one commit、cancel without edits、one undo and uninterrupted composition
 - AND automated start/update/end/cancel/duplicate-input tests MUST be reported separately
 - AND unavailable OS IME or Chrome MUST be explicitly reported as unverified rather than replaced with synthetic proof
+
+### Requirement: Context menus distinguish text selection from whole content
+
+The GUI SHALL provide native Workbench contextual actions beside the current selection. Text-range actions SHALL operate on the authorized text selection; whole-content actions SHALL operate on one current projected node and its server capabilities.
+
+#### Scenario: A text selection is right-clicked
+
+- GIVEN a current authorized non-collapsed body selection
+- WHEN the author opens its context menu
+- THEN opening the menu MUST preserve the existing range and direction
+- AND Copy、Cut、Paste、Delete、Select All and native history actions MUST use the existing text session rather than synthesize source edits
+- AND any clipboard read/write failure MUST leave source unchanged for the affected operation
+- AND document、selection or runtime drift MUST dismiss or reject a pending action
+
+#### Scenario: A whole message or narration is selected
+
+- GIVEN a current projected node with property and structure capabilities
+- WHEN the author opens its contextual actions
+- THEN direct text entry、local body/mode editing、speaker and applicable continued/display-name/avatar actions MUST remain reachable
+- AND legal insert-before/after、move-up/down and whole-node deletion MUST use the current Rust boundary/node commands
+- AND unavailable capabilities MUST NOT be inferred from nearby nodes or semantic SVG labels
+- AND keyboard and touch users MUST have a visible contextual entry without requiring a right mouse button
+
+#### Scenario: The author selects words or a complete body
+
+- GIVEN supported body text is visible
+- WHEN the author double-clicks or triple-clicks
+- THEN double-click MUST select a semantic word and triple-click MUST select the complete current body
+- AND neither interaction may select a neighboring statement solely because its text is identical
+
+#### Scenario: A drag briefly leaves mapped text
+
+- GIVEN a valid drag selection with current document and render authority
+- WHEN a move sample falls in an unmapped visual margin and later returns to mapped text
+- THEN the gesture and last authorized selection MUST survive the unmapped sample
+- AND the unmapped sample MUST NOT become an editable endpoint
+- AND a range crossing a non-blank opaque or mode barrier MUST remain rejected
+
+### Requirement: Keyboard clipboard operations preserve selection order and browser permissions
+
+Copy and Cut SHALL use host-authorized plain text under the current selection identity. A browser ClipboardEvent MAY receive an ephemeral exact-selection payload synchronously; it SHALL NOT become a second document or obtain text from the rendered SVG.
+
+#### Scenario: Copy or Cut originates from a keyboard event
+
+- GIVEN selected plain text has been authorized for the exact current session and selection
+- WHEN a trusted browser clipboard event is handled
+- THEN the implementation MUST write that exact plain text within the clipboard event or a valid user activation
+- AND Cut MUST submit its semantic deletion only after successful clipboard admission
+- AND stale or pending selection payloads MUST NOT be copied or used to authorize deletion
+
+#### Scenario: Copy or Cut follows pending selection movement
+
+- GIVEN earlier accepted movement or typing is still settling in the input queue
+- WHEN the author requests Copy or Cut
+- THEN the clipboard request MUST execute after that earlier work and authorize its resulting exact semantic selection
+- AND the native clipboard service MUST report successful admission before Cut can delete that same selection
+- AND permission failure MUST remain visible without deletion or retry
+- AND external source、session or render conflicts MUST retire the request without copying an old payload or retargeting another selection
+
+#### Scenario: A script dispatches a synthetic clipboard event
+
+- GIVEN a current authorized selection
+- WHEN an untrusted synthetic Copy or Cut event contains a writable DataTransfer
+- THEN it MUST NOT acknowledge clipboard success or enqueue a native clipboard request
+- AND source MUST remain unchanged because synthetic event data does not prove a system clipboard write
+
+### Requirement: The bottom composer supports continuous dialogue writing
+
+The GUI SHALL use a slim document/action header, the retained SVG canvas and a compact persistent bottom composer. The permanent property inspector SHALL be removed; existing-content actions SHALL use contextual entries and an explicitly entered/exited arrange mode.
+
+GUI controls SHALL use a scoped Momotalk-style conversation-product skin: pastel header, circular role portraits, light surfaces and a rounded chat input with a recognizable send action. The role picker, contextual actions and local-editor container SHALL share that visual language. This presentation SHALL preserve the native Workbench topology and SHALL NOT change the global source-editor/settings theme.
+
+#### Scenario: GUI chrome stays compact at narrow widths
+
+- GIVEN the GUI owns the preview surface
+- WHEN the viewport is narrow or a text session is temporarily paused
+- THEN the preview MUST retain one compact zoom/fit row without duplicate format/export controls
+- AND the document header MUST retain the canonical export action
+- AND normal non-GUI preview controls MUST remain unchanged
+- AND header actions MUST remain reachable within the actual available native pane width, not only the outer viewport width
+- AND compact GUI entry/restoration MUST use native navigation visibility to keep the editor in the viewport while retaining native view toggles and the existing Workbench topology
+- AND presentation mode MUST NOT grant editing permission
+
+#### Scenario: Two consecutive messages are sent
+
+- GIVEN a current Rust-authorized insertion boundary and a selected speaker
+- WHEN the author sends a bottom draft twice
+- THEN each accepted send MUST create exactly one ordinary Rust-projected statement
+- AND the ordinary draft MUST be submitted as explicit literal `textRaw` so a document-level Typst mode cannot reinterpret chat text as code
+- AND only the successfully applied draft text MUST clear
+- AND selected speaker and actor-avatar context MUST remain available for the next message
+- AND Enter MAY send while Shift+Enter inserts a draft newline, but an active IME composition MUST NOT send
+
+#### Scenario: A saved fenced message ends at EOF without a final newline
+
+- GIVEN a complete final statement and a reopened current document with no final line terminator
+- WHEN the author sends the next bottom draft
+- THEN Rust MUST authorize the legal EOF insertion and supply any required statement separator in the same atomic edit
+- AND every pre-existing source byte and neighboring semantic value MUST remain unchanged
+- AND the client MUST NOT append a newline or synthesize a boundary to enable Send
+
+#### Scenario: Pack semantics change without a source edit
+
+- GIVEN a restored GUI or an accepted snapshot created under an earlier Pack/catalog context
+- WHEN initial Pack synchronization completes or the semantic catalog changes
+- THEN the existing runtime owner MUST bind or refresh current Rust authority at the unchanged source version
+- AND stale snapshot、selection and transient authorization MUST be revoked before further editing
+- AND draft text and role context MUST survive without a source-version nudge or manual source edit
+
+#### Scenario: A role is selected before sending
+
+- GIVEN an available script or verified Pack speaker
+- WHEN the author selects it
+- THEN the presentation role tray MUST retain it in a stable position without changing source
+- AND Teacher/Sensei MUST remain one-step reachable through the boundary's explicit builtin insertion capability, not a fabricated actor reference; when no builtin side is authorized it MUST be visibly unavailable rather than silently submit as another speaker
+- AND the full role library MUST open on demand rather than occupy a permanent canvas sidebar
+
+#### Scenario: Old content is edited while a new draft exists
+
+- GIVEN an unsent bottom draft and current new-message role
+- WHEN the author edits an existing SVG body、opens a context menu、changes properties or uses native undo/redo
+- THEN the draft and new-message role MUST remain unchanged
+- AND unsent draft bytes MUST NOT enter the TextDocument、projection、history、save or export
+- AND rejected or stale sends MUST preserve recoverable draft text without optimistic canvas content
+
+#### Scenario: A lifecycle transition would discard a draft
+
+- GIVEN an unsent draft would be lost during close、document switch or reload
+- WHEN that transition is requested
+- THEN existing recovery or browser unload protection MUST prevent silent loss
+- AND the URI-only editor serializer MUST NOT acquire draft text or a second persistence format
+
+### Requirement: Local source editing stays beside the typeset content
+
+An authorized local source editor SHALL use multiline Monaco editing, remain near the selected content and commit through Rust Composer. Enter SHALL insert a newline, Ctrl/Cmd+Enter SHALL explicitly submit, and Escape SHALL cancel without changing source.
+
+#### Scenario: A local Monaco widget receives focus
+
+- GIVEN the GUI owns a current SVG canvas and an unsent bottom draft
+- WHEN a local body or source editor receives focus
+- THEN the native Workbench main editor part MUST remain the canonical GUI document owner
+- AND the SVG、renderer session and committed generation MUST remain unchanged until an authored edit is applied
+- AND the bottom draft MUST remain intact
+- AND explicit navigation to a real source editor tab MUST still change the active editor normally
+
+#### Scenario: A multiline body is replaced or inserted
+
+- GIVEN a current body or insertion capability
+- WHEN authored text includes newlines、quotes、empty content or DSL-looking markers
+- THEN Rust MUST choose reversible inline/fenced serialization and preserve the requested semantic body
+- AND all unrelated bytes、line endings and neighboring inherited semantics MUST remain exact
+- AND the client MUST NOT construct a fence or statement prefix
+
+#### Scenario: Advanced node source is replaced
+
+- GIVEN a current exact node reference and explicit replacement capability
+- WHEN the author submits local source text
+- THEN Rust MUST validate URI/version/digest、node kind/range and the complete candidate before returning one versioned WorkspaceEdit
+- AND source outside the authorized node MUST remain exact
+- AND an unterminated fence or block MUST NOT absorb a neighboring original node
+- AND stale identity、invalid candidate or changed neighboring ownership MUST reject without partial mutation

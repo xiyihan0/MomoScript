@@ -846,9 +846,7 @@ impl LanguageService {
         ) || matches!(
             &command,
             ComposerCommand::SetStatementBody { value, .. }
-                if value.is_empty()
-                    || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
-                    || value.contains(['\r', '\n'])
+                if value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
         ) {
             return Err(ComposerEditRejection::InvalidValue);
         }

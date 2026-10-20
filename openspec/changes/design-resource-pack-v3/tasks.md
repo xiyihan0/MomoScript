@@ -23,6 +23,7 @@
 - [x] 3.4 实测 AVIFS 在体积、透明度、抽帧速度与画质上的 tradeoff
 - [x] 3.5 保留 browser AVIF decoder 调研为后续迁移参考；不把 Web/WASM 实现列为当前 parser 主线任务
 - [x] 3.6 对 AVIFS 编码结果与 resume 候选检查实际尺寸/帧数；对账只接受可核验 blob/报告，并同步修复贡献槽位、缩略图索引和 Entity Catalog digest
+- [x] 3.7 默认使用 RGBA48 L1 差分重排与每组 auto GOP，根工作区提供 NumPy 构建依赖，保留逻辑身份/缩略图映射；实测同源四方案及 native/browser 抽帧，并完成 2026.10.20 Kivo 刷新；缺失上游头像时不生成悬空引用
 
 ## 4. 剩余实施与验收
 

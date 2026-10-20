@@ -16,6 +16,7 @@ import {
 const renderKey = "render-key";
 const point = { pageIndex: 0, x: 0.25, y: 0.75 };
 const anchor = { screenX: 640, screenY: 360 };
+const clipboardAuthorization = "00000000-0000-4000-8000-000000000001";
 const viewport = { page: 0, x: 0.25, y: 0.75, zoom: 1, fitMode: "width" };
 const exactExportState = {
   mode: "exact",
@@ -61,6 +62,8 @@ const hostMessages = [
   { type: "indicator", point },
   { type: "cursor" },
   { type: "exactExportState", state: exactExportState },
+  { type: "presentation", presentation: "gui" },
+  { type: "presentation", presentation: "preview" },
 ];
 
 const renderer = {
@@ -97,8 +100,8 @@ const webviewMessages = [
   { type: "viewport", viewport },
   { type: "navigate", point },
   { type: "navigate", point: { ...point, text: "1234abcd", textOffset: 4 } },
-  { type: "context-point", point, anchor },
-  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 4 }, anchor },
+  { type: "context-point", point, anchor, trigger: "menu" },
+  { type: "context-point", point: { ...point, text: "1234abcd", textOffset: 4 }, anchor, trigger: "select" },
   { type: "exact-export", format: "pdf", staleChoice: "wait-for-latest" },
   { type: "exact-export-cancel" },
   { type: "render-rejected", requestSequence: 1, renderKey, error: "rejected" },
@@ -118,6 +121,11 @@ for (const malformed of [
   { ...hostMessages[0], svg: 1 },
   { type: "status", message: "bad", error: "false" },
   { type: "restoreViewport", viewport: { ...viewport, zoom: "1" } },
+  { type: "presentation" },
+  { type: "presentation", presentation: "source" },
+  { type: "presentation", presentation: true },
+  { type: "presentation", presentation: "gui", enabled: true },
+  { type: "presentation", presentation: "preview", sessionId: "not-edit-authority" },
   { type: "unknown-host" },
 ]) {
   assert.equal(isPreviewHostToWebviewMessage(malformed), false);
@@ -153,11 +161,15 @@ for (const malformed of [
   { type: "renderer-resync-needed", sessionId: "session", generation: 0 },
   { type: "unknown-webview" },
 ]) {
-  assert.equal(isPreviewWebviewToHostMessage(malformed), false);
+  const candidate = malformed?.type === "context-point" ? { trigger: "menu", ...malformed } : malformed;
+  assert.equal(isPreviewWebviewToHostMessage(candidate), false);
 }
 
-assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor }), true);
-assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor, extra: true }), false);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor, trigger: "menu" }), true);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor, trigger: "select" }), true);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor }), false);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor, trigger: "click" }), false);
+assert.equal(isPreviewContextPointMessage({ type: "context-point", point, anchor, trigger: "menu", extra: true }), false);
 
 
 const composerState = {
@@ -169,6 +181,7 @@ const composerState = {
   screenCoordinatePrecision: 2 ** -13,
   carets: [{ pageIndex: 0, x: 0.25, y: 0.3, width: 0, height: 0.04, affinity: "after" }],
   boxes: [],
+  clipboard: null,
 };
 const pointerIntent = { kind: "pointer", phase: "start", point, uncertainty: { x: 0, y: 0 }, extend: false, clickCount: 1 };
 const replaceIntent = { kind: "replace", text: "😀e\u0301\n> @不是语法 \"\"\"", origin: "typing" };
@@ -182,13 +195,14 @@ const validIntents = [
   { ...pointerIntent, phase: "end" },
   { ...pointerIntent, phase: "cancel" },
   { ...pointerIntent, clickCount: 2 },
+  { ...pointerIntent, clickCount: 3 },
   { kind: "move", direction: "left", granularity: "grapheme", extend: false },
   { kind: "move", direction: "right", granularity: "word", extend: true },
   { kind: "move", direction: "up", granularity: "visualLine", extend: false },
   { kind: "move", direction: "down", granularity: "document", extend: true },
   replaceIntent,
   { kind: "replace", text: "plain\r\n> text", origin: "paste" },
-  { kind: "replace", text: "", origin: "cut" },
+  { kind: "clipboard", action: "cut", authorization: clipboardAuthorization },
   deleteIntent,
   { ...deleteIntent, direction: "forward", granularity: "word" },
   { kind: "composition", phase: "start", text: "" },
@@ -197,7 +211,12 @@ const validIntents = [
   { kind: "composition", phase: "cancel", text: "未提交" },
   { kind: "history", direction: "undo" },
   { kind: "history", direction: "redo" },
-  { kind: "copy" },
+  { kind: "clipboard", action: "copy", authorization: clipboardAuthorization },
+  { kind: "clipboardRequest", action: "copy" },
+  { kind: "clipboardRequest", action: "cut" },
+  { kind: "contextMenu", anchor },
+  { kind: "focus", backward: false },
+  { kind: "focus", backward: true },
 ];
 for (const intent of validIntents) {
   const message = structuredClone(composerMessage(intent));
@@ -211,7 +230,7 @@ for (const intent of validIntents) {
 const malformedIntents = [
   { ...pointerIntent, phase: "hover" },
   { ...pointerIntent, clickCount: 0 },
-  { ...pointerIntent, clickCount: 3 },
+  { ...pointerIntent, clickCount: 4 },
   { ...pointerIntent, clickCount: undefined },
   { ...pointerIntent, extend: 1 },
   { ...pointerIntent, point: { ...point, range: { start: 0, end: 1 } } },
@@ -238,6 +257,7 @@ const malformedIntents = [
   { ...replaceIntent, text: null },
   { ...replaceIntent, direction: "backward", granularity: "grapheme" },
   { kind: "replace", origin: "cut", text: "must-read-from-Rust" },
+  { kind: "replace", origin: "cut", text: "" },
   { kind: "replace", origin: "delete", text: "" },
   { ...deleteIntent, text: "x" },
   { ...deleteIntent, direction: "left" },
@@ -246,6 +266,18 @@ const malformedIntents = [
   { kind: "composition", phase: "start", text: "must-start-empty" },
   { kind: "history", direction: "previous" },
   { kind: "copy", text: "iframe-text-is-not-authoritative" },
+  { kind: "copy" },
+  { kind: "clipboard", action: "paste", authorization: clipboardAuthorization },
+  { kind: "clipboard", action: "cut", authorization: "" },
+  { kind: "clipboard", action: "cut", authorization: "not-issued" },
+  { kind: "clipboard", action: "cut", authorization: clipboardAuthorization, text: "not-authority" },
+  { kind: "clipboardRequest", action: "paste" },
+  { kind: "clipboardRequest", action: "cut", authorization: clipboardAuthorization },
+  { kind: "clipboardRequest", action: "copy", text: "iframe text is not authority" },
+  { kind: "contextMenu", anchor: { ...anchor, screenX: Number.NaN } },
+  { kind: "contextMenu", anchor: { ...anchor, extra: true } },
+  { kind: "contextMenu", anchor, selection: { start: 0, end: 10 } },
+  { kind: "focus", backward: "false" },
   { kind: "edit", edits: [] },
 ];
 for (const intent of malformedIntents) {
@@ -264,11 +296,12 @@ const selectionState = {
   ...composerState,
   carets: [composerState.carets[0], { pageIndex: 1, x: 0.8, y: 0.6, width: 0.001, height: 0.04, affinity: "before" }],
   boxes: [{ pageIndex: 0, x: 0.25, y: 0.3, width: 0.6, height: 0.04 }],
+  clipboard: { authorization: clipboardAuthorization, text: "Rust 选区\n😀" },
 };
 for (const state of [
   composerState,
   selectionState,
-  { ...selectionState, status: "pending", sequence: 3 },
+  { ...selectionState, status: "pending", sequence: 3, clipboard: null },
   { ...composerState, status: "ready", carets: [] },
   { ...composerState, status: "blocked", carets: [] },
 ]) {
@@ -278,6 +311,12 @@ for (const state of [
 for (const state of [
   { ...composerState, extra: true },
   { ...composerState, status: "idle" },
+  { ...composerState, clipboard: undefined },
+  { ...composerState, clipboard: { authorization: clipboardAuthorization, text: "no range" } },
+  { ...selectionState, status: "pending" },
+  { ...selectionState, clipboard: { authorization: "not-issued", text: "text" } },
+  { ...selectionState, clipboard: { authorization: clipboardAuthorization, text: "\ud83d" } },
+  { ...selectionState, clipboard: { authorization: clipboardAuthorization, text: "text", extra: true } },
   { ...composerState, status: "blocked" },
   { ...composerState, sessionId: "" },
   { ...composerState, sequence: -1 },
@@ -309,11 +348,23 @@ assert.equal(acceptsComposerIntent(composerMessage(replaceIntent), composerState
 assert.equal(acceptsComposerIntent(composerMessage(replaceIntent), { ...composerState, sequence: 2 }, 0), false);
 assert.equal(acceptsComposerIntent(composerMessage(pointerIntent), { ...composerState, status: "pending" }, 0), false, "pending geometry authorized a pointer");
 assert.equal(acceptsComposerIntent(composerMessage(replaceIntent), { ...composerState, status: "pending" }, 0), true, "render latency discarded typing");
+assert.equal(acceptsComposerIntent(composerMessage({ kind: "clipboardRequest", action: "copy" }),
+  { ...composerState, status: "pending" }, 0), true, "ordered Copy must wait behind accepted selection movement");
+assert.equal(acceptsComposerIntent(composerMessage({ kind: "clipboardRequest", action: "cut" }),
+  { ...composerState, status: "blocked", carets: [] }, 0), false, "blocked sessions cannot enqueue clipboard requests");
+assert.equal(acceptsComposerIntent(composerMessage({ kind: "clipboardRequest", action: "cut" },
+  { sessionId: "retired-session" }), composerState, 0), false, "clipboard requests cannot revive retired sessions");
 assert.equal(acceptsComposerIntent(composerMessage(replaceIntent, { sequence: 4 }), { ...composerState, sequence: 2 }, 3), true);
 
 const issuedKeys = new Set(["prior-render", renderKey]);
 assert.equal(acceptsComposerIntent(composerMessage(replaceIntent, { renderKey: "prior-render" }), composerState, 0, issuedKeys), true, "published prior-frame typing was lost during own rerender");
 assert.equal(acceptsComposerIntent(composerMessage(pointerIntent, { renderKey: "prior-render" }), composerState, 0, issuedKeys), false, "prior-frame pointer became writable");
+assert.equal(acceptsComposerIntent(composerMessage({ kind: "clipboard", action: "cut", authorization: clipboardAuthorization },
+  { renderKey: "prior-render" }), composerState, 0, issuedKeys), false, "prior-frame clipboard proof became writable");
+assert.equal(acceptsComposerIntent(composerMessage({ kind: "contextMenu", anchor },
+  { renderKey: "prior-render" }), composerState, 0, issuedKeys), false, "prior-frame native menu was admitted");
+assert.equal(acceptsComposerIntent(composerMessage({ kind: "clipboard", action: "copy", authorization: clipboardAuthorization }),
+  { ...composerState, status: "pending" }, 0), false, "pending selection exposed ephemeral clipboard text");
 assert.equal(acceptsComposerIntent(composerMessage(replaceIntent, { renderKey: "unknown-render" }), composerState, 0, issuedKeys), false);
 issuedKeys.delete("prior-render");
 assert.equal(acceptsComposerIntent(composerMessage(replaceIntent, { renderKey: "prior-render" }), composerState, 0, issuedKeys), false, "retired issued key re-entered the input chain");

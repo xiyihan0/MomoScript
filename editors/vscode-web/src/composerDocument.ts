@@ -48,6 +48,7 @@ export type ComposerSpeaker =
   | { readonly kind: "builtin"; readonly id: string };
 
 export interface ComposerMessageCapabilities {
+  readonly replaceSource: boolean;
   readonly setBody: boolean;
   readonly setContinued: boolean;
   readonly setDisplayName: boolean;
@@ -59,6 +60,7 @@ export interface ComposerMessageCapabilities {
 }
 
 export interface ComposerNarrationCapabilities {
+  readonly replaceSource: boolean;
   readonly setBody: boolean;
   readonly delete: boolean;
   readonly moveUp: ComposerBoundaryTarget | null;
@@ -102,11 +104,13 @@ export type ComposerDocumentNode =
       readonly sourceTruncated: boolean;
       readonly summary: string;
       readonly canOpenSource: true;
+      readonly capabilities: { readonly replaceSource: boolean };
     };
 
 export interface ComposerInsertCapability {
   readonly boundary: ComposerBoundaryTarget;
   readonly messageSides: readonly ComposerMessageSide[];
+  readonly builtinMessageSides: readonly ComposerMessageSide[];
   readonly statementModes: readonly StatementTextMode[];
   readonly speakerSources: readonly ComposerSpeakerSource[];
   readonly narration: boolean;
@@ -412,12 +416,23 @@ function parseNode(value: unknown, label: string): ComposerDocumentNode {
   }
   requireExactKeys(
     record,
-    ["kind", "nodeKey", "range", "category", "sourcePreview", "sourceTruncated", "summary", "canOpenSource"],
+    ["kind", "nodeKey", "range", "category", "sourcePreview", "sourceTruncated", "summary", "canOpenSource", "capabilities"],
     label,
   );
   if (!isAllowedString(record.category, OPAQUE_CATEGORIES)) throw new Error(`${label}.category is invalid`);
   if (typeof record.sourceTruncated !== "boolean" || record.canOpenSource !== true) {
     throw new Error(`${label} opaque flags are invalid`);
+  }
+  const capabilities = requireRecord(record.capabilities, `${label}.capabilities`);
+  requireExactKeys(capabilities, ["replaceSource"], `${label}.capabilities`);
+  if (typeof capabilities.replaceSource !== "boolean") {
+    throw new Error(`${label}.capabilities.replaceSource must be boolean`);
+  }
+  if (
+    capabilities.replaceSource
+    && (record.category === "blank" || record.category === "comment" || record.category === "recoverableError")
+  ) {
+    throw new Error(`${label} cannot replace source for a blank, comment, or broken partition`);
   }
   const sourcePreview = requireBoundedString(
     record.sourcePreview,
@@ -436,6 +451,7 @@ function parseNode(value: unknown, label: string): ComposerDocumentNode {
     sourceTruncated: record.sourceTruncated,
     summary,
     canOpenSource: true,
+    capabilities: { replaceSource: capabilities.replaceSource },
   };
 }
 
@@ -524,11 +540,12 @@ function parseAvatarCurrent(value: unknown, label: string): ComposerAvatarCurren
 
 function parseMessageCapabilities(value: unknown, label: string): ComposerMessageCapabilities {
   const record = requireRecord(value, label);
-  requireExactKeys(record, ["setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "delete", "moveUp", "moveDown"], label);
-  for (const field of ["setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "delete"] as const) {
+  requireExactKeys(record, ["replaceSource", "setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "delete", "moveUp", "moveDown"], label);
+  for (const field of ["replaceSource", "setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "delete"] as const) {
     if (typeof record[field] !== "boolean") throw new Error(`${label}.${field} must be boolean`);
   }
   return {
+    replaceSource: record.replaceSource as boolean,
     setBody: record.setBody as boolean,
     setContinued: record.setContinued as boolean,
     setDisplayName: record.setDisplayName as boolean,
@@ -542,11 +559,12 @@ function parseMessageCapabilities(value: unknown, label: string): ComposerMessag
 
 function parseNarrationCapabilities(value: unknown, label: string): ComposerNarrationCapabilities {
   const record = requireRecord(value, label);
-  requireExactKeys(record, ["setBody", "delete", "moveUp", "moveDown"], label);
-  if (typeof record.setBody !== "boolean" || typeof record.delete !== "boolean") {
+  requireExactKeys(record, ["replaceSource", "setBody", "delete", "moveUp", "moveDown"], label);
+  if (typeof record.replaceSource !== "boolean" || typeof record.setBody !== "boolean" || typeof record.delete !== "boolean") {
     throw new Error(`${label} booleans are invalid`);
   }
   return {
+    replaceSource: record.replaceSource,
     setBody: record.setBody,
     delete: record.delete,
     moveUp: record.moveUp === null ? null : parseBoundaryTarget(record.moveUp, `${label}.moveUp`),
@@ -587,8 +605,12 @@ function parseNodeRef(value: unknown, label: string): ComposerNodeRef {
 
 function parseInsertCapability(value: unknown, label: string): ComposerInsertCapability {
   const record = requireRecord(value, label);
-  requireExactKeys(record, ["boundary", "messageSides", "statementModes", "speakerSources", "narration"], label);
+  requireExactKeys(record, ["boundary", "messageSides", "builtinMessageSides", "statementModes", "speakerSources", "narration"], label);
   const messageSides = parseAllowedArray(record.messageSides, MESSAGE_SIDES, `${label}.messageSides`);
+  const builtinMessageSides = parseAllowedArray(record.builtinMessageSides, ["right"] as const, `${label}.builtinMessageSides`);
+  if (builtinMessageSides.some((side) => !messageSides.includes(side))) {
+    throw new Error(`${label}.builtinMessageSides must be declared in messageSides`);
+  }
   const statementModes = parseAllowedArray(record.statementModes, TEXT_MODES, `${label}.statementModes`);
   const speakerSources = parseAllowedArray(record.speakerSources, SPEAKER_SOURCES, `${label}.speakerSources`);
   if (typeof record.narration !== "boolean") {
@@ -597,6 +619,7 @@ function parseInsertCapability(value: unknown, label: string): ComposerInsertCap
   return {
     boundary: parseBoundaryTarget(record.boundary, `${label}.boundary`),
     messageSides,
+    builtinMessageSides,
     statementModes,
     speakerSources,
     narration: record.narration,
