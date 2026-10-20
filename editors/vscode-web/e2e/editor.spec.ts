@@ -238,7 +238,7 @@ test("production editor materializes an avatar and restores the authored story a
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
   preview = await waitForPreviewFrame(page);
-  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect(preview.locator(".page svg image").first()).toBeAttached();
   await invokeMmtE2E(page, "workspace", "openDocument", "story.mmt", "@reply\n- 选项 A\n- 选项 B\n@end\n");
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   editor = page.locator('[role="code"][data-uri="mmtfs://workspace/story.mmt"]');
@@ -276,7 +276,7 @@ test("production editor materializes an avatar and restores the authored story a
   await page.keyboard.insertText("@typ\nWORKSPACE_IMAGE_READY\n#image(\"./workspace-image.png\")\n@end");
   await expect(preview.locator(".tsel").filter({ hasText: "WORKSPACE_IMAGE_READY" }).first()).toBeAttached();
   await expect.poll(async () => (await previewReadiness(page)).containerRevision, { timeout: 30000 }).not.toBe(imageBaselineRevision);
-  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect(preview.locator(".page svg image").first()).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   const sanitizerSource = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:h5="http://www.w3.org/1999/xhtml">'
     + '<foreignObject x="0" y="0" width="100" height="20"><h5:div class="tsel" style="font-size: 16px">中文 <h5:span>styled</h5:span></h5:div></foreignObject>'
@@ -414,7 +414,7 @@ test("production editor materializes an avatar and restores the authored story a
   preview = await waitForPreviewFrame(page);
   await expect(preview.locator('.page > :is(svg[aria-label="Rendered MomoScript preview"], .typst-renderer-root)')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
-  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect(preview.locator(".page svg image").first()).toBeAttached();
   const authoredRenderKey = (await previewReadiness(page)).containerRenderKey;
   expect(authoredRenderKey).toBeTruthy();
   if (local) expect(avatarRequests).toBe(1);
@@ -436,7 +436,7 @@ test("production editor materializes an avatar and restores the authored story a
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
   preview = await waitForPreviewFrame(page, "mmtfs://workspace/story.mmt");
-  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect(preview.locator(".page svg image").first()).toBeAttached();
   await seedLegacyWorkspace(page, false);
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(true);
 
@@ -457,7 +457,7 @@ test("production editor materializes an avatar and restores the authored story a
   preview = await waitForPreviewFrame(page, "mmtfs://workspace/story.mmt");
   await expect(preview.locator('.page > :is(svg[aria-label="Rendered MomoScript preview"], .typst-renderer-root)')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
-  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect(preview.locator(".page svg image").first()).toBeAttached();
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(false);
   await expect.poll(() => persistedStory(page)).toBe(authored);
 

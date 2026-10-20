@@ -350,12 +350,12 @@ async function openBenchmarkDocument(
     rendererEnabled,
   });
   await expect(preview.locator(".tsel").first()).toBeAttached();
-  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect(preview.locator(".page svg image").first()).toBeAttached();
   const renderedShape = await preview.locator("body").evaluate((body) => ({
-    svgNodes: body.querySelectorAll("svg *").length,
+    svgNodes: body.querySelectorAll(".page svg *").length,
     selectableSpans: body.querySelectorAll(".tsel").length,
     hiddenWindowGroups: body.querySelectorAll("[data-mmt-window-hidden]").length,
-    imageNodes: body.querySelectorAll("svg image").length,
+    imageNodes: body.querySelectorAll(".page svg image").length,
     pageShells: body.querySelectorAll("[data-page-index], .typst-page").length,
   }));
   expect(renderedShape.imageNodes).toBe(fixture.shape.repeatedImages);
