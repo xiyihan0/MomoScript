@@ -43,6 +43,8 @@ MomoScript（MMT）是一套面向 Momotalk / MoeTalk 风格视觉叙事的领�
 - Typst 0.15（原生最终编译）
 - 可选：`avifdec`，用于原生 AVIFS 帧物化
 
+仓库不依赖固定的本机目录；旧版 `web/` 的 Vite 文件访问白名单也从配置文件位置解析。迁移目录时保留 `.git`、本地资源包和固定运行时制品，使用 `git worktree repair` 修复关联工作树，并在新位置重建 `.venv`、运行 `npm ci` 后重新验证构建。
+
 ## 快速开始
 
 ### 启动 Web 编辑器
