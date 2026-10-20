@@ -200,6 +200,8 @@ npx netlify deploy --build
 npx netlify deploy --build --prod
 ```
 
+保留 `netlify.toml` 中的 `pretty_urls = false`：原生 Webview 使用带大小写 hash 的 `.html` 资源路径和查询参数。Pretty URLs 会将其 301 重定向到小写无扩展名路径，导致受 PWA 控制的画布导航失败；部署后应确认原始 Webview URL 直接返回 200，并实际打开 GUI 检查 SVG。
+
 生产 Web 编辑器默认从 HTTPS pack-v3 manifest 获取资源，不依赖旧版 `VITE_MMT_*` 环境变量。
 
 ## 项目状态与边界

@@ -43,6 +43,13 @@ The GUI SHALL use the real Typst/Tinymist SVG as its sole primary authoring canv
 - AND body clicks MUST NOT also navigate away to source
 - AND avatar/name/bubble/narration-label actions MUST continue to use existing semantic Picker/Sheet/PreviewComposer commands
 
+#### Scenario: Production hosting preserves native Webview asset URLs
+
+- GIVEN the GUI uses the native Webview and the production PWA controls the parent page
+- WHEN the Webview navigates to its versioned HTML asset with native identity and service-worker query parameters
+- THEN hosting MUST serve the exact case-sensitive `.html` URL directly without Pretty URL redirection
+- AND the native SVG canvas MUST become ready without bypassing the PWA or adding a runtime retry/fallback
+
 #### Scenario: Advanced content is encountered
 
 - GIVEN content is Typst-mode、irreversible macro-generated text or an Opaque node
