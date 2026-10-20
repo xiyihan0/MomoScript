@@ -17,12 +17,13 @@ use mmt_rs::{
     COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent,
     ComposerBodyMode, ComposerBoundaryTarget, ComposerCommand, ComposerDocumentNode,
     ComposerDocumentNodeKind, ComposerInsertCapability, ComposerMessageCapabilities,
-    ComposerMessageSide, ComposerNarrationCapabilities, ComposerNewStatement, ComposerNodeRef,
-    ComposerOpaqueCategory, ComposerSpeakerChoice, ComposerSpeakerDescription,
-    ComposerSpeakerSource, ComposerStatementBody, ComposerStatementBodyInput,
-    ComposerStatementText, ComposerStructureCommand, ComposerStructureTarget, ContinuedValue,
-    PackAvatarChoice, ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass,
-    ProjectionKey, SourceContentKey, StatementTextMode, TypstProjectSnapshotKey,
+    ComposerMessageSide, ComposerNarrationCapabilities, ComposerNewStatement,
+    ComposerNewStatementSpeaker, ComposerNodeRef, ComposerOpaqueCategory, ComposerSpeakerChoice,
+    ComposerSpeakerDescription, ComposerSpeakerSource, ComposerStatementBody,
+    ComposerStatementBodyInput, ComposerStatementText, ComposerStructureCommand,
+    ComposerStructureTarget, ContinuedValue, PackAvatarChoice, ProjectedEditTarget,
+    ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey, SourceContentKey,
+    StatementTextMode, TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -408,6 +409,24 @@ impl From<ComposerSpeakerChoiceParams> for ComposerSpeakerChoice {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind")]
+enum ComposerNewStatementSpeakerParams {
+    #[serde(rename = "actor")]
+    Actor { reference: String },
+    #[serde(rename = "builtin")]
+    Builtin {},
+}
+
+impl From<ComposerNewStatementSpeakerParams> for ComposerNewStatementSpeaker {
+    fn from(choice: ComposerNewStatementSpeakerParams) -> Self {
+        match choice {
+            ComposerNewStatementSpeakerParams::Actor { reference } => Self::Actor { reference },
+            ComposerNewStatementSpeakerParams::Builtin {} => Self::Builtin,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 struct ComposerStatementBodyInputParams {
     value: String,
@@ -429,7 +448,7 @@ enum ComposerNewStatementParams {
     #[serde(rename = "message")]
     Message {
         side: ComposerMessageSideParams,
-        speaker: ComposerSpeakerChoiceParams,
+        speaker: ComposerNewStatementSpeakerParams,
         body: ComposerStatementBodyInputParams,
         continued: ComposerContinuedValue,
     },
@@ -491,6 +510,8 @@ enum ComposerStructureCommandParams {
     SetStatementSpeaker {
         speaker: ComposerSpeakerChoiceParams,
     },
+    #[serde(rename = "replaceNodeSource")]
+    ReplaceNodeSource { source: String },
 }
 
 #[derive(Debug, Deserialize)]
@@ -606,12 +627,10 @@ fn validate_composer_command(command: &ComposerCommandParams) -> Result<(), Serv
             )))
         }
         ComposerCommandParams::SetStatementBody { value, .. }
-            if value.is_empty()
-                || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
-                || value.contains(['\r', '\n']) =>
+            if value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES =>
         {
             Err(ServerError::invalid_params(format!(
-                "statement text must be 1-{COMPOSER_STATEMENT_TEXT_MAX_BYTES} UTF-8 bytes on one line"
+                "statement text exceeds {COMPOSER_STATEMENT_TEXT_MAX_BYTES} UTF-8 bytes"
             )))
         }
         ComposerCommandParams::SetActorAvatarFromStatement { avatar } => {
@@ -659,6 +678,10 @@ fn validate_composer_structure(params: &ComposerStructureEditParams) -> Result<(
             ComposerStructureTargetParams::Node { .. },
             ComposerStructureCommandParams::SetStatementSpeaker { speaker },
         ) => validate_speaker_choice(speaker),
+        (
+            ComposerStructureTargetParams::Node { .. },
+            ComposerStructureCommandParams::ReplaceNodeSource { source },
+        ) if !source.is_empty() && source.len() <= COMPOSER_STATEMENT_TEXT_MAX_BYTES => Ok(()),
         _ => Err(ServerError::invalid_params(
             "Composer structure target and command kinds do not match",
         )),
@@ -751,7 +774,9 @@ fn composer_text_selection_params(
 fn validate_new_statement(statement: &ComposerNewStatementParams) -> Result<(), ServerError> {
     match statement {
         ComposerNewStatementParams::Message { speaker, body, .. } => {
-            validate_speaker_choice(speaker)?;
+            if let ComposerNewStatementSpeakerParams::Actor { reference } = speaker {
+                validate_speaker_reference(reference)?;
+            }
             validate_statement_body_input(body)
         }
         ComposerNewStatementParams::Narration { body } => validate_statement_body_input(body),
@@ -761,12 +786,9 @@ fn validate_new_statement(statement: &ComposerNewStatementParams) -> Result<(), 
 fn validate_statement_body_input(
     body: &ComposerStatementBodyInputParams,
 ) -> Result<(), ServerError> {
-    if body.value.is_empty()
-        || body.value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
-        || body.value.contains(['\r', '\n'])
-    {
+    if body.value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES {
         return Err(ServerError::invalid_params(format!(
-            "statement text must be 1-{COMPOSER_STATEMENT_TEXT_MAX_BYTES} UTF-8 bytes on one line"
+            "statement text exceeds {COMPOSER_STATEMENT_TEXT_MAX_BYTES} UTF-8 bytes"
         )));
     }
     Ok(())
@@ -774,6 +796,10 @@ fn validate_statement_body_input(
 
 fn validate_speaker_choice(choice: &ComposerSpeakerChoiceParams) -> Result<(), ServerError> {
     let ComposerSpeakerChoiceParams::Actor { reference } = choice;
+    validate_speaker_reference(reference)
+}
+
+fn validate_speaker_reference(reference: &str) -> Result<(), ServerError> {
     if reference.is_empty()
         || reference.len() > COMPOSER_SPEAKER_REFERENCE_MAX_BYTES
         || reference.trim() != reference
@@ -854,6 +880,9 @@ fn structure_command(
             ComposerStructureCommand::SetStatementSpeaker {
                 speaker: speaker.into(),
             }
+        }
+        ComposerStructureCommandParams::ReplaceNodeSource { source } => {
+            ComposerStructureCommand::ReplaceNodeSource { source }
         }
     })
 }
@@ -1386,6 +1415,7 @@ impl From<ComposerStatementBody> for ComposerStatementBodyResult {
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct ComposerMessageCapabilitiesResult {
+    replace_source: bool,
     set_body: bool,
     set_continued: bool,
     set_display_name: bool,
@@ -1399,10 +1429,17 @@ struct ComposerMessageCapabilitiesResult {
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct ComposerNarrationCapabilitiesResult {
+    replace_source: bool,
     set_body: bool,
     delete: bool,
     move_up: Option<ComposerBoundaryTargetResult>,
     move_down: Option<ComposerBoundaryTargetResult>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerOpaqueCapabilitiesResult {
+    replace_source: bool,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -1457,6 +1494,7 @@ enum ComposerDocumentNodeResult {
         summary: String,
         #[serde(rename = "canOpenSource")]
         can_open_source: bool,
+        capabilities: ComposerOpaqueCapabilitiesResult,
     },
 }
 
@@ -1465,6 +1503,7 @@ enum ComposerDocumentNodeResult {
 struct ComposerInsertCapabilityResult {
     boundary: ComposerBoundaryTargetResult,
     message_sides: Vec<ComposerMessageSideResult>,
+    builtin_message_sides: Vec<ComposerMessageSideResult>,
     statement_modes: Vec<ComposerStatementTextModeResult>,
     speaker_sources: Vec<ComposerSpeakerSourceResult>,
     narration: bool,
@@ -1556,6 +1595,12 @@ fn composer_insert_capability_result(
             .copied()
             .map(Into::into)
             .collect(),
+        builtin_message_sides: capability
+            .builtin_message_sides
+            .iter()
+            .copied()
+            .map(Into::into)
+            .collect(),
         statement_modes: capability
             .statement_modes
             .iter()
@@ -1577,6 +1622,7 @@ fn composer_message_capabilities_result(
     capabilities: &ComposerMessageCapabilities,
 ) -> Result<ComposerMessageCapabilitiesResult, ServerError> {
     Ok(ComposerMessageCapabilitiesResult {
+        replace_source: capabilities.replace_source,
         set_body: capabilities.set_body,
         set_continued: capabilities.set_continued,
         set_display_name: capabilities.set_display_name,
@@ -1601,6 +1647,7 @@ fn composer_narration_capabilities_result(
     capabilities: &ComposerNarrationCapabilities,
 ) -> Result<ComposerNarrationCapabilitiesResult, ServerError> {
     Ok(ComposerNarrationCapabilitiesResult {
+        replace_source: capabilities.replace_source,
         set_body: capabilities.set_body,
         delete: capabilities.delete,
         move_up: capabilities
@@ -1688,6 +1735,9 @@ fn composer_document_result(
                     source_truncated,
                     summary: authored.chars().take(160).collect(),
                     can_open_source: true,
+                    capabilities: ComposerOpaqueCapabilitiesResult {
+                        replace_source: node.capabilities.replace_source,
+                    },
                 }
             }
         });
@@ -3259,7 +3309,7 @@ mod tests {
             blanks["nodes"][0]["textEditing"],
             serde_json::json!({"text":"first\ncontinued body"})
         );
-        assert_eq!(blanks["nodes"][0]["capabilities"]["setBody"], false);
+        assert_eq!(blanks["nodes"][0]["capabilities"]["setBody"], true);
         for index in [1, 2] {
             assert_eq!(blanks["nodes"][index]["kind"], "opaque");
             assert_eq!(blanks["nodes"][index]["category"], "blank");
@@ -3378,6 +3428,264 @@ mod tests {
             candidate.replace_range(start..end, &replacement);
         }
         candidate
+    }
+
+    #[test]
+    fn composer_body_insert_and_source_lens_json_are_atomic_strict_and_versioned() {
+        let uri = Url::parse("file:///workspace/local-source.mmt").unwrap();
+        for (wire_encoding, encoding) in [
+            ("utf-8", PositionEncodingKind::UTF8),
+            ("utf-16", PositionEncodingKind::UTF16),
+        ] {
+            for eol in ["\n", "\r\n"] {
+                let mut server = MmtLanguageServer::default();
+                server
+                    .request("initialize", initialize_with_encoding(wire_encoding))
+                    .unwrap();
+                let source =
+                    format!("- body😀{eol}{eol}@typ{eol}#strong[old]{eol}@end{eol}- after{eol}");
+                open_document(&mut server, &uri, 7, &source);
+                let snapshot = server
+                    .request(
+                        "mmt/composerDocument",
+                        serde_json::json!({
+                            "textDocument": {"uri":uri, "version":7},
+                        }),
+                    )
+                    .unwrap();
+                assert_eq!(snapshot["nodes"][0]["capabilities"]["setBody"], true);
+                assert_eq!(snapshot["nodes"][1]["capabilities"]["replaceSource"], false);
+                assert_eq!(snapshot["nodes"][2]["capabilities"]["replaceSource"], true);
+                assert_eq!(
+                    snapshot["boundaries"][0]["insert"]["builtinMessageSides"],
+                    serde_json::json!(["right"])
+                );
+                let node_ref = |index: usize| {
+                    let node = &snapshot["nodes"][index];
+                    serde_json::json!({"nodeKey":node["nodeKey"],"nodeKind":node["kind"],"range":node["range"]})
+                };
+                let body_params = |value: &str| {
+                    serde_json::json!({
+                        "textDocument":snapshot["textDocument"],
+                        "target":{"kind":"statement","range":snapshot["nodes"][0]["statementRange"]},
+                        "command":{"kind":"setStatementBody","value":value,"mode":"textRaw"},
+                    })
+                };
+                for body in ["", "first\n> literal\n\"\"\" C:\\path\""] {
+                    let response =
+                        composer_json_request(&mut server, "mmt/composerEdit", &body_params(body));
+                    let result = &response["result"];
+                    assert_eq!(result["kind"], "Edit", "{response}");
+                    assert_eq!(
+                        result["edit"]["documentChanges"][0]["textDocument"]["version"],
+                        7
+                    );
+                    let candidate = apply_composer_result(&source, result, &encoding);
+                    assert!(candidate.ends_with(&format!(
+                        "{eol}{eol}@typ{eol}#strong[old]{eol}@end{eol}- after{eol}"
+                    )));
+                    let parsed = mmt_rs::project_composer_document(
+                        &candidate,
+                        &mmt_rs::StaticPresetCatalog::default(),
+                    )
+                    .unwrap();
+                    let ComposerDocumentNode::Narration(node) = &parsed.nodes[0] else {
+                        panic!("body must stay narration")
+                    };
+                    assert_eq!(node.description.body.current, body.replace('\n', eol));
+                }
+                for body in ["", "first\nsecond"] {
+                    let inserted = composer_json_request(
+                        &mut server,
+                        "mmt/composerEdit",
+                        &serde_json::json!({
+                            "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+                            "target":snapshot["boundaries"][0]["target"],
+                            "command":{"kind":"insertStatement","statement":{
+                                "kind":"message","side":"right","speaker":{"kind":"builtin"},
+                                "body":{"value":body,"mode":"inherit"},"continued":"auto",
+                            }},
+                        }),
+                    );
+                    assert_eq!(inserted["result"]["kind"], "Edit", "{inserted}");
+                    let candidate = apply_composer_result(&source, &inserted["result"], &encoding);
+                    assert!(candidate.ends_with(&source));
+                    let projected = mmt_rs::project_composer_document(
+                        &candidate,
+                        &mmt_rs::StaticPresetCatalog::default(),
+                    )
+                    .unwrap();
+                    let ComposerDocumentNode::Message(node) = &projected.nodes[0] else {
+                        panic!("Teacher must be a message")
+                    };
+                    assert!(
+                        matches!(&node.description.speaker, Some(ComposerSpeakerDescription::Builtin { id }) if id == "__Sensei")
+                    );
+                    assert_eq!(node.description.body.current, body.replace('\n', eol));
+                }
+                let replacement = format!("@typ{eol}#strong[new😀]{eol}@end{eol}");
+                let params = serde_json::json!({
+                    "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+                    "target":{"kind":"node","node":node_ref(2)},
+                    "command":{"kind":"replaceNodeSource","source":replacement},
+                });
+                let replaced = composer_json_request(&mut server, "mmt/composerEdit", &params);
+                assert_eq!(replaced["result"]["kind"], "Edit", "{replaced}");
+                assert_eq!(
+                    apply_composer_result(&source, &replaced["result"], &encoding),
+                    format!("- body😀{eol}{eol}{replacement}- after{eol}")
+                );
+                for field in ["sourceDigest", "version", "nodeKey"] {
+                    let mut stale = params.clone();
+                    match field {
+                        "sourceDigest" => stale["sourceDigest"] = Value::String("0".repeat(64)),
+                        "version" => stale["textDocument"]["version"] = serde_json::json!(6),
+                        _ => stale["target"]["node"]["nodeKey"] = Value::String("0".repeat(64)),
+                    }
+                    let response = composer_json_request(&mut server, "mmt/composerEdit", &stale);
+                    assert_eq!(response["result"]["kind"], "Rejected", "{response}");
+                    assert_eq!(
+                        response["result"]["reason"],
+                        if field == "nodeKey" {
+                            "targetChanged"
+                        } else {
+                            "staleDocument"
+                        }
+                    );
+                }
+                let mut unclosed = params.clone();
+                unclosed["command"]["source"] =
+                    Value::String(format!("@typ{eol}#strong[swallowed]"));
+                assert_eq!(
+                    composer_json_request(&mut server, "mmt/composerEdit", &unclosed)["result"],
+                    serde_json::json!({"kind":"Rejected","reason":"candidateInvalid"})
+                );
+                for malformed in [
+                    serde_json::json!({"kind":"replaceNodeSource","value":replacement}),
+                    serde_json::json!({"kind":"replaceNodeSource","source":replacement,"range":node_ref(2)["range"]}),
+                ] {
+                    let mut unknown = params.clone();
+                    unknown["command"] = malformed;
+                    assert_eq!(
+                        composer_json_request(&mut server, "mmt/composerEdit", &unknown)["error"]["code"],
+                        -32602
+                    );
+                }
+                assert_eq!(server.service.snapshot(&uri).unwrap().version, 7);
+                assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+            }
+        }
+    }
+
+    #[test]
+    fn composer_eof_append_without_terminator_is_versioned_and_preserves_source_prefix() {
+        let uri = Url::parse("file:///workspace/eof-append.mmt").unwrap();
+        for (wire_encoding, encoding) in [
+            ("utf-8", PositionEncodingKind::UTF8),
+            ("utf-16", PositionEncodingKind::UTF16),
+        ] {
+            for eol in ["\n", "\r\n"] {
+                let mut server = MmtLanguageServer::default();
+                server
+                    .request("initialize", initialize_with_encoding(wire_encoding))
+                    .unwrap();
+                let source = format!("- before😀{eol}< _0: rt\"\"\"{eol}old\"\"\"");
+                open_document(&mut server, &uri, 7, &source);
+                let snapshot = server
+                    .request(
+                        "mmt/composerDocument",
+                        serde_json::json!({
+                            "textDocument":{"uri":uri,"version":7},
+                        }),
+                    )
+                    .unwrap();
+                let boundary = snapshot["boundaries"].as_array().unwrap().last().unwrap();
+                assert!(boundary["insert"].is_object());
+                let params = serde_json::json!({
+                    "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+                    "target":boundary["target"],
+                    "command":{"kind":"insertStatement","statement":{
+                        "kind":"message","side":"right","speaker":{"kind":"builtin"},
+                        "body":{"value":"next","mode":"inherit"},"continued":"auto",
+                    }},
+                });
+                let response = composer_json_request(&mut server, "mmt/composerEdit", &params);
+                assert_eq!(response["result"]["kind"], "Edit", "{response}");
+                let edits = &response["result"]["edit"]["documentChanges"];
+                assert_eq!(edits.as_array().unwrap().len(), 1);
+                assert_eq!(edits[0]["textDocument"], snapshot["textDocument"]);
+                assert_eq!(edits[0]["edits"].as_array().unwrap().len(), 1);
+                let end =
+                    snapshot["nodes"].as_array().unwrap().last().unwrap()["range"]["end"].clone();
+                assert_eq!(
+                    edits[0]["edits"][0]["range"],
+                    serde_json::json!({"start":end,"end":end})
+                );
+                assert_eq!(
+                    edits[0]["edits"][0]["newText"],
+                    format!("{eol}< _0: next{eol}")
+                );
+                assert_eq!(
+                    apply_composer_result(&source, &response["result"], &encoding),
+                    format!("{source}{eol}< _0: next{eol}")
+                );
+                assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+                assert_eq!(server.service.snapshot(&uri).unwrap().version, 7);
+            }
+        }
+    }
+
+    #[test]
+    fn composer_builtin_wire_rejects_extra_fields_wrong_sides_and_speaker_mutation() {
+        let uri = Url::parse("file:///workspace/teacher-boundary.mmt").unwrap();
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        open_document(&mut server, &uri, 1, "< _0: Teacher\n");
+        let snapshot = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":1},
+                }),
+            )
+            .unwrap();
+        let params = serde_json::json!({
+            "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+            "target":snapshot["boundaries"][0]["target"],
+            "command":{"kind":"insertStatement","statement":{
+                "kind":"message","side":"left","speaker":{"kind":"builtin"},
+                "body":{"value":"not allowed","mode":"inherit"},"continued":"auto",
+            }},
+        });
+        assert_eq!(
+            server.request("mmt/composerEdit", params.clone()).unwrap(),
+            serde_json::json!({"kind":"Rejected","reason":"unsupportedStructure"})
+        );
+        let mut unknown = params.clone();
+        unknown["command"]["statement"]["speaker"]["id"] = serde_json::json!("teacher");
+        assert_eq!(
+            server
+                .request("mmt/composerEdit", unknown)
+                .unwrap_err()
+                .code,
+            -32602
+        );
+        let mut property = params;
+        property["target"] = serde_json::json!({"kind":"node","node":{
+            "nodeKey":snapshot["nodes"][0]["nodeKey"],
+            "nodeKind":snapshot["nodes"][0]["kind"],"range":snapshot["nodes"][0]["range"],
+        }});
+        property["command"] =
+            serde_json::json!({"kind":"setStatementSpeaker","speaker":{"kind":"builtin"}});
+        assert_eq!(
+            server
+                .request("mmt/composerEdit", property)
+                .unwrap_err()
+                .code,
+            -32602
+        );
     }
 
     #[test]
@@ -3931,9 +4239,31 @@ mod tests {
                 "command":{"kind":"replaceTextSelection","replacement":""},
             }),
         );
+        let restored =
+            apply_composer_result(&candidate, &deleted["result"], &PositionEncodingKind::UTF16);
+        assert!(restored.ends_with('\n'));
+        assert!(!restored.ends_with("\n\n"));
+        assert!(!restored.contains('\r'));
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, candidate);
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":3},"contentChanges":[{"text":restored}],
+                }),
+            )
+            .unwrap();
+        let restored_document = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({"textDocument":{"uri":uri,"version":3}}),
+            )
+            .unwrap();
+        assert_eq!(restored_document["nodes"].as_array().unwrap().len(), 1);
+        assert_eq!(restored_document["nodes"][0]["body"]["current"], "");
         assert_eq!(
-            apply_composer_result(&candidate, &deleted["result"], &PositionEncodingKind::UTF16),
-            source,
+            restored_document["nodes"][0]["textEditing"],
+            serde_json::json!({"text":""})
         );
         assert_eq!(
             deleted["result"]["selectionAfter"]["anchor"]["offsetUtf16"],
@@ -4381,8 +4711,6 @@ mod tests {
             serde_json::json!({"kind":"Rejected","reason":"candidateInvalid"})
         );
         for malformed in [
-            serde_json::json!({"kind":"setStatementBody","value":"","mode":"inherit"}),
-            serde_json::json!({"kind":"setStatementBody","value":"line one\nline two","mode":"inherit"}),
             serde_json::json!({
                 "kind":"setStatementBody",
                 "value":"x".repeat(COMPOSER_STATEMENT_TEXT_MAX_BYTES + 1),
@@ -4409,7 +4737,7 @@ mod tests {
                     "start": {"line": 0, "character": 18},
                     "end": {"line": 0, "character": 21}
                 },
-                "newText": "rt\"\"\"old\"\"\""
+                "newText": "rt\"\"\"\nold\"\"\""
             })
         );
         mode_params["command"] = serde_json::json!({
@@ -4422,7 +4750,7 @@ mod tests {
             .unwrap();
         assert_eq!(
             typst_mode_edit["edit"]["documentChanges"][0]["edits"][0]["newText"],
-            "rT\"\"\"new #strong[Typst]\"\"\""
+            "rT\"\"\"\nnew #strong[Typst]\"\"\""
         );
         for malformed in [
             serde_json::json!({"kind":"setStatementBody","value":"old","mode":"unknown"}),

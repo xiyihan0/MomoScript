@@ -161,23 +161,29 @@
   - Note: Keyboard evidence uses a shrunken viewport, not a real-device software keyboard.
 - [x] 13.10 Finish all required implementation and centralized validation before delivery; report inaccessible real-IME/Chrome/publication prerequisites honestly, never call geometry-only or single-field work complete
 
-## 14. Planned icon-first chat chrome（not implemented）
+## 14. Momotalk-style chat chrome
 
-- [ ] 14.1 Replace the current tool-oriented chrome with the approved three-region shell: slim document/status + undo/redo/export/more icon bar、dominant retained SVG canvas、and compact persistent bottom Composer; keep desktop source default and existing native pane/overlay ownership
+- [x] 14.1 Replace the current tool-oriented chrome with the approved three-region shell: slim document/status + undo/redo/export/more icon bar、dominant retained SVG canvas、and compact persistent bottom Composer; keep desktop source default and existing native pane/overlay ownership
 - [ ] 14.2 Add the bottom new-message flow with current-role avatar、single-line growing draft input、image/send icons、compact grouped tools and a horizontal role tray; do not create a local projected message or write source before send
-- [ ] 14.3 On send, revalidate the latest URI/version/digest、authorized insertion boundary、speaker and mode, invoke one Rust `insertStatement`, and clear only the successfully applied draft; preserve it on stale/rejection/apply failure
-- [ ] 14.4 Automatically retain every selected role in stable tray positions, including roles selected before any send; add the confirmed Teacher/Sensei quick-switch affordance and an on-demand complete-library Picker/Sheet without favorites or a permanent character sidebar, resolving teacher submission through an explicit Rust capability rather than client-authored `__Sensei`
-- [ ] 14.5 Keep direct SVG editing for existing messages; replace permanent inspector/checkbox/up-down chrome with capability-bound contextual actions and an explicit enter/exit bulk arrange mode
-- [ ] 14.6 Preserve an unsent new-message draft and selected new-message role while editing existing SVG content; keep draft out of canonical MMT、projection、native undo/redo、save、Local History、render and export until successful send
+  - Role portrait, growing draft, send action and horizontal tray are implemented. A dedicated image-insertion action is not implemented; no inactive image control is exposed.
+- [x] 14.3 On send, revalidate the latest URI/version/digest、authorized insertion boundary、speaker and mode, invoke one Rust `insertStatement`, and clear only the successfully applied draft; preserve it on stale/rejection/apply failure
+- [x] 14.4 Automatically retain every selected role in stable tray positions, including roles selected before any send; add the confirmed Teacher/Sensei quick-switch affordance and an on-demand complete-library Picker/Sheet without favorites or a permanent character sidebar, resolving teacher submission through an explicit Rust capability rather than client-authored `__Sensei`
+- [x] 14.5 Keep direct SVG editing for existing messages; replace permanent inspector/checkbox/up-down chrome with capability-bound contextual actions and an explicit enter/exit bulk arrange mode
+- [x] 14.6 Preserve an unsent new-message draft and selected new-message role while editing existing SVG content; keep draft out of canonical MMT、projection、native undo/redo、save、Local History、render and export until successful send
 - [ ] 14.7 Resolve and document the still-open implementation details before coding their final behavior: real mobile-keyboard interaction、exact icon ordering、narrow-width tray placement/overflow and draft recovery across close/reload; do not add a new persistence owner
-- [ ] 14.8 Give every icon a stable accessible name、desktop tooltip and visible state; retain at least 44 CSS px primary touch targets, and use text labels in menus/Sheets for unfamiliar、destructive and low-frequency actions
+  - Icon ordering, horizontal tray overflow and transient draft/unload policy are implemented. Actual device software-keyboard qualification remains unavailable; viewport emulation is reported separately.
+- [x] 14.8 Give every icon a stable accessible name、desktop tooltip and visible state; retain at least 44 CSS px primary touch targets, and use text labels in menus/Sheets for unfamiliar、destructive and low-frequency actions
+- [x] 14.9 Apply a scoped conversation-product skin informed by MoeTalk、U1805/momotalk and ClosureTalk: pastel pink header、Sensei-blue actions、circular portraits、rounded chat input and consistent contextual surfaces; preserve the global Workbench/source theme
 
-## 15. Planned interaction acceptance（not yet qualified）
+## 15. Interaction acceptance
 
-- [ ] 15.1 Qualify desktop layout with the SVG owning the available center, no permanent inspector/sidebar or large verbose button row, compact top/bottom chrome, and native undo/redo/save/export observing only the canonical TextDocument
-- [ ] 15.2 Qualify the two simultaneous flows: an unsent bottom draft survives direct body/property edits to an old SVG message, while those accepted old-message edits remain independently undoable in the native model
-- [ ] 15.3 Qualify send success and failure: one accepted send creates exactly one Rust-projected statement and clears its draft; stale capability、Pack drift、candidate rejection or apply failure creates no optimistic canvas message and retains recoverable text
-- [ ] 15.4 Qualify role tray behavior: selecting without sending retains the role, adding another role does not move existing avatars, Teacher/Sensei remains one-step reachable, and the full library opens on demand without becoming a canvas sidebar
+- [x] 15.1 Qualify desktop layout with the SVG owning the available center, no permanent inspector/sidebar or large verbose button row, compact top/bottom chrome, and native undo/redo/save/export observing only the canonical TextDocument
+- [x] 15.2 Qualify the two simultaneous flows: an unsent bottom draft survives direct body/property edits to an old SVG message, while those accepted old-message edits remain independently undoable in the native model
+- [x] 15.3 Qualify send success and failure: one accepted send creates exactly one Rust-projected statement and clears its draft; stale capability、Pack drift、candidate rejection or apply failure creates no optimistic canvas message and retains recoverable text
+- [x] 15.4 Qualify role tray behavior: selecting without sending retains the role, adding another role does not move existing avatars, Teacher/Sensei remains one-step reachable, and the full library opens on demand without becoming a canvas sidebar
 - [ ] 15.5 Qualify contextual and bulk modes with pointer、keyboard、touch and screen reader: single-message actions appear only for the current selection, arrange mode has an explicit exit, and no visual selection bypasses Rust capabilities or opaque barriers
+  - Pointer, native keyboard/focus/cancellation, checked/disabled ARIA states and Chrome touch emulation passed. A physical screen-reader session was unavailable and is not claimed.
 - [ ] 15.6 Qualify 550px and 320px responsive surfaces with safe-area、one SVG scroll owner、no outer horizontal overflow、reachable Composer/tray/menus and actual software-keyboard behavior; report synthetic or unavailable device evidence separately
-- [ ] 15.7 Verify draft/source boundaries across GUI/source switching、save、Local History、reload and PDF export after the persistence policy is approved; no unsubmitted draft or tray state may be mistaken for authored MMT
+  - Desktop, 550px, 320px and keyboard-sized 320×360 Chrome surfaces passed, including viewport-bounded 44px header actions, visible caret, touch selection and reachable Sheet controls. This is viewport/touch emulation, not a real-device software keyboard.
+- [x] 15.7 Verify draft/source boundaries across GUI/source switching、save、Local History、reload and PDF export after the persistence policy is approved; no unsubmitted draft or tray state may be mistaken for authored MMT
+  - Centralized verification: Rust core 244 and LSP 95 tests; canonical WASM/Worker contracts and all 14 vendor artifacts; 41 GUI/text-context/preview browser scenarios in targeted batches; production PWA offline editing/save/export journey. Real OS IME, device keyboard and screen-reader qualification remain explicitly separate.

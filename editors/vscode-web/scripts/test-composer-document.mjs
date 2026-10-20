@@ -53,6 +53,7 @@ const nodeRef = {
 const insert = (boundary) => ({
   boundary,
   messageSides: ["left", "right"],
+  builtinMessageSides: ["right"],
   statementModes: ["inherit", "textMacro", "textRaw", "typstMacro", "typstRaw"],
   speakerSources: ["scriptActor", "packEntity"],
   narration: true,
@@ -75,7 +76,7 @@ const snapshotWire = {
       inheritedMode: "textMacro",
     },
     textEditing: { text: "Unicode 😀" },
-    capabilities: { setBody: true, delete: true, moveUp: null, moveDown: null },
+    capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null },
   }],
   boundaries: [
     { target: startBoundary, insert: insert(startBoundary) },
@@ -117,6 +118,7 @@ const opaqueSnapshot = parseComposerDocumentResult({
     sourceTruncated: false,
     summary: opaqueSource,
     canOpenSource: true,
+    capabilities: { replaceSource: false },
   }],
   boundaries: [
     { target: { kind: "boundary", before: null, after: opaqueRef }, insert: null },
@@ -170,7 +172,7 @@ const blankSnapshot = parseComposerDocumentResult({
         inheritedMode: "textMacro",
       },
       textEditing: { text: "first\ncontinued" },
-      capabilities: { setBody: false, delete: true, moveUp: null, moveDown: null },
+      capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null },
     },
     ...blankRefs.slice(1).map((ref, index) => ({
       kind: "opaque",
@@ -181,6 +183,7 @@ const blankSnapshot = parseComposerDocumentResult({
       sourceTruncated: false,
       summary: ["  \n", "\t\n", "@reply: A | B"][index],
       canOpenSource: true,
+      capabilities: { replaceSource: index === 2 },
     })),
   ],
   boundaries: Array.from({ length: blankRefs.length + 1 }, (_, index) => ({
@@ -204,7 +207,7 @@ const emptyBodySnapshot = parseComposerDocumentResult({
     ...snapshotWire.nodes[0],
     body: { ...snapshotWire.nodes[0].body, current: "" },
     textEditing: { text: "" },
-    capabilities: { ...snapshotWire.nodes[0].capabilities, setBody: false },
+    capabilities: { ...snapshotWire.nodes[0].capabilities, setBody: true },
   }],
 });
 assert.equal(emptyBodySnapshot.nodes[0].textEditing.text, "");
@@ -226,6 +229,12 @@ for (const malformed of [
   { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], textEditing: { text: "Unicode 😀", range: nodeRef.range } }] },
   { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], body: { ...snapshotWire.nodes[0].body, mode: "typstRaw", resolvedMode: "typstRaw" } }] },
   { ...opaqueSnapshot, nodes: [{ ...opaqueSnapshot.nodes[0], textEditing: { text: "" } }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], capabilities: { ...snapshotWire.nodes[0].capabilities, replaceSource: undefined } }] },
+  { ...opaqueSnapshot, nodes: [{ ...opaqueSnapshot.nodes[0], capabilities: { replaceSource: true, unknown: true } }] },
+  { ...opaqueSnapshot, nodes: [{ ...opaqueSnapshot.nodes[0], capabilities: { replaceSource: "true" } }] },
+  { ...opaqueSnapshot, nodes: [{ ...opaqueSnapshot.nodes[0], capabilities: { replaceSource: true } }] },
+  { ...snapshotWire, boundaries: snapshotWire.boundaries.map((boundary) => ({ ...boundary, insert: { ...boundary.insert, builtinMessageSides: undefined } })) },
+  { ...snapshotWire, boundaries: snapshotWire.boundaries.map((boundary) => ({ ...boundary, insert: { ...boundary.insert, builtinMessageSides: ["left"] } })) },
   { ...snapshotWire, boundaries: [] },
   { ...snapshotWire, scriptActorChoices: [{ reference: "x", displayName: "x", primaryName: "x", presetId: "x", avatar: null, extra: true }] },
   { kind: "Rejected", reason: "future" },

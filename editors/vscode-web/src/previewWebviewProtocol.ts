@@ -3,6 +3,7 @@ import type { RenderKey } from "../../vscode/src/runtimeIdentity.ts";
 import type { PreviewRendererPointUncertainty } from "../../vscode/src/previewRendererProtocol.ts";
 
 export type PreviewFitMode = "manual" | "width" | "page";
+export type PreviewSurfacePresentation = "gui" | "preview";
 
 export interface PreviewPagePoint {
   readonly pageIndex: number;
@@ -133,7 +134,7 @@ export type ComposerIntent =
       readonly point: PreviewPagePoint;
       readonly uncertainty: PreviewRendererPointUncertainty;
       readonly extend: boolean;
-      readonly clickCount: 1 | 2;
+      readonly clickCount: 1 | 2 | 3;
     }
   | {
       readonly kind: "move";
@@ -141,7 +142,7 @@ export type ComposerIntent =
       readonly granularity: "grapheme" | "word" | "visualLine" | "document";
       readonly extend: boolean;
     }
-  | { readonly kind: "replace"; readonly text: string; readonly origin: "typing" | "paste" | "cut" }
+  | { readonly kind: "replace"; readonly text: string; readonly origin: "typing" | "paste" }
   | {
       readonly kind: "replace";
       readonly text: "";
@@ -151,7 +152,10 @@ export type ComposerIntent =
     }
   | { readonly kind: "composition"; readonly phase: "start" | "update" | "end" | "cancel"; readonly text: string }
   | { readonly kind: "history"; readonly direction: "undo" | "redo" }
-  | { readonly kind: "copy" };
+  | { readonly kind: "focus"; readonly backward: boolean }
+  | { readonly kind: "clipboard"; readonly action: "copy" | "cut"; readonly authorization: string }
+  | { readonly kind: "clipboardRequest"; readonly action: "copy" | "cut" }
+  | { readonly kind: "contextMenu"; readonly anchor: PreviewContextMenuAnchor };
 
 export interface ComposerIntentMessage {
   readonly type: "composer-intent";
@@ -177,6 +181,12 @@ export interface ComposerCaret extends ComposerSelectionBox {
   readonly affinity: "before" | "after";
 }
 
+/** Ephemeral Rust-authorized plain text for one exact, current semantic selection. */
+export interface ComposerClipboardPayload {
+  readonly authorization: string;
+  readonly text: string;
+}
+
 export interface ComposerState {
   readonly type: "composer-state";
   readonly sessionId: string;
@@ -187,6 +197,8 @@ export interface ComposerState {
   /** A collapsed selection has one caret; otherwise [anchor, focus]. */
   readonly carets: readonly ComposerCaret[];
   readonly boxes: readonly ComposerSelectionBox[];
+  /** Null while input, source, selection, or committed geometry is not exact-current. */
+  readonly clipboard: ComposerClipboardPayload | null;
 }
 
 export interface ComposerStateMessage extends ComposerState {
@@ -206,6 +218,7 @@ export type PreviewHostToWebviewMessage =
   | PreviewRenderMessage
   | PreviewRendererFrameMessage
   | ComposerStateMessage
+  | { readonly type: "presentation"; readonly presentation: PreviewSurfacePresentation }
   | { readonly type: "renderer-reset" }
   | { readonly type: "status"; readonly message: string; readonly error: boolean }
   | { readonly type: "restoreViewport"; readonly viewport: PreviewViewport }
@@ -224,6 +237,7 @@ export type PreviewWebviewToHostMessage =
     readonly type: "context-point";
     readonly point: PreviewNavigationPoint;
     readonly anchor: PreviewContextMenuAnchor;
+    readonly trigger: "select" | "menu";
   }
   | { readonly type: "exact-export"; readonly format: ExactExportFormat; readonly staleChoice?: StaleExportChoice }
   | { readonly type: "exact-export-cancel" }
@@ -235,6 +249,9 @@ export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewH
   switch (value.type) {
     case "composer-state":
       return isComposerStateMessage(value);
+    case "presentation":
+      return hasExactKeys(value, ["type", "presentation"])
+        && (value.presentation === "gui" || value.presentation === "preview");
     case "render":
       return "svg" in value && typeof value.svg === "string"
         && "imageAssets" in value && Array.isArray(value.imageAssets)
@@ -310,7 +327,7 @@ export function isComposerDrainedMessage(value: unknown): value is ComposerDrain
 }
 
 export function isComposerStateMessage(value: unknown): value is ComposerStateMessage {
-  return hasExactKeys(value, ["type", "sessionId", "sequence", "renderKey", "status", "carets", "boxes", "screenCoordinatePrecision"])
+  return hasExactKeys(value, ["type", "sessionId", "sequence", "renderKey", "status", "carets", "boxes", "clipboard", "screenCoordinatePrecision"])
     && value.type === "composer-state"
     && isComposerIdentity(value)
     && normalizedFinite(value.screenCoordinatePrecision)
@@ -319,6 +336,13 @@ export function isComposerStateMessage(value: unknown): value is ComposerStateMe
     && value.carets.every((caret) => isComposerBox(caret, true))
     && Array.isArray(value.boxes) && value.boxes.length <= 65_536
     && value.boxes.every((box) => isComposerBox(box, false))
+    && (value.clipboard === null || (
+      value.status === "ready" && value.carets.length === 2
+      && hasExactKeys(value.clipboard, ["authorization", "text"])
+      && isClipboardAuthorization(value.clipboard.authorization)
+      && typeof value.clipboard.text === "string"
+      && value.clipboard.text.isWellFormed()
+    ))
     && (value.status !== "blocked" || (value.carets.length === 0 && value.boxes.length === 0));
 }
 
@@ -333,7 +357,7 @@ export function acceptsComposerIntent(
     && state !== undefined && state.status !== "blocked"
     && message.sessionId === state.sessionId
     && message.sequence > Math.max(lastSequence, state.sequence)
-    && (message.intent.kind === "pointer"
+    && (message.intent.kind === "pointer" || message.intent.kind === "contextMenu" || message.intent.kind === "clipboard"
       ? state.status === "ready" && message.renderKey === state.renderKey
       : (publishedRenderKeys?.has(message.renderKey) ?? message.renderKey === state.renderKey));
 }
@@ -355,7 +379,7 @@ function isComposerIntent(value: unknown): value is ComposerIntent {
         && normalizedFinite(value.point.x) && normalizedFinite(value.point.y)
         && hasExactKeys(value.uncertainty, ["x", "y"])
         && normalizedFinite(value.uncertainty.x) && normalizedFinite(value.uncertainty.y)
-        && typeof value.extend === "boolean" && (value.clickCount === 1 || value.clickCount === 2);
+        && typeof value.extend === "boolean" && (value.clickCount === 1 || value.clickCount === 2 || value.clickCount === 3);
     case "move":
       return hasExactKeys(value, ["kind", "direction", "granularity", "extend"])
         && (value.direction === "left" || value.direction === "right" || value.direction === "up" || value.direction === "down")
@@ -369,8 +393,8 @@ function isComposerIntent(value: unknown): value is ComposerIntent {
           && (value.granularity === "grapheme" || value.granularity === "word");
       }
       return hasExactKeys(value, ["kind", "text", "origin"])
-        && (value.origin === "typing" || value.origin === "paste" || value.origin === "cut")
-        && isComposerInputText(value.text) && (value.origin !== "cut" || value.text === "");
+        && (value.origin === "typing" || value.origin === "paste")
+        && isComposerInputText(value.text);
     case "composition":
       return hasExactKeys(value, ["kind", "phase", "text"])
         && (value.phase === "start" || value.phase === "update" || value.phase === "end" || value.phase === "cancel")
@@ -379,11 +403,22 @@ function isComposerIntent(value: unknown): value is ComposerIntent {
     case "history":
       return hasExactKeys(value, ["kind", "direction"])
         && (value.direction === "undo" || value.direction === "redo");
-    case "copy":
-      return hasExactKeys(value, ["kind"]);
+    case "focus":
+      return hasExactKeys(value, ["kind", "backward"]) && typeof value.backward === "boolean";
+    case "clipboard":
+      return hasExactKeys(value, ["kind", "action", "authorization"])
+        && (value.action === "copy" || value.action === "cut") && isClipboardAuthorization(value.authorization);
+    case "clipboardRequest":
+      return hasExactKeys(value, ["kind", "action"]) && (value.action === "copy" || value.action === "cut");
+    case "contextMenu":
+      return hasExactKeys(value, ["kind", "anchor"]) && isPreviewContextMenuAnchor(value.anchor);
     default:
       return false;
   }
+}
+
+function isClipboardAuthorization(value: unknown): value is string {
+  return typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u.test(value);
 }
 
 function isComposerInputText(value: unknown): value is string {
@@ -496,10 +531,11 @@ export function isPreviewNavigateMessage(value: unknown): value is Extract<Previ
 export function isPreviewContextPointMessage(
   value: unknown,
 ): value is Extract<PreviewWebviewToHostMessage, { type: "context-point" }> {
-  return hasExactKeys(value, ["type", "point", "anchor"])
+  return hasExactKeys(value, ["type", "point", "anchor", "trigger"])
     && value.type === "context-point"
     && isStrictPreviewNavigationPoint(value.point)
-    && isPreviewContextMenuAnchor(value.anchor);
+    && isPreviewContextMenuAnchor(value.anchor)
+    && (value.trigger === "select" || value.trigger === "menu");
 }
 
 function isPreviewContextMenuAnchor(value: unknown): value is PreviewContextMenuAnchor {

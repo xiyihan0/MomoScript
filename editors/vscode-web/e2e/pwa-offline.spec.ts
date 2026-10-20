@@ -95,7 +95,9 @@ test("installed production editor cold-starts offline with language workers and 
   await expect(composerText(frame, "offline SVG body saved offline")).toBeVisible();
   expect(await invokeMmtE2E(page, "workspace", "readDocument", "offline-gui.mmt"))
     .toBe("- offline SVG body saved offline\n");
-  await gui.getByRole("button", { name: "高级源码" }).click();
+  await gui.getByRole("button", { name: "更多操作", exact: true }).click();
+  await page.locator('[role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"]')
+    .filter({ hasText: "高级源码" }).last().click();
   const editor = page.locator(".workbench-editor .monaco-editor").first();
   await expect(editor).toBeVisible();
 

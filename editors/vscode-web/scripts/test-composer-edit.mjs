@@ -69,6 +69,12 @@ assert.deepEqual(parsePreviewComposerTargetResult({
   ...editableTarget,
   properties: { statementText: { ...statementText, current: "旁白正文" } },
 });
+for (const current of ["", "line one\nline two", "line one\r\nline two"]) {
+  assert.equal(parsePreviewComposerTargetResult({
+    ...editableTarget,
+    properties: { statementText: { ...statementText, current } },
+  }).properties.statementText.current, current);
+}
 assert.deepEqual(parsePreviewComposerTargetResult({
   ...editableTarget,
   properties: {
@@ -211,14 +217,7 @@ for (const malformed of [
     ...editableTarget,
     properties: {
       continued: "auto",
-      statementText: { ...statementText, current: "" },
-    },
-  },
-  {
-    ...editableTarget,
-    properties: {
-      continued: "auto",
-      statementText: { ...statementText, current: "line one\nline two" },
+      statementText: { ...statementText, current: "\ud800" },
     },
   },
   {
@@ -551,7 +550,7 @@ const bodyNode = (text, line, nodeKey = String(line + 1).repeat(64)) => ({
   statementRange: { start: { line, character: 0 }, end: { line, character: text.length + 2 } },
   body: { current: text, mode: "inherit", resolvedMode: "textMacro", inheritedMode: "textMacro" },
   textEditing: { text },
-  capabilities: { setBody: false, delete: true, moveUp: null, moveDown: null },
+  capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null },
 });
 const endpoint = (node, offsetUtf16) => ({
   node: { nodeKey: node.nodeKey, nodeKind: node.kind, range: node.range },

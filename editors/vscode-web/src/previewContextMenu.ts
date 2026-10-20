@@ -39,6 +39,8 @@ import {
   type AvatarPickerSnapshot,
 } from "./avatarPicker.ts";
 import type { AvatarCatalogItem } from "./galleryPack.ts";
+import { ActionViewItem } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/ui/actionbar/actionViewItems";
+import { ActionBar, ActionsOrientation } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/ui/actionbar/actionbar";
 
 export interface PreviewContextMenuWindowGeometry {
   readonly screenX: number;
@@ -61,7 +63,48 @@ export function contextMenuAnchorInWorkbench(
   };
 }
 
-export async function createWorkbenchPreviewContextMenu(): Promise<PreviewComposerContextMenuPort> {
+class ComposerMenuActionViewItem extends ActionViewItem {
+  constructor(action: IAction) {
+    // Native toolbar items activate on a completed click, without the menu's
+    // opening-mouseup delay. The ActionBar owns action dispatch and keyboard input.
+    super(undefined, action, { icon: false, label: true, isMenu: false });
+  }
+
+  override render(container: HTMLElement): void {
+    super.render(container);
+    this.label?.classList.replace("action-label", "action-menu-item");
+  }
+
+  override focus(): void {
+    super.focus();
+    this.element?.classList.add("focused");
+  }
+
+  override blur(): void {
+    super.blur();
+    this.element?.classList.remove("focused");
+  }
+
+  protected override updateLabel(): void {
+    if (!this.label) return;
+    const check = document.createElement("span");
+    check.className = "mmt-chat-menu-check";
+    check.setAttribute("role", "none");
+    const caption = document.createElement("span");
+    caption.className = "action-label";
+    caption.textContent = this.action.label;
+    this.label.replaceChildren(check, caption);
+  }
+
+  protected override updateChecked(): void {
+    super.updateChecked();
+    this.label?.setAttribute("role", this.action.checked === undefined ? "menuitem" : "menuitemcheckbox");
+  }
+}
+
+export async function createWorkbenchPreviewContextMenu(
+  chatAppearance: () => boolean = () => false,
+): Promise<PreviewComposerContextMenuPort> {
   const [contextMenuService, contextViewService] = await Promise.all([
     getService(IContextMenuService),
     getService(IContextViewService),
@@ -74,6 +117,7 @@ export async function createWorkbenchPreviewContextMenu(): Promise<PreviewCompos
       const { promise, resolve } = Promise.withResolvers<PreviewComposerContextMenuSelection | undefined>();
       let settled = false;
       let pendingSelection: PreviewComposerContextMenuSelection | undefined;
+      let contextView: { close(): void } | undefined;
       let session: PreviewComposerContextMenuSession;
       const finish = (selection: PreviewComposerContextMenuSelection | undefined) => {
         if (settled) return;
@@ -85,27 +129,85 @@ export async function createWorkbenchPreviewContextMenu(): Promise<PreviewCompos
         result: promise,
         close() {
           if (settled) return;
-          if (active === session) contextViewService.hideContextView();
+          if (active === session) {
+            if (contextView) contextView.close();
+            else contextViewService.hideContextView();
+          }
           finish(undefined);
         },
       };
       active = session;
-      const actions = items.map((item, index) => menuAction(item, String(index), (selection) => {
-        pendingSelection = selection;
+      const chat = chatAppearance();
+      const menuItems = chat ? flatComposerMenuItems(items) : items;
+      const actions = menuItems.map((item, index) => menuAction(item, String(index), (selection) => {
+        if (settled || pendingSelection) return;
+        if (selection.kind === "text") finish(selection);
+        else pendingSelection = selection;
       }));
-      contextMenuService.showContextMenu({
+      if (!chat) {
+        contextMenuService.showContextMenu({
+          getAnchor: () => contextMenuAnchorInWorkbench(anchor, window),
+          getMenuClassName: () => "mmt-preview-context-menu",
+          getActions: () => actions,
+          getCheckedActionsRepresentation: () => "radio",
+          autoSelectFirstItem: true,
+          onHide: () => setTimeout(() => finish(pendingSelection), 0),
+        });
+        return session;
+      }
+
+      const previousFocus = document.activeElement;
+      let root: HTMLElement | undefined;
+      let bar: ActionBar | undefined;
+      contextView = contextViewService.showContextView({
         getAnchor: () => contextMenuAnchorInWorkbench(anchor, window),
-        getActions: () => actions,
-        getCheckedActionsRepresentation: () => "radio",
-        autoSelectFirstItem: true,
-        onHide: () => setTimeout(() => finish(pendingSelection), 0),
+        canRelayout: false,
+        render(container) {
+          const disposables = new DisposableStore();
+          root = document.createElement("div");
+          root.className = "mmt-chat-menu mmt-chat-menu--actions";
+          root.style.maxHeight = `${Math.max(44, (window.visualViewport?.height ?? window.innerHeight) - 24)}px`;
+          container.append(root);
+          bar = new ActionBar(root, {
+            orientation: ActionsOrientation.VERTICAL,
+            ariaRole: "menu",
+            focusOnlyEnabledItems: true,
+            actionViewItemProvider: (action) => new ComposerMenuActionViewItem(action),
+          });
+          bar.getContainer().querySelector('[role="menu"]')?.setAttribute("tabindex", "0");
+          bar.push(actions);
+          disposables.add(bar);
+          disposables.add(bar.onDidCancel(() => session.close()));
+          disposables.add(bar.onDidBlur(() => session.close()));
+          disposables.add(bar.onDidRun(() => contextView?.close()));
+          const onPointerDown = (event: PointerEvent) => {
+            if (!(event.target instanceof Node) || !root?.contains(event.target)) session.close();
+          };
+          const onWindowBlur = () => session.close();
+          window.addEventListener("pointerdown", onPointerDown);
+          window.addEventListener("blur", onWindowBlur);
+          disposables.add(toDisposable(() => {
+            window.removeEventListener("pointerdown", onPointerDown);
+            window.removeEventListener("blur", onWindowBlur);
+          }));
+          return disposables;
+        },
+        focus: () => bar?.focus(true),
+        onHide() {
+          finish(pendingSelection);
+          if (root?.contains(document.activeElement) && previousFocus instanceof HTMLElement && previousFocus.isConnected) {
+            previousFocus.focus();
+          }
+        },
       });
       return session;
     },
   };
 }
 
-export async function createWorkbenchPreviewContextInput(): Promise<PreviewComposerContextInputPort> {
+export async function createWorkbenchPreviewContextInput(
+  chatAppearance: () => boolean = () => false,
+): Promise<PreviewComposerContextInputPort> {
   const contextViewService = await getService(IContextViewService);
   let active: PreviewComposerContextInputSession | undefined;
 
@@ -137,13 +239,14 @@ export async function createWorkbenchPreviewContextInput(): Promise<PreviewCompo
         getAnchor: () => contextMenuAnchorInWorkbench(anchor, window),
         render(container) {
           const disposables = new DisposableStore();
+          const chat = chatAppearance();
           const root = document.createElement("div");
-          root.className = "mmt-preview-context-input";
+          root.className = chat ? "mmt-preview-context-input mmt-chat-chrome" : "mmt-preview-context-input";
           const width = Math.max(160, Math.min(320, window.innerWidth - 24));
           root.style.width = `${width}px`;
           Object.assign(root.style, {
             boxSizing: "border-box",
-            padding: "8px",
+            padding: chat ? "14px" : "8px",
             border: "1px solid var(--vscode-widget-border, transparent)",
             background: "var(--vscode-editorWidget-background)",
             boxShadow: "0 2px 8px var(--vscode-widget-shadow)",
@@ -155,7 +258,7 @@ export async function createWorkbenchPreviewContextInput(): Promise<PreviewCompo
             overflow: "hidden",
             marginBottom: "6px",
             color: "var(--vscode-foreground)",
-            fontSize: "12px",
+            fontSize: chat ? "15px" : "12px",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
           });
@@ -168,7 +271,7 @@ export async function createWorkbenchPreviewContextInput(): Promise<PreviewCompo
             flexibleWidth: true,
             inputBoxStyles: defaultInputBoxStyles,
           });
-          input.width = width - 16;
+          input.width = width - (chat ? 28 : 16);
           input.value = options.value;
           disposables.add(input);
           disposables.add(input.onDidChange((value) => {
@@ -206,6 +309,7 @@ export async function createWorkbenchPreviewContextInput(): Promise<PreviewCompo
 }
 const COMPOSER_TEXT_LANGUAGE_ID = "mmt-composer-text";
 const COMPOSER_TYPST_LANGUAGE_ID = "mmt-composer-typst";
+const COMPOSER_SOURCE_LANGUAGE_ID = "mmt-composer-source";
 let composerLanguagesRegistered = false;
 
 function ensureComposerLanguages(): void {
@@ -239,6 +343,21 @@ function ensureComposerLanguages(): void {
         [/\b\d+(?:\.\d+)?(?:pt|mm|cm|in|em|deg|rad|%|fr)?\b/, "number"],
         [/[()[\]{}]/, "@brackets"],
         [/[+\-*/=<>!&|]+/, "operator"],
+      ],
+    },
+  });
+  monaco.languages.register({ id: COMPOSER_SOURCE_LANGUAGE_ID });
+  monaco.languages.setMonarchTokensProvider(COMPOSER_SOURCE_LANGUAGE_ID, {
+    tokenizer: {
+      root: [
+        [/^\s*@[\w-]+/, "keyword"],
+        [/^\s*[><-]/, "delimiter"],
+        [/\/\/.*$/, "comment"],
+        [/"{3,}/, "string"],
+        [/"([^"\\]|\\.)*"/, "string"],
+        [/#(?:[A-Za-z_][\w-]*)/, "keyword"],
+        [/[()[\]{}]/, "@brackets"],
+        [/\b\d+(?:\.\d+)?(?:pt|mm|cm|em|%)?\b/, "number"],
       ],
     },
   });
@@ -285,14 +404,14 @@ function composerBodyModeLabel(mode: ComposerBodyMode): string {
   }
 }
 
-function statementTextValidationMessage(value: string, requiredMessage: string): string | undefined {
-  if (value.length === 0) return requiredMessage;
-  if (value.includes("\r") || value.includes("\n")) return "消息必须保持为单行。";
-  if (new TextEncoder().encode(value).byteLength > 65_536) return "消息不能超过 65536 UTF-8 字节。";
+function statementTextValidationMessage(value: string): string | undefined {
+  if (new TextEncoder().encode(value).byteLength > 65_536) return "内容不能超过 65536 UTF-8 字节。";
   return undefined;
 }
 
-export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComposerMessageEditorPort> {
+export async function createWorkbenchPreviewMessageEditor(
+  chatAppearance: () => boolean = () => false,
+): Promise<PreviewComposerMessageEditorPort> {
   const contextViewService = await getService(IContextViewService);
   ensureComposerLanguages();
   let active: PreviewComposerMessageEditorSession | undefined;
@@ -328,8 +447,10 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
         render(container) {
           const disposables = new DisposableStore();
           const root = document.createElement("div");
-          root.className = "mmt-preview-message-editor";
+          root.className = chatAppearance() ? "mmt-preview-message-editor mmt-chat-chrome" : "mmt-preview-message-editor";
           root.style.width = `${Math.max(280, Math.min(520, window.innerWidth - 24))}px`;
+          root.setAttribute("role", "dialog");
+          root.setAttribute("aria-label", options.title);
 
           const title = document.createElement("div");
           title.className = "mmt-preview-message-editor__title";
@@ -341,6 +462,7 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
           modes.role = "radiogroup";
           modes.ariaLabel = "消息解析模式";
           root.append(modes);
+          modes.hidden = options.kind === "source";
 
           const modeButtons = new Map<StatementTextMode, HTMLButtonElement>();
           const updateMode = (mode: StatementTextMode): void => {
@@ -351,8 +473,10 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
               button.ariaChecked = String(selected);
             }
             if (model) {
-              monaco.editor.setModelLanguage(model, composerLanguage(mode, options.inheritedMode));
+              monaco.editor.setModelLanguage(model, options.kind === "source"
+                ? COMPOSER_SOURCE_LANGUAGE_ID : composerLanguage(mode, options.inheritedMode));
             }
+            if (model) options.onDidChange?.(model.getValue(), selectedMode);
           };
           for (const mode of [
             "inherit",
@@ -383,18 +507,30 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
           root.append(validation);
           const hint = document.createElement("div");
           hint.className = "mmt-preview-message-editor__hint";
-          hint.textContent = "Enter 应用 · Escape 取消";
-          root.append(hint);
+          hint.textContent = "Ctrl / ⌘ + Enter 应用 · Esc 取消";
+          const actions = document.createElement("div");
+          actions.className = "mmt-preview-message-editor__actions";
+          const cancelButton = document.createElement("button");
+          cancelButton.type = "button";
+          cancelButton.textContent = "取消";
+          cancelButton.addEventListener("click", () => contextView?.close());
+          const applyButton = document.createElement("button");
+          applyButton.type = "button";
+          applyButton.textContent = "应用";
+          applyButton.dataset.kind = "primary";
+          applyButton.addEventListener("click", () => submit());
+          actions.append(hint, cancelButton, applyButton);
+          root.append(actions);
           container.append(root);
 
           // Private language IDs keep this fragment outside workspace LSP routing.
           model = monaco.editor.createModel(
             options.value,
-            composerLanguage(selectedMode, options.inheritedMode),
+            options.kind === "source" ? COMPOSER_SOURCE_LANGUAGE_ID : composerLanguage(selectedMode, options.inheritedMode),
           );
           editor = monaco.editor.create(editorHost, {
             model,
-            ariaLabel: `${options.title}。按 Enter 确认，按 Escape 取消。`,
+            ariaLabel: `${options.title}。Enter 换行，Ctrl 或 Command 加 Enter 应用，Escape 取消。`,
             automaticLayout: true,
             codeLens: false,
             contextmenu: false,
@@ -403,7 +539,7 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
             guides: { indentation: false },
             hover: { enabled: false },
             lineDecorationsWidth: 0,
-            lineNumbers: "off",
+            lineNumbers: options.kind === "source" ? "on" : "off",
             lineNumbersMinChars: 0,
             links: false,
             minimap: { enabled: false },
@@ -417,10 +553,9 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
             renderValidationDecorations: "off",
             roundedSelection: false,
             scrollbar: {
-              horizontal: "hidden",
-              vertical: "hidden",
+              horizontal: "auto",
+              vertical: "auto",
               alwaysConsumeMouseWheel: false,
-              handleMouseWheel: false,
             },
             scrollBeyondLastColumn: 0,
             scrollBeyondLastLine: false,
@@ -429,16 +564,17 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
             suggestOnTriggerCharacters: false,
             tabCompletion: "off",
             wordBasedSuggestions: "off",
-            wordWrap: "off",
+            wordWrap: "on",
           });
           disposables.add(editor);
           disposables.add(model);
           updateMode(selectedMode);
 
           const updateValidation = (): string | undefined => {
-            const message = statementTextValidationMessage(model?.getValue() ?? "", options.requiredMessage);
+            const message = statementTextValidationMessage(model?.getValue() ?? "");
             validation.textContent = message ?? "";
             validation.classList.toggle("is-visible", message !== undefined);
+            applyButton.disabled = message !== undefined;
             return message;
           };
           const submit = (): void => {
@@ -448,6 +584,7 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
           };
           disposables.add(model.onDidChangeContent(() => {
             updateValidation();
+            options.onDidChange?.(model!.getValue(), selectedMode);
           }));
           let composing = false;
           disposables.add(editor.onDidCompositionStart(() => {
@@ -457,7 +594,8 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
             composing = false;
           }));
           disposables.add(editor.onKeyDown((event) => {
-            if (event.keyCode === monaco.KeyCode.Enter && !composing && !event.browserEvent.isComposing) {
+            if (event.keyCode === monaco.KeyCode.Enter && (event.ctrlKey || event.metaKey)
+              && !composing && !event.browserEvent.isComposing) {
               event.preventDefault();
               event.stopPropagation();
               submit();
@@ -481,7 +619,9 @@ export async function createWorkbenchPreviewMessageEditor(): Promise<PreviewComp
 }
 
 
-export async function createWorkbenchPreviewAvatarPicker(): Promise<PreviewComposerAvatarPickerPort> {
+export async function createWorkbenchPreviewAvatarPicker(
+  chatAppearance: () => boolean = () => false,
+): Promise<PreviewComposerAvatarPickerPort> {
   const contextViewService = await getService(IContextViewService);
   let active: PreviewComposerAvatarPickerSession | undefined;
 
@@ -518,7 +658,7 @@ export async function createWorkbenchPreviewAvatarPicker(): Promise<PreviewCompo
           const disposables = new DisposableStore();
           const images = new Set<HTMLImageElement>();
           const root = document.createElement("div");
-          root.className = "mmt-avatar-picker";
+          root.className = chatAppearance() ? "mmt-avatar-picker mmt-chat-chrome" : "mmt-avatar-picker";
           root.style.width = `${Math.max(160, Math.min(560, window.innerWidth - 24))}px`;
 
           const title = document.createElement("div");
@@ -696,6 +836,20 @@ function avatarCurrentStatusLabel(snapshot: AvatarPickerSnapshot): string {
   }
   if (snapshot.currentStatus === "unavailable") return "当前头像暂不支持预览";
   return "当前头像已在下方标记";
+}
+
+function flatComposerMenuItems(
+  items: readonly PreviewComposerContextMenuItem[],
+  prefix = "",
+  parentEnabled = true,
+): PreviewComposerContextMenuItem[] {
+  return items.flatMap((item) => {
+    const label = prefix ? `${prefix} · ${item.label}` : item.label;
+    const enabled = parentEnabled && item.enabled !== false;
+    return item.children
+      ? flatComposerMenuItems(item.children, label, enabled)
+      : [{ ...item, label, enabled }];
+  });
 }
 
 function menuAction(

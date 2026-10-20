@@ -669,3 +669,134 @@ fn native_text_selection_projection_and_edit_match_the_wasm_json_boundary() {
         assert!(child.wait().unwrap().success());
     }
 }
+
+#[test]
+fn native_whole_body_insert_and_source_lens_match_wasm_json_requests() {
+    let uri = "file:///workspace/source-lens-contract.mmt";
+    let source = "- body😀\r\n\r\n@typ\r\n#strong[old]\r\n@end\r\n- after\r\n";
+    for encoding in ["utf-8", "utf-16"] {
+        let initialize = json!({
+            "capabilities":{"general":{"positionEncodings":[encoding]}},
+            "initializationOptions":{"previewOnChange":false},
+        });
+        let open = json!({"textDocument":{
+            "uri":uri,"languageId":"mmt","version":7,"text":source,
+        }});
+        let mut shared = MmtLanguageServer::default();
+        shared.request("initialize", initialize.clone()).unwrap();
+        shared
+            .notification("textDocument/didOpen", open.clone())
+            .unwrap();
+        let snapshot_params = json!({"textDocument":{"uri":uri,"version":7}});
+        let snapshot = shared
+            .request("mmt/composerDocument", snapshot_params.clone())
+            .unwrap();
+        let advanced = &snapshot["nodes"][2];
+        let structure_base = json!({
+            "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+            "target":{"kind":"node","node":{
+                "nodeKey":advanced["nodeKey"],"nodeKind":advanced["kind"],"range":advanced["range"],
+            }},
+            "command":{"kind":"replaceNodeSource","source":"@typ\r\n#strong[new😀]\r\n@end\r\n"},
+        });
+        let body = |value: &str| {
+            json!({
+                "textDocument":snapshot["textDocument"],
+                "target":{"kind":"statement","range":snapshot["nodes"][0]["statementRange"]},
+                "command":{"kind":"setStatementBody","value":value,"mode":"textRaw"},
+            })
+        };
+        let mut stale = structure_base.clone();
+        stale["sourceDigest"] = json!("0".repeat(64));
+        let mut unclosed = structure_base.clone();
+        unclosed["command"]["source"] = json!("@typ\r\n#strong[swallowed]");
+        let requests = [
+            body("first\n> literal\n\"\"\" C:\\path\""),
+            body(""),
+            json!({
+                "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+                "target":snapshot["boundaries"][0]["target"],
+                "command":{"kind":"insertStatement","statement":{
+                    "kind":"message","side":"right","speaker":{"kind":"builtin"},
+                    "body":{"value":"Teacher\nreply","mode":"inherit"},"continued":"auto",
+                }},
+            }),
+            structure_base,
+            stale,
+            unclosed,
+        ];
+        let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-lsp"))
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .spawn()
+            .unwrap();
+        let mut stdin = child.stdin.take().unwrap();
+        let mut stdout = BufReader::new(child.stdout.take().unwrap());
+        send(
+            &mut stdin,
+            &json!({"jsonrpc":"2.0","id":1,"method":"initialize","params":initialize}),
+        );
+        assert_eq!(
+            receive(&mut stdout)["result"]["capabilities"]["positionEncoding"],
+            encoding
+        );
+        send(
+            &mut stdin,
+            &json!({"jsonrpc":"2.0","method":"initialized","params":{}}),
+        );
+        send(
+            &mut stdin,
+            &json!({"jsonrpc":"2.0","method":"textDocument/didOpen","params":open}),
+        );
+        assert_eq!(
+            receive(&mut stdout)["method"],
+            "textDocument/publishDiagnostics"
+        );
+        assert_eq!(receive(&mut stdout)["method"], "mmt/typstProjectUpdated");
+        send(
+            &mut stdin,
+            &json!({"jsonrpc":"2.0","id":2,"method":"mmt/composerDocument","params":snapshot_params}),
+        );
+        assert_eq!(receive(&mut stdout)["result"], snapshot);
+        assert_eq!(snapshot["nodes"][2]["capabilities"]["replaceSource"], true);
+        assert_eq!(snapshot["nodes"][1]["capabilities"]["replaceSource"], false);
+        assert_eq!(
+            snapshot["boundaries"][0]["insert"]["builtinMessageSides"],
+            json!(["right"])
+        );
+        for (index, params) in requests.into_iter().enumerate() {
+            let expected: Value =
+                serde_json::from_str(&shared.request_json("mmt/composerEdit", &params.to_string()))
+                    .unwrap();
+            send(
+                &mut stdin,
+                &json!({"jsonrpc":"2.0","id":index + 3,"method":"mmt/composerEdit","params":params}),
+            );
+            let actual = receive(&mut stdout);
+            assert_eq!(actual["result"], expected["result"]);
+            assert_eq!(actual["error"], expected["error"]);
+            if index < 4 {
+                assert_eq!(actual["result"]["kind"], "Edit", "{actual}");
+                let documents = actual["result"]["edit"]["documentChanges"]
+                    .as_array()
+                    .unwrap();
+                assert_eq!(documents.len(), 1);
+                assert_eq!(documents[0]["textDocument"], json!({"uri":uri,"version":7}));
+                assert_eq!(documents[0]["edits"].as_array().unwrap().len(), 1);
+            } else {
+                assert_eq!(actual["result"]["kind"], "Rejected", "{actual}");
+            }
+        }
+        send(
+            &mut stdin,
+            &json!({"jsonrpc":"2.0","id":20,"method":"shutdown","params":null}),
+        );
+        assert_eq!(receive(&mut stdout)["result"], Value::Null);
+        send(
+            &mut stdin,
+            &json!({"jsonrpc":"2.0","method":"exit","params":null}),
+        );
+        drop(stdin);
+        assert!(child.wait().unwrap().success());
+    }
+}

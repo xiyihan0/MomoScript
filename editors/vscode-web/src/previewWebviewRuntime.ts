@@ -1449,7 +1449,7 @@ interface ComposerPointerGesture {
   readonly originX: number;
   readonly originY: number;
   readonly extend: boolean;
-  readonly clickCount: 1 | 2;
+  readonly clickCount: 1 | 2 | 3;
   clientX: number;
   clientY: number;
   dirty: boolean;
@@ -1463,6 +1463,7 @@ interface ComposerPointerGesture {
 class ComposerInputBridge {
   readonly #layer = document.createElement("div");
   readonly #visuals = document.createElement("div");
+  readonly #blockOutline = document.createElement("div");
   readonly #input = document.createElement("textarea");
   readonly #composition = document.createElement("span");
   readonly #announcement = document.createElement("span");
@@ -1474,7 +1475,7 @@ class ComposerInputBridge {
   #gesture: ComposerPointerGesture | undefined;
   #afterPointer: ComposerIntent[] = [];
   readonly #draftBlockedDrains = new Map<string, number>();
-  #lastClick: { readonly x: number; readonly y: number; readonly time: number } | undefined;
+  #lastClick: { readonly x: number; readonly y: number; readonly time: number; readonly count: 1 | 2 | 3 } | undefined;
   #suppressClick = false;
   #composing = false;
   #compositionText = "";
@@ -1490,6 +1491,7 @@ class ComposerInputBridge {
   #focusWhenAuthorized = false;
   #touchSelection = false;
   #disposed = false;
+  #blockSelection: { readonly renderKey: string; readonly elements: readonly SVGGraphicsElement[] } | undefined;
 
   constructor() {
     const style = document.createElement("style");
@@ -1499,6 +1501,7 @@ class ComposerInputBridge {
       .composer-caret,.composer-selection-box { position:absolute; pointer-events:none; box-sizing:border-box; }
       .composer-caret { background:var(--vscode-editorCursor-foreground,#006bb3); min-width:1px; }
       .composer-selection-box { background:var(--vscode-editor-selectionBackground,#75baff66); }
+      .composer-block-selection { position:absolute; pointer-events:none; box-sizing:border-box; border:2px solid var(--vscode-focusBorder,#007acc); border-radius:6px; }
       .composer-input-bridge { position:absolute; margin:0; padding:0; border:0; outline:0; resize:none; overflow:hidden; width:1px; min-width:1px; max-width:1px; background:transparent; color:transparent; caret-color:transparent; opacity:.01; font:16px/1 sans-serif; white-space:pre; pointer-events:none; }
       .composer-composition { position:absolute; box-sizing:border-box; max-width:100%; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; background:var(--vscode-editor-background,#fff); color:var(--vscode-editor-foreground,#222); border-bottom:2px solid var(--vscode-focusBorder,#007acc); font:16px/1.3 var(--vscode-editor-font-family,monospace); }
       .composer-touch-handle { position:absolute; width:44px; height:44px; margin:0; padding:0; border:0; background:transparent; pointer-events:auto; touch-action:none; cursor:grab; }
@@ -1516,6 +1519,8 @@ class ComposerInputBridge {
     document.head.append(style);
     this.#layer.className = "composer-overlays";
     this.#visuals.className = "composer-visuals";
+    this.#blockOutline.className = "composer-block-selection";
+    this.#blockOutline.hidden = true;
     this.#input.className = "composer-input-bridge";
     this.#input.setAttribute("aria-label", "编辑消息正文");
     this.#input.setAttribute("autocomplete", "off");
@@ -1540,7 +1545,7 @@ class ComposerInputBridge {
       handle.addEventListener("pointercancel", (event) => this.pointerCancel(event));
       handle.addEventListener("lostpointercapture", (event) => this.pointerCancel(event));
     }
-    this.#layer.append(this.#visuals, this.#composition, ...this.#handles, this.#input, this.#announcement);
+    this.#layer.append(this.#visuals, this.#blockOutline, this.#composition, ...this.#handles, this.#input, this.#announcement);
     // Never put the input under .page: renderer full frames legitimately replace its children.
     document.body.append(this.#layer);
     document.body.dataset.composerStatus = "blocked";
@@ -1550,16 +1555,8 @@ class ComposerInputBridge {
     this.#input.addEventListener("compositionstart", () => this.#startComposition());
     this.#input.addEventListener("compositionupdate", (event) => this.#updateComposition(event.data));
     this.#input.addEventListener("compositionend", (event) => this.#endComposition(event.data));
-    this.#input.addEventListener("copy", (event) => {
-      if (!this.#enabled()) return;
-      event.preventDefault();
-      this.#send({ kind: "copy" });
-    });
-    this.#input.addEventListener("cut", (event) => {
-      if (!this.#enabled() || this.#composing) return;
-      event.preventDefault();
-      this.#send({ kind: "replace", origin: "cut", text: "" });
-    });
+    this.#input.addEventListener("copy", (event) => this.#clipboardEvent(event, "copy"));
+    this.#input.addEventListener("cut", (event) => this.#clipboardEvent(event, "cut"));
     this.#input.addEventListener("paste", (event) => {
       if (!this.#enabled() || this.#composing) return;
       event.preventDefault();
@@ -1568,7 +1565,7 @@ class ComposerInputBridge {
       if (text !== undefined) this.#replace(text, "paste");
     });
     this.#input.addEventListener("blur", () => {
-      if (this.#enabled()) {
+      if (this.#enabled() && this.#composing) {
         const draft = this.#compositionText;
         if (!this.#send({ kind: "composition", phase: "cancel", text: draft }) && draft) {
           this.#send({ kind: "composition", phase: "cancel", text: "" });
@@ -1626,6 +1623,91 @@ class ComposerInputBridge {
       && this.#pointerSequence <= this.#state.sequence;
   }
 
+  #clipboardEvent(event: ClipboardEvent, action: "copy" | "cut"): void {
+    // Synthetic DataTransfer writes never acknowledge a system clipboard write.
+    if (!event.isTrusted || !this.#enabled() || this.#composing) return;
+    event.preventDefault();
+    const state = this.#state;
+    const payload = state?.clipboard;
+    if (!state || !payload || state.status !== "ready" || this.#sequence !== state.sequence
+      || state.renderKey !== page.dataset.renderKey || this.#gesture || this.#afterPointer.length > 0) {
+      // Selection/navigation is asynchronous, but Copy/Cut is still a physical
+      // FIFO intent. The host reads the resulting authorized range and uses the
+      // existing native clipboard port; it never copies this stale presentation.
+      if (!this.#send({ kind: "clipboardRequest", action })) {
+        this.#announcement.textContent = "无法复制或剪切当前选区，请重新选择正文。";
+      }
+      return;
+    }
+    if (!event.clipboardData) return;
+    try {
+      event.clipboardData.setData("text/plain", payload.text);
+      if (event.clipboardData.getData("text/plain") !== payload.text) return;
+    } catch {
+      this.#announcement.textContent = "无法写入剪贴板，未删除任何文字。";
+      return;
+    }
+    this.#send({ kind: "clipboard", action, authorization: payload.authorization });
+  }
+
+  requestContextMenu(event: MouseEvent): boolean {
+    if (!this.#pointerReady() || this.#composing || this.#blockSelection || this.#state?.carets.length !== 2) return false;
+    if (this.#gesture) this.#finishGesture();
+    event.preventDefault();
+    return this.#send({ kind: "contextMenu", anchor: { screenX: event.screenX, screenY: event.screenY } });
+  }
+
+  selectBlock(target: EventTarget | null): void {
+    this.#clearBlock();
+    if (!(target instanceof Element) || !this.active) return;
+    const labelled = target.closest("[data-typst-label]");
+    const semantic = labelled && parsePreviewSemanticLabel(labelled.getAttribute("data-typst-label") ?? "");
+    const root = labelled?.closest("svg");
+    const renderKey = page.dataset.renderKey;
+    if (!semantic || !root || !renderKey || !renderedDomIsActive(root)) return;
+    const elements = [...root.querySelectorAll("[data-typst-label]")].filter((element): element is SVGGraphicsElement =>
+      element instanceof SVGGraphicsElement
+      && parsePreviewSemanticLabel(element.getAttribute("data-typst-label") ?? "")?.token === semantic.token);
+    if (!elements.length) return;
+    this.#blockSelection = { renderKey, elements };
+    this.#input.blur();
+    this.#visuals.replaceChildren();
+    this.#handles.forEach((handle) => { handle.hidden = true; });
+    this.layout();
+  }
+
+  #clearBlock(): void {
+    this.#blockSelection = undefined;
+    this.#blockOutline.hidden = true;
+  }
+
+  #layoutBlock(): void {
+    const selection = this.#blockSelection;
+    if (!selection) return;
+    if (selection.renderKey !== page.dataset.renderKey || selection.elements.some((element) => !element.isConnected)) {
+      this.#clearBlock();
+      return;
+    }
+    let left = Number.POSITIVE_INFINITY;
+    let top = Number.POSITIVE_INFINITY;
+    let right = Number.NEGATIVE_INFINITY;
+    let bottom = Number.NEGATIVE_INFINITY;
+    for (const element of selection.elements) {
+      const transform = element.getScreenCTM();
+      if (!transform) continue;
+      const box = element.getBBox();
+      for (const [x, y] of [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]) {
+        const point = new DOMPoint(x, y).matrixTransform(transform);
+        left = Math.min(left, point.x); top = Math.min(top, point.y);
+        right = Math.max(right, point.x); bottom = Math.max(bottom, point.y);
+      }
+    }
+    this.#blockOutline.hidden = !Number.isFinite(left + top + right + bottom);
+    if (!this.#blockOutline.hidden) Object.assign(this.#blockOutline.style, {
+      left: `${left - 4}px`, top: `${top - 4}px`, width: `${right - left + 8}px`, height: `${bottom - top + 8}px`,
+    });
+  }
+
   acceptState(state: ComposerStateMessage): void {
     if (this.#disposed) return;
     const previous = this.#state;
@@ -1649,6 +1731,7 @@ class ComposerInputBridge {
     this.#input.disabled = state.status === "blocked" && !this.hasTransportDraft;
     this.#input.tabIndex = this.#input.disabled ? -1 : 0;
     if (state.status === "blocked") {
+      this.#clearBlock();
       this.#finishGesture();
       this.#clearComposition();
       this.#geometry = undefined;
@@ -1677,6 +1760,7 @@ class ComposerInputBridge {
 
   rendered(): void {
     const state = this.#state;
+    if (this.#blockSelection?.renderKey !== page.dataset.renderKey) this.#clearBlock();
     document.body.dataset.composerStatus = !state || state.status === "blocked" || this.hasTransportDraft ? "blocked"
       : state.status === "ready" && state.renderKey === page.dataset.renderKey
         && this.#pointerSequence <= state.sequence ? "ready" : "pending";
@@ -1740,6 +1824,8 @@ class ComposerInputBridge {
     this.#announcement.style.left = `${visible.left + 8}px`;
     this.#announcement.style.top = `${visible.top + 8}px`;
     this.#announcement.style.maxWidth = `${Math.max(44, visible.right - visible.left - 16)}px`;
+    this.#layoutBlock();
+    if (this.#blockSelection) return;
     const geometry = this.#geometry;
     // Pending reflow may retain feedback, but old normalized points never get reinterpreted in a new frame.
     if (!geometry || geometry.renderKey !== page.dataset.renderKey) return;
@@ -1895,32 +1981,35 @@ class ComposerInputBridge {
   pointerDown(event: PointerEvent): boolean {
     if (!this.active || event.button !== 0 || !event.isPrimary || !this.bodyTarget(event.target)) return false;
     event.preventDefault();
+    this.#clearBlock();
     this.#suppressClick = true;
     const sample = this.#pointerSample(event.clientX, event.clientY, true);
     if (!sample) return true;
     const previous = this.#lastClick;
-    const clickCount = event.detail >= 2 || (previous && performance.now() - previous.time < 500
-      && Math.hypot(previous.x - event.clientX, previous.y - event.clientY) <= 6) ? 2 : 1;
+    const close = previous && performance.now() - previous.time < 500
+      && Math.hypot(previous.x - event.clientX, previous.y - event.clientY) <= 6;
+    const clickCount: 1 | 2 | 3 = close && previous.count < 3
+      ? (previous.count + 1) as 2 | 3 : Math.min(3, Math.max(1, event.detail)) as 1 | 2 | 3;
     if (this.#composing) return true;
     if (!this.#pointerReady()) {
       // The second click is part of the already admitted gesture, not authorization against pending
       // render geometry. Re-check the identical frame after the first hit completes.
-      if (clickCount === 2 && this.#state && this.#sequence === this.#pointerSequence
+      if (clickCount > 1 && this.#state && this.#sequence === this.#pointerSequence
         && this.#pointerSequence > this.#state.sequence && this.#state.renderKey === page.dataset.renderKey) {
-        this.#beginGesture(event, page, event.shiftKey, 2);
+        this.#beginGesture(event, page, event.shiftKey, clickCount);
         this.#gesture!.deferredStart = { sample, renderKey: this.#state.renderKey };
-        this.#lastClick = undefined;
+        this.#lastClick = { x: event.clientX, y: event.clientY, time: performance.now(), count: clickCount };
       }
       return true;
     }
-    this.#lastClick = clickCount === 2 ? undefined : { x: event.clientX, y: event.clientY, time: performance.now() };
+    this.#lastClick = { x: event.clientX, y: event.clientY, time: performance.now(), count: clickCount };
     this.#beginGesture(event, page, event.shiftKey, clickCount);
     this.#gesture!.initialSample = sample;
     this.#sendPointer("start", sample, event.shiftKey, clickCount);
     return true;
   }
 
-  #beginGesture(event: PointerEvent, owner: HTMLElement, extend: boolean, clickCount: 1 | 2): void {
+  #beginGesture(event: PointerEvent, owner: HTMLElement, extend: boolean, clickCount: 1 | 2 | 3): void {
     this.#finishGesture();
     this.#compositionCommit = undefined;
     this.#touchSelection = event.pointerType === "touch" || event.pointerType === "pen";
@@ -2052,7 +2141,7 @@ class ComposerInputBridge {
     return consumed;
   }
 
-  #sendPointer(phase: "start" | "move" | "end" | "cancel", { point, uncertainty }: ComposerPointerSample, extend: boolean, clickCount: 1 | 2): void {
+  #sendPointer(phase: "start" | "move" | "end" | "cancel", { point, uncertainty }: ComposerPointerSample, extend: boolean, clickCount: 1 | 2 | 3): void {
     if (this.#send({ kind: "pointer", phase, point, uncertainty, extend, clickCount })) {
       this.#pointerSequence = this.#sequence;
       this.rendered();
@@ -2070,6 +2159,7 @@ class ComposerInputBridge {
       return true;
     }
     this.#sequence = message.sequence;
+    this.#state = { ...state, clipboard: null };
     if (intent.kind === "replace" || intent.kind === "move" || intent.kind === "history"
       || (intent.kind === "composition" && intent.phase === "end")) {
       this.#revealRequestedAtScroll = this.#scrollRevision;
@@ -2148,12 +2238,26 @@ class ComposerInputBridge {
     const modifier = event.ctrlKey || event.metaKey;
     const key = event.key.toLowerCase();
     if (modifier && !event.altKey && (key === "c" || key === "x")) {
-      event.preventDefault();
-      if (key === "c") this.#send({ kind: "copy" });
-      else this.#send({ kind: "replace", origin: "cut", text: "" });
+      // Keep the browser's trusted Copy/Cut event and its synchronous clipboardData.
+      // Preventing keydown here would suppress that event and lose user activation.
+      return;
     } else if (modifier && !event.altKey && (key === "z" || key === "y")) {
       event.preventDefault();
       this.#send({ kind: "history", direction: key === "y" || event.shiftKey ? "redo" : "undo" });
+    } else if (event.key === "Tab" || event.key === "Escape") {
+      event.preventDefault();
+      this.#send({ kind: "focus", backward: event.key === "Tab" && event.shiftKey });
+    } else if (event.key === "ContextMenu" || (event.key === "F10" && event.shiftKey)) {
+      event.preventDefault();
+      const caret = this.#geometry?.carets.at(-1);
+      const rect = caret && this.#boxRect(caret);
+      if (rect) this.#send({
+        kind: "contextMenu",
+        anchor: {
+          screenX: window.screenX + rect.x,
+          screenY: window.screenY + Math.max(0, window.outerHeight - window.innerHeight) + rect.y + rect.height,
+        },
+      });
     } else if (modifier && !event.altKey && key === "a") {
       event.preventDefault();
       this.#send({ kind: "move", direction: "left", granularity: "document", extend: false });
@@ -2345,7 +2449,8 @@ page.addEventListener("click", (event) => {
     const contextPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, true, true);
     if (contextPoint) {
       event.preventDefault();
-      vscode.postMessage({ type: "context-point", point: contextPoint, anchor: { screenX: event.screenX, screenY: event.screenY } });
+      composerInput.selectBlock(event.target);
+      vscode.postMessage({ type: "context-point", point: contextPoint, anchor: { screenX: event.screenX, screenY: event.screenY }, trigger: "select" });
     }
     return;
   }
@@ -2368,6 +2473,7 @@ page.addEventListener("click", (event) => {
   }, 0);
 });
 page.addEventListener("contextmenu", (event) => {
+  if (composerInput.requestContextMenu(event)) return;
   if (pointerDragged) return;
   const selection = document.getSelection();
   if (selection && !selection.isCollapsed) return;
@@ -2380,10 +2486,12 @@ page.addEventListener("contextmenu", (event) => {
   );
   if (!contextPoint) return;
   event.preventDefault();
+  if (composerInput.active) composerInput.selectBlock(event.target);
   vscode.postMessage({
     type: "context-point",
     point: contextPoint,
     anchor: { screenX: event.screenX, screenY: event.screenY },
+    trigger: "menu",
   });
 });
 exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat }));
@@ -2412,6 +2520,7 @@ window.addEventListener("message", (event: MessageEvent<unknown>) => {
   else if (message.type === "indicator") showOverlay("preview-indicator", message.point);
   else if (message.type === "cursor") showOverlay("preview-cursor", message.point);
   else if (message.type === "exactExportState") applyExactExportState(message.state);
+  else if (message.type === "presentation") document.body.dataset.composerSurface = String(message.presentation === "gui");
   else if (message.type === "composer-state") composerInput.acceptState(message);
 });
 

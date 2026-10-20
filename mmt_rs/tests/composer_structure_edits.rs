@@ -1,8 +1,9 @@
 use mmt_rs::{
     CharacterPreset, ComposerDocumentNode, ComposerMessageSide, ComposerNewStatement,
-    ComposerSpeakerChoice, ComposerStatementBodyInput, ComposerStructureCommand,
-    ComposerStructureFailure, ComposerStructureTarget, ContinuedValue, StatementTextMode,
-    StaticPresetCatalog, analyze_text, compose_structure_edit, project_analyzed_composer_document,
+    ComposerNewStatementSpeaker, ComposerSpeakerChoice, ComposerStatementBodyInput,
+    ComposerStructureCommand, ComposerStructureFailure, ComposerStructureTarget, ContinuedValue,
+    StatementTextMode, StaticPresetCatalog, analyze_text, compose_structure_edit,
+    project_analyzed_composer_document,
 };
 
 fn catalog() -> StaticPresetCatalog {
@@ -57,7 +58,7 @@ fn structure(
 fn message(body: &str, mode: StatementTextMode) -> ComposerNewStatement {
     ComposerNewStatement::Message {
         side: ComposerMessageSide::Left,
-        speaker: ComposerSpeakerChoice::Actor {
+        speaker: ComposerNewStatementSpeaker::Actor {
             reference: "A".to_string(),
         },
         body: ComposerStatementBodyInput {
@@ -139,7 +140,7 @@ fn insert_resolves_canonical_pack_and_declared_script_actor_references() {
             ComposerStructureCommand::InsertStatement {
                 statement: ComposerNewStatement::Message {
                     side: ComposerMessageSide::Right,
-                    speaker: ComposerSpeakerChoice::Actor {
+                    speaker: ComposerNewStatementSpeaker::Actor {
                         reference: reference.to_string(),
                     },
                     body: ComposerStatementBodyInput {
@@ -390,7 +391,7 @@ fn stale_digest_node_identity_invalid_values_and_error_documents_are_rejected() 
             source,
             ComposerStructureTarget::Boundary(projection.boundaries[0].target.clone()),
             ComposerStructureCommand::InsertStatement {
-                statement: message("", StatementTextMode::Inherit),
+                statement: message(&"x".repeat(64 * 1024 + 1), StatementTextMode::Inherit),
             },
         ),
         Err(ComposerStructureFailure::InvalidValue)
@@ -571,4 +572,367 @@ fn cross_body_copy_and_delete_skip_blank_source_but_keep_its_bytes() {
         cross_text(source, (2, 2), (0, 1), "").unwrap(),
         "- af\n \t\n"
     );
+}
+
+#[test]
+fn insert_multiline_and_empty_bodies_preserves_neighbors_and_eol() {
+    for eol in ["\n", "\r\n"] {
+        let source = format!("- before{eol}{eol}@reply: A | B{eol}- after{eol}");
+        let (_, projection) = project(&source);
+        for value in [
+            "",
+            "first\nsecond",
+            "\n> A: literal\n@mode: T\n\"\"\" C:\\path\"",
+        ] {
+            let inserted = structure(
+                &source,
+                ComposerStructureTarget::Boundary(projection.boundaries[1].target.clone()),
+                ComposerStructureCommand::InsertStatement {
+                    statement: message(value, StatementTextMode::TextRaw),
+                },
+            )
+            .unwrap();
+            let (_, after) = project(&inserted);
+            let ComposerDocumentNode::Message(node) = &after.nodes[1] else {
+                panic!("inserted body must remain one statement");
+            };
+            assert_eq!(node.description.body.current, value.replace('\n', eol));
+            assert!(inserted.starts_with(&format!("- before{eol}")));
+            assert!(inserted.ends_with(&format!("{eol}@reply: A | B{eol}- after{eol}")));
+            assert_eq!(after.nodes.len(), projection.nodes.len() + 1);
+        }
+    }
+}
+
+#[test]
+fn insert_builtin_is_explicit_right_only_and_boundary_authorized() {
+    let builtin = |side| ComposerNewStatement::Message {
+        side,
+        speaker: ComposerNewStatementSpeaker::Builtin,
+        body: ComposerStatementBodyInput {
+            value: "Teacher\nreply".to_owned(),
+            mode: StatementTextMode::Inherit,
+        },
+        continued: ContinuedValue::Auto,
+    };
+    for source in ["", "> A: actor\n", "< _0: teacher\n"] {
+        let (_, projection) = project(source);
+        let boundary = projection.boundaries.last().unwrap();
+        assert_eq!(
+            boundary.insert.as_ref().unwrap().builtin_message_sides,
+            vec![ComposerMessageSide::Right]
+        );
+        let inserted = structure(
+            source,
+            ComposerStructureTarget::Boundary(boundary.target.clone()),
+            ComposerStructureCommand::InsertStatement {
+                statement: builtin(ComposerMessageSide::Right),
+            },
+        )
+        .unwrap();
+        let (_, after) = project(&inserted);
+        let ComposerDocumentNode::Message(node) = after.nodes.last().unwrap() else {
+            panic!("Teacher must be a message");
+        };
+        assert!(matches!(
+            &node.description.speaker,
+            Some(mmt_rs::ComposerSpeakerDescription::Builtin { id }) if id == "__Sensei"
+        ));
+        assert!(!node.capabilities.set_speaker);
+        assert_eq!(
+            structure(
+                source,
+                ComposerStructureTarget::Boundary(boundary.target.clone()),
+                ComposerStructureCommand::InsertStatement {
+                    statement: builtin(ComposerMessageSide::Left),
+                },
+            ),
+            Err(ComposerStructureFailure::UnsupportedStructure)
+        );
+    }
+    let source = "< A: named right actor\n";
+    let (_, projection) = project(source);
+    assert_eq!(
+        projection.boundaries[0]
+            .insert
+            .as_ref()
+            .unwrap()
+            .builtin_message_sides,
+        vec![ComposerMessageSide::Right]
+    );
+    assert!(
+        projection.boundaries[1]
+            .insert
+            .as_ref()
+            .unwrap()
+            .builtin_message_sides
+            .is_empty()
+    );
+    assert_eq!(
+        structure(
+            source,
+            ComposerStructureTarget::Boundary(projection.boundaries[1].target.clone()),
+            ComposerStructureCommand::InsertStatement {
+                statement: builtin(ComposerMessageSide::Right),
+            },
+        ),
+        Err(ComposerStructureFailure::UnsupportedStructure)
+    );
+}
+
+#[test]
+fn replace_node_source_preserves_exact_partition_and_rejects_swallowed_neighbors() {
+    for eol in ["\n", "\r\n"] {
+        let source = format!(
+            "- before{eol}{eol}@typ{eol}#strong[old]{eol}@end{eol}@reply: A | B{eol}- after{eol}"
+        );
+        let (_, projection) = project(&source);
+        let target = projection.nodes[2].node_ref();
+        let replacement = format!("@typ{eol}#strong[new \"quoted\" C:\\\\path]{eol}@end{eol}");
+        let edited = structure(
+            &source,
+            ComposerStructureTarget::Node(target.clone()),
+            ComposerStructureCommand::ReplaceNodeSource {
+                source: replacement.clone(),
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            edited,
+            format!("- before{eol}{eol}{replacement}@reply: A | B{eol}- after{eol}")
+        );
+        for replacement in [
+            format!("@typ{eol}#strong[unclosed]"),
+            format!("@typ{eol}#strong[broken{eol}@end{eol}"),
+            format!("@typ{eol}#strong[ok]{eol}@end{eol}- injected{eol}"),
+            format!("@actor forged{eol}preset: A{eol}@end{eol}"),
+            String::new(),
+        ] {
+            assert!(
+                structure(
+                    &source,
+                    ComposerStructureTarget::Node(target.clone()),
+                    ComposerStructureCommand::ReplaceNodeSource {
+                        source: replacement
+                    },
+                )
+                .is_err()
+            );
+        }
+        let mut forged = target.clone();
+        forged.range = projection.nodes[3].range();
+        assert_eq!(
+            structure(
+                &source,
+                ComposerStructureTarget::Node(forged),
+                ComposerStructureCommand::ReplaceNodeSource {
+                    source: replacement.clone()
+                },
+            ),
+            Err(ComposerStructureFailure::TargetChanged)
+        );
+        let (analysis, _) = project(&source);
+        assert_eq!(
+            compose_structure_edit(
+                &source,
+                &analysis,
+                &catalog(),
+                &"0".repeat(64),
+                ComposerStructureTarget::Node(target),
+                ComposerStructureCommand::ReplaceNodeSource {
+                    source: replacement
+                },
+            ),
+            Err(ComposerStructureFailure::StaleDocument)
+        );
+    }
+}
+
+#[test]
+fn replace_node_source_supports_local_content_but_not_metadata_or_blanks() {
+    for (source, target_index, replacement) in [
+        ("- before\n@reply: A | B\n- after\n", 1, "@reply: C | D\n"),
+        ("- before\n@bond: old\n- after\n", 1, "@bond: new\n"),
+        (
+            "- before\n@typ: #strong[old]\n- after\n",
+            1,
+            "@typ: #strong[new]\n",
+        ),
+        (
+            "- before\n- T\"\"\"#strong[old]\"\"\"\n- after\n",
+            1,
+            "- T\"\"\"\n#strong[new]\n\"\"\"\n",
+        ),
+    ] {
+        let (_, projection) = project(source);
+        assert_eq!(
+            structure(
+                source,
+                ComposerStructureTarget::Node(projection.nodes[target_index].node_ref()),
+                ComposerStructureCommand::ReplaceNodeSource {
+                    source: replacement.to_owned()
+                },
+            )
+            .unwrap(),
+            format!("- before\n{replacement}- after\n")
+        );
+    }
+    let source = "@mode: text\n\n- body\n";
+    let (_, projection) = project(source);
+    for node in &projection.nodes[..2] {
+        assert_eq!(
+            structure(
+                source,
+                ComposerStructureTarget::Node(node.node_ref()),
+                ComposerStructureCommand::ReplaceNodeSource {
+                    source: "- forged\n".to_owned()
+                },
+            ),
+            Err(ComposerStructureFailure::UnsupportedStructure)
+        );
+    }
+}
+
+#[test]
+fn local_typst_line_replacement_rejects_invalid_typst_candidate() {
+    let source = "- before\n@typ: #strong[old]\n- after\n";
+    let (_, projection) = project(source);
+    assert_eq!(
+        structure(
+            source,
+            ComposerStructureTarget::Node(projection.nodes[1].node_ref()),
+            ComposerStructureCommand::ReplaceNodeSource {
+                source: "@typ: #strong[unclosed\n".to_owned(),
+            },
+        ),
+        Err(ComposerStructureFailure::CandidateInvalid)
+    );
+}
+
+#[test]
+fn inserted_literal_colon_preserves_generated_actor_and_builtin_markers() {
+    let (_, projection) = project("");
+    for (statement, expected) in [
+        (
+            message("hello:", StatementTextMode::Inherit),
+            "> A: hello:\n",
+        ),
+        (
+            ComposerNewStatement::Message {
+                side: ComposerMessageSide::Right,
+                speaker: ComposerNewStatementSpeaker::Builtin,
+                body: ComposerStatementBodyInput {
+                    value: "hello:".to_owned(),
+                    mode: StatementTextMode::Inherit,
+                },
+                continued: ContinuedValue::True,
+            },
+            "<(continued: true) _0: hello:\n",
+        ),
+    ] {
+        let inserted = structure(
+            "",
+            ComposerStructureTarget::Boundary(projection.boundaries[0].target.clone()),
+            ComposerStructureCommand::InsertStatement { statement },
+        )
+        .unwrap();
+        assert_eq!(inserted, expected);
+        let (_, after) = project(&inserted);
+        let ComposerDocumentNode::Message(node) = &after.nodes[0] else {
+            panic!("inserted node must remain a message");
+        };
+        assert_eq!(node.description.body.current, "hello:");
+    }
+}
+
+#[test]
+fn append_without_final_eol_is_one_authorized_edit_preserving_existing_bytes() {
+    for (source, eol) in [
+        ("- old", "\n"),
+        ("- before\r\n- old", "\r\n"),
+        ("- before\r\n- middle\n- old", "\n"),
+        (
+            "- before\n< Teacher\n- next\n> A: rt\"\"\"\nold\"\"\"",
+            "\n",
+        ),
+        ("- before\r\n> A: rt\"\"\"\r\nold\"\"\"", "\r\n"),
+        ("- \"\"\"\n\"\"\"", "\n"),
+        ("@typ\n#strong[old]\n@end", "\n"),
+        ("@mode: rt", "\n"),
+        (" \t", "\n"),
+    ] {
+        let (analysis, projection) = project(source);
+        let target =
+            ComposerStructureTarget::Boundary(projection.boundaries.last().unwrap().target.clone());
+        let command = ComposerStructureCommand::InsertStatement {
+            statement: message("next", StatementTextMode::Inherit),
+        };
+        let edit = compose_structure_edit(
+            source,
+            &analysis,
+            &catalog(),
+            &projection.source_digest,
+            target.clone(),
+            command.clone(),
+        )
+        .unwrap();
+        assert_eq!(
+            (edit.range.start, edit.range.end),
+            (source.len(), source.len())
+        );
+        assert_eq!(edit.new_text, format!("{eol}> A: next{eol}"));
+        let appended = apply(source, &edit);
+        assert_eq!(appended, format!("{source}{eol}> A: next{eol}"));
+        let (_, after) = project(&appended);
+        assert_eq!(after.nodes.len(), projection.nodes.len() + 1);
+        let ComposerDocumentNode::Message(node) = after.nodes.last().unwrap() else {
+            panic!("appended statement must remain a message");
+        };
+        assert_eq!(node.description.body.current, "next");
+        assert_eq!(
+            compose_structure_edit(
+                source,
+                &analysis,
+                &catalog(),
+                &"0".repeat(64),
+                target,
+                command,
+            ),
+            Err(ComposerStructureFailure::StaleDocument)
+        );
+    }
+}
+
+#[test]
+fn append_multiline_builtin_after_unterminated_message_preserves_both_bodies() {
+    let source = "< Teacher";
+    let (_, projection) = project(source);
+    let appended = structure(
+        source,
+        ComposerStructureTarget::Boundary(projection.boundaries.last().unwrap().target.clone()),
+        ComposerStructureCommand::InsertStatement {
+            statement: ComposerNewStatement::Message {
+                side: ComposerMessageSide::Right,
+                speaker: ComposerNewStatementSpeaker::Builtin,
+                body: ComposerStatementBodyInput {
+                    value: "first\nsecond".to_owned(),
+                    mode: StatementTextMode::Inherit,
+                },
+                continued: ContinuedValue::Auto,
+            },
+        },
+    )
+    .unwrap();
+    assert!(appended.starts_with("< Teacher\n"));
+    let (_, after) = project(&appended);
+    for (node, body) in after.nodes.iter().zip(["Teacher", "first\nsecond"]) {
+        let ComposerDocumentNode::Message(node) = node else {
+            panic!("Teacher append must preserve message ownership");
+        };
+        assert_eq!(node.description.body.current, body);
+        assert!(matches!(
+            &node.description.speaker,
+            Some(mmt_rs::ComposerSpeakerDescription::Builtin { id }) if id == "__Sensei"
+        ));
+    }
 }

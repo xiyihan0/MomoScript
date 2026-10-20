@@ -233,7 +233,7 @@ test("message Composer edits only the authorized TextBody and rerenders once", {
   await chooseContextMenuItem(page, ROOT_MESSAGE);
   const invalid = await visibleMessageEditor(page);
   await setMessageEditorValue(page, invalid, "broken [:macro");
-  await page.keyboard.press("Enter");
+  await page.keyboard.press("Control+Enter");
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
     editRequests: 1,
@@ -253,7 +253,7 @@ test("message Composer edits only the authorized TextBody and rerenders once", {
   await chooseContextMenuItem(page, ROOT_MESSAGE);
   const unchanged = await visibleMessageEditor(page);
   await expect(unchanged.locator(".view-lines")).toContainText(replacement);
-  await page.keyboard.press("Enter");
+  await page.keyboard.press("Control+Enter");
   await expect.poll(() => composerState(page)).toEqual({
     targetRequests: 1,
     editRequests: 0,
@@ -323,11 +323,11 @@ test("message Composer switches local t/rt modes for right chat and narration", 
   ].join("\n");
   const rightEdited = original.replace(
     "RIGHT_MODE_TARGET",
-    "rt\"\"\"RIGHT_MODE_TARGET\"\"\"",
+    "rt\"\"\"\nRIGHT_MODE_TARGET\"\"\"",
   );
   const narrationEdited = rightEdited.replace(
     "NARRATION_MODE_TARGET",
-    "t\"\"\"NARRATION_MODE_TARGET\"\"\"",
+    "t\"\"\"\nNARRATION_MODE_TARGET\"\"\"",
   );
   const opened = await openProviderPreview(page, name, original);
   const historyBaseline = await historyEditCountForPath(page, `/${name}`);
@@ -359,7 +359,7 @@ test("message Composer switches local t/rt modes for right chat and narration", 
 test("builtin right-side bubble exposes message editing and Typst modes", { tag: "@preview-composer" }, async ({ page }) => {
   const name = "composer-builtin-right-mode.mmt";
   const original = "< RIGHT_BUILTIN_TARGET\n";
-  const expected = "< T\"\"\"#strong[RIGHT_BUILTIN_TARGET]\"\"\"\n";
+  const expected = "< T\"\"\"\n#strong[RIGHT_BUILTIN_TARGET]\"\"\"\n";
   const opened = await openProviderPreview(page, name, original);
   const historyBaseline = await historyEditCountForPath(page, `/${name}`);
   const previousRevision = await currentContainerRevision(page, opened.sourceUri);
@@ -388,7 +388,7 @@ test("builtin right-side bubble exposes message editing and Typst modes", { tag:
     new Set(tokenSnapshot.spans.map(({ className }) => className)).size,
     JSON.stringify(tokenSnapshot),
   ).toBeGreaterThan(1);
-  await page.keyboard.press("Enter");
+  await page.keyboard.press("Control+Enter");
 
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expected);
@@ -1001,6 +1001,7 @@ async function openProviderPreview(page: Page, name: string, source: string): Pr
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", name, source);
+  await invokeMmtE2E(page, "composer", "openSource", name);
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const frame = await waitForPreviewFrame(page, sourceUri);
   expect(await previewReadiness(page, sourceUri)).toMatchObject({
@@ -1066,7 +1067,7 @@ async function applyMessageText(
   await expect(inputWidget.locator(".view-lines")).toContainText(currentValue);
   await setMessageEditorValue(page, inputWidget, nextValue);
   await expect(inputWidget.locator(".view-lines")).toContainText(nextValue);
-  await page.keyboard.press("Enter");
+  await page.keyboard.press("Control+Enter");
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
@@ -1092,7 +1093,7 @@ async function applyMessageMode(
   const editor = await visibleMessageEditor(page);
   await expect(editor.getByRole("radio", { name: currentLabel, exact: true })).toHaveAttribute("aria-checked", "true");
   await editor.getByRole("radio", { name: choiceLabel, exact: true }).click();
-  await page.keyboard.press("Enter");
+  await page.keyboard.press("Control+Enter");
   await expect.poll(() => composerState(page)).toEqual(successfulComposerState());
   await expect(page.getByRole("dialog", { name: STALE_MESSAGE })).toHaveCount(0);
   await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(expectedSource);
@@ -1283,9 +1284,27 @@ async function rightClickRenderedBubbleGraphic(frame: Frame, marker: string): Pr
       ?.closest("[data-typst-label^='mmt:bubble:']");
     if (!bubble) throw new Error(`semantic bubble target is unavailable for ${expectedMarker}`);
     const bounds = bubble.getBoundingClientRect();
-    const point = { x: bounds.right - 2, y: bounds.bottom - 2 };
+    const paints = [...bubble.querySelectorAll<SVGGeometryElement>("path, rect, circle, ellipse, polygon, polyline")]
+      .filter((graphic) => !graphic.closest(".typst-text, defs, clipPath, mask") && getComputedStyle(graphic).fill !== "none")
+      .flatMap((graphic) => {
+        const matrix = graphic.getScreenCTM();
+        return matrix ? [{ graphic, toLocal: matrix.inverse() }] : [];
+      });
+    // A group's lower bounding-box corner can lie outside its rounded paint.
+    // Stay in that corner, but let native SVG geometry locate the filled surface.
+    let point: { readonly x: number; readonly y: number } | undefined;
+    const maximumInset = Math.min(bounds.width, bounds.height) / 4;
+    for (let inset = 2; inset <= maximumInset; inset += 1) {
+      const candidate = { x: bounds.right - inset, y: bounds.bottom - inset };
+      if (paints.some(({ graphic, toLocal }) => graphic.isPointInFill(new DOMPoint(candidate.x, candidate.y).matrixTransform(toLocal)))) {
+        point = candidate;
+        break;
+      }
+    }
+    if (!point) throw new Error(`painted lower-corner bubble graphic is unavailable for ${expectedMarker}`);
     const target = document.elementFromPoint(point.x, point.y);
     if (!target) throw new Error(`lower-corner hit target is unavailable for ${expectedMarker}`);
+    if (target.closest(".typst-text")) throw new Error(`lower-corner bubble graphic hit text for ${expectedMarker}`);
     const closestLabel = target.closest("[data-typst-label]")?.getAttribute("data-typst-label");
     if (closestLabel !== bubble.getAttribute("data-typst-label")) {
       const ancestry: Array<{
@@ -1458,7 +1477,7 @@ async function rightClickSemanticContainer(
 }
 
 async function dispatchOrphanSemanticContextMenu(frame: Frame): Promise<void> {
-  const svg = frame.locator("svg").first();
+  const svg = frame.locator(".page svg").first();
   await expect(svg).toBeVisible();
   await svg.evaluate((root) => {
     const namespace = "http://www.w3.org/2000/svg";
@@ -1499,7 +1518,7 @@ async function dispatchOrphanSemanticContextMenu(frame: Frame): Promise<void> {
   });
 }
 async function dispatchShadowingTypstLabelContextMenu(frame: Frame): Promise<void> {
-  const svg = frame.locator("svg").first();
+  const svg = frame.locator(".page svg").first();
   await expect(svg).toBeVisible();
   await svg.evaluate((root) => {
     const namespace = "http://www.w3.org/2000/svg";
@@ -1561,7 +1580,7 @@ async function expectChatSemanticRegions(frame: Frame, marker: string): Promise<
   ]);
 }
 async function dispatchInactiveDomSemanticContextMenu(frame: Frame): Promise<void> {
-  const svg = frame.locator("svg").first();
+  const svg = frame.locator(".page svg").first();
   await expect(svg).toBeVisible();
   await svg.evaluate((activeRoot) => {
     const previewPage = activeRoot.closest(".page");

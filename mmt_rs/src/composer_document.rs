@@ -70,6 +70,7 @@ pub enum ComposerSpeakerSource {
 pub struct ComposerInsertCapability {
     pub boundary: ComposerBoundaryTarget,
     pub message_sides: Vec<ComposerMessageSide>,
+    pub builtin_message_sides: Vec<ComposerMessageSide>,
     pub statement_modes: Vec<crate::composer::StatementTextMode>,
     pub speaker_sources: Vec<ComposerSpeakerSource>,
     pub narration: bool,
@@ -84,6 +85,7 @@ pub struct ComposerBoundary {
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct ComposerMessageCapabilities {
+    pub replace_source: bool,
     pub set_body: bool,
     pub set_continued: bool,
     pub set_display_name: bool,
@@ -96,6 +98,7 @@ pub struct ComposerMessageCapabilities {
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct ComposerNarrationCapabilities {
+    pub replace_source: bool,
     pub set_body: bool,
     pub delete: bool,
     pub move_up: Option<ComposerBoundaryTarget>,
@@ -123,11 +126,17 @@ pub struct ComposerNarrationNode {
     pub capabilities: ComposerNarrationCapabilities,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct ComposerOpaqueCapabilities {
+    pub replace_source: bool,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ComposerOpaqueNode {
     pub node_key: String,
     pub range: TextRange,
     pub category: ComposerOpaqueCategory,
+    pub capabilities: ComposerOpaqueCapabilities,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -372,6 +381,29 @@ pub fn project_analyzed_composer_document(
         .collect::<Vec<_>>();
     let run_eols = movable_run_eols(source, &nodes);
     if !has_errors {
+        let mut syntax = analysis.document.nodes.iter().peekable();
+        for node in &mut nodes {
+            while syntax
+                .peek()
+                .is_some_and(|syntax| syntax.range().start < node.range().start)
+            {
+                syntax.next();
+            }
+            let replace_source = syntax
+                .peek()
+                .is_some_and(|syntax| source_node_is_replaceable(syntax, node.range()));
+            match node {
+                ComposerDocumentNode::Message(node) => {
+                    node.capabilities.replace_source = replace_source;
+                }
+                ComposerDocumentNode::Narration(node) => {
+                    node.capabilities.replace_source = replace_source;
+                }
+                ComposerDocumentNode::Opaque(node) => {
+                    node.capabilities.replace_source = replace_source;
+                }
+            }
+        }
         for node in &mut nodes {
             let (range, statement_range, capability) = match node {
                 ComposerDocumentNode::Message(node) => {
@@ -386,7 +418,12 @@ pub fn project_analyzed_composer_document(
         }
         authorize_node_capabilities(&mut nodes, &run_eols);
     }
-    let boundaries = build_boundaries(source, &nodes, has_errors);
+    let complete_eof = analysis
+        .document
+        .nodes
+        .last()
+        .is_some_and(|syntax| syntax.range().end == source.len());
+    let boundaries = build_boundaries(source, &nodes, has_errors, complete_eof);
     let script_actor_choices = if has_errors {
         Vec::new()
     } else {
@@ -452,6 +489,7 @@ impl NodeDraft {
                     ComposerMessageCapabilities::default()
                 } else {
                     ComposerMessageCapabilities {
+                        replace_source: false,
                         set_body: description.statement_text.is_some(),
                         set_continued: description.continued.is_some(),
                         set_display_name: description.actor_display_name.is_some(),
@@ -489,6 +527,7 @@ impl NodeDraft {
                         ComposerNarrationCapabilities::default()
                     } else {
                         ComposerNarrationCapabilities {
+                            replace_source: false,
                             set_body,
                             delete: true,
                             move_up: None,
@@ -503,9 +542,37 @@ impl NodeDraft {
                 node_key: key,
                 range,
                 category,
+                capabilities: ComposerOpaqueCapabilities::default(),
             }),
         }
     }
+}
+
+/// Source Lens owns one complete content syntax node, never a metadata or
+/// physical-blank partition. Trailing blank ownership cannot be widened here.
+pub(crate) fn replaceable_source_node(
+    analysis: &AnalyzedDocument,
+    range: TextRange,
+) -> Option<&SyntaxNode> {
+    let mut matches = analysis
+        .document
+        .nodes
+        .iter()
+        .filter(|syntax| source_node_is_replaceable(syntax, range));
+    let syntax = matches.next()?;
+    matches.next().is_none().then_some(syntax)
+}
+
+fn source_node_is_replaceable(syntax: &SyntaxNode, range: TextRange) -> bool {
+    let syntax_range = syntax.range();
+    syntax_range.start == range.start
+        && syntax_range.end <= range.end
+        && match syntax {
+            SyntaxNode::Statement(_) | SyntaxNode::Reply(_) | SyntaxNode::Bond(_) => true,
+            SyntaxNode::DirectiveLine(line) => line.name == "typ",
+            SyntaxNode::DirectiveBlock(block) => block.name == "typ",
+            SyntaxNode::Blank(_) | SyntaxNode::Error(_) => false,
+        }
 }
 
 fn composer_node_key(
@@ -687,16 +754,32 @@ fn authorize_node_capabilities(nodes: &mut [ComposerDocumentNode], run_eols: &[O
     }
 }
 
+/// Appending after a complete unterminated physical line needs one separator.
+/// Match the nearest authored LF/CRLF convention; a lone CR is not a boundary.
+pub(crate) fn eof_insert_separator(source: &str) -> Option<&'static str> {
+    if source.is_empty() || source.ends_with(['\n', '\r']) {
+        return None;
+    }
+    Some(match source.rfind('\n') {
+        Some(offset) if offset > 0 && source.as_bytes()[offset - 1] == b'\r' => "\r\n",
+        _ => "\n",
+    })
+}
+
 fn build_boundaries(
     source: &str,
     nodes: &[ComposerDocumentNode],
     has_errors: bool,
+    complete_eof: bool,
 ) -> Vec<ComposerBoundary> {
+    let mut right_actor_current = false;
     (0..=nodes.len())
         .map(|index| {
             let target = boundary_target(nodes, index);
             let eol = if nodes.is_empty() {
                 Some("\n")
+            } else if index == nodes.len() && !source.ends_with('\n') {
+                complete_eof.then(|| eof_insert_separator(source)).flatten()
             } else {
                 let mut styles = Vec::with_capacity(2);
                 if let Some(before) = index.checked_sub(1).and_then(|item| nodes.get(item)) {
@@ -720,6 +803,11 @@ fn build_boundaries(
                     .map(|eol| ComposerInsertCapability {
                         boundary: target.clone(),
                         message_sides: vec![ComposerMessageSide::Left, ComposerMessageSide::Right],
+                        builtin_message_sides: if right_actor_current {
+                            Vec::new()
+                        } else {
+                            vec![ComposerMessageSide::Right]
+                        },
                         statement_modes: vec![
                             crate::composer::StatementTextMode::Inherit,
                             crate::composer::StatementTextMode::TextMacro,
@@ -734,6 +822,17 @@ fn build_boundaries(
                         narration: true,
                         eol: eol.to_owned(),
                     });
+            if matches!(
+                nodes.get(index),
+                Some(ComposerDocumentNode::Message(node))
+                    if node.side == ComposerMessageSide::Right
+                        && matches!(
+                            node.description.speaker,
+                            Some(crate::composer::ComposerSpeakerDescription::Actor { .. })
+                        )
+            ) {
+                right_actor_current = true;
+            }
             ComposerBoundary { target, insert }
         })
         .collect()

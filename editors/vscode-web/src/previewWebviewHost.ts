@@ -26,6 +26,7 @@ import {
   type PreviewNavigationPoint,
   type PreviewPagePoint,
   type PreviewRendererFrameMessage,
+  type PreviewSurfacePresentation,
   type PreviewViewport,
   type PreviewVisualReadyMessage,
   type PreviewWebviewToHostMessage,
@@ -42,6 +43,7 @@ export interface PreviewWebviewHostEvents {
   readonly contextMenuRequested: (
     point: PreviewNavigationPoint,
     anchor: PreviewContextMenuAnchor,
+    trigger: "select" | "menu",
   ) => void | Promise<void>;
   readonly composerIntent: (message: ComposerIntentMessage, admitted: boolean) => void | Promise<void>;
   readonly composerDrained: (sessionId: string) => void;
@@ -89,6 +91,7 @@ export class PreviewWebviewHost implements IDisposable {
     readonly claimant: object;
     readonly container: HTMLElement;
     readonly clippingContainer: HTMLElement;
+    readonly presentation: PreviewSurfacePresentation;
   } | undefined;
   #surfaceLayoutCleanup: (() => void) | undefined;
   #ready = false;
@@ -108,21 +111,22 @@ export class PreviewWebviewHost implements IDisposable {
     return this.#surface !== undefined;
   }
 
-  attachSurface(claimant: object, container: HTMLElement, clippingContainer: HTMLElement): void {
+  attachSurface(claimant: object, container: HTMLElement, clippingContainer: HTMLElement, presentation: PreviewSurfacePresentation): void {
     if (this.#disposed) throw new Error("Preview Webview host is disposed");
     if (container.ownerDocument.defaultView !== mainWindow || clippingContainer.ownerDocument !== container.ownerDocument) {
       throw new Error("Preview surfaces must belong to the main workbench window");
     }
     if (this.#surface?.claimant === claimant
       && this.#surface.container === container
-      && this.#surface.clippingContainer === clippingContainer) {
+      && this.#surface.clippingContainer === clippingContainer && this.#surface.presentation === presentation) {
       this.layoutSurface(claimant);
       return;
     }
     this.#surfaceLayoutCleanup?.();
-    this.#surface = { claimant, container, clippingContainer };
+    this.#surface = { claimant, container, clippingContainer, presentation };
     const webview = this.#ensureWebview();
     webview.claim(claimant, mainWindow, undefined);
+    if (this.#ready) void this.#post({ type: "presentation", presentation });
     const layout = () => this.layoutSurface(claimant);
     const observer = new ResizeObserver(layout);
     observer.observe(container);
@@ -147,6 +151,7 @@ export class PreviewWebviewHost implements IDisposable {
     this.#surfaceLayoutCleanup = undefined;
     this.#surface = undefined;
     this.#webview?.release(claimant);
+    if (this.#ready) void this.#post({ type: "presentation", presentation: "preview" });
   }
 
   layoutSurface(claimant: object): void {
@@ -441,6 +446,7 @@ export class PreviewWebviewHost implements IDisposable {
         // A newly ready runtime has no renderer frame baseline to accept deltas against.
         this.clearRendererGeneration();
         this.#ready = true;
+        void this.#post({ type: "presentation", presentation: this.#surface?.presentation ?? "preview" });
         for (const waiter of [...this.#readyWaiters]) waiter.resolve();
         this.#events.ready?.();
         if (this.#composerState) void this.#post(this.#composerState);
@@ -477,7 +483,7 @@ export class PreviewWebviewHost implements IDisposable {
         return;
       case "context-point":
         if (isPreviewContextPointMessage(message)) {
-          await this.#events.contextMenuRequested(message.point, message.anchor);
+          await this.#events.contextMenuRequested(message.point, message.anchor, message.trigger);
         }
         return;
       case "composer-intent": {
@@ -561,6 +567,7 @@ function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): 
     .preview-toolbar { position: relative; z-index: 2; display: flex; flex: 0 0 auto; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
     .zoom-controls { display: flex; flex: 0 0 auto; align-items: center; gap: 5px; }
     .zoom-controls > * { flex: 0 0 auto; }
+    .preview-fit-icon { display: none; }
     .zoom-controls button, .exact-export button, .exact-export select { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; white-space: nowrap; }
     .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
     .exact-export { display: grid; flex: 1 1 440px; grid-template-columns: auto auto minmax(100px, 1fr); align-items: center; justify-content: stretch; gap: 4px 6px; min-width: 0; }
@@ -608,16 +615,28 @@ function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): 
       .exact-export-format select { min-width: 0; max-width: none; }
       .exact-export-status { grid-column: auto; max-width: 360px; text-align: left; }
     }
+    body[data-composer-surface="true"] { --mmt-chat-background: #edf4f8; --mmt-chat-surface: #fff; --mmt-chat-text: #28465f; --mmt-chat-muted: #60788b; --mmt-chat-accent: #4a8ac6; --mmt-chat-accent-hover: #3675b0; --mmt-chat-border: #d8e5ee; --mmt-chat-selection: #e4f1fb; --mmt-chat-font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+    body[data-composer-surface="true"] .viewport { background: var(--mmt-chat-background); }
+    body[data-composer-surface="true"] .preview-toolbar { flex-wrap: nowrap; align-items: center; justify-content: center; gap: 0; min-height: 52px; padding: 4px max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); overflow: hidden; border-bottom-color: var(--mmt-chat-border); background: var(--mmt-chat-surface); color: var(--mmt-chat-text); font-family: var(--mmt-chat-font); }
+    body[data-composer-surface="true"] .zoom-controls { flex: 1 1 auto; width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: center; gap: 4px; }
+    body[data-composer-surface="true"] .zoom-controls button { display: inline-flex; flex: 0 0 44px; align-items: center; justify-content: center; width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 12px; background: transparent; color: var(--mmt-chat-text); font: 400 20px var(--mmt-chat-font); }
+    body[data-composer-surface="true"] .zoom-controls button:hover { background: var(--mmt-chat-selection); color: var(--mmt-chat-accent-hover); }
+    body[data-composer-surface="true"] .zoom-controls button:focus-visible { outline: 2px solid var(--mmt-chat-accent); outline-offset: -3px; }
+    body[data-composer-surface="true"] .zoom-controls button:active { background: var(--mmt-chat-selection); color: var(--mmt-chat-accent); }
+    body[data-composer-surface="true"] .zoom-label { width: 44px; color: var(--mmt-chat-muted); font: 600 12px var(--mmt-chat-font); font-variant-numeric: tabular-nums; }
+    body[data-composer-surface="true"] .preview-fit-label { display: none; }
+    body[data-composer-surface="true"] .preview-fit-icon { display: block; width: 20px; height: 20px; }
+    body[data-composer-surface="true"] .exact-export { display: none; }
   </style>
 </head>
 <body>
   <nav class="preview-toolbar" aria-label="预览操作">
     <div class="zoom-controls">
-      <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+      <button type="button" data-zoom="out" aria-label="Zoom out" title="Zoom out">−</button>
       <span class="zoom-label" aria-live="polite">100%</span>
-      <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
-      <button type="button" data-fit="width">Fit width</button>
-      <button type="button" data-fit="page">Fit page</button>
+      <button type="button" data-zoom="in" aria-label="Zoom in" title="Zoom in">+</button>
+      <button type="button" data-fit="width" aria-label="Fit width" title="Fit width"><span class="preview-fit-label">Fit width</span><svg class="preview-fit-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v14M17 3v14M4 10h12M7 7l-3 3 3 3M13 7l3 3-3 3"/></svg></button>
+      <button type="button" data-fit="page" aria-label="Fit page" title="Fit page"><span class="preview-fit-label">Fit page</span><svg class="preview-fit-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3H3v4M13 3h4v4M3 13v4h4M17 13v4h-4"/><rect x="7" y="6" width="6" height="8" rx=".5"/></svg></button>
     </div>
     <section class="exact-export" data-mode="exact" data-availability="no-document" data-phase="idle" aria-label="Exact snapshot export">
       <label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label>

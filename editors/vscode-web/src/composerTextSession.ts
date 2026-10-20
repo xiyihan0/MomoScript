@@ -21,12 +21,21 @@ import type {
 } from "./composerTextGeometry.ts";
 import {
   isComposerIntentMessage,
+  type ComposerClipboardPayload,
   type ComposerIntent,
   type ComposerIntentMessage,
   type ComposerState,
+  type PreviewContextMenuAnchor,
 } from "./previewWebviewProtocol.ts";
 
 export type ComposerTextSessionApplyOptions = Omit<ApplyComposerTextEditOptions, "modelService">;
+
+export type ComposerTextContextAction = "cut" | "copy" | "paste" | "delete" | "selectAll" | "undo" | "redo";
+
+export interface ComposerTextContextMenuRequest {
+  readonly anchor: PreviewContextMenuAnchor;
+  readonly actions: readonly { readonly id: ComposerTextContextAction; readonly enabled: boolean }[];
+}
 
 /** Application services only. The parent runtime remains the document/snapshot owner. */
 export interface ComposerTextSessionPorts {
@@ -36,6 +45,12 @@ export interface ComposerTextSessionPorts {
   readonly applyTextEdit: (options: ComposerTextSessionApplyOptions) => PromiseLike<ComposerTextEditApplicationResult>;
   readonly nativeHistory: (uri: string) => ComposerNativeHistory | undefined;
   readonly writeClipboard: (text: string) => PromiseLike<void>;
+  readonly readClipboard: () => PromiseLike<string>;
+  readonly showContextMenu: (
+    request: ComposerTextContextMenuRequest,
+    signal: AbortSignal,
+  ) => PromiseLike<ComposerTextContextAction | undefined>;
+  readonly navigateFocus: (backward: boolean) => void;
   /** Return only an authorized authored position; unavailable projection must not delay typing. */
   readonly sourceSelection?: (
     selection: ComposerTextSelection,
@@ -74,13 +89,17 @@ export interface ComposerTextSessionOwner {
 type TextNode = Extract<ComposerDocumentNode, { kind: "message" | "narration" }>;
 type ReplaceIntent = Extract<ComposerIntent, { kind: "replace" }>;
 interface QueuedIntent {
-  readonly intent: ComposerIntent;
+  readonly intent: ComposerIntent | { readonly kind: "contextAction"; readonly action: ComposerTextContextAction };
   readonly sessionId: string;
   readonly sequence: number;
   readonly admittedAt: number;
   committed: boolean;
   beforeSelection?: ComposerTextGeometrySelection;
   readonly geometryIdentity?: ComposerTextGeometryIdentity;
+  readonly clipboard?: AuthorizedClipboard;
+  readonly contextIdentity?: ComposerRuntimeIdentity;
+  readonly contextSelection?: ComposerTextSelection;
+  readonly completed?: () => void;
 }
 interface Composition {
   readonly selection: ComposerTextGeometrySelection;
@@ -106,6 +125,13 @@ interface IssuedSession {
   drained: boolean;
   compositionId?: string;
   compositionEnded: boolean;
+}
+
+interface AuthorizedClipboard {
+  readonly payload: ComposerClipboardPayload;
+  readonly identity: ComposerRuntimeIdentity;
+  readonly geometry: ComposerTextGeometryIdentity;
+  readonly selection: ComposerTextSelection;
 }
 
 
@@ -140,9 +166,13 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   #composition: Composition | null = null;
   #dragAnchor: ComposerTextGeometryEndpoint | null = null;
   #dragWord: ComposerTextGeometrySelection | null = null;
+  #dragWholeBody = false;
   #operation: AbortController | null = null;
   #geometryAbort: AbortController | null = null;
   #geometryEpoch = 0;
+  #clipboard: AuthorizedClipboard | null = null;
+  #contextMenuAbort: AbortController | null = null;
+  #contextMenuGeometry: ComposerTextGeometryIdentity | null = null;
   #draining: Promise<void> | null = null;
   #inFlight: QueuedIntent | null = null;
   #group: TextGroup | null = null;
@@ -155,7 +185,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     this.#ports = ports;
     this.#state = {
       type: "composer-state", sessionId: this.#sessionId, sequence: 0,
-      renderKey: `composer-unbound:${this.#sessionId}` as ComposerState["renderKey"], status: "blocked", carets: [], boxes: [],
+      renderKey: `composer-unbound:${this.#sessionId}` as ComposerState["renderKey"], status: "blocked", carets: [], boxes: [], clipboard: null,
     };
   }
 
@@ -167,6 +197,41 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   get hasUnsubmittedInput(): boolean {
     return this.#recoveryChunks.length > 0 || !!this.#composition?.text
       || !!(this.#inFlight && isUnsubmittedText(this.#inFlight)) || this.#queue.some(isUnsubmittedText);
+  }
+
+  get contextActions(): ComposerTextContextMenuRequest["actions"] {
+    const current = this.#owner.current();
+    const enabled = this.#accepting && this.#active && this.#admitting && !!current && !this.#composition;
+    const selection = enabled && !!this.#selection && this.#selectionDigest === current!.snapshot.sourceDigest
+      && !this.#requiresPointerSelection && !!this.#currentGeometry();
+    const range = selection && !collapsed(this.#selection!);
+    const history = current && this.#ports.nativeHistory(current.snapshot.textDocument.uri);
+    return [
+      { id: "cut", enabled: !!range && !!this.#authorizedClipboard() },
+      { id: "copy", enabled: !!range && !!this.#authorizedClipboard() },
+      { id: "paste", enabled: !!selection },
+      { id: "delete", enabled: !!range },
+      { id: "selectAll", enabled: !!selection },
+      { id: "undo", enabled: enabled && !!history?.canUndo() },
+      { id: "redo", enabled: enabled && !!history?.canRedo() },
+    ];
+  }
+
+  /** Workbench actions enter the same FIFO, never synthesize iframe sequence numbers. */
+  async runContextAction(action: ComposerTextContextAction): Promise<void> {
+    const current = this.#owner.current();
+    if (!current || !this.contextActions.some((item) => item.id === action && item.enabled)) return;
+    this.#contextMenuAbort?.abort();
+    const pending = Promise.withResolvers<void>();
+    this.#queue.push({
+      intent: { kind: "contextAction", action }, sessionId: this.#sessionId, sequence: this.#sequence,
+      admittedAt: performance.now(), committed: false, contextIdentity: current.identity,
+      ...(this.#selection ? { contextSelection: wireSelection(this.#selection) } : {}),
+      completed: pending.resolve,
+    });
+    this.#publish(this.#state.status);
+    this.#startDrain();
+    await pending.promise;
   }
 
   resolveRecovery(recoveryId: string, text: string): boolean {
@@ -218,14 +283,18 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
 
   handleIntent(message: ComposerIntentMessage, admitted: boolean): boolean {
     if (!isComposerIntentMessage(message) || message.sessionId !== this.#sessionId || message.sequence <= this.#sequence) return false;
+    this.#contextMenuAbort?.abort();
     const pointer = message.intent.kind === "pointer";
-    const validKey = pointer ? message.renderKey === this.#state.renderKey : this.#issuedRenderKeys.has(message.renderKey);
+    const exactFrame = pointer || message.intent.kind === "contextMenu" || message.intent.kind === "clipboard";
+    const validKey = exactFrame ? message.renderKey === this.#state.renderKey : this.#issuedRenderKeys.has(message.renderKey);
+    const needsSelection = !pointer && message.intent.kind !== "history" && message.intent.kind !== "focus"
+      && !(message.intent.kind === "composition" && message.intent.phase === "cancel");
     if (!admitted || !this.#accepting || !this.#active || !this.#admitting || this.#state.status === "blocked"
-      || !validKey || (!pointer && this.#requiresPointerSelection)) {
+      || !validKey || (needsSelection && this.#requiresPointerSelection)) {
       return this.#rejectIntent(message);
     }
-    const geometryIdentity = pointer ? this.#currentGeometry() : undefined;
-    if (pointer && (this.#state.status !== "ready" || !geometryIdentity || geometryIdentity.renderKey !== message.renderKey)) {
+    const geometryIdentity = exactFrame || message.intent.kind === "clipboardRequest" ? this.#currentGeometry() : undefined;
+    if (exactFrame && (this.#state.status !== "ready" || !geometryIdentity || geometryIdentity.renderKey !== message.renderKey)) {
       return this.#rejectIntent(message);
     }
     this.#sequence = message.sequence;
@@ -236,8 +305,11 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       this.#issuedRenderKeys.delete(key);
       issued?.keys.delete(key);
     }
-    const entry = { intent: message.intent, sessionId: message.sessionId, sequence: message.sequence,
-      admittedAt: performance.now(), committed: false, ...(geometryIdentity ? { geometryIdentity } : {}) };
+    const clipboard = message.intent.kind === "clipboard" && this.#state.clipboard?.authorization === message.intent.authorization
+      ? this.#authorizedClipboard() : undefined;
+    const entry: QueuedIntent = { intent: message.intent, sessionId: message.sessionId, sequence: message.sequence,
+      admittedAt: performance.now(), committed: false, ...(geometryIdentity ? { geometryIdentity } : {}),
+      ...(clipboard ? { clipboard } : {}) };
     const last = this.#queue.at(-1);
     if (entry.intent.kind === "pointer" && entry.intent.phase === "move"
       && last?.intent.kind === "pointer" && last.intent.phase === "move") this.#queue[this.#queue.length - 1] = entry;
@@ -306,6 +378,8 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   /** Called by the parent for a proved own edit. It deliberately retains the bridge and queue. */
   documentPending(): void {
     this.#geometryAbort?.abort();
+    this.#clipboard = null;
+    this.#contextMenuAbort?.abort();
     this.#geometryEpoch += 1;
     this.#publish("pending");
   }
@@ -313,6 +387,8 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   /** Sheets and discrete commands share admission suspension, not a second transaction queue. */
   pauseInput(): ComposerRuntimeDisposable {
     this.#suspensions += 1;
+    this.#clipboard = null;
+    this.#contextMenuAbort?.abort();
     this.#admitting = false;
     this.#publish("blocked", [], []);
     let disposed = false;
@@ -353,6 +429,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   async refreshGeometry(): Promise<void> {
     if (!this.#accepting || !this.#active) return;
     const identity = this.#currentGeometry();
+    if (this.#contextMenuGeometry && (!identity || !this.#sameGeometry(this.#contextMenuGeometry))) this.#contextMenuAbort?.abort();
     if (identity) {
       for (const wake of this.#geometryWaiters) wake(identity);
       this.#geometryWaiters.clear();
@@ -409,6 +486,9 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   /** External source/catalog changes revoke all capabilities, never retarget pending text. */
   invalidate(reason = CONFLICT): void {
     this.#recoverUnsubmitted(reason);
+    this.#clipboard = null;
+    this.#contextMenuAbort?.abort();
+    for (const entry of this.#queue) entry.completed?.();
     const interrupted = this.#inFlight !== null;
     this.#queue.length = 0;
     this.#composition = null;
@@ -471,6 +551,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       } finally {
         if (this.#operation === controller) this.#operation = null;
         if (this.#inFlight === entry) this.#inFlight = null;
+        entry.completed?.();
       }
     }
   }
@@ -479,6 +560,48 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     const intent = entry.intent;
     if (intent.kind === "pointer" && intent.phase !== "start" && !this.#dragAnchor) return;
     if (intent.kind !== "pointer") { this.#dragAnchor = null; this.#dragWord = null; }
+    if (intent.kind === "contextAction") {
+      if (!entry.contextIdentity || !this.#owner.isCurrent(entry.contextIdentity)
+        || (intent.action !== "undo" && intent.action !== "redo"
+          && (!entry.contextSelection || !this.#selection || !sameSelection(entry.contextSelection, this.#selection)))) return;
+      await this.#contextAction(intent.action, entry, signal);
+      return;
+    }
+    if (intent.kind === "contextMenu") {
+      await this.#contextMenu(intent.anchor, entry, signal);
+      return;
+    }
+    if (intent.kind === "clipboard") {
+      if (!entry.clipboard || !this.#isAuthorizedClipboard(entry.clipboard)) return;
+      this.closeTextGroup();
+      // This acknowledgement follows synchronous ClipboardEvent.clipboardData.setData.
+      // It carries no replacement text and can delete only the exact host-issued selection.
+      if (intent.action === "cut") await this.#replace(entry, "", "cut", signal);
+      return;
+    }
+    if (intent.kind === "clipboardRequest") {
+      this.closeTextGroup();
+      if (this.#composition || this.#requiresPointerSelection || !this.#selection || collapsed(this.#selection)) return;
+      const sourceDigest = this.#requireSelection().snapshot.sourceDigest;
+      if (entry.geometryIdentity?.sourceDigest === sourceDigest && !this.#sameGeometry(entry.geometryIdentity)) {
+        this.#notify("warning", "排版位置已更改，未复制或剪切任何文字，请重新选择正文。");
+        return;
+      }
+      if (!this.#authorizedClipboard()) {
+        const current = this.#requireSelection();
+        const selection = this.#selection;
+        const identity = await this.#awaitGeometry(signal);
+        const result = await abortable(this.#ports.geometry.selection(selection, identity, signal), signal);
+        this.#assertCurrent(current, signal);
+        if (this.#selection !== selection || !this.#sameGeometry(identity) || result.status !== "mapped") {
+          this.#notify("warning", "无法授权整个选区，未复制或剪切任何片段。");
+          return;
+        }
+        this.#present(result);
+      }
+      if (await this.#copy(signal) && intent.action === "cut") await this.#replace(entry, "", "cut", signal);
+      return;
+    }
     if (intent.kind === "composition") {
       if (intent.phase === "cancel") {
         this.#recoverRejected(intent, this.#issuedSessions.get(entry.sessionId));
@@ -505,10 +628,6 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     }
     if (intent.kind === "replace") {
       if (this.#composition) throw new Error("输入法组合仍在进行，尚未提交的文字已保留。");
-      if (intent.origin === "cut") {
-        this.closeTextGroup();
-        if (!await this.#copy(signal)) return;
-      }
       if (intent.origin === "delete" && this.#selection && collapsed(this.#selection)) {
         const current = this.#requireSelection();
         const endpoint = this.#selection.focus;
@@ -522,8 +641,12 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       return;
     }
     this.closeTextGroup();
-    if (intent.kind === "copy") { await this.#copy(signal); return; }
     if (intent.kind === "history") { await this.#history(intent.direction, signal); return; }
+    if (intent.kind === "focus") {
+      this.#cancelComposition("输入法文字尚未提交，已保留以便复制。");
+      this.#ports.navigateFocus(intent.backward);
+      return;
+    }
     if (this.#composition) return;
     if (intent.kind === "pointer") {
       if (!entry.geometryIdentity) throw new Error("指针位置没有有效的排版授权。");
@@ -545,7 +668,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     }
   }
 
-  async #replace(entry: QueuedIntent, text: string, origin: ReplaceIntent["origin"] | "composition", signal: AbortSignal): Promise<void> {
+  async #replace(entry: QueuedIntent, text: string, origin: ReplaceIntent["origin"] | "cut" | "composition", signal: AbortSignal): Promise<void> {
     const current = this.#requireSelection();
     const selection = wireSelection(this.#selection!);
     const history = this.#ports.nativeHistory(current.snapshot.textDocument.uri);
@@ -607,17 +730,87 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     void this.refreshGeometry();
   }
 
+  #authorizedClipboard(): AuthorizedClipboard | undefined {
+    const clipboard = this.#clipboard;
+    return clipboard && this.#isAuthorizedClipboard(clipboard) ? clipboard : undefined;
+  }
+
+  #isAuthorizedClipboard(clipboard: AuthorizedClipboard): boolean {
+    return this.#accepting && this.#active && this.#admitting && !this.#requiresPointerSelection
+      && !!this.#selection && this.#owner.isCurrent(clipboard.identity)
+      && this.#sameGeometry(clipboard.geometry) && sameSelection(clipboard.selection, this.#selection);
+  }
+
   async #copy(signal: AbortSignal): Promise<boolean> {
+    const clipboard = this.#authorizedClipboard();
+    if (!clipboard) return false;
+    try { await abortable(this.#ports.writeClipboard(clipboard.payload.text), signal); }
+    catch { if (!signal.aborted) this.#notify("warning", "无法写入剪贴板，未删除任何文字。"); return false; }
+    return !signal.aborted && this.#isAuthorizedClipboard(clipboard);
+  }
+
+  async #contextMenu(anchor: PreviewContextMenuAnchor, entry: QueuedIntent, signal: AbortSignal): Promise<void> {
     const current = this.#requireSelection();
-    if (collapsed(this.#selection!)) return false;
+    const selection = wireSelection(this.#selection!);
+    const geometry = this.#currentGeometry();
+    if (!geometry || this.#composition) return;
+    const controller = new AbortController();
+    const combined = AbortSignal.any([signal, controller.signal]);
+    this.#contextMenuAbort = controller;
+    this.#contextMenuGeometry = geometry;
+    const actions = this.contextActions;
+    try {
+      const action = await abortable(this.#ports.showContextMenu({ anchor, actions }, combined), combined);
+      if (!action || combined.aborted || !actions.some((item) => item.id === action && item.enabled)
+        || !this.#owner.isCurrent(current.identity) || !this.#sameGeometry(geometry)
+        || !this.#selection || !sameSelection(selection, this.#selection)) return;
+      await this.#contextAction(action, entry, signal);
+    } catch (error) {
+      if (!combined.aborted) throw error;
+    } finally {
+      if (this.#contextMenuAbort === controller) {
+        this.#contextMenuAbort = null;
+        this.#contextMenuGeometry = null;
+      }
+    }
+  }
+
+  async #contextAction(action: ComposerTextContextAction, entry: QueuedIntent, signal: AbortSignal): Promise<void> {
+    this.closeTextGroup();
+    if (action === "undo" || action === "redo") { await this.#history(action, signal); return; }
+    if (this.#composition) return;
+    const current = this.#requireSelection();
+    if (action === "copy") { await this.#copy(signal); return; }
+    if (action === "cut") {
+      if (await this.#copy(signal)) await this.#replace(entry, "", "cut", signal);
+      return;
+    }
+    if (action === "delete") {
+      if (!collapsed(this.#selection!)) await this.#replace(entry, "", "delete", signal);
+      return;
+    }
+    if (action === "paste") {
+      const selection = wireSelection(this.#selection!);
+      let text: string;
+      try { text = await abortable(this.#ports.readClipboard(), signal); }
+      catch { if (!signal.aborted) this.#notify("warning", "无法读取剪贴板，未修改正文。"); return; }
+      if (signal.aborted || !this.#owner.isCurrent(current.identity)
+        || !this.#selection || !sameSelection(selection, this.#selection)) return;
+      if (text.length > 131_072 || !text.isWellFormed()) {
+        this.#notify("warning", "粘贴内容超过输入传输限制或不是有效 Unicode，未修改正文。");
+        return;
+      }
+      if (text) await this.#replace(entry, text, "paste", signal);
+      return;
+    }
     const identity = await this.#awaitGeometry(signal);
-    const result = await abortable(this.#ports.geometry.selection(this.#selection!, identity, signal), signal);
-    this.#assertCurrent(current, signal);
-    if (result.status !== "mapped" || !this.#sameGeometry(identity)) throw new Error("无法授权整个选区，未复制或剪切任何片段。");
-    try { await abortable(this.#ports.writeClipboard(result.text), signal); }
-    catch { this.#notify("warning", "无法写入剪贴板，未删除任何文字。"); return false; }
-    this.#assertCurrent(current, signal);
-    return true;
+    const start = await abortable(this.#ports.geometry.move(this.#selection!, "left", "document", false, null, identity, signal), signal);
+    if (signal.aborted || !this.#owner.isCurrent(current.identity) || !this.#sameGeometry(identity) || start.status !== "mapped") return;
+    const end = await abortable(this.#ports.geometry.move(start.selection, "right", "document", true, null, identity, signal), signal);
+    if (signal.aborted || !this.#owner.isCurrent(current.identity) || !this.#sameGeometry(identity) || end.status !== "mapped") return;
+    this.#assignSelection(end.selection, current.snapshot);
+    this.#present(end);
+    this.#remember(current.snapshot);
   }
 
   async #pointer(
@@ -632,7 +825,12 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     if (signal.aborted) return;
     if (!this.#sameGeometry(identity) || !this.#owner.isCurrent(current.identity)) throw new Error(CONFLICT);
     if (hit.status !== "mapped" || !hit.caret) {
-      if (intent.phase === "start") { this.#selection = null; this.#publish("blocked", [], []); }
+      if (intent.phase === "start") {
+        this.#selection = null; this.#selectionDigest = null; this.#clipboard = null;
+        this.#publish("blocked", [], []);
+      } else if (intent.phase === "end") {
+        this.#dragAnchor = null; this.#dragWord = null;
+      }
       return;
     }
     let anchor: ComposerTextGeometryEndpoint;
@@ -640,11 +838,17 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     if (intent.phase === "start") {
       anchor = intent.extend && this.#selection ? this.#selection.anchor : focus;
       this.#dragWord = null;
+      this.#dragWholeBody = intent.clickCount === 3;
       if (intent.clickCount === 2) {
         const node = requireNode(focus, current.snapshot);
         const word = wordExtent(node.textEditing!.text, focus.offsetUtf16, focus.affinity === "after");
         anchor = { ...focus, offsetUtf16: word[0] };
         focus = { ...focus, offsetUtf16: word[1] };
+        this.#dragWord = { anchor, focus };
+      } else if (intent.clickCount === 3) {
+        const node = requireNode(focus, current.snapshot);
+        anchor = { ...focus, offsetUtf16: 0 };
+        focus = { ...focus, offsetUtf16: node.textEditing!.text.length };
         this.#dragWord = { anchor, focus };
       }
       this.#dragAnchor = anchor;
@@ -653,7 +857,8 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       anchor = this.#dragAnchor;
       if (this.#dragWord) {
         const backward = compareEndpoints(focus, this.#dragWord.anchor, current.snapshot) < 0;
-        const word = wordExtent(requireNode(focus, current.snapshot).textEditing!.text, focus.offsetUtf16, focus.affinity === "after");
+        const text = requireNode(focus, current.snapshot).textEditing!.text;
+        const word = this.#dragWholeBody ? [0, text.length] : wordExtent(text, focus.offsetUtf16, focus.affinity === "after");
         anchor = backward ? this.#dragWord.focus : this.#dragWord.anchor;
         focus = { ...focus, offsetUtf16: word[backward ? 0 : 1] };
       }
@@ -663,14 +868,23 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     if (signal.aborted) return;
     if (!this.#sameGeometry(identity) || !this.#owner.isCurrent(current.identity)) throw new Error(CONFLICT);
     if (geometry.status !== "mapped") {
-      // Do not leave an apparently successful truncated selection across an opaque barrier.
-      this.#selection = null;
-      this.#selectionDigest = null;
-      this.#publish("blocked", [], []);
-      this.#notify("warning", "无法跨越此内容选择正文，请使用源码入口。");
+      // Retain the last proved endpoint and pointer capture so returning from a gap
+      // continues this gesture. A denied range never becomes mutation permission.
+      this.#requiresPointerSelection = true;
+      this.#clipboard = null;
+      if (intent.phase === "end") {
+        this.#dragAnchor = null;
+        this.#dragWord = null;
+        this.#selection = null;
+        this.#selectionDigest = null;
+        this.#sourceSelection = undefined;
+        this.#sourceSelectionDigest = null;
+        this.#publish("ready", [], []);
+        this.#notify("warning", "无法跨越此内容选择正文，请使用源码入口。");
+      } else this.#publish("ready");
       return;
     }
-    if (intent.phase === "start" && !this.#pendingPointerRevocation) {
+    if (!this.#pendingPointerRevocation) {
       this.#requiresPointerSelection = false;
     }
     this.#assignSelection(geometry.selection, current.snapshot);
@@ -720,6 +934,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   #assignSelection(selection: ComposerTextGeometrySelection, snapshot: ComposerDocumentSnapshot): void {
     parseComposerTextSelection(wireSelection(selection), snapshot);
     this.#selection = selection;
+    this.#clipboard = null;
     this.#selectionDigest = snapshot.sourceDigest;
     this.#sourceSelection = undefined;
     this.#sourceSelectionDigest = null;
@@ -748,6 +963,13 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   #present(result: ComposerTextSelectionGeometry): void {
     if (!result.focusCaret || !result.anchorCaret) { this.#publish("blocked", [], []); return; }
     this.#selection = result.selection;
+    const current = this.#owner.current();
+    this.#clipboard = !collapsed(result.selection)
+      && current && this.#sameGeometry(result.identity) && current.snapshot.sourceDigest === this.#selectionDigest
+      ? {
+        payload: { authorization: crypto.randomUUID(), text: result.text },
+        identity: current.identity, geometry: result.identity, selection: wireSelection(result.selection),
+      } : null;
     const carets = collapsed(result.selection) ? [result.focusCaret] : [result.anchorCaret, result.focusCaret];
     this.#publish("ready", carets, result.boxes, result.identity.renderKey);
   }
@@ -761,6 +983,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     if (this.#suspensions > 0 || !this.#active || this.#pendingPointerRevocation) {
       status = "blocked"; carets = []; boxes = [];
     }
+    if (status !== "ready") this.#clipboard = null;
     if (status === "blocked") this.#issuedRenderKeys.clear();
     else {
       if (this.#state.status === "blocked") {
@@ -777,7 +1000,9 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       }
       issued.keys.add(renderKey);
     }
-    this.#state = { type: "composer-state", sessionId: this.#sessionId, sequence: this.#sequence, renderKey, status, carets, boxes };
+    const clipboard = status === "ready" && this.#queue.length === 0 && !this.#inFlight
+      ? this.#authorizedClipboard()?.payload ?? null : null;
+    this.#state = { type: "composer-state", sessionId: this.#sessionId, sequence: this.#sequence, renderKey, status, carets, boxes, clipboard };
     for (const listener of this.#listeners) listener(this.#state);
   }
 

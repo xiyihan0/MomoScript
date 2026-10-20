@@ -37,15 +37,17 @@ pub use composer_document::{
     ComposerBoundaryTarget, ComposerDocumentNode, ComposerDocumentNodeKind,
     ComposerDocumentProjection, ComposerDocumentProjectionError, ComposerInsertCapability,
     ComposerMessageCapabilities, ComposerMessageNode, ComposerMessageSide,
-    ComposerNarrationCapabilities, ComposerNarrationNode, ComposerNodeRef, ComposerOpaqueCategory,
-    ComposerOpaqueNode, ComposerScriptActorChoice, ComposerSpeakerSource,
-    composer_document_source_digest, project_analyzed_composer_document, project_composer_document,
+    ComposerNarrationCapabilities, ComposerNarrationNode, ComposerNodeRef,
+    ComposerOpaqueCapabilities, ComposerOpaqueCategory, ComposerOpaqueNode,
+    ComposerScriptActorChoice, ComposerSpeakerSource, composer_document_source_digest,
+    project_analyzed_composer_document, project_composer_document,
     project_composer_document_with_pack,
 };
 pub use composer_structure::{
-    COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, ComposerNewStatement, ComposerSpeakerChoice,
-    ComposerStatementBodyInput, ComposerStructureCommand, ComposerStructureFailure,
-    ComposerStructureTarget, compose_structure_edit, compose_structure_edit_with_pack,
+    COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, ComposerNewStatement, ComposerNewStatementSpeaker,
+    ComposerSpeakerChoice, ComposerStatementBodyInput, ComposerStructureCommand,
+    ComposerStructureFailure, ComposerStructureTarget, compose_structure_edit,
+    compose_structure_edit_with_pack,
 };
 pub use composer_text::{
     ComposerTextEdit, ComposerTextEditEndpointAfter, ComposerTextEditing, ComposerTextEndpoint,

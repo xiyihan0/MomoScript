@@ -285,11 +285,11 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   async execute(
     capability: ComposerRuntimeCapability,
     expectedIdentity: ComposerRuntimeIdentity | undefined = this.captureIdentity(),
-  ): Promise<void> {
+  ): Promise<boolean> {
     const pause = this.#textSession?.pauseInput();
     try {
       if (this.#textSession) await this.#textSession.drainAccepted();
-      await this.#execute(capability, expectedIdentity);
+      return await this.#execute(capability, expectedIdentity);
     } finally {
       pause?.dispose();
     }
@@ -298,13 +298,13 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   async #execute(
     capability: ComposerRuntimeCapability,
     expectedIdentity: ComposerRuntimeIdentity | undefined,
-  ): Promise<void> {
+  ): Promise<boolean> {
     const snapshot = this.#snapshot;
     if (!expectedIdentity || !snapshot || !this.#isIdentityCurrent(expectedIdentity, true)) {
       await this.#notify("warning", STALE_MESSAGE);
-      return;
+      return false;
     }
-    if (!this.#isAuthorized(snapshot, capability)) return;
+    if (!this.#isAuthorized(snapshot, capability)) return false;
 
     this.#operationAbort?.abort();
     const operation = new AbortController();
@@ -324,7 +324,7 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
       const raw = await this.#ports.requestEdit(params, operation.signal);
       if (!this.#isOperationCurrent(operation, expectedIdentity)) {
         if (!operation.signal.aborted) await this.#notify("warning", STALE_MESSAGE);
-        return;
+        return false;
       }
       const result = parseComposerEditResult(raw, textDocument);
       if (result.kind === "Rejected") {
@@ -334,11 +334,11 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
             ? STALE_MESSAGE
             : REJECTED_MESSAGE,
         );
-        return;
+        return false;
       }
       if (!this.#isOperationCurrent(operation, expectedIdentity)) {
         await this.#notify("warning", STALE_MESSAGE);
-        return;
+        return false;
       }
       const application = await this.#ports.applyEdit({
         result,
@@ -348,10 +348,12 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
       });
       if (application.kind === "Stale") await this.#notify("warning", STALE_MESSAGE);
       if (application.kind === "ApplyFailed") await this.#notify("error", APPLY_FAILED_MESSAGE);
+      return application.kind === "Applied";
     } catch (error) {
       if (!operation.signal.aborted && this.#isIdentityCurrent(expectedIdentity, true)) {
         await this.#notify("error", error instanceof Error ? error.message : REJECTED_MESSAGE);
       }
+      return false;
     } finally {
       if (this.#operationAbort === operation) {
         this.#operationAbort = null;
@@ -438,10 +440,14 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   #catalogChanged(): void {
     if (!this.#accepting) return;
     this.#catalogEpoch += 1;
-    this.#settleTextChange(undefined);
+    this.#snapshot = null;
+    this.#selectedNodeKey = null;
+    this.#expandedNodeKey = null;
+    this.#pending = false;
     this.#textSession?.invalidate("素材目录已更改，未提交的文字已保留。");
-    this.#closeTransient();
+    this.#cancelAll();
     this.#emit();
+    this.#requestCurrentSnapshot();
   }
 
   #requestCurrentSnapshot(): void {
@@ -674,7 +680,9 @@ function authorizeStructure(
   }
   if (target.kind !== "node") return false;
   const node = snapshot.nodes.find((candidate) => sameNodeRef(nodeRef(candidate), target.node));
-  if (!node || node.kind === "opaque") return false;
+  if (!node) return false;
+  if (command.kind === "replaceNodeSource") return node.capabilities.replaceSource;
+  if (node.kind === "opaque") return false;
   if (command.kind === "deleteNode") return node.capabilities.delete;
   if (command.kind === "moveNode") {
     return sameOptionalBoundary(node.capabilities.moveUp, command.anchor)
@@ -694,6 +702,7 @@ function authorizeInsertion(
 ): boolean {
   if (!insert.statementModes.includes(statement.body.mode)) return false;
   if (statement.kind === "narration") return insert.narration;
+  if (statement.speaker.kind === "builtin") return insert.builtinMessageSides.includes(statement.side);
   const speakerSource = speakerReferences.script.has(statement.speaker.reference)
     ? "scriptActor"
     : speakerReferences.pack.has(statement.speaker.reference)

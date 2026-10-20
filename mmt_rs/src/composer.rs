@@ -348,10 +348,7 @@ fn editable_statement_text<'a>(
 }
 
 pub(crate) fn validate_statement_text_value(value: &str) -> Result<(), ComposerFailure> {
-    if value.is_empty()
-        || value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES
-        || value.contains(['\r', '\n'])
-    {
+    if value.len() > COMPOSER_STATEMENT_TEXT_MAX_BYTES {
         return Err(ComposerFailure::InvalidValue);
     }
     Ok(())
@@ -396,6 +393,22 @@ fn compose_edit_using(
         exact_statement_ordinal(analysis, target_range).ok_or(ComposerFailure::TargetChanged)?;
     let statement =
         statement_at_ordinal(analysis, target_ordinal).ok_or(ComposerFailure::TargetChanged)?;
+    let command = match command {
+        ComposerCommand::SetStatementBody { value, mode } => ComposerCommand::SetStatementBody {
+            value: statement_body_value_with_eol(
+                value,
+                first_terminator(
+                    source
+                        .get(target_range.start..target_range.end)
+                        .ok_or(ComposerFailure::CandidateInvalid)?,
+                )
+                .or_else(|| first_terminator(source))
+                .unwrap_or("\n"),
+            )?,
+            mode,
+        },
+        other => other,
+    };
     let statement_body_mode_changed = match &command {
         ComposerCommand::SetStatementBody { value, mode } => {
             validate_statement_text_value(value)?;
@@ -885,41 +898,32 @@ fn statement_body_edit(
     if statement.body.source.as_str() == value && current == mode {
         return Err(ComposerFailure::InvalidValue);
     }
-    if current == mode {
-        return Ok(ComposerSourceEdit {
-            range: editable_statement_body_range(statement, source)?,
-            new_text: value.to_owned(),
-        });
-    }
-    if let Some((range, fence_len)) = fenced_body_envelope(statement, source)? {
-        let fence = "\"".repeat(fence_len);
-        return Ok(ComposerSourceEdit {
-            range,
-            new_text: format!("{}{fence}{value}{fence}", statement_text_mode_prefix(mode),),
-        });
-    }
-    if current != StatementTextMode::Inherit || mode == StatementTextMode::Inherit {
+    let fenced = fenced_body_envelope(statement, source)?;
+    let range = fenced.map_or(statement.body.range, |(range, _)| range);
+    if source.get(statement.body.range.start..statement.body.range.end)
+        != Some(statement.body.source.as_str())
+    {
         return Err(ComposerFailure::CandidateInvalid);
     }
+    let eol = first_terminator(
+        source
+            .get(statement.range.start..statement.range.end)
+            .ok_or(ComposerFailure::CandidateInvalid)?,
+    )
+    .or_else(|| first_terminator(source))
+    .unwrap_or("\n");
     Ok(ComposerSourceEdit {
-        range: editable_statement_body_range(statement, source)?,
-        new_text: format!("{}\"\"\"{value}\"\"\"", statement_text_mode_prefix(mode)),
+        range,
+        new_text: serialize_statement_body(
+            value,
+            mode,
+            eol,
+            fenced.map(|(_, length)| length),
+            source
+                .get(statement.range.start..statement.body.range.start)
+                .ok_or(ComposerFailure::CandidateInvalid)?,
+        )?,
     })
-}
-
-fn editable_statement_body_range(
-    statement: &StatementSyntax,
-    source: &str,
-) -> Result<TextRange, ComposerFailure> {
-    let range = statement.body.range;
-    let physical = source
-        .get(range.start..range.end)
-        .ok_or(ComposerFailure::CandidateInvalid)?;
-    if physical != statement.body.source {
-        return Err(ComposerFailure::CandidateInvalid);
-    }
-    validate_statement_text_value(physical)?;
-    Ok(range)
 }
 
 pub(crate) fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static str {
@@ -935,21 +939,100 @@ pub(crate) fn statement_text_mode_prefix(mode: StatementTextMode) -> &'static st
 pub(crate) fn serialize_statement_body(
     value: &str,
     mode: StatementTextMode,
+    eol: &str,
+    minimum_fence: Option<usize>,
+    statement_prefix: &str,
 ) -> Result<String, ComposerFailure> {
     validate_statement_text_value(value)?;
-    if mode == StatementTextMode::Inherit {
-        return Ok(value.to_owned());
+    if mode == StatementTextMode::Inherit
+        && minimum_fence.is_none()
+        && !value.is_empty()
+        && !value.contains(['\r', '\n'])
+    {
+        let mut probe = String::with_capacity(statement_prefix.len() + value.len());
+        probe.push_str(statement_prefix);
+        probe.push_str(value);
+        let parsed = crate::parse_text(&probe);
+        if let [SyntaxNode::Statement(statement)] = parsed.nodes.as_slice() {
+            if parsed.diagnostics.is_empty()
+                // Prove the real authored/generated header stays a header.
+                // A colon in a markerless message must not become its speaker.
+                && statement.body.range.start == statement_prefix.len()
+                && statement.body.range.end == probe.len()
+                && statement.body.mode == BodyMode::Inherit
+                && statement.body.source == value
+            {
+                return Ok(value.to_owned());
+            }
+        }
     }
     let longest_quote_run = value
         .split(|character| character != '"')
         .map(str::len)
         .max()
         .unwrap_or(0);
-    let fence = "\"".repeat(longest_quote_run.saturating_add(1).max(3));
+    let fence = "\"".repeat(
+        longest_quote_run
+            .saturating_add(1)
+            .max(minimum_fence.unwrap_or(3)),
+    );
     Ok(format!(
-        "{}{fence}{value}{fence}",
+        "{}{fence}{eol}{value}{fence}",
         statement_text_mode_prefix(mode)
     ))
+}
+
+pub(crate) fn statement_body_value_with_eol(
+    value: String,
+    eol: &str,
+) -> Result<String, ComposerFailure> {
+    validate_statement_text_value(&value)?;
+    if !value.contains('\r') && (eol == "\n" || !value.contains('\n')) {
+        return Ok(value);
+    }
+    let normalized = normalize_eols(&value).0;
+    let raw = if eol == "\n" {
+        normalized
+    } else {
+        normalized.replace('\n', eol)
+    };
+    validate_statement_text_value(&raw)?;
+    Ok(raw)
+}
+
+pub(crate) fn normalize_eols(raw: &str) -> (String, Option<&'static str>, bool) {
+    let mut text = String::with_capacity(raw.len());
+    let mut chars = raw.chars().peekable();
+    let mut eol = None;
+    let mut mixed = false;
+    while let Some(character) = chars.next() {
+        let ending = match character {
+            '\r' if chars.peek() == Some(&'\n') => {
+                chars.next();
+                Some("\r\n")
+            }
+            '\r' => Some("\r"),
+            '\n' => Some("\n"),
+            _ => None,
+        };
+        if let Some(ending) = ending {
+            mixed |= eol.is_some_and(|previous| previous != ending);
+            eol.get_or_insert(ending);
+            text.push('\n');
+        } else {
+            text.push(character);
+        }
+    }
+    (text, eol, mixed)
+}
+
+pub(crate) fn first_terminator(source: &str) -> Option<&'static str> {
+    let offset = source.find('\n')?;
+    Some(if offset > 0 && source.as_bytes()[offset - 1] == b'\r' {
+        "\r\n"
+    } else {
+        "\n"
+    })
 }
 
 pub(crate) fn fenced_body_envelope(
@@ -1365,7 +1448,14 @@ fn analysis_has_typst_errors(analysis: &AnalyzedDocument) -> bool {
             patch_has_typst_errors(bond.patch.as_ref())
                 || body_has_typst_errors(analysis, &bond.body)
         }
-        SyntaxNode::DirectiveLine(_) | SyntaxNode::Blank(_) | SyntaxNode::Error(_) => false,
+        SyntaxNode::DirectiveLine(line) => {
+            line.name == "typ"
+                && line
+                    .payload
+                    .as_ref()
+                    .is_some_and(|body| !check_typst_source(&body.source, body.range).is_empty())
+        }
+        SyntaxNode::Blank(_) | SyntaxNode::Error(_) => false,
     })
 }
 
