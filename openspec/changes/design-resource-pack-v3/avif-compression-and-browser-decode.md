@@ -85,7 +85,8 @@ sticker set 命名规则：
 container: avifs
 codec: aom
 fps: 1
-keyframe_interval: 30
+frame_order: nearest (RGBA48 L1 greedy)
+keyframe_interval: auto (max(1, frame_count) per set)
 qcolor: 80
 qalpha: 80
 yuv: 420
@@ -93,11 +94,8 @@ speed: 8
 jobs: 4
 ```
 
-对应 `avifenc` 参数：
-
-```bash
-avifenc --fps 1 -k 30 -s 8 -j 4 -y 420 --qcolor 80 --qalpha 80 input/*.png output.avifs
-```
+构建器先按相似度重排物理输入，再以该组帧数作为 `avifenc -k` 参数。
+manifest 保留逻辑编号，并记录逻辑差分到物理帧的逆映射。
 
 已知 tradeoff：
 
@@ -108,13 +106,85 @@ avifenc --fps 1 -k 30 -s 8 -j 4 -y 420 --qcolor 80 --qalpha 80 input/*.png outpu
 
 编码器 SHOULD 按 sticker set 逐组处理：
 
-- 同一 set 内帧应使用固定排序，并写入 manifest `ordinal`。
+- 同一 set 内逻辑差分使用来源显式顺序写入 manifest `ordinal`，物理编码顺序默认按相似度重排。
 - PNG/JPG/JPEG 且尺寸一致时可直接编码。
 - 带 alpha 且尺寸有轻微差异时可先居中 padding 到统一 canvas，再编码，并在 storage metadata 中记录 `canvas_size`。
 - 尺寸差异过大、混合模式异常、或无法稳定解码的 set 应跳过并写入构建报告。
 - 编码结果必须可用 `avifdec --info` 与首帧解码验证。
 
-`keyframe_interval` 表示相邻独立关键帧的最大间隔。值越小，随机访问后段帧越快，但体积通常更大；值越大，体积可能更小，但浏览器侧按需抽帧可能需要解码更多前置帧。第一版选择 `30` 作为体积与随机访问的折中。
+`keyframe_interval` 表示相邻独立关键帧的最大间隔。默认选择每组帧数，使相似差分尽量复用帧间预测；
+需要限制后段冷抽帧延迟时，可以显式使用 `--avif-keyframe 30`。
+
+### 默认构建：相似差分重排与长 GOP
+
+从 Kivo 刷新并编码时，使用独立目录保留旧包：
+
+```bash
+uv run python tools/build_kivo_pack_v3.py \
+  --out-dir typst_sandbox/pack-v3/ba_kivo-2026.10.20 \
+  --base-url https://mms-pack.esa.xiyihan.cn/ba_kivo/ \
+  --pack-version 2026.10.20 --save-raw --encode-avifs
+```
+
+该命令只生成本地产物，不发布。默认使用 `--avif-frame-order nearest --avif-keyframe auto`；
+可显式组合 source/nearest 与数值 GOP/auto，在同一批源图上分离两种优化的收益。
+
+`nearest` 使用 NumPy 向量化计算距离，根工作区的默认开发依赖提供 NumPy；
+`uv sync` 或上述 `uv run` 会按锁文件安装。显式 source 路径不使用 NumPy。
+构建支持 ImageMagick 7 的 `magick`，或 ImageMagick 6 的 `identify`/`convert`。
+
+`nearest` 在统一 canvas 后将各图缩为 48×48 RGBA，以 L1 距离贪心选择下一帧。
+首个逻辑差分固定在物理第 0 帧；同距离时选择原始索引较小者。编码输入按这条路径排列，
+manifest 中只改 `frame` 为逆置换，`id`、`ordinal`、handles、默认差分及缩略图对应关系不变。
+构建报告记录物理帧对应的逻辑索引；该顺序不是 DSL 或角色图鉴的显示顺序。
+
+`auto` 对每个 set 使用 `max(1, 帧数)` 的关键帧间隔，并将实际整数写入 storage profile。
+它允许更多帧间预测，但不保证编码器只产生一个关键帧，也不保证额外解码成本为零。
+验收应比较相同源图和画质参数下的体积，并实测 native 与浏览器对首、中、末帧的冷抽帧耗时。
+
+### 2026-10-20 同源试编码结果
+
+使用本地 `2026.08.16` Kivo 源图，固定 libavif 1.0.4 / AOM 3.8.2、q80/a80、
+yuv420、speed8、jobs4；每组分别编码 source/nearest × GOP30/auto。
+样本为睦月_礼服/face（13 帧）、梓/default（10）、日奈_泳装/default（12）、
+未花/default（31）、星野_一年级/default_face（48）及当时包内最大组凛/default（90）。
+这些帧数与外部报告不同，不能把其百分比当作本包的测量结果。
+
+|编码方案|六组 AVIFS 合计（bytes）|相对 source/GOP30 减少|
+|---|---:|---:|
+|source / GOP30|1,053,299|0%|
+|nearest / GOP30|888,066|15.69%|
+|source / auto|890,962|15.41%|
+|nearest / auto|742,598|29.50%|
+
+凛组由 453,134 bytes 降至 209,886 bytes（53.68%）。重排后按逆映射抽取的
+35 个逻辑位置已逐一对照源图和基线；检查包含混合尺寸 padding、透明背景及实际浏览器 Worker 输出。
+
+长 GOP 的运行时代价可见：凛的最后一个逻辑差分，native 冷进程抽帧三次中位数由
+172.7 ms 增至 285.8 ms；生产浏览器 Worker 由 121.9 ms 增至 160.0 ms。
+native 含进程启动及 PNG 输出，浏览器含 Worker 启动、digest 校验及 PNG 转换，不含网络下载。
+测量期间有独立 Kivo 构建任务，耗时仅作为该环境下的取舍证据。
+默认采用 nearest/auto：本资源包优先选择体积收益，并接受上述冷抽帧耗时增加。
+需要更低后段延迟时仍可显式使用 `--avif-keyframe 30`。
+
+同日从 Kivo 全量刷新到本地 `typst_sandbox/pack-v3/ba_kivo-2026.10.20/`：
+354 个实体、478 个成功编码 set、9,065 个逻辑差分，AVIFS 总计 64,777,234 bytes；
+Catalog 含 30 所学校、157 个 relation。抓取、下载及编码错误均为零，
+另有 17 个 set 按原有大画布规则跳过，详情保留在 `encode_report.jsonl`。
+旧 `ba_kivo/` 目录不被替换。新包已通过仓库发布器上传并激活，公开入口为
+`https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json`；
+manifest SHA-256 为 `2393eb59c84fa44cd69d37ce814f27da43ec512b33e0522d034bd224882d0d06`。
+发布器已验证公开 CORS、缓存策略及 manifest/Catalog digest。
+已有旧包缓存的 Workbench 刷新后成功加载新角色兰娜，并解码展示其全部 43 个差分；
+默认 URL 无需更改，前端无需重新部署。
+
+上游名称变化为 `和美 → 和`、`翠子 → 水子`、`阳子 → 耀子`，使用新包时对应脚本需要迁移。
+新实体 `透` 的上游头像与 gallery 均为空，保留实体资料但不生成虚假的头像引用。
+全包映射、源图及 blob digest、头像/缩略图引用和 Catalog 绑定已核验；
+全部 478 个 AVIFS 的实际尺寸与帧数通过对账，浏览器另抽验新包三组首、中、末逻辑差分。
+
+
+
 
 ## Manifest Storage Metadata
 

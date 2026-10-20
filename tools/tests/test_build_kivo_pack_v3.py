@@ -1,14 +1,18 @@
 from __future__ import annotations
 
+import argparse
 import contextlib
 import hashlib
 import io
+import importlib.util
 import json
+import shutil
+import struct
 import subprocess
 import tempfile
 import unittest
+import zlib
 from pathlib import Path
-from types import SimpleNamespace
 from unittest.mock import patch
 
 from tools import build_kivo_pack_v3 as builder
@@ -87,6 +91,74 @@ class EntityCatalogBuilderTests(unittest.TestCase):
             catalog["taxonomies"]["relations"]["19"],
             {"display_name": "对策委员会", "aliases": ["废校对策委员会"]},
         )
+
+    def test_missing_avatar_retains_entity_metadata_without_fabricated_asset(self) -> None:
+        for avatar in ["", "   ", None, "missing-key"]:
+            with self.subTest(avatar=avatar):
+                detail = self._detail(76, skin="", nick_name="大叔", skin_list=[])
+                if avatar == "missing-key":
+                    detail.pop("avatar")
+                else:
+                    detail["avatar"] = avatar
+                with tempfile.TemporaryDirectory() as directory:
+                    manifest, tasks, skipped = builder._build_manifest(
+                        [detail],
+                        namespace="ba",
+                        pack_name="Fixture Pack",
+                        pack_version="2026.10.20",
+                        out_dir=Path(directory),
+                        gallery_mode="none",
+                        excluded_gallery_titles=[],
+                        max_gallery_images=None,
+                        nickname_names=False,
+                        english_names=False,
+                        excluded_entity_markers=[],
+                        base_url="https://example.invalid/ba/",
+                    )
+                self.assertEqual(skipped, [])
+                self.assertEqual(tasks, [])
+                self.assertEqual(manifest["entities"]["星野"]["names"], ["星野"])
+                self.assertEqual(manifest["entities"]["星野"]["display_name"], "星野")
+                self.assertNotIn("slots", manifest["entities"]["星野"])
+                self.assertEqual(manifest["thumbnails"], {})
+                catalog = builder._build_entity_catalog(
+                    [detail],
+                    manifest=manifest,
+                    manifest_sha256="a" * 64,
+                    schools=[],
+                    relations=[],
+                    api_versions=[],
+                    api_times=[],
+                    generated_at="2026-10-20T00:00:00+00:00",
+                )
+                self.assertIn("星野", catalog["entities"])
+                self.assertEqual(
+                    catalog["entities"]["星野"]["names"]["aliases"]["zh-CN"], ["大叔"]
+                )
+
+    def test_missing_avatar_does_not_remove_available_sticker_gallery(self) -> None:
+        detail = self._detail(76, skin="", nick_name="", skin_list=[])
+        detail["avatar"] = ""
+        detail["gallery"] = [{"title": "表情", "images": ["https://example.invalid/sticker.png"]}]
+        with tempfile.TemporaryDirectory() as directory:
+            manifest, tasks, skipped = builder._build_manifest(
+                [detail],
+                namespace="ba",
+                pack_name="Fixture Pack",
+                pack_version="2026.10.20",
+                out_dir=Path(directory),
+                gallery_mode="all",
+                excluded_gallery_titles=[],
+                max_gallery_images=None,
+                nickname_names=False,
+                english_names=False,
+                excluded_entity_markers=[],
+                base_url="https://example.invalid/ba/",
+            )
+        self.assertEqual(skipped, [])
+        self.assertNotIn("avatar", manifest["entities"]["星野"]["slots"])
+        self.assertIn("sticker", manifest["entities"]["星野"]["slots"])
+        self.assertEqual([task.url for task in tasks], ["https://example.invalid/sticker.png"])
 
     def test_schema_contract_is_strict_and_matches_builder_discriminator(self) -> None:
         schema_path = (
@@ -196,12 +268,143 @@ class AvifInspectionTests(unittest.TestCase):
                 self.assertEqual(reconciler._inspect_avifs(Path(temporary.name)), ((8, 7), 1))
 
 
+class AvifOrderingOptionTests(unittest.TestCase):
+    def test_invalid_encoding_options_are_rejected(self) -> None:
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                builder.build_argparser().parse_args(["--avif-keyframe", "invalid"])
+            with self.assertRaises(SystemExit):
+                builder.build_argparser().parse_args(["--avif-frame-order", "invalid"])
+
+
+class ImageMagickCommandTests(unittest.TestCase):
+    def test_imagemagick_seven_uses_magick_for_both_operations(self) -> None:
+        with patch.object(builder.shutil, "which", return_value="/tools/magick"):
+            self.assertEqual(builder._imagemagick_command("identify"), ["/tools/magick", "identify"])
+            self.assertEqual(builder._imagemagick_command("convert"), ["/tools/magick"])
+
+    def test_imagemagick_six_uses_separate_executables(self) -> None:
+        executables = {"convert": "/tools/convert", "identify": "/tools/identify"}
+        with patch.object(builder.shutil, "which", side_effect=executables.get):
+            self.assertEqual(builder._imagemagick_command("identify"), ["/tools/identify"])
+            self.assertEqual(builder._imagemagick_command("convert"), ["/tools/convert"])
+
+    def test_missing_imagemagick_has_actionable_error(self) -> None:
+        with patch.object(builder.shutil, "which", return_value=None):
+            with self.assertRaisesRegex(RuntimeError, "install ImageMagick"):
+                builder._imagemagick_command("convert")
+
+    def test_rgba_sample_requests_exact_eight_bit_rgba_dimensions(self) -> None:
+        rgba = bytes(48 * 48 * 4)
+        with (
+            patch.object(builder, "_imagemagick_command", return_value=["convert"]),
+            patch.object(
+                builder.subprocess,
+                "run",
+                return_value=subprocess.CompletedProcess([], 0, rgba, b""),
+            ) as run,
+        ):
+            self.assertEqual(builder._rgba_sample(Path("transparent.png")), rgba)
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                "convert", "transparent.png[0]", "-colorspace", "sRGB",
+                "-alpha", "on", "-resize", "48x48!", "-depth", "8", "rgba:-",
+            ],
+        )
+        self.assertNotIn("text", run.call_args.kwargs)
+
+    def test_rgba_sample_rejects_wrong_byte_count_and_reports_subprocess_error(self) -> None:
+        for result, expected in [
+            (subprocess.CompletedProcess([], 0, bytes(9215), b""), "expected 9216"),
+            (subprocess.CompletedProcess([], 1, b"", b"bad PNG input"), "bad PNG input"),
+        ]:
+            with self.subTest(expected=expected):
+                with (
+                    patch.object(builder, "_imagemagick_command", return_value=["convert"]),
+                    patch.object(builder.subprocess, "run", return_value=result),
+                    self.assertRaisesRegex(RuntimeError, expected),
+                ):
+                    builder._rgba_sample(Path("broken.png"))
+
+    @unittest.skipUnless(shutil.which("magick") or shutil.which("convert"), "ImageMagick required")
+    def test_fully_transparent_png_downsamples_to_exact_rgba_bytes(self) -> None:
+        def chunk(kind: bytes, data: bytes) -> bytes:
+            return (
+                struct.pack(">I", len(data))
+                + kind
+                + data
+                + struct.pack(">I", zlib.crc32(kind + data))
+            )
+
+        png = (
+            b"\x89PNG\r\n\x1a\n"
+            + chunk(b"IHDR", struct.pack(">IIBBBBB", 2, 1, 8, 6, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(b"\x00" + bytes(2 * 4)))
+            + chunk(b"IEND", b"")
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "transparent.png"
+            path.write_bytes(png)
+            sample = builder._rgba_sample(path)
+        self.assertEqual(len(sample), 9216)
+        self.assertEqual(sample, bytes(9216))
+
+
+class NearestFrameOrderTests(unittest.TestCase):
+    def test_empty_and_single_frame_orders_need_no_numpy_or_sampling(self) -> None:
+        with (
+            patch.dict("sys.modules", {"numpy": None}),
+            patch.object(builder, "_rgba_sample", side_effect=AssertionError("must not sample")),
+        ):
+            self.assertEqual(builder._nearest_frame_order([]), [])
+            self.assertEqual(builder._nearest_frame_order([Path("one.png")]), [0])
+
+    def test_missing_numpy_fails_before_sampling_without_falling_back(self) -> None:
+        with (
+            patch.dict("sys.modules", {"numpy": None}),
+            patch.object(builder, "_rgba_sample", side_effect=AssertionError("must not sample")),
+        ):
+            with self.assertRaises(RuntimeError) as error:
+                builder._nearest_frame_order([Path("one.png"), Path("two.png")])
+        self.assertIsInstance(error.exception.__cause__, ImportError)
+
+    @unittest.skipUnless(importlib.util.find_spec("numpy"), "NumPy required for nearest ordering")
+    def test_greedy_order_is_deterministic_and_breaks_ties_by_logical_index(self) -> None:
+        paths = [Path(f"{index}.png") for index in range(4)]
+        samples = {path: bytes([value]) * 9216 for path, value in zip(paths, [10, 12, 8, 13])}
+        with patch.object(builder, "_rgba_sample", side_effect=samples.__getitem__):
+            self.assertEqual(builder._nearest_frame_order(paths), [0, 1, 3, 2])
+            self.assertEqual(builder._nearest_frame_order(paths), [0, 1, 3, 2])
+
+    @unittest.skipUnless(importlib.util.find_spec("numpy"), "NumPy required for nearest ordering")
+    def test_rgba_distance_includes_alpha_without_unsigned_wraparound(self) -> None:
+        paths = [Path(f"{index}.png") for index in range(3)]
+        samples = {
+            paths[0]: bytes([0, 0, 0, 255]) * (48 * 48),
+            paths[1]: bytes([0, 0, 0, 0]) * (48 * 48),
+            paths[2]: bytes([1, 1, 1, 255]) * (48 * 48),
+        }
+        with patch.object(builder, "_rgba_sample", side_effect=samples.__getitem__):
+            self.assertEqual(builder._nearest_frame_order(paths), [0, 2, 1])
+
+
 class AvifEncodingTests(unittest.TestCase):
     @staticmethod
-    def _pack(out_dir: Path) -> dict[str, object]:
-        image = out_dir / "assets/stickers/demo/default/001.png"
-        image.parent.mkdir(parents=True)
-        image.write_bytes(b"source")
+    def _pack(
+        out_dir: Path, *, sources: tuple[bytes, ...] = (b"source",)
+    ) -> dict[str, object]:
+        variants = []
+        thumbnails = {}
+        for index, source in enumerate(sources, start=1):
+            image = out_dir / f"assets/stickers/demo/default/{index:03d}.png"
+            image.parent.mkdir(parents=True, exist_ok=True)
+            image.write_bytes(source)
+            variant_id = "one" if index == 1 else f"variant-{index}"
+            variants.append({"id": variant_id, "ordinal": index, "path": image.name})
+            thumbnails[f"demo/sticker/default/{variant_id}"] = {
+                "storage": "images", "path": image.name,
+            }
         return {
             "entities": {
                 "demo": {
@@ -211,7 +414,7 @@ class AvifEncodingTests(unittest.TestCase):
                             "sets": {
                                 "default": {
                                     "storage": "images",
-                                    "variants": [{"id": "one", "ordinal": 1, "path": "001.png"}],
+                                    "variants": variants,
                                 }
                             },
                         }
@@ -219,31 +422,37 @@ class AvifEncodingTests(unittest.TestCase):
                 }
             },
             "storage": {"images": {"kind": "image-dir", "base": "assets/stickers/demo/default"}},
-            "thumbnails": {"demo/sticker/default/one": {"storage": "images", "path": "001.png"}},
+            "thumbnails": thumbnails,
         }
 
     @staticmethod
-    def _args(*, resume: bool) -> SimpleNamespace:
-        return SimpleNamespace(
-            avif_concurrency=1,
-            avif_qcolor=80,
-            avif_qalpha=80,
-            avif_yuv="420",
-            avif_keyframe=30,
-            avif_speed=8,
-            avif_jobs="4",
-            resume=resume,
-            sticker_max_canvas_pixels=1000,
-            sticker_max_aspect_ratio=10,
-            avif_max_canvas_pixels=1000,
-            avif_max_canvas_edge=100,
-        )
+    def _args(
+        *, resume: bool, frame_order: str | None = None, keyframe: int | str | None = None
+    ) -> argparse.Namespace:
+        options = [
+            "--avif-concurrency", "1",
+            "--sticker-max-canvas-pixels", "1000",
+            "--sticker-max-aspect-ratio", "10",
+            "--avif-max-canvas-pixels", "1000",
+            "--avif-max-canvas-edge", "100",
+        ]
+        if resume:
+            options.append("--resume")
+        if frame_order is not None:
+            options.extend(["--avif-frame-order", frame_order])
+        if keyframe is not None:
+            options.extend(["--avif-keyframe", str(keyframe)])
+        return builder.build_argparser().parse_args(options)
 
     @staticmethod
-    def _thumbnail(_sources: object, directory: Path, *, resume: bool) -> list[str]:
-        directory.mkdir(parents=True)
-        (directory / "001.webp").write_bytes(b"thumbnail")
-        return ["001.webp"]
+    def _thumbnail(sources: list[Path], directory: Path, *, resume: bool) -> list[str]:
+        directory.mkdir(parents=True, exist_ok=True)
+        names = []
+        for index, source in enumerate(sources, start=1):
+            name = f"{index:03d}.webp"
+            (directory / name).write_bytes(b"thumbnail:" + source.read_bytes())
+            names.append(name)
+        return names
 
     def test_resume_reuses_inspected_single_frame_blob(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -259,7 +468,9 @@ class AvifEncodingTests(unittest.TestCase):
                 patch.object(builder, "_run_avifenc", side_effect=AssertionError("must reuse")),
                 patch("subprocess.run", return_value=subprocess.CompletedProcess([], 0, avifdec_output)),
             ):
-                summary = builder._encode_avif_sequences(out_dir, manifest, self._args(resume=True))
+                summary = builder._encode_avif_sequences(
+                    out_dir, manifest, self._args(resume=True, frame_order="source", keyframe=30)
+                )
 
             record = json.loads((out_dir / "encode_report.jsonl").read_text(encoding="utf-8"))
             self.assertEqual((summary["encoded"], summary["failed"]), (1, 0))
@@ -271,6 +482,178 @@ class AvifEncodingTests(unittest.TestCase):
             self.assertEqual(manifest["storage"]["images"]["frame_count"], 1)
             self.assertEqual(manifest["storage"]["images"]["size"], [8, 7])
             self.assertTrue((out_dir / manifest["storage"]["images"]["path"]).is_file())
+            self.assertEqual(record["frame_order"]["physical_to_logical"], [0])
+            self.assertEqual(record["frame_order"]["logical_to_physical"], [0])
+            self.assertEqual(manifest["storage"]["images"]["profile"]["keyframe_interval"], 30)
+
+    def test_source_order_and_numeric_gop_do_not_use_nearest_or_numpy(self) -> None:
+        sources = (b"\x00", b"\x09", b"\x01", b"\x02")
+        encoded_sources = []
+        encoded_options = []
+
+        def encode(inputs: list[Path], output: Path, **options: object) -> subprocess.CompletedProcess[str]:
+            encoded_sources.extend(path.read_bytes() for path in inputs)
+            encoded_options.append(options)
+            output.parent.mkdir(parents=True)
+            output.write_bytes(b"encoded")
+            return subprocess.CompletedProcess([], 0, "encoded")
+
+        with tempfile.TemporaryDirectory() as directory:
+            out_dir = Path(directory)
+            manifest = self._pack(out_dir, sources=sources)
+            with (
+                patch.dict("sys.modules", {"numpy": None}),
+                patch.object(builder, "_image_info", return_value=([(8, 7)] * 4, True)),
+                patch.object(builder, "_run_avifenc", side_effect=encode),
+                patch.object(builder, "_inspect_avifs", return_value=((8, 7), 4)),
+                patch.object(builder, "_prepare_thumbnails", side_effect=self._thumbnail),
+                patch.object(builder, "_nearest_frame_order", side_effect=AssertionError("must not reorder")),
+                patch.object(builder, "_prepare_padded_frames", side_effect=AssertionError("must not pad")),
+            ):
+                summary = builder._encode_avif_sequences(
+                    out_dir, manifest, self._args(resume=False, frame_order="source", keyframe=7)
+                )
+            record = json.loads((out_dir / "encode_report.jsonl").read_text(encoding="utf-8"))
+            variants = manifest["entities"]["demo"]["slots"]["sticker"]["sets"]["default"]["variants"]
+            self.assertEqual((summary["encoded"], summary["failed"]), (1, 0))
+            self.assertEqual(encoded_sources, list(sources))
+            self.assertEqual(encoded_options[0]["keyframe"], 7)
+            self.assertEqual([variant["frame"] for variant in variants], [0, 1, 2, 3])
+            self.assertEqual(record["frame_order"]["physical_to_logical"], [0, 1, 2, 3])
+            self.assertEqual(record["profile"]["keyframe_interval"], 7)
+            self.assertEqual(manifest["storage"]["images"]["profile"]["keyframe_interval"], 7)
+
+    @unittest.skipUnless(importlib.util.find_spec("numpy"), "NumPy required for nearest ordering")
+    def test_defaults_reorder_padded_inputs_but_preserve_variants_and_thumbnails(self) -> None:
+        sources = (b"\x00", b"\x09", b"\x01", b"\x02")
+        padded_paths = []
+        sampled_paths = []
+        thumbnail_sources = []
+        encoded_sources = []
+        encoded_options = []
+
+        def pad(inputs: list[Path], directory: Path, **options: object) -> list[Path]:
+            self.assertEqual(options, {"size": (8, 7), "alpha": True})
+            for index, source in enumerate(inputs, start=1):
+                target = directory / f"{index:03d}.png"
+                target.write_bytes(source.read_bytes())
+                padded_paths.append(target)
+            return padded_paths
+
+        def sample(path: Path) -> bytes:
+            self.assertIn(path, padded_paths)
+            sampled_paths.append(path)
+            return path.read_bytes() * 9216
+
+        def encode(inputs: list[Path], output: Path, **options: object) -> subprocess.CompletedProcess[str]:
+            encoded_sources.extend(path.read_bytes() for path in inputs)
+            encoded_options.append(options)
+            output.parent.mkdir(parents=True)
+            output.write_bytes(b"encoded")
+            return subprocess.CompletedProcess([], 0, "encoded")
+
+        def thumbnails(inputs: list[Path], directory: Path, *, resume: bool) -> list[str]:
+            self.assertTrue(all(path not in padded_paths for path in inputs))
+            thumbnail_sources.extend(path.read_bytes() for path in inputs)
+            return self._thumbnail(inputs, directory, resume=resume)
+
+        with tempfile.TemporaryDirectory() as directory:
+            out_dir = Path(directory)
+            manifest = self._pack(out_dir, sources=sources)
+            variants = manifest["entities"]["demo"]["slots"]["sticker"]["sets"]["default"]["variants"]
+            for variant, ordinal in zip(variants, [2, 5, 8, 13]):
+                variant["ordinal"] = ordinal
+            original_identities = [(variant["id"], variant["ordinal"]) for variant in variants]
+            original_paths = [variant["path"] for variant in variants]
+            with (
+                patch.object(builder, "_image_info", return_value=([(8, 7), (4, 7), (8, 7), (6, 5)], True)),
+                patch.object(builder, "_prepare_padded_frames", side_effect=pad),
+                patch.object(builder, "_rgba_sample", side_effect=sample),
+                patch.object(builder, "_run_avifenc", side_effect=encode),
+                patch.object(builder, "_inspect_avifs", return_value=((8, 7), 4)),
+                patch.object(builder, "_prepare_thumbnails", side_effect=thumbnails),
+            ):
+                summary = builder._encode_avif_sequences(
+                    out_dir, manifest, self._args(resume=False),
+                )
+            record = json.loads((out_dir / "encode_report.jsonl").read_text(encoding="utf-8"))
+            self.assertEqual((summary["encoded"], summary["failed"]), (1, 0))
+            self.assertEqual(summary["profile"]["keyframe_interval"], "auto")
+            self.assertEqual(encoded_sources, [sources[index] for index in [0, 2, 3, 1]])
+            self.assertEqual(encoded_options[0]["keyframe"], 4)
+            self.assertEqual(sampled_paths, padded_paths)
+            self.assertTrue(all(not path.exists() for path in padded_paths))
+            self.assertEqual(thumbnail_sources, list(sources))
+            self.assertEqual([(variant["id"], variant["ordinal"]) for variant in variants], original_identities)
+            self.assertEqual([variant["frame"] for variant in variants], [0, 3, 1, 2])
+            self.assertTrue(all("path" not in variant for variant in variants))
+            for variant, source in zip(variants, sources):
+                thumbnail = manifest["thumbnails"][f"demo/sticker/default/{variant['id']}"]
+                thumbnail_path = out_dir / "assets/thumbnails" / thumbnail["path"]
+                self.assertEqual(thumbnail_path.read_bytes(), b"thumbnail:" + source)
+            self.assertTrue(record["padded"])
+            self.assertEqual(record["frame_order"], {
+                "mode": "nearest",
+                "algorithm": "rgba48-l1-greedy-v1",
+                "physical_to_logical": [0, 2, 3, 1],
+                "logical_to_physical": [0, 3, 1, 2],
+            })
+            for index, source in enumerate(record["source_variants"]):
+                self.assertEqual(source["logical_index"], index)
+                self.assertEqual((source["id"], source["ordinal"]), original_identities[index])
+                self.assertEqual(Path(source["path"]).name, original_paths[index])
+                self.assertEqual(source["sha256"], hashlib.sha256(sources[index]).hexdigest())
+            profile = manifest["storage"]["images"]["profile"]
+            self.assertEqual(profile, record["profile"])
+            self.assertEqual(profile["keyframe_interval"], 4)
+            self.assertEqual(set(profile), {
+                "encoder", "codec", "qcolor", "qalpha", "yuv",
+                "keyframe_interval", "fps", "speed", "jobs",
+            })
+
+    def test_unproven_order_or_profile_never_reuses_existing_blobs(self) -> None:
+        for frame_order, keyframe in [("nearest", 30), ("source", "auto"), ("nearest", "auto")]:
+            with self.subTest(frame_order=frame_order, keyframe=keyframe):
+                with tempfile.TemporaryDirectory() as directory:
+                    out_dir = Path(directory)
+                    manifest = self._pack(out_dir)
+                    source_output = out_dir / "blobs/stickers/demo/default.avifs"
+                    source_output.parent.mkdir(parents=True)
+                    source_output.write_bytes(b"old source")
+                    encoding_output = source_output.with_name(f"default.{frame_order}.encoding.avifs")
+                    encoding_output.write_bytes(b"old incompatible encode")
+                    encoded_keyframes = []
+
+                    def encode(inputs: list[Path], output: Path, **options: object) -> subprocess.CompletedProcess[str]:
+                        self.assertEqual(output, encoding_output)
+                        self.assertFalse(output.exists())
+                        encoded_keyframes.append(options["keyframe"])
+                        output.write_bytes(b"new encode")
+                        return subprocess.CompletedProcess([], 0, "encoded")
+
+                    with (
+                        patch.object(builder, "_image_info", return_value=([(8, 7)], False)),
+                        patch.object(builder, "_run_avifenc", side_effect=encode) as run,
+                        patch.object(builder, "_inspect_avifs", return_value=((8, 7), 1)) as inspect,
+                        patch.object(builder, "_prepare_thumbnails", side_effect=self._thumbnail),
+                    ):
+                        summary = builder._encode_avif_sequences(
+                            out_dir, manifest,
+                            self._args(resume=True, frame_order=frame_order, keyframe=keyframe),
+                        )
+                    record = json.loads((out_dir / "encode_report.jsonl").read_text(encoding="utf-8"))
+                    self.assertEqual((summary["encoded"], summary["failed"]), (1, 0))
+                    self.assertEqual(record["status"], "encoded")
+                    self.assertFalse(record["reuse_encoded"])
+                    self.assertEqual(run.call_count, 1)
+                    self.assertEqual(inspect.call_count, 1)
+                    self.assertEqual(source_output.read_bytes(), b"old source")
+                    effective_keyframe = 1 if keyframe == "auto" else keyframe
+                    self.assertEqual(encoded_keyframes, [effective_keyframe])
+                    self.assertEqual(
+                        manifest["storage"]["images"]["profile"]["keyframe_interval"],
+                        effective_keyframe,
+                    )
 
     def test_uninspectable_encoded_blob_cannot_be_published_as_success(self) -> None:
         def encode(_inputs: object, output: Path, **_options: object) -> subprocess.CompletedProcess[str]:

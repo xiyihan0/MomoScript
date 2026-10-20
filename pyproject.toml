@@ -1,3 +1,6 @@
+[dependency-groups]
+dev = ["numpy>=2.2,<3"]
+
 [tool.uv.workspace]
 members = ["mmt_core", "mmt_nonebot_plugin"]
 
