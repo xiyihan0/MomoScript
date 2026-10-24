@@ -15,6 +15,7 @@ pub use actor::{
     CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedStatementSpeaker, ScriptActor,
     SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_actors_with_options,
 };
+pub(crate) use asset::sanitized_workspace_relative_path;
 pub use asset::{AssetId, AssetLowering, AssetSource, ScriptAsset, lower_assets, valid_asset_name};
 pub use document::{
     CompiledAtConfig, DEFAULT_COMPILED_AT_FORMAT, DocumentConfig, DocumentLowering,

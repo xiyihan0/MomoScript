@@ -12,6 +12,7 @@ import type {
 } from "./runtimeIdentity.ts";
 import {
   LineIndex,
+  convertBackendWireRange,
   validatePositionBearingPayload,
   type PositionEncoding,
 } from "./typstPosition.ts";
@@ -40,12 +41,12 @@ export interface PreviewRendererDiagnosticClient {
 }
 
 /**
- * Maps entry diagnostics through the current MMT projection and preserves
- * dependency/generated records on their actual URI. Any stale or malformed
- * batch is rejected as one unit.
+ * Routes authored entry diagnostics directly and maps generated MMT entries
+ * through the current projection. Dependency records retain their actual URI.
+ * Any stale or malformed batch is rejected as one unit.
  */
 export async function mapPreviewRendererDiagnostics(
-  client: PreviewRendererDiagnosticClient,
+  client: PreviewRendererDiagnosticClient | undefined,
   identity: PreviewRendererDiagnosticIdentity,
   sourceText: string,
   records: readonly PreviewRendererDiagnosticRecord[],
@@ -59,17 +60,21 @@ export async function mapPreviewRendererDiagnostics(
       uri: record.uri,
       diagnostic: record.diagnostic as Diagnostic,
     }));
+  const authoredEntry = identity.entryUri === identity.sourceUri;
   if (entry.length !== 0) {
-    const response = await client.sendRequest<unknown>("mmt/mapTypstDiagnostics", {
-      sourceUri: identity.sourceUri,
-      revision: identity.revision,
-      entryUri: identity.entryUri,
-      backendEncoding: identity.backendEncoding,
-      sourceContent: identity.sourceContent,
-      projectDigest: identity.projectDigest,
-      projectionKey: identity.projectionKey,
-      diagnostics: entry.map((record) => record.diagnostic),
-    });
+    if (!authoredEntry && !client) return undefined;
+    const response = authoredEntry
+      ? entry.map((record) => record.diagnostic)
+      : await client!.sendRequest<unknown>("mmt/mapTypstDiagnostics", {
+        sourceUri: identity.sourceUri,
+        revision: identity.revision,
+        entryUri: identity.entryUri,
+        backendEncoding: identity.backendEncoding,
+        sourceContent: identity.sourceContent,
+        projectDigest: identity.projectDigest,
+        projectionKey: identity.projectionKey,
+        diagnostics: entry.map((record) => record.diagnostic),
+      });
     if (response === null || !isCurrent(identity)) return undefined;
     if (!Array.isArray(response) || response.length !== entry.length) {
       throw new TypeError("mmt/mapTypstDiagnostics must preserve input length");
@@ -77,7 +82,23 @@ export async function mapPreviewRendererDiagnostics(
     const sourceIndex = new LineIndex(sourceText);
     const mapped = response.flatMap((value): Diagnostic[] => {
       if (value === null) return [];
-      const diagnostic = decodePreviewRendererDiagnostic(value) as Diagnostic;
+      let diagnostic = decodePreviewRendererDiagnostic(value) as Diagnostic;
+      if (authoredEntry && identity.backendEncoding !== "utf-16") {
+        diagnostic = {
+          ...diagnostic,
+          range: convertBackendWireRange(diagnostic.range, sourceIndex, identity.backendEncoding),
+          ...(diagnostic.relatedInformation === undefined ? {} : {
+            relatedInformation: diagnostic.relatedInformation.map((related) =>
+              related.location.uri !== identity.sourceUri ? related : {
+                ...related,
+                location: {
+                  ...related.location,
+                  range: convertBackendWireRange(related.location.range, sourceIndex, identity.backendEncoding),
+                },
+              }),
+          }),
+        };
+      }
       const localRelated = diagnostic.relatedInformation?.filter(
         (related) => related.location.uri === identity.sourceUri
       );

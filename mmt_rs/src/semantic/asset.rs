@@ -347,14 +347,23 @@ fn parse_asset_source(
     if raw.starts_with("https://") || raw.starts_with("http://") {
         return Some(AssetSource::Url(raw.to_string()));
     }
-    if raw.contains('/') || raw.contains('\\') || raw == "." || raw == ".." {
+    if !sanitized_workspace_relative_path(raw) {
         diagnostics.push(semantic_error(
-            "local asset src must be a sanitized basename",
+            "local asset src must be a sanitized relative path",
             range,
         ));
         return None;
     }
     Some(AssetSource::LocalFile(raw.to_string()))
+}
+
+pub(crate) fn sanitized_workspace_relative_path(path: &str) -> bool {
+    !path.is_empty()
+        && !path.contains(['\\', ':'])
+        && !path.chars().any(char::is_control)
+        && path
+            .split('/')
+            .all(|segment| !segment.is_empty() && segment != "." && segment != "..")
 }
 
 fn valid_namespace(value: &str) -> bool {
@@ -449,18 +458,35 @@ mod tests {
     }
 
     #[test]
-    fn local_asset_sources_reject_paths_and_traversal() {
-        let document = parse_text(
-            "@asset nested\n\
-             src: images/a.png\n\
-             @end\n\
-             @asset traversal\n\
-             src: ../secret.png\n\
-             @end",
-        );
-        let lowered = lower_assets(&document);
-
-        assert!(lowered.assets.is_empty());
-        assert_eq!(lowered.diagnostics.len(), 2);
+    fn local_asset_sources_allow_safe_relative_paths_and_reject_traversal() {
+        for path in ["image.png", "assets/image.png", "images/subdir/角色.jpg"] {
+            let document = parse_text(&format!("@asset image\nsrc: {path}\n@end"));
+            let lowered = lower_assets(&document);
+            assert!(
+                lowered.diagnostics.is_empty(),
+                "{path}: {:?}",
+                lowered.diagnostics
+            );
+            assert_eq!(
+                lowered.assets[0].source,
+                AssetSource::LocalFile(path.to_owned())
+            );
+        }
+        for path in [
+            "../secret.png",
+            "/image.png",
+            "assets/../secret.png",
+            "assets//image.png",
+            "assets\\image.png",
+            "C:image.png",
+            ".",
+            "..",
+        ] {
+            let encoded = crate::composer::serialize_scalar(path, None).unwrap();
+            let document = parse_text(&format!("@asset image\nsrc: {encoded}\n@end"));
+            let lowered = lower_assets(&document);
+            assert!(lowered.assets.is_empty(), "{path}");
+            assert_eq!(lowered.diagnostics.len(), 1, "{path}");
+        }
     }
 }

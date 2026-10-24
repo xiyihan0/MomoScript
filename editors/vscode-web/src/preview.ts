@@ -6,7 +6,8 @@ import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
 import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
-import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
+import type { TypstProjectUpdate, TypstRenderProjectUpdate } from "../../vscode/src/tinymistClient";
+import { parseRenderPreset, type RenderPreset } from "../../vscode/src/renderPreset.ts";
 import type { PreviewRendererFileRecord } from "../../vscode/src/previewRendererProtocol.ts";
 import type { TypstPackageGeneration } from "../../vscode/src/typstPackageService";
 import { TypstPreviewPackageRegistry } from "../../vscode/src/typstPreviewPackageRegistry";
@@ -20,6 +21,7 @@ import {
   type PreviewArtifact,
   type PreviewImmutableLocationMap,
   type PreviewImageAsset,
+  type PreviewPageGeometry,
 } from "./previewArtifact.ts";
 import {
   isReservedPreviewSemanticLabel,
@@ -39,6 +41,7 @@ import {
   type PreviewBackendLocation,
 } from "./previewInteraction.ts";
 import { normalizeTextSelectionNode } from "./previewSelectableText.ts";
+import { validateExactExportOptions } from "./exactExport.ts";
 import { canonicalBytesDigest, type RenderKey } from "../../vscode/src/runtimeIdentity";
 import {
   MAIN_FONT_BOLD_ARTIFACT,
@@ -187,6 +190,7 @@ export interface TypstPreviewEvents {
 
 export interface TypstPreviewBinding {
   readonly renderKey: RenderKey;
+  readonly renderPreset: RenderPreset;
   readonly requestId?: number;
   readonly traceId?: string;
   readonly locationProviderKey: LocationProviderKey;
@@ -289,9 +293,6 @@ export class TypstPreviewController {
   private closeRequested = false;
   private latestEntryPath: string | undefined;
   private latestCompilerRenderKey: RenderKey | undefined;
-  private latestSvg: string | undefined;
-  private latestImageAssets: readonly PreviewImageAsset[] = [];
-  private pageSize: { width: number; height: number } | undefined;
   private artifact: PreviewArtifact | undefined;
 
   constructor(
@@ -308,12 +309,6 @@ export class TypstPreviewController {
 
   setDisplayedArtifact(artifact: PreviewArtifact, retainCompilerEntry = false): void {
     this.artifact = artifact;
-    const firstPage = artifact.visualSnapshot.kind === "svg" ? artifact.visualSnapshot.pages[0] : undefined;
-    this.latestSvg = firstPage?.sanitizedSvg;
-    this.latestImageAssets = artifact.visualSnapshot.kind === "svg" ? artifact.visualSnapshot.imageAssets : [];
-    this.pageSize = firstPage
-      ? { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight }
-      : undefined;
     if (retainCompilerEntry) {
       this.latestCompilerRenderKey = artifact.renderKey;
     } else if (this.latestCompilerRenderKey !== artifact.renderKey) {
@@ -322,11 +317,17 @@ export class TypstPreviewController {
     }
   }
 
-  async createExport(format: TypstExportFormat, signal?: AbortSignal): Promise<TypstExport> {
+  async createExport(format: TypstExportFormat, pageIndex = 0, signal?: AbortSignal): Promise<TypstExport> {
+    const artifact = this.artifact;
+    if (artifact?.renderPreset.kind !== "output") {
+      throw new Error("聊天创作画面不能用于成品导出，请切换到排版预览。");
+    }
     const entryPath = this.latestEntryPath;
-    const svg = this.latestSvg;
-    const pageSize = this.pageSize;
-    if (!svg || !pageSize) throw new Error("请等待当前预览渲染完成后再导出。");
+    const visual = artifact.visualSnapshot;
+    const page = visual.kind === "svg" ? visual.pages[pageIndex] : undefined;
+    if (!Number.isSafeInteger(pageIndex) || pageIndex < 0 || !page) {
+      throw new RangeError("所选导出页不在已接受的排版快照内。");
+    }
     signal?.throwIfAborted();
     if (format === "pdf") {
       if (!entryPath) throw new Error("当前预览没有可用于 PDF 导出的编译器快照。");
@@ -338,12 +339,14 @@ export class TypstPreviewController {
       if (!pdf) throw new Error("Typst 未生成 PDF 数据。");
       return { blob: new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), extension: format };
     }
-    const exportSvg = svgWithoutSelectionLayer(await inlinePreviewImageAssets(svg, this.latestImageAssets));
+    validateExactExportOptions(format, { pageIndex });
+    const exportSvg = svgWithoutSelectionLayer(await inlinePreviewImageAssets(page.sanitizedSvg, visual.kind === "svg" ? visual.imageAssets : []));
+    signal?.throwIfAborted();
     if (format === "svg") {
       return { blob: new Blob([exportSvg], { type: "image/svg+xml;charset=utf-8" }), extension: format };
     }
     const mime = format === "png" ? "image/png" : "image/jpeg";
-    const blob = await rasterizeSvg(exportSvg, pageSize, mime);
+    const blob = await rasterizeSvg(exportSvg, { width: page.geometry.cssWidth, height: page.geometry.cssHeight }, mime, signal);
     signal?.throwIfAborted();
     return { blob, extension: format };
   }
@@ -352,9 +355,14 @@ export class TypstPreviewController {
     snapshot: ImmutableTypstExportSnapshot,
     renderKey: RenderKey,
     format: TypstExportFormat,
-    pageIndex = 0,
+    pageIndex: number,
+    pageGeometry: PreviewPageGeometry | undefined,
     signal?: AbortSignal,
   ): Promise<TypstExport> {
+    const renderPreset = (snapshot.project as Partial<TypstRenderProjectUpdate>).renderPreset;
+    if (renderPreset !== undefined && parseRenderPreset(renderPreset).kind !== "output") {
+      throw new Error("聊天创作快照不能用于成品导出。");
+    }
     return this.withTypstOperation(async () => {
       signal?.throwIfAborted();
       await initializeTypst(() => {});
@@ -388,6 +396,13 @@ export class TypstPreviewController {
           throw new Error("Typst did not produce immutable SVG export output");
         }
         const geometry = selectSvgExportPage(root, pageIndex);
+        if (pageGeometry) {
+          geometry.width = pageGeometry.cssWidth;
+          geometry.height = pageGeometry.cssHeight;
+          root.setAttribute("width", String(geometry.width));
+          root.setAttribute("height", String(geometry.height));
+          root.setAttribute("viewBox", pageGeometry.viewBox.join(" "));
+        }
         ensureSvgPageBackground(root);
         sanitizeSvg(root);
         const imageAssets = await externalizeSvgImages(root);
@@ -398,7 +413,7 @@ export class TypstPreviewController {
           return { blob: new Blob([exportSvg], { type: "image/svg+xml;charset=utf-8" }), extension: format };
         }
         const mime = format === "png" ? "image/png" : "image/jpeg";
-        const blob = await rasterizeSvg(exportSvg, geometry, mime);
+        const blob = await rasterizeSvg(exportSvg, geometry, mime, signal);
         signal?.throwIfAborted();
         return { blob, extension: format };
       } finally {
@@ -468,11 +483,8 @@ export class TypstPreviewController {
     for (const path of this.mappedPaths) await $typst.unmapShadow(path);
     this.mappedPaths.clear();
     this.mappedFiles.clear();
-    this.pageSize = undefined;
     this.latestEntryPath = undefined;
     this.latestCompilerRenderKey = undefined;
-    this.latestSvg = undefined;
-    this.latestImageAssets = [];
     this.artifact = undefined;
     this.events?.status("Preview is waiting for a valid MomoScript projection…", false);
   }
@@ -536,24 +548,39 @@ export class TypstPreviewController {
       if (!(root instanceof SVGSVGElement) || root.namespaceURI !== "http://www.w3.org/2000/svg") {
         throw new Error("Typst renderer returned no valid SVG root");
       }
-      const pageGap = addSvgPageGaps(root);
+      const chat = binding?.renderPreset.kind === "chat";
+      const pageGap = chat ? 0 : addSvgPageGaps(root);
       const viewBox = root.getAttribute("viewBox")?.trim().split(/[ ,]+/).map(Number);
       const viewBoxWidth = viewBox?.length === 4 ? viewBox[2] : undefined;
       const viewBoxHeight = viewBox?.length === 4 ? viewBox[3] : undefined;
       const intrinsicWidth = svgCssPixels(root.getAttribute("width"));
       const intrinsicHeight = svgCssPixels(root.getAttribute("height"));
-      const width = intrinsicWidth ?? viewBoxWidth ?? Number.NaN;
-      const height = pageGap > 0 && viewBoxWidth !== undefined && viewBoxWidth > 0 && viewBoxHeight !== undefined
-        ? width * viewBoxHeight / viewBoxWidth
-        : intrinsicHeight ?? (intrinsicWidth !== undefined && viewBoxWidth && viewBoxHeight
-          ? intrinsicWidth * viewBoxHeight / viewBoxWidth
-          : viewBoxHeight ?? Number.NaN);
+      const width = chat ? viewBoxWidth ?? Number.NaN : intrinsicWidth ?? viewBoxWidth ?? Number.NaN;
+      const height = chat ? viewBoxHeight ?? Number.NaN
+        : pageGap > 0 && viewBoxWidth !== undefined && viewBoxWidth > 0 && viewBoxHeight !== undefined
+          ? width * viewBoxHeight / viewBoxWidth
+          : intrinsicHeight ?? (intrinsicWidth !== undefined && viewBoxWidth && viewBoxHeight
+            ? intrinsicWidth * viewBoxHeight / viewBoxWidth
+            : viewBoxHeight ?? Number.NaN);
       if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
         throw new Error("Typst renderer returned SVG without a positive page size");
       }
-      if (pageGap === 0) ensureSvgPageBackground(root);
+      if (pageGap === 0 && !chat) ensureSvgPageBackground(root);
       sanitizeSvg(root);
       const imageAssets = await externalizeSvgImages(root);
+      const exportPages = [...root.children].filter(
+        (child) => child instanceof SVGGElement && child.classList.contains("typst-page"),
+      );
+      const normalizedExportPages = (exportPages.length ? exportPages : [root]).map((_page, pageIndex) => {
+        const exportRoot = root.cloneNode(true) as SVGSVGElement;
+        const geometry = selectSvgExportPage(exportRoot, pageIndex);
+        if (!chat) ensureSvgPageBackground(exportRoot);
+        return normalizePreviewPage({
+          pageIndex,
+          geometry: { viewBox: exportRoot.getAttribute("viewBox")!.trim().split(/[ ,]+/).map(Number) as [number, number, number, number], cssWidth: geometry.width, cssHeight: geometry.height },
+          sanitizedSvg: exportRoot.outerHTML,
+        }, pageIndex, imageAssets);
+      });
       const compactSvg = document.importNode(root, true);
       compactSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
       compactSvg.setAttribute("role", "img");
@@ -593,11 +620,12 @@ export class TypstPreviewController {
       const artifact = createPreviewArtifact({
         renderKey: binding.renderKey,
         sourceUri: binding.identity.sourceUri,
+        renderPreset: binding.renderPreset,
         locationProviderKey: binding.locationProviderKey,
         locationMap: binding.locationMap,
         visualSnapshot: {
           kind: "svg",
-          pages: [normalizedPage],
+          pages: normalizedExportPages,
           imageAssets,
         },
       });
@@ -911,7 +939,8 @@ function addSvgPageGaps(root: SVGElement): number {
   return added;
 }
 
-export function ensureSvgPageBackground(root: SVGSVGElement): void {
+export function ensureSvgPageBackground(root: SVGSVGElement, renderPreset: RenderPreset = { kind: "output" }): void {
+  if (renderPreset.kind === "chat") return;
   if (root.querySelector(":scope > [data-preview-page-background]")) return;
   const viewBox = root.getAttribute("viewBox")?.trim().split(/[ ,]+/).map(Number);
   const validViewBox = viewBox?.length === 4 && viewBox.every(Number.isFinite) && viewBox[2] > 0 && viewBox[3] > 0;
@@ -1065,12 +1094,23 @@ function svgWithoutSelectionLayer(svg: string): string {
 async function rasterizeSvg(
   svg: string,
   pageSize: { width: number; height: number },
-  mime: "image/png" | "image/jpeg"
+  mime: "image/png" | "image/jpeg",
+  signal?: AbortSignal,
 ): Promise<Blob> {
+  signal?.throwIfAborted();
   const scale = 2;
   const canvas = document.createElement("canvas");
-  canvas.width = Math.ceil(pageSize.width * scale);
-  canvas.height = Math.ceil(pageSize.height * scale);
+  const width = Math.ceil(pageSize.width * scale);
+  const height = Math.ceil(pageSize.height * scale);
+  if (!Number.isSafeInteger(width) || !Number.isSafeInteger(height)
+    || width < 1 || height < 1 || width > 32_767 || height > 32_767 || width * height > 268_435_456) {
+    throw new Error("所选页面过大，浏览器无法完整导出图片；请改用 PDF 或 SVG。");
+  }
+  canvas.width = width;
+  canvas.height = height;
+  if (canvas.width !== width || canvas.height !== height) {
+    throw new Error("浏览器无法创建完整页面图片；请改用 PDF 或 SVG。");
+  }
   const context = canvas.getContext("2d");
   if (!context) throw new Error("浏览器无法创建图片导出画布。");
   context.fillStyle = "#ffffff";
@@ -1081,9 +1121,11 @@ async function rasterizeSvg(
     image.decoding = "async";
     image.src = url;
     await image.decode();
+    signal?.throwIfAborted();
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, mime, mime === "image/jpeg" ? 0.92 : undefined));
     if (!blob) throw new Error("浏览器未生成图片数据。");
+    signal?.throwIfAborted();
     return blob;
   } finally {
     URL.revokeObjectURL(url);
@@ -1128,7 +1170,7 @@ function exactExportPath(renderKey: RenderKey, uri: string): string {
 function selectSvgExportPage(
   root: SVGSVGElement,
   pageIndex: number,
-): { readonly width: number; readonly height: number } {
+): { width: number; height: number } {
   if (!Number.isSafeInteger(pageIndex) || pageIndex < 0) throw new Error("Invalid immutable export page index");
   const pages = [...root.children].filter(
     (child): child is SVGGElement => child instanceof SVGGElement && child.classList.contains("typst-page"),
@@ -1157,8 +1199,9 @@ function selectSvgExportPage(
   const bottom = pageIndex + 1 < pages.length
     ? Number(transforms[pageIndex + 1]![2])
     : viewBox[1]! + viewBox[3]!;
-  const height = bottom - top;
-  const width = viewBox[2]!;
+  const background = page.querySelector(":scope > rect[data-preview-page-background='true']");
+  const height = background ? Number(background.getAttribute("height")) : bottom - top;
+  const width = background ? Number(background.getAttribute("width")) : viewBox[2]!;
   if (!(width > 0 && height > 0)) throw new Error("Immutable SVG export page has invalid dimensions");
   for (const candidate of pages) {
     if (candidate !== page) candidate.remove();

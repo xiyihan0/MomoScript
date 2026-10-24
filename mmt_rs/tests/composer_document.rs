@@ -447,3 +447,58 @@ fn complete_unterminated_eof_advertises_parser_owned_local_eol_insertion() {
         assert!(projection.boundaries.last().unwrap().insert.is_none());
     }
 }
+
+#[test]
+fn projection_exposes_declared_assets_and_actual_side_and_move_choices() {
+    let source = "@asset photo\nsrc: assets/photo.png\n@end\n> 角色: first\n> 角色: second\n< _0: teacher\n- last\n\n@typ: #strong[barrier]\n- isolated\n";
+    let projection = project_composer_document(source, &catalog()).unwrap();
+    assert!(!projection.has_errors);
+    assert_eq!(
+        projection.asset_choices,
+        vec![mmt_rs::ComposerAssetChoice {
+            asset_name: "photo".to_owned(),
+        }]
+    );
+    let ComposerDocumentNode::Message(actor) = &projection.nodes[1] else {
+        panic!()
+    };
+    assert_eq!(
+        actor.capabilities.set_side,
+        vec![
+            mmt_rs::ComposerMessageSide::Left,
+            mmt_rs::ComposerMessageSide::Right
+        ]
+    );
+    assert_eq!(
+        actor.capabilities.move_targets,
+        vec![
+            projection.boundaries[3].target.clone(),
+            projection.boundaries[4].target.clone(),
+            projection.boundaries[5].target.clone(),
+        ]
+    );
+    let ComposerDocumentNode::Message(teacher) = &projection.nodes[3] else {
+        panic!()
+    };
+    assert_eq!(
+        teacher.capabilities.set_side,
+        vec![mmt_rs::ComposerMessageSide::Right]
+    );
+    let ComposerDocumentNode::Narration(isolated) = projection.nodes.last().unwrap() else {
+        panic!()
+    };
+    assert!(isolated.capabilities.move_targets.is_empty());
+
+    let broken = project_composer_document(
+        "@asset photo\nsrc: x.png\n@end\n@end\n> 角色: text\n",
+        &catalog(),
+    )
+    .unwrap();
+    assert!(broken.has_errors);
+    assert!(broken.asset_choices.is_empty());
+    let ComposerDocumentNode::Message(message) = broken.nodes.last().unwrap() else {
+        panic!()
+    };
+    assert!(message.capabilities.set_side.is_empty());
+    assert!(message.capabilities.move_targets.is_empty());
+}

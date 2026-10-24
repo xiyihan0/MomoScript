@@ -35,6 +35,7 @@
     "test:composer-edit": "node --experimental-strip-types ./scripts/test-composer-edit.mjs",
     "test:composer-document": "node --experimental-strip-types ./scripts/test-composer-document.mjs",
     "test:composer-runtime": "node --experimental-strip-types ./scripts/test-composer-runtime.mjs",
+    "test:composer-image-import": "node --experimental-strip-types ./scripts/test-composer-image-import.mjs",
     "test:preview-composer": "node --experimental-strip-types ./scripts/test-preview-composer.mjs",
     "test:e2e:preview-interaction": "playwright test --project=local preview-interaction.spec.ts",
     "test:e2e:preview-smoke": "playwright test --project=local --workers=1 preview-renderer-smoke.spec.ts",

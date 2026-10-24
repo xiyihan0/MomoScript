@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { build } from "esbuild";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -38,7 +38,7 @@ export class Uri {
   }
   toString() { return this.value; }
 }
-export const __host = { documents: [], config: new Map() };
+export const __host = { documents: [], config: new Map(), panels: [] };
 export const workspace = {
   get textDocuments() { return __host.documents; },
   getConfiguration(section) {
@@ -57,13 +57,15 @@ export const window = {
   showSaveDialog: async () => undefined,
   showWarningMessage: async () => undefined,
   createWebviewPanel() {
-    return {
+    const panel = {
       title: "",
       webview: { html: "" },
       onDidDispose() {},
       reveal() {},
       dispose() {}
     };
+    __host.panels.push(panel);
+    return panel;
   }
 };
 export const ViewColumn = { Beside: 2 };
@@ -118,6 +120,7 @@ const avatarUri = "untitled:/mmt-projection/test/session/avatar.png";
 const workspaceUri = "untitled:/mmt-projection/test/session/workspace-image.png";
 const baseProject = {
   sourceUri: sourceUri.toString(), sourceVersion: 1, revision: 1, entryUri,
+  renderPreset: { kind: "output" },
   files: [{ uri: entryUri, text: entryText, digest: fileDigest(entryText) }],
   full: true, diagnostics: [], projectDigest: "project", mappingDigest: "mapping",
   sourceContent: "source", projectionKey: "projection", packRegistryDigest: "packs",
@@ -129,8 +132,13 @@ const baseProject = {
 };
 let project = baseProject;
 const notificationListeners = new Map();
+const renderRequests = [];
 const client = {
-  async sendRequest() { return structuredClone(project); },
+  async sendRequest(method, params) {
+    assert.equal(method, "mmt/getTypstRenderProject");
+    renderRequests.push(structuredClone(params));
+    return structuredClone(project);
+  },
   onNotification(method, listener) {
     notificationListeners.set(method, listener);
     return { dispose() { notificationListeners.delete(method); } };
@@ -175,6 +183,109 @@ const exported = await service.exportPdf(document, target);
 assert.equal(exported.format, "pdf");
 assert.equal((await readFile(target.fsPath)).toString(), "PDF-A");
 assert.deepEqual(compileChecks, ["svg", "pdf"]);
+assert.deepEqual(previewA.renderPreset, { kind: "output" });
+assert.deepEqual(exported.renderPreset, { kind: "output" });
+assert.deepEqual(renderRequests.at(-1), { uri: sourceUri.toString() });
+
+// Optional presets survive the native request and remain isolated from output/export.
+const presetService = new DesktopPreviewService(
+  client, "tinymist", Uri.file(path.join(temp, "preset-storage")), host
+);
+presetService.setPackSources([{
+  manifestUrl: "https://packs.example/manifest.json",
+  baseUrl: "https://packs.example/",
+  json: JSON.stringify({ pack: { namespace: "ba" } })
+}]);
+const chatRenderKeys = [];
+for (const widthPt of [390, 720]) {
+  project = { ...baseProject, renderPreset: { kind: "chat", widthPt } };
+  const chat = await presetService.preview(document, { kind: "chat", widthPt });
+  assert.deepEqual(renderRequests.at(-1), {
+    uri: sourceUri.toString(), renderPreset: { kind: "chat", widthPt }
+  });
+  assert.deepEqual(chat.renderPreset, { kind: "chat", widthPt });
+  assert.notEqual(chat.renderKey, previewA.renderKey);
+  chatRenderKeys.push(chat.renderKey);
+  const html = __host.panels.at(-1).webview.html;
+  assert.ok(html.includes("width:" + widthPt + "px"));
+  assert.ok(!html.includes("box-shadow"));
+  await assert.rejects(
+    () => presetService.exportPdf(document, target, "export-displayed"),
+    /PDF export requires an output preview/
+  );
+  assert.equal((await readFile(target.fsPath)).toString(), "PDF-A");
+}
+assert.notEqual(chatRenderKeys[0], chatRenderKeys[1]);
+const requestCountBeforeInvalidPreset = renderRequests.length;
+await assert.rejects(
+  () => presetService.preview(document, { kind: "chat", widthPt: 390.5 }),
+  /Invalid render preset/
+);
+assert.equal(renderRequests.length, requestCountBeforeInvalidPreset);
+project = baseProject;
+const compileCountBeforeMismatch = compileChecks.length;
+await assert.rejects(
+  () => presetService.preview(document, { kind: "chat", widthPt: 390 }),
+  /preset does not match its request/
+);
+assert.equal(compileChecks.length, compileCountBeforeMismatch);
+project = { ...baseProject, renderPreset: { kind: "output", extra: true } };
+await assert.rejects(() => presetService.preview(document), /Invalid render preset/);
+assert.equal(compileChecks.length, compileCountBeforeMismatch);
+const { renderPreset: omittedRenderPreset, ...missingRenderPreset } = baseProject;
+project = missingRenderPreset;
+await assert.rejects(() => presetService.preview(document), /Invalid render preset/);
+assert.equal(compileChecks.length, compileCountBeforeMismatch);
+project = baseProject;
+const explicitOutput = await presetService.preview(document, { kind: "output" });
+assert.deepEqual(renderRequests.at(-1), {
+  uri: sourceUri.toString(), renderPreset: { kind: "output" }
+});
+assert.equal(explicitOutput.renderKey, previewA.renderKey);
+
+// Imported images remain relative to their authored document, including nested works.
+const chapterDirectory = path.join(temp, "chapters");
+await mkdir(path.join(chapterDirectory, "assets"), { recursive: true });
+const chapterSource = Uri.file(path.join(chapterDirectory, "chapter.mmt"));
+await writeFile(chapterSource.fsPath, "> 老师: image\n");
+await writeFile(path.join(chapterDirectory, "assets", "imported.png"), avatar);
+const chapterDocument = { uri: chapterSource, languageId: "mmt", version: 1 };
+__host.documents.push(chapterDocument);
+const chapterEntry = "untitled:/mmt-projection/chapter/session/main-1.typ";
+const chapterImage = "untitled:/mmt-projection/chapter/session/mmt-resources/0.png";
+const chapterText = '#image("mmt-resources/0.png")';
+const chapterProject = {
+  ...baseProject,
+  sourceUri: chapterSource.toString(), entryUri: chapterEntry,
+  projectionKey: "nested-workspace-image",
+  files: [{ uri: chapterEntry, text: chapterText, digest: fileDigest(chapterText) }],
+  resources: [{ ...baseProject.resources[1], uri: chapterImage, fileName: "assets/imported.png" }],
+};
+let chapterCompiles = 0;
+const chapterHost = {
+  async fetch() { throw new Error("workspace images must not use a network fetch"); },
+  runtimeIdentity: host.runtimeIdentity,
+  async run(_command, args, options) {
+    chapterCompiles += 1;
+    assert.deepEqual(await readFile(path.join(options.cwd, "mmt-resources", "0.png")), avatar);
+    assert.equal(await readFile(args.at(-2), "utf8"), chapterText);
+    await writeFile(args.at(-1), "<svg>nested-image</svg>");
+  },
+};
+const chapterService = new DesktopPreviewService(client, "tinymist", Uri.file(path.join(temp, "chapter-storage")), chapterHost);
+project = chapterProject;
+await chapterService.preview(chapterDocument);
+let chapterRevision = chapterProject.revision;
+assert.equal(chapterCompiles, 1);
+for (const fileName of ["/outside.png", "../workspace-image.png", "assets/../imported.png", "assets//imported.png", "assets\\imported.png", "assets/bad:name.png", "assets/bad\u0001.png"]) {
+  project = { ...chapterProject, revision: ++chapterRevision, projectDigest: `chapter-${chapterRevision}`, resources: [{ ...chapterProject.resources[0], fileName }] };
+  await assert.rejects(() => chapterService.preview(chapterDocument), /Unsafe workspace resource name/);
+}
+await symlink(workspaceImagePath, path.join(chapterDirectory, "assets", "external.png"));
+project = { ...chapterProject, revision: ++chapterRevision, projectDigest: `chapter-${chapterRevision}`, resources: [{ ...chapterProject.resources[0], fileName: "assets/external.png" }] };
+await assert.rejects(() => chapterService.preview(chapterDocument), /escapes its source directory/);
+assert.equal(chapterCompiles, 1, "unsafe or escaped resources must fail before compilation");
+project = baseProject;
 
 // Export requires a successfully displayed immutable artifact.
 const noPreviewService = new DesktopPreviewService(
@@ -363,11 +474,16 @@ wrongSize.setPackSources([{
 await assert.rejects(() => wrongSize.preview(document), /returned 1x1; expected 2x2/);
 
 service.dispose(); noPreviewService.dispose(); guarded.dispose(); drifted.dispose(); midflight.dispose();
-overlap.dispose(); sequenceService.dispose(); wrongSize.dispose();
+overlap.dispose(); sequenceService.dispose(); wrongSize.dispose(); presetService.dispose(); chapterService.dispose();
 assert.equal(notificationListeners.size, 0, "Desktop render notification subscription leaked");
 await rm(temp, { recursive: true, force: true });
 console.log(JSON.stringify({
   avatarAndWorkspaceMaterialized: true,
+  nestedWorkspaceImageMaterialized: true,
+  workspaceTraversalAndSymlinkEscapeRejected: true,
+  renderPresetRequestAndResponseValidated: true,
+  chatPresetsAndOutputIsolated: true,
+  chatExportRejected: true,
   displayedAAndWaitLatestB: true,
   stalePublicationRejected: true,
   runtimeDriftRejected: true,

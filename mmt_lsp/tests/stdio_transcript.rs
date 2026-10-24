@@ -717,7 +717,7 @@ fn native_whole_body_insert_and_source_lens_match_wasm_json_requests() {
                 "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
                 "target":snapshot["boundaries"][0]["target"],
                 "command":{"kind":"insertStatement","statement":{
-                    "kind":"message","side":"right","speaker":{"kind":"builtin"},
+                    "kind":"message","side":"right","speaker":{"kind":"builtin"},"avatar":null,
                     "body":{"value":"Teacher\nreply","mode":"inherit"},"continued":"auto",
                 }},
             }),

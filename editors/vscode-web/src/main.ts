@@ -1,17 +1,20 @@
 import "@codingame/monaco-vscode-language-pack-zh-hans";
 import "@codingame/monaco-vscode-media-preview-default-extension";
 import * as vscode from "vscode";
-import { IEditorGroupsService, IStorageService, LogLevel } from "@codingame/monaco-vscode-api";
+import { IEditorGroupsService, ILayoutService, IStorageService, LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
-import { IEditorService, IWebviewService, type EditorInput } from "@codingame/monaco-vscode-api/services";
+import { ConfigurationTarget, IConfigurationService, IEditorService, ITextModelService, IWebviewService, type EditorInput } from "@codingame/monaco-vscode-api/services";
 import { SIDE_GROUP } from "@codingame/monaco-vscode-api/vscode/vs/workbench/services/editor/common/editorService";
 import { registerAssets } from "@codingame/monaco-vscode-api/assets";
 import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
 import { Event } from "@codingame/monaco-vscode-api/vscode/vs/base/common/event";
 import { Orientation, Sizing, SplitView, type IView } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/ui/splitview/splitview";
 import { MenuId, MenuRegistry } from "@codingame/monaco-vscode-api/vscode/vs/platform/actions/common/actions";
+import { ContextKeyExpr } from "@codingame/monaco-vscode-api/vscode/vs/platform/contextkey/common/contextkey";
+import type { ICodeEditor } from "@codingame/monaco-vscode-api/vscode/vs/editor/browser/editorBrowser";
 import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
+import type { LayoutService } from "@codingame/monaco-vscode-layout-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
 import getNotificationsServiceOverride from "@codingame/monaco-vscode-notifications-service-override";
 import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
@@ -21,7 +24,7 @@ import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-servic
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
 import getStatusBarServiceOverride from "@codingame/monaco-vscode-view-status-bar-service-override";
 import getStorageServiceOverride from "@codingame/monaco-vscode-storage-service-override";
-import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, renderStatusBarPart, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
+import getViewsServiceOverride, { attachPart, IReference, IResolvedTextEditorModel, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, renderStatusBarPart, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
 import { registerCustomProvider } from "@codingame/monaco-vscode-files-service-override";
 import { useWorkerFactory } from "monaco-languageclient/workerFactory";
 import { MonacoVscodeApiWrapper } from "monaco-languageclient/vscodeApiWrapper";
@@ -54,7 +57,7 @@ import {
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { decodeAvifSequence } from "./avifSequence";
-import { buildAvatarCatalog, packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
+import { buildAvatarCatalog, buildGalleryPersonGroups, galleryAvatarUrl, GalleryImageCache, packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
 import { registerCharacterGalleryCommands, renderCharacterGalleryView } from "./characterGalleryUi";
 import { loadGalleryEntityCatalog } from "./galleryEntityCatalog";
 import { PREVIEW_RENDERER_METHOD, projectionSessionKey } from "../../vscode/src/tinymistClient";
@@ -93,6 +96,8 @@ import {
   deserializeComposerEditorResource,
   isComposerResource,
   registerComposerEditor,
+  type ComposerEditorMount,
+  type ComposerEditorMountContext,
 } from "./composerEditor.ts";
 import {
   PREVIEW_HOST_EDITOR_ID,
@@ -102,6 +107,8 @@ import {
 } from "./previewHostPane.ts";
 import { ComposerRuntime, type ComposerRuntimeDocument } from "./composerRuntime.ts";
 import { ComposerTextGeometry, type ComposerTextGeometryBinding } from "./composerTextGeometry.ts";
+import type { ComposerTextRecoveryTarget } from "./composerTextSession.ts";
+import { importComposerLocalImage } from "./composerImageImport.ts";
 import {
   applyComposerTextEdit,
   getComposerNativeHistory,
@@ -111,6 +118,7 @@ import {
   ComposerEditorUi,
   type ComposerSpeakerOption,
   type ComposerEditorDraft,
+  type ComposerTextRecoveryConfirmation,
 } from "./composerEditorUi.ts";
 import {
   PACK_MANIFEST_URL,
@@ -132,6 +140,8 @@ import {
   bytesToBase64,
   escapeHtml,
   type PreviewNavigationPoint,
+  type ComposerState,
+  type PreviewSurfacePresentation,
   type PreviewContextMenuAnchor,
 } from "./previewWebviewProtocol.ts";
 import {
@@ -145,9 +155,11 @@ import {
   type ProjectedPreviewSelection,
 } from "./previewInteraction.ts";
 import { ExactExportUiController, LatestExactArtifactWaiter } from "./exactExportUi.ts";
-import type { ExactExportPorts, ExactExportResult, RenderAdvanceCause, RenderAdvanceToken } from "./exactExport.ts";
+import type { ExactExportFormat, ExactExportPorts, ExactExportRequest, ExactExportResult, RenderAdvanceCause, RenderAdvanceToken } from "./exactExport.ts";
 import {
   RenderProjectSnapshotStore,
+  isRenderPreset,
+  type RenderPreset,
   type GetTypstRenderProjectParams,
   type TypstProjectUpdate,
   type TypstRenderProjectUpdate,
@@ -162,6 +174,7 @@ import {
   renderKey,
   runtimeArtifactKey,
   sourceContentKey,
+  type SourceContentKey,
   type LogicalProjectFileId,
   type RenderKey,
   type SourceStaleToken,
@@ -295,10 +308,20 @@ const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
   "mmt-template-bundle-v1",
   "c02a98146312b8756f9f23654b194885358f603eed736f037f172d617330c05c",
 );
-const PREVIEW_RENDER_OPTIONS_DIGEST = canonicalBytesDigest(
-  "mmt-preview-render-options-v1",
-  [encoder.encode("svg:default")],
-);
+const OUTPUT_RENDER_PRESET: RenderPreset = Object.freeze({ kind: "output" });
+type AuthoringMode = "chat" | "layout" | "source";
+
+function renderPresetKey(preset: RenderPreset): string {
+  return preset.kind === "chat" ? `chat:${preset.widthPt}` : "output";
+}
+
+function projectRenderPreset(project: TypstProjectUpdate): RenderPreset {
+  return (project as Partial<TypstRenderProjectUpdate>).renderPreset ?? OUTPUT_RENDER_PRESET;
+}
+
+function workTitle(resource: vscode.Uri): string {
+  return resource.path.split("/").at(-1)?.replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "未命名作品";
+}
 
 function createE2EExactExportHost(): E2EExactExportHost | undefined {
   if (
@@ -501,13 +524,51 @@ async function initializeRuntime(
     typstProjects,
     acceptedPreviewLanguageProjects,
     retiredLanguageProjectionSessions,
-    requestedRenderTokens,
     renderRequestIdBySource,
     persistenceByUri,
   } = controller.stores;
   const previewTraces = new Map<string, PreviewTraceSession>();
   const renderProjectSnapshots = new RenderProjectSnapshotStore();
   own({ dispose: () => renderProjectSnapshots.clear() });
+  interface AuthoringDocumentState {
+    mode: AuthoringMode;
+    canvasMode: "chat" | "layout";
+    widthPt: number;
+    transition?: Promise<void>;
+    saving?: Promise<void>;
+    saveError?: string;
+    persisting?: boolean;
+  }
+  const authoringDocuments = new Map<string, AuthoringDocumentState>();
+  const authoringState = (sourceUri: string, initialMode: AuthoringMode = "source"): AuthoringDocumentState => {
+    let state = authoringDocuments.get(sourceUri);
+    if (!state) {
+      state = { mode: initialMode, canvasMode: initialMode === "chat" ? "chat" : "layout", widthPt: 480 };
+      authoringDocuments.set(sourceUri, state);
+    }
+    return state;
+  };
+  const renderPresetFor = (sourceUri: string): RenderPreset => {
+    const state = authoringDocuments.get(sourceUri);
+    return state?.canvasMode === "chat" ? { kind: "chat", widthPt: state.widthPt } : OUTPUT_RENDER_PRESET;
+  };
+  const projectPresentationIsCurrent = (project: TypstProjectUpdate): boolean => (
+    renderPresetKey(projectRenderPreset(project)) === renderPresetKey(renderPresetFor(project.sourceUri))
+  );
+  const requestedRenderPresets = new WeakMap<LanguageProjectionToken, Set<string>>();
+  const renderOptionsDigests = new Map<string, Promise<string>>();
+  const languageSourceContent = new WeakMap<LanguageProjectionToken, SourceContentKey>();
+  const renderOptionsDigest = (preset: RenderPreset) => {
+    const key = renderPresetKey(preset);
+    let digest = renderOptionsDigests.get(key);
+    if (!digest) {
+      digest = canonicalBytesDigest("mmt-preview-render-options-v2", [
+        encoder.encode(`svg:default:chat-presentation-v1:${key}`),
+      ]);
+      renderOptionsDigests.set(key, digest);
+    }
+    return digest;
+  };
   const previewFeatureMaster = import.meta.env.VITE_MMT_PREVIEW_INCREMENTAL;
   const previewFeaturesEnabled = previewFeatureMaster !== "0";
   const previewCompilerSetting = import.meta.env.VITE_MMT_PREVIEW_COMPILER_REUSE;
@@ -522,6 +583,14 @@ async function initializeRuntime(
   let previewRendererSessions: PreviewRendererSessionOwner | undefined;
   let displayedRendererCandidate: PreviewRendererCandidate | undefined;
   let activeGuiRuntime: ComposerRuntime | undefined;
+  let mountedPreview: { readonly sourceUri: string; readonly presentation: PreviewSurfacePresentation; readonly claimant: object } | undefined;
+  let surfacePublicationAbort = new AbortController();
+  const acceptsMountedPreview = (sourceUri: string, preset: RenderPreset): boolean => (
+    mountedPreview?.sourceUri === sourceUri
+    && previewWebviewHost?.isOpen === true
+    && renderPresetKey(renderPresetFor(sourceUri)) === renderPresetKey(preset)
+    && (mountedPreview.presentation === "chat" ? preset.kind === "chat" : preset.kind === "output")
+  );
   let preview!: TypstPreviewController;
   let guiTextDelays = { snapshotMs: 0, compileMs: 0 };
   const waitForTextFixture = (milliseconds: number, signal?: AbortSignal): Promise<void> => {
@@ -540,39 +609,54 @@ async function initializeRuntime(
     return promise;
   };
   const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
-  const immutableRendererExports = new Map<RenderKey, {
+  const immutablePreviewExports = new Map<RenderKey, {
     readonly sourceUri: string;
     readonly snapshot: ImmutableTypstExportSnapshot;
     pins: number;
   }>();
-  const evictImmutableRendererExports = (protectedRenderKey?: RenderKey): void => {
-    while (immutableRendererExports.size > 32) {
+  const rendererPresetBySource = new Map<string, string>();
+  let loadedPreviewFontNames: readonly string[] = [];
+  const evictImmutablePreviewExports = (protectedRenderKey?: RenderKey): void => {
+    while (immutablePreviewExports.size > 32) {
       let evictable: RenderKey | undefined;
-      for (const [renderKey, retained] of immutableRendererExports) {
+      for (const [renderKey, retained] of immutablePreviewExports) {
         if (renderKey !== protectedRenderKey && retained.pins === 0) {
           evictable = renderKey;
           break;
         }
       }
       if (!evictable) return;
-      immutableRendererExports.delete(evictable);
+      immutablePreviewExports.delete(evictable);
     }
   };
-  own({ dispose: () => immutableRendererExports.clear() });
+  own({ dispose: () => immutablePreviewExports.clear() });
+  const latestArtifactWaiter = exactExportHost?.latest ?? own(new LatestExactArtifactWaiter());
   const currentPreviewExport = createCurrentPreviewExportClient({
     artifacts: controller.stores.previewArtifacts,
+    latest: latestArtifactWaiter,
     preview: () => preview,
     immutable: {
-      has: (renderKey) => immutableRendererExports.has(renderKey),
+      has: (renderKey) => {
+        const retained = immutablePreviewExports.get(renderKey);
+        return !!retained && projectRenderPreset(retained.snapshot.project).kind === "output";
+      },
       export: async (renderKey, format, pageIndex, signal) => {
-        const retained = immutableRendererExports.get(renderKey);
+        const retained = immutablePreviewExports.get(renderKey);
         if (!retained) throw new Error(`Immutable renderer export input is unavailable for ${renderKey}`);
+        if (projectRenderPreset(retained.snapshot.project).kind !== "output") throw new Error("聊天创作快照不能用于成品导出");
         retained.pins += 1;
         try {
-          return await preview.createImmutableExport(retained.snapshot, renderKey, format, pageIndex, signal);
+          return await preview.createImmutableExport(
+            retained.snapshot,
+            renderKey,
+            format,
+            pageIndex,
+            controller.stores.previewArtifacts.get(renderKey)?.pages[pageIndex]?.geometry,
+            signal,
+          );
         } finally {
           retained.pins -= 1;
-          evictImmutableRendererExports();
+          evictImmutablePreviewExports();
         }
       },
     },
@@ -581,6 +665,15 @@ async function initializeRuntime(
   const exactExportUi = own(new ExactExportUiController(controller.stores.exactExport ?? currentPreviewExport, {
     stateChanged(state) {
       previewWebviewHost?.postExactExportState(state);
+      if (activeGuiRuntime) {
+        for (const surface of previewSurfaceMounts) {
+          if (surface.runtime === activeGuiRuntime) surface.ui?.refresh();
+        }
+      }
+    },
+    deliver(result) {
+      downloadBlob(result.blob, result.metadata.fileName);
+      log("export", `Downloaded ${result.metadata.fileName} from ${result.metadata.renderKey}`);
     },
     failed(error) {
       log("export:error", error instanceof Error ? error.message : String(error));
@@ -680,7 +773,7 @@ async function initializeRuntime(
       (candidate) => candidate.uri.toString() === project.sourceUri
     );
     const client = activeClient;
-    if (!document || !client
+    if (!document
       || synchronized.compilerEntryUri !== project.entryUri
       || synchronized.project.sourceVersion !== project.sourceVersion
       || synchronized.project.revision !== project.revision
@@ -824,11 +917,13 @@ async function initializeRuntime(
       renderProject.resourcePlanDigest ?? project.projectDigest,
       packageBytesDigest,
     );
-    const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await PREVIEW_RENDER_OPTIONS_DIGEST);
+    const renderPreset = projectRenderPreset(project);
+    const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await renderOptionsDigest(renderPreset));
     return Object.freeze({
       ...(requestId === undefined ? {} : { requestId }),
       ...(traceId === undefined ? {} : { traceId }),
       renderKey: key,
+      renderPreset,
       locationProviderKey: renderArtifactLocationProviderKey(key, project.revision),
       identity: previewIdentityFor(project, document),
     });
@@ -958,8 +1053,8 @@ async function initializeRuntime(
       cursorChanged(cursor) {
         previewWebviewHost?.postCursor(cursor?.point);
       },
-      viewportChanged(viewport) {
-        previewWebviewHost?.restoreViewport(viewport);
+      viewportChanged(viewport, presentation) {
+        previewWebviewHost?.restoreViewport(viewport, presentation);
       },
       fullRefreshRequested(reason) {
         log("preview:refresh", `Full refresh required: ${reason}`);
@@ -976,7 +1071,7 @@ async function initializeRuntime(
     previewComposer?.invalidate();
     displayedRendererCandidate = rendererCandidate;
     preview.setDisplayedArtifact(artifact, retainCompilerEntry);
-    previewInteraction.bindArtifact(artifact, identity, resolver);
+    previewInteraction.bindArtifact(artifact, identity, resolver, previewInteraction.presentation);
     void activeGuiRuntime?.textSession?.refreshGeometry();
   };
   preview = own(new TypstPreviewController({
@@ -1002,6 +1097,7 @@ async function initializeRuntime(
         previewBuildState.fail(identity, "renderer", message);
         const requested = controller.stores.previewArtifacts.document(identity.sourceUri).requestedRenderKey;
         controller.stores.previewArtifacts.fail(identity.sourceUri, requested);
+        latestArtifactWaiter.failSource(identity.sourceUri, new Error(message));
         if (displayedPreviewSourceUri === identity.sourceUri) exactExportUi.bind(identity.sourceUri);
       }
       log(message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview"), message);
@@ -1024,7 +1120,13 @@ async function initializeRuntime(
       const trace = revision.traceId ? previewTraces.get(revision.traceId) : undefined;
       if (revision.sourceUri === previewFixtureActiveSourceUri) return;
       const identity = currentPreviewBuildIdentity(revision);
-      if (!identity || !previewBuildState.isCurrent(identity)) {
+      const current = currentPreviewIdentity(revision.sourceUri);
+      if (!identity || !previewBuildState.isCurrent(identity)
+        || renderPresetKey(publication.artifact.renderPreset) !== renderPresetKey(renderPresetFor(revision.sourceUri))
+        || current?.projectionKey !== publication.identity.projectionKey
+        || !acceptsMountedPreview(revision.sourceUri, publication.artifact.renderPreset)
+        || publication.signal?.aborted
+        || current?.projectDigest !== publication.identity.projectDigest) {
         trace?.increment("staleDiscards");
         trace?.finish("stale-discarded");
         if (revision.traceId) previewTraces.delete(revision.traceId);
@@ -1032,6 +1134,7 @@ async function initializeRuntime(
       }
       if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
       const ready = await previewWebviewHost.publishFullSvg(publication);
+      publication.signal?.throwIfAborted();
       if (ready.renderKey !== publication.artifact.renderKey) {
         throw new Error("Preview Webview acknowledged a different render key");
       }
@@ -1064,7 +1167,6 @@ async function initializeRuntime(
   const renderWithPersistentRenderer = async (
     project: TypstProjectUpdate,
     binding: TypstPreviewBinding,
-    packageGenerations: readonly TypstPackageGeneration[],
     trace?: PreviewTraceSession,
   ): Promise<PreviewArtifact | undefined> => {
     const sessions = previewRendererSessions;
@@ -1074,6 +1176,12 @@ async function initializeRuntime(
       [encoder.encode(project.sourceUri)],
     );
     const fonts = await previewRendererFontFiles();
+    if (loadedPreviewFontNames.length === 0) {
+      loadedPreviewFontNames = Object.freeze([
+        "MainFont.otf", "MainFont_Bold.otf", "NewCMMath-Regular.otf",
+        "DejaVuSansMono.ttf", "JetBrainsMono-Regular.ttf",
+      ]);
+    }
     let candidate: PreviewRendererCandidate | undefined;
     let committed = false;
     try {
@@ -1081,13 +1189,24 @@ async function initializeRuntime(
       if (import.meta.env.VITE_MMT_E2E === "1" && guiTextDelays.compileMs > 0) {
         await waitForTextFixture(guiTextDelays.compileMs, binding.signal);
       }
+      const presetKey = renderPresetKey(binding.renderPreset);
+      if (rendererPresetBySource.get(project.sourceUri) !== presetKey) {
+        await sessions.closeSource(project.sourceUri);
+        rendererPresetBySource.set(project.sourceUri, presetKey);
+      }
       candidate = await sessions.render(
         project,
         { logicalSourceId: logicalSource, fonts },
         binding.renderKey,
         binding.signal,
       );
-      if (!previewWebviewHost?.acceptsRendererCandidate(candidate)) {
+      if (binding.signal?.aborted || !acceptsMountedPreview(project.sourceUri, binding.renderPreset)) {
+        await sessions.discard(candidate);
+        candidate = undefined;
+        trace?.increment("staleDiscards");
+        return undefined;
+      }
+      if (!previewWebviewHost?.acceptsRendererCandidate(candidate, binding.renderPreset)) {
         trace?.increment("rendererConsumerResyncs");
         await sessions.discard(candidate);
         await sessions.closeSource(project.sourceUri);
@@ -1113,7 +1232,10 @@ async function initializeRuntime(
         traceId: binding.traceId,
       };
       const identity = currentPreviewBuildIdentity(revision);
-      if (binding.signal?.aborted || !identity || !previewBuildState.isCurrent(identity)) {
+      if (binding.signal?.aborted || !identity || !previewBuildState.isCurrent(identity)
+        || !projectPresentationIsCurrent(project)
+        || currentPreviewIdentity(project.sourceUri)?.projectionKey !== project.projectionKey
+        || (binding.requestId !== undefined && renderRequestIdBySource.get(project.sourceUri) !== binding.requestId)) {
         await sessions.discard(candidate);
         candidate = undefined;
         trace?.increment("staleDiscards");
@@ -1126,7 +1248,7 @@ async function initializeRuntime(
         candidate.synchronized,
         candidate.ready.diagnostics,
       );
-      if (!routedDiagnostics) {
+      if (!routedDiagnostics || binding.signal?.aborted || !acceptsMountedPreview(project.sourceUri, binding.renderPreset)) {
         await sessions.discard(candidate);
         candidate = undefined;
         trace?.increment("staleDiscards");
@@ -1134,6 +1256,7 @@ async function initializeRuntime(
       }
       if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
       const ready = await previewWebviewHost.publishRendererFrame(candidate, binding);
+      binding.signal?.throwIfAborted();
       trace?.stage("viewportRender", ready.viewportRenderMs ?? 0);
       trace?.stage("iframeTransfer", ready.iframeTransferMs ?? 0);
       trace?.stage("rendererDecode", ready.renderer?.frameDecodeMs ?? 0);
@@ -1146,7 +1269,7 @@ async function initializeRuntime(
       trace?.increment("pageBuffers", ready.renderer.pageBuffers);
       await sessions.commit(candidate);
       committed = true;
-      previewWebviewHost?.commitRendererCandidate(candidate);
+      previewWebviewHost?.commitRendererCandidate(candidate, binding.renderPreset);
 
       const locationProviderKey: LocationProviderKey = Object.freeze({
         kind: "renderer-provider",
@@ -1158,17 +1281,10 @@ async function initializeRuntime(
         method: PREVIEW_RENDERER_METHOD,
         coordinateVersion: "typst-page-points-v1",
       });
-      if (!immutableRendererExports.has(binding.renderKey)) {
-        immutableRendererExports.set(binding.renderKey, {
-          sourceUri: project.sourceUri,
-          snapshot: cloneImmutableTypstExportSnapshot(project, packageGenerations),
-          pins: 0,
-        });
-      }
-      evictImmutableRendererExports(binding.renderKey);
       const artifact = createPreviewArtifact({
         renderKey: binding.renderKey,
         sourceUri: project.sourceUri,
+        renderPreset: binding.renderPreset,
         locationProviderKey,
         visualSnapshot: {
           kind: "renderer",
@@ -1232,8 +1348,8 @@ async function initializeRuntime(
       return artifact;
     } catch (error) {
       if (candidate && !committed) {
-        await sessions.closeSource(project.sourceUri);
-        previewWebviewHost?.resetRenderer();
+        await sessions.closeSource(project.sourceUri, candidate);
+        previewWebviewHost?.resetRenderer(candidate);
       }
       throw error;
     }
@@ -1245,7 +1361,8 @@ async function initializeRuntime(
     signal?: AbortSignal,
   ): Promise<void> => {
     const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === project.sourceUri);
-    if (!document) {
+    if (!document || !projectPresentationIsCurrent(project) || !acceptsMountedPreview(project.sourceUri, projectRenderPreset(project))
+      || (requestId !== undefined && renderRequestIdBySource.get(project.sourceUri) !== requestId)) {
       trace?.increment("staleDiscards");
       trace?.finish("stale-discarded");
       if (trace) previewTraces.delete(trace.traceId);
@@ -1256,7 +1373,9 @@ async function initializeRuntime(
       if (trace) previewTraces.delete(trace.traceId);
       return;
     }
-    const operationSignal = signal ?? new AbortController().signal;
+    const operationSignal = signal
+      ? AbortSignal.any([signal, surfacePublicationAbort.signal])
+      : surfacePublicationAbort.signal;
     operationSignal.throwIfAborted();
     const packageGenerations = await typstPackageService.prepareProject(project.projectDigest, operationSignal);
     installPreviewPackageGenerations(packageGenerations);
@@ -1265,7 +1384,8 @@ async function initializeRuntime(
       signal: operationSignal,
     };
     trace?.renderKey(binding.renderKey);
-    if (previewFixtureActiveSourceUri === project.sourceUri) {
+    if (previewFixtureActiveSourceUri === project.sourceUri || !projectPresentationIsCurrent(project)
+      || (requestId !== undefined && renderRequestIdBySource.get(project.sourceUri) !== requestId)) {
       trace?.finish("coalesced");
       if (trace) previewTraces.delete(trace.traceId);
       return;
@@ -1298,7 +1418,7 @@ async function initializeRuntime(
         if (!previewRendererSessions || tinymist?.backend.capabilities().has(PREVIEW_RENDERER_METHOD) !== true) {
           throw new Error("Qualified incremental preview renderer is unavailable");
         }
-        artifact = await renderWithPersistentRenderer(project, binding, packageGenerations, trace);
+        artifact = await renderWithPersistentRenderer(project, binding, trace);
       } else {
         await preview.update(project, binding);
         artifact = preview.displayedArtifact;
@@ -1314,6 +1434,14 @@ async function initializeRuntime(
         if (trace) previewTraces.delete(trace.traceId);
         return;
       }
+      if (artifact.renderPreset.kind === "output" && !immutablePreviewExports.has(binding.renderKey)) {
+        immutablePreviewExports.set(binding.renderKey, {
+          sourceUri: project.sourceUri,
+          snapshot: cloneImmutableTypstExportSnapshot(project, packageGenerations),
+          pins: 0,
+        });
+      }
+      evictImmutablePreviewExports(binding.renderKey);
       if (artifact.visualSnapshot.kind === "renderer") {
         controller.stores.previewArtifacts.replaceRendererArtifact(artifact);
       } else {
@@ -1321,7 +1449,7 @@ async function initializeRuntime(
       }
       controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
     } catch (error) {
-      if (operationSignal.aborted) {
+      if (operationSignal.aborted || !acceptsMountedPreview(project.sourceUri, binding.renderPreset)) {
         trace?.finish("aborted");
         if (trace) previewTraces.delete(trace.traceId);
         return;
@@ -1377,15 +1505,18 @@ async function initializeRuntime(
       trace?.finish("failed");
       if (trace) previewTraces.delete(trace.traceId);
       controller.stores.previewArtifacts.fail(project.sourceUri, binding.renderKey);
+      latestArtifactWaiter.failSource(project.sourceUri, failure);
       if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
       throw failure;
     }
-    const advance = exactExportAdvanceBySource.get(project.sourceUri);
-    if (!advance) {
-      exactExportHost?.latest.publish(project.sourceUri, binding.renderKey);
-    } else if (controller.stores.exactExport?.publishLatest(advance, binding.renderKey)) {
-      exactExportAdvanceBySource.delete(project.sourceUri);
-      exactExportHost?.latest.publish(project.sourceUri, binding.renderKey);
+    if (binding.renderPreset.kind === "output") {
+      const advance = exactExportAdvanceBySource.get(project.sourceUri);
+      if (!advance) {
+        latestArtifactWaiter.publish(project.sourceUri, binding.renderKey);
+      } else if (controller.stores.exactExport?.publishLatest(advance, binding.renderKey)) {
+        exactExportAdvanceBySource.delete(project.sourceUri);
+        latestArtifactWaiter.publish(project.sourceUri, binding.renderKey);
+      }
     }
     if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
     trace?.stage("visualReady", trace.elapsedMs);
@@ -1562,6 +1693,7 @@ async function initializeRuntime(
         const artifact = createPreviewArtifact({
           renderKey: fixtureRenderKey,
           sourceUri,
+          renderPreset: projectRenderPreset(project),
           locationProviderKey: fixtureProviderKey,
           visualSnapshot: { kind: "svg", pages, imageAssets: [] },
         });
@@ -1581,6 +1713,7 @@ async function initializeRuntime(
         const artifact = createPreviewArtifact({
           renderKey: fixtureRenderKey,
           sourceUri,
+          renderPreset: projectRenderPreset(project),
           locationProviderKey: { kind: "immutable-map", digest: mapDigest, coordinateVersion: "typst-page-points-v1" },
           locationMap: {
             digest: mapDigest,
@@ -1748,22 +1881,25 @@ async function initializeRuntime(
     const entry = project.files.find((file) => file.uri === project.entryUri);
     return { sourceVersion: project.sourceVersion, text: entry?.text };
   };
-  const refreshOpenedPreview = () => {
-    if (!displayedPreviewSourceUri) return;
-    const project = previewProjects.get(displayedPreviewSourceUri);
-    if (project) void renderPreview(project);
-  };
   const closePreviewProject = (sourceUri: string) => {
     controller.stores.closeSource(sourceUri);
     void previewRendererSessions?.closeSource(sourceUri);
     renderProjectSnapshots.close(sourceUri);
-    for (const [renderKey, retained] of immutableRendererExports) {
-      if (retained.sourceUri === sourceUri) immutableRendererExports.delete(renderKey);
+    rendererPresetBySource.delete(sourceUri);
+    const composerOwner = composerOwners.get(sourceUri);
+    composerOwner?.textStateSubscription.dispose();
+    composerOwner?.runtime.dispose();
+    composerOwners.delete(sourceUri);
+    composerMounting.delete(sourceUri);
+    for (const [renderKey, retained] of immutablePreviewExports) {
+      if (retained.sourceUri === sourceUri) immutablePreviewExports.delete(renderKey);
     }
     exactExportAdvanceBySource.delete(sourceUri);
-    exactExportHost?.latest.closeSource(sourceUri);
+    latestArtifactWaiter.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
     if (displayedPreviewSourceUri === sourceUri) {
+      surfacePublicationAbort.abort();
+      mountedPreview = undefined;
       activeGuiRuntime?.textSession?.setActive(false);
       displayedRendererCandidate = undefined;
       if (activePreviewSurface) previewWebviewHost?.releaseSurface(activePreviewSurface.claimant);
@@ -1816,6 +1952,16 @@ async function initializeRuntime(
         own(attachPart(Parts.SIDEBAR_PART, layout.sidebar));
         own(attachPart(Parts.EDITOR_PART, layout.editor));
         own(attachPart(Parts.PANEL_PART, layout.panel));
+        const nativeLayoutService = await getService(ILayoutService) as LayoutService;
+        const editorPart = nativeLayoutService.getPart(Parts.EDITOR_PART)!;
+        // attachPart defers its first layout to ResizeObserver. Give native
+        // panes the SplitView's current allocation before any surface can bind.
+        layout.setEditorPartLayout(() => editorPart.layout(
+          Math.max(editorPart.minimumWidth, Math.min(editorPart.maximumWidth, layout.editor.offsetWidth)),
+          Math.max(editorPart.minimumHeight, Math.min(editorPart.maximumHeight, layout.editor.offsetHeight)),
+          layout.editor.offsetTop,
+          layout.editor.offsetLeft,
+        ));
       }
     },
     workspaceConfig: {
@@ -1850,6 +1996,7 @@ async function initializeRuntime(
   const nativeStorageService = await getService(IStorageService);
   const nativeWebviewService = await getService(IWebviewService);
   const modelService = await getService(IModelService);
+  const modelResolverService = await getService(ITextModelService);
   const codeEditorService = await getService(ICodeEditorService);
   startupProgress.stage("workbench", "complete", "界面 API 已就绪");
   const readPreviewDefaultFitMode = (): "width" | "page" => (
@@ -2109,6 +2256,8 @@ async function initializeRuntime(
     const session = projectionSessionKey(project.entryUri);
     const latest = latestProjectBySource.get(project.sourceUri);
     const retiredSessions = retiredProjectSessions.get(project.sourceUri);
+    if (!projectPresentationIsCurrent(project)
+      || (requestId !== undefined && renderRequestIdBySource.get(project.sourceUri) !== requestId)) return finishTrace("stale-discarded");
     if (retiredSessions?.has(session)) return finishTrace("stale-discarded");
     if ((!latest || latest.session !== session) && !project.full) return finishTrace("stale-discarded");
     if (
@@ -2148,6 +2297,8 @@ async function initializeRuntime(
       sourceDocument.version === project.sourceVersion
       && previewDocumentIncarnations.get(sourceDocument)
         === projectRevision.sourceStaleToken.documentIncarnation
+      && projectPresentationIsCurrent(project)
+      && (requestId === undefined || renderRequestIdBySource.get(project.sourceUri) === requestId)
       && previewBuildState.isCurrent(projectRevision);
     if (displayedPreviewSourceUri === project.sourceUri) preview.invalidate();
     materializationControllers.get(project.sourceUri)?.abort();
@@ -2239,6 +2390,7 @@ async function initializeRuntime(
       latestLanguageProjectionBySource,
       retiredLanguageProjectionSessions,
     );
+    if (tracked) languageSourceContent.set(tracked.token, project.sourceContent);
     if (tracked) acceptedPreviewLanguageProjects?.set(project.sourceUri, project);
     return tracked;
   };
@@ -2249,9 +2401,14 @@ async function initializeRuntime(
   ) => {
     if (
       update.sourceUri !== sourceUri
-      || update.entryUri !== token.entryUri
+      || !isRenderPreset(update.renderPreset)
+      || update.entryUri !== (update.renderPreset.kind === "chat"
+        ? new URL(`main-${token.revision}-chat-${update.renderPreset.widthPt}-v1.typ`, token.entryUri).href
+        : token.entryUri)
       || update.revision !== token.revision
       || update.sourceVersion !== token.sourceVersion
+      || update.sourceContent !== languageSourceContent.get(token)
+      || !projectPresentationIsCurrent(update)
       || latestLanguageProjectionBySource.get(sourceUri) !== token
     ) {
       throw new Error("Render project update does not match the accepted language projection");
@@ -2269,8 +2426,18 @@ async function initializeRuntime(
     admissionQueueDepth = 0,
     queuedTraceId?: string,
   ): Promise<void> => {
-    if (!force && requestedRenderTokens.has(token)) return;
-    requestedRenderTokens.add(token);
+    const renderPreset = renderPresetFor(sourceUri);
+    const presetKey = renderPresetKey(renderPreset);
+    const expectedEntryUri = renderPreset.kind === "chat"
+      ? new URL(`main-${token.revision}-chat-${renderPreset.widthPt}-v1.typ`, token.entryUri).href
+      : token.entryUri;
+    let requested = requestedRenderPresets.get(token);
+    if (!requested) {
+      requested = new Set();
+      requestedRenderPresets.set(token, requested);
+    }
+    if (!force && requested.has(presetKey)) return;
+    requested.add(presetKey);
     const timestamp = previewClock.timestamp(token, force);
     const requestId = (renderRequestIdBySource.get(sourceUri) ?? 0) + 1;
     renderRequestIdBySource.set(sourceUri, requestId);
@@ -2300,13 +2467,14 @@ async function initializeRuntime(
     }));
     try {
       const base = previewCompilerReuseEnabled && !force
-        && projectionSessionKey(renderProjectSnapshots.get(sourceUri)?.entryUri ?? "") === token.session
-        ? renderProjectSnapshots.get(sourceUri)
+        && projectionSessionKey(renderProjectSnapshots.get(sourceUri, renderPreset)?.entryUri ?? "") === token.session
+        ? renderProjectSnapshots.get(sourceUri, renderPreset)
         : undefined;
       const sendRenderRequest = async (forceFull: boolean) => {
         const requestParams: GetTypstRenderProjectParams = {
           uri: sourceUri,
           timestamp,
+          renderPreset,
           ...(traceId ? { traceId } : {}),
           ...(!forceFull && base ? {
             baseRevision: base.revision,
@@ -2331,13 +2499,24 @@ async function initializeRuntime(
       let renderUpdate = await sendRenderRequest(force || !previewCompilerReuseEnabled);
       if (renderUpdate === null) {
         log("preview:error", `Render project unavailable for ${sourceUri}`);
+        if (renderPreset.kind === "output" && latestLanguageProjectionBySource.get(sourceUri) === token
+          && renderRequestIdBySource.get(sourceUri) === requestId && !cancellationToken?.isCancellationRequested) {
+          latestArtifactWaiter.failSource(sourceUri, new Error("当前作品的成品投影不可用，请查看排版预览中的诊断。"));
+        }
       }
       const responseMatchesToken = (candidate: TypstRenderProjectUpdate | null) => Boolean(
         candidate
-        && candidate.entryUri === token.entryUri
+        && candidate.entryUri === expectedEntryUri
         && candidate.revision === token.revision
         && candidate.sourceVersion === token.sourceVersion
         && candidate.traceId === traceId
+        && candidate.sourceUri === sourceUri
+        && candidate.sourceContent === languageSourceContent.get(token)
+        && isRenderPreset(candidate.renderPreset)
+        && renderPresetKey(candidate.renderPreset) === presetKey
+        && renderPresetKey(renderPresetFor(sourceUri)) === presetKey
+        && renderRequestIdBySource.get(sourceUri) === requestId
+        && latestLanguageProjectionBySource.get(sourceUri) === token
       );
       if (
         cancellationToken?.isCancellationRequested
@@ -2348,7 +2527,7 @@ async function initializeRuntime(
         return;
       }
       if (!force && !previewOnChange()) {
-        requestedRenderTokens.delete(token);
+        requested.delete(presetKey);
         finishTrace("coalesced");
         return;
       }
@@ -2385,10 +2564,14 @@ async function initializeRuntime(
         pendingMaterializations.delete(application);
       }
     } catch (error) {
-      requestedRenderTokens.delete(token);
+      requested.delete(presetKey);
       if (cancellationToken?.isCancellationRequested) {
         finishTrace("coalesced");
         return;
+      }
+      if (renderPreset.kind === "output" && latestLanguageProjectionBySource.get(sourceUri) === token
+        && renderRequestIdBySource.get(sourceUri) === requestId) {
+        latestArtifactWaiter.failSource(sourceUri, error);
       }
       finishTrace("failed");
       throw error;
@@ -2769,10 +2952,128 @@ async function initializeRuntime(
     readonly runtime?: ComposerRuntime;
     readonly ui?: ComposerEditorUi;
     readonly setActive?: (active: boolean) => void;
+    presentation: PreviewSurfacePresentation;
+    visible: boolean;
   }
   const previewSurfaceMounts = new Set<PreviewSurfaceMount>();
   const composerDrafts = new Map<string, ComposerEditorDraft>();
+  type ComposerModelReference = IReference<IResolvedTextEditorModel>;
+  interface ComposerDocumentOwner {
+    readonly document: vscode.TextDocument;
+    readonly modelReference: ComposerModelReference;
+    readonly runtimeDocument: ComposerRuntimeDocument;
+    readonly runtime: ComposerRuntime;
+    readonly textSession: NonNullable<ComposerRuntime["textSession"]>;
+    readonly draft: ComposerEditorDraft;
+    readonly textStateSubscription: { dispose(): void };
+    ui?: ComposerEditorUi;
+  }
+  const composerOwners = new Map<string, ComposerDocumentOwner>();
+  const composerMounting = new Map<string, Promise<ComposerEditorMount>>();
+  const modeSwitchAbort = new AbortController();
+  const nativeCompositions = new Map<ICodeEditor, {
+    readonly sourceUri: string;
+    readonly promise: Promise<void>;
+    readonly resolve: () => void;
+  }>();
+  const nativeCompositionSubscriptions = new Map<ICodeEditor, readonly { dispose(): void }[]>();
+  const trackNativeComposition = (editor: ICodeEditor): void => {
+    if (nativeCompositionSubscriptions.has(editor)) return;
+    const finish = (): void => {
+      nativeCompositions.get(editor)?.resolve();
+      nativeCompositions.delete(editor);
+    };
+    const detach = (): void => {
+      finish();
+      for (const subscription of nativeCompositionSubscriptions.get(editor) ?? []) subscription.dispose();
+      nativeCompositionSubscriptions.delete(editor);
+    };
+    nativeCompositionSubscriptions.set(editor, [
+      editor.onDidCompositionStart(() => {
+        finish();
+        const resource = editor.getModel()?.uri;
+        if (!resource || !isComposerResource(resource)) return;
+        const { promise, resolve } = Promise.withResolvers<void>();
+        nativeCompositions.set(editor, { sourceUri: resource.toString(), promise, resolve });
+      }),
+      editor.onDidCompositionEnd(finish),
+      editor.onDidChangeModel(finish),
+      editor.onDidDispose(detach),
+    ]);
+  };
+  for (const editor of codeEditorService.listCodeEditors()) trackNativeComposition(editor);
+  subscribe(codeEditorService.onCodeEditorAdd(trackNativeComposition));
+  const waitForNativeComposition = async (sourceUri: string): Promise<void> => {
+    modeSwitchAbort.signal.throwIfAborted();
+    const pending = [...nativeCompositions.values()]
+      .filter((composition) => composition.sourceUri === sourceUri)
+      .map((composition) => composition.promise);
+    if (pending.length === 0) return;
+    const { promise, resolve, reject } = Promise.withResolvers<void>();
+    const abort = () => { reject(modeSwitchAbort.signal.reason); };
+    modeSwitchAbort.signal.addEventListener("abort", abort, { once: true });
+    void Promise.all(pending).then(() => { resolve(); }, reject);
+    try { await promise; }
+    finally { modeSwitchAbort.signal.removeEventListener("abort", abort); }
+  };
+  own({ dispose() {
+    for (const subscriptions of nativeCompositionSubscriptions.values()) {
+      for (const subscription of subscriptions) subscription.dispose();
+    }
+    nativeCompositionSubscriptions.clear();
+    for (const composition of nativeCompositions.values()) composition.resolve();
+    nativeCompositions.clear();
+  } });
+  const managedAuthoringParts = [
+    Parts.ACTIVITYBAR_PART, Parts.SIDEBAR_PART, Parts.PANEL_PART,
+    Parts.AUXILIARYBAR_PART, Parts.STATUSBAR_PART,
+  ] as const;
+  const nativeLayoutService = await getService(ILayoutService) as LayoutService;
+  const nativeConfigurationService = await getService(IConfigurationService);
+  let sourcePartsVisibility: Map<Parts, boolean> | undefined;
+  let productEditorOptions: { dispose(): void } | undefined;
+  let sourceBreadcrumbsMemory: boolean | undefined;
+  const setProductWorkbench = (product: boolean): void => {
+    if (product === !!sourcePartsVisibility) return;
+    if (product) {
+      sourcePartsVisibility = new Map(managedAuthoringParts.map((part) => [part, nativeLayoutService.isVisible(part)]));
+      sourceBreadcrumbsMemory = nativeConfigurationService.inspect<boolean>("breadcrumbs.enabled").memory?.value;
+      void nativeConfigurationService.updateValue("breadcrumbs.enabled", false, ConfigurationTarget.MEMORY).catch((error: unknown) => {
+        void showMomoScriptMessage("error", error instanceof Error ? error.message : String(error));
+      });
+      productEditorOptions = nativeEditorGroupsService.mainPart.enforcePartOptions({ showTabs: "none" });
+      for (const part of managedAuthoringParts) nativeLayoutService.setPartHidden(true, part);
+    } else {
+      const previous = sourcePartsVisibility;
+      sourcePartsVisibility = undefined;
+      productEditorOptions?.dispose();
+      productEditorOptions = undefined;
+      void nativeConfigurationService.updateValue("breadcrumbs.enabled", sourceBreadcrumbsMemory, ConfigurationTarget.MEMORY).catch((error: unknown) => {
+        void showMomoScriptMessage("error", error instanceof Error ? error.message : String(error));
+      });
+      sourceBreadcrumbsMemory = undefined;
+      for (const [part, visible] of previous ?? []) nativeLayoutService.setPartHidden(!visible, part);
+    }
+    nativeLayoutService.layout();
+  };
+  subscribe(onPartVisibilityChange(Parts.ACTIVITYBAR_PART, (visible) => layout.setActivityVisible(visible)));
+  subscribe(nativeLayoutService.onDidChangePartVisibility(() => {
+    layout.setStatusVisible(nativeLayoutService.isVisible(Parts.STATUSBAR_PART));
+  }));
+  own({ dispose() { modeSwitchAbort.abort(); setProductWorkbench(false); } });
   const textSessionRoutes = new Map<string, NonNullable<ComposerRuntime["textSession"]>>();
+  let textBridgeReady = false;
+  const publishComposerSessionState = (runtime: ComposerRuntime, state: ComposerState | undefined = runtime.textSession?.state): void => {
+    const session = runtime.textSession;
+    if (!state || !session) return;
+    if (state.status === "blocked") {
+      // A never-issued session cannot contain iframe input or require a drain acknowledgement.
+      if (textSessionRoutes.get(state.sessionId) !== session) return;
+    } else if (!textBridgeReady || activeGuiRuntime !== runtime
+      || mountedPreview?.claimant !== activePreviewSurface?.claimant || !mountedPreview) return;
+    textSessionRoutes.set(state.sessionId, session);
+    previewWebviewHost?.postComposerState(state);
+  };
   const textDrainWaiters = new Set<() => void>();
   const waitForTextChannelDrain = (signal: AbortSignal): Promise<void> => {
     signal.throwIfAborted();
@@ -2801,12 +3102,12 @@ async function initializeRuntime(
   let previewSourcesReady = false;
   const mobileComposerMedia = matchMedia("(max-width: 550px)");
   const collapseCompactGuiNavigation = (): void => {
-    if (!mobileComposerMedia.matches) return;
-    if (isPartVisibile(Parts.SIDEBAR_PART)) setPartVisibility(Parts.SIDEBAR_PART, false);
-    if (isPartVisibile(Parts.AUXILIARYBAR_PART)) setPartVisibility(Parts.AUXILIARYBAR_PART, false);
+    if (activePreviewSurface?.input.typeId === COMPOSER_EDITOR_ID) setProductWorkbench(true);
   };
   const surfaceIsVisible = (surface: PreviewSurfaceMount): boolean => (
-    surface.clippingContainer.isConnected
+    surface.visible
+    && isPartVisibile(Parts.EDITOR_PART)
+    && surface.clippingContainer.isConnected
     && surface.clippingContainer.clientWidth > 0
     && surface.clippingContainer.clientHeight > 0
     && nativeEditorGroupsService.mainPart.groups.some((group) => group.activeEditor?.matches(surface.input))
@@ -2817,23 +3118,46 @@ async function initializeRuntime(
     // follows the real Workbench editor part, not a focused fragment editor.
     const active = nativeEditorGroupsService.mainPart.activeGroup.activeEditor;
     const visible = [...previewSurfaceMounts].filter(surfaceIsVisible);
+    if (active?.resource && active.typeId !== COMPOSER_EDITOR_ID && active.typeId !== PREVIEW_HOST_EDITOR_ID
+      && isComposerResource(active.resource)) authoringState(active.resource.toString()).mode = "source";
     const next = visible.find((surface) => active?.matches(surface.input))
-      ?? visible.find((surface) => !surface.runtime && surface.document.uri.toString() === active?.resource?.toString())
-      ?? visible.find((surface) => !surface.runtime && surface === activePreviewSurface);
+      ?? visible.find((surface) => surface.input.typeId === PREVIEW_HOST_EDITOR_ID && surface.document.uri.toString() === active?.resource?.toString())
+      ?? visible.find((surface) => surface.input.typeId === PREVIEW_HOST_EDITOR_ID && surface === activePreviewSurface);
     const changedSurface = activePreviewSurface !== next;
-    if (changedSurface) activeGuiRuntime?.textSession?.setActive(false);
+    if (changedSurface || mountedPreview?.presentation !== next?.presentation) {
+      exactExportUi.cancel();
+      surfacePublicationAbort.abort();
+      surfacePublicationAbort = new AbortController();
+      mountedPreview = undefined;
+    }
+    if (changedSurface && activeGuiRuntime !== next?.runtime) activeGuiRuntime?.textSession?.setActive(false);
     if (changedSurface) {
       if (activePreviewSurface) previewWebviewHost.releaseSurface(activePreviewSurface.claimant);
       activePreviewSurface = next;
     }
     activeGuiRuntime = next?.runtime;
     for (const surface of previewSurfaceMounts) surface.setActive?.(surface === next);
-    if (changedSurface && next?.runtime) collapseCompactGuiNavigation();
+    activeGuiRuntime?.textSession?.setActive(true);
+    // Native Part changes synchronously re-enter surface sync while the old GUI
+    // input is still active. The accepted mode, not that retiring input, owns chrome.
+    setProductWorkbench(next?.input.typeId === COMPOSER_EDITOR_ID && active?.matches(next.input) === true
+      && authoringState(next.document.uri.toString()).mode !== "source");
     if (!next) return;
-    if (next.runtime) currentComposerUri = next.document.uri;
-    previewWebviewHost.attachSurface(next.claimant, next.container, next.clippingContainer, next.runtime ? "gui" : "preview");
+    const sourceUri = next.document.uri.toString();
+    const state = authoringState(sourceUri);
+    const previousPreset = renderPresetKey(renderPresetFor(sourceUri));
+    if (next.runtime) {
+      currentComposerUri = next.document.uri;
+      state.canvasMode = next.presentation === "chat" ? "chat" : "layout";
+      if (next.input.typeId === COMPOSER_EDITOR_ID && !state.transition) state.mode = state.canvasMode;
+    }
+    const changedPreset = previousPreset !== renderPresetKey(renderPresetFor(sourceUri));
+    previewInteraction.setPresentation(next.presentation);
+    previewWebviewHost.attachSurface(next.claimant, next.container, next.clippingContainer, next.presentation);
+    mountedPreview = { sourceUri, presentation: next.presentation, claimant: next.claimant };
+    if (next.runtime) publishComposerSessionState(next.runtime);
     previewWebviewHost.layoutSurface(next.claimant);
-    if (displayedPreviewSourceUri !== next.document.uri.toString()
+    if (displayedPreviewSourceUri !== sourceUri || changedPreset
       || (changedSurface && (previewInteraction.identity?.sourceStaleToken.documentVersion !== next.document.version
         || (next.runtime && !displayedRendererCandidate)))) {
       previewSourceBinding = bindPreviewSource(next.document).catch((error: unknown) => {
@@ -2845,7 +3169,11 @@ async function initializeRuntime(
     sourceUri: string | undefined = displayedPreviewSourceUri,
   ): Promise<boolean> => {
     if (!sourceUri) return false;
-    if (activePreviewSurface?.runtime && activePreviewSurface.document.uri.toString() === sourceUri) {
+    await authoringDocuments.get(sourceUri)?.transition;
+    if (activePreviewSurface?.runtime && activePreviewSurface.document.uri.toString() === sourceUri
+      && authoringState(sourceUri).mode !== "source"
+      && surfaceIsVisible(activePreviewSurface)
+      && nativeEditorGroupsService.mainPart.activeGroup.activeEditor?.matches(activePreviewSurface.input)) {
       previewWebviewHost?.focusSurface(activePreviewSurface.claimant);
       return true;
     }
@@ -2872,6 +3200,7 @@ async function initializeRuntime(
   subscribe(nativeEditorService.onDidActiveEditorChange(syncPreviewSurface));
   subscribe(nativeEditorService.onDidVisibleEditorsChange(syncPreviewSurface));
   subscribe(nativeEditorGroupsService.mainPart.onDidChangeActiveGroup(syncPreviewSurface));
+  subscribe(nativeEditorGroupsService.mainPart.onDidLayout(syncPreviewSurface));
   subscribe(onPartVisibilityChange(Parts.EDITOR_PART, syncPreviewSurface));
   own(ownEventListener(window, "resize", syncPreviewSurface));
   own(ownEventListener(mobileComposerMedia, "change", () => {
@@ -2881,13 +3210,24 @@ async function initializeRuntime(
   let guiEditRequests = 0;
   let guiApplyAttempts = 0;
   let lastGuiNotification: string | null = null;
-  const pendingTextRecoveries: Array<{
+  interface PendingTextRecovery {
     readonly id: string;
+    readonly uri: string;
     readonly owner: object;
     text: string;
     reason: string;
     readonly resolve: (expectedText: string) => boolean;
-  }> = [];
+  }
+  const pendingTextRecoveries: PendingTextRecovery[] = [];
+  const preparedTextRecoveries = new Map<string, {
+    readonly prepared: {
+      readonly record: PendingTextRecovery;
+      readonly text: string;
+      readonly session: NonNullable<ComposerRuntime["textSession"]>;
+      readonly target: ComposerTextRecoveryTarget;
+    };
+    readonly confirmation: ComposerTextRecoveryConfirmation;
+  }>();
   const recoveryStatus = own(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 40));
   recoveryStatus.command = "mmt.composer.recoverInput";
   recoveryStatus.tooltip = "复制或丢弃未提交文字；不会自动覆盖源码";
@@ -2895,6 +3235,71 @@ async function initializeRuntime(
     recoveryStatus.text = `$(warning) 未提交输入 (${pendingTextRecoveries.length})`;
     if (pendingTextRecoveries.length > 0) recoveryStatus.show();
     else recoveryStatus.hide();
+    for (const surface of previewSurfaceMounts) surface.ui?.refresh();
+  };
+  const resolveTextRecovery = (record: PendingTextRecovery, text: string): boolean => {
+    const index = pendingTextRecoveries.indexOf(record);
+    if (index < 0 || record.text !== text || !record.resolve(text)) return false;
+    pendingTextRecoveries.splice(index, 1);
+    preparedTextRecoveries.delete(record.id);
+    refreshRecoveryStatus();
+    return true;
+  };
+  const recoveryForUri = (uri: string, id: string): PendingTextRecovery => {
+    const record = pendingTextRecoveries.find((candidate) => candidate.uri === uri && candidate.id === id);
+    if (!record) throw new Error("未提交文字已改变，请重新选择恢复记录。");
+    return record;
+  };
+  const prepareTextRecovery = (uri: string, id: string): ComposerTextRecoveryConfirmation | undefined => {
+    preparedTextRecoveries.delete(id);
+    const record = recoveryForUri(uri, id);
+    if (pendingTextRecoveries.find((candidate) => candidate.owner === record.owner) !== record) {
+      void showMomoScriptMessage("warning", "请先处理同一正文会话中较早的未提交文字。");
+      return undefined;
+    }
+    const surface = activePreviewSurface;
+    const session = surface?.runtime?.textSession;
+    const target = session?.captureRecoveryTarget();
+    const snapshot = surface?.runtime?.state.snapshot;
+    if (!controller.acceptingWork || provider?.coordinator.state.lease !== "writer"
+      || !surface || surface.document.uri.toString() !== uri || !session || !target || !snapshot) {
+      void showMomoScriptMessage("warning", "请先在当前作品的 SVG 正文中重新选择要恢复到的位置。");
+      return undefined;
+    }
+    const endpoints = [target.selection.anchor, target.selection.focus];
+    const selected = endpoints.map((endpoint) => snapshot.nodes.find((node) => node.nodeKey === endpoint.node.nodeKey));
+    if (selected.some((node) => !node || node.kind === "opaque" || !node.textEditing)) return undefined;
+    const summary = (node: NonNullable<typeof selected[number]>): string => {
+      const position = snapshot.nodes.filter((candidate) => candidate.kind !== "opaque").findIndex((candidate) => candidate.nodeKey === node.nodeKey) + 1;
+      const text = node.kind === "opaque" ? "" : node.textEditing?.text ?? "";
+      const excerpt = text.replace(/\s+/gu, " ").slice(0, 48);
+      return `第 ${position} 条${excerpt ? `：${excerpt}` : "（空正文）"}`;
+    };
+    const [first, last] = selected as [NonNullable<typeof selected[number]>, NonNullable<typeof selected[number]>];
+    const targetSummary = first.nodeKey === last.nodeKey ? summary(first) : `${summary(first)} → ${summary(last)}`;
+    const confirmation = { targetSummary };
+    preparedTextRecoveries.set(id, { prepared: { record, text: record.text, session, target }, confirmation });
+    return confirmation;
+  };
+  const retryTextRecovery = async (uri: string, id: string, confirmation: ComposerTextRecoveryConfirmation): Promise<boolean> => {
+    const entry = preparedTextRecoveries.get(id);
+    if (!entry || entry.confirmation !== confirmation) {
+      await showMomoScriptMessage("warning", "恢复目标或文字已改变，请重新选择正文并确认。");
+      return false;
+    }
+    const { prepared } = entry;
+    preparedTextRecoveries.delete(id);
+    const record = recoveryForUri(uri, id);
+    if (prepared.record !== record || prepared.text !== record.text
+      || pendingTextRecoveries.find((candidate) => candidate.owner === record.owner) !== record
+      || activePreviewSurface?.document.uri.toString() !== uri
+      || activeGuiRuntime?.textSession !== prepared.session || provider?.coordinator.state.lease !== "writer") {
+      await showMomoScriptMessage("warning", "恢复目标或文字已改变，请重新选择正文并确认。");
+      return false;
+    }
+    if (!await prepared.session.retryRecoveredText(prepared.text, prepared.target)) return false;
+    resolveTextRecovery(record, prepared.text);
+    return true;
   };
   let recoveryPrompt: Promise<void> | undefined;
   const showInputRecovery = (): Promise<void> => {
@@ -2910,9 +3315,7 @@ async function initializeRuntime(
       if (!choice) return;
       if (record.text !== offeredText) throw new Error("未提交文字已更新，请重新确认恢复内容");
       if (choice.action === "copy") await navigator.clipboard.writeText(offeredText);
-      if (!record.resolve(offeredText)) throw new Error("未提交文字的恢复顺序或内容已改变，请重试");
-      pendingTextRecoveries.shift();
-      refreshRecoveryStatus();
+      if (!resolveTextRecovery(record, offeredText)) throw new Error("未提交文字的恢复顺序或内容已改变，请重试");
     })().finally(() => { recoveryPrompt = undefined; });
     return recoveryPrompt;
   };
@@ -2926,61 +3329,146 @@ async function initializeRuntime(
   }));
   own({
     quiesce() {
-      for (const surface of previewSurfaceMounts) surface.runtime?.quiesce();
+      modeSwitchAbort.abort();
+      surfacePublicationAbort.abort();
+      for (const owner of composerOwners.values()) owner.runtime.quiesce();
     },
     dispose() {
-      for (const surface of previewSurfaceMounts) surface.runtime?.dispose();
+      for (const owner of composerOwners.values()) {
+        owner.textStateSubscription.dispose();
+        owner.runtime.dispose();
+        owner.modelReference.dispose();
+      }
+      composerOwners.clear();
+      composerMounting.clear();
       textSessionRoutes.clear();
       for (const check of textDrainWaiters) check();
     },
   });
+  const defaultExportFormat = (): "pdf" | "png" => {
+    const format = vscode.workspace.getConfiguration("mmt.export").get<unknown>("defaultFormat", "pdf");
+    return format === "png" ? "png" : "pdf";
+  };
+  const outputArtifactFor = (document: vscode.TextDocument, requireCurrent = false): PreviewArtifact => {
+    const sourceUri = document.uri.toString();
+    const displayed = preview.displayedArtifact;
+    const retained = displayed && controller.stores.previewArtifacts.get(displayed.renderKey);
+    const identity = previewInteraction.identity;
+    if (!controller.acceptingWork || !vscode.workspace.textDocuments.includes(document)
+      || displayedPreviewSourceUri !== sourceUri || mountedPreview?.sourceUri !== sourceUri
+      || mountedPreview.presentation === "chat" || renderPresetFor(sourceUri).kind !== "output"
+      || !displayed || displayed.sourceUri !== sourceUri || displayed.renderPreset.kind !== "output"
+      || preview.displayedRenderKey !== displayed.renderKey
+      || !retained || retained.sourceUri !== sourceUri || retained.renderPreset.kind !== "output"
+      || identity?.sourceUri !== sourceUri
+      || identity.sourceStaleToken.documentIncarnation !== previewDocumentIncarnations.get(document)) {
+      throw new Error("当前没有此作品已接受的成品排版快照，请打开排版预览。");
+    }
+    const snapshot = controller.stores.previewArtifacts.document(sourceUri);
+    if (requireCurrent && (retained.stale || snapshot.status !== "ready"
+      || snapshot.displayedArtifact?.renderKey !== displayed.renderKey
+      || (snapshot.requestedRenderKey !== undefined && snapshot.requestedRenderKey !== displayed.renderKey)
+      || identity.sourceStaleToken.documentVersion !== document.version)) {
+      throw new Error("尚未取得此作品当前版本的成品排版，请查看排版预览中的实际错误。");
+    }
+    return retained;
+  };
+  const openProductExportPanel = async (sourceUri: string): Promise<void> => {
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === sourceUri);
+    if (!document || !isComposerResource(document.uri)) throw new Error("作品文档已关闭，无法导出。");
+    await switchAuthoringMode(sourceUri, "layout");
+    outputArtifactFor(document, true);
+    const surface = activePreviewSurface;
+    if (surface?.document !== document || surface.presentation !== "layout" || !surface.ui) {
+      throw new Error("此作品的排版预览已关闭，未打开导出面板。");
+    }
+    exactExportUi.bind(sourceUri);
+    surface.ui.openExportPanel();
+  };
+  const downloadComposerSource = async (sourceUri: string): Promise<void> => {
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === sourceUri);
+    if (!document || !isComposerResource(document.uri)) throw new Error("作品文档已关闭，无法下载源文件。");
+    const owner = composerOwners.get(sourceUri);
+    await waitForNativeComposition(sourceUri);
+    await owner?.ui?.prepareModeSwitch();
+    await owner?.textSession.waitForCompositionEnd();
+    await owner?.textSession.drainAccepted();
+    if (!controller.acceptingWork || !vscode.workspace.textDocuments.includes(document)) {
+      throw new Error("作品文档已关闭，未下载源文件。");
+    }
+    downloadBlob(
+      new Blob([document.getText()], { type: "text/plain;charset=utf-8" }),
+      document.uri.path.split("/").at(-1) || `${workTitle(document.uri)}.mmt`,
+    );
+  };
   const exportExactSnapshot = async (
     sourceUri: string,
-    format: "pdf" | "png" | "jpg" | "svg",
-    staleChoice?: "export-displayed" | "wait-for-latest",
-    scheduleWithPreviewQueue = true,
+    format: ExactExportFormat,
+    options: Pick<ExactExportRequest, "staleChoice" | "pageIndex"> = {},
+    inputPolicy: "drain-accepted" | "snapshot-only" = "drain-accepted",
   ): Promise<ExactExportResult | undefined> => {
-    const boundExport = exactExportUi.bind(sourceUri);
-    if (boundExport.availability === "no-document") {
-      await openPreview(sourceUri);
-      void showMomoScriptMessage("info", "已刷新同一文档的预览；渲染完成后再次导出。");
-      return undefined;
-    }
-    const sourceName = new URL(sourceUri).pathname.split("/").at(-1) ?? "document";
-    const baseName = sourceName.replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
-    const exportRenderKey = preview.displayedRenderKey;
-    let exported: ExactExportResult | undefined;
-    if (scheduleWithPreviewQueue && previewSchedulerEnabled && exportRenderKey) {
-      const sequence = previewRenderQueue.enqueueExport({
-        sourceUri,
-        renderKey: exportRenderKey,
-        traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
-      }, async (_accepted, signal) => {
-        const cancel = () => exactExportUi.cancel();
-        signal.addEventListener("abort", cancel, { once: true });
-        try {
-          exported = await exactExportUi.export(format, staleChoice);
-        } finally {
-          signal.removeEventListener("abort", cancel);
-        }
-      });
-      await previewRenderQueue.waitForExport(sourceUri, sequence);
-    } else {
-      exported = await exactExportUi.export(format, staleChoice);
-    }
-    if (!exported) {
-      const availability = exactExportUi.state.availability;
-      if (availability === "partial" || availability === "failed" || availability === "evicted" || availability === "no-document") {
-        await openPreview(sourceUri);
-        void showMomoScriptMessage("info", "已刷新同一文档的预览；渲染完成后再次导出。");
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === sourceUri);
+    if (!document) throw new Error("文档已关闭，无法导出成品。");
+    if (inputPolicy === "drain-accepted" && isComposerResource(document.uri)) {
+      const owner = composerOwners.get(sourceUri);
+      await waitForNativeComposition(sourceUri);
+      await owner?.ui?.prepareModeSwitch();
+      await owner?.textSession.waitForCompositionEnd();
+      await owner?.textSession.drainAccepted();
+      if (authoringState(sourceUri).canvasMode !== "layout" || mountedPreview?.sourceUri !== sourceUri) {
+        await switchAuthoringMode(sourceUri, "layout");
       }
-      return undefined;
     }
-    downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
-    log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
-    return exported;
+    const artifact = outputArtifactFor(document);
+    const exportRenderKey = artifact.renderKey;
+    const releaseArtifact = controller.stores.previewArtifacts.pin(exportRenderKey);
+    const immutable = immutablePreviewExports.get(exportRenderKey);
+    if (immutable) immutable.pins += 1;
+    let exported: ExactExportResult | undefined;
+    const run = async (signal?: AbortSignal): Promise<void> => {
+      signal?.throwIfAborted();
+      if (outputArtifactFor(document).renderKey !== exportRenderKey || exactExportUi.state.sourceUri !== sourceUri) {
+        throw new Error("排版快照已改变，请在当前作品中重新选择导出范围。");
+      }
+      const cancel = () => exactExportUi.cancel();
+      signal?.addEventListener("abort", cancel, { once: true });
+      try {
+        const operation = exactExportUi.export(format, options);
+        if (options.staleChoice === "wait-for-latest" && exactExportUi.state.phase === "waiting"
+          && !previewOnChange() && previewFixtureActiveSourceUri !== sourceUri) {
+          previewSourceBinding = bindPreviewSource(document);
+          void previewSourceBinding.catch((error: unknown) => latestArtifactWaiter.failSource(sourceUri, error));
+        }
+        exported = await operation;
+      } finally {
+        signal?.removeEventListener("abort", cancel);
+      }
+    };
+    try {
+      exactExportUi.bind(sourceUri);
+      if (previewSchedulerEnabled) {
+        const sequence = previewRenderQueue.enqueueExport({
+          sourceUri,
+          renderKey: exportRenderKey,
+          traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
+        }, async (accepted, signal) => {
+          if (!previewRenderQueue.isCurrentExport(sourceUri, accepted.sequence, exportRenderKey)
+            || accepted.sourceUri !== sourceUri || accepted.renderKey !== exportRenderKey) return;
+          await run(signal);
+        });
+        await previewRenderQueue.waitForExport(sourceUri, sequence);
+      } else {
+        await run();
+      }
+      return exported;
+    } finally {
+      releaseArtifact();
+      if (immutable) {
+        immutable.pins -= 1;
+        evictImmutablePreviewExports();
+      }
+    }
   };
-  const mobileComposerDocuments = new WeakSet<vscode.TextDocument>();
   let currentComposerUri: vscode.Uri | undefined;
   const isMmtDocument = (document: vscode.TextDocument): boolean => isComposerResource(document.uri);
   const openComposerDocument = async (resource: vscode.Uri): Promise<void> => {
@@ -2990,35 +3478,35 @@ async function initializeRuntime(
       ? opened
       : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
     if (!isMmtDocument(textDocument)) throw new Error("GUI 创作只支持工作区 MMT 文档");
-    mobileComposerDocuments.add(textDocument);
-    await vscode.commands.executeCommand("vscode.openWith", textDocument.uri, COMPOSER_EDITOR_ID);
-    await vscode.commands.executeCommand("workbench.action.keepEditor");
-    collapseCompactGuiNavigation();
+    await switchAuthoringMode(textDocument.uri.toString(), "chat");
     await nativeStorageService.flush();
   };
   const createComposerDocument = async (): Promise<void> => {
     const name = await vscode.window.showInputBox({
-      title: "新建 MomoScript",
-      prompt: "输入工作区文件名（必须以 .mmt 结尾）",
-      placeHolder: "story.mmt",
+      title: "新建作品",
+      prompt: "输入作品名",
+      placeHolder: "例如：放学后的对话",
       validateInput(value) {
-        if (!value || value === "." || value === "..") return "文件名不能为空或使用 . / ..";
-        if (value.includes("/") || value.includes("\\")) return "文件名不能包含路径分隔符";
-        if (!/^[^/\\]+\.mmt$/u.test(value)) return "文件名必须以 .mmt 结尾";
+        const title = value.trim().replace(/[/\\\u0000-\u001f\u007f-\u009f]/gu, "_").replace(/(?:\.mmt)+$/i, "").trim();
+        if (!title || title === "." || title === "..") return "作品名不能为空或使用 . / ..";
         return undefined;
       },
     });
-    if (!name) return;
-    const resource = vscode.Uri.joinPath(WORKSPACE, name);
-    try {
-      await vscode.workspace.fs.stat(resource);
-      void showMomoScriptMessage("warning", `文件已存在：${name}`);
-      return;
-    } catch (error) {
-      if (!(error instanceof vscode.FileSystemError) || error.code !== "FileNotFound") throw error;
+    if (name === undefined) return;
+    const title = name.trim().replace(/[/\\\u0000-\u001f\u007f-\u009f]/gu, "_").replace(/(?:\.mmt)+$/i, "").trim();
+    if (!title || title === "." || title === "..") return;
+    for (let ordinal = 1; ; ordinal += 1) {
+      const filename = `${title}${ordinal === 1 ? "" : ` (${ordinal})`}.mmt`;
+      const resource = vscode.Uri.joinPath(WORKSPACE, filename);
+      try {
+        await vscode.workspace.fs.stat(resource);
+      } catch (error) {
+        if (!(error instanceof vscode.FileSystemError) || error.code !== "FileNotFound") throw error;
+        await vscode.workspace.fs.writeFile(resource, new Uint8Array());
+        await openComposerDocument(resource);
+        return;
+      }
     }
-    await vscode.workspace.fs.writeFile(resource, new Uint8Array());
-    await openComposerDocument(resource);
   };
   const chooseComposerDocument = async (): Promise<void> => {
     const files = await Promise.all([
@@ -3027,8 +3515,8 @@ async function initializeRuntime(
     ]);
     const byUri = new Map(files.flat().map((uri) => [uri.toString(), uri]));
     const picked = await vscode.window.showQuickPick(
-      [...byUri.values()].map((uri) => ({ label: uri.path.split("/").at(-1) ?? uri.path, description: uri.path, uri })),
-      { title: "打开 MomoScript GUI 创作", placeHolder: "选择工作区 MMT 文档" },
+      [...byUri.values()].map((uri) => ({ label: workTitle(uri), description: uri.path, uri })),
+      { title: "打开作品", placeHolder: "选择已有作品" },
     );
     if (picked) await openComposerDocument(picked.uri);
   };
@@ -3042,20 +3530,35 @@ async function initializeRuntime(
     }
     await openComposerDocument(selected);
   }));
-  const maybeOpenMobileComposer = (editor: vscode.TextEditor | undefined) => {
-    const textDocument = editor?.document;
-    if (!mobileComposerMedia.matches || !textDocument || !isMmtDocument(textDocument)) return;
-    if (mobileComposerDocuments.has(textDocument)) return;
-    mobileComposerDocuments.add(textDocument);
-    setTimeout(() => {
-      if (!controller.acceptingWork) return;
-      void openComposerDocument(textDocument.uri).catch((error: unknown) => {
-        void showMomoScriptMessage("error", error instanceof Error ? error.message : String(error));
-      });
-    }, 0);
-  };
-  subscribe(vscode.window.onDidChangeActiveTextEditor(maybeOpenMobileComposer));
-  maybeOpenMobileComposer(vscode.window.activeTextEditor);
+  subscribe(vscode.commands.registerCommand("mmt.composer.new", createComposerDocument));
+  subscribe(vscode.commands.registerCommand("mmt.composer.choose", chooseComposerDocument));
+  const sourceAuthoringContext = ContextKeyExpr.and(
+    ContextKeyExpr.equals("resourceScheme", WORKSPACE.scheme),
+    ContextKeyExpr.equals("editorLangId", "mmt"),
+  );
+  const productExportCommand = { id: "mmt.export.work", title: "导出作品" };
+  const sourceDownloadCommand = { id: "mmt.composer.downloadSource", title: "下载源文件" };
+  subscribe(vscode.commands.registerCommand(productExportCommand.id, async (resource?: vscode.Uri) => {
+    const sourceUri = (resource ?? nativeEditorService.activeEditor?.resource ?? currentComposerUri)?.toString();
+    if (!sourceUri) throw new Error("请先打开一个 MomoScript 作品。");
+    await openProductExportPanel(sourceUri);
+  }));
+  subscribe(vscode.commands.registerCommand(sourceDownloadCommand.id, async (resource?: vscode.Uri) => {
+    const sourceUri = (resource ?? nativeEditorService.activeEditor?.resource ?? currentComposerUri)?.toString();
+    if (!sourceUri) throw new Error("请先打开一个 MomoScript 作品。");
+    await downloadComposerSource(sourceUri);
+  }));
+  own(MenuRegistry.addCommand(productExportCommand));
+  own(MenuRegistry.addCommand(sourceDownloadCommand));
+  own(MenuRegistry.appendMenuItem(MenuId.EditorTitle, {
+    command: productExportCommand, when: sourceAuthoringContext, group: "navigation", order: 2,
+  }));
+  own(MenuRegistry.appendMenuItem(MenuId.EditorTitleContext, {
+    command: sourceDownloadCommand, when: sourceAuthoringContext, group: "navigation", order: 3,
+  }));
+  for (const command of [productExportCommand, sourceDownloadCommand]) {
+    own(MenuRegistry.appendMenuItem(MenuId.CommandPalette, { command, when: sourceAuthoringContext }));
+  }
   const sendRuntimeRequest = (method: "mmt/composerDocument" | "mmt/composerEdit" | "mmt/previewComposerTarget" | "mmt/composerTextSelection" | "mmt/composerTextProjection" | "mmt/mapTypstReadLocations", params: unknown, signal: AbortSignal) => {
     const client = activeClient;
     if (!client) return Promise.reject(new Error("MMT language client is unavailable"));
@@ -3142,6 +3645,162 @@ async function initializeRuntime(
     createWorkbenchPreviewMessageEditor(chatContextAppearance),
     createWorkbenchPreviewAvatarPicker(chatContextAppearance),
   ]);
+  async function saveComposerDocument(sourceUri: string): Promise<void> {
+    const state = authoringState(sourceUri);
+    if (state.saving) return state.saving;
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === sourceUri);
+    if (!document) throw new Error("作品文档已关闭，无法保存");
+    state.saveError = undefined;
+    const operation = (async () => {
+      if (!await document.save()) throw new Error("保存作品失败，请重试");
+      await persistenceByUri.get(sourceUri);
+      if (state.saveError) throw new Error(state.saveError);
+    })();
+    state.saving = operation;
+    for (const surface of previewSurfaceMounts) if (surface.document === document) surface.ui?.refresh();
+    try {
+      await operation;
+    } catch (error) {
+      state.saveError = error instanceof Error ? error.message : String(error);
+      throw error;
+    } finally {
+      state.saving = undefined;
+      for (const surface of previewSurfaceMounts) if (surface.document === document) surface.ui?.refresh();
+    }
+  }
+  async function switchAuthoringMode(sourceUri: string, mode: AuthoringMode): Promise<void> {
+    const state = authoringState(sourceUri);
+    if (state.transition) {
+      await state.transition;
+      return switchAuthoringMode(sourceUri, mode);
+    }
+    const operation = (async () => {
+      modeSwitchAbort.signal.throwIfAborted();
+      const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(sourceUri, true));
+      if (!isComposerResource(document.uri)) throw new Error("创作模式只支持工作区 MomoScript 作品");
+      await waitForNativeComposition(sourceUri);
+      const surface = activePreviewSurface;
+      const owner = composerOwners.get(sourceUri);
+      await surface?.ui?.prepareModeSwitch();
+      await surface?.runtime?.textSession?.waitForCompositionEnd();
+      await surface?.runtime?.textSession?.prepareToLeave(modeSwitchAbort.signal);
+      if (owner && owner.runtime !== surface?.runtime) {
+        await owner.textSession.waitForCompositionEnd();
+        await owner.textSession.prepareToLeave(modeSwitchAbort.signal);
+      }
+      await waitForTextChannelDrain(modeSwitchAbort.signal);
+      modeSwitchAbort.signal.throwIfAborted();
+      if (!vscode.workspace.textDocuments.includes(document)) throw new Error("作品文档已关闭，未切换模式。");
+      const previousMode = state.mode;
+      const previousCanvas = state.canvasMode;
+      state.mode = mode;
+      if (mode !== "source") state.canvasMode = mode;
+      try {
+        if (mode === "source") {
+          setProductWorkbench(false);
+          await vscode.window.showTextDocument(document, { preview: false, preserveFocus: false });
+          if (mobileComposerMedia.matches && nativeEditorGroupsService.mainPart.groups.length > 1) {
+            await vscode.commands.executeCommand("workbench.action.joinAllGroups");
+          }
+        } else {
+          const productSurface = [...previewSurfaceMounts].find((candidate) => (
+            candidate.input.typeId === COMPOSER_EDITOR_ID && candidate.document === document
+          ));
+          if (productSurface) {
+            productSurface.presentation = mode;
+            await nativeEditorService.openEditor(productSurface.input, { pinned: true });
+            productSurface.ui?.refresh();
+          } else {
+            await vscode.commands.executeCommand("vscode.openWith", document.uri, COMPOSER_EDITOR_ID);
+          }
+          await composerMounting.get(sourceUri);
+          if (mobileComposerMedia.matches && nativeEditorGroupsService.mainPart.groups.length > 1) {
+            await vscode.commands.executeCommand("workbench.action.joinAllGroups");
+          }
+          await vscode.commands.executeCommand("workbench.action.keepEditor");
+          syncPreviewSurface();
+          const current = [...previewSurfaceMounts].find((candidate) => (
+            candidate.input.typeId === COMPOSER_EDITOR_ID && candidate.document === document
+          ));
+          if (current) {
+            current.presentation = mode;
+            current.ui?.refresh();
+          }
+          const retainedProject = previewProjects.get(sourceUri);
+          if (previousCanvas !== mode || displayedPreviewSourceUri !== sourceUri
+            || !retainedProject || !projectPresentationIsCurrent(retainedProject)
+            || retainedProject.sourceVersion !== document.version
+            || previewInteraction.identity?.sourceStaleToken.documentVersion !== document.version
+            || preview.displayedArtifact?.renderPreset.kind !== (mode === "chat" ? "chat" : "output")) {
+            materializationControllers.get(sourceUri)?.abort();
+            renderRequestIdBySource.set(sourceUri, (renderRequestIdBySource.get(sourceUri) ?? 0) + 1);
+            preview.invalidate();
+            displayedRendererCandidate = undefined;
+            previewSourceBinding = bindPreviewSource(document);
+          }
+          syncPreviewSurface();
+          const requestedBinding = previewSourceBinding;
+          const publicationSignal = surfacePublicationAbort.signal;
+          try {
+            await requestedBinding;
+          } catch (error) {
+            if (!(error instanceof PreviewRendererCompilationError)) throw error;
+            const artifact = controller.stores.previewArtifacts.document(sourceUri);
+            const failedProject = error.synchronized.project;
+            // The native pane has opened. A diagnosed compile failure belongs
+            // to its current preview, not to mode activation or runtime startup.
+            if (modeSwitchAbort.signal.aborted || publicationSignal.aborted || !controller.acceptingWork
+              || previewSourceBinding !== requestedBinding || !current || activePreviewSurface !== current
+              || current.presentation !== mode || !acceptsMountedPreview(sourceUri, renderPresetFor(sourceUri))
+              || error.sourceUri !== sourceUri || artifact.status !== "failed" || !artifact.requestedRenderKey
+              || previewBuildState.snapshot(sourceUri).status !== "failed"
+              || !rendererDiagnosticIdentityIsCurrent({
+                sourceUri,
+                sourceVersion: failedProject.sourceVersion,
+                revision: failedProject.revision,
+                sourceContent: failedProject.sourceContent,
+                projectDigest: failedProject.projectDigest,
+                projectionKey: failedProject.projectionKey,
+                entryUri: error.synchronized.compilerEntryUri,
+                snapshotToken: artifact.requestedRenderKey,
+                backendGeneration: error.backendGeneration,
+                backendEncoding: "utf-16",
+              })) throw error;
+            void showMomoScriptMessage("error", error.message);
+          }
+          owner?.textSession.setActive(activeGuiRuntime === owner.runtime);
+        }
+      } catch (error) {
+        state.mode = previousMode;
+        state.canvasMode = previousCanvas;
+        syncPreviewSurface();
+        throw error;
+      }
+    })();
+    state.transition = operation;
+    try { await operation; }
+    finally { if (state.transition === operation) state.transition = undefined; }
+  }
+  const resizeChatCanvas = (sourceUri: string, measuredWidth: number): void => {
+    if (!Number.isFinite(measuredWidth)) return;
+    const widthPt = Math.max(240, Math.min(720, Math.round(measuredWidth)));
+    const state = authoringState(sourceUri);
+    if (state.widthPt === widthPt) return;
+    state.widthPt = widthPt;
+    if (state.canvasMode !== "chat" || activePreviewSurface?.document.uri.toString() !== sourceUri) return;
+    materializationControllers.get(sourceUri)?.abort();
+    renderRequestIdBySource.set(sourceUri, (renderRequestIdBySource.get(sourceUri) ?? 0) + 1);
+    preview.invalidate();
+    displayedRendererCandidate = undefined;
+    const client = activeClient;
+    const token = latestLanguageProjectionBySource.get(sourceUri);
+    if (client && token) {
+      previewSourceBinding = dispatchRenderProject(client, sourceUri, token, true).catch((error: unknown) => {
+        void showMomoScriptMessage("error", error instanceof Error ? error.message : String(error));
+      });
+    }
+  };
+  const composerGalleryImages = own(new GalleryImageCache());
   const packSpeakerOptions = (): readonly ComposerSpeakerOption[] => galleryPacks.flatMap((pack) =>
     pack.entities.map((entity) => ({
       reference: `${pack.namespace}::${entity.key}`,
@@ -3149,12 +3808,19 @@ async function initializeRuntime(
       source: "packEntity" as const,
     }))
   );
-  own(composerEditorSurfaces.setMountHandler(async ({ input, container, group }) => {
-    const resource = vscode.Uri.parse(input.resource!.toString(), true);
-    const opened = await vscode.workspace.openTextDocument(resource);
-    const textDocument = opened.languageId === "mmt"
-      ? opened
-      : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
+  const getComposerOwner = (
+    textDocument: vscode.TextDocument,
+    modelReference: ComposerModelReference,
+  ): ComposerDocumentOwner => {
+    const sourceUri = textDocument.uri.toString();
+    const existing = composerOwners.get(sourceUri);
+    if (existing?.document === textDocument) {
+      modelReference.dispose();
+      return existing;
+    }
+    existing?.textStateSubscription.dispose();
+    existing?.runtime.dispose();
+    existing?.modelReference.dispose();
     const runtimeDocument: ComposerRuntimeDocument = {
       uri: textDocument.uri,
       get version() { return textDocument.version; },
@@ -3169,8 +3835,9 @@ async function initializeRuntime(
     currentComposerUri = textDocument.uri;
     const draftUri = textDocument.uri.toString();
     const draft = composerDrafts.get(draftUri) ?? {
-      body: "", speaker: { kind: "builtin" as const }, side: "right" as const,
-      mode: "textRaw" as const, recentSpeakers: [],
+      body: "", speaker: { kind: "builtin" as const }, side: "right" as const, avatarChoice: null,
+      mode: "textRaw" as const, recentSpeakers: [], insertTarget: { kind: "append" as const },
+      statementKind: "message" as const, continued: "auto" as const,
     };
     composerDrafts.set(draftUri, draft);
     const recoveredDraft = pendingTextRecoveries.findIndex((record) => record.owner === draft && record.id === `draft:${draftUri}`);
@@ -3217,31 +3884,15 @@ async function initializeRuntime(
       onDidChangeCatalog: (listener) => galleryPacksChanged.event(listener),
       navigateSource: async (uri, range) => {
         const candidate = await vscode.workspace.openTextDocument(vscode.Uri.parse(uri, true));
-        mobileComposerDocuments.add(candidate);
+        await switchAuthoringMode(uri, "source");
         const editor = await vscode.window.showTextDocument(candidate, { preserveFocus: false });
         editor.selection = new vscode.Selection(range.start.line, range.start.character, range.end.line, range.end.character);
         editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
       },
       openPreview: (uri) => openPreview(uri),
       showHistory: (uri) => vscode.commands.executeCommand("mmt.history.showFileHistory", vscode.Uri.parse(uri, true)),
-      save: async (uri) => {
-        const candidate = vscode.workspace.textDocuments.find((document) => document.uri.toString() === uri);
-        if (candidate) await candidate.save();
-      },
-      exportExact: async (uri) => {
-        const state = exactExportUi.bind(uri);
-        let staleChoice: "export-displayed" | "wait-for-latest" | undefined;
-        if (state.availability === "stale") {
-          const choice = await vscode.window.showQuickPick([
-            { label: "导出当前显示版本", value: "export-displayed" as const },
-            { label: "等待最新版本", value: "wait-for-latest" as const },
-          ], { title: "选择精确导出版本" });
-          if (!choice) return;
-          staleChoice = choice.value;
-        }
-        const format = vscode.workspace.getConfiguration("mmt.export").get<"pdf" | "png">("defaultFormat", "pdf");
-        await exportExactSnapshot(uri, format, staleChoice, false);
-      },
+      save: saveComposerDocument,
+      exportExact: openProductExportPanel,
       notify: (kind, message) => {
         lastGuiNotification = `${kind}:${message}`;
         return showMomoScriptMessage(kind, message);
@@ -3283,7 +3934,7 @@ async function initializeRuntime(
           signal.removeEventListener("abort", close);
         }
       },
-      navigateFocus: (backward) => ui.focusFromCanvas(backward),
+      navigateFocus: (backward) => composerOwners.get(sourceUri)?.ui?.focusFromCanvas(backward),
       sourceSelection: async (selection, snapshot, signal) => {
         const binding = currentTextGeometryBinding();
         if (!binding || binding.snapshot !== snapshot || activeGuiRuntime !== runtime) return undefined;
@@ -3299,10 +3950,13 @@ async function initializeRuntime(
         if (existing) {
           existing.text = text;
           existing.reason = reason;
+          preparedTextRecoveries.delete(recoveryId);
+          refreshRecoveryStatus();
           return;
         }
         pendingTextRecoveries.push({
           id: recoveryId,
+          uri: sourceUri,
           owner: textSession,
           text,
           reason,
@@ -3319,30 +3973,119 @@ async function initializeRuntime(
       },
     });
     const textStateSubscription = textSession.onDidChangeState((state) => {
-      if (activeGuiRuntime === runtime && state.renderKey) {
-        textSessionRoutes.set(state.sessionId, textSession);
-        previewWebviewHost?.postComposerState(state);
-        ui.refresh();
-      }
+      publishComposerSessionState(runtime, state);
+      for (const surface of previewSurfaceMounts) if (surface.runtime === runtime) surface.ui?.refresh();
     });
+    const owner: ComposerDocumentOwner = { document: textDocument, modelReference, runtimeDocument, runtime, textSession, draft, textStateSubscription };
+    composerOwners.set(sourceUri, owner);
+    return owner;
+  };
+  const mountComposerSurface = async (
+    { input, container, group }: Pick<ComposerEditorMountContext, "input" | "container" | "group">,
+    presentation: "chat" | "layout",
+  ): Promise<ComposerEditorMount> => {
+    // A GUI pane has no native text-editor input to keep its canonical model alive.
+    const modelReference = await modelResolverService.createModelReference(input.resource!);
+    let owner: ComposerDocumentOwner;
+    try {
+      modeSwitchAbort.signal.throwIfAborted();
+      const opened = await vscode.workspace.openTextDocument(vscode.Uri.parse(input.resource!.toString(), true));
+      const textDocument = opened.languageId === "mmt" ? opened : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
+      modeSwitchAbort.signal.throwIfAborted();
+      owner = getComposerOwner(textDocument, modelReference);
+    } catch (error) {
+      modelReference.dispose();
+      throw error;
+    }
+    const textDocument = owner.document;
+    const { runtimeDocument, runtime, textSession, draft } = owner;
+    const draftUri = textDocument.uri.toString();
+    authoringState(draftUri, input.typeId === COMPOSER_EDITOR_ID ? presentation : "source");
+    let surface: PreviewSurfaceMount;
     const ui = new ComposerEditorUi(container, {
       runtime,
       draft,
       contextMenu: composerContextMenu,
-      contextInput: composerContextInput,
       messageEditor: composerMessageEditor,
-      avatarPicker: composerAvatarPicker,
       newDocument: createComposerDocument,
       openDocument: chooseComposerDocument,
+      mode: () => surface?.presentation === "chat" ? "chat" : surface?.presentation === "layout" ? "layout" : presentation,
+      switchMode: (mode) => switchAuthoringMode(draftUri, mode),
+      canvasResize: (width) => resizeChatCanvas(draftUri, width),
+      downloadSource: () => downloadComposerSource(draftUri),
+      defaultExportFormat,
+      exportDetails: () => {
+        const artifact = controller.stores.previewArtifacts.document(draftUri).displayedArtifact;
+        return {
+          state: exactExportUi.state,
+          pages: artifact?.renderPreset.kind === "output" ? artifact.pages.map((page) => ({
+            index: page.pageIndex, width: page.geometry.viewBox[2], height: page.geometry.viewBox[3],
+          })) : [],
+          fontNames: loadedPreviewFontNames,
+          draftPending: draft.body.length > 0,
+        };
+      },
+      exportDocument: async (format, options) => {
+        await exportExactSnapshot(draftUri, format, options);
+      },
+      cancelExport: () => { exactExportUi.cancel(); },
+      openDocumentSettings: async () => { await vscode.commands.executeCommand("mmt.document.configure", textDocument.uri); },
+      saveState: () => {
+        const state = authoringState(draftUri);
+        if (state.saving || state.persisting) return { kind: "saving" as const };
+        if (state.saveError) return { kind: "error" as const, message: state.saveError };
+        return { kind: textDocument.isDirty ? "unsaved" as const : "saved" as const };
+      },
       packSpeakers: packSpeakerOptions,
       avatarCatalog: () => buildAvatarCatalog(galleryPacks),
+      avatarThumbnail: (item, signal) => composerGalleryImages.avatarThumbnail(item, signal),
+      personThumbnail: async (form, signal) => {
+        signal.throwIfAborted();
+        const avatar = galleryAvatarUrl(form.pack, form.entity);
+        if (avatar) return avatar.href;
+        const preferred = form.stickerSets.find((set) => set.key === form.entity.stickerDefault
+          && set.contributionNamespace === form.pack.namespace && set.variants.length > 0);
+        const set = preferred ?? form.stickerSets.find((candidate) => candidate.variants.length > 0);
+        const variant = set?.variants[0];
+        return set && variant ? composerGalleryImages.thumbnail(form.pack, form.entity, set, variant, signal) : undefined;
+      },
+      stickerPeople: () => buildGalleryPersonGroups(galleryPacks),
+      stickerThumbnail: (form, set, variant, signal) => composerGalleryImages.thumbnail(form.pack, form.entity, set, variant, signal),
+      importLocalImage: () => {
+        const storage = provider;
+        if (!storage) return Promise.reject(new Error("工作区不可用，未导入图片。"));
+        const documents = new Map(vscode.workspace.textDocuments
+          .filter((candidate) => candidate.uri.scheme === WORKSPACE.scheme && candidate.uri.authority === WORKSPACE.authority)
+          .map((candidate) => [candidate, candidate.version] as const));
+        return importComposerLocalImage(textDocument.uri, WORKSPACE, storage, () => (
+          controller.acceptingWork && storage.coordinator.state.lease === "writer"
+          && activePreviewSurface?.runtime === runtime && activePreviewSurface.document === textDocument
+        ), () => {
+          if (!controller.acceptingWork || provider !== storage || storage.coordinator.state.lease !== "writer") return false;
+          const current = vscode.workspace.textDocuments.filter((candidate) => (
+            candidate.uri.scheme === WORKSPACE.scheme && candidate.uri.authority === WORKSPACE.authority
+          ));
+          return current.length === documents.size && current.every((candidate) => documents.get(candidate) === candidate.version);
+        }, modeSwitchAbort.signal);
+      },
+      textRecoveries: () => pendingTextRecoveries.filter((record) => record.uri === draftUri).map((record) => ({
+        id: record.id, text: record.text, reason: record.reason, requiresTargetConfirmation: true as const,
+      })),
+      copyTextRecovery: async (id) => { await navigator.clipboard.writeText(recoveryForUri(draftUri, id).text); },
+      prepareTextRecovery: (id) => prepareTextRecovery(draftUri, id),
+      retryTextRecovery: (id, confirmation) => retryTextRecovery(draftUri, id, confirmation),
+      discardTextRecovery: (id) => {
+        const record = recoveryForUri(draftUri, id);
+        if (!resolveTextRecovery(record, record.text)) throw new Error("请先处理同一正文会话中较早的未提交文字。");
+      },
       diagnosticsCount: () => vscode.languages.getDiagnostics(textDocument.uri).length,
       openProblems: () => vscode.commands.executeCommand("workbench.actions.view.problems"),
-      documentLabel: () => textDocument.uri.path.split("/").at(-1) ?? "MomoScript",
+      documentLabel: () => workTitle(textDocument.uri),
       isDirty: () => textDocument.isDirty,
       recover: (text, reason) => {
+        textSession.requireRecoveryTargetSelection();
         const record = {
-          id: crypto.randomUUID(), owner: draft, text, reason,
+          id: crypto.randomUUID(), uri: draftUri, owner: draft, text, reason,
           resolve: (expectedText: string) => expectedText === text,
         };
         pendingTextRecoveries.push(record);
@@ -3356,8 +4099,12 @@ async function initializeRuntime(
       },
     });
     container.querySelector<HTMLElement>(".mmt-composer-surface")!.dataset.resource = textDocument.uri.toString();
-    const saveSubscription = vscode.workspace.onDidSaveTextDocument((saved) => { if (saved === textDocument) ui.refresh(); });
-    const surface: PreviewSurfaceMount = {
+    const saveSubscription = vscode.workspace.onDidSaveTextDocument((saved) => {
+      if (saved !== textDocument) return;
+      authoringState(draftUri).saveError = undefined;
+      ui.refresh();
+    });
+    surface = {
       input,
       document: textDocument,
       claimant: ui,
@@ -3365,43 +4112,36 @@ async function initializeRuntime(
       clippingContainer: ui.clippingContainer,
       runtime,
       ui,
+      presentation,
+      visible: false,
       setActive: (active) => {
         if (active && previewSourcesReady && !runtime.state.bound) runtime.bindDocument(runtimeDocument);
         ui.setActive(active);
-        textSession.setActive(active);
+        if (active) owner.ui = ui;
       },
     };
     previewSurfaceMounts.add(surface);
     syncPreviewSurface();
     return {
       layout: () => { syncPreviewSurface(); previewWebviewHost?.layoutSurface(surface.claimant); },
-      setVisible: () => syncPreviewSurface(),
+      setVisible: (visible) => { surface.visible = visible; syncPreviewSurface(); },
       dispose() {
-        textSession.setActive(false);
+        if (activePreviewSurface === surface) textSession.setActive(false);
         saveSubscription.dispose();
-        if (draft.body.length > 0 && !pendingTextRecoveries.some((record) => record.id === `draft:${draftUri}`)) {
-          pendingTextRecoveries.push({
-            id: `draft:${draftUri}`, owner: draft,
-            get text() { return draft.body; },
-            reason: "新消息草稿尚未发送；返回此文档可继续创作。",
-            resolve: (expectedText) => {
-              if (draft.body !== expectedText) return false;
-              draft.body = "";
-              return true;
-            },
-          });
-          refreshRecoveryStatus();
-        }
-        textStateSubscription.dispose();
         previewSurfaceMounts.delete(surface);
         previewWebviewHost?.releaseSurface(surface.claimant);
         ui.dispose();
-        if (activeGuiRuntime === runtime) activeGuiRuntime = undefined;
-        runtime.dispose();
-        if (currentComposerUri?.toString() === textDocument.uri.toString()) currentComposerUri = undefined;
+        if (owner.ui === ui) owner.ui = undefined;
         syncPreviewSurface();
       },
     };
+  };
+  own(composerEditorSurfaces.setMountHandler((context) => {
+    const sourceUri = context.input.resource!.toString();
+    const state = authoringState(sourceUri, "chat");
+    const pending = mountComposerSurface(context, state.mode === "layout" ? "layout" : "chat");
+    composerMounting.set(sourceUri, pending);
+    return pending;
   }));
   let canvasContextAbort: AbortController | undefined;
   own({ dispose() { canvasContextAbort?.abort(); } });
@@ -3419,22 +4159,39 @@ async function initializeRuntime(
       return;
     }
     previewComposer?.invalidate();
-    const binding = currentTextGeometryBinding();
-    const identity = runtime.captureIdentity();
-    const snapshot = runtime.state.snapshot;
-    if (!controller.acceptingWork || !binding || !identity || !snapshot || binding.snapshot !== snapshot) return;
+    runtime.selectNode(null);
+    const requestedBinding = currentTextGeometryBinding();
     const operation = new AbortController();
     canvasContextAbort = operation;
-    const current = () => {
-      const latest = currentTextGeometryBinding();
-      const source = runtime.captureIdentity();
-      return !operation.signal.aborted && activePreviewSurface === surface && activeGuiRuntime === runtime
-        && latest?.snapshot === snapshot && latest.identity.renderKey === binding.identity.renderKey
-        && latest.identity.sessionId === binding.identity.sessionId && latest.identity.generation === binding.identity.generation
-        && source?.generation === identity.generation && source.version === identity.version
-        && source.sourceDigest === identity.sourceDigest && source.catalogEpoch === identity.catalogEpoch;
-    };
+    const surfaceCurrent = () => !operation.signal.aborted && controller.acceptingWork
+      && activePreviewSurface === surface && activeGuiRuntime === runtime;
+    let current = surfaceCurrent;
+    let pause: { dispose(): void } | undefined;
     try {
+      const session = runtime.textSession;
+      await session?.waitForCompositionEnd();
+      if (!surfaceCurrent()) return;
+      pause = session?.pauseInput();
+      await session?.drainAccepted();
+      if (!surfaceCurrent()) return;
+      session?.invalidate("已切换到内容块选择，请重新点击正文以继续文字编辑。");
+      const binding = currentTextGeometryBinding();
+      const identity = runtime.captureIdentity();
+      const snapshot = runtime.state.snapshot;
+      if (!requestedBinding || !binding || !identity || !snapshot || binding.snapshot !== snapshot
+        || binding.snapshot !== requestedBinding.snapshot
+        || binding.identity.renderKey !== requestedBinding.identity.renderKey
+        || binding.identity.sessionId !== requestedBinding.identity.sessionId
+        || binding.identity.generation !== requestedBinding.identity.generation) return;
+      current = () => {
+        const latest = currentTextGeometryBinding();
+        const source = runtime.captureIdentity();
+        return surfaceCurrent()
+          && latest?.snapshot === snapshot && latest.identity.renderKey === binding.identity.renderKey
+          && latest.identity.sessionId === binding.identity.sessionId && latest.identity.generation === binding.identity.generation
+          && source?.generation === identity.generation && source.version === identity.version
+          && source.sourceDigest === identity.sourceDigest && source.catalogEpoch === identity.catalogEpoch;
+      };
       const located = await previewInteraction.locatePreviewPoint(point, operation.signal);
       if (!located || !current() || located.identity.sourceUri !== identity.uri
         || located.identity.sourceStaleToken.documentVersion !== identity.version) return;
@@ -3474,6 +4231,8 @@ async function initializeRuntime(
       if (trigger === "menu") await ui.openNodeContext(node, anchor);
     } catch (error) {
       if (current()) void showMomoScriptMessage("warning", error instanceof Error ? error.message : "无法选择此排版内容。");
+    } finally {
+      pause?.dispose();
     }
   };
   previewComposer = own(new PreviewComposerController({
@@ -3507,13 +4266,24 @@ async function initializeRuntime(
     showWarningMessage: (message) => showMomoScriptMessage("warning", message),
     showErrorMessage: (message) => showMomoScriptMessage("error", message),
   }));
-  const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
-    const document = vscode.window.activeTextEditor?.document;
+  const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async (resource?: vscode.Uri) => {
+    const document = resource
+      ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
+      : vscode.window.activeTextEditor?.document ?? activePreviewSurface?.document;
     if (!document || document.languageId !== "mmt") {
       void showMomoScriptMessage("warning", "请先打开一个 MomoScript 文档。");
       return;
     }
     try {
+      const sourceUri = document.uri.toString();
+      const owner = composerOwners.get(sourceUri);
+      await waitForNativeComposition(sourceUri);
+      await owner?.ui?.prepareModeSwitch();
+      await owner?.textSession.waitForCompositionEnd();
+      await owner?.textSession.drainAccepted();
+      if (!controller.acceptingWork || !vscode.workspace.textDocuments.includes(document)) {
+        throw new Error("作品文档已关闭，未修改文档设置。");
+      }
       if (!activeClient) throw new Error("MMT 语言服务器不可用");
       await configureDocumentSettings(document, activeClient);
     } catch (error) {
@@ -3524,10 +4294,13 @@ async function initializeRuntime(
   }));
   previewWebviewHost = own(new PreviewWebviewHost({
     ready() {
+      textBridgeReady = true;
+      if (activeGuiRuntime) publishComposerSessionState(activeGuiRuntime);
       previewWebviewHost?.postExactExportState(exactExportUi.state);
     },
-    viewportChanged(viewport) {
-      previewInteraction.updateViewport(viewport);
+    viewportChanged(viewport, renderKey, presentation) {
+      if (previewInteraction.artifact?.renderKey !== renderKey || previewInteraction.presentation !== presentation) return;
+      previewInteraction.updateViewport(viewport, presentation);
     },
     async navigationRequested(point) {
       if (!vscode.workspace.getConfiguration("mmt.preview").get("bidirectionalNavigation", true)) return;
@@ -3555,31 +4328,35 @@ async function initializeRuntime(
     },
     async exactExportRequested(message: PreviewExactExportRequest) {
       if (!displayedPreviewSourceUri) return;
-      await exportExactSnapshot(displayedPreviewSourceUri, message.format, message.staleChoice);
+      await exportExactSnapshot(displayedPreviewSourceUri, message.format, {
+        staleChoice: message.staleChoice, pageIndex: message.pageIndex,
+      }, "snapshot-only");
     },
     exactExportCancelled() {
       exactExportUi.cancel();
     },
   }, {
     webviewService: nativeWebviewService,
-    defaultExportFormat: () => (
-      vscode.workspace.getConfiguration("mmt.export").get<"pdf" | "png">("defaultFormat", "pdf")
-    ),
+    defaultExportFormat,
   }));
-  own(previewHostSurfaces.setMountHandler(async ({ input, container, clippingContainer }) => {
+  own(previewHostSurfaces.setMountHandler(async (context) => {
+    const { input, container, clippingContainer } = context;
     const sourceDocument = await vscode.workspace.openTextDocument(vscode.Uri.parse(input.resource!.toString(), true));
+    if (isComposerResource(sourceDocument.uri)) return mountComposerSurface(context, "layout");
     const surface: PreviewSurfaceMount = {
       input,
       document: sourceDocument,
       claimant: {},
       container,
       clippingContainer,
+      presentation: "preview",
+      visible: false,
     };
     previewSurfaceMounts.add(surface);
     syncPreviewSurface();
     return {
       layout: () => { syncPreviewSurface(); previewWebviewHost?.layoutSurface(surface.claimant); },
-      setVisible: () => syncPreviewSurface(),
+      setVisible: (visible) => { surface.visible = visible; syncPreviewSurface(); },
       dispose() {
         previewSurfaceMounts.delete(surface);
         previewWebviewHost?.releaseSurface(surface.claimant);
@@ -3609,9 +4386,11 @@ async function initializeRuntime(
     if (!activeClient) {
       const message = "MomoScript 语言服务器不可用；Typst 编辑与语言服务仍可继续使用。";
       previewWebviewHost.postStatus(message, true);
-      return;
+      const error = new Error(message);
+      latestArtifactWaiter.failSource(sourceUri, error);
+      throw error;
     }
-    previewWebviewHost.postStatus("正在准备 MomoScript 投影…", false);
+    previewWebviewHost.postStatus("正在加载画面…", false);
     let project: TypstProjectUpdate | null;
     try {
       project = await waitForSynchronizedLanguageProjection(
@@ -3624,20 +4403,23 @@ async function initializeRuntime(
       const message = `无法为 ${document.fileName} 构建 Typst 投影：${detail}`;
       previewWebviewHost.postStatus(message, true);
       log("preview:error", message);
-      return;
+      const failure = new Error(message, { cause: error });
+      latestArtifactWaiter.failSource(sourceUri, failure);
+      throw failure;
     }
     if (displayedPreviewSourceUri !== sourceUri) return;
     if (!project) {
       const message = `语言服务器未能及时同步 ${document.fileName} 的文档版本 ${document.version}。`;
       previewWebviewHost.postStatus(message, true);
       log("preview:error", message);
-      return;
+      const error = new Error(message);
+      latestArtifactWaiter.failSource(sourceUri, error);
+      throw error;
     }
     const tracked = trackLanguageProjection(project);
     if (!tracked) return;
     if (tracked.advanced) syncTinymistProject(project);
     await dispatchRenderProject(activeClient, project.sourceUri, tracked.token, true);
-    refreshOpenedPreview();
   }
   const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
     const sourceDocument = resource
@@ -3647,13 +4429,14 @@ async function initializeRuntime(
       void showMomoScriptMessage("warning", "请先打开一个 MomoScript 或 Typst 文档，再启动预览。");
       return;
     }
-    if (activePreviewSurface?.runtime && activePreviewSurface.document === sourceDocument) {
-      previewWebviewHost?.focusSurface(activePreviewSurface.claimant);
-      if (previewInteraction.identity?.sourceStaleToken.documentVersion !== sourceDocument.version) {
-        previewSourceBinding = bindPreviewSource(sourceDocument);
-      }
-    } else {
-      await revealPreviewSurface(sourceDocument.uri.toString());
+    if (mobileComposerMedia.matches && isComposerResource(sourceDocument.uri)) {
+      await switchAuthoringMode(sourceDocument.uri.toString(), "layout");
+      return;
+    }
+    await revealPreviewSurface(sourceDocument.uri.toString());
+    if (activePreviewSurface?.document === sourceDocument
+      && previewInteraction.identity?.sourceStaleToken.documentVersion !== sourceDocument.version) {
+      previewSourceBinding = bindPreviewSource(sourceDocument);
     }
     await previewSourceBinding;
   }));
@@ -3661,6 +4444,9 @@ async function initializeRuntime(
   const maybeAutoOpenPreview = (editor: vscode.TextEditor | undefined): void => {
     if (!vscode.workspace.getConfiguration("mmt.preview").get<boolean>("openOnDocument", false)) return;
     if (!editor || editor.document.languageId !== "mmt") return;
+    // Compact Source and canvas are full-screen alternatives. Automatic
+    // preview must not replace an explicit or restored Source editor.
+    if (mobileComposerMedia.matches) return;
     const sourceUri = editor.document.uri.toString();
     if (
       autoOpeningPreviewUri === sourceUri
@@ -3792,11 +4578,7 @@ async function initializeRuntime(
   const workbenchRestoredEditor = nativeEditorService.activeEditor !== undefined;
   const restoredActiveDocument = workbenchRestoredEditor || await restoreActiveWorkspaceDocument();
   if (!restoredActiveDocument && !nativeEditorService.activeEditor) {
-    const initialDocument = await vscode.workspace.openTextDocument(INTRO);
-    const recognizedDocument = initialDocument.languageId === "typst"
-      ? initialDocument
-      : await vscode.languages.setTextDocumentLanguage(initialDocument, "typst");
-    await vscode.window.showTextDocument(recognizedDocument);
+    await openComposerDocument(STORY);
   }
   const markerModelRegistrations: vscode.Disposable[] = [];
   const bindMarkerEditing = (model: ReturnType<IModelService["getModels"]>[number]) => {
@@ -3855,7 +4637,19 @@ async function initializeRuntime(
         const snapshot = pendingPersistenceByUri.get(uri);
         if (!snapshot) return;
         pendingPersistenceByUri.delete(uri);
-        await vscode.workspace.fs.writeFile(snapshot.documentUri, encoder.encode(snapshot.text));
+        const state = authoringState(uri);
+        state.persisting = true;
+        state.saveError = undefined;
+        for (const surface of previewSurfaceMounts) if (surface.document.uri.toString() === uri) surface.ui?.refresh();
+        try {
+          await vscode.workspace.fs.writeFile(snapshot.documentUri, encoder.encode(snapshot.text));
+        } catch (error) {
+          state.saveError = error instanceof Error ? error.message : String(error);
+          throw error;
+        } finally {
+          state.persisting = false;
+          for (const surface of previewSurfaceMounts) if (surface.document.uri.toString() === uri) surface.ui?.refresh();
+        }
         log("document", `Saved ${snapshot.documentPath}`);
         if (snapshot.languageId === "mmt") {
           await persistenceDebounce();
@@ -3938,8 +4732,9 @@ async function initializeRuntime(
       for (const surface of previewSurfaceMounts) surface.ui?.prepareToLeave();
       for (const [uri, draft] of composerDrafts) {
         if (draft.body.length === 0 || pendingTextRecoveries.some((record) => record.id === `draft:${uri}`)) continue;
+        composerOwners.get(uri)?.textSession.requireRecoveryTargetSelection();
         pendingTextRecoveries.push({
-          id: `draft:${uri}`, owner: draft, get text() { return draft.body; },
+          id: `draft:${uri}`, uri, owner: draft, get text() { return draft.body; },
           reason: "重启前请先处理尚未发送的新消息草稿。",
           resolve: (expectedText) => {
             if (draft.body !== expectedText) return false;
@@ -4415,8 +5210,20 @@ function createLayout(root: HTMLElement) {
   const editor = part("editor");
   const panel = part("panel");
   const status = part("status");
-  body.append(activity, primary);
-  root.append(body, status);
+  for (const element of [body, activity, status]) {
+    element.style.width = "100%";
+    element.style.height = "100%";
+  }
+  const workbenchSplit = new SplitView(root, { orientation: Orientation.VERTICAL, proportionalLayout: false });
+  workbenchSplit.addView(splitViewPart(body, 0, Number.POSITIVE_INFINITY), Math.max(0, root.clientHeight - 22));
+  workbenchSplit.addView(splitViewPart(status, 22, 22), 22);
+  workbenchSplit.layout(root.clientHeight);
+  const bodySplit = new SplitView(body, { orientation: Orientation.HORIZONTAL, proportionalLayout: false });
+  bodySplit.addView(splitViewPart(activity, 48, 48), 48);
+  bodySplit.addView(splitViewPart(primary, 220, Number.POSITIVE_INFINITY), Math.max(220, root.clientWidth - 48));
+  bodySplit.layout(root.clientWidth);
+  let editorPartLayout: (() => void) | undefined;
+  const syncEditorPartLayout = () => editorPartLayout?.();
 
   const sidebarMainSplit = new SplitView(primary, {
     orientation: Orientation.HORIZONTAL,
@@ -4426,7 +5233,7 @@ function createLayout(root: HTMLElement) {
   sidebarMainSplit.addView(
     // Match the native pane minimum; 320px is the whole mobile viewport,
     // not the editor width remaining after the activity/sidebar parts.
-    splitViewPart(main, 220, Number.POSITIVE_INFINITY),
+    splitViewPart(main, 220, Number.POSITIVE_INFINITY, syncEditorPartLayout),
     Math.max(220, primary.clientWidth - 260)
   );
   sidebarMainSplit.layout(primary.clientWidth);
@@ -4437,7 +5244,7 @@ function createLayout(root: HTMLElement) {
     proportionalLayout: false
   });
   editorPanelSplit.addView(
-    splitViewPart(editor, 180, Number.POSITIVE_INFINITY),
+    splitViewPart(editor, 180, Number.POSITIVE_INFINITY, syncEditorPartLayout),
     Math.max(180, main.clientHeight)
   );
   editorPanelSplit.addView(
@@ -4450,11 +5257,15 @@ function createLayout(root: HTMLElement) {
   const syncSplitLayout = () => {
     cancelAnimationFrame(layoutFrame);
     layoutFrame = requestAnimationFrame(() => {
+      workbenchSplit.layout(root.clientHeight);
+      bodySplit.layout(body.clientWidth);
       if (primary.clientWidth > 0) sidebarMainSplit.layout(primary.clientWidth);
       if (main.clientHeight > 0) editorPanelSplit.layout(main.clientHeight);
     });
   };
   const resizeObserver = new ResizeObserver(syncSplitLayout);
+  resizeObserver.observe(root);
+  resizeObserver.observe(body);
   resizeObserver.observe(primary);
   resizeObserver.observe(main);
   window.addEventListener("resize", syncSplitLayout);
@@ -4474,6 +5285,18 @@ function createLayout(root: HTMLElement) {
     editor,
     panel,
     status,
+    setActivityVisible(visible: boolean) {
+      if (bodySplit.isViewVisible(0) !== visible) bodySplit.setViewVisible(0, visible);
+      syncSplitLayout();
+    },
+    setStatusVisible(visible: boolean) {
+      if (workbenchSplit.isViewVisible(1) !== visible) workbenchSplit.setViewVisible(1, visible);
+      syncSplitLayout();
+    },
+    setEditorPartLayout(nativeLayout: () => void) {
+      editorPartLayout = nativeLayout;
+      syncEditorPartLayout();
+    },
     setPanelVisible(visible: boolean) {
       if (editorPanelSplit.isViewVisible(1) !== visible) editorPanelSplit.setViewVisible(1, visible);
     },
@@ -4481,6 +5304,7 @@ function createLayout(root: HTMLElement) {
       if (sidebarMainSplit.isViewVisible(0) !== visible) sidebarMainSplit.setViewVisible(0, visible);
     },
     dispose() {
+      editorPartLayout = undefined;
       activity.removeEventListener("click", syncActivitySelection, true);
       window.removeEventListener("resize", syncSplitLayout);
       window.visualViewport?.removeEventListener("resize", syncSplitLayout);
@@ -4488,6 +5312,8 @@ function createLayout(root: HTMLElement) {
       resizeObserver.disconnect();
       editorPanelSplit.dispose();
       sidebarMainSplit.dispose();
+      bodySplit.dispose();
+      workbenchSplit.dispose();
     }
   };
 }
@@ -4495,14 +5321,15 @@ function createLayout(root: HTMLElement) {
 function splitViewPart(
   element: HTMLElement,
   minimumSize: number,
-  maximumSize: number
+  maximumSize: number,
+  onLayout?: () => void,
 ): IView {
   return {
     element,
     minimumSize,
     maximumSize,
     onDidChange: Event.None,
-    layout() {}
+    layout() { onLayout?.(); }
   };
 }
 
@@ -4628,7 +5455,7 @@ async function configureDocumentSettings(
     "@end",
     ""
   ];
-  if (document.version !== expectedVersion) {
+  if (!vscode.workspace.textDocuments.includes(document) || document.version !== expectedVersion) {
     throw new Error("配置期间文档已发生变化；请重新打开文档设置");
   }
   const text = lines.join("\n");
@@ -4665,6 +5492,22 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   configureDocument.textContent = "配置当前文档";
   const openDocumentSettings = () => void vscode.commands.executeCommand("mmt.document.configure");
   configureDocument.addEventListener("click", openDocumentSettings);
+  const works = document.createElement("section");
+  works.className = "mms-settings-section";
+  const worksHeading = document.createElement("h3");
+  worksHeading.textContent = "我的作品";
+  const newWork = document.createElement("button");
+  newWork.type = "button";
+  newWork.textContent = "新建作品";
+  const createWork = () => void vscode.commands.executeCommand("mmt.composer.new");
+  newWork.addEventListener("click", createWork);
+  const openWork = document.createElement("button");
+  openWork.type = "button";
+  openWork.textContent = "打开作品";
+  const chooseWork = () => void vscode.commands.executeCommand("mmt.composer.choose");
+  openWork.addEventListener("click", chooseWork);
+  works.append(worksHeading, newWork, openWork);
+  container.append(works);
   const openComposer = document.createElement("button");
   openComposer.type = "button";
   openComposer.textContent = "打开 GUI 创作";
@@ -4748,6 +5591,8 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
       advanced.removeEventListener("click", openAdvanced);
       configureDocument.removeEventListener("click", openDocumentSettings);
       openComposer.removeEventListener("click", openComposerEditor);
+      newWork.removeEventListener("click", createWork);
+      openWork.removeEventListener("click", chooseWork);
     }
   };
 }

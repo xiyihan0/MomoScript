@@ -344,8 +344,13 @@ emitter 再生成 `mmt.sticker(image(...), patch...)`，并把 suffix patch 单�
 `@asset` 也由独立 semantic pass 处理。块状声明和 `@asset: ...` 短行声明必须归一化为
 同一个 `ScriptAsset` IR；`src` 必填，`ns` 缺省为 `custom`。由于稳定引用目前只有
 `asset::<name>`，不同 namespace 下同名的脚本资产仍视为冲突，不能让 namespace 形成
-一个 DSL 无法显式访问的隐藏消歧维度。URL 与本地 basename 在 IR 中分型；本地输入在
-lowering 阶段拒绝目录分隔符和 traversal，实际工作区读取仍由 materializer 的沙箱边界负责。
+一个 DSL 无法显式访问的隐藏消歧维度。URL 与本地 source-relative LocalFile 在 IR 中分型；
+既有合法 basename 保持可用，LocalFile 也允许由正斜杠分隔的非空安全 segment（如
+`assets/example.png`），相对作者文档目录解析。Lowering 拒绝 `.`/`..` segment、
+绝对路径、反斜杠、控制字符与冒号；language/render projection、browser loader 和
+native materializer 使用相同语法与 source-relative 基准。实际工作区读取仍由平台沙箱、
+native canonical-path/root containment 和文件权限约束，包括 symlink 逃逸检查；这不授予
+任意文件系统访问，也不使 GUI workspaceImage 接受 URL。既有 URL IR 的独立授权合同不变。
 
 pack-v3 manifest 由独立 `PackRegistry` 加载和校验，并实现只读
 `CharacterPresetCatalog`。registry 负责 entity id 规范化、contribution target、默认

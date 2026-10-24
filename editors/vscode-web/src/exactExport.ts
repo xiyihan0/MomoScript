@@ -16,11 +16,14 @@ export type ExactExportFormat = "pdf" | "png" | "jpg" | "svg";
 export type StaleExportChoice = "export-displayed" | "wait-for-latest";
 export type RenderAdvanceCause = "source" | "dependency" | "materialization" | "render" | "backend" | "runtime";
 
-export interface ExactExportRequest {
-  readonly sourceUri: string;
-  readonly format: ExactExportFormat;
+export interface ExactExportOptions {
   readonly staleChoice?: StaleExportChoice;
   readonly pageIndex?: number;
+}
+
+export interface ExactExportRequest extends ExactExportOptions {
+  readonly sourceUri: string;
+  readonly format: ExactExportFormat;
   readonly signal?: AbortSignal;
 }
 
@@ -29,6 +32,8 @@ export interface ExactExportMetadata {
   readonly format: ExactExportFormat;
   readonly sourceUri: string;
   readonly staleDisplayedRevision: boolean;
+  readonly fileName: string;
+  readonly pageCount: number;
   readonly contentKey: `sha256:${string}`;
   readonly pageIndex?: number;
   readonly pageGeometry?: PreviewPageGeometry;
@@ -234,9 +239,9 @@ export class ExactExportService implements RuntimeOwnedResource {
         : "ArtifactUnavailable";
       return Object.freeze({ kind: "unavailable", reason });
     }
-    if (!this.#dependencies.artifacts.get(displayed.renderKey)) {
-      return Object.freeze({ kind: "unavailable", reason: "ArtifactUnavailable" });
-    }
+    const artifact = this.#dependencies.artifacts.get(displayed.renderKey);
+    if (!artifact) return Object.freeze({ kind: "unavailable", reason: "ArtifactUnavailable" });
+    if (artifact.renderPreset.kind !== "output") return Object.freeze({ kind: "unavailable", reason: "PartialPreview" });
     const stale = this.#advanceBySource.has(sourceUri)
       || displayed.stale
       || document.status === "stale"
@@ -261,6 +266,7 @@ export class ExactExportService implements RuntimeOwnedResource {
       ? AbortSignal.any([request.signal, this.#lifecycle.signal])
       : this.#lifecycle.signal;
     signal.throwIfAborted();
+    validateExactExportOptions(request.format, request);
     const availability = this.availability(request.sourceUri);
     if (availability.kind === "unavailable") {
       if (availability.reason === "ArtifactUnavailable") throw new ArtifactUnavailableError();
@@ -269,9 +275,6 @@ export class ExactExportService implements RuntimeOwnedResource {
     if (availability.kind === "stale-choice") {
       if (!request.staleChoice) {
         throw new ExportChoiceRequiredError(availability.displayedRenderKey, availability.requestedRenderKey);
-      }
-      if (request.staleChoice !== "export-displayed" && request.staleChoice !== "wait-for-latest") {
-        throw new Error(`Unsupported stale export choice: ${String(request.staleChoice)}`);
       }
       if (request.staleChoice === "wait-for-latest") {
         const latest = await this.#dependencies.latest.waitForLatest(
@@ -313,9 +316,10 @@ export class ExactExportService implements RuntimeOwnedResource {
         throw new ArtifactUnavailableError(renderKey);
       }
       const artifact = this.#dependencies.artifacts.get(renderKey);
-      if (!artifact || artifact.renderKey !== renderKey || artifact.sourceUri !== request.sourceUri) {
+      if (!artifact || artifact.renderKey !== renderKey || artifact.sourceUri !== request.sourceUri || artifact.renderPreset.kind !== "output") {
         throw new ArtifactUnavailableError(renderKey);
       }
+      validateExactExportPage(request.format, request.pageIndex, artifact.pages.length);
       signal.throwIfAborted();
       let bytes: Uint8Array;
       let page: PreviewPage | undefined;
@@ -349,6 +353,8 @@ export class ExactExportService implements RuntimeOwnedResource {
         format: request.format,
         sourceUri: artifact.sourceUri,
         staleDisplayedRevision,
+        fileName: exactExportFileName(artifact.sourceUri, request.format, page?.pageIndex, staleDisplayedRevision),
+        pageCount: artifact.pages.length,
         contentKey,
         pageIndex: page?.pageIndex,
         pageGeometry: page?.geometry,
@@ -369,6 +375,38 @@ export class ExactExportService implements RuntimeOwnedResource {
   #assertActive(): void {
     if (this.#disposed) throw new Error("Exact export service is disposed");
   }
+}
+
+export function validateExactExportOptions(format: ExactExportFormat, options: ExactExportOptions): void {
+  if (!["pdf", "png", "jpg", "svg"].includes(format)) throw new Error(`Unsupported export format: ${String(format)}`);
+  if (options.staleChoice !== undefined
+    && options.staleChoice !== "export-displayed" && options.staleChoice !== "wait-for-latest") {
+    throw new Error(`Unsupported stale export choice: ${String(options.staleChoice)}`);
+  }
+  if (options.pageIndex !== undefined && (!Number.isSafeInteger(options.pageIndex) || options.pageIndex < 0)) {
+    throw new RangeError("Export page index must be a non-negative safe integer");
+  }
+  if (format === "pdf" && options.pageIndex !== undefined) {
+    throw new RangeError("PDF exports the whole document and does not accept a page index");
+  }
+}
+
+export function validateExactExportPage(format: ExactExportFormat, pageIndex: number | undefined, pageCount: number): void {
+  validateExactExportOptions(format, { pageIndex });
+  if (format !== "pdf" && (pageIndex ?? 0) >= pageCount) {
+    throw new RangeError(`Export page ${(pageIndex ?? 0) + 1} is outside the ${pageCount}-page output`);
+  }
+}
+
+export function exactExportFileName(
+  sourceUri: string,
+  format: ExactExportFormat,
+  pageIndex: number | undefined,
+  staleDisplayedRevision: boolean,
+): string {
+  const sourceName = decodeURIComponent(new URL(sourceUri).pathname.split("/").at(-1) ?? "document");
+  const base = sourceName.replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "").replace(/[/\\\u0000-\u001f\u007f]/gu, "_") || "document";
+  return `${base}${staleDisplayedRevision ? "-snapshot" : ""}${pageIndex === undefined ? "" : `-page-${pageIndex + 1}`}.${format}`;
 }
 
 function validateRenderInputs(render: ImmutableRenderInputs, runtime: ImmutableRuntimeInputs): void {

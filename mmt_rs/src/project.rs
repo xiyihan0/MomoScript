@@ -49,14 +49,12 @@ impl AssetResolver {
             | ResolvedResourceKind::Avatar { source, .. }
             | ResolvedResourceKind::PackAsset { source, .. } => self.pack_image_path(source),
             ResolvedResourceKind::ScriptAsset { source, .. } => match source {
-                AssetSource::LocalFile(path) => Ok(self.options.workspace_root.join(path)),
+                AssetSource::LocalFile(path) => self.checked_workspace_path(path),
                 AssetSource::Url(_) => Err(MaterializeError::new(
                     "remote script assets are not supported by the project exporter",
                 )),
             },
-            ResolvedResourceKind::WorkspaceFile { path } => {
-                Ok(self.options.workspace_root.join(path))
-            }
+            ResolvedResourceKind::WorkspaceFile { path } => self.checked_workspace_path(path),
             ResolvedResourceKind::RemoteUrl { .. } => Err(MaterializeError::new(
                 "remote resources are not supported by the project exporter",
             )),
@@ -64,6 +62,31 @@ impl AssetResolver {
                 "temporary resources require a host-provided materializer",
             )),
         }
+    }
+    fn checked_workspace_path(&self, relative: &str) -> Result<PathBuf, MaterializeError> {
+        if !crate::semantic::sanitized_workspace_relative_path(relative) {
+            return Err(MaterializeError::new(
+                "workspace resource path must be a sanitized relative path",
+            ));
+        }
+        let root = self
+            .options
+            .workspace_root
+            .canonicalize()
+            .map_err(|error| {
+                MaterializeError::new(format!("cannot resolve workspace root: {error}"))
+            })?;
+        let path = root.join(relative).canonicalize().map_err(|error| {
+            MaterializeError::new(format!(
+                "cannot resolve workspace resource '{relative}': {error}"
+            ))
+        })?;
+        if !path.starts_with(&root) {
+            return Err(MaterializeError::new(
+                "workspace resource escapes workspace root",
+            ));
+        }
+        Ok(path)
     }
 
     pub fn pack_root(&self, namespace: &str) -> Result<PathBuf, MaterializeError> {
@@ -547,6 +570,62 @@ mod tests {
         assert_eq!(first, second);
         assert_eq!(first.typst_path, "assets/000000.svg");
         assert!(output.join(first.typst_path).is_file());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn workspace_assets_resolve_safe_relative_paths_without_escaping_the_root() {
+        let root = temp_dir("relative-assets");
+        fs::create_dir_all(root.join("assets")).unwrap();
+        fs::write(root.join("assets/photo.png"), b"image").unwrap();
+        fs::write(root.join("old.png"), b"old").unwrap();
+        let resolver = AssetResolver::new(AssetResolverOptions {
+            workspace_root: root.clone(),
+            pack_roots: HashMap::new(),
+            cache_dir: root.join("cache"),
+            avifdec_bin: PathBuf::from("avifdec"),
+            decoder_profile: "test".to_owned(),
+        });
+        let resource = |path: &str| ResolvedResource {
+            range: TextRange::empty(0),
+            target: ResourceTarget::Inline,
+            kind: ResolvedResourceKind::ScriptAsset {
+                namespace: "custom".to_owned(),
+                name: "photo".to_owned(),
+                source: AssetSource::LocalFile(path.to_owned()),
+            },
+            render_patch: None,
+        };
+        for path in ["old.png", "assets/photo.png"] {
+            assert_eq!(
+                resolver.source_path(&resource(path)).unwrap(),
+                root.join(path).canonicalize().unwrap()
+            );
+        }
+        for path in [
+            "../old.png",
+            "/assets/photo.png",
+            "assets/../old.png",
+            "assets//photo.png",
+            "assets\\photo.png",
+            "assets/C:photo.png",
+            "assets/ph\0oto.png",
+        ] {
+            assert!(resolver.source_path(&resource(path)).is_err(), "{path}");
+        }
+        #[cfg(unix)]
+        {
+            let outside = temp_dir("outside-relative-assets");
+            fs::create_dir_all(&outside).unwrap();
+            fs::write(outside.join("outside.png"), b"outside").unwrap();
+            std::os::unix::fs::symlink(&outside, root.join("assets/escape")).unwrap();
+            assert!(
+                resolver
+                    .source_path(&resource("assets/escape/outside.png"))
+                    .is_err()
+            );
+            fs::remove_dir_all(outside).unwrap();
+        }
         fs::remove_dir_all(root).unwrap();
     }
 

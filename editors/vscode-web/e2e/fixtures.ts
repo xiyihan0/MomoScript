@@ -230,11 +230,12 @@ export async function waitForComposerFrame(page: Page, name: string): Promise<Fr
     textDocumentCount: 1,
     modelCount: 1,
   });
+  const { uri } = await invokeMmtE2E(page, "composer", "editorState", name);
   await expect.poll(() => invokeMmtE2E(page, "gui", "state")).toMatchObject({
-    uri: `mmtfs://workspace/${name}`,
+    uri,
     pending: false,
   });
-  const frame = await waitForPreviewFrame(page, `mmtfs://workspace/${name}`);
+  const frame = await waitForPreviewFrame(page, uri);
   await expect(frame.locator("body")).toHaveAttribute("data-composer-status", "ready");
   await expect(frame.locator("textarea.composer-input-bridge")).toHaveCount(1);
   return frame;

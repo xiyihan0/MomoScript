@@ -2,7 +2,7 @@
 
 use std::collections::{HashMap, HashSet};
 
-use serde::Serialize;
+use serde::{Deserialize, Deserializer, Serialize};
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::semantic::{
@@ -317,11 +317,57 @@ pub struct BuiltinPresentation {
     pub reserve_avatar_space: bool,
 }
 
+/// Presentation changes affect projections and render identities, never authored source.
+pub const RENDER_PRESENTATION_VERSION: u32 = 1;
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize)]
+#[serde(tag = "kind", rename_all = "camelCase")]
+pub enum RenderPreset {
+    #[default]
+    Output,
+    Chat {
+        #[serde(rename = "widthPt")]
+        width_pt: u32,
+    },
+}
+
+impl<'de> Deserialize<'de> for RenderPreset {
+    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        // A struct variant also rejects fields on output; Serde's internally
+        // tagged unit variants otherwise discard their remaining fields.
+        #[derive(Deserialize)]
+        #[serde(tag = "kind", rename_all = "camelCase", deny_unknown_fields)]
+        enum WirePreset {
+            Output {},
+            Chat {
+                #[serde(rename = "widthPt", deserialize_with = "deserialize_chat_width")]
+                width_pt: u32,
+            },
+        }
+
+        Ok(match WirePreset::deserialize(deserializer)? {
+            WirePreset::Output {} => Self::Output,
+            WirePreset::Chat { width_pt } => Self::Chat { width_pt },
+        })
+    }
+}
+
+fn deserialize_chat_width<'de, D: Deserializer<'de>>(deserializer: D) -> Result<u32, D::Error> {
+    let width = u32::deserialize(deserializer)?;
+    if !(240..=720).contains(&width) {
+        return Err(serde::de::Error::custom(
+            "chat widthPt must be an integer from 240 through 720",
+        ));
+    }
+    Ok(width)
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EmitOptions {
     pub template_import: String,
     pub document_overrides: DocumentOverrides,
     pub timestamp: Option<HostTimestamp>,
+    pub render_preset: RenderPreset,
 }
 
 impl Default for EmitOptions {
@@ -330,6 +376,7 @@ impl Default for EmitOptions {
             template_import: "typst_sandbox/mmt_render/lib.typ".to_string(),
             document_overrides: DocumentOverrides::default(),
             timestamp: None,
+            render_preset: RenderPreset::Output,
         }
     }
 }
@@ -535,14 +582,17 @@ impl<'a> TypstEmitter<'a> {
             .map(escape_typst_string)
             .map(|value| format!("\"{value}\""))
             .unwrap_or_else(|| "none".to_string());
-        self.builder.push_generated(
-            &format!(
-                "#import \"{import}\" as mmt\n\n#show: mmt.template.with(\n  show-header: {},\n  title: \"{title}\",\n  author: {author},\n  compiled-at: {compiled_at},\n)\n\n#[",
-                self.presentation.show_header,
+        let show_header = self.presentation.show_header;
+        let prelude = match self.options.render_preset {
+            RenderPreset::Output => format!(
+                "#import \"{import}\" as mmt\n\n#show: mmt.template.with(\n  show-header: {show_header},\n  title: \"{title}\",\n  author: {author},\n  compiled-at: {compiled_at},\n)\n\n#["
             ),
-            GeneratedKind::TemplateWrapper,
-            None,
-        );
+            RenderPreset::Chat { width_pt } => format!(
+                "#import \"{import}\" as mmt\n\n#show: mmt.template.with(\n  presentation: \"chat\",\n  chat-width: {width_pt}pt,\n  show-header: {show_header},\n  title: \"{title}\",\n  author: {author},\n  compiled-at: {compiled_at},\n)\n\n#["
+            ),
+        };
+        self.builder
+            .push_generated(&prelude, GeneratedKind::TemplateWrapper, None);
     }
 
     fn next_composer_key(&mut self) -> String {
@@ -1171,6 +1221,98 @@ mod tests {
             &MaterializedContent::default(),
             &EmitOptions::default(),
         )
+    }
+
+    #[test]
+    fn render_preset_wire_contract_is_strict() {
+        assert_eq!(
+            serde_json::from_value::<RenderPreset>(serde_json::json!({"kind": "output"})).unwrap(),
+            RenderPreset::Output
+        );
+        for width in [240, 390, 720] {
+            let wire = serde_json::json!({"kind": "chat", "widthPt": width});
+            let preset: RenderPreset = serde_json::from_value(wire.clone()).unwrap();
+            assert_eq!(preset, RenderPreset::Chat { width_pt: width });
+            assert_eq!(serde_json::to_value(preset).unwrap(), wire);
+        }
+        assert_eq!(
+            serde_json::to_value(RenderPreset::Output).unwrap(),
+            serde_json::json!({"kind": "output"})
+        );
+        for invalid in [
+            serde_json::json!(null),
+            serde_json::json!({}),
+            serde_json::json!({"kind": "unknown"}),
+            serde_json::json!({"kind": "output", "widthPt": 390}),
+            serde_json::json!({"kind": "output", "extra": true}),
+            serde_json::json!({"kind": "chat"}),
+            serde_json::json!({"kind": "chat", "width_pt": 390}),
+            serde_json::json!({"kind": "chat", "widthPt": 390, "extra": true}),
+            serde_json::json!({"kind": "chat", "widthPt": 239}),
+            serde_json::json!({"kind": "chat", "widthPt": 721}),
+            serde_json::json!({"kind": "chat", "widthPt": -1}),
+            serde_json::json!({"kind": "chat", "widthPt": 390.5}),
+            serde_json::json!({"kind": "chat", "widthPt": 390.0}),
+            serde_json::json!({"kind": "chat", "widthPt": "390"}),
+            serde_json::json!({"kind": "chat", "widthPt": null}),
+        ] {
+            assert!(
+                serde_json::from_value::<RenderPreset>(invalid.clone()).is_err(),
+                "accepted invalid render preset: {invalid}"
+            );
+        }
+    }
+
+    #[test]
+    fn chat_preset_changes_only_generated_presentation_parameters() {
+        let source = "@document\n\
+                      title: Authored title\n\
+                      author: Author\n\
+                      show-header: true\n\
+                      @end\n\
+                      - 文本 😀\n\
+                      @typ: #pagebreak()\n\
+                      - after";
+        let (document, modes, actors) = lower(source);
+        let document_config = lower_document(&document).config;
+        let render = |render_preset| {
+            emit_typst(
+                &document,
+                &document_config,
+                &modes,
+                &actors,
+                &MaterializedContent::default(),
+                &EmitOptions {
+                    render_preset,
+                    ..EmitOptions::default()
+                },
+            )
+        };
+        let output = render(RenderPreset::Output);
+        let chat = render(RenderPreset::Chat { width_pt: 390 });
+        assert!(output.diagnostics.is_empty());
+        assert!(chat.diagnostics.is_empty());
+        assert!(!output.source.contains("presentation:"));
+        assert!(
+            chat.source
+                .contains("presentation: \"chat\",\n  chat-width: 390pt,")
+        );
+        assert!(chat.source.contains("show-header: true"));
+        assert!(chat.source.contains("title: \"Authored title\""));
+        assert!(chat.source.contains("author: \"Author\""));
+        assert_eq!(
+            output.source.split_once("#[").unwrap().1,
+            chat.source.split_once("#[").unwrap().1
+        );
+        assert!(chat.source.contains("#pagebreak()"));
+        let authored = source.find("文本").unwrap();
+        for emitted in [&output, &chat] {
+            let projected = emitted.source.find("文本").unwrap();
+            assert_eq!(
+                emitted.map_text_caret_to_authored(source, projected),
+                Some(authored)
+            );
+        }
     }
 
     #[test]

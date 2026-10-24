@@ -6,7 +6,12 @@ import { build } from "esbuild";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const result = await build({
-  entryPoints: [path.join(root, "src/typstProjectState.ts")],
+  stdin: {
+    contents: "export * from './typstProjectState.ts'; export { isRenderPreset, parseRenderPreset } from './tinymistClient.ts';",
+    resolveDir: path.join(root, "src"),
+    sourcefile: "render-project-state-fixture.ts",
+    loader: "ts"
+  },
   bundle: true,
   format: "esm",
   platform: "node",
@@ -17,10 +22,41 @@ const result = await build({
 const source = result.outputFiles[0].text;
 const {
   applyRenderProjectUpdate,
+  isRenderPreset,
+  parseRenderPreset,
   RenderProjectSnapshotStore,
   TypstProjectState,
   TypstProjectInvariantError
 } = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
+
+for (const preset of [
+  { kind: "output" },
+  { kind: "chat", widthPt: 240 },
+  { kind: "chat", widthPt: 390 },
+  { widthPt: 720, kind: "chat" }
+]) {
+  assert.equal(isRenderPreset(preset), true);
+  assert.deepEqual(parseRenderPreset(preset), preset);
+}
+for (const preset of [
+  undefined, null, false, "output", [], {},
+  { kind: "unknown" },
+  { kind: "output", widthPt: 390 },
+  { kind: "output", extra: true },
+  { kind: "chat" },
+  { kind: "chat", widthPt: "390" },
+  { kind: "chat", widthPt: 239 },
+  { kind: "chat", widthPt: 721 },
+  { kind: "chat", widthPt: 390.5 },
+  { kind: "chat", widthPt: NaN },
+  { kind: "chat", widthPt: Infinity },
+  { kind: "chat", widthPt: 390, extra: true },
+  { kind: "chat", width_pt: 390 },
+  { kind: "Chat", widthPt: 390 }
+]) {
+  assert.equal(isRenderPreset(preset), false);
+  assert.throws(() => parseRenderPreset(preset), /Invalid render preset/);
+}
 
 function fileDigest(text) {
   const hash = createHash("sha256");
@@ -45,6 +81,7 @@ const renderEntry1 = {
 };
 const renderBase = await applyRenderProjectUpdate(undefined, {
   sourceUri: "logical-source:render",
+  renderPreset: { kind: "output" },
   sourceVersion: 1,
   revision: 1,
   entryUri: renderEntry1.uri,
@@ -81,18 +118,68 @@ await assert.rejects(
   }),
   /failed content digest validation/
 );
+await assert.rejects(
+  applyRenderProjectUpdate(renderBase, {
+    ...renderNext,
+    renderPreset: { kind: "chat", widthPt: 390 },
+    full: false,
+    files: [renderEntry2],
+    baseRevision: 1,
+    baseProjectDigest: "project-1"
+  }),
+  /base identity does not match/
+);
+const { renderPreset: omittedRenderPreset, ...missingRenderPreset } = renderBase;
+await assert.rejects(
+  applyRenderProjectUpdate(undefined, missingRenderPreset),
+  /Invalid render preset/
+);
 
 const renderSnapshots = new RenderProjectSnapshotStore();
 assert.equal((await renderSnapshots.accept(renderBase)).advanced, true);
 assert.equal((await renderSnapshots.accept(renderBase)).advanced, false);
 assert.equal((await renderSnapshots.accept(renderNext)).advanced, true);
 assert.equal(renderSnapshots.get(renderBase.sourceUri)?.projectDigest, "project-2");
+const renderChat = {
+  ...renderBase,
+  renderPreset: { kind: "chat", widthPt: 390 },
+  projectDigest: "chat-390"
+};
+const renderChatWide = {
+  ...renderBase,
+  renderPreset: { kind: "chat", widthPt: 720 },
+  projectDigest: "chat-720"
+};
+assert.equal((await renderSnapshots.accept(renderChat)).advanced, true);
+assert.equal((await renderSnapshots.accept(renderChatWide)).advanced, true);
+assert.equal(renderSnapshots.get(renderBase.sourceUri)?.projectDigest, "project-2");
+assert.equal(renderSnapshots.get(renderBase.sourceUri, { kind: "output" })?.projectDigest, "project-2");
+assert.equal(renderSnapshots.get(renderBase.sourceUri, { kind: "chat", widthPt: 390 })?.projectDigest, "chat-390");
+assert.equal(renderSnapshots.get(renderBase.sourceUri, { kind: "chat", widthPt: 720 })?.projectDigest, "chat-720");
+assert.equal((await renderSnapshots.accept(renderChat)).advanced, false);
+await assert.rejects(
+  renderSnapshots.accept({ ...renderChat, renderPreset: { kind: "chat", widthPt: 390, extra: true } }),
+  /Invalid render preset/
+);
+await assert.rejects(
+  renderSnapshots.accept({
+    ...renderNext,
+    renderPreset: { kind: "chat", widthPt: 390 },
+    full: false,
+    files: [renderEntry2],
+    baseRevision: 1,
+    baseProjectDigest: "project-1"
+  }),
+  /base identity does not match/
+);
 await assert.rejects(
   renderSnapshots.accept(renderBase),
   /does not advance the accepted snapshot/
 );
 renderSnapshots.close(renderBase.sourceUri);
 assert.equal(renderSnapshots.get(renderBase.sourceUri), undefined);
+assert.equal(renderSnapshots.get(renderBase.sourceUri, { kind: "chat", widthPt: 390 }), undefined);
+assert.equal(renderSnapshots.get(renderBase.sourceUri, { kind: "chat", widthPt: 720 }), undefined);
 
 const notifications = [];
 const events = [];

@@ -14,9 +14,17 @@ export interface GalleryVariant {
 
 export interface GalleryStickerSet {
   readonly key: string;
+  readonly contributionNamespace: string;
+  readonly selectorId: string;
+  readonly origin?: GalleryResourceOrigin;
   readonly displayName: string;
   readonly storageKey: string;
   readonly variants: readonly GalleryVariant[];
+}
+
+export interface GalleryStickerContribution {
+  readonly entityId: string;
+  readonly sets: readonly GalleryStickerSet[];
 }
 
 export interface GalleryEntity {
@@ -24,6 +32,10 @@ export interface GalleryEntity {
   readonly displayName: string;
   readonly names: readonly string[];
   readonly catalogDisplayName?: string;
+  readonly catalogDisplayNames: ReadonlyMap<string, string>;
+  readonly characterId?: string;
+  readonly givenNames: ReadonlyMap<string, string>;
+  readonly skinNames: ReadonlyMap<string, string>;
   readonly searchTerms: readonly string[];
   readonly school?: GalleryCatalogTaxonomyTerm;
   readonly mainRelation?: GalleryCatalogTaxonomyTerm;
@@ -51,8 +63,15 @@ export interface GalleryAvatarVariant {
 export interface AvatarCatalogItem {
   readonly variant: GalleryAvatarVariant;
   readonly thumbnailUrl?: string;
+  readonly origin?: GalleryResourceOrigin;
   readonly selectable: boolean;
   readonly searchTerms: readonly string[];
+  readonly person?: {
+    readonly key: string;
+    readonly label: string;
+    readonly formLabel: string;
+    readonly formDisplayName: string;
+  };
 }
 
 export type GalleryStorageBackend =
@@ -73,13 +92,35 @@ export interface GalleryPack {
   readonly namespace: string;
   readonly name: string;
   readonly manifestUrl: string;
+  readonly catalogScope?: string;
   readonly baseUrl: string;
   readonly entities: readonly GalleryEntity[];
   readonly avatarVariants: readonly GalleryAvatarVariant[];
+  readonly stickerContributions: readonly GalleryStickerContribution[];
   readonly storage: ReadonlyMap<string, GalleryStorageBackend>;
   readonly schools: readonly GalleryCatalogTaxonomyTerm[];
   readonly relations: readonly GalleryCatalogTaxonomyTerm[];
   readonly provenance?: GalleryCatalogProvenance;
+}
+
+type GalleryResourceOrigin = Pick<GalleryPack, "namespace" | "manifestUrl" | "baseUrl" | "storage">;
+
+export interface GalleryPersonForm {
+  readonly entityId: string;
+  readonly label: string;
+  readonly displayName: string;
+  readonly searchTerms: readonly string[];
+  readonly pack: GalleryPack;
+  readonly entity: GalleryEntity;
+  readonly stickerSets: readonly GalleryStickerSet[];
+}
+
+export interface GalleryPersonGroup {
+  readonly key: string;
+  readonly namespace: string;
+  readonly label: string;
+  readonly searchTerms: readonly string[];
+  readonly forms: readonly GalleryPersonForm[];
 }
 
 export function projectGalleryPack(
@@ -102,10 +143,17 @@ export function projectGalleryPack(
     const backend = parseStorageBackend(value);
     if (backend) storage.set(key, backend);
   }
+  const origin: GalleryResourceOrigin = {
+    namespace,
+    manifestUrl: source.manifestUrl,
+    baseUrl: source.baseUrl,
+    storage,
+  };
   const entities: GalleryEntity[] = [];
   const avatarVariants: GalleryAvatarVariant[] = [];
+  const stickerContributions: GalleryStickerContribution[] = [];
   for (const [key, value] of Object.entries(manifest.entities ?? {})) {
-    const entity = parseEntity(key, value, metadata);
+    const entity = parseEntity(key, value, metadata, namespace);
     if (!entity) continue;
     entities.push(entity);
     const record = value as Record<string, unknown>;
@@ -127,6 +175,8 @@ export function projectGalleryPack(
     const slots = typeof contribution.slots === "object" && contribution.slots !== null
       ? contribution.slots as Record<string, unknown>
       : {};
+    const sets = parseStickerSets(slots.sticker, namespace, origin);
+    if (sets.length > 0) stickerContributions.push({ entityId: contribution.target, sets });
     avatarVariants.push(...parseAvatarVariants(
       slots.avatar,
       contribution.target,
@@ -145,9 +195,13 @@ export function projectGalleryPack(
       ? manifest.pack.name
       : namespace,
     manifestUrl: source.manifestUrl,
+    catalogScope: metadata === undefined
+      ? undefined
+      : JSON.stringify([metadata.namespace, source.manifestUrl, metadata.version, metadata.manifestSha256]),
     baseUrl: source.baseUrl,
     entities,
     avatarVariants,
+    stickerContributions,
     storage,
     schools: sortTaxonomy(metadata?.schools),
     relations: sortTaxonomy(metadata?.relations),
@@ -191,7 +245,8 @@ function parseStorageBackend(value: unknown): GalleryStorageBackend | undefined 
 function parseEntity(
   key: string,
   value: unknown,
-  catalog: GalleryEntityCatalog | undefined
+  catalog: GalleryEntityCatalog | undefined,
+  namespace: string,
 ): GalleryEntity | undefined {
   if (typeof value !== "object" || value === null) return undefined;
   const record = value as Record<string, unknown>;
@@ -200,7 +255,7 @@ function parseEntity(
   const slots = typeof record.slots === "object" && record.slots !== null ? record.slots as Record<string, unknown> : {};
   const avatar = parseAvatar(slots.avatar);
   const sticker = typeof slots.sticker === "object" && slots.sticker !== null ? slots.sticker as Record<string, unknown> : undefined;
-  const stickerSets = parseStickerSets(slots.sticker);
+  const stickerSets = parseStickerSets(slots.sticker, namespace);
   const stickerDefault = typeof sticker?.default === "string" ? sticker.default : stickerSets[0]?.key;
   const metadata = catalog?.entities.get(key);
   const school = metadata?.schoolId === undefined ? undefined : catalog?.schools.get(metadata.schoolId);
@@ -219,6 +274,10 @@ function parseEntity(
     displayName,
     names,
     catalogDisplayName: metadata?.zhCnDisplayName,
+    catalogDisplayNames: metadata?.displayNames ?? new Map(),
+    characterId: metadata?.characterId,
+    givenNames: metadata?.givenNames ?? new Map(),
+    skinNames: metadata?.skinNames ?? new Map(),
     searchTerms: uniqueSearchTerms([
       key,
       displayName,
@@ -293,7 +352,11 @@ function parseAvatarVariants(
   return output;
 }
 
-function parseStickerSets(value: unknown): readonly GalleryStickerSet[] {
+function parseStickerSets(
+  value: unknown,
+  contributionNamespace: string,
+  origin?: GalleryResourceOrigin,
+): readonly GalleryStickerSet[] {
   if (typeof value !== "object" || value === null) return [];
   const record = value as Record<string, unknown>;
   const sets = typeof record.sets === "object" && record.sets !== null ? record.sets as Record<string, unknown> : {};
@@ -312,6 +375,9 @@ function parseStickerSets(value: unknown): readonly GalleryStickerSet[] {
     variants.sort((left, right) => left.ordinal - right.ordinal);
     output.push({
       key,
+      contributionNamespace,
+      selectorId: `${contributionNamespace}::${key}`,
+      ...(origin === undefined ? {} : { origin }),
       displayName: typeof setRecord.display_name === "string" && setRecord.display_name.length > 0 ? setRecord.display_name : key,
       storageKey: setRecord.storage,
       variants
@@ -372,12 +438,174 @@ function uniqueSearchTerms(values: readonly string[]): readonly string[] {
   return [...new Set(values.filter((value) => value.length > 0))];
 }
 
+export function buildGalleryPersonGroups(packs: readonly GalleryPack[]): readonly GalleryPersonGroup[] {
+  type Entry = { readonly pack: GalleryPack; readonly entity: GalleryEntity; readonly entityId: string };
+  const scopes = new Map<string, Map<string, Entry>>();
+  const sortedPacks = [...packs].sort((left, right) => (
+    left.namespace.localeCompare(right.namespace)
+    || left.manifestUrl.localeCompare(right.manifestUrl)
+    || left.baseUrl.localeCompare(right.baseUrl)
+  ));
+  type Contribution = { readonly pack: GalleryPack; readonly sets: GalleryStickerSet[] };
+  const contributions = new Map<string, Contribution>();
+  const declaredEntities = new Set<string>();
+  for (const pack of sortedPacks) {
+    for (const entity of pack.entities) declaredEntities.add(canonicalEntityId(pack.namespace, entity.key));
+    for (const contribution of pack.stickerContributions) {
+      const entry: Contribution = contributions.get(contribution.entityId) ?? { pack, sets: [] };
+      entry.sets.push(...contribution.sets);
+      contributions.set(contribution.entityId, entry);
+    }
+  }
+  for (const pack of sortedPacks) {
+    for (const entity of pack.entities) {
+      const entityId = canonicalEntityId(pack.namespace, entity.key);
+      const namespace = entityId.split("::", 1)[0]!;
+      const scope = pack.catalogScope === undefined
+        ? JSON.stringify(["manifest", namespace, pack.manifestUrl])
+        : JSON.stringify(["catalog", namespace, pack.catalogScope]);
+      const entries = scopes.get(scope) ?? new Map<string, Entry>();
+      if (!entries.has(entityId)) entries.set(entityId, { pack, entity, entityId });
+      scopes.set(scope, entries);
+    }
+  }
+
+  const output: GalleryPersonGroup[] = [];
+  for (const [scope, entries] of scopes) {
+    const neighbors = new Map<string, Set<string>>();
+    for (const entry of entries.values()) neighbors.set(entry.entityId, new Set());
+    const characterAnchors = new Map<string, string>();
+    for (const entry of entries.values()) {
+      const characterId = entry.entity.characterId;
+      if (characterId !== undefined) {
+        const anchor = characterAnchors.get(characterId);
+        if (anchor === undefined) characterAnchors.set(characterId, entry.entityId);
+        else {
+          neighbors.get(entry.entityId)!.add(anchor);
+          neighbors.get(anchor)!.add(entry.entityId);
+        }
+      }
+      for (const key of entry.entity.alternateSkinKeys) {
+        const relatedId = canonicalEntityId(entry.pack.namespace, key);
+        if (!entries.has(relatedId) || relatedId === entry.entityId) continue;
+        neighbors.get(entry.entityId)!.add(relatedId);
+        neighbors.get(relatedId)!.add(entry.entityId);
+      }
+    }
+
+    const grouped = new Map<string, Entry[]>();
+    const seen = new Set<string>();
+    const sortedEntries = [...entries.values()].sort((left, right) => left.entityId.localeCompare(right.entityId));
+    for (const entry of sortedEntries) {
+      if (seen.has(entry.entityId)) continue;
+      const component: Entry[] = [];
+      const pending = [entry.entityId];
+      seen.add(entry.entityId);
+      while (pending.length > 0) {
+        const entityId = pending.pop()!;
+        component.push(entries.get(entityId)!);
+        for (const relatedId of neighbors.get(entityId)!) {
+          if (seen.has(relatedId)) continue;
+          seen.add(relatedId);
+          pending.push(relatedId);
+        }
+      }
+      component.sort((left, right) => left.entityId.localeCompare(right.entityId));
+      grouped.set(JSON.stringify([scope, "person", component.map((candidate) => candidate.entityId)]), component);
+    }
+
+    for (const [key, group] of grouped) {
+      group.sort((left, right) => left.entityId.localeCompare(right.entityId));
+      const forms: GalleryPersonForm[] = group.map(({ pack, entity, entityId }) => {
+        const displayName = entity.catalogDisplayNames.get("zh-CN")
+          ?? [...entity.catalogDisplayNames].sort(([left], [right]) => left.localeCompare(right))[0]?.[1]
+          ?? entity.displayName;
+        const skinName = entity.skinNames.get("zh-CN")
+          ?? [...entity.skinNames].sort(([left], [right]) => left.localeCompare(right))[0]?.[1];
+        const stickerSets = [...entity.stickerSets, ...(contributions.get(entityId)?.sets ?? [])];
+        return {
+          entityId,
+          displayName,
+          label: skinName ?? `形态未标注 · ${displayName}`,
+          searchTerms: uniqueSearchTerms([
+            entityId,
+            ...entity.searchTerms,
+            ...stickerSets.flatMap((set) => [set.contributionNamespace, set.key, set.displayName, ...set.variants.map((variant) => variant.id)]),
+          ]),
+          pack,
+          entity,
+          stickerSets,
+        };
+      });
+      const label = group.length > 1
+        ? commonGivenName(group.map((entry) => entry.entity)) ?? forms[0]!.displayName
+        : forms[0]!.displayName;
+      output.push({
+        key,
+        namespace: group[0]!.entityId.split("::", 1)[0]!,
+        label,
+        searchTerms: uniqueSearchTerms([label, ...forms.flatMap((form) => [form.label, ...form.searchTerms])]),
+        forms,
+      });
+    }
+  }
+  for (const [entityId, { pack, sets }] of contributions) {
+    if (declaredEntities.has(entityId)) continue;
+    const entity = parseEntity(entityId, {}, undefined, pack.namespace)!;
+    const label = `形态未标注 · ${entityId}`;
+    const searchTerms = uniqueSearchTerms([
+      entityId,
+      ...sets.flatMap((set) => [set.contributionNamespace, set.key, set.displayName, ...set.variants.map((variant) => variant.id)]),
+    ]);
+    output.push({
+      key: JSON.stringify(["contributionTarget", entityId]),
+      namespace: entityId.split("::", 1)[0]!,
+      label: entityId,
+      searchTerms,
+      forms: [{ entityId, label, displayName: entityId, searchTerms, pack, entity, stickerSets: sets }],
+    });
+  }
+  const labelCounts = new Map<string, number>();
+  for (const group of output) labelCounts.set(group.label, (labelCounts.get(group.label) ?? 0) + 1);
+  return output.map((group): GalleryPersonGroup => {
+    if (labelCounts.get(group.label) === 1) return group;
+    const label = `${group.label} · ${group.forms[0]!.entityId}`;
+    return { ...group, label, searchTerms: uniqueSearchTerms([label, ...group.searchTerms]) };
+  }).sort((left, right) => (
+    left.label.localeCompare(right.label, "zh-Hans-CN") || left.key.localeCompare(right.key)
+  ));
+}
+
+function commonGivenName(entities: readonly GalleryEntity[]): string | undefined {
+  const locales = [...entities[0]!.givenNames.keys()].sort((left, right) => (
+    Number(right === "zh-CN") - Number(left === "zh-CN") || left.localeCompare(right)
+  ));
+  for (const locale of locales) {
+    const name = entities[0]!.givenNames.get(locale)!;
+    if (entities.every((entity) => entity.givenNames.get(locale) === name)) return name;
+  }
+  return undefined;
+}
+
 export function buildAvatarCatalog(packs: readonly GalleryPack[]): readonly AvatarCatalogItem[] {
   const entities = new Map<string, GalleryEntity>();
-  for (const pack of packs) {
-    for (const entity of pack.entities) {
-      entities.set(canonicalEntityId(pack.namespace, entity.key), entity);
+  const personCandidates = new Map<string, NonNullable<AvatarCatalogItem["person"]>[]>();
+  for (const group of buildGalleryPersonGroups(packs)) {
+    for (const form of group.forms) {
+      if (!entities.has(form.entityId)) entities.set(form.entityId, form.entity);
+      const candidates = personCandidates.get(form.entityId) ?? [];
+      candidates.push({
+        key: group.key,
+        label: group.label,
+        formLabel: form.label,
+        formDisplayName: form.displayName,
+      });
+      personCandidates.set(form.entityId, candidates);
     }
+  }
+  const persons = new Map<string, NonNullable<AvatarCatalogItem["person"]>>();
+  for (const [entityId, candidates] of personCandidates) {
+    if (new Set(candidates.map((person) => person.key)).size === 1) persons.set(entityId, candidates[0]!);
   }
 
   type Candidate = {
@@ -387,25 +615,51 @@ export function buildAvatarCatalog(packs: readonly GalleryPack[]): readonly Avat
   };
   const candidates = new Map<string, Candidate[]>();
   for (const pack of packs) {
+    const origin: GalleryResourceOrigin = {
+      namespace: pack.namespace,
+      manifestUrl: pack.manifestUrl,
+      baseUrl: pack.baseUrl,
+      storage: pack.storage,
+    };
     for (const avatar of pack.avatarVariants) {
       const entity = entities.get(avatar.entityId);
+      const person = persons.get(avatar.entityId);
       const variant: GalleryAvatarVariant = {
         ...avatar,
         entityDisplayName: entity === undefined ? avatar.entityDisplayName : galleryDisplayLabel(entity),
       };
       const backend = pack.storage.get(variant.storageKey);
       let thumbnailUrl: string | undefined;
+      let selectable = false;
       if (backend?.kind === "image-dir" && variant.path !== undefined) {
         try {
           thumbnailUrl = packResourceUrl(pack.baseUrl, `${backend.base}/${variant.path}`, "image-dir").href;
+          selectable = true;
         } catch {
           thumbnailUrl = undefined;
         }
       }
+      if (
+        backend?.kind === "image-sequence"
+        && backend.container === "avifs"
+        && backend.codec === "av1"
+        && Number.isInteger(backend.frameCount)
+        && variant.frame !== undefined
+        && variant.frame < backend.frameCount
+      ) {
+        try {
+          packResourceUrl(pack.baseUrl, backend.path, "image-sequence");
+          selectable = true;
+        } catch {
+          selectable = false;
+        }
+      }
       const item: AvatarCatalogItem = {
+        ...(person === undefined ? {} : { person }),
         variant,
+        origin,
         ...(thumbnailUrl === undefined ? {} : { thumbnailUrl }),
-        selectable: thumbnailUrl !== undefined,
+        selectable,
         searchTerms: uniqueSearchTerms([
           variant.entityId,
           variant.entityDisplayName,
@@ -477,9 +731,9 @@ export function galleryAvatarUrl(pack: GalleryPack, entity: GalleryEntity): URL 
 }
 
 function sequenceRequest(
-  pack: GalleryPack,
+  pack: GalleryResourceOrigin,
   backend: Extract<GalleryStorageBackend, { kind: "image-sequence" }>,
-  variant: GalleryVariant,
+  variant: Pick<GalleryVariant, "frame">,
   id: number
 ): ImageSequenceResource {
   const url = packResourceUrl(pack.baseUrl, backend.path, "image-sequence");
@@ -552,6 +806,39 @@ export class GalleryImageCache {
   #activeDecodes = 0;
   readonly #waitingDecodes: Array<() => void> = [];
 
+  async avatarThumbnail(item: AvatarCatalogItem, signal: AbortSignal): Promise<string> {
+    signal.throwIfAborted();
+    const origin = item.origin;
+    const variant = item.variant;
+    if (origin === undefined) throw new Error("Avatar resource origin is unavailable");
+    const backend = origin.storage.get(variant.storageKey);
+    if (backend?.kind === "image-dir" && variant.path !== undefined) {
+      return packResourceUrl(origin.baseUrl, `${backend.base}/${variant.path}`, "image-dir").href;
+    }
+    if (
+      backend?.kind !== "image-sequence"
+      || backend.container !== "avifs"
+      || backend.codec !== "av1"
+      || variant.frame === undefined
+      || variant.frame >= backend.frameCount
+    ) {
+      throw new Error(`Avatar ${variant.entityId}/${variant.variantId} has no supported image resource`);
+    }
+    const key = `${origin.manifestUrl}#avatar/${avatarIdentity(variant)}/${variant.frame}`;
+    const cached = this.#thumbnails.get(key);
+    if (cached) return cached;
+    const request = sequenceRequest(origin, backend, { frame: variant.frame }, stableRequestId(variant.storageKey, variant.frame));
+    const bytes = await this.#sequence(origin, variant.storageKey, backend, signal);
+    const png = await this.#queued(() => {
+      signal.throwIfAborted();
+      return decodeAvifSequence(bytes, request, signal);
+    });
+    signal.throwIfAborted();
+    const url = URL.createObjectURL(new Blob([png as BlobPart], { type: "image/png" }));
+    this.#thumbnails.set(key, url);
+    return url;
+  }
+
   async thumbnail(
     pack: GalleryPack,
     entity: GalleryEntity,
@@ -559,16 +846,17 @@ export class GalleryImageCache {
     variant: GalleryVariant,
     signal: AbortSignal
   ): Promise<string> {
-    const key = `${pack.manifestUrl}#${entity.key}/${set.key}/${variant.ordinal}`;
+    const origin = set.origin ?? pack;
+    const key = `${origin.manifestUrl}#${canonicalEntityId(pack.namespace, entity.key)}/${set.selectorId}/${variant.ordinal}`;
     const cached = this.#thumbnails.get(key);
     if (cached) return cached;
-    const url = await this.#decodeThumbnail(pack, set, variant, signal);
+    const url = await this.#decodeThumbnail(origin, set, variant, signal);
     this.#thumbnails.set(key, url);
     return url;
   }
 
   async #decodeThumbnail(
-    pack: GalleryPack,
+    pack: GalleryResourceOrigin,
     set: GalleryStickerSet,
     variant: GalleryVariant,
     signal: AbortSignal
@@ -582,7 +870,7 @@ export class GalleryImageCache {
   }
 
   #sequence(
-    pack: GalleryPack,
+    pack: GalleryResourceOrigin,
     storageKey: string,
     backend: Extract<GalleryStorageBackend, { kind: "image-sequence" }>,
     signal: AbortSignal

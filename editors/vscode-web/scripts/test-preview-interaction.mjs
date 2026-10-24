@@ -4,6 +4,7 @@ import {
   createPreviewArtifact,
 } from "../src/previewArtifact.ts";
 import {
+  BrowserPreviewViewportPersistence,
   PreviewInteractionController,
   fallbackPreviewSourceTarget,
   PreviewUpdateCoordinator,
@@ -96,12 +97,12 @@ const immutableArtifact = (
 class MemoryViewportPersistence {
   records = new Map();
 
-  load(workspaceId, sourceUri) {
-    return this.records.get(`${workspaceId}\u0000${sourceUri}`);
+  load(workspaceId, sourceUri, presentation) {
+    return this.records.get(`${workspaceId}\u0000${sourceUri}\u0000${presentation}`);
   }
 
-  save(workspaceId, sourceUri, viewport) {
-    this.records.set(`${workspaceId}\u0000${sourceUri}`, structuredClone(viewport));
+  save(workspaceId, sourceUri, viewport, presentation) {
+    this.records.set(`${workspaceId}\u0000${sourceUri}\u0000${presentation}`, structuredClone(viewport));
   }
 }
 
@@ -210,6 +211,60 @@ controller.bindArtifact(artifactA, identityA);
 assert.deepEqual(controller.viewport, { page: 1, x: 1, y: 0, zoom: 5, fitMode: "page" }, "document A viewport was overwritten by document B");
 controller.bindArtifact(artifactB, identityB);
 assert.deepEqual(controller.viewport, { page: 0, x: 0.25, y: 0.4, zoom: 1.75, fitMode: "manual" }, "document B viewport did not restore");
+
+const modePersistence = new MemoryViewportPersistence();
+const modeViewportEvents = [];
+const modeController = new PreviewInteractionController({
+  persistence: modePersistence,
+  currentIdentity: (sourceUri) => currentIdentityBySource.get(sourceUri),
+  events: { viewportChanged: (viewport, presentation) => modeViewportEvents.push({ viewport, presentation }) },
+});
+const layoutViewport = { page: 1, x: 0.4, y: 0.6, zoom: 1.25, fitMode: "page" };
+const chatViewport = { page: 0, x: 0.5, y: 0.7, zoom: 1, fitMode: "manual" };
+const previewViewport = { page: 0, x: 0.2, y: 0.4, zoom: 0.8, fitMode: "width" };
+modeController.bindArtifact(artifactA, identityA, undefined, "layout");
+modeController.updateViewport(layoutViewport, "layout");
+modeController.setPresentation("chat");
+assert.equal(modeController.presentation, "chat");
+assert.deepEqual(modeController.viewport, { page: 0, x: 0, y: 0, zoom: 1, fitMode: "manual" },
+  "output fit and page position leaked into a new chat presentation");
+assert.equal(await modeController.navigateEditorSelection({ identity: identityA, range: range(2, 3, 5) }), undefined,
+  "the previous presentation's artifact remained authorized during a mode switch");
+modeController.updateViewport(layoutViewport, "layout");
+assert.deepEqual(modeController.viewport, { page: 0, x: 0, y: 0, zoom: 1, fitMode: "manual" },
+  "a delayed output viewport overwrote chat before its artifact was bound");
+modeController.bindArtifact(immutableArtifact("render-chat-a", identityA), identityA, undefined, "chat");
+modeController.updateViewport({ ...chatViewport, zoom: 4, fitMode: "page" }, "chat");
+assert.deepEqual(modeController.viewport, chatViewport, "chat must persist logical scale 1/manual regardless of output zoom");
+modeController.bindArtifact(immutableArtifact("render-chat-b", identityB), identityB, undefined, "chat");
+modeController.updateViewport({ ...chatViewport, y: 0.2 }, "chat");
+modeController.bindArtifact(artifactA, identityA, undefined, "layout");
+assert.deepEqual(modeController.viewport, layoutViewport, "chat/document B overwrote document A's layout fit anchor");
+modeController.bindArtifact(artifactA, identityA, undefined, "preview");
+modeController.updateViewport(previewViewport, "preview");
+modeController.bindArtifact(immutableArtifact("render-chat-a-2", identityA), identityA, undefined, "chat");
+assert.deepEqual(modeController.viewport, chatViewport, "chat anchor did not survive layout/preview and document changes");
+modeController.updateViewport({ ...previewViewport, y: 0.9 }, "preview");
+assert.deepEqual(modeController.viewport, chatViewport, "same-URI stale presentation report replaced chat's viewport");
+modeController.bindArtifact(artifactA, identityA, undefined, "preview");
+assert.deepEqual(modeController.viewport, previewViewport, "read-only output viewport was not isolated from editable layout");
+assert.equal(modeViewportEvents.at(-1).presentation, "preview", "restores must carry the presentation they belong to");
+assert.throws(() => modeController.setPresentation("gui"), /Invalid preview surface presentation/);
+modeController.dispose();
+
+const viewportStorageRecords = new Map();
+const viewportStorage = {
+  getItem: (key) => viewportStorageRecords.get(key) ?? null,
+  setItem: (key, value) => viewportStorageRecords.set(key, value),
+};
+const browserViewportPersistence = new BrowserPreviewViewportPersistence(viewportStorage);
+for (const [presentation, viewport] of [["chat", chatViewport], ["layout", layoutViewport], ["preview", previewViewport]]) {
+  browserViewportPersistence.save("workspace-a", sourceA, viewport, presentation);
+}
+assert.equal(viewportStorageRecords.size, 3, "browser viewport keys must include presentation, not only URI");
+for (const [presentation, viewport] of [["chat", chatViewport], ["layout", layoutViewport], ["preview", previewViewport]]) {
+  assert.deepEqual(new BrowserPreviewViewportPersistence(viewportStorage).load("workspace-a", sourceA, presentation), viewport);
+}
 
 controller.bindArtifact(artifactA, identityA);
 await controller.navigateEditorSelection({ identity: identityA, range: range(2, 3, 5) });
@@ -610,6 +665,7 @@ console.log(JSON.stringify({
   artifactBoundCursor: true,
   normalizedViewport: true,
   perDocumentPersistence: true,
+  perPresentationPersistence: true,
   immutableOldArtifactMap: true,
   providerBackedComposerLocation: true,
   splitTextSpanRefinement: true,

@@ -45,6 +45,8 @@ interface RendererSessionState {
   backendGeneration: number;
   committed: PreviewRendererReady | undefined;
   staged: PreviewRendererCandidate | undefined;
+  pending: Promise<void>;
+  closing: Promise<void> | undefined;
 }
 
 export interface PreviewRendererSessionOwnerOptions {
@@ -108,120 +110,145 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
         backendGeneration,
         committed: undefined,
         staged: undefined,
+        pending: Promise.resolve(),
+        closing: undefined,
       };
       this.#sessions.set(project.sourceUri, state);
     }
-    if (state.staged) throw new Error("Preview renderer session already has a staged generation");
-
-    let forceFull = state.committed === undefined;
-    let retriedFull = forceFull;
+    let renderStarted = false;
     let preserveCommitted = false;
     try {
-      while (true) {
-        if (signal?.aborted) {
-          preserveCommitted = true;
-          signal.throwIfAborted();
-        }
-        const result = await this.#backend.previewRenderer(project, mount, {
-          sessionId: state.sessionId,
-          snapshotToken,
-          ...(forceFull ? { forceFull: true } : { baseGeneration: state.committed?.generation }),
-        }, signal);
-        const response = result.response;
-        const status = previewRendererResponseStatus(response);
-        if (status === "resync") {
-          if (retriedFull) throw new Error("Preview renderer rejected a forced full resynchronization");
-          forceFull = true;
-          retriedFull = true;
-          continue;
-        }
-        const { sourceUris, originalUris } = previewRendererUriMaps(project, result.synchronized);
-        if (status === "compileFailed") {
-          const failed = validatePreviewRendererCompileFailed(response, {
+      return await this.#enqueue(state, async () => {
+        this.#requireSession(state);
+        if (state.staged) throw new Error("Preview renderer session already has a staged generation");
+        let forceFull = state.committed === undefined;
+        let retriedFull = forceFull;
+        renderStarted = true;
+        while (true) {
+          this.#requireSession(state);
+          if (signal?.aborted) {
+            preserveCommitted = true;
+            signal.throwIfAborted();
+          }
+          const result = await this.#backend.previewRenderer(project, mount, {
+            sessionId: state.sessionId,
+            snapshotToken,
+            ...(forceFull ? { forceFull: true } : { baseGeneration: state.committed?.generation }),
+          }, signal);
+          this.#requireSession(state);
+          const response = result.response;
+          const status = previewRendererResponseStatus(response);
+          if (status === "resync") {
+            if (retriedFull) throw new Error("Preview renderer rejected a forced full resynchronization");
+            forceFull = true;
+            retriedFull = true;
+            continue;
+          }
+          const { sourceUris, originalUris } = previewRendererUriMaps(project, result.synchronized);
+          if (status === "compileFailed") {
+            const failed = validatePreviewRendererCompileFailed(response, {
+              sessionId: state.sessionId,
+              snapshotToken,
+              sourceDigest: result.synchronized.sourceDigest,
+            });
+            preserveCommitted = true;
+            throw new PreviewRendererCompilationError({
+              sourceUri: project.sourceUri,
+              sessionId: state.sessionId,
+              backendGeneration,
+              synchronized: result.synchronized,
+              diagnostics: mapPreviewRendererDiagnosticUris(failed, originalUris),
+            });
+          }
+          if (status !== "ready") {
+            throw new Error(`Preview renderer returned unexpected '${status ?? "malformed"}' response to render`);
+          }
+          const ready = response as PreviewRendererReady;
+          const bytes = await validatePreviewRendererReady(ready, {
             sessionId: state.sessionId,
             snapshotToken,
             sourceDigest: result.synchronized.sourceDigest,
           });
-          preserveCommitted = true;
-          throw new PreviewRendererCompilationError({
+          this.#requireSession(state);
+          const expectedBase = ready.frameKind === "new" ? 0 : state.committed?.generation;
+          if (expectedBase === undefined || ready.baseGeneration !== expectedBase) {
+            await this.#discardGeneration(state, ready);
+            if (retriedFull) throw new Error("Preview renderer frame is not based on the committed generation");
+            forceFull = true;
+            retriedFull = true;
+            continue;
+          }
+          const mappedReady = Object.freeze({
+            ...ready,
+            diagnostics: mapPreviewRendererDiagnosticUris(ready, originalUris),
+          });
+          const candidate = Object.freeze({
             sourceUri: project.sourceUri,
+            sourceUris,
+            originalUris,
             sessionId: state.sessionId,
             backendGeneration,
             synchronized: result.synchronized,
-            diagnostics: mapPreviewRendererDiagnosticUris(failed, originalUris),
+            ready: mappedReady,
+            bytes,
           });
+          state.staged = candidate;
+          if (signal?.aborted) {
+            await this.#discardGeneration(state, candidate.ready);
+            state.staged = undefined;
+            preserveCommitted = true;
+            signal.throwIfAborted();
+          }
+          return candidate;
         }
-        if (status !== "ready") {
-          throw new Error(`Preview renderer returned unexpected '${status ?? "malformed"}' response to render`);
-        }
-        const ready = response as PreviewRendererReady;
-        const bytes = await validatePreviewRendererReady(ready, {
-          sessionId: state.sessionId,
-          snapshotToken,
-          sourceDigest: result.synchronized.sourceDigest,
-        });
-        const expectedBase = ready.frameKind === "new" ? 0 : state.committed?.generation;
-        if (expectedBase === undefined || ready.baseGeneration !== expectedBase) {
-          await this.#discardGeneration(state, ready);
-          if (retriedFull) throw new Error("Preview renderer frame is not based on the committed generation");
-          forceFull = true;
-          retriedFull = true;
-          continue;
-        }
-        const mappedReady = Object.freeze({
-          ...ready,
-          diagnostics: mapPreviewRendererDiagnosticUris(ready, originalUris),
-        });
-        const candidate = Object.freeze({
-          sourceUri: project.sourceUri,
-          sourceUris,
-          originalUris,
-          sessionId: state.sessionId,
-          backendGeneration,
-          synchronized: result.synchronized,
-          ready: mappedReady,
-          bytes,
-        });
-        state.staged = candidate;
-        if (signal?.aborted) {
-          await this.discard(candidate);
-          preserveCommitted = true;
-          signal.throwIfAborted();
-        }
-        return candidate;
-      }
+      });
     } catch (error) {
-      if (!preserveCommitted) await this.#closeState(state);
+      if (renderStarted && !preserveCommitted) await this.#closeState(state);
       throw error;
     }
   }
 
   async commit(candidate: PreviewRendererCandidate, signal?: AbortSignal): Promise<void> {
     const state = this.#requireStaged(candidate);
-    const response = await this.#backend.transitionPreviewRenderer({
-      action: "commit",
-      sessionId: candidate.sessionId,
-      snapshotToken: candidate.ready.snapshotToken,
-      generation: candidate.ready.generation,
-    }, signal);
-    if (response.status !== "committed"
-      || response.sessionId !== candidate.sessionId
-      || response.snapshotToken !== candidate.ready.snapshotToken
-      || response.generation !== candidate.ready.generation) {
-      await this.#closeState(state);
-      throw new Error("Preview renderer commit acknowledgement mismatch");
+    let transitionStarted = false;
+    try {
+      await this.#enqueue(state, async () => {
+        this.#requireStaged(candidate);
+        transitionStarted = true;
+        const response = await this.#backend.transitionPreviewRenderer({
+          action: "commit",
+          sessionId: candidate.sessionId,
+          snapshotToken: candidate.ready.snapshotToken,
+          generation: candidate.ready.generation,
+        }, signal);
+        if (response.status !== "committed"
+          || response.sessionId !== candidate.sessionId
+          || response.snapshotToken !== candidate.ready.snapshotToken
+          || response.generation !== candidate.ready.generation) {
+          throw new Error("Preview renderer commit acknowledgement mismatch");
+        }
+        this.#requireStaged(candidate);
+        state.committed = candidate.ready;
+        state.staged = undefined;
+      });
+    } catch (error) {
+      if (transitionStarted) await this.#closeState(state);
+      throw error;
     }
-    state.committed = candidate.ready;
-    state.staged = undefined;
   }
 
   async discard(candidate: PreviewRendererCandidate, signal?: AbortSignal): Promise<void> {
     const state = this.#requireStaged(candidate);
+    let transitionStarted = false;
     try {
-      await this.#discardGeneration(state, candidate.ready, signal);
-      state.staged = undefined;
+      await this.#enqueue(state, async () => {
+        this.#requireStaged(candidate);
+        transitionStarted = true;
+        await this.#discardGeneration(state, candidate.ready, signal);
+        state.staged = undefined;
+      });
     } catch (error) {
-      await this.#closeState(state);
+      if (transitionStarted) await this.#closeState(state);
       throw error;
     }
   }
@@ -349,16 +376,17 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
     return response.status === "locatedRange" ? response.boxes : [];
   }
 
-  async closeSource(sourceUri: string): Promise<void> {
+  async closeSource(sourceUri: string, candidate?: PreviewRendererCandidate): Promise<void> {
     const state = this.#sessions.get(sourceUri);
-    if (!state) return;
+    if (!state || (candidate && (state.staged !== candidate
+      || state.sessionId !== candidate.sessionId
+      || state.backendGeneration !== candidate.backendGeneration))) return;
     await this.#closeState(state);
   }
 
   async closeAll(): Promise<void> {
     const states = [...this.#sessions.values()];
-    this.#sessions.clear();
-    await Promise.allSettled(states.map((state) => this.#backend.closePreviewRenderer(state.sessionId)));
+    await Promise.allSettled(states.map((state) => this.#closeState(state)));
   }
 
   dispose(): void {
@@ -411,7 +439,11 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
   #requireStaged(candidate: PreviewRendererCandidate): RendererSessionState {
     this.#assertActive();
     const state = this.#sessions.get(candidate.sourceUri);
-    if (!state || state.staged !== candidate || state.backendGeneration !== candidate.backendGeneration) {
+    if (!state
+      || state.staged !== candidate
+      || state.sessionId !== candidate.sessionId
+      || state.backendGeneration !== candidate.backendGeneration
+      || this.#backend.backendGeneration() !== candidate.backendGeneration) {
       throw new Error("Preview renderer candidate is no longer staged");
     }
     return state;
@@ -430,13 +462,33 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
     return state;
   }
 
-  async #closeState(state: RendererSessionState): Promise<void> {
-    if (this.#sessions.get(state.sourceUri) === state) this.#sessions.delete(state.sourceUri);
-    try {
-      await this.#backend.closePreviewRenderer(state.sessionId);
-    } catch {
-      // A dead backend already discarded the session. The next request starts clean.
+  #enqueue<T>(state: RendererSessionState, operation: () => Promise<T>): Promise<T> {
+    const pending = state.pending.then(operation);
+    state.pending = pending.then(() => undefined, () => undefined);
+    return pending;
+  }
+
+  #requireSession(state: RendererSessionState): void {
+    this.#assertActive();
+    if (this.#sessions.get(state.sourceUri) !== state
+      || this.#backend.backendGeneration() !== state.backendGeneration) {
+      throw new Error("Preview renderer session is no longer active");
     }
+  }
+
+  #closeState(state: RendererSessionState): Promise<void> {
+    if (state.closing) return state.closing;
+    if (this.#sessions.get(state.sourceUri) === state) this.#sessions.delete(state.sourceUri);
+    // Retire ownership immediately, but never let close overtake a producer
+    // render/commit/discard already running for this exact session.
+    state.closing = this.#enqueue(state, async () => {
+      try {
+        await this.#backend.closePreviewRenderer(state.sessionId);
+      } catch {
+        // A dead backend already discarded the session. The next request starts clean.
+      }
+    });
+    return state.closing;
   }
 
   #assertActive(): void {

@@ -33,8 +33,8 @@ pub use composer::{
     resolve_preview_statement, statement_continued,
 };
 pub use composer_document::{
-    COMPOSER_DOCUMENT_DIGEST_DOMAIN, COMPOSER_NODE_KEY_DOMAIN, ComposerBoundary,
-    ComposerBoundaryTarget, ComposerDocumentNode, ComposerDocumentNodeKind,
+    COMPOSER_DOCUMENT_DIGEST_DOMAIN, COMPOSER_NODE_KEY_DOMAIN, ComposerAssetChoice,
+    ComposerBoundary, ComposerBoundaryTarget, ComposerDocumentNode, ComposerDocumentNodeKind,
     ComposerDocumentProjection, ComposerDocumentProjectionError, ComposerInsertCapability,
     ComposerMessageCapabilities, ComposerMessageNode, ComposerMessageSide,
     ComposerNarrationCapabilities, ComposerNarrationNode, ComposerNodeRef,
@@ -44,10 +44,10 @@ pub use composer_document::{
     project_composer_document_with_pack,
 };
 pub use composer_structure::{
-    COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, ComposerNewStatement, ComposerNewStatementSpeaker,
-    ComposerSpeakerChoice, ComposerStatementBodyInput, ComposerStructureCommand,
-    ComposerStructureFailure, ComposerStructureTarget, compose_structure_edit,
-    compose_structure_edit_with_pack,
+    COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, ComposerMediaChoice, ComposerNewStatement,
+    ComposerNewStatementSpeaker, ComposerSpeakerChoice, ComposerStatementBodyInput,
+    ComposerStructureCommand, ComposerStructureFailure, ComposerStructureTarget,
+    compose_structure_edit, compose_structure_edit_with_pack,
 };
 pub use composer_text::{
     ComposerTextEdit, ComposerTextEditEndpointAfter, ComposerTextEditing, ComposerTextEndpoint,
@@ -58,7 +58,7 @@ pub use composer_text::{
 };
 pub use emit::{
     AuthoredOriginResolution, BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent,
-    SourceMapEntry, emit_typst,
+    RENDER_PRESENTATION_VERSION, RenderPreset, SourceMapEntry, emit_typst,
 };
 pub use identity::{
     CanonicalIdentityError, LogicalProjectFileId, LogicalSourceId, MaterializationKey,

@@ -376,7 +376,7 @@ Explicit speaker tokens and history references SHALL resolve through the lowered
 
 ### Requirement: Web preview and workspace expose authored structure
 
-The Web editor SHALL render Typst SVG with user-controlled zoom and SHALL represent its `mmtfs://workspace/` authority as the workspace root without creating a duplicate `/workspace` child path.
+The Web editor SHALL render Typst SVG with user-controlled zoom in output/layout presentation and fixed logical-unit scale in temporary chat presentation. It SHALL represent its `mmtfs://workspace/` authority as the workspace root without creating a duplicate `/workspace` child path. Chat SHALL NOT rewrite author settings or expose paper zoom/fit/page chrome; source and layout SHALL retain the existing output controls.
 
 #### Scenario: Existing browser workspace starts
 
@@ -384,7 +384,24 @@ The Web editor SHALL render Typst SVG with user-controlled zoom and SHALL repres
 - WHEN the editor starts
 - THEN it MUST remove that empty compatibility entry
 - AND `story.mmt` MUST remain at `/story.mmt`
-- AND preview controls MUST support zoom in、zoom out、actual size and fit width without rasterizing the SVG
+- AND output/layout preview controls MUST support zoom in、zoom out、actual size and fit width without rasterizing the SVG
+
+#### Scenario: Fitting preserves the current reading point
+
+- GIVEN an author has scrolled into a long output/layout SVG preview or GUI canvas using a fit mode
+- WHEN Fit width、Fit page or a resize in the current fit mode changes scale
+- THEN the current viewport-center document point MUST remain anchored, subject to the natural scroll bounds
+- AND the final compensated viewport MUST be reported rather than the old scroll-pixel offset
+- AND an earlier caret or selected message MUST NOT replace the current reading point
+
+#### Scenario: A saved viewport is restored
+
+- GIVEN a document and presentation have a saved compatible page point and fit mode
+- WHEN the shared preview binds that document/presentation
+- THEN the saved point MUST take precedence over the previous document's viewport center
+- AND fitting MUST NOT introduce an intermediate center restoration that cancels the explicit saved target
+- AND viewport reports MUST carry the required render key of their displayed artifact
+- AND only a report matching the currently bound artifact MAY update its workspace/URI/presentation viewport; an in-flight or retired frame MUST NOT overwrite another document's or presentation's reading point
 
 #### Scenario: Author resizes editor and preview panes
 
@@ -416,7 +433,7 @@ The Web editor SHALL render Typst SVG with user-controlled zoom and SHALL repres
 
 #### Scenario: Multi-page SVG remains vector and visually separated
 
-- GIVEN Typst emits more than one `.typst-page` group
+- GIVEN an output/layout render emits more than one `.typst-page` group
 - WHEN the Web preview imports the SVG
 - THEN consecutive page groups MUST have a visible gap
 - AND zoom、actual size and fit width MUST continue to transform the SVG without rasterization
@@ -468,12 +485,11 @@ an automatically completed resource marker.
 
 ### Requirement: Activity Bar controls auxiliary panes
 
-The standalone Web workbench SHALL expose persistent Activity Bar controls that collapse and restore
-the corresponding auxiliary panes with accurate accessible state.
+In source/advanced-workspace mode, the standalone Web workbench SHALL expose persistent Activity Bar controls that collapse and restore the corresponding auxiliary panes with accurate accessible state. Chat/layout MAY temporarily hide native Parts through their visibility APIs, without overwriting persistent preferences; returning to source SHALL restore the prior native visibility state.
 
 #### Scenario: Activity Bar controls auxiliary panes
 
-- GIVEN the standalone Web workbench is ready
+- GIVEN the standalone Web workbench is in source/advanced-workspace mode
 - WHEN the author uses the Explorer Activity Bar item or the preview collapse control
 - THEN the corresponding pane MUST collapse and restore through the same persistent control
 - AND the control's accessible name and expanded state MUST describe the next action and current state

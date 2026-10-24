@@ -1147,8 +1147,6 @@ fn actor_field_edit(
         .iter()
         .find(|revision| revision.number == revision_number)
         .ok_or(ComposerFailure::ActorUnavailable)?;
-    let actor_name =
-        serialize_scalar(&actor.primary_name, None).ok_or(ComposerFailure::ActorUnavailable)?;
 
     if let Some(edit) = adjacent_actor_field_edit(
         source,
@@ -1163,6 +1161,31 @@ fn actor_field_edit(
         return Ok(edit);
     }
 
+    actor_field_insertion(
+        source,
+        statement,
+        actor,
+        Some(&actor.primary_name),
+        field_name,
+        value,
+    )
+}
+
+fn actor_field_insertion(
+    source: &str,
+    statement: &StatementSyntax,
+    actor: &crate::semantic::ScriptActor,
+    declaration_name: Option<&str>,
+    field_name: &str,
+    value: &str,
+) -> Result<ComposerSourceEdit, ComposerFailure> {
+    let header = match declaration_name {
+        Some(name) => format!(
+            "@actor {}",
+            serialize_scalar(name, None).ok_or(ComposerFailure::ActorUnavailable)?,
+        ),
+        None => "@actor".to_owned(),
+    };
     let encoded = serialize_scalar(value, None).ok_or(ComposerFailure::InvalidValue)?;
     let newline = newline_before_target(source, statement.range.start)
         .ok_or(ComposerFailure::CandidateInvalid)?;
@@ -1187,11 +1210,70 @@ fn actor_field_edit(
         }
     }
     Ok(ComposerSourceEdit {
-        range: TextRange::new(statement.range.start, statement.range.start),
+        range: TextRange::empty(statement.range.start),
         new_text: format!(
-            "@actor {actor_name}{newline}{creation_fields}{field_name}: {encoded}{newline}@end{newline}"
+            "{header}{newline}{creation_fields}{field_name}: {encoded}{newline}@end{newline}"
         ),
     })
+}
+
+pub(crate) fn compose_inserted_avatar_edit(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    packs: &PackRegistry,
+    target_range: TextRange,
+    choice: PackAvatarChoice,
+) -> Result<ComposerSourceEdit, ComposerFailure> {
+    let ComposerCommand::SetActorAvatarFromStatement(choice) = canonicalize_avatar_command(
+        analysis,
+        packs,
+        target_range,
+        ComposerCommand::SetActorAvatarFromStatement(choice),
+    )?
+    else {
+        unreachable!("avatar command canonicalization preserves its kind");
+    };
+    let ordinal =
+        exact_statement_ordinal(analysis, target_range).ok_or(ComposerFailure::TargetChanged)?;
+    let statement =
+        statement_at_ordinal(analysis, ordinal).ok_or(ComposerFailure::TargetChanged)?;
+    let speaker =
+        unique_statement_speaker(analysis, target_range).ok_or(ComposerFailure::TargetChanged)?;
+    let (_, actor, _) =
+        actor_for_speaker(analysis, speaker).ok_or(ComposerFailure::ActorUnavailable)?;
+    let selector = format!(
+        "{}/{}::avatar/{}",
+        choice.entity_id, choice.contribution_namespace, choice.variant_id
+    );
+    // A newly inserted implicit actor must remain the preset's default actor.
+    // A named declaration would create an independent actor and make a later
+    // canonical preset reference attempt to create a conflicting second actor.
+    let declaration_name = if actor
+        .revisions
+        .first()
+        .is_some_and(|revision| revision.origin.start >= statement.range.start)
+    {
+        None
+    } else {
+        Some(actor.primary_name.as_str())
+    };
+    let edit = actor_field_insertion(
+        source,
+        statement,
+        actor,
+        declaration_name,
+        "avatar",
+        &selector,
+    )?;
+    let candidate_source = apply_source_edit(source, &edit)?;
+    let candidate = analyze_text_with_pack(&candidate_source, packs);
+    if analysis_has_errors(&candidate)
+        || !common_semantics_stable_for_avatar(analysis, &candidate)
+        || !avatar_candidate_stable(analysis, &candidate, ordinal, &choice)
+    {
+        return Err(ComposerFailure::CandidateInvalid);
+    }
+    Ok(edit)
 }
 
 fn adjacent_actor_field_edit(

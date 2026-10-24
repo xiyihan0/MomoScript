@@ -191,6 +191,7 @@ export interface MmtE2EApi {
     readonly openDocument: (name: string, text: string) => Promise<string>;
     readonly showDocument: (name: string) => Promise<string>;
     readonly readDocument: (name: string) => Promise<string>;
+    readonly canonicalText: (name: string) => Promise<string>;
     readonly replaceDocument: (name: string, text: string) => Promise<string>;
     readonly editDocument: (name: string, offset: number, deleteCount: number, text: string) => Promise<MmtE2EWorkspaceEditResult>;
     readonly deleteFile: (name: string) => Promise<void>;
@@ -345,6 +346,11 @@ export function createMmtE2EWorkspaceApi(ports: MmtE2EWorkspacePorts): MmtE2EApi
     },
     async readDocument(name: string) {
       return new TextDecoder().decode(await vscode.workspace.fs.readFile(workspaceDocumentUri(ports.workspaceUri, name)));
+    },
+    async canonicalText(name: string) {
+      const uri = workspaceDocumentUri(ports.workspaceUri, name);
+      const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri.toString());
+      return document?.getText() ?? new TextDecoder().decode(await vscode.workspace.fs.readFile(uri));
     },
     async replaceDocument(name: string, text: string) {
       const uri = workspaceDocumentUri(ports.workspaceUri, name);

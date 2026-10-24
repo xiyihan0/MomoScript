@@ -2,6 +2,7 @@ import {
   parseComposerDocumentResult,
   validateComposerSnapshotAgainstDocument,
   type ComposerBoundaryTarget,
+  type ComposerBoundary,
   type ComposerDocumentNode,
   type ComposerDocumentSnapshot,
   type ComposerNodeRef,
@@ -113,6 +114,17 @@ export interface ComposerRuntimeTransient {
   close(): void;
 }
 
+/** Presentation bookmark only; resolution always returns a fresh Rust boundary. */
+export interface ComposerBoundaryBookmark { readonly id: string }
+
+interface TrackedBoundary {
+  readonly document: ComposerRuntimeDocument;
+  version: number;
+  offset: number;
+  valid: boolean;
+  readonly guards: { readonly kind: ComposerDocumentNode["kind"]; start: number; end: number }[];
+}
+
 const STALE_MESSAGE = "源码已更改，未应用编辑。";
 const REJECTED_MESSAGE = "无法应用此编辑。";
 const APPLY_FAILED_MESSAGE = "无法应用编辑。";
@@ -150,6 +162,7 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   #transient: { close: () => void; identity: ComposerRuntimeIdentity } | null = null;
   #textSession: ComposerTextSession | undefined;
   #expectedTextChange: ExpectedTextChange | undefined;
+  readonly #boundaryBookmarks = new Map<string, TrackedBoundary>();
 
   constructor(ports: ComposerRuntimePorts) {
     this.#ports = ports;
@@ -218,6 +231,38 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     }
     this.#selectedNodeKey = nodeKey;
     this.#emit();
+  }
+
+  captureBoundary(boundary: ComposerBoundary): ComposerBoundaryBookmark | undefined {
+    const snapshot = this.#snapshot;
+    const document = this.#bound?.documentIncarnation;
+    if (!snapshot?.boundaries.includes(boundary) || !boundary.insert || !document) return undefined;
+    const id = crypto.randomUUID();
+    this.#boundaryBookmarks.set(id, {
+      document, version: document.version, valid: true,
+      offset: boundary.target.after ? document.offsetAt(boundary.target.after.range.start) : document.getText().length,
+      guards: [boundary.target.before, boundary.target.after].filter((node): node is ComposerNodeRef => node !== null)
+        .map((node) => ({ kind: node.nodeKind, start: document.offsetAt(node.range.start), end: document.offsetAt(node.range.end) })),
+    });
+    return Object.freeze({ id });
+  }
+
+  resolveBoundary(bookmark: ComposerBoundaryBookmark): ComposerBoundary | undefined {
+    const tracked = this.#boundaryBookmarks.get(bookmark.id);
+    const document = this.#bound?.documentIncarnation;
+    const snapshot = this.#snapshot;
+    if (!tracked?.valid || !document || tracked.document !== document || tracked.version !== document.version || !snapshot) return undefined;
+    if (tracked.guards.some((guard) => !snapshot.nodes.some((node) => node.kind === guard.kind
+      && document.offsetAt(node.range.start) === guard.start && document.offsetAt(node.range.end) === guard.end))) {
+      tracked.valid = false;
+      return undefined;
+    }
+    return snapshot.boundaries.find((boundary) => (boundary.target.after
+      ? document.offsetAt(boundary.target.after.range.start) : document.getText().length) === tracked.offset);
+  }
+
+  releaseBoundary(bookmark: ComposerBoundaryBookmark): void {
+    this.#boundaryBookmarks.delete(bookmark.id);
   }
 
   expandNode(nodeKey: string | null): void {
@@ -393,6 +438,7 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     this.#bound = null;
     this.#pending = false;
     this.#listeners.clear();
+    this.#boundaryBookmarks.clear();
     while (this.#subscriptions.length > 0) this.#subscriptions.pop()!.dispose();
   }
 
@@ -410,6 +456,7 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     const expected = this.#expectedTextChange;
     if (!this.#accepting || event.contentChanges.length === 0 || !this.#bound) return;
     if (event.document !== this.#bound.documentIncarnation || event.document.uri.toString() !== this.#bound.uri) return;
+    this.#transformBoundaries(event);
     const ownChange = !!expected && !expected.seen && !expected.signal.aborted
       && expected.identity.documentIncarnation === event.document
       && expected.identity.version + 1 === event.document.version
@@ -435,6 +482,34 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
     this.#pending = false;
     this.#emit();
     this.#requestCurrentSnapshot();
+  }
+
+  #transformBoundaries(event: ComposerRuntimeDocumentChange): void {
+    if (this.#boundaryBookmarks.size === 0) return;
+    const changes = event.contentChanges.map((value) => value as { rangeOffset?: number; rangeLength?: number; text?: string });
+    const validChanges = changes.every((change) => Number.isSafeInteger(change.rangeOffset) && change.rangeOffset! >= 0
+      && Number.isSafeInteger(change.rangeLength) && change.rangeLength! >= 0 && typeof change.text === "string");
+    const ordered = validChanges ? changes.sort((a, b) => b.rangeOffset! - a.rangeOffset!) : [];
+    for (const tracked of this.#boundaryBookmarks.values()) {
+      if (!tracked.valid || tracked.document !== event.document) continue;
+      if (!validChanges || tracked.version !== this.#bound?.version) { tracked.valid = false; continue; }
+      for (const change of ordered) {
+        const start = change.rangeOffset!;
+        const end = start + change.rangeLength!;
+        const length = change.text!.length;
+        if ((start < tracked.offset && end > tracked.offset)
+          || tracked.guards.some((guard) => end > start && start <= guard.start && end >= guard.end)) {
+          tracked.valid = false;
+          break;
+        }
+        tracked.offset = transformOffset(tracked.offset, start, end, length, true);
+        for (const guard of tracked.guards) {
+          guard.start = transformOffset(guard.start, start, end, length, true);
+          guard.end = transformOffset(guard.end, start, end, length, false);
+        }
+      }
+      tracked.version = event.document.version;
+    }
   }
 
   #catalogChanged(): void {
@@ -642,7 +717,9 @@ export class ComposerRuntime implements ComposerRuntimeDisposable {
   }
 
   async #notify(kind: ComposerRuntimeNotificationKind, message: string): Promise<void> {
-    if (this.#accepting) await this.#ports.notify(kind, message);
+    if (!this.#accepting) return;
+    // A notification's dismissal promise must not own the edit transaction.
+    void Promise.resolve().then(() => this.#ports.notify(kind, message)).catch(() => undefined);
   }
 }
 
@@ -684,9 +761,9 @@ function authorizeStructure(
   if (command.kind === "replaceNodeSource") return node.capabilities.replaceSource;
   if (node.kind === "opaque") return false;
   if (command.kind === "deleteNode") return node.capabilities.delete;
+  if (command.kind === "setStatementSide") return node.kind === "message" && node.capabilities.setSide.includes(command.side);
   if (command.kind === "moveNode") {
-    return sameOptionalBoundary(node.capabilities.moveUp, command.anchor)
-      || sameOptionalBoundary(node.capabilities.moveDown, command.anchor);
+    return node.capabilities.moveTargets.some((target) => sameBoundary(target, command.anchor));
   }
   return node.kind === "message"
     && node.capabilities.setSpeaker
@@ -700,7 +777,7 @@ function authorizeInsertion(
   statement: ComposerNewStatement,
   speakerReferences: ComposerRuntimeSpeakerReferences,
 ): boolean {
-  if (!insert.statementModes.includes(statement.body.mode)) return false;
+  if (statement.kind !== "media" && !insert.statementModes.includes(statement.body.mode)) return false;
   if (statement.kind === "narration") return insert.narration;
   if (statement.speaker.kind === "builtin") return insert.builtinMessageSides.includes(statement.side);
   const speakerSource = speakerReferences.script.has(statement.speaker.reference)
@@ -733,13 +810,16 @@ function sameBoundary(left: ComposerBoundaryTarget, right: ComposerBoundaryTarge
     && sameNodeRef(left.after, right.after);
 }
 
-function sameOptionalBoundary(left: ComposerBoundaryTarget | null, right: ComposerBoundaryTarget): boolean {
-  return left !== null && sameBoundary(left, right);
-}
 
 function sameRange(left: ComposerDocumentNode["range"], right: ComposerDocumentNode["range"]): boolean {
   return left.start.line === right.start.line
     && left.start.character === right.start.character
     && left.end.line === right.end.line
     && left.end.character === right.end.character;
+}
+
+function transformOffset(offset: number, start: number, end: number, length: number, right: boolean): number {
+  if (offset < start || (offset === start && !right)) return offset;
+  if (offset > end || offset === end) return offset + length - (end - start);
+  return start + (right ? length : 0);
 }

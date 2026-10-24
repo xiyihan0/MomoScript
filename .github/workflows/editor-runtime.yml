@@ -441,6 +441,8 @@ jobs:
           npm --prefix editors/vscode-web run check
           npm --prefix editors/vscode-web run test:composer-document
           npm --prefix editors/vscode-web run test:composer-runtime
+          npm --prefix editors/vscode-web run test:composer-image-import
+          npm --prefix editors/vscode-web run test:workspace-mirror
           npm --prefix editors/vscode run test:preview-renderer-protocol
           npm --prefix editors/vscode-web run test:preview-renderer-session
           npm --prefix editors/vscode-web run test:preview-render-queue

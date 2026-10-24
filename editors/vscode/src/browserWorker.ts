@@ -4,6 +4,8 @@ import {
   createConnection
 } from "vscode-languageserver/browser";
 import { initSync, WasmLanguageServer } from "../wasm/mmt_lsp.js";
+import { parseRenderPreset, type RenderPreset } from "./renderPreset";
+import type { TypstRenderProjectUpdate } from "./tinymistClient";
 
 type ServerEvent = { method: string; params: unknown };
 type ResponseEnvelope = { result?: unknown; error?: { code: number; message: string } };
@@ -31,12 +33,20 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
     return envelope.result as T;
   }
 
+  function sendEvent(event: ServerEvent): void {
+    if (event.method === "mmt/typstRenderProjectUpdated") {
+      const update = event.params as { renderPreset?: unknown } | null;
+      parseRenderPreset(update?.renderPreset);
+    }
+    connection.sendNotification(event.method, event.params);
+  }
+
   function notification(method: string, params: unknown): void {
     const outcome = JSON.parse(
       server.notification(method, JSON.stringify(params))
     ) as NotificationOutcome;
     for (const event of outcome.events) {
-      connection.sendNotification(event.method, event.params);
+      sendEvent(event);
     }
     if (outcome.error) {
       console.error(`${method}: ${outcome.error.code}: ${outcome.error.message}`);
@@ -51,19 +61,26 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   connection.onDidCloseTextDocument((params) => notification("textDocument/didClose", params));
   connection.onRequest("mmt/updatePackManifests", (params) => {
     const outcome = request<PackUpdateOutcome>("mmt/updatePackManifests", params);
-    for (const event of outcome.events ?? []) connection.sendNotification(event.method, event.params);
+    for (const event of outcome.events ?? []) sendEvent(event);
     return outcome;
   });
   connection.onRequest("mmt/getTypstProject", (params) =>
     request("mmt/getTypstProject", params)
   );
   connection.onRequest("mmt/getTypstRenderProject", (params) => {
-    const outcome = request<
-      | (Record<string, unknown> & { events?: ServerEvent[] })
-      | null
-    >("mmt/getTypstRenderProject", params);
+    const requested = typeof params === "object" && params !== null && Object.hasOwn(params, "renderPreset")
+      ? parseRenderPreset((params as Record<string, unknown>).renderPreset)
+      : { kind: "output" } as const;
+    const outcome = request<(TypstRenderProjectUpdate & { events?: ServerEvent[] }) | null>(
+      "mmt/getTypstRenderProject",
+      params
+    );
     if (outcome === null) return null;
-    for (const event of outcome.events ?? []) connection.sendNotification(event.method, event.params);
+    const renderPreset = parseRenderPreset(outcome.renderPreset);
+    if (!renderPresetsMatch(renderPreset, requested)) {
+      throw new Error("MomoScript render response preset does not match its request");
+    }
+    for (const event of outcome.events ?? []) sendEvent(event);
     const { events: _, ...update } = outcome;
     return update;
   });
@@ -123,6 +140,11 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   );
   connection.listen();
   self.postMessage({ jsonrpc: "2.0", method: "mmt/workerReady", params: null });
+}
+
+function renderPresetsMatch(left: RenderPreset, right: RenderPreset): boolean {
+  return left.kind === right.kind
+    && (left.kind !== "chat" || (right.kind === "chat" && left.widthPt === right.widthPt));
 }
 
 function waitForBoot(): Promise<ArrayBuffer> {

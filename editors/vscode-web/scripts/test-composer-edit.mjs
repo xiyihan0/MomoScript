@@ -550,7 +550,7 @@ const bodyNode = (text, line, nodeKey = String(line + 1).repeat(64)) => ({
   statementRange: { start: { line, character: 0 }, end: { line, character: text.length + 2 } },
   body: { current: text, mode: "inherit", resolvedMode: "textMacro", inheritedMode: "textMacro" },
   textEditing: { text },
-  capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null },
+  capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null, moveTargets: [] },
 });
 const endpoint = (node, offsetUtf16) => ({
   node: { nodeKey: node.nodeKey, nodeKind: node.kind, range: node.range },
@@ -564,6 +564,7 @@ const selectionSnapshot = {
   nodes: [bodyNode("A😀é中", 0), bodyNode("第二条", 1)],
   boundaries: [],
   scriptActorChoices: [],
+  assetChoices: [],
 };
 const unicodeNode = selectionSnapshot.nodes[0];
 const unicodeEndpoint = endpoint(unicodeNode, 3);

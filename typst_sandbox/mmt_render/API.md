@@ -98,6 +98,8 @@ Public parameters use Typst-style kebab-case. The API does not maintain snake_ca
   title: "无题",
   author: none,
   compiled-at: none,
+  presentation: "output", // reserved for the MMT render pipeline
+  chat-width: none, // reserved for the MMT render pipeline
   body,
 )
 ```
@@ -123,6 +125,8 @@ Public parameters use Typst-style kebab-case. The API does not maintain snake_ca
 `compiled-at` must already be formatted. The template does not read a clock, infer a timezone, or format an instant. MMT preview/export hosts inject a revision- or export-pinned value before emission.
 
 Page, base text, header, and footer setup happens when the show rule starts. A later `mmt.configure(theme: ...)` call cannot retroactively change these values.
+
+The render pipeline can request the temporary `presentation: "chat"` with an integer logical page width of 240–720pt in `chat-width`. This is not an authored document option. It merges chat overrides into the complete supplied theme: 12pt page margins, 16pt base text, 40pt avatars, an 8pt avatar gap, 12pt message spacing, 4pt continued spacing, and 12pt bubble corners. The chat page has no default fill, and both header and footer are suppressed; page height remains automatic and explicit authored page breaks remain active. Fonts, colors, narration/reply/bond fields, body content, authored background graphics, and explicit per-message patches are retained. The default `"output"` presentation keeps the existing page and component behavior.
 
 ## `mmt.themes.moetalk()`
 
@@ -175,7 +179,7 @@ The dictionary is not yet a versioned external theme schema:
 
 - Header and footer tokens are still implemented directly in `template.typ`.
 - `mmt.reply` and `mmt.bond` still contain visual defaults that are not read from `theme.reply` and `theme.bond`.
-- `theme.chat.avatar-size`, `avatar-gap`, `message-gap`, and `continued-gap` are currently declared but not consumed; `chat.typ` still uses fixed layout values for those decisions.
+- `theme.chat.avatar-size`, `avatar-gap`, `message-gap`, and `continued-gap` are consumed by the internal chat presentation. Output presentation retains the existing fixed layout values.
 - `mmt.bubble` is a low-level helper with literal defaults and does not consult theme state.
 - Unknown theme fields are not currently validated.
 - There is no public theme patch or inheritance helper.
@@ -398,10 +402,10 @@ Current limitation: visual defaults are still literal or internal values; `theme
 ### Signature
 
 ```typst
-#let avatar(content, size: 3em)
+#let avatar(content, size: auto)
 ```
 
-The helper sets image sizing for its content and clips it into a circular box.
+The helper sets image sizing for its content and clips it into a circular box. `auto` retains the existing 3em size for output; the temporary chat presentation uses its 40pt theme avatar size. Explicit sizes take precedence in either presentation.
 
 ```typst
 #mmt.avatar(image("materialized/avatar.png"), size: 3em)

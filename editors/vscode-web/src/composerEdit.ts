@@ -129,13 +129,27 @@ export type ComposerSpeakerChoice = {
   readonly reference: string;
 };
 
+export type ComposerMediaChoice =
+  | { readonly kind: "asset"; readonly assetName: string }
+  | { readonly kind: "workspaceImage"; readonly relativePath: string }
+  | { readonly kind: "sticker"; readonly entityId: string; readonly setId: string; readonly ordinal: number };
+
 export type ComposerNewStatement =
   | {
       readonly kind: "message";
       readonly side: ComposerMessageSide;
       readonly speaker: ComposerSpeakerChoice | { readonly kind: "builtin" };
+      readonly avatar: ComposerAvatarChoice | null;
       readonly body: { readonly value: string; readonly mode: StatementTextMode };
       readonly continued: StatementContinuedValue;
+    }
+  | {
+      readonly kind: "media";
+      readonly side: ComposerMessageSide;
+      readonly speaker: ComposerSpeakerChoice | { readonly kind: "builtin" };
+      readonly avatar: ComposerAvatarChoice | null;
+      readonly continued: StatementContinuedValue;
+      readonly media: ComposerMediaChoice;
     }
   | {
       readonly kind: "narration";
@@ -147,6 +161,7 @@ export type ComposerStructureCommand =
   | { readonly kind: "deleteNode" }
   | { readonly kind: "replaceNodeSource"; readonly source: string }
   | { readonly kind: "moveNode"; readonly anchor: ComposerBoundaryTarget }
+  | { readonly kind: "setStatementSide"; readonly side: ComposerMessageSide }
   | {
       readonly kind: "setStatementSpeaker";
       readonly speaker: ComposerSpeakerChoice;

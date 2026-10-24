@@ -68,6 +68,7 @@ async function narrationSnapshot(document, body, options = {}) {
         replaceSource: options.replaceSource ?? true,
         moveUp: null,
         moveDown: null,
+        moveTargets: [],
       },
     }],
     boundaries: [
@@ -75,6 +76,7 @@ async function narrationSnapshot(document, body, options = {}) {
       { target: after, insert: options.insert ?? null },
     ],
     scriptActorChoices: [],
+    assetChoices: [],
   };
 }
 
@@ -289,6 +291,7 @@ async function settle() {
     target: runtime.state.snapshot.boundaries.at(-1).target,
     command: { kind: "insertStatement", statement: {
       kind: "message", side: "left", speaker: { kind: "actor", reference: "pack::A" },
+      avatar: null,
       continued: "auto", body: { value: "new message", mode: "textRaw" },
     } },
   };
@@ -1540,6 +1543,197 @@ async function createTextHarness(initialRecords) {
   assert.equal(h.session.selection, null);
   assert.equal(h.document.text, "- elsewhere");
   h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- A", body: "A" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  assert.equal(h.send({ kind: "replace", origin: "typing", text: "恢复😀" }, "never-issued"), false);
+  assert.equal(h.session.captureRecoveryTarget(), undefined, "a ready old caret cannot replay newly rejected text without explicit reselection");
+  await h.session.enter(h.nodeRef(), 1);
+  const target = h.session.captureRecoveryTarget();
+  assert.ok(target, "a fresh selected target can be pinned before confirmation");
+  const replay = h.session.retryRecoveredText("恢复😀", target);
+  await waitFor(() => h.requests.length === 1);
+  assert.equal(h.requests[0].params.command.replacement, "恢复😀");
+  assert.deepEqual(h.requests[0].params.target.selection, target.selection, "host recovery submits only the explicitly confirmed selection");
+  await h.respond([{ source: "- A恢复😀", body: "A恢复😀" }], 5);
+  await h.publishSnapshot();
+  assert.equal(await replay, true);
+  await h.idle();
+  assert.equal(h.document.text, "- A恢复😀");
+  assert.deepEqual(h.clipboard, [], "recovery does not replace the native clipboard");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const target = h.session.captureRecoveryTarget();
+  await h.session.enter(h.nodeRef(), 2);
+  assert.equal(await h.session.retryRecoveredText("retained", target), false);
+  assert.equal(h.requests.length, 0, "a changed target after confirmation never retargets recovery");
+  h.runtime.dispose();
+}
+
+{
+  const h = await createTextHarness([{ source: "- abc", body: "abc" }]);
+  await h.session.enter(h.nodeRef(), 1);
+  const target = h.session.captureRecoveryTarget();
+  const replay = h.session.retryRecoveredText("retained", target);
+  await waitFor(() => h.requests.length === 1);
+  const old = h.ports.currentGeometryIdentity();
+  h.ports.currentGeometryIdentity = () => ({ ...old, generation: old.generation + 1, renderKey: "different-confirmed-render" });
+  const changed = await textSnapshot(new TestDocument(h.document.uri.toString(), 2, "- aretainedbc"), [{ source: "- aretainedbc", body: "aretainedbc" }]);
+  const endpoint = { statementRange: changed.nodes[0].statementRange, offsetUtf16: 9 };
+  h.requests[0].pending.resolve({
+    kind: "TextEdit",
+    edit: { documentChanges: [{ textDocument: h.requests[0].params.textDocument, edits: [{
+      range: { start: { line: 0, character: 0 }, end: h.document.positionAt(h.document.text.length) }, newText: "- aretainedbc",
+    }] }] },
+    sourceDigestAfter: changed.sourceDigest, selectionAfter: { anchor: endpoint, focus: endpoint },
+  });
+  assert.equal(await replay, false);
+  await h.idle();
+  assert.equal(h.document.text, "- abc", "new geometry during authorization rejects replay before native apply");
+  h.runtime.dispose();
+}
+
+{
+  const harness = createHarness();
+  const document = new TestDocument("file:///workspace/insert-bookmark.mmt", 1, "- A\n- B");
+  harness.documents.set(document.uri.toString(), document);
+  const runtime = new ComposerRuntime(harness.ports);
+  const publish = async (records) => {
+    const snapshot = await textSnapshot(document, records);
+    for (const boundary of snapshot.boundaries) boundary.insert = {
+      boundary: boundary.target, messageSides: ["left", "right"], builtinMessageSides: ["right"],
+      statementModes: ["textRaw"], speakerSources: ["packEntity"], narration: true,
+    };
+    harness.documentRequests.at(-1).pending.resolve(snapshot);
+    await waitFor(() => runtime.state.snapshot?.textDocument.version === document.version);
+  };
+  runtime.bindDocument(document);
+  await publish([{ source: "- A\n", body: "A" }, { source: "- B", body: "B" }]);
+  const oldBoundary = runtime.state.snapshot.boundaries[1];
+  const bookmark = runtime.captureBoundary(oldBoundary);
+  assert.ok(bookmark);
+  document.text = "- AA\n- B";
+  document.version += 1;
+  harness.documentChanges.emit({ document, contentChanges: [{ rangeOffset: 3, rangeLength: 0, text: "A" }] });
+  await publish([{ source: "- AA\n", body: "AA" }, { source: "- B", body: "B" }]);
+  const transformed = runtime.resolveBoundary(bookmark);
+  assert.equal(transformed, runtime.state.snapshot.boundaries[1]);
+  assert.notEqual(transformed.target.before.nodeKey, oldBoundary.target.before.nodeKey, "insertion state rebinds authored ranges, never an old node key");
+  document.text = "- AA\n- C\n- B";
+  document.version += 1;
+  harness.documentChanges.emit({ document, contentChanges: [{ rangeOffset: 5, rangeLength: 0, text: "- C\n" }] });
+  await publish([{ source: "- AA\n", body: "AA" }, { source: "- C\n", body: "C" }, { source: "- B", body: "B" }]);
+  assert.equal(runtime.resolveBoundary(bookmark), runtime.state.snapshot.boundaries[2], "an accepted insertion advances the explicit boundary before the original following message");
+  document.text = "- AA\n- C\n";
+  document.version += 1;
+  harness.documentChanges.emit({ document, contentChanges: [{ rangeOffset: 9, rangeLength: 3, text: "" }] });
+  await publish([{ source: "- AA\n", body: "AA" }, { source: "- C\n", body: "C" }]);
+  assert.equal(runtime.resolveBoundary(bookmark), undefined, "deleted insertion context cannot guess a neighboring message");
+  runtime.releaseBoundary(bookmark);
+  runtime.dispose();
+}
+
+{
+  const harness = createHarness();
+  const document = new TestDocument("file:///workspace/semantic-insert.mmt", 1, "- A\n- B\n- C");
+  harness.documents.set(document.uri.toString(), document);
+  const runtime = new ComposerRuntime(harness.ports);
+  runtime.bindDocument(document);
+  const snapshot = await textSnapshot(document, [{ source: "- A\n", body: "A" }, { source: "- B\n", body: "B" }, { source: "- C", body: "C" }]);
+  const end = snapshot.boundaries.at(-1);
+  end.insert = { boundary: end.target, messageSides: ["left", "right"], builtinMessageSides: ["right"], statementModes: ["textRaw"], speakerSources: ["packEntity"], narration: true };
+  snapshot.nodes[0].capabilities.moveTargets = [end.target];
+  harness.documentRequests[0].pending.resolve(snapshot);
+  await waitFor(() => runtime.state.snapshot !== null);
+  const first = runtime.state.snapshot.nodes[0];
+  const target = { kind: "node", node: { nodeKey: first.nodeKey, nodeKind: first.kind, range: first.range } };
+  const move = runtime.execute({ kind: "structure", target, command: { kind: "moveNode", anchor: end.target } });
+  assert.equal(harness.editRequests.length, 1, "Move to can use an explicit Rust boundary beyond one-step controls");
+  harness.editRequests[0].pending.resolve({ kind: "Rejected", reason: "candidateInvalid" });
+  assert.equal(await move, false);
+  assert.equal(await runtime.execute({ kind: "structure", target, command: { kind: "moveNode", anchor: snapshot.boundaries[1].target } }), false);
+  assert.equal(harness.editRequests.length, 1, "a non-listed move boundary is never sent as mutation authority");
+  const avatar = { kind: "packAvatar", entityId: "pack::A", contributionNamespace: "extra", variantId: "smile" };
+  const statements = [
+    { kind: "message", side: "left", speaker: { kind: "actor", reference: "pack::A" }, avatar, continued: "auto", body: { value: "next", mode: "textRaw" } },
+    ...[
+      { kind: "asset", assetName: "portrait" },
+      { kind: "workspaceImage", relativePath: "assets/imported.png" },
+      { kind: "sticker", entityId: "pack::A", setId: "extra::expressions", ordinal: 7 },
+    ].map((media) => ({ kind: "media", side: "left", speaker: { kind: "actor", reference: "pack::A" }, avatar, continued: "auto", media })),
+  ];
+  for (const statement of statements) {
+    const execution = runtime.execute({ kind: "structure", target: runtime.state.snapshot.boundaries.at(-1).target, command: { kind: "insertStatement", statement } });
+    const request = harness.editRequests.at(-1);
+    assert.deepEqual(request.params.command.statement, statement, "semantic media and exact avatar identities reach Rust without TS DSL construction");
+    request.pending.resolve({ kind: "Rejected", reason: "candidateInvalid" });
+    assert.equal(await execution, false);
+  }
+  assert.equal(document.text, "- A\n- B\n- C", "rejected semantic commands do not modify canonical source");
+  runtime.dispose();
+}
+
+{
+  const harness = createHarness();
+  const document = new TestDocument("file:///workspace/teacher-side.mmt", 1, "< builtin: A");
+  harness.documents.set(document.uri.toString(), document);
+  const runtime = new ComposerRuntime(harness.ports);
+  runtime.bindDocument(document);
+  const snapshot = await narrationSnapshot(document, "A");
+  snapshot.nodes[0] = {
+    ...snapshot.nodes[0], kind: "message", side: "right", speaker: { kind: "builtin", id: "teacher" },
+    continued: "auto", actorDisplayName: null, actorAvatar: null,
+    capabilities: { ...snapshot.nodes[0].capabilities, setContinued: true, setDisplayName: false, setAvatar: false, setSpeaker: false, setSide: ["right"] },
+  };
+  snapshot.boundaries = snapshot.boundaries.map((boundary) => ({
+    ...boundary, target: { ...boundary.target,
+      before: boundary.target.before && { ...boundary.target.before, nodeKind: "message" },
+      after: boundary.target.after && { ...boundary.target.after, nodeKind: "message" } },
+  }));
+  harness.documentRequests[0].pending.resolve(snapshot);
+  await waitFor(() => runtime.state.snapshot !== null);
+  const node = runtime.state.snapshot.nodes[0];
+  const target = { kind: "node", node: { nodeKey: node.nodeKey, nodeKind: node.kind, range: node.range } };
+  assert.equal(await runtime.execute({ kind: "structure", target, command: { kind: "setStatementSide", side: "left" } }), false);
+  assert.equal(harness.editRequests.length, 0, "the teacher's right-only capability is honored before transport");
+  const right = runtime.execute({ kind: "structure", target, command: { kind: "setStatementSide", side: "right" } });
+  assert.deepEqual(harness.editRequests[0].params.command, { kind: "setStatementSide", side: "right" });
+  harness.editRequests[0].pending.resolve({ kind: "Rejected", reason: "candidateInvalid" });
+  assert.equal(await right, false);
+  runtime.dispose();
+}
+
+{
+  const harness = createHarness();
+  const document = new TestDocument("file:///workspace/rejected-notification.mmt", 1, "- A");
+  harness.documents.set(document.uri.toString(), document);
+  let notification;
+  harness.ports.notify = (kind, message) => {
+    notification = { kind, message };
+    return new Promise(() => {});
+  };
+  const runtime = new ComposerRuntime(harness.ports);
+  runtime.bindDocument(document);
+  harness.documentRequests[0].pending.resolve(await narrationSnapshot(document, "A"));
+  await waitFor(() => runtime.state.snapshot !== null);
+  const node = runtime.state.snapshot.nodes[0];
+  const editing = runtime.execute({
+    kind: "property", target: { kind: "statement", range: node.statementRange },
+    command: { kind: "setStatementBody", value: "rejected", mode: "inherit" },
+  });
+  harness.editRequests[0].pending.resolve({ kind: "Rejected", reason: "staleDocument" });
+  assert.equal(await editing, false, "a visible warning does not wait for user dismissal before finishing a rejected edit");
+  assert.equal(runtime.state.pending, false, "rejected sends cannot remain pending behind a notification");
+  assert.equal(notification.kind, "warning");
+  assert.equal(document.text, "- A");
+  assert.equal(harness.applyCalls.length, 0, "notification completion never substitutes for Rust authorization");
+  runtime.dispose();
 }
 
 console.log("composer runtime contracts passed");

@@ -1,11 +1,16 @@
 import { createReadStream } from "node:fs";
-import { stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
 const extensionRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+const composerPackSources = await Promise.all(["base", "extension"].map(async (name) => ({
+  manifestUrl: `https://example.test/composer/${name}-manifest.json`,
+  baseUrl: "https://example.test/composer/",
+  json: await readFile(new URL(`../../../mmt_rs/tests/fixtures/pack-v3/${name}-manifest.json`, import.meta.url), "utf8")
+})));
 const server = createServer(async (request, response) => {
   const pathname = new URL(request.url ?? "/", "http://localhost").pathname;
   if (pathname === "/") {
@@ -48,7 +53,7 @@ try {
     console.error(`[requestfailed] ${request.url()} ${request.failure()?.errorText ?? ""}`)
   );
   await page.goto(`http://127.0.0.1:${address.port}/`);
-  const result = await page.evaluate(async (wasmUri) => {
+  const result = await page.evaluate(async ({ wasmUri, composerPackSources }) => {
     const worker = new Worker("/dist/browserWorker.js");
     let nextId = 1;
     const pending = new Map();
@@ -488,6 +493,10 @@ try {
     if (acceptedRenderProject.params.projectDigest !== renderProject.projectDigest) {
       throw new Error("accepted render notification identity differs from its request response");
     }
+    if (!hasExactKeys(renderProject.renderPreset, ["kind"]) || renderProject.renderPreset.kind !== "output"
+      || JSON.stringify(acceptedRenderProject.params.renderPreset) !== JSON.stringify(renderProject.renderPreset)) {
+      throw new Error("browser Worker omitted the default output render preset");
+    }
     if (renderProject.resources.length !== 1) throw new Error("render project omitted actor avatar");
     if (renderProject.resources[0].fileName !== "yuzu.png") throw new Error("render resource path mismatch");
     if (renderProject.entryUri !== renderLanguageProject.params.entryUri) {
@@ -746,7 +755,8 @@ try {
         "sourceDigest",
         "nodes",
         "boundaries",
-        "scriptActorChoices"
+        "scriptActorChoices",
+        "assetChoices"
       ])
       || composerDocument.sourceDigest !== "bce2aba48a26a2a0563a796525448e08544fde34437b58b077b2f890f60ecc9a"
       || composerDocument.textDocument.uri !== composerUri
@@ -759,6 +769,10 @@ try {
       || !hasExactKeys(composerDocument.nodes[0].textEditing, ["text"])
       || composerDocument.nodes[0].textEditing.text !== "hello"
       || composerDocument.nodes[0].capabilities.setSpeaker !== false
+      || JSON.stringify(composerDocument.nodes[0].capabilities.setSide) !== '["right"]'
+      || !Array.isArray(composerDocument.nodes[0].capabilities.moveTargets)
+      || composerDocument.nodes[0].capabilities.moveTargets.length !== 0
+      || composerDocument.assetChoices.length !== 0
       || composerDocument.boundaries.length !== 2
     ) {
       throw new Error(
@@ -861,6 +875,7 @@ try {
           statement: {
             kind: "message", side: "right", speaker: { kind: "builtin" },
             body: { value: body, mode: "textRaw" }, continued: "auto",
+            avatar: null,
           },
         },
       });
@@ -871,7 +886,10 @@ try {
       }
     }
     if (structureNode.capabilities.replaceSource !== true
-      || JSON.stringify(structureDocument.boundaries[0].insert.builtinMessageSides) !== '["right"]') {
+      || JSON.stringify(structureDocument.boundaries[0].insert.builtinMessageSides) !== '["right"]'
+      || !Array.isArray(structureNode.capabilities.moveTargets)
+      || !structureNode.capabilities.moveTargets.some((target) =>
+        JSON.stringify(target) === JSON.stringify(structureNode.capabilities.moveDown))) {
       throw new Error("Worker is missing declared SourceLens or Teacher insertion capabilities");
     }
     const lensUri = "file:///workspace/source-lens-worker.mmt";
@@ -1349,6 +1367,377 @@ try {
         throw new Error(`browser Worker omitted @document value completion ${expected}`);
       }
     }
+    const renderPresetUri = "file:///workspace/render-presets.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: renderPresetUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@actor yuzu\npreset: ba::柚子\n@end\n> yuzu: Hello"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === renderPresetUri
+    );
+    const presetRequest = {
+      uri: renderPresetUri,
+      timestamp: { unixMillis: 1_700_000_000_000, localOffsetMinutes: 0 }
+    };
+    const outputPresetProject = await request("mmt/getTypstRenderProject", presetRequest);
+    await waitForNotification(
+      "mmt/typstRenderProjectUpdated",
+      (message) => message.params.sourceUri === renderPresetUri
+        && message.params.projectDigest === outputPresetProject.projectDigest
+    );
+    const explicitOutputPresetProject = await request("mmt/getTypstRenderProject", {
+      ...presetRequest, renderPreset: { kind: "output" }
+    });
+    if (!hasExactKeys(outputPresetProject.renderPreset, ["kind"])
+      || outputPresetProject.renderPreset.kind !== "output"
+      || explicitOutputPresetProject.projectDigest !== outputPresetProject.projectDigest
+      || explicitOutputPresetProject.projectionKey !== outputPresetProject.projectionKey) {
+      throw new Error("browser Worker changed the omitted-preset output contract");
+    }
+    const presetProjects = [outputPresetProject];
+    for (const widthPt of [240, 390, 720]) {
+      const previous = presetProjects.at(-1);
+      const chatProject = await request("mmt/getTypstRenderProject", {
+        ...presetRequest,
+        renderPreset: { kind: "chat", widthPt },
+        baseRevision: previous.revision,
+        baseProjectDigest: previous.projectDigest
+      });
+      const publication = await waitForNotification(
+        "mmt/typstRenderProjectUpdated",
+        (message) => message.params.sourceUri === renderPresetUri
+          && message.params.projectDigest === chatProject.projectDigest
+      );
+      if (!hasExactKeys(chatProject.renderPreset, ["kind", "widthPt"])
+        || chatProject.renderPreset.kind !== "chat" || chatProject.renderPreset.widthPt !== widthPt
+        || JSON.stringify(publication.params.renderPreset) !== JSON.stringify(chatProject.renderPreset)
+        || chatProject.sourceVersion !== outputPresetProject.sourceVersion
+        || chatProject.sourceContent !== outputPresetProject.sourceContent
+        || !chatProject.full || chatProject.baseRevision !== undefined || chatProject.baseProjectDigest !== undefined
+        || Object.hasOwn(chatProject, "events")
+        || presetProjects.some((candidate) => candidate.projectDigest === chatProject.projectDigest
+          || candidate.projectionKey === chatProject.projectionKey
+          || candidate.entryUri === chatProject.entryUri)) {
+        throw new Error(`browser Worker failed render preset isolation at width ${widthPt}`);
+      }
+      const entry = chatProject.files.find((file) => file.uri === chatProject.entryUri);
+      const wrapper = entry?.text?.indexOf("#text(\"") ?? -1;
+      if (wrapper < 0) throw new Error("chat preset omitted the authored text projection");
+      const offset = wrapper + 1;
+      const target = await request("mmt/previewComposerTarget", {
+        sourceUri: renderPresetUri,
+        revision: chatProject.revision,
+        sourceContent: chatProject.sourceContent,
+        projectDigest: chatProject.projectDigest,
+        projectionKey: chatProject.projectionKey,
+        entryUri: chatProject.entryUri,
+        backendEncoding: "utf-16",
+        location: {
+          uri: chatProject.entryUri,
+          range: {
+            start: positionAtUtf16(entry.text, offset),
+            end: positionAtUtf16(entry.text, offset + 1)
+          }
+        }
+      });
+      if (target.kind !== "Editable" || target.properties?.statementText?.current !== "Hello") {
+        throw new Error("chat preset did not authorize the same authored message");
+      }
+      presetProjects.push(chatProject);
+    }
+    const lastChatProject = presetProjects.at(-1);
+    const restoredOutputPresetProject = await request("mmt/getTypstRenderProject", {
+      ...presetRequest,
+      renderPreset: { kind: "output" },
+      baseRevision: lastChatProject.revision,
+      baseProjectDigest: lastChatProject.projectDigest
+    });
+    if (restoredOutputPresetProject.renderPreset.kind !== "output"
+      || restoredOutputPresetProject.sourceContent !== outputPresetProject.sourceContent
+      || !restoredOutputPresetProject.full
+      || restoredOutputPresetProject.baseRevision !== undefined
+      || restoredOutputPresetProject.baseProjectDigest !== undefined) {
+      throw new Error("browser Worker reused a chat incremental base for output");
+    }
+    const invalidRenderPresets = [
+      null, "output", {}, { kind: "unknown" },
+      { kind: "output", widthPt: 390 }, { kind: "output", extra: true },
+      { kind: "chat" }, { kind: "chat", widthPt: "390" },
+      { kind: "chat", widthPt: 239 }, { kind: "chat", widthPt: 721 },
+      { kind: "chat", widthPt: 390.5 }, { kind: "chat", width_pt: 390 },
+      { kind: "chat", widthPt: 390, extra: true }
+    ];
+    for (const renderPreset of invalidRenderPresets) {
+      let rejection;
+      try {
+        await request("mmt/getTypstRenderProject", { ...presetRequest, renderPreset });
+      } catch (error) {
+        rejection = error;
+      }
+      if (!rejection || !/Invalid render preset/.test(rejection.message)) {
+        throw new Error(`browser Worker accepted an invalid render preset: ${JSON.stringify(renderPreset)}`);
+      }
+    }
+    const languagePresetProject = await request("mmt/getTypstProject", { uri: renderPresetUri });
+    if (Object.hasOwn(languagePresetProject, "renderPreset")) {
+      throw new Error("browser Worker leaked a render preset into the language projection DTO");
+    }
+
+    const authoringPackUpdate = await request("mmt/updatePackManifests", {
+      revision: 2, sources: composerPackSources
+    });
+    if (authoringPackUpdate.revision !== 2 || !authoringPackUpdate.updated) {
+      throw new Error("Worker did not activate the shared native/WASM Composer pack fixtures");
+    }
+    const nodeTarget = (node) => ({
+      kind: "node", node: { nodeKey: node.nodeKey, nodeKind: node.kind, range: node.range }
+    });
+    const structureParams = (snapshot, target, command) => ({
+      textDocument: snapshot.textDocument, sourceDigest: snapshot.sourceDigest, target, command
+    });
+    async function authoringSnapshot(uri, source, version = 1) {
+      const projected = waitForNotification("mmt/typstProjectUpdated", (message) =>
+        message.params.sourceUri === uri && message.params.sourceVersion === version);
+      notify(version === 1 ? "textDocument/didOpen" : "textDocument/didChange", version === 1
+        ? { textDocument: { uri, languageId: "mmt", version, text: source } }
+        : { textDocument: { uri, version }, contentChanges: [{ text: source }] });
+      await projected;
+      const snapshot = await request("mmt/composerDocument", { textDocument: { uri, version } });
+      if (snapshot.kind !== "Snapshot"
+        || !Array.isArray(snapshot.assetChoices)
+        || snapshot.assetChoices.some((choice) => !hasExactKeys(choice, ["assetName"]) || typeof choice.assetName !== "string")) {
+        throw new Error(`Worker did not return validated authoring choices: ${JSON.stringify(snapshot)}`);
+      }
+      return snapshot;
+    }
+    async function applyAtomicStructureEdit(source, snapshot, result) {
+      const documents = result.edit?.documentChanges;
+      if (result.kind !== "Edit" || !hasExactKeys(result, ["kind", "edit"])
+        || !hasExactKeys(result.edit, ["documentChanges"])
+        || documents?.length !== 1
+        || !hasExactKeys(documents[0], ["textDocument", "edits"])
+        || JSON.stringify(documents[0].textDocument) !== JSON.stringify(snapshot.textDocument)
+        || documents[0].edits?.length !== 1
+        || !hasExactKeys(documents[0].edits[0], ["range", "newText"])) {
+        throw new Error(`Worker structure edit is not one versioned atomic change: ${JSON.stringify(result)}`);
+      }
+      const unchanged = await request("mmt/composerDocument", { textDocument: snapshot.textDocument });
+      if (unchanged.sourceDigest !== snapshot.sourceDigest) throw new Error("Worker structure request mutated canonical source");
+      const edit = documents[0].edits[0];
+      const offsetAt = (position) => source.split("\n").slice(0, position.line)
+        .reduce((offset, line) => offset + line.length + 1, position.character);
+      const changed = source.slice(0, offsetAt(edit.range.start)) + edit.newText + source.slice(offsetAt(edit.range.end));
+      return {
+        source: changed,
+        snapshot: await authoringSnapshot(snapshot.textDocument.uri, changed, snapshot.textDocument.version + 1)
+      };
+    }
+    async function expectStructureRejection(params, reason) {
+      const result = await request("mmt/composerEdit", params);
+      if (!hasExactKeys(result, ["kind", "reason"]) || result.kind !== "Rejected"
+        || (reason !== undefined && result.reason !== reason)) {
+        throw new Error(`Worker accepted an unauthorized structure intent: ${JSON.stringify(result)}`);
+      }
+    }
+    async function expectMalformedStructure(params) {
+      let rejection;
+      try { await request("mmt/composerEdit", params); } catch (error) { rejection = error; }
+      if (!rejection || !/-32602|unknown field|unknown variant|decode|invalid params|did not match/iu.test(rejection.message)) {
+        throw new Error(`Worker accepted malformed structure fields: ${JSON.stringify(params)}`);
+      }
+    }
+
+    const insertionAvatar = {
+      kind: "packAvatar", entityId: "ba_fixture::佳代子",
+      contributionNamespace: "ba_fixture", variantId: "smile"
+    };
+    const hasInsertionAvatar = (node) => {
+      const current = node.actorAvatar?.current;
+      return hasExactKeys(current, ["kind", "entityId", "contributionNamespace", "variantId"])
+        && Object.keys(insertionAvatar).every((key) => current[key] === insertionAvatar[key]);
+    };
+    const semanticAuthoringContract = { sideChanges: 0, explicitMoves: 0, avatarInsertions: 0, mediaInsertions: 0 };
+    for (const [lineEnding, eol] of [["lf", "\n"], ["crlf", "\r\n"]]) {
+      const sideSource = [
+        "< _0: teacher", "> 佳代子: first😀", "> 小雪: second", "- fourth", "",
+        "@typ: #strong[barrier]", "- isolated", ""
+      ].join(eol);
+      const sideSnapshot = await authoringSnapshot(`file:///workspace/side-${lineEnding}.mmt`, sideSource);
+      const firstActor = sideSnapshot.nodes[1];
+      if (JSON.stringify(sideSnapshot.nodes[0].capabilities.setSide) !== '["right"]'
+        || JSON.stringify(firstActor.capabilities.setSide) !== '["left","right"]'
+        || !Array.isArray(firstActor.capabilities.moveTargets)
+        || !Array.isArray(sideSnapshot.nodes[3].capabilities.moveTargets)) {
+        throw new Error("Worker did not publish explicit message-side and move-boundary capabilities");
+      }
+      const sideParams = structureParams(sideSnapshot, nodeTarget(firstActor), {
+        kind: "setStatementSide", side: "right"
+      });
+      await expectStructureRejection({
+        ...sideParams, target: nodeTarget(sideSnapshot.nodes[0]),
+        command: { kind: "setStatementSide", side: "left" }
+      }, "unsupportedStructure");
+      await expectMalformedStructure({ ...sideParams, command: { kind: "setStatementSide", side: "center" } });
+      await expectMalformedStructure({ ...sideParams, command: { kind: "setStatementSide", side: "right", sigil: "<" } });
+      const sideChanged = await applyAtomicStructureEdit(sideSource, sideSnapshot, await request("mmt/composerEdit", sideParams));
+      const afterSide = sideChanged.snapshot.nodes[1];
+      if (sideChanged.source !== sideSource.replace("> 佳代子", "< 佳代子")
+        || afterSide.side !== "right"
+        || JSON.stringify(afterSide.body) !== JSON.stringify(firstActor.body)
+        || JSON.stringify(afterSide.speaker) !== JSON.stringify(firstActor.speaker)
+        || afterSide.continued !== firstActor.continued) {
+        throw new Error("Worker side change altered message semantics or neighboring source bytes");
+      }
+      await expectStructureRejection(sideParams, "staleDocument");
+      semanticAuthoringContract.sideChanges += 1;
+
+      const moveSnapshot = await authoringSnapshot(`file:///workspace/move-${lineEnding}.mmt`, sideSource);
+      const moveAnchor = moveSnapshot.boundaries[4].target;
+      if (!moveSnapshot.nodes[1].capabilities.moveTargets.some((target) =>
+        JSON.stringify(target) === JSON.stringify(moveAnchor))) {
+        throw new Error("Worker omitted an authorized nonadjacent move boundary");
+      }
+      const moveParams = structureParams(moveSnapshot, nodeTarget(moveSnapshot.nodes[1]), {
+        kind: "moveNode", anchor: moveAnchor
+      });
+      await expectStructureRejection({
+        ...moveParams, command: { kind: "moveNode", anchor: moveSnapshot.boundaries.at(-1).target }
+      }, "unsupportedStructure");
+      const moved = await applyAtomicStructureEdit(sideSource, moveSnapshot, await request("mmt/composerEdit", moveParams));
+      const editableBodies = moved.snapshot.nodes.filter((node) => node.kind !== "opaque").map((node) => node.body.current);
+      if (JSON.stringify(editableBodies) !== JSON.stringify(["teacher", "second", "fourth", "first😀", "isolated"])
+        || !moved.source.endsWith(`${eol}@typ: #strong[barrier]${eol}- isolated${eol}`)) {
+        throw new Error("Worker explicit move crossed the opaque barrier or changed message content");
+      }
+      semanticAuthoringContract.explicitMoves += 1;
+
+      const avatarSource = ["> 佳代子: before", "> 小雪: other", "> 佳代子: later", ""].join(eol);
+      const avatarSnapshot = await authoringSnapshot(`file:///workspace/insert-avatar-${lineEnding}.mmt`, avatarSource);
+      const avatarParams = structureParams(avatarSnapshot, avatarSnapshot.boundaries[1].target, {
+        kind: "insertStatement",
+        statement: {
+          kind: "message", side: "left", speaker: { kind: "actor", reference: "佳代子" },
+          avatar: insertionAvatar, body: { value: "new 😀\nsecond", mode: "textRaw" }, continued: "true"
+        }
+      });
+      const insertedAvatar = await applyAtomicStructureEdit(
+        avatarSource, avatarSnapshot, await request("mmt/composerEdit", avatarParams)
+      );
+      const avatarMessages = insertedAvatar.snapshot.nodes.filter((node) => node.kind === "message");
+      const beforeMessages = avatarSnapshot.nodes.filter((node) => node.kind === "message");
+      if (avatarMessages.length !== 4 || avatarMessages[1].body.current !== `new 😀${eol}second`
+        || avatarMessages[1].continued !== "true"
+        || JSON.stringify(avatarMessages[0].actorAvatar) !== JSON.stringify(beforeMessages[0].actorAvatar)
+        || JSON.stringify(avatarMessages[2].actorAvatar) !== JSON.stringify(beforeMessages[1].actorAvatar)
+        || [1, 3].some((index) => !hasInsertionAvatar(avatarMessages[index]))
+        || !insertedAvatar.source.startsWith(`> 佳代子: before${eol}`)
+        || !insertedAvatar.source.endsWith(`> 小雪: other${eol}> 佳代子: later${eol}`)) {
+        throw new Error("Worker message-plus-avatar insertion did not preserve its scoped atomic semantics");
+      }
+      semanticAuthoringContract.avatarInsertions += 1;
+
+      const mediaSource = ["@asset image_1", "src: old.png", "@end", "> 佳代子: before😀", "> 小雪: other", ""].join(eol);
+      const mediaCases = [
+        { name: "asset", media: { kind: "asset", assetName: "image_1" }, fileName: "old.png" },
+        { name: "workspace", media: {
+          kind: "workspaceImage", relativePath: "assets/88112233-4400-4400-8800-889911223344.jpg"
+        }, avatar: insertionAvatar, fileName: "assets/88112233-4400-4400-8800-889911223344.jpg" },
+        { name: "base-sticker", media: {
+          kind: "sticker", entityId: "ba_fixture::佳代子", setId: "default", ordinal: 2
+        }, namespace: "ba_fixture", frame: 1 },
+        { name: "extension-sticker", media: {
+          kind: "sticker", entityId: "ba_fixture::佳代子", setId: "festival", ordinal: 1
+        }, namespace: "ba_fixture_ext", frame: 0 }
+      ];
+      for (const choice of mediaCases) {
+        const uri = `file:///workspace/media-${choice.name}-${lineEnding}.mmt`;
+        const mediaSnapshot = await authoringSnapshot(uri, mediaSource);
+        if (JSON.stringify(mediaSnapshot.assetChoices) !== JSON.stringify([{ assetName: "image_1" }])) {
+          throw new Error("Worker asset choices did not reflect declared canonical assets");
+        }
+        const statement = {
+          kind: "media", side: choice.avatar ? "left" : "right",
+          speaker: choice.avatar ? { kind: "actor", reference: "佳代子" } : { kind: "builtin" },
+          avatar: choice.avatar ?? null, continued: choice.avatar ? "auto" : "false", media: choice.media
+        };
+        const params = structureParams(mediaSnapshot, mediaSnapshot.boundaries.at(-1).target, {
+          kind: "insertStatement", statement
+        });
+        const inserted = await applyAtomicStructureEdit(mediaSource, mediaSnapshot, await request("mmt/composerEdit", params));
+        const mediaNode = inserted.snapshot.nodes.filter((node) => node.kind === "message").at(-1);
+        const expectedAssets = choice.name === "workspace"
+          ? [{ assetName: "image_1" }, { assetName: "image_2" }]
+          : [{ assetName: "image_1" }];
+        if (!inserted.source.startsWith(mediaSource)
+          || mediaNode.side !== statement.side || mediaNode.continued !== statement.continued
+          || mediaNode.textEditing !== null || mediaNode.capabilities.delete !== true
+          || !Array.isArray(mediaNode.capabilities.moveTargets)
+          || JSON.stringify(inserted.snapshot.assetChoices) !== JSON.stringify(expectedAssets)
+          || (choice.avatar && !hasInsertionAvatar(mediaNode))) {
+          throw new Error(`Worker ${choice.name} media did not reparse into its authorized non-caret message`);
+        }
+        const mediaProject = await request("mmt/getTypstRenderProject", { uri });
+        const resolved = choice.fileName
+          ? mediaProject.resources.find((resource) => resource.kind === "workspace-file" && resource.fileName === choice.fileName)
+          : mediaProject.resources.find((resource) => resource.kind === "image-sequence"
+            && resource.packNamespace === choice.namespace && resource.frame === choice.frame);
+        if (!resolved) throw new Error(`Worker ${choice.name} media lost its canonical resource reference or physical frame`);
+        await expectStructureRejection(params, "staleDocument");
+        semanticAuthoringContract.mediaInsertions += 1;
+      }
+    }
+
+    const invalidMediaSource = "- keep😀\n";
+    const invalidMediaSnapshot = await authoringSnapshot("file:///workspace/media-invalid-worker.mmt", invalidMediaSource);
+    const mediaIntent = (media) => structureParams(invalidMediaSnapshot, invalidMediaSnapshot.boundaries.at(-1).target, {
+      kind: "insertStatement", statement: {
+        kind: "media", side: "right", speaker: { kind: "builtin" }, avatar: null, continued: "auto", media
+      }
+    });
+    for (const media of [
+      { kind: "asset", assetName: "undeclared" },
+      { kind: "asset", assetName: "pack_portrait" },
+      { kind: "workspaceImage", relativePath: "assets/../secret.png" },
+      { kind: "workspaceImage", relativePath: "/assets/new.png" },
+      { kind: "workspaceImage", relativePath: "assets/nested/new.png" },
+      { kind: "workspaceImage", relativePath: "assets/new.svg" },
+      { kind: "sticker", entityId: "ba_fixture::佳代子", setId: "missing", ordinal: 1 },
+      { kind: "sticker", entityId: "ba_fixture::佳代子", setId: "default", ordinal: 9 }
+    ]) await expectStructureRejection(mediaIntent(media), "invalidValue");
+    for (const media of [
+      { kind: "workspaceImage", relativePath: "assets/new.png", url: "https://example.test/x.png" },
+      { kind: "asset", assetName: "image_1", source: "[:arbitrary:]" },
+      { kind: "sticker", entityId: "ba_fixture::佳代子", setId: "default", ordinal: 0 },
+      { kind: "sticker", entityId: "ba_fixture::佳代子", setId: "default", ordinal: 1.5 },
+      { kind: "url", url: "https://example.test/x.png" }
+    ]) await expectMalformedStructure(mediaIntent(media));
+    const validMediaIntent = mediaIntent({ kind: "workspaceImage", relativePath: "assets/new.png" });
+    await expectStructureRejection({ ...validMediaIntent, sourceDigest: "0".repeat(64) }, "staleDocument");
+    await expectStructureRejection({
+      ...validMediaIntent, textDocument: { ...validMediaIntent.textDocument, version: 0 }
+    }, "staleDocument");
+    const changedBoundary = structuredClone(validMediaIntent);
+    changedBoundary.target.before.nodeKey = "0".repeat(64);
+    await expectStructureRejection(changedBoundary);
+    const teacherWithAvatar = structuredClone(validMediaIntent);
+    teacherWithAvatar.command.statement.avatar = insertionAvatar;
+    await expectStructureRejection(teacherWithAvatar, "invalidValue");
+    const missingInsertionAvatar = structuredClone(validMediaIntent);
+    missingInsertionAvatar.command.statement.side = "left";
+    missingInsertionAvatar.command.statement.speaker = { kind: "actor", reference: "佳代子" };
+    missingInsertionAvatar.command.statement.avatar = { ...insertionAvatar, variantId: "missing" };
+    await expectStructureRejection(missingInsertionAvatar, "invalidValue");
+    const unchangedInvalidMedia = await request("mmt/composerDocument", { textDocument: invalidMediaSnapshot.textDocument });
+    if (unchangedInvalidMedia.sourceDigest !== invalidMediaSnapshot.sourceDigest
+      || unchangedInvalidMedia.assetChoices.length !== 0) {
+      throw new Error("Rejected media intent partially modified source or introduced an asset declaration");
+    }
+
     await request("shutdown", null);
     notify("exit", null);
     worker.terminate();
@@ -1371,6 +1760,13 @@ try {
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
       renderResource: renderProject.resources[0].fileName,
       renderNotificationIdentity: acceptedRenderProject.params.projectDigest === renderProject.projectDigest,
+      renderPresetContract: {
+        presets: presetProjects.map((project) => project.renderPreset),
+        rejected: invalidRenderPresets.length,
+        sameAuthoredSource: true,
+        independentProjectionIdentities: true,
+        crossPresetDeltaRejected: true
+      },
       composerResultKinds: [
         composerTarget.kind,
         composerDocument.kind,
@@ -1390,6 +1786,7 @@ try {
         staleDigest: staleTextRead.reason,
         invalidBoundary: invalidBoundary.reason
       },
+      semanticAuthoringContract,
       synchronizationVersions: [afterDuplicate.sourceVersion, afterOlder.sourceVersion],
       legacyUpdateDocumentUnavailable: true,
       renderDiagnosticPhases: [...renderPhases].sort(),
@@ -1405,7 +1802,10 @@ try {
       ],
       multilineTypProjectionVersion: multilineTypProject.sourceVersion
     };
-  }, `http://127.0.0.1:${address.port}/wasm/mmt_lsp_bg.wasm`);
+  }, {
+    wasmUri: `http://127.0.0.1:${address.port}/wasm/mmt_lsp_bg.wasm`,
+    composerPackSources
+  });
 
   if (result.positionEncoding !== "utf-16") throw new Error("position encoding mismatch");
   if (result.hoverProvider !== true) throw new Error("missing negotiated hover provider");

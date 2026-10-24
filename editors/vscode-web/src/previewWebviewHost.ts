@@ -10,6 +10,8 @@ import {
 import type { TypstPreviewBinding, TypstPreviewPublication } from "./preview.ts";
 import type { PreviewArtifact } from "./previewArtifact.ts";
 import type { PreviewRendererCandidate } from "./previewRendererSession.ts";
+import { parseRenderPreset, type RenderPreset } from "../../vscode/src/renderPreset.ts";
+import type { ExactExportFormat } from "./exactExport.ts";
 import previewWebviewRuntimeUrl from "./previewWebviewRuntime.ts?worker&url";
 import {
   acceptsComposerIntent,
@@ -20,6 +22,8 @@ import {
   escapeHtml,
   isPreviewWebviewToHostMessage,
   isPreviewContextPointMessage,
+  isPreviewSurfacePresentation,
+  previewPresentationAcceptsPreset,
   type PreviewContextMenuAnchor,
   type PreviewExactExportState,
   type PreviewHostToWebviewMessage,
@@ -30,7 +34,7 @@ import {
   type PreviewViewport,
   type PreviewVisualReadyMessage,
   type PreviewWebviewToHostMessage,
-  ComposerState,
+  type ComposerState,
   float32CoordinatePrecision,
 } from "./previewWebviewProtocol.ts";
 
@@ -38,7 +42,7 @@ export type PreviewExactExportRequest = Extract<PreviewWebviewToHostMessage, { t
 
 export interface PreviewWebviewHostEvents {
   readonly ready?: () => void;
-  readonly viewportChanged: (viewport: PreviewViewport) => void;
+  readonly viewportChanged: (viewport: PreviewViewport, renderKey: string, presentation: PreviewSurfacePresentation) => void;
   readonly navigationRequested: (point: PreviewNavigationPoint) => void | Promise<void>;
   readonly contextMenuRequested: (
     point: PreviewNavigationPoint,
@@ -52,7 +56,7 @@ export interface PreviewWebviewHostEvents {
 }
 interface PreviewWebviewHostOptions {
   readonly webviewService: IWebviewService;
-  readonly defaultExportFormat?: () => "pdf" | "png";
+  readonly defaultExportFormat?: () => ExactExportFormat;
 }
 
 interface PendingReadyWaiter {
@@ -77,6 +81,9 @@ interface RendererGeneration {
   readonly sessionId: string;
   readonly backendGeneration: number;
   readonly generation: number;
+  readonly renderPreset: RenderPreset;
+  readonly candidate: PreviewRendererCandidate;
+  readonly committed: boolean;
 }
 
 /** Owns one retained preview webview and its transport, independently of its visible pane. */
@@ -113,6 +120,7 @@ export class PreviewWebviewHost implements IDisposable {
 
   attachSurface(claimant: object, container: HTMLElement, clippingContainer: HTMLElement, presentation: PreviewSurfacePresentation): void {
     if (this.#disposed) throw new Error("Preview Webview host is disposed");
+    if (!isPreviewSurfacePresentation(presentation)) throw new Error("Invalid preview surface presentation");
     if (container.ownerDocument.defaultView !== mainWindow || clippingContainer.ownerDocument !== container.ownerDocument) {
       throw new Error("Preview surfaces must belong to the main workbench window");
     }
@@ -123,6 +131,9 @@ export class PreviewWebviewHost implements IDisposable {
       return;
     }
     this.#surfaceLayoutCleanup?.();
+    if (this.#surface && (this.#surface.presentation === "chat") !== (presentation === "chat")) {
+      this.clearRendererGeneration();
+    }
     this.#surface = { claimant, container, clippingContainer, presentation };
     const webview = this.#ensureWebview();
     webview.claim(claimant, mainWindow, undefined);
@@ -149,6 +160,8 @@ export class PreviewWebviewHost implements IDisposable {
     if (this.#surface?.claimant !== claimant) return;
     this.#surfaceLayoutCleanup?.();
     this.#surfaceLayoutCleanup = undefined;
+    // Releasing chat switches the retained consumer back to output and discards its frame base.
+    if (this.#surface.presentation === "chat") this.clearRendererGeneration();
     this.#surface = undefined;
     this.#webview?.release(claimant);
     if (this.#ready) void this.#post({ type: "presentation", presentation: "preview" });
@@ -239,8 +252,9 @@ export class PreviewWebviewHost implements IDisposable {
     void this.#post(message);
   }
 
-  restoreViewport(viewport: PreviewViewport): void {
-    void this.#post({ type: "restoreViewport", viewport });
+  restoreViewport(viewport: PreviewViewport, presentation: PreviewSurfacePresentation): void {
+    if (this.#surface?.presentation !== presentation) return;
+    void this.#post({ type: "restoreViewport", viewport, presentation });
   }
 
   clearRendererGeneration(): void {
@@ -248,23 +262,39 @@ export class PreviewWebviewHost implements IDisposable {
     this.#rendererResyncRequested = undefined;
   }
 
-  resetRenderer(): void {
+  resetRenderer(candidate?: PreviewRendererCandidate): void {
+    if (candidate && this.#rendererGeneration?.candidate !== candidate) return;
     this.clearRendererGeneration();
     void this.#post({ type: "renderer-reset" });
   }
 
-  acceptsRendererCandidate(candidate: PreviewRendererCandidate): boolean {
+  acceptsRendererCandidate(candidate: PreviewRendererCandidate, renderPreset: RenderPreset): boolean {
     if (candidate.ready.frameKind !== "diff-v1") return true;
-    return this.#rendererGeneration?.sessionId === candidate.sessionId
-      && this.#rendererGeneration.backendGeneration === candidate.backendGeneration
-      && this.#rendererGeneration.generation === candidate.ready.baseGeneration;
+    const committed = this.#rendererGeneration;
+    return committed?.committed === true
+      && committed.sessionId === candidate.sessionId
+      && committed.backendGeneration === candidate.backendGeneration
+      && committed.generation === candidate.ready.baseGeneration
+      && committed.renderPreset.kind === renderPreset.kind
+      && (committed.renderPreset.kind !== "chat"
+        || (renderPreset.kind === "chat" && committed.renderPreset.widthPt === renderPreset.widthPt));
   }
 
-  commitRendererCandidate(candidate: PreviewRendererCandidate): void {
+  commitRendererCandidate(candidate: PreviewRendererCandidate, renderPreset: RenderPreset): void {
+    const published = this.#rendererGeneration;
+    if (published?.candidate !== candidate
+      || published.renderPreset.kind !== renderPreset.kind
+      || (published.renderPreset.kind === "chat"
+        && (renderPreset.kind !== "chat" || published.renderPreset.widthPt !== renderPreset.widthPt))) {
+      throw new Error("Preview renderer candidate is no longer the published frame");
+    }
     this.#rendererGeneration = Object.freeze({
       sessionId: candidate.sessionId,
       backendGeneration: candidate.backendGeneration,
       generation: candidate.ready.generation,
+      renderPreset: parseRenderPreset(renderPreset),
+      candidate,
+      committed: true,
     });
     if (!this.#rendererResyncRequested) return;
     if (this.#rendererResyncRequested.sessionId === candidate.sessionId
@@ -284,6 +314,7 @@ export class PreviewWebviewHost implements IDisposable {
       mimeType: asset.mimeType,
       dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
     })));
+    this.#assertRenderPreset(artifact.renderPreset);
     // Full-SVG publications reset the retained renderer consumer.
     this.clearRendererGeneration();
     await this.#post({
@@ -293,6 +324,7 @@ export class PreviewWebviewHost implements IDisposable {
       pageSize: { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight },
       requestSequence: this.#publicationSequence++,
       renderKey: artifact.renderKey,
+      renderPreset: artifact.renderPreset,
       spans: [],
     });
   }
@@ -309,6 +341,7 @@ export class PreviewWebviewHost implements IDisposable {
       dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
     })));
     // Full-SVG publications reset the retained renderer consumer.
+    this.#assertRenderPreset(publication.artifact.renderPreset);
     this.clearRendererGeneration();
     const acknowledgement = this.#acknowledgement(requestSequence, publication.artifact.renderKey);
     const delivered = await this.#post({
@@ -319,6 +352,7 @@ export class PreviewWebviewHost implements IDisposable {
       requestSequence,
       traceId: publication.traceId,
       renderKey: publication.artifact.renderKey,
+      renderPreset: publication.artifact.renderPreset,
       spans: publication.spans,
     });
     if (!delivered || webview !== this.#webview) {
@@ -336,6 +370,10 @@ export class PreviewWebviewHost implements IDisposable {
     if (!webview) throw new Error("Preview Webview is not attached");
     await this.waitUntilReady(binding.signal);
     binding.signal?.throwIfAborted();
+    this.#assertRenderPreset(binding.renderPreset);
+    if (!this.acceptsRendererCandidate(candidate, binding.renderPreset)) {
+      throw new Error("Preview renderer delta has no matching presentation baseline");
+    }
     const requestSequence = this.#publicationSequence++;
     const acknowledgement = this.#acknowledgement(requestSequence, binding.renderKey);
     const message: PreviewRendererFrameMessage = {
@@ -352,8 +390,19 @@ export class PreviewWebviewHost implements IDisposable {
       requestSequence,
       traceId: binding.traceId,
       renderKey: binding.renderKey,
+      renderPreset: binding.renderPreset,
       publishedAtEpochMs: Date.now(),
     };
+    // Publication owns the consumer before visual-ready or producer commit can
+    // settle. Cleanup for an older lane must not reset this newer frame.
+    this.#rendererGeneration = Object.freeze({
+      sessionId: candidate.sessionId,
+      backendGeneration: candidate.backendGeneration,
+      generation: candidate.ready.generation,
+      renderPreset: parseRenderPreset(binding.renderPreset),
+      candidate,
+      committed: false,
+    });
     const delivered = await this.#post(message);
     if (!delivered || webview !== this.#webview) {
       this.#pendingPublications.delete(requestSequence);
@@ -372,6 +421,9 @@ export class PreviewWebviewHost implements IDisposable {
       || renderer.byteLength !== candidate.ready.byteLength
       || renderer.pageGeometries.length !== candidate.ready.pageCount) {
       throw new Error("Preview Webview renderer acknowledgement identity mismatch");
+    }
+    if (this.#rendererGeneration?.candidate !== candidate) {
+      throw new Error("Preview renderer candidate is no longer the published frame");
     }
     return ready;
   }
@@ -429,10 +481,19 @@ export class PreviewWebviewHost implements IDisposable {
       pending.reject(signal?.reason instanceof Error ? signal.reason : new DOMException("Aborted", "AbortError"));
     };
     signal?.addEventListener("abort", abort, { once: true });
+    // Delivery can await postMessage while the surface is released. Adding a
+    // listener afterward does not replay an abort that already happened.
+    if (signal?.aborted) abort();
     try {
       return await acknowledgement;
     } finally {
       signal?.removeEventListener("abort", abort);
+    }
+  }
+
+  #assertRenderPreset(renderPreset: RenderPreset): void {
+    if (!previewPresentationAcceptsPreset(this.#surface?.presentation ?? "preview", renderPreset)) {
+      throw new Error("Preview publication does not match the attached presentation");
     }
   }
 
@@ -469,14 +530,15 @@ export class PreviewWebviewHost implements IDisposable {
       case "renderer-resync-needed": {
         const current = this.#rendererGeneration;
         if (current?.sessionId === message.sessionId && current.generation === message.generation) {
-          this.#rendererGeneration = undefined;
+          if (current.committed) this.#rendererGeneration = undefined;
+          else this.#rendererResyncRequested = message;
         } else if (!current || (current.sessionId === message.sessionId && current.generation < message.generation)) {
           this.#rendererResyncRequested = message;
         }
         return;
       }
       case "viewport":
-        this.#events.viewportChanged(message.viewport);
+        this.#events.viewportChanged(message.viewport, message.renderKey, message.presentation);
         return;
       case "navigate":
         await this.#events.navigationRequested(message.point);
@@ -489,7 +551,8 @@ export class PreviewWebviewHost implements IDisposable {
       case "composer-intent": {
         const session = this.#composerSessions.get(message.sessionId);
         if (!session || message.sequence <= session.receivedSequence) return;
-        const admitted = this.#surface !== undefined && this.#composerState?.sessionId === message.sessionId
+        const admitted = this.#surface !== undefined && this.#surface.presentation !== "preview"
+          && this.#composerState?.sessionId === message.sessionId
           && acceptsComposerIntent(message, session.state, session.receivedSequence, session.renderKeys);
         session.receivedSequence = message.sequence;
         if (admitted) {
@@ -543,7 +606,7 @@ function previewWebviewRuntimeResourceRoot(): URI {
   return URI.parse(new URL(".", previewWebviewRuntimeResourceUri().toString()).href);
 }
 
-function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): string {
+function previewWebviewHtml(title: string, defaultExportFormat: ExactExportFormat): string {
   const nonce = crypto.randomUUID().replaceAll("-", "");
   const runtimeUri = asWebviewUri(previewWebviewRuntimeResourceUri()).toString();
   const formats = [
@@ -567,10 +630,14 @@ function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): 
     .preview-toolbar { position: relative; z-index: 2; display: flex; flex: 0 0 auto; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
     .zoom-controls { display: flex; flex: 0 0 auto; align-items: center; gap: 5px; }
     .zoom-controls > * { flex: 0 0 auto; }
-    .preview-fit-icon { display: none; }
     .zoom-controls button, .exact-export button, .exact-export select { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; white-space: nowrap; }
     .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
     .exact-export { display: grid; flex: 1 1 440px; grid-template-columns: auto auto minmax(100px, 1fr); align-items: center; justify-content: stretch; gap: 4px 6px; min-width: 0; }
+    .snapshot-export { flex: 1 1 440px; min-width: 0; }
+    .snapshot-export > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; color: var(--vscode-descriptionForeground); }
+    body[data-presentation="preview"] .snapshot-export > summary { display: none; }
+    .exact-export-page { display: inline-flex; align-items: center; gap: 5px; min-width: 0; }
+    .exact-export-page[hidden] { display: none; }
     .exact-export-format { display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--vscode-descriptionForeground); font-size: 11px; }
     .exact-export button { padding: 3px 8px; }
     .exact-export select:disabled, .exact-export button:disabled { cursor: not-allowed; opacity: .55; }
@@ -615,31 +682,36 @@ function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): 
       .exact-export-format select { min-width: 0; max-width: none; }
       .exact-export-status { grid-column: auto; max-width: 360px; text-align: left; }
     }
-    body[data-composer-surface="true"] { --mmt-chat-background: #edf4f8; --mmt-chat-surface: #fff; --mmt-chat-text: #28465f; --mmt-chat-muted: #60788b; --mmt-chat-accent: #4a8ac6; --mmt-chat-accent-hover: #3675b0; --mmt-chat-border: #d8e5ee; --mmt-chat-selection: #e4f1fb; --mmt-chat-font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
-    body[data-composer-surface="true"] .viewport { background: var(--mmt-chat-background); }
-    body[data-composer-surface="true"] .preview-toolbar { flex-wrap: nowrap; align-items: center; justify-content: center; gap: 0; min-height: 52px; padding: 4px max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); overflow: hidden; border-bottom-color: var(--mmt-chat-border); background: var(--mmt-chat-surface); color: var(--mmt-chat-text); font-family: var(--mmt-chat-font); }
-    body[data-composer-surface="true"] .zoom-controls { flex: 1 1 auto; width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: center; gap: 4px; }
-    body[data-composer-surface="true"] .zoom-controls button { display: inline-flex; flex: 0 0 44px; align-items: center; justify-content: center; width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 12px; background: transparent; color: var(--mmt-chat-text); font: 400 20px var(--mmt-chat-font); }
-    body[data-composer-surface="true"] .zoom-controls button:hover { background: var(--mmt-chat-selection); color: var(--mmt-chat-accent-hover); }
-    body[data-composer-surface="true"] .zoom-controls button:focus-visible { outline: 2px solid var(--mmt-chat-accent); outline-offset: -3px; }
-    body[data-composer-surface="true"] .zoom-controls button:active { background: var(--mmt-chat-selection); color: var(--mmt-chat-accent); }
-    body[data-composer-surface="true"] .zoom-label { width: 44px; color: var(--mmt-chat-muted); font: 600 12px var(--mmt-chat-font); font-variant-numeric: tabular-nums; }
-    body[data-composer-surface="true"] .preview-fit-label { display: none; }
-    body[data-composer-surface="true"] .preview-fit-icon { display: block; width: 20px; height: 20px; }
-    body[data-composer-surface="true"] .exact-export { display: none; }
+    body[data-presentation="layout"] .preview-toolbar { gap: 4px 12px; font-size: 14px; }
+    body[data-presentation="layout"] .zoom-controls { gap: 4px; }
+    body[data-presentation="layout"] .zoom-controls button { min-width: 44px; min-height: 44px; padding: 6px; border-color: transparent; border-radius: 10px; color: var(--vscode-foreground); background: transparent; font: inherit; }
+    body[data-presentation="layout"] .zoom-controls button:hover { background: var(--vscode-toolbar-hoverBackground); }
+    body[data-presentation="layout"] .zoom-controls button:focus-visible { outline: 2px solid var(--vscode-focusBorder); outline-offset: -2px; }
+    body[data-presentation="layout"] .zoom-label { font: 13px var(--vscode-font-family); }
+    body[data-presentation="layout"] .snapshot-export { flex: 0 1 auto; margin-inline-start: auto; }
+    body[data-presentation="layout"] .snapshot-export > summary { font-size: 13px; }
+    body[data-presentation="chat"] { background: #edf4f8; color: #213547; }
+    body[data-presentation="chat"] .preview-toolbar { display: none; }
+    body[data-presentation="chat"] .viewport { padding: 0; background: #edf4f8; }
+    body[data-presentation="chat"] .page { box-shadow: none; }
+    body[data-presentation="chat"] > .status { color: #52697d; }
+    body[data-presentation="chat"] > .status.error { color: #b42332; }
   </style>
 </head>
-<body>
+<body data-presentation="preview">
   <nav class="preview-toolbar" aria-label="预览操作">
     <div class="zoom-controls">
       <button type="button" data-zoom="out" aria-label="Zoom out" title="Zoom out">−</button>
       <span class="zoom-label" aria-live="polite">100%</span>
       <button type="button" data-zoom="in" aria-label="Zoom in" title="Zoom in">+</button>
-      <button type="button" data-fit="width" aria-label="Fit width" title="Fit width"><span class="preview-fit-label">Fit width</span><svg class="preview-fit-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v14M17 3v14M4 10h12M7 7l-3 3 3 3M13 7l3 3-3 3"/></svg></button>
-      <button type="button" data-fit="page" aria-label="Fit page" title="Fit page"><span class="preview-fit-label">Fit page</span><svg class="preview-fit-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3H3v4M13 3h4v4M3 13v4h4M17 13v4h-4"/><rect x="7" y="6" width="6" height="8" rx=".5"/></svg></button>
+      <button type="button" data-fit="width" aria-label="Fit width" title="Fit width">Fit width</button>
+      <button type="button" data-fit="page" aria-label="Fit page" title="Fit page">Fit page</button>
     </div>
+    <details class="snapshot-export" open>
+      <summary>高级：导出已接受排版快照</summary>
     <section class="exact-export" data-mode="exact" data-availability="no-document" data-phase="idle" aria-label="Exact snapshot export">
       <label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label>
+      <label class="exact-export-page" hidden><span>Page</span><select aria-label="Export page" disabled></select></label>
       <button type="button" data-export-action="ready" hidden disabled>Export exact revision</button>
       <div class="exact-export-stale" hidden>
         <button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button>
@@ -648,6 +720,7 @@ function previewWebviewHtml(title: string, defaultExportFormat: "pdf" | "png"): 
       <button type="button" data-export-action="cancel" hidden disabled>Cancel export</button>
       <output class="exact-export-status" role="status">Open a preview to export its output.</output>
     </section>
+    </details>
   </nav>
   <main class="status">Rendering preview…</main>
   <main class="viewport" hidden><article class="page" data-page-index="0"></article></main>
