@@ -66,13 +66,65 @@ export class WorkspaceAssetMirror implements vscode.Disposable {
 
     const entry = vscode.Uri.parse(project.entryUri);
     const basePath = entry.path.slice(0, entry.path.lastIndexOf("/") + 1);
+    const sourcePrefix = source.path.slice(root.path.length, source.path.lastIndexOf("/") + 1);
     const existing = new Set(project.files.map((file) => file.uri));
+    const claimed = new Set<string>();
+    const requested = new Set<string>();
+    for (const resource of project.resources) {
+      claimed.add(resource.uri);
+      if (resource.kind !== "workspace-file") continue;
+      if (resource.fileName.split("/").some((segment) => !safeWorkspaceAssetName(segment))
+        || !WorkspaceAssetMirror.IMAGE_PATTERN.test(resource.fileName)) {
+        throw new Error(`Unsafe workspace resource name: ${resource.fileName}`);
+      }
+      requested.add(`${sourcePrefix}${resource.fileName}`);
+    }
     const files: TypstVirtualFile[] = [];
+    let totalBytes = 0;
+    for (const resource of project.resources) {
+      if (resource.kind !== "workspace-file" || existing.has(resource.uri)) continue;
+      const relativePath = `${sourcePrefix}${resource.fileName}`;
+      let asset = state.assets.get(relativePath);
+      if (!asset) {
+        const directory = source.with({ path: source.path.slice(0, source.path.lastIndexOf("/") + 1), query: "", fragment: "" });
+        const bytes = await withAbort(vscode.workspace.fs.readFile(vscode.Uri.joinPath(directory, ...resource.fileName.split("/"))), signal);
+        if (bytes.byteLength > WorkspaceAssetMirror.MAX_FILE_BYTES
+          || totalBytes + bytes.byteLength > WorkspaceAssetMirror.MAX_TOTAL_BYTES
+          || files.length >= WorkspaceAssetMirror.MAX_FILES) {
+          throw new Error(`Workspace resource budget exceeded by ${resource.fileName}`);
+        }
+        asset = await cachedWorkspaceAsset(relativePath, bytes);
+        signal.throwIfAborted();
+        let retainedBytes = [...state.assets.values()].reduce((total, cached) => total + cached.byteLength, 0);
+        for (const [path, cached] of state.assets) {
+          if (state.assets.size < WorkspaceAssetMirror.MAX_FILES
+            && retainedBytes + asset.byteLength <= WorkspaceAssetMirror.MAX_TOTAL_BYTES) break;
+          if (requested.has(path)) continue;
+          state.assets.delete(path);
+          retainedBytes -= cached.byteLength;
+        }
+        if (state.assets.size < WorkspaceAssetMirror.MAX_FILES
+          && retainedBytes + asset.byteLength <= WorkspaceAssetMirror.MAX_TOTAL_BYTES) state.assets.set(relativePath, asset);
+      }
+      if (asset.byteLength > WorkspaceAssetMirror.MAX_FILE_BYTES
+        || totalBytes + asset.byteLength > WorkspaceAssetMirror.MAX_TOTAL_BYTES
+        || files.length >= WorkspaceAssetMirror.MAX_FILES) {
+        throw new Error(`Workspace resource budget exceeded by ${resource.fileName}`);
+      }
+      existing.add(resource.uri);
+      files.push({ uri: resource.uri, digest: asset.digest, dataBase64: asset.dataBase64 });
+      totalBytes += asset.byteLength;
+    }
     for (const asset of [...state.assets.values()].sort((left, right) => left.relativePath.localeCompare(right.relativePath))) {
-      const uri = entry.with({ path: `${basePath}${asset.relativePath}` }).toString();
-      if (existing.has(uri)) continue;
+      if (!asset.relativePath.startsWith(sourcePrefix)) continue;
+      const relativePath = asset.relativePath.slice(sourcePrefix.length);
+      const uri = entry.with({ path: `${basePath}${relativePath}` }).toString();
+      if (existing.has(uri) || claimed.has(uri)) continue;
+      if (files.length >= WorkspaceAssetMirror.MAX_FILES) break;
+      if (totalBytes + asset.byteLength > WorkspaceAssetMirror.MAX_TOTAL_BYTES) continue;
       existing.add(uri);
       files.push({ uri, digest: asset.digest, dataBase64: asset.dataBase64 });
+      totalBytes += asset.byteLength;
     }
     return files;
   }
@@ -155,7 +207,7 @@ export class WorkspaceAssetMirror implements vscode.Disposable {
 }
 
 function safeWorkspaceAssetName(name: string): boolean {
-  return name !== "." && name !== ".." && !name.includes("/") && !name.includes("\\");
+  return name.length > 0 && name !== "." && name !== ".." && !/[\/\\:]|\p{Cc}/u.test(name);
 }
 
 async function cachedWorkspaceAsset(relativePath: string, bytes: Uint8Array): Promise<CachedWorkspaceAsset> {
@@ -175,7 +227,7 @@ function bytesToBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
-function withAbort<T>(operation: Promise<T>, signal: AbortSignal): Promise<T> {
+function withAbort<T>(operation: PromiseLike<T>, signal: AbortSignal): Promise<T> {
   signal.throwIfAborted();
   return new Promise<T>((resolve, reject) => {
     const abort = () => reject(signal.reason ?? new DOMException("Workspace mirror aborted", "AbortError"));

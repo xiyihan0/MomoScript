@@ -1,4 +1,5 @@
 import type { RenderKey } from "../../vscode/src/runtimeIdentity";
+import { parseRenderPreset, type RenderPreset } from "../../vscode/src/renderPreset.ts";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
 import type { PreviewPagePoint, PreviewViewport } from "./previewWebviewProtocol.ts";
 import {
@@ -149,6 +150,7 @@ export interface PreviewImmutableLocationMap {
 
 export interface PreviewArtifact {
   readonly renderKey: RenderKey;
+  readonly renderPreset: RenderPreset;
   readonly sourceUri: string;
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
@@ -169,6 +171,7 @@ export interface PreviewDocumentState {
 
 export interface PreviewArtifactInput {
   readonly renderKey: RenderKey;
+  readonly renderPreset?: RenderPreset;
   readonly sourceUri: string;
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
@@ -183,6 +186,7 @@ const PREVIEW_IMAGE_ASSET_PREFIX = "mmt-preview-image:";
 export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtifact {
   requireNonEmpty(input.renderKey, "RenderKey");
   requireNonEmpty(input.sourceUri, "source URI");
+  const renderPreset = parseRenderPreset(input.renderPreset ?? { kind: "output" });
   validateLocationProviderKey(input.locationProviderKey);
   if (input.locationProviderKey.kind === "immutable-map" && !input.locationMap) {
     throw new Error("Immutable LocationProviderKey requires a complete retained location map");
@@ -216,12 +220,14 @@ export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtif
       + visualSnapshot.pages.length * 8 * 6;
   const byteSize = visualByteSize
     + encoder.encode(input.sourceUri).byteLength
+    + encoder.encode(JSON.stringify(renderPreset)).byteLength
     + encoder.encode(JSON.stringify(input.locationProviderKey)).byteLength
     + (locationMap ? encoder.encode(JSON.stringify(locationMap)).byteLength : 0)
     + warnings.reduce((total, warning) => total + encoder.encode(warning).byteLength, 0);
   return Object.freeze({
     renderKey: input.renderKey,
     sourceUri: input.sourceUri,
+    renderPreset,
     locationProviderKey: Object.freeze({ ...input.locationProviderKey }),
     locationMap,
     visualSnapshot,
@@ -537,7 +543,10 @@ export class PreviewArtifactStore implements RuntimeOwnedResource {
       return;
     }
     if (existing.artifact.visualSnapshot.kind !== "renderer"
-      || existing.artifact.sourceUri !== artifact.sourceUri) {
+      || existing.artifact.sourceUri !== artifact.sourceUri
+      || existing.artifact.renderPreset.kind !== artifact.renderPreset.kind
+      || (existing.artifact.renderPreset.kind === "chat"
+        && (artifact.renderPreset.kind !== "chat" || existing.artifact.renderPreset.widthPt !== artifact.renderPreset.widthPt))) {
       throw new Error("RenderKey is already bound to a different immutable artifact");
     }
     this.#replaceCached(artifact);

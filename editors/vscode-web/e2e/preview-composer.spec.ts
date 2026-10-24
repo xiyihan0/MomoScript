@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { PACK_BASE_URL, PACK_MANIFEST_URL } from "../src/runtimeArtifacts.ts";
 import {
+  composerGlyphBoundary,
   expect,
   invokeMmtE2E,
   previewReadiness,
@@ -72,6 +73,67 @@ test("MomoScript update notification uses the native restart action button", { t
   await expect(restart).toBeVisible();
   await restart.click();
   await expect(update).toBeHidden();
+});
+
+test("avatar viewport refills retain readable images and native text selections during continuous scrolling", { tag: "@preview-composer" }, async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 820 });
+  const name = "composer-avatar-scroll-window.mmt";
+  const source = Array.from({ length: 120 }, (_, index) =>
+    `${index % 30 === 0 ? "> 佳代子:" : "-"} SCROLL_ROW_${String(index).padStart(3, "0")}\n`).join("");
+  const { frame } = await openProviderPreview(page, name, source);
+  const viewport = frame.locator(".viewport");
+  const renderKey = await frame.locator(".page").getAttribute("data-render-key");
+  if (!renderKey) throw new Error("the current renderer identity is unavailable");
+  const settle = async () => frame.evaluate(async () => {
+    const wait = Reflect.get(globalThis, "__mmtWaitForPreviewViewportSettled");
+    if (typeof wait !== "function") throw new Error("preview viewport settle acknowledgement is unavailable");
+    await wait();
+  });
+  for (const row of [0, 30, 60, 90, 60, 30, 0]) {
+    const marker = `SCROLL_ROW_${String(row).padStart(3, "0")}`;
+    await composerGlyphBoundary(frame, marker, 3);
+    const text = frame.locator(".tsel").filter({ hasText: marker }).first();
+    await text.evaluate((element) => element.closest("foreignObject")?.scrollIntoView({ block: "center", behavior: "instant" }));
+    await settle();
+    const imageSource = await avatarImageSourceForMarker(frame, marker);
+    expect(imageSource).toMatch(/^blob:/u);
+    const decoded = await frame.evaluate(async (source) => {
+      const response = await fetch(source);
+      const image = await createImageBitmap(await response.blob());
+      const dimensions = { width: image.width, height: image.height };
+      image.close();
+      return dimensions;
+    }, imageSource);
+    expect(decoded.width).toBeGreaterThan(0);
+    expect(decoded.height).toBeGreaterThan(0);
+    await frame.getByRole("button", { name: "Fit width", exact: true }).click();
+    const selected = await text.evaluate((element) => {
+      const selection = document.getSelection();
+      if (!selection) throw new Error("native SVG text selection is unavailable");
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      return selection.toString();
+    });
+    expect(selected).toContain(marker);
+    const visible = await viewport.boundingBox();
+    if (!visible) throw new Error("the scrolling preview is unavailable");
+    await page.mouse.move(visible.x + visible.width / 2, visible.y + visible.height / 2);
+    for (const direction of [1, -1]) {
+      for (let step = 0; step < 4; step += 1) {
+        await page.mouse.wheel(0, direction * 20);
+        await page.waitForTimeout(20);
+      }
+    }
+    await settle();
+    expect(await frame.evaluate(() => document.getSelection()?.toString())).toBe(selected);
+    await page.keyboard.press("Control+c");
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(selected);
+    await expect(frame.locator(".page")).toHaveAttribute("data-render-key", renderKey);
+    await frame.evaluate(() => document.getSelection()?.removeAllRanges());
+  }
+  await expect.poll(() => persistedWorkspaceText(page, `/${name}`)).toBe(source);
 });
 
 test("full SVG preview preserves semantic chat regions for Composer authorization", { tag: "@preview-composer" }, async ({ page }) => {

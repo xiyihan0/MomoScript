@@ -22,8 +22,8 @@
 - 通过 `registerCustomView` 注册的 MomoScript 原生 View；
 - IndexedDB workspace 和文档持久化；
 - 本地历史 Activity View：按文件/工作区分页浏览、50 MiB / 30 天保留、named Checkpoint、文本 Diff/恢复、删除前检查与二进制导出/整文件恢复；
-- 原生 `mmt.guiComposer` Editor Pane：命令 `mmt.composer.open` 打开 SVG-first 主创作表面；底部连续发送新消息，画布直接修改旧消息，选区/整条内容使用原生上下文菜单，复杂内容使用就近的多行 Monaco 源码编辑器；视口宽度不超过 550px 时每个文档 incarnation 首次打开默认进入 GUI，显式返回源码后不反复跳回；
-- 单个 retained `IOverlayWebview`：由活动 `mmt.guiComposer` 声明可编辑挂载，或由只读原生 `mmt.previewHost` 声明源码旁预览挂载；两者共享同一 renderer session、artifact store 与 webview context；
+- 原生 `mmt.guiComposer` Editor Pane：新作品默认进入 SVG 聊天创作；聊天、可直接编辑的排版预览与原生源码共享同一份 MMT、撤销历史和资源。恢复的源码工作区不会因手机宽度被强制改成 GUI；
+- 单个 retained `IOverlayWebview`：活动的聊天、排版或源码旁预览声明挂载位置，共享 renderer session、artifact store 与 webview context；只有获得 Rust Composer 授权的 MMT 可以编辑，普通 Typst、生成物与包资源保持原来源权限；
 - MMT LSP 与 Tinymist 独立 Worker；
 - revision-bound Typst projection、preview artifact、精确文字几何和预览交互；
 - workspace 图片、pack-v3 图片及 AVIFS materialization；
@@ -47,13 +47,49 @@
 
 ### GUI 连续创作与局部编辑
 
-GUI 使用独立的 Momotalk 浅色界面；手机进入时收起导航，源码与设置仍跟随 Workbench 主题。导航视图仍可通过原生开关打开。
+新建作品只填写作品名，自动生成不覆盖已有文件的 `.mmt` 名称。进入聊天或排版时，原生导航、标签栏和文件路径临时收起；返回源码恢复原状态，不改持久化偏好。Workbench 主题作用于界面控件；聊天 SVG 使用自己的浅色对话皮肤，排版成品不随界面主题改变。
 
-- 在底部选择角色并输入新消息；Enter 发送，Shift+Enter 换行。发送成功只清空正文，角色选择保留；“老师”仅在当前 Rust 插入能力允许时可用。
-- 点击画布正文直接编辑；双击选择词，三击选择整段。选中文字后右键可剪切、复制、粘贴、删除或全选。
-- 选中整条内容后，使用其上下文入口进行插入、移动、删除、说话人及属性编辑；“更多操作 → 整理”提供显式结构操作模式，完成后退出。
-- 局部正文/源码编辑器中 Enter 换行、Ctrl/Cmd+Enter 应用、Escape 取消；仍需完整文件时使用“更多操作 → 高级源码”。
-- 编辑旧消息不会覆盖底部未发送草稿。草稿不写入 MMT、保存、历史或导出；离开时若可能丢失文本，使用既有复制/丢弃恢复或关闭保护，不另建草稿数据库。
+| 模式 | 用途与入口 |
+|---|---|
+| 聊天创作 | 默认写作界面；可读尺度的 SVG 画布、底部固定输入、最近角色与按需角色库，不显示纸张和缩放工具条 |
+| 排版预览 | 检查真实成品、页码、缩放与 Fit width；仍可在 SVG 正文中编辑 |
+| 源码 | 原生 Monaco、工作区、诊断及高级能力；桌面可与单个 SVG 分屏，手机全屏切换 |
+
+- 在角色库按人物、形态、表情逐级选择；只有一种可选项时直接前进。本作和最近角色优先，仍可按多语言姓名、别名、学校或组织搜索。Kivo 条目 ID 标识形态，人物归组使用已验证的 `alternate_skin` 关系；缺少或无效 Catalog 时保留可辨认的独立条目，不按名字猜归属。
+- 底部输入用于下一条消息；Enter 发送，Shift+Enter 换行。发送成功只清空正文，人物与表情保留；“老师”仅在 Rust 插入能力允许时可用。显式“在此插入”显示相邻内容，使用“返回末尾”退出；边界失效时保留草稿，要求重新选择。
+- 点击 SVG 正文原位编辑，不把旧气泡复制到底部草稿。双击选择词，三击选择整段；选中文字后可使用原生剪切、复制、粘贴、删除和全选。选中整条内容后优先提供编辑、插入、移动和删除。
+- “更多”打开说话人、头像、左右、显示名及高级属性。名字与头像明确从本条起影响后续该角色；老师不能改为左侧，跨不透明屏障的移动由 Rust 禁用。宽度至少 960px 时，属性使用分配空间的侧栏，旁边的 SVG 可阅读、滚动，关闭属性后继续原位编辑；窄桌面和手机仍使用互斥模态面板。局部编辑器中 Enter 换行、Ctrl/Cmd+Enter 应用、Escape 取消。
+- “+ 添加”提供消息、旁白、图片和角色差分。新本地图片只接收解码成功且不超过 8 MiB 的 PNG/JPEG，写入作品目录下的 `assets/<uuid>`，再由 Rust 原子生成资源声明和消息；原生源码画廊仍支持原来的行内／选区插入。
+- 作品名菜单保留新建、打开、保存、撤销/重做、本地历史和高级工作区；“下载源文件”下载当前 MMT，与“导出作品”分开。没有恢复中的作品时，首次进入现有 `story` 聊天创作，不展示 Typst 源码。
+- 切换模式等待正在合成的输入法文字和已接受编辑排空，不自动发送草稿或保存。未发送草稿按文档保留在内存，不写入 MMT、历史或导出，也不承诺刷新后恢复。
+- 手机源码中的“打开预览”对工作区 MMT 使用同一个排版模式全屏切换，不让文件树挤占产品画布。自动打开预览的偏好不会夺走显式或恢复的手机源码页面；桌面原有分屏与普通 Typst 的只读预览权限不变。
+- 被拒绝的输入留在“未提交文字恢复”。即使当前快照暂时不可用，仍可查看、复制或丢弃；重新在 SVG 选择目标并明确确认后才能重试。确认仅绑定本次准备的具体目标，已关闭确认框的延迟事件不能消费另一个目标；重试失败不清空恢复文字，也不自动转投其他消息。
+- 手机辅助面板互斥，支持关闭、Escape 和焦点恢复；320px、390px 与软键盘收缩视口的自动化不等于真实移动设备或系统输入法验收。
+
+### 功能迁移清单
+
+| 原有能力 | 当前入口 |
+|---|---|
+| 文件树、搜索、诊断、原生设置、工作区 | 源码模式；作品菜单“高级工作区” |
+| 保存、本地历史、撤销／重做 | 作品菜单及原生快捷键；保存状态仍来自实际文档／文件写入 |
+| 人物、形态、表情、跨人物换头像 | 角色库与消息属性；不改原实体／差分引用 |
+| 连续输入、旁白、图片、差分 | 聊天底栏与“+ 添加” |
+| 原位正文、跨消息选择、剪贴板 | 聊天与排版中的同一个 SVG 输入会话 |
+| 插入、移动、删除 | 选中内容后的就近操作 |
+| 说话人、头像、显示名、左右、连续消息、正文模式 | “更多”属性与高级区域 |
+| Source Lens、不透明块、复杂 Typst、自定义角色／资源 | “局部源码”及源码模式；不伪造 GUI 自定义头像写入 |
+| 缩放、Fit width、页导航 | 排版预览；聊天固定阅读尺度 |
+| 标题、作者、页眉、时间 | 排版设置中的现有文档设置流程 |
+| 页面尺寸、字体资源 | 排版设置中的只读产物／已加载资源信息；不是新增页宽或字体配置 |
+| PDF、PNG、JPG、SVG | 顶栏“导出作品”；原生“高级：导出已接受排版快照”保留明确的快照语义 |
+| 当前规范源码下载 | 作品菜单／原生命令“下载源文件”；不保存工作区、不包含未发送草稿 |
+| 普通 Typst、生成视图、包资源 | 原有预览与源码导航权限；不能因此取得 MMT 编辑授权 |
+
+### 导出成品
+
+点击“导出作品”会排空已接受编辑，自动进入排版并等待 output 制品；不自动发送底栏草稿，也不隐式保存。PDF 默认导出整份文档；已有有效 `mmt.export.defaultFormat` 偏好仍可覆盖初始格式。PNG／JPG／SVG 明确选择一页，栅格图显示真实 2× 像素尺寸，JPG 使用白底与 0.92 质量。选择格式不改写持久化设置。
+
+生成、等待、取消、失败和完成使用同一个导出状态机；完成状态在下载交付成功后显示实际文件名和页范围。旧排版只能通过明确的快照选项导出，聊天制品不能冒充成品。正在合成的输入先完成事务；高级快照导出仍可明确排除尚未提交的输入。排版设置显示的“已加载字体资源”不是逐字统计的本文使用字体清单。
 
 
 ## Architecture Boundaries
@@ -77,28 +113,28 @@ GUI 使用独立的 Momotalk 浅色界面；手机进入时收起导航，源码
 VS Code TextDocument / mmtfs workspace / native model history
   -> MMT LSP revision snapshot
   -> Rust mmt/composerDocument + text selection/projection/edit authorization
-  -> one ComposerRuntime + ComposerTextSession per mounted native GUI pane
-  -> native mmt.guiComposer SVG mount
-  -> Typst projection session/revision
+  -> one ComposerRuntime + ComposerTextSession for the active authored surface
+  -> native mmt.guiComposer / authorized MMT preview mount
+  -> Rust output or temporary chat render preset / projection identity
   -> workspace/pack resource materialization
   -> accepted render artifact + exact renderer geometry
-  -> one retained overlay claimed by active GUI or read-only mmt.previewHost
+  -> one retained overlay claimed by the active native mount
 ```
 
 | 状态 | 权威来源 |
 |---|---|
 | Part 实例、当前 View container、Part 可见性 | Monaco VS Code Views Service / Part API；Part attachment disposable 进入产品 runtime owner |
 | Sidebar/main、Editor/Panel 几何与 sash | `createLayout` 创建的两个原生 `SplitView` |
-| 当前 authored 文档内容与原生 undo/redo | 同一个 VS Code `TextDocument` / `IModelService` model；正文 edit 只把 Rust 返回的 versioned edits 交给 `pushEditOperations`，以 `pushStackElement` 建立原生 undo group，不建立 GUI 历史栈 |
+| 当前 authored 文档内容与原生 undo/redo | 同一个 VS Code `TextDocument` / `IModelService` model；`ComposerDocumentOwner` 持有原生 model reference，避免关闭源码 Pane 后模型失效；正文 edit 只把 Rust 返回的 versioned edits 交给 `pushEditOperations`，以 `pushStackElement` 建立原生 undo group，不建立 GUI 历史栈 |
 | GUI 正文、selection 与编辑授权 | Rust `mmt/composerDocument` 的 `textEditing`、`mmt/composerTextSelection`、`mmt/composerTextProjection` 和 `mmt/composerEdit`/`replaceTextSelection`；endpoint 是 LF-normalized semantic body 的 UTF-16 offset，`ComposerTextSession` 只串行化 intent 与保存 presentation bookmark |
 | GUI property/structure 编辑授权 | 同一 VS Code `TextDocument` + Rust snapshot/capability；`ComposerRuntime` 编排 freshness/cancellation，UI 不缓存第二份源码或拼 DSL |
-| GUI text recovery | `ComposerTextSession` 在 stale/conflict、apply failure、composition cancel/失焦或关闭边界保留未提交文字供复制/丢弃；恢复内容没有文档 mutation authority |
-| GUI tab 恢复与首屏顺序 | `ComposerEditorInputSerializer` 只持久化 `{version: 1, uri}`；先等待 native editor groups `whenRestored`，再决定 workspace/fallback intro；从当前 `TextDocument` 和 Rust snapshot 重建，不持久化 selection、node key 或 IME 草稿 |
+| GUI text recovery | `ComposerTextSession` 在 stale/conflict、apply failure、composition cancel/失焦或关闭边界保留未提交文字；恢复内容本身不带修改权限，只有重新选择目标并确认后，才能通过当前身份绑定的同一 FIFO 请求 Rust 授权重试 |
+| GUI tab 恢复与首屏顺序 | `ComposerEditorInputSerializer` 只持久化 `{version: 1, uri}`；先等待 native editor groups `whenRestored`，保留原生源码/分屏恢复，无恢复输入时进入已有 `story` 聊天作品；从当前 `TextDocument` 和 Rust snapshot 重建，不持久化 selection、旧 node key 或 IME 草稿 |
 | authored 文档持久字节 | `mmtfs` workspace provider/coordinator |
 | IndexedDB 历史 revision/head/snapshot、SHA-256 blob、保留与 Checkpoint | workspace backend/coordinator；Local History View 仅按游标读取和发命令 |
 | 产品 startup、work admission、quiesce、dispose | 单一 `EditorRuntimeController` 及其单一 `RuntimeOwner` |
 | projection/materialization、已接受 preview revision/artifact | `EditorRuntimeController` 拥有的 typed stores / `PreviewArtifactStore` |
-| Preview webview 与 native mount | 一个 runtime-owned `PreviewWebviewHost` / retained `IOverlayWebview`；活动 GUI 或只读 `mmt.previewHost` 是 claimant，旧 claimant 的 release 不得释放新 claimant，只有产品 runtime dispose 销毁 overlay |
+| Preview webview 与 native mount | 一个 runtime-owned `PreviewWebviewHost` / retained `IOverlayWebview`；活动聊天、可编辑 MMT 排版或只读资源预览是 claimant，旧 claimant 的 release 不得释放新 claimant，只有产品 runtime dispose 销毁 overlay |
 | GUI caret/selection geometry | `ComposerTextGeometry` 将 committed renderer 的 `hitTestText`/`locateCaret`/`locateRange` 与 Rust projection round trip 绑定到 source/version/digest/renderKey/session/generation；unmapped/ambiguous 即 unavailable，不回退到 statement midpoint 或平均字宽 |
 | PWA registration、waiting worker 与 activation/reload | `registerPwaUpdateLifecycle`；安全重启只通过 adapter 调用同一个 runtime，且 durable flush 包含文档、workspace coordinator 与 `IStorageService` |
 | MMT 分析 | MMT LSP versioned snapshot |
@@ -109,7 +145,10 @@ VS Code TextDocument / mmtfs workspace / native model history
 
 UI class、label 和 control 可以镜像权威状态，不能建立第二套 boolean、document buffer、revision map、artifact selection、persistence queue 或 disposal graph。
 
-首次 preview surface 同步等待初始 Pack 同步尝试结束，包括经校验的 empty-registry fallback；两条路径都失败时沿既有通知报告错误，仍允许画布挂载，不建立另一套重试或恢复 owner。GUI open/pin（以及移动端默认 Part 状态）完成后 flush 同一个 `IStorageService`；safe restart 在 quiesce 的 durable-flush 阶段、activation/reload 前执行同样的 flush。Native editor groups 恢复完成后才决定 workspace/intro fallback，避免覆盖已恢复的 GUI。
+首次 preview surface 同步等待初始 Pack 同步尝试结束，包括经校验的 empty-registry fallback；两条路径都失败时沿既有通知报告错误，仍允许画布挂载，不建立另一套重试或恢复 owner。GUI open/pin 完成后 flush 同一个 `IStorageService`；safe restart 在 quiesce 的 durable-flush 阶段、activation/reload 前执行同样的 flush。Native editor groups 恢复完成后才决定 workspace/intro fallback，避免覆盖已恢复的 GUI。聊天宽度与 output 使用独立投影/制品身份，视口按 URI 和呈现隔离；语言投影的单调 revision 域不能被同版本的临时渲染内容覆盖。
+
+画布已打开后，其当前项目的已诊断编译失败属于预览错误，不把已初始化的语言服务或整个启动器标成失败。保留真实失败画面、作品和未提交输入，允许进入源码修复或新建作品；取消、过期请求与其他初始化异常仍走原错误边界。失败画面的输入捕获可保留恢复文字，但没有当前渲染授权就不能写入正文。
+
 
 ### Why this is not WorkspaceService
 
@@ -365,7 +404,7 @@ host -> LanguageClient.start()
 
 **正确模式**
 
-- workspace-file contract 只接受 basename；
+- workspace-file contract 接受经逐段校验的源文件相对路径，保留原安全 basename 用法；
 - relevant 文件变化使 materialization 失效；
 - apply render project 前重新读取受支持图片；
 - 对单文件和总读取量设硬上限；
@@ -379,7 +418,7 @@ host -> LanguageClient.start()
 
 **症状**
 
-- 用户输入 `../`、子目录或反斜杠路径后读取工作区外文件；
+- 未校验的 `../`、绝对路径或反斜杠路径导致工作区外文件读取；
 - 大图片使浏览器内存暴涨；
 - Base64 转换造成额外内存放大。
 
@@ -389,15 +428,15 @@ host -> LanguageClient.start()
 
 **正确模式**
 
-- 仅允许安全 basename；
-- 拒绝 `.`, `..`, `/`, `\\` 和子目录；
+- 仅允许安全 basename 或正斜杠分隔的安全相对段；
+- 拒绝绝对路径、空段、`.`、`..`、反斜杠、控制字符和冒号；原生读取仍验证 canonical path／根目录／symlink containment；
 - 读取前后都检查单文件和总字节数；
 - Base64 资源只进入有上限的内存 LRU；
 - 完整 pack 不能转为常驻 Base64 string。
 
 **回归测试**
 
-对危险路径、超大单文件、超大总量和合法 basename 分别测试。
+对危险路径、超大单文件、超大总量、合法 basename／嵌套路径，以及已引用图片与机会缓存预算竞争分别测试。
 
 ### 11. UTF-8 byte range 直接当 LSP position
 
@@ -603,6 +642,10 @@ Renderer differential 使用真实合成的 400×620 `.viewport`，在足够大�
 - [`ComposerTextSession`](./src/composerTextSession.ts) FIFO 提交输入；普通连续 typing 在 750 ms 边界内共享 native undo group，换行、paste/cut、IME、导航、结构操作和焦点切换关闭边界；undo/redo 操作同一个 Monaco model，并按 alternative version 恢复 presentation bookmark；
 - stale/conflict/apply failure 或未提交 composition 进入 recovery UI，只允许复制/丢弃，不能自动应用到别的 message；
 - [`ComposerTextGeometry`](./src/composerTextGeometry.ts) 只接受 committed source/version/digest/renderKey/session/generation，并要求 renderer caret/range 与 Rust authored projection 可逆；unmapped 或 ambiguous 时 blocked，不使用平均字宽或 statement midpoint；
+- Fit width/page 和适配态 resize 复用视口中心的页面锚点，先补偿滚动再上报；切换文档时，显式保存的页面点优先于上一个文档的中心；
+- viewport 报告必须携带已提交的 `renderKey`，宿主仅在它匹配当前 artifact 时更新该文档的保存视口；换文档期间的临时几何或迟到报告不能覆盖另一份文档的阅读位置；
+- 选中框、文字选区和 caret 的纯视觉层放在 `.page` 内，随原生画布滚动，不靠下一帧的 fixed overlay 追赶；textarea、IME 和触摸 handles 仍由稳定的 body 层持有；
+- renderer 在既有缓冲覆盖内复用 SVG，冷首帧保持 1 屏 padding，后续以 1 屏 guard 触发既有 5 屏 overscan，最多 8 个 page buffers；文字选择层的变换与边界仅在真实 SVG patch 后重建索引，滚动不重复遍历矩阵或拆挂未变化的选区视觉层；
 - 字符编辑对 Opaque、recoverable error、不可逆 Typst body 和未知 wire 值 fail closed；局部源码编辑只使用当前 Rust `replaceSource` capability 和完整 node identity。550px 默认规则按 document incarnation 记录，显式“更多操作 → 高级源码”切换不会 bounce，551px 仍以源码为默认。
 
 **回归测试**
@@ -619,10 +662,13 @@ Parser/core 与 CLI visual regression 应覆盖连续 statement 后接 separator
 
 - reload 后恢复的 GUI/source tab 被 intro 覆盖；
 - 恢复的 GUI 已挂载但 preview 永久空白，或使用 Pack registry 初始化前生成的 projection；
+- iframe 继承原生 Part 的测量占位尺寸，SVG 已生成但迟迟没有 `visual-ready`；
 - pin/open 看似成功，重载或安全更新后却丢失；
 - safe restart 在 storage/editor state 尚未 flush 时激活 waiting worker。
 
 **当前正确模式**
+
+原生 Editor Part 挂载后须立即接收 shell 已分配的真实尺寸，后续尺寸继续由既有 SplitView layout 回调传播，不能只等 ResizeObserver。GUI/preview mount 镜像原生 `setVisible`；retained overlay 随同一个 Part 的 layout 更新，不以测量占位尺寸或隐藏 Pane 抢占画布。
 
 1. `api.start()` 后取得 native services；初始 Pack 同步先 settle（失败路径也必须让 language server 接受 validated empty-registry fallback），之后才置 `previewSourcesReady` 并允许 `syncPreviewSurface`；
 2. 等待 `IEditorGroupsService.whenRestored` 后再判断 native groups 是否已经恢复 editor；
@@ -715,6 +761,9 @@ npm run check
 npm run test:composer-edit
 npm run test:composer-document
 npm run test:composer-runtime
+npm run test:composer-image-import
+npm run test:workspace-mirror
+npm run test:exact-export
 npm run test:preview-webview-protocol
 npm run test:preview-renderer-session
 npm run build
@@ -784,7 +833,7 @@ git diff --check
 
 ### Files And Resources
 
-- [ ] workspace path 只接受安全 basename
+- [ ] workspace path 仅接受经逐段校验的安全源文件相对路径，原生读取保留根目录和 symlink containment
 - [ ] 单文件和总读取量均有限制
 - [ ] workspace-file 与 pack resource 分支明确分离
 - [ ] 新建、覆盖、删除、reload 均验证

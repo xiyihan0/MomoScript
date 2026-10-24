@@ -76,13 +76,14 @@ const snapshotWire = {
       inheritedMode: "textMacro",
     },
     textEditing: { text: "Unicode 😀" },
-    capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null },
+    capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null, moveTargets: [] },
   }],
   boundaries: [
     { target: startBoundary, insert: insert(startBoundary) },
     { target: endBoundary, insert: insert(endBoundary) },
   ],
   scriptActorChoices: [],
+  assetChoices: [{ assetName: "portrait" }],
 };
 const snapshot = parseComposerDocumentResult(structuredClone(snapshotWire));
 assert.deepEqual(snapshot, snapshotWire);
@@ -125,6 +126,7 @@ const opaqueSnapshot = parseComposerDocumentResult({
     { target: { kind: "boundary", before: opaqueRef, after: null }, insert: null },
   ],
   scriptActorChoices: [],
+  assetChoices: [],
 });
 await validateComposerSnapshotAgainstDocument(
   opaqueSnapshot,
@@ -172,7 +174,7 @@ const blankSnapshot = parseComposerDocumentResult({
         inheritedMode: "textMacro",
       },
       textEditing: { text: "first\ncontinued" },
-      capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null },
+      capabilities: { replaceSource: true, setBody: true, delete: true, moveUp: null, moveDown: null, moveTargets: [] },
     },
     ...blankRefs.slice(1).map((ref, index) => ({
       kind: "opaque",
@@ -195,6 +197,7 @@ const blankSnapshot = parseComposerDocumentResult({
     insert: null,
   })),
   scriptActorChoices: [],
+  assetChoices: [],
 });
 await validateComposerSnapshotAgainstDocument(
   blankSnapshot,
@@ -219,6 +222,10 @@ assert.equal(unavailableTextSnapshot.nodes[0].textEditing, null);
 
 for (const malformed of [
   { ...snapshotWire, unknown: true },
+  { ...snapshotWire, assetChoices: undefined },
+  { ...snapshotWire, assetChoices: [{ assetName: "portrait", path: "not-a-GUI-choice.png" }] },
+  { ...snapshotWire, assetChoices: [{ assetName: "portrait" }, { assetName: "portrait" }] },
+  { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], capabilities: { ...snapshotWire.nodes[0].capabilities, moveTargets: undefined } }] },
   { ...snapshotWire, sourceDigest: "A".repeat(64) },
   { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], kind: "future" }] },
   { ...snapshotWire, nodes: [{ ...snapshotWire.nodes[0], extra: true }] },
@@ -262,6 +269,22 @@ for (const invalid of [
 ]) {
   const parsed = parseComposerDocumentResult(structuredClone(invalid));
   await assert.rejects(validateComposerSnapshotAgainstDocument(parsed, new TestDocument(uri, 7, source)));
+}
+
+const messageWire = {
+  ...snapshotWire,
+  nodes: [{
+    kind: "message", nodeKey: nodeRef.nodeKey, range: nodeRef.range, statementRange: snapshotWire.nodes[0].statementRange,
+    side: "right", speaker: { kind: "builtin", id: "teacher" }, body: snapshotWire.nodes[0].body,
+    textEditing: snapshotWire.nodes[0].textEditing, continued: "auto", actorDisplayName: null, actorAvatar: null,
+    capabilities: { ...snapshotWire.nodes[0].capabilities, setContinued: true, setDisplayName: false, setAvatar: false, setSpeaker: false, setSide: ["right"] },
+  }],
+};
+assert.deepEqual(parseComposerDocumentResult(messageWire).nodes[0].capabilities.setSide, ["right"]);
+for (const setSide of [undefined, true, ["left", "left"], ["diagonal"], ["left", "right", "left"]]) {
+  assert.throws(() => parseComposerDocumentResult({
+    ...messageWire, nodes: [{ ...messageWire.nodes[0], capabilities: { ...messageWire.nodes[0].capabilities, setSide } }],
+  }));
 }
 
 console.log("composer document contract tests passed");

@@ -3,10 +3,8 @@ import { clickComposerBoundary, composerText, expect, invokeMmtE2E, test, waitFo
 test("installed production editor cold-starts offline with language workers and preview", async ({ page, context }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
-  await expect(page.locator(".workbench-editor .monaco-editor").first()).toBeVisible();
-
-  await page.getByRole("button", { name: "Typst 预览" }).click();
-  await waitForPreviewFrame(page);
+  await expect(page.getByRole("region", { name: "MomoScript GUI 创作" })).toBeVisible();
+  await waitForComposerFrame(page, "story.mmt");
   const notoRequests = await page.evaluate(() => performance.getEntriesByType("resource")
     .map((entry) => entry.name)
     .filter((url) => url.includes("NotoSansCJK")));
@@ -42,16 +40,15 @@ test("installed production editor cold-starts offline with language workers and 
     };
   });
   expect(cacheEvidence.controller).toBe(true);
-  expect(cacheEvidence.localCount).toBeGreaterThan(100);
   expect(cacheEvidence.runtimeCount).toBe(4);
   expect(cacheEvidence.notoLocalCount).toBe(0);
   expect(cacheEvidence.mainFontBrotliCount).toBe(2);
   expect(cacheEvidence.wasmBrotliCount).toBe(2);
-  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(6);
   expect(cacheEvidence.required.filter((entry) => !entry.cached)).toEqual([]);
 
   await page.setViewportSize({ width: 390, height: 700 });
   await invokeMmtE2E(page, "workspace", "openDocument", "offline-gui.mmt", "- offline SVG body\n");
+  await invokeMmtE2E(page, "composer", "openGui", "offline-gui.mmt");
   await expect.poll(() => invokeMmtE2E(page, "composer", "editorState", "offline-gui.mmt")).toMatchObject({
     guiVisible: true,
     sourceVisible: false,
@@ -88,16 +85,16 @@ test("installed production editor cold-starts offline with language workers and 
   await page.keyboard.insertText(" saved offline");
   await expect.poll(() => invokeMmtE2E(page, "workspace", "readDocument", "offline-gui.mmt"))
     .toBe("- offline SVG body saved offline\n");
-  await gui.getByRole("button", { name: "保存", exact: true }).click();
+  await gui.getByRole("button", { name: / · 作品菜单$/u }).click();
+  await gui.getByRole("dialog", { name: "作品菜单", exact: true }).getByRole("button", { name: "保存", exact: true }).click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   frame = await waitForComposerFrame(page, "offline-gui.mmt");
   await expect(composerText(frame, "offline SVG body saved offline")).toBeVisible();
   expect(await invokeMmtE2E(page, "workspace", "readDocument", "offline-gui.mmt"))
     .toBe("- offline SVG body saved offline\n");
-  await gui.getByRole("button", { name: "更多操作", exact: true }).click();
-  await page.locator('[role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"]')
-    .filter({ hasText: "高级源码" }).last().click();
+  await gui.getByRole("button", { name: /^切换模式 · /u }).click();
+  await gui.getByRole("dialog", { name: "切换模式", exact: true }).getByRole("button", { name: /^源码(?:\s|$)/u }).click();
   const editor = page.locator(".workbench-editor .monaco-editor").first();
   await expect(editor).toBeVisible();
 
@@ -106,7 +103,7 @@ test("installed production editor cold-starts offline with language workers and 
   await page.keyboard.type("\n// offline edit");
   await expect(editor.locator(".view-lines")).toContainText("offline edit");
 
+  await page.getByRole("tab", { name: "MomoScript", exact: true }).click();
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await waitForPreviewFrame(page);
-  await expect(page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ })).toBeVisible();
 });

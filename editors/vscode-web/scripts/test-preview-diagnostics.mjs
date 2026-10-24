@@ -194,6 +194,33 @@ await assert.rejects(
   ),
   /preserve input length/,
 );
+
+const nativeUri = "mmtfs://workspace/native.typ";
+const nativeIdentity = { ...rendererIdentity, sourceUri: nativeUri, entryUri: nativeUri, backendEncoding: "utf-8" };
+const nativeRange = { start: { line: 0, character: 0 }, end: { line: 0, character: 3 } };
+const nativeRecords = [{
+  uri: nativeUri,
+  diagnostic: {
+    range: nativeRange,
+    severity: 1,
+    message: "Unknown variable",
+    relatedInformation: [{ location: { uri: nativeUri, range: nativeRange }, message: "Authored location" }],
+  },
+}, records[1]];
+const nativeMapped = await mapPreviewRendererDiagnostics(undefined, nativeIdentity, "中文", nativeRecords, () => true);
+assert.deepEqual(nativeMapped.map(({ uri }) => uri).sort(), [nativeUri, records[1].uri].sort());
+const nativeDiagnostic = nativeMapped.find(({ uri }) => uri === nativeUri).diagnostic;
+assert.deepEqual(nativeDiagnostic.range, range);
+assert.deepEqual(nativeDiagnostic.relatedInformation[0].location.range, range);
+assert.equal(await mapPreviewRendererDiagnostics(undefined, nativeIdentity, "中文", nativeRecords, () => false), undefined);
+assert.equal(await mapPreviewRendererDiagnostics(undefined, rendererIdentity, "x", records, () => true), undefined);
+await assert.rejects(
+  mapPreviewRendererDiagnostics(undefined, nativeIdentity, "中文", [{
+    uri: nativeUri,
+    diagnostic: { range: { start: nativeRange.start, end: { line: 0, character: 2 } }, severity: 1, message: "Invalid boundary" },
+  }], () => true),
+  (error) => error.reason === "SplitUtf8CodePoint",
+);
 assert.ok(snapshots.some(({ snapshot }) => snapshot.status === "ready"));
 
 console.log(JSON.stringify({

@@ -16,7 +16,15 @@ import {
   type ResourceMaterializationLimits,
   type StringResourceCache
 } from "./resourceMaterializer";
-import { RenderProjectSnapshotStore, type TypstRenderProjectUpdate, type TypstResourceRequest, type TypstVirtualFile } from "./tinymistClient";
+import {
+  parseRenderPreset,
+  RenderProjectSnapshotStore,
+  type GetTypstRenderProjectParams,
+  type RenderPreset,
+  type TypstRenderProjectUpdate,
+  type TypstResourceRequest,
+  type TypstVirtualFile
+} from "./tinymistClient";
 import { canonicalBytesDigest } from "./runtimeIdentity";
 
 const executeFile = promisify(execFile);
@@ -30,6 +38,7 @@ interface RenderOperation {
   readonly generation: number;
   readonly sourceUri: string;
   readonly sourceVersion: number;
+  readonly renderPreset?: RenderPreset;
   readonly signal: AbortSignal;
 }
 
@@ -72,6 +81,7 @@ export interface DesktopRenderResult {
   readonly sourceUri: string;
   readonly sourceVersion: number;
   readonly revision: number;
+  readonly renderPreset: RenderPreset;
   readonly format: RenderFormat;
   readonly outputUri: vscode.Uri;
   readonly renderKey: string;
@@ -125,9 +135,12 @@ export class DesktopPreviewService implements vscode.Disposable {
     for (const [namespace, source] of next) this.packSources.set(namespace, source);
   }
 
-  async preview(document = vscode.window.activeTextEditor?.document): Promise<DesktopRenderResult> {
+  async preview(
+    document = vscode.window.activeTextEditor?.document,
+    renderPreset?: RenderPreset
+  ): Promise<DesktopRenderResult> {
     const source = requireMmtDocument(document);
-    const operation = this.begin(source);
+    const operation = this.begin(source, renderPreset);
     const runtime = await this.host.runtimeIdentity(this.tinymistCommand);
     const prepared = await this.prepare(source, operation);
     const output = path.join(prepared.root, "preview.svg");
@@ -158,12 +171,13 @@ export class DesktopPreviewService implements vscode.Disposable {
       if (this.previewPanel === panel) this.previewPanel = undefined;
     });
     panel.title = `MomoScript Preview — ${path.basename(source.uri.path)}`;
-    panel.webview.html = previewHtml(svg.toString("base64"));
+    panel.webview.html = previewHtml(svg.toString("base64"), prepared.project.renderPreset);
     panel.reveal(vscode.ViewColumn.Beside, true);
     return Object.freeze({
       sourceUri: operation.sourceUri,
       sourceVersion: prepared.project.sourceVersion,
       revision: prepared.project.revision,
+      renderPreset: prepared.project.renderPreset,
       format: "svg" as const,
       outputUri: vscode.Uri.file(output),
       renderKey
@@ -190,6 +204,11 @@ export class DesktopPreviewService implements vscode.Disposable {
     if (!artifact) {
       throw new DesktopArtifactUnavailableError(
         "ArtifactUnavailable: preview this MomoScript document before exporting"
+      );
+    }
+    if (artifact.project.renderPreset.kind !== "output") {
+      throw new DesktopArtifactUnavailableError(
+        "ArtifactUnavailable: PDF export requires an output preview"
       );
     }
     let allowStalePublication = false;
@@ -252,6 +271,7 @@ export class DesktopPreviewService implements vscode.Disposable {
       sourceUri: project.sourceUri,
       sourceVersion: project.sourceVersion,
       revision: project.revision,
+      renderPreset: project.renderPreset,
       format: "pdf" as const,
       outputUri: target,
       renderKey: artifact.renderKey
@@ -269,7 +289,8 @@ export class DesktopPreviewService implements vscode.Disposable {
     this.displayedArtifact = undefined;
   }
 
-  private begin(source: vscode.TextDocument): RenderOperation {
+  private begin(source: vscode.TextDocument, renderPreset?: RenderPreset): RenderOperation {
+    const preset = renderPreset === undefined ? undefined : parseRenderPreset(renderPreset);
     this.active?.abort();
     const controller = new AbortController();
     this.active = controller;
@@ -277,6 +298,7 @@ export class DesktopPreviewService implements vscode.Disposable {
       generation: ++this.generation,
       sourceUri: source.uri.toString(),
       sourceVersion: source.version,
+      renderPreset: preset,
       signal: controller.signal
     });
   }
@@ -285,11 +307,23 @@ export class DesktopPreviewService implements vscode.Disposable {
     source: vscode.TextDocument,
     operation: RenderOperation
   ): Promise<{ readonly project: TypstRenderProjectUpdate; readonly root: string; readonly entry: string }> {
+    const params: GetTypstRenderProjectParams = {
+      uri: operation.sourceUri,
+      ...(operation.renderPreset === undefined ? {} : { renderPreset: operation.renderPreset })
+    };
     let project = await this.client.sendRequest<TypstRenderProjectUpdate | null>(
       "mmt/getTypstRenderProject",
-      { uri: operation.sourceUri }
+      params
     );
-    if (project !== null) project = (await this.renderProjects.accept(project)).project;
+    if (project !== null) {
+      const preset = parseRenderPreset(project.renderPreset);
+      const requested = operation.renderPreset;
+      if (preset.kind !== (requested?.kind ?? "output")
+        || (preset.kind === "chat" && (requested?.kind !== "chat" || preset.widthPt !== requested.widthPt))) {
+        throw new Error("MomoScript render response preset does not match its request");
+      }
+      project = (await this.renderProjects.accept(project)).project;
+    }
     this.assertCurrent(operation);
     if (project === null || project.sourceUri !== operation.sourceUri || project.sourceVersion !== operation.sourceVersion) {
       throw new Error("MomoScript render project is stale or unavailable");
@@ -479,14 +513,27 @@ async function mirrorWorkspaceResources(
   const existing = new Set(files.map((file) => file.uri));
   const directory = source.uri.with({ path: path.posix.dirname(source.uri.path), query: "", fragment: "" });
   let total = 0;
+  let localDirectory: string | undefined;
   for (const resource of project.resources) {
     if (resource.kind !== "workspace-file" || existing.has(resource.uri)) continue;
     if (signal.aborted) throw new vscode.CancellationError();
-    if (resource.fileName !== path.posix.basename(resource.fileName)
+    const segments = resource.fileName.split("/");
+    if (segments.some((segment) => !segment || segment === "." || segment === "..")
+      || /[\\:]|\p{Cc}/u.test(resource.fileName)
       || !/\.(?:png|jpe?g|gif|webp|svg|bmp|avif)$/iu.test(resource.fileName)) {
       throw new Error(`Unsafe workspace resource name: ${resource.fileName}`);
     }
-    const bytes = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(directory, resource.fileName));
+    let resourceUri = vscode.Uri.joinPath(directory, ...segments);
+    if (source.uri.scheme === "file") {
+      localDirectory ??= await fs.realpath(directory.fsPath);
+      const resolved = await fs.realpath(resourceUri.fsPath);
+      const relative = path.relative(localDirectory, resolved);
+      if (!relative || relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+        throw new Error(`Workspace resource escapes its source directory: ${resource.fileName}`);
+      }
+      resourceUri = vscode.Uri.file(resolved);
+    }
+    const bytes = await vscode.workspace.fs.readFile(resourceUri);
     if (bytes.byteLength > MAX_WORKSPACE_FILE_BYTES || total + bytes.byteLength > MAX_WORKSPACE_RESOURCE_BYTES) {
       throw new Error(`Workspace resource budget exceeded by ${resource.fileName}`);
     }
@@ -600,10 +647,12 @@ function desktopRenderKey(
   runtime: DesktopRenderRuntimeIdentity
 ): string {
   return createHash("sha256").update(JSON.stringify([
-    "mmt-desktop-render-key.v1",
+    "mmt-desktop-render-key.v2",
     project.sourceUri,
     project.sourceVersion,
     project.revision,
+    project.renderPreset.kind,
+    project.renderPreset.kind === "chat" ? project.renderPreset.widthPt : null,
     project.projectionKey,
     project.projectDigest,
     project.mappingDigest,
@@ -733,6 +782,9 @@ function commandStderr(error: unknown): string {
     : "";
 }
 
-function previewHtml(svgBase64: string): string {
-  return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;min-height:100%;background:var(--vscode-editor-background)}main{display:grid;place-items:start center;padding:16px}img{max-width:100%;height:auto;background:white;box-shadow:0 2px 12px #0005}</style></head><body><main><img alt="MomoScript preview" src="data:image/svg+xml;base64,${svgBase64}"></main></body></html>`;
+function previewHtml(svgBase64: string, renderPreset: RenderPreset): string {
+  const presentation = renderPreset.kind === "chat"
+    ? `main{display:grid;place-items:start center;padding:0}img{width:${renderPreset.widthPt}px;max-width:none;height:auto}`
+    : "main{display:grid;place-items:start center;padding:16px}img{max-width:100%;height:auto;background:white;box-shadow:0 2px 12px #0005}";
+  return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;min-height:100%;background:var(--vscode-editor-background)}${presentation}</style></head><body><main><img alt="MomoScript preview" src="data:image/svg+xml;base64,${svgBase64}"></main></body></html>`;
 }

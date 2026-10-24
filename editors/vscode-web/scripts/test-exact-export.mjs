@@ -5,9 +5,11 @@ import {
   ExactExportService,
   ExportChoiceRequiredError,
   PreviewNotExportableError,
+  exactExportFileName,
 } from "../src/exactExport.ts";
 import { PreviewArtifactStore, createPreviewArtifact, previewImageAssetHref } from "../src/previewArtifact.ts";
-import { LatestExactArtifactWaiter } from "../src/exactExportUi.ts";
+import { ExactExportUiController, LatestExactArtifactWaiter } from "../src/exactExportUi.ts";
+import { createCurrentPreviewExportClient } from "../src/currentPreviewExport.ts";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -363,6 +365,174 @@ await assert.rejects(
 );
 latestWaiter.dispose();
 
+const outputPages = [
+  page("first-page-only"),
+  {
+    pageIndex: 1,
+    geometry: { viewBox: [0, 0, 81, 123], cssWidth: 81, cssHeight: 123 },
+    sanitizedSvg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81 123"><rect width="81" height="123" fill="#185ea8"/><text>second-page-only</text></svg>',
+  },
+];
+const pagedArtifact = (key, marker, renderPreset = { kind: "output" }) => createPreviewArtifact({
+  renderKey: key,
+  sourceUri,
+  renderPreset,
+  locationProviderKey: a.locationProviderKey,
+  visualSnapshot: {
+    kind: "svg",
+    pages: outputPages.map((value) => ({ ...value, sanitizedSvg: value.sanitizedSvg.replace("-only", `-${marker}`) })),
+    imageAssets: [],
+  },
+});
+const paged = pagedArtifact("paged-output-a", "A");
+const nextPaged = pagedArtifact("paged-output-b", "B");
+const chatArtifact = pagedArtifact("paged-chat", "chat", { kind: "chat", widthPt: 390 });
+const pageStore = new PreviewArtifactStore((paged.byteSize + nextPaged.byteSize + chatArtifact.byteSize) * 2);
+for (const value of [paged, nextPaged, chatArtifact]) pageStore.put(value);
+pageStore.display(sourceUri, paged.renderKey);
+const pageLatest = new LatestExactArtifactWaiter();
+pageLatest.publish(sourceUri, paged.renderKey);
+const pageService = new ExactExportService({
+  artifacts: pageStore,
+  raster: { async encode() { throw new Error("SVG page selection must not rasterize"); } },
+  pdf: { async compile() { throw new Error("SVG page selection must not compile PDF"); } },
+  latest: pageLatest,
+});
+const secondPage = await pageService.export({ sourceUri, format: "svg", pageIndex: 1 });
+assert.match(await secondPage.blob.text(), /second-page-A/);
+assert.doesNotMatch(await secondPage.blob.text(), /first-page-A/);
+assert.equal(secondPage.metadata.fileName, "story-page-2.svg");
+assert.equal(secondPage.metadata.pageCount, 2);
+assert.equal(secondPage.metadata.pageIndex, 1);
+assert.deepEqual(secondPage.metadata.pageGeometry, outputPages[1].geometry);
+assert.equal(
+  exactExportFileName(`mmtfs://workspace/${encodeURIComponent("作品%name.mmt")}`, "png", 1, true),
+  "作品%name-snapshot-page-2.png",
+  "download names must decode URI encoding exactly once",
+);
+for (const invalid of [-1, 0.5, Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER + 1, 2, "1"]) {
+  await assert.rejects(pageService.export({ sourceUri, format: "svg", pageIndex: invalid }), RangeError);
+}
+await assert.rejects(pageService.export({ sourceUri, format: "pdf", pageIndex: 0 }), RangeError);
+
+const immutablePages = new Map([[paged.renderKey, paged], [nextPaged.renderKey, nextPaged]]);
+const currentClient = createCurrentPreviewExportClient({
+  artifacts: pageStore,
+  latest: pageLatest,
+  preview: () => ({
+    displayedRenderKey: pageStore.document(sourceUri).displayedArtifact?.renderKey,
+    async createExport() { throw new Error("Retained output must not use the mutable live compiler"); },
+  }),
+  immutable: {
+    has: (key) => immutablePages.has(key),
+    async export(key, format, pageIndex, signal) {
+      signal?.throwIfAborted();
+      const retained = immutablePages.get(key);
+      return { blob: new Blob([retained.pages[pageIndex].sanitizedSvg], { type: "image/svg+xml" }), extension: format };
+    },
+  },
+});
+pageStore.request(sourceUri, nextPaged.renderKey);
+assert.equal(pageStore.document(sourceUri).displayedArtifact.renderPreset.kind, "output", "stale clones must retain the accepted presentation");
+assert.equal(currentClient.availability(sourceUri).kind, "stale-choice");
+await assert.rejects(currentClient.export({ sourceUri, format: "svg", pageIndex: 1 }), ExportChoiceRequiredError);
+const stalePage = await currentClient.export({ sourceUri, format: "svg", pageIndex: 1, staleChoice: "export-displayed" });
+assert.match(await stalePage.blob.text(), /second-page-A/);
+assert.equal(stalePage.metadata.fileName, "story-snapshot-page-2.svg");
+assert.equal(stalePage.metadata.staleDisplayedRevision, true);
+const newestPage = currentClient.export({ sourceUri, format: "svg", pageIndex: 1, staleChoice: "wait-for-latest" });
+pageStore.display(sourceUri, nextPaged.renderKey);
+pageLatest.publish(sourceUri, nextPaged.renderKey);
+const latestPage = await newestPage;
+assert.match(await latestPage.blob.text(), /second-page-B/);
+assert.equal(latestPage.metadata.fileName, "story-page-2.svg");
+assert.equal(latestPage.metadata.staleDisplayedRevision, false);
+for (const invalid of [-1, 0.5, Number.NaN, Number.POSITIVE_INFINITY, 2, "1"]) {
+  await assert.rejects(currentClient.export({ sourceUri, format: "svg", pageIndex: invalid }), RangeError);
+}
+await assert.rejects(currentClient.export({ sourceUri, format: "pdf", pageIndex: 1 }), RangeError);
+pageStore.display(sourceUri, chatArtifact.renderKey);
+pageStore.request(sourceUri, nextPaged.renderKey);
+assert.equal(pageStore.document(sourceUri).displayedArtifact.renderPreset.kind, "chat");
+for (const client of [currentClient, pageService]) {
+  await assert.rejects(client.export({ sourceUri, format: "svg", staleChoice: "export-displayed" }), PreviewNotExportableError);
+}
+pageStore.display(sourceUri, nextPaged.renderKey);
+
+let releaseDelivery;
+let startDelivery;
+const deliveryStarted = new Promise((resolve) => { startDelivery = resolve; });
+const deliveryPending = new Promise((resolve) => { releaseDelivery = resolve; });
+const deliveryPhases = [];
+const deliveryUi = new ExactExportUiController(pageService, {
+  stateChanged: (state) => deliveryPhases.push(state.phase),
+  async deliver(result) {
+    assert.match(await result.blob.text(), /second-page-B/);
+    startDelivery();
+    await deliveryPending;
+  },
+});
+deliveryUi.bind(sourceUri);
+const delivering = deliveryUi.export("svg", { pageIndex: 1 });
+await deliveryStarted;
+assert.equal(deliveryUi.state.phase, "exporting", "generation alone must not report download completion");
+assert.equal(deliveryUi.state.canCancel, false, "a download already being dispatched cannot be recalled");
+assert.equal(deliveryUi.cancel(), false);
+assert.equal(deliveryPhases.includes("complete"), false);
+releaseDelivery();
+assert.ok(await delivering);
+assert.equal(deliveryUi.state.phase, "complete");
+assert.equal(deliveryUi.state.completedFileName, "story-page-2.svg");
+assert.equal(deliveryUi.state.completedPageIndex, 1);
+assert.equal(deliveryUi.state.completedPageCount, 2);
+deliveryUi.dispose();
+
+let failDelivery = true;
+let deliveredCount = 0;
+const failureUi = new ExactExportUiController(currentClient, {
+  deliver() {
+    if (failDelivery) throw new Error("Browser refused download dispatch");
+    deliveredCount += 1;
+  },
+}, "current-preview");
+failureUi.bind(sourceUri);
+assert.equal(await failureUi.export("svg", { pageIndex: 1 }), undefined);
+assert.equal(failureUi.state.phase, "error");
+assert.match(failureUi.state.message, /Browser refused download dispatch/);
+assert.equal(failureUi.state.completedFileName, undefined);
+failDelivery = false;
+assert.ok(await failureUi.export("svg", { pageIndex: 1 }));
+assert.equal(deliveredCount, 1);
+assert.equal(failureUi.state.phase, "complete");
+
+pageStore.request(sourceUri, "pending-output");
+const cancelledExport = failureUi.export("svg", { pageIndex: 1, staleChoice: "wait-for-latest" });
+assert.equal(failureUi.state.phase, "waiting");
+assert.equal(failureUi.cancel(), true);
+assert.equal(await cancelledExport, undefined);
+assert.equal(failureUi.state.phase, "cancelled");
+assert.equal(failureUi.state.completedFileName, undefined);
+assert.equal(deliveredCount, 1, "cancelling a latest wait must never dispatch an old snapshot");
+const failedRender = failureUi.export("svg", { pageIndex: 1, staleChoice: "wait-for-latest" });
+pageLatest.failSource(sourceUri, new Error("Latest output failed to compile"));
+assert.equal(await failedRender, undefined);
+assert.equal(failureUi.state.phase, "error");
+assert.match(failureUi.state.message, /Latest output failed to compile/);
+assert.equal(currentClient.availability(sourceUri).kind, "stale-choice", "a failed latest wait must preserve the accepted output snapshot");
+failureUi.dispose();
+pageStore.fail(sourceUri, "pending-output");
+assert.deepEqual(currentClient.availability(sourceUri), { kind: "unavailable", reason: "FailedPreview" });
+for (const staleChoice of [undefined, "export-displayed", "wait-for-latest"]) {
+  await assert.rejects(
+    currentClient.export({ sourceUri, format: "svg", staleChoice }),
+    (error) => error instanceof PreviewNotExportableError && error.code === "FailedPreview",
+  );
+}
+assert.ok(pageStore.get(nextPaged.renderKey), "failure must block export without discarding the accepted snapshot");
+pageService.dispose();
+pageLatest.dispose();
+pageStore.dispose();
+
 service.dispose();
 store.dispose();
 
@@ -377,4 +547,12 @@ console.log(JSON.stringify({
   partialAndFailedRejected: true,
   pinReleaseAndDisposeAbort: true,
   metadataContentHashBound: true,
+  explicitCurrentOutputSnapshot: true,
+  selectedPageBytesAndGeometry: true,
+  invalidPagesRejected: true,
+  immutablePresetSurvivesStaleClone: true,
+  completionWaitsForDelivery: true,
+  deliveryFailureRetry: true,
+  cancelLatestWithoutDownload: true,
+  failedLatestWaitSettles: true,
 }));

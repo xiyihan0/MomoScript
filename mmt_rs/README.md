@@ -3,6 +3,25 @@
 `mmt_rs` contains the Rust DSL v2 parser, semantic pipeline, pack-v3 resolver,
 Typst emitter, and native project-export CLI.
 
+Composer structural commands are validated against a versioned document partition.
+Message insertion can carry a pack avatar choice; the scoped actor declaration and
+message are returned as one source edit. Media insertion accepts a declared image
+asset, a workspace PNG/JPEG path, or a current-pack sticker set and ordinal.
+Sticker `setId` can include its contribution namespace (`namespace::set`) to
+retain exact provenance. Rust owns the resulting declarations and resource
+markers. Message-side changes and
+move-to-boundary commands preserve neighboring source and semantic identity;
+teacher messages remain right-only, and moves cannot cross opaque partitions.
+The document projection exposes declared `assetChoices` and authorized
+`setSide`/`moveTargets` choices rather than asking clients to parse DSL text.
+
+Local image assets may use sanitized workspace-relative paths, including
+`assets/<uuid>.png`; absolute paths, traversal, empty segments, backslashes,
+colons, and control characters are rejected. Native resolution also verifies
+the canonical file remains under the workspace root. Render projections assign
+pack and workspace resources distinct generated virtual paths from one allocator;
+the authored workspace-relative path is retained only for filesystem lookup.
+
 ## Export a Typst project
 
 ```bash

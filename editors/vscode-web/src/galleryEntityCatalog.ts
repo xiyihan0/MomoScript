@@ -15,6 +15,10 @@ export interface GalleryCatalogTaxonomyTerm {
 
 export interface GalleryCatalogEntity {
   readonly key: string;
+  readonly characterId?: string;
+  readonly displayNames: ReadonlyMap<string, string>;
+  readonly givenNames: ReadonlyMap<string, string>;
+  readonly skinNames: ReadonlyMap<string, string>;
   readonly zhCnDisplayName?: string;
   readonly localizedNames: readonly string[];
   readonly aliases: readonly string[];
@@ -286,12 +290,16 @@ function parseEntities(
     if (!binding.entityKeys.has(key)) throw new Error(`Entity Catalog entity ${key} is absent from the manifest`);
     const entity = requiredObject(candidate, `Entity Catalog.entities.${key}`);
     assertKeys(entity, ["external_ids", "names", "affiliation", "related_entities"], [], `Entity Catalog.entities.${key}`);
-    parseExternalIds(entity.external_ids, key);
+    const characterId = parseExternalIds(entity.external_ids, key);
     const names = parseNames(entity.names, key);
     const affiliation = parseAffiliation(entity.affiliation, key, schools, relations);
     const alternateSkinKeys = parseRelatedEntities(entity.related_entities, key, binding);
     output.set(key, Object.freeze({
       key,
+      characterId,
+      displayNames: names.display,
+      givenNames: names.given,
+      skinNames: names.skin,
       zhCnDisplayName: names.display.get("zh-CN"),
       localizedNames: names.localizedNames,
       aliases: names.aliases,
@@ -302,16 +310,19 @@ function parseEntities(
   return output;
 }
 
-function parseExternalIds(value: unknown, entityKey: string): void {
+function parseExternalIds(value: unknown, entityKey: string): string | undefined {
   const record = requiredObject(value, `Entity Catalog.entities.${entityKey}.external_ids`);
   for (const [key, candidate] of Object.entries(record)) {
     if (!EXTERNAL_ID_KEY.test(key)) throw new Error(`Invalid external id key ${key}`);
     requiredString(candidate, `Entity Catalog.entities.${entityKey}.external_ids.${key}`);
   }
+  return record.character as string | undefined;
 }
 
 function parseNames(value: unknown, entityKey: string): {
   readonly display: ReadonlyMap<string, string>;
+  readonly given: ReadonlyMap<string, string>;
+  readonly skin: ReadonlyMap<string, string>;
   readonly localizedNames: readonly string[];
   readonly aliases: readonly string[];
 } {
@@ -325,6 +336,8 @@ function parseNames(value: unknown, entityKey: string): {
   const aliases = localeStringLists(names.aliases, `${label}.aliases`);
   return {
     display,
+    given,
+    skin,
     localizedNames: uniqueStrings([...display.values(), ...family.values(), ...given.values(), ...skin.values()]),
     aliases: uniqueStrings([...aliases.values()].flat())
   };

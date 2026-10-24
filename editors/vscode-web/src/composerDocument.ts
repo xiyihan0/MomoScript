@@ -54,9 +54,11 @@ export interface ComposerMessageCapabilities {
   readonly setDisplayName: boolean;
   readonly setAvatar: boolean;
   readonly setSpeaker: boolean;
+  readonly setSide: readonly ComposerMessageSide[];
   readonly delete: boolean;
   readonly moveUp: ComposerBoundaryTarget | null;
   readonly moveDown: ComposerBoundaryTarget | null;
+  readonly moveTargets: readonly ComposerBoundaryTarget[];
 }
 
 export interface ComposerNarrationCapabilities {
@@ -65,6 +67,7 @@ export interface ComposerNarrationCapabilities {
   readonly delete: boolean;
   readonly moveUp: ComposerBoundaryTarget | null;
   readonly moveDown: ComposerBoundaryTarget | null;
+  readonly moveTargets: readonly ComposerBoundaryTarget[];
 }
 
 export type ComposerDocumentNode =
@@ -130,6 +133,7 @@ export interface ComposerScriptActorChoice {
 }
 
 export interface ComposerDocumentSnapshot {
+  readonly assetChoices: readonly { readonly assetName: string }[];
   readonly kind: "Snapshot";
   readonly textDocument: { readonly uri: string; readonly version: number };
   readonly sourceDigest: string;
@@ -190,7 +194,7 @@ export function parseComposerDocumentResult(value: unknown): ComposerDocumentRes
   }
   requireExactKeys(
     record,
-    ["kind", "textDocument", "sourceDigest", "nodes", "boundaries", "scriptActorChoices"],
+    ["kind", "textDocument", "sourceDigest", "nodes", "boundaries", "scriptActorChoices", "assetChoices"],
     "Composer document snapshot",
   );
   const textDocument = parseTextDocument(record.textDocument);
@@ -224,6 +228,14 @@ export function parseComposerDocumentResult(value: unknown): ComposerDocumentRes
   if (references.size !== scriptActorChoices.length) {
     throw new Error("Composer script actor references must be unique");
   }
+  const assetChoices = requireBoundedArray(record.assetChoices, MAX_NODE_COUNT, "Composer assetChoices").map((value, index) => {
+    const choice = requireRecord(value, `Composer assetChoices[${index}]`);
+    requireExactKeys(choice, ["assetName"], `Composer assetChoices[${index}]`);
+    return { assetName: requireBoundedString(choice.assetName, MAX_PRODUCT_STRING_BYTES, `Composer assetChoices[${index}].assetName`) };
+  });
+  if (new Set(assetChoices.map((choice) => choice.assetName)).size !== assetChoices.length) {
+    throw new Error("Composer asset names must be unique");
+  }
   return deepFreeze({
     kind: "Snapshot" as const,
     textDocument,
@@ -231,6 +243,7 @@ export function parseComposerDocumentResult(value: unknown): ComposerDocumentRes
     nodes,
     boundaries,
     scriptActorChoices,
+    assetChoices,
   });
 }
 
@@ -346,6 +359,9 @@ export async function validateComposerSnapshotAgainstDocument(
     if (node.kind === "message" || node.kind === "narration") {
       if (!validBoundary(node.capabilities.moveUp) || !validBoundary(node.capabilities.moveDown)) {
         throw new Error("Composer move capability references an unknown boundary");
+      }
+      if (!node.capabilities.moveTargets.every(validBoundary)) {
+        throw new Error("Composer move targets reference an unknown boundary");
       }
     }
   }
@@ -540,7 +556,7 @@ function parseAvatarCurrent(value: unknown, label: string): ComposerAvatarCurren
 
 function parseMessageCapabilities(value: unknown, label: string): ComposerMessageCapabilities {
   const record = requireRecord(value, label);
-  requireExactKeys(record, ["replaceSource", "setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "delete", "moveUp", "moveDown"], label);
+  requireExactKeys(record, ["replaceSource", "setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "setSide", "delete", "moveUp", "moveDown", "moveTargets"], label);
   for (const field of ["replaceSource", "setBody", "setContinued", "setDisplayName", "setAvatar", "setSpeaker", "delete"] as const) {
     if (typeof record[field] !== "boolean") throw new Error(`${label}.${field} must be boolean`);
   }
@@ -551,15 +567,25 @@ function parseMessageCapabilities(value: unknown, label: string): ComposerMessag
     setDisplayName: record.setDisplayName as boolean,
     setAvatar: record.setAvatar as boolean,
     setSpeaker: record.setSpeaker as boolean,
+    setSide: parseSides(record.setSide, `${label}.setSide`),
     delete: record.delete as boolean,
     moveUp: record.moveUp === null ? null : parseBoundaryTarget(record.moveUp, `${label}.moveUp`),
     moveDown: record.moveDown === null ? null : parseBoundaryTarget(record.moveDown, `${label}.moveDown`),
+    moveTargets: requireBoundedArray(record.moveTargets, MAX_NODE_COUNT + 1, `${label}.moveTargets`).map((target, index) => parseBoundaryTarget(target, `${label}.moveTargets[${index}]`)),
   };
+}
+
+function parseSides(value: unknown, label: string): readonly ComposerMessageSide[] {
+  const sides = requireBoundedArray(value, 2, label);
+  if (sides.some((side) => !isAllowedString(side, MESSAGE_SIDES)) || new Set(sides).size !== sides.length) {
+    throw new Error(`${label} must contain unique message sides`);
+  }
+  return sides as ComposerMessageSide[];
 }
 
 function parseNarrationCapabilities(value: unknown, label: string): ComposerNarrationCapabilities {
   const record = requireRecord(value, label);
-  requireExactKeys(record, ["replaceSource", "setBody", "delete", "moveUp", "moveDown"], label);
+  requireExactKeys(record, ["replaceSource", "setBody", "delete", "moveUp", "moveDown", "moveTargets"], label);
   if (typeof record.replaceSource !== "boolean" || typeof record.setBody !== "boolean" || typeof record.delete !== "boolean") {
     throw new Error(`${label} booleans are invalid`);
   }
@@ -569,6 +595,7 @@ function parseNarrationCapabilities(value: unknown, label: string): ComposerNarr
     delete: record.delete,
     moveUp: record.moveUp === null ? null : parseBoundaryTarget(record.moveUp, `${label}.moveUp`),
     moveDown: record.moveDown === null ? null : parseBoundaryTarget(record.moveDown, `${label}.moveDown`),
+    moveTargets: requireBoundedArray(record.moveTargets, MAX_NODE_COUNT + 1, `${label}.moveTargets`).map((target, index) => parseBoundaryTarget(target, `${label}.moveTargets[${index}]`)),
   };
 }
 

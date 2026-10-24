@@ -1,9 +1,11 @@
 import type { ExactExportFormat, StaleExportChoice } from "./exactExport.ts";
+import type { ExactExportUiState } from "./exactExportUi.ts";
 import type { RenderKey } from "../../vscode/src/runtimeIdentity.ts";
 import type { PreviewRendererPointUncertainty } from "../../vscode/src/previewRendererProtocol.ts";
+import { isRenderPreset, type RenderPreset } from "../../vscode/src/renderPreset.ts";
 
 export type PreviewFitMode = "manual" | "width" | "page";
-export type PreviewSurfacePresentation = "gui" | "preview";
+export type PreviewSurfacePresentation = "chat" | "layout" | "preview";
 
 export interface PreviewPagePoint {
   readonly pageIndex: number;
@@ -57,6 +59,7 @@ export interface PreviewRenderMessage {
   readonly requestSequence: number;
   readonly traceId?: string;
   readonly renderKey: RenderKey;
+  readonly renderPreset: RenderPreset;
   readonly spans: readonly PreviewMeasurementSpan[];
 }
 
@@ -74,6 +77,7 @@ export interface PreviewRendererFrameMessage {
   readonly requestSequence: number;
   readonly traceId?: string;
   readonly renderKey: RenderKey;
+  readonly renderPreset: RenderPreset;
   readonly publishedAtEpochMs: number;
 }
 
@@ -84,16 +88,7 @@ export interface PreviewRendererPageGeometry {
   readonly height: number;
 }
 
-export interface PreviewExactExportState {
-  readonly mode: "exact" | "current-preview";
-  readonly availability: string;
-  readonly phase: string;
-  readonly message: string;
-  readonly canSelectFormat: boolean;
-  readonly canExportDisplayed: boolean;
-  readonly canWaitForLatest: boolean;
-  readonly canCancel: boolean;
-}
+export type PreviewExactExportState = ExactExportUiState;
 
 export interface PreviewRendererReadyMetadata {
   readonly sessionId: string;
@@ -221,7 +216,7 @@ export type PreviewHostToWebviewMessage =
   | { readonly type: "presentation"; readonly presentation: PreviewSurfacePresentation }
   | { readonly type: "renderer-reset" }
   | { readonly type: "status"; readonly message: string; readonly error: boolean }
-  | { readonly type: "restoreViewport"; readonly viewport: PreviewViewport }
+  | { readonly type: "restoreViewport"; readonly viewport: PreviewViewport; readonly presentation: PreviewSurfacePresentation }
   | { readonly type: "indicator"; readonly point?: PreviewPagePoint }
   | { readonly type: "cursor"; readonly point?: PreviewPagePoint }
   | { readonly type: "exactExportState"; readonly state: PreviewExactExportState };
@@ -231,7 +226,7 @@ export type PreviewWebviewToHostMessage =
   | ComposerIntentMessage
   | ComposerDrainedMessage
   | PreviewVisualReadyMessage
-  | { readonly type: "viewport"; readonly viewport: PreviewViewport }
+  | { readonly type: "viewport"; readonly renderKey: RenderKey; readonly presentation: PreviewSurfacePresentation; readonly viewport: PreviewViewport }
   | { readonly type: "navigate"; readonly point: PreviewNavigationPoint }
   | {
     readonly type: "context-point";
@@ -239,10 +234,19 @@ export type PreviewWebviewToHostMessage =
     readonly anchor: PreviewContextMenuAnchor;
     readonly trigger: "select" | "menu";
   }
-  | { readonly type: "exact-export"; readonly format: ExactExportFormat; readonly staleChoice?: StaleExportChoice }
+  | { readonly type: "exact-export"; readonly format: ExactExportFormat; readonly staleChoice?: StaleExportChoice; readonly pageIndex?: number }
   | { readonly type: "exact-export-cancel" }
   | { readonly type: "render-rejected"; readonly requestSequence: number; readonly renderKey: RenderKey; readonly error: string }
   | { readonly type: "renderer-resync-needed"; readonly sessionId: string; readonly generation: number };
+
+export function isPreviewSurfacePresentation(value: unknown): value is PreviewSurfacePresentation {
+  return value === "chat" || value === "layout" || value === "preview";
+}
+
+/** Presentation changes never reinterpret an artifact produced by another preset. */
+export function previewPresentationAcceptsPreset(presentation: PreviewSurfacePresentation, preset: RenderPreset): boolean {
+  return (presentation === "chat") === (preset.kind === "chat");
+}
 
 export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewHostToWebviewMessage {
   if (!value || typeof value !== "object" || !("type" in value)) return false;
@@ -251,9 +255,11 @@ export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewH
       return isComposerStateMessage(value);
     case "presentation":
       return hasExactKeys(value, ["type", "presentation"])
-        && (value.presentation === "gui" || value.presentation === "preview");
+        && isPreviewSurfacePresentation(value.presentation);
     case "render":
-      return "svg" in value && typeof value.svg === "string"
+      return hasExactKeys(value, ["type", "svg", "imageAssets", "pageSize", "requestSequence", "renderKey", "renderPreset", "spans"], ["traceId"])
+        && typeof value.svg === "string"
+        && isRenderPreset(value.renderPreset)
         && "imageAssets" in value && Array.isArray(value.imageAssets)
         && value.imageAssets.every(isImageAssetMessage)
         && "pageSize" in value && isPageSize(value.pageSize)
@@ -263,7 +269,9 @@ export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewH
         && "spans" in value && Array.isArray(value.spans)
         && value.spans.every(isMeasurementSpan);
     case "render-frame":
-      return "sessionId" in value && typeof value.sessionId === "string"
+      return hasExactKeys(value, ["type", "sessionId", "frameKind", "dataBase64", "byteLength", "artifactDigest", "sourceDigest", "backendGeneration", "rendererGeneration", "baseGeneration", "requestSequence", "renderKey", "renderPreset", "publishedAtEpochMs"], ["traceId"])
+        && typeof value.sessionId === "string"
+        && isRenderPreset(value.renderPreset)
         && "frameKind" in value && (value.frameKind === "new" || value.frameKind === "diff-v1")
         && "dataBase64" in value && typeof value.dataBase64 === "string"
         && "byteLength" in value && Number.isSafeInteger(value.byteLength)
@@ -282,12 +290,14 @@ export function isPreviewHostToWebviewMessage(value: unknown): value is PreviewH
       return "message" in value && typeof value.message === "string"
         && "error" in value && typeof value.error === "boolean";
     case "restoreViewport":
-      return "viewport" in value && isPreviewViewport(value.viewport);
+      return hasExactKeys(value, ["type", "viewport", "presentation"])
+        && isPreviewSurfacePresentation(value.presentation)
+        && isPreviewViewport(value.viewport);
     case "indicator":
     case "cursor":
       return !("point" in value) || value.point === undefined || isPreviewPagePoint(value.point);
     case "exactExportState":
-      return "state" in value && isPreviewExactExportState(value.state);
+      return hasExactKeys(value, ["type", "state"]) && isPreviewExactExportState(value.state);
     default:
       return false;
   }
@@ -346,7 +356,7 @@ export function isComposerStateMessage(value: unknown): value is ComposerStateMe
     && (value.status !== "blocked" || (value.carets.length === 0 && value.boxes.length === 0));
 }
 
-/** The host also checks the active GUI runtime before forwarding admitted input. */
+/** The host also checks the active editable runtime before forwarding admitted input. */
 export function acceptsComposerIntent(
   message: unknown,
   state: ComposerState | undefined,
@@ -439,16 +449,16 @@ function isComposerBox(value: unknown, caret: boolean): boolean {
 }
 
 export function isExportMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "exact-export" }> {
-  if (!value || typeof value !== "object" || !("type" in value) || value.type !== "exact-export") return false;
-  if (!("format" in value) || !["pdf", "png", "jpg", "svg"].includes(String(value.format))) return false;
-  return !("staleChoice" in value)
-    || value.staleChoice === undefined
-    || value.staleChoice === "export-displayed"
-    || value.staleChoice === "wait-for-latest";
+  return hasExactKeys(value, ["type", "format"], ["staleChoice", "pageIndex"])
+    && value.type === "exact-export"
+    && (value.format === "pdf" || value.format === "png" || value.format === "jpg" || value.format === "svg")
+    && (!("staleChoice" in value)
+      || value.staleChoice === "export-displayed" || value.staleChoice === "wait-for-latest")
+    && (!("pageIndex" in value) || (value.format !== "pdf" && nonNegativeSafeInteger(value.pageIndex)));
 }
 
 export function isExactExportCancelMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "exact-export-cancel" }> {
-  return Boolean(value && typeof value === "object" && "type" in value && value.type === "exact-export-cancel");
+  return hasExactKeys(value, ["type"]) && value.type === "exact-export-cancel";
 }
 
 export function isPreviewWebviewReadyMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "ready" }> {
@@ -517,9 +527,11 @@ export function isPreviewRendererReadyMetadata(value: unknown): value is Preview
 }
 
 export function isPreviewViewportMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "viewport" }> {
-  return Boolean(value && typeof value === "object"
-    && "type" in value && value.type === "viewport"
-    && "viewport" in value && isPreviewViewport(value.viewport));
+  return hasExactKeys(value, ["type", "renderKey", "presentation", "viewport"])
+    && value.type === "viewport"
+    && typeof value.renderKey === "string" && value.renderKey.length > 0
+    && isPreviewSurfacePresentation(value.presentation)
+    && isPreviewViewport(value.viewport);
 }
 
 export function isPreviewNavigateMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "navigate" }> {
@@ -653,15 +665,23 @@ function isPreviewViewport(value: unknown): value is PreviewViewport {
 }
 
 function isPreviewExactExportState(value: unknown): value is PreviewExactExportState {
-  return Boolean(value && typeof value === "object"
-    && "mode" in value && (value.mode === "exact" || value.mode === "current-preview")
-    && "availability" in value && typeof value.availability === "string"
-    && "phase" in value && typeof value.phase === "string"
-    && "message" in value && typeof value.message === "string"
-    && "canSelectFormat" in value && typeof value.canSelectFormat === "boolean"
-    && "canExportDisplayed" in value && typeof value.canExportDisplayed === "boolean"
-    && "canWaitForLatest" in value && typeof value.canWaitForLatest === "boolean"
-    && "canCancel" in value && typeof value.canCancel === "boolean");
+  return hasExactKeys(value, ["mode", "availability", "phase", "message", "canSelectFormat", "canExportDisplayed", "canWaitForLatest", "canCancel"],
+    ["sourceUri", "displayedRenderKey", "requestedRenderKey", "completedRenderKey", "completedFormat", "completedFileName", "completedPageIndex", "completedPageCount"])
+    && (value.mode === "exact" || value.mode === "current-preview")
+    && typeof value.availability === "string"
+    && ["no-document", "capability-unavailable", "ready", "stale", "partial", "failed", "evicted"].includes(value.availability)
+    && typeof value.phase === "string"
+    && ["idle", "waiting", "exporting", "complete", "cancelled", "error"].includes(value.phase)
+    && typeof value.message === "string"
+    && typeof value.canSelectFormat === "boolean" && typeof value.canExportDisplayed === "boolean"
+    && typeof value.canWaitForLatest === "boolean" && typeof value.canCancel === "boolean"
+    && ["sourceUri", "displayedRenderKey", "requestedRenderKey", "completedRenderKey", "completedFileName"].every((key) =>
+      value[key] === undefined || (typeof value[key] === "string" && value[key].length > 0))
+    && (value.completedFormat === undefined || value.completedFormat === "pdf" || value.completedFormat === "png" || value.completedFormat === "jpg" || value.completedFormat === "svg")
+    && (value.completedPageIndex === undefined || nonNegativeSafeInteger(value.completedPageIndex))
+    && (value.completedPageCount === undefined || (nonNegativeSafeInteger(value.completedPageCount) && Number(value.completedPageCount) > 0))
+    && (value.completedPageIndex === undefined || (value.completedFormat !== "pdf"
+      && typeof value.completedPageCount === "number" && Number(value.completedPageIndex) < value.completedPageCount));
 }
 
 function isRendererPageGeometry(value: unknown): value is PreviewRendererPageGeometry {

@@ -8,7 +8,8 @@ use std::{
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::emit::{
-    EmitOptions, EmittedTypst, GeneratedKind, MaterializedContent, Origin, OriginKind, emit_typst,
+    EmitOptions, EmittedTypst, GeneratedKind, MaterializedContent, Origin, OriginKind,
+    RENDER_PRESENTATION_VERSION, RenderPreset, emit_typst,
 };
 use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
 use crate::pack::PackRegistry;
@@ -161,8 +162,20 @@ pub struct TypstProjection {
 
 #[derive(Debug, Clone, Copy)]
 pub enum ProjectionProfile<'a> {
-    Language { placeholder_uri: &'a str },
-    Render { timestamp: Option<HostTimestamp> },
+    Language {
+        placeholder_uri: &'a str,
+    },
+    Render {
+        timestamp: Option<HostTimestamp>,
+        render_preset: RenderPreset,
+    },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct RenderProjectionCacheKey {
+    timestamp: Option<HostTimestamp>,
+    render_preset: RenderPreset,
+    presentation_version: u32,
 }
 
 #[derive(Debug, Clone)]
@@ -171,7 +184,7 @@ pub struct ProjectionPlan {
     analysis: Arc<AnalyzedDocument>,
     options: EmitOptions,
     default_language: TypstProjection,
-    render_cache: Arc<Mutex<VecDeque<(Option<HostTimestamp>, TypstProjection)>>>,
+    render_cache: Arc<Mutex<VecDeque<(RenderProjectionCacheKey, TypstProjection)>>>,
 }
 
 impl ProjectionPlan {
@@ -215,21 +228,27 @@ impl ProjectionPlan {
                 &self.options,
                 placeholder_uri,
             ),
-            ProjectionProfile::Render { timestamp } => {
+            ProjectionProfile::Render {
+                timestamp,
+                render_preset,
+            } => {
+                let cache_key = RenderProjectionCacheKey {
+                    timestamp,
+                    render_preset,
+                    presentation_version: RENDER_PRESENTATION_VERSION,
+                };
                 let mut cache = self
                     .render_cache
                     .lock()
                     .unwrap_or_else(|poisoned| poisoned.into_inner());
-                if let Some((_, projection)) = cache
-                    .iter()
-                    .find(|(cached_timestamp, _)| *cached_timestamp == timestamp)
-                {
+                if let Some((_, projection)) = cache.iter().find(|(key, _)| *key == cache_key) {
                     return Ok(projection.clone());
                 }
                 drop(cache);
 
                 let mut options = self.options.clone();
                 options.timestamp = timestamp;
+                options.render_preset = render_preset;
                 let projection =
                     project_analyzed_with_pack(&self.source, &self.analysis, &options)?;
                 cache = self
@@ -239,7 +258,7 @@ impl ProjectionPlan {
                 if cache.len() >= RENDER_PROJECTION_CACHE_CAPACITY {
                     cache.pop_front();
                 }
-                cache.push_back((timestamp, projection.clone()));
+                cache.push_back((cache_key, projection.clone()));
                 Ok(projection)
             }
         }
@@ -623,24 +642,33 @@ struct ProjectionMaterializer {
     resources: Vec<ProjectedResource>,
 }
 
+impl ProjectionMaterializer {
+    fn next_typst_path(&self, extension: &str) -> String {
+        format!("mmt-resources/{}.{}", self.resources.len(), extension)
+    }
+}
+
 impl ResourceMaterializer for ProjectionMaterializer {
     fn materialize(
         &mut self,
         resource: &ResolvedResource,
     ) -> Result<MaterializedImage, MaterializeError> {
         if let Some(path) = local_resource_path(&resource.kind) {
-            let file_name = sanitized_basename(path)?;
+            let file_name = sanitized_workspace_path(path)?;
+            let extension = file_name
+                .rsplit('/')
+                .next()
+                .and_then(|basename| basename.rsplit_once('.'))
+                .map(|(_, extension)| extension)
+                .unwrap_or("img");
+            let typst_path = self.next_typst_path(extension);
             self.resources.push(ProjectedResource {
-                typst_path: file_name.clone(),
+                typst_path: typst_path.clone(),
                 pack_namespace: String::new(),
-                source: ProjectedResourceSource::WorkspaceFile {
-                    file_name: file_name.clone(),
-                },
+                source: ProjectedResourceSource::WorkspaceFile { file_name },
                 range: resource.range,
             });
-            return Ok(MaterializedImage {
-                typst_path: file_name,
-            });
+            return Ok(MaterializedImage { typst_path });
         }
         let source = match &resource.kind {
             ResolvedResourceKind::Avatar { source, .. }
@@ -668,7 +696,7 @@ impl ResourceMaterializer for ProjectionMaterializer {
                         .map(|(_, extension)| extension)
                         .unwrap_or("img");
                     (
-                        format!("mmt-resources/{}.{}", self.resources.len(), extension),
+                        self.next_typst_path(extension),
                         ProjectedResourceSource::ImageDir { base, file_name },
                     )
                 }
@@ -706,7 +734,7 @@ impl ResourceMaterializer for ProjectionMaterializer {
                         MaterializeError::new("image-sequence storage has no profile")
                     })?;
                     (
-                        format!("mmt-resources/{}.png", self.resources.len()),
+                        self.next_typst_path("png"),
                         ProjectedResourceSource::ImageSequence {
                             path,
                             frame,
@@ -747,10 +775,19 @@ fn local_resource_path(kind: &ResolvedResourceKind) -> Option<&str> {
     }
 }
 
+fn sanitized_workspace_path(path: &str) -> Result<String, MaterializeError> {
+    if !crate::semantic::sanitized_workspace_relative_path(path) {
+        return Err(MaterializeError::new(
+            "workspace resource path must be a sanitized relative path",
+        ));
+    }
+    Ok(path.to_string())
+}
+
 fn sanitized_basename(path: &str) -> Result<String, MaterializeError> {
     if path.is_empty() || path == "." || path == ".." || path.contains('/') || path.contains('\\') {
         return Err(MaterializeError::new(
-            "workspace resource path must be a basename",
+            "pack image resource path must be a basename",
         ));
     }
     Ok(path.to_string())
@@ -966,7 +1003,7 @@ mod tests {
     }
 
     #[test]
-    fn projection_materializes_only_basename_workspace_files() {
+    fn projection_materializes_sanitized_relative_workspace_files() {
         let resource = ResolvedResource {
             range: TextRange::new(0, 1),
             target: crate::resolve::ResourceTarget::Inline,
@@ -977,12 +1014,35 @@ mod tests {
         };
         let mut materializer = ProjectionMaterializer::default();
         let image = materializer.materialize(&resource).unwrap();
-        assert_eq!(image.typst_path, "image.png");
+        assert_eq!(image.typst_path, "mmt-resources/0.png");
         assert!(
             matches!(&materializer.resources[0].source, ProjectedResourceSource::WorkspaceFile { file_name } if file_name == "image.png")
         );
 
-        for path in ["../image.png", "dir/image.png", "dir\\image.png", ".", ".."] {
+        let nested = ResolvedResource {
+            kind: ResolvedResourceKind::WorkspaceFile {
+                path: "assets/image.png".to_owned(),
+            },
+            ..resource.clone()
+        };
+        assert_eq!(
+            materializer.materialize(&nested).unwrap().typst_path,
+            "mmt-resources/1.png"
+        );
+        assert!(matches!(&materializer.resources[1].source,
+            ProjectedResourceSource::WorkspaceFile { file_name } if file_name == "assets/image.png"));
+
+        for path in [
+            "../image.png",
+            "/image.png",
+            "dir/../image.png",
+            "dir//image.png",
+            "dir\\image.png",
+            ".",
+            "..",
+            "C:image.png",
+            "dir/i\nmage.png",
+        ] {
             let invalid = ResolvedResource {
                 kind: ResolvedResourceKind::WorkspaceFile {
                     path: path.to_string(),
@@ -994,6 +1054,81 @@ mod tests {
                 "accepted unsafe path: {path}"
             );
         }
+    }
+
+    #[test]
+    fn mixed_pack_and_workspace_paths_keep_distinct_virtual_files_and_backing_bytes() {
+        use std::collections::HashMap;
+        use std::fs;
+
+        let root = std::env::temp_dir().join(format!(
+            "mmt-projection-resource-identities-{}",
+            std::process::id(),
+        ));
+        let workspace_root = root.join("workspace");
+        let pack_root = root.join("pack");
+        fs::create_dir_all(workspace_root.join("mmt-resources")).unwrap();
+        fs::create_dir_all(pack_root.join("images")).unwrap();
+        let pack_bytes = b"pack-backed resource bytes";
+        let workspace_bytes = b"workspace-backed resource bytes";
+        fs::write(pack_root.join("images/pack.png"), pack_bytes).unwrap();
+        fs::write(workspace_root.join("mmt-resources/0.png"), workspace_bytes).unwrap();
+        let manifest = crate::pack::PackManifest::from_json(
+            r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"fixture","name":"Fixture","version":"1","type":"base"},
+            "assets":{"pack_image":{"source":{"storage":"images","path":"pack.png"}}},
+            "storage":{"images":{"kind":"image-dir","base":"images"}}
+        }"#,
+        )
+        .unwrap();
+        let packs = PackRegistry::new(vec![manifest]).unwrap();
+        for body in [
+            "[:asset, pack_image:] [:asset, local:]",
+            "[:asset, local:] [:asset, pack_image:]",
+        ] {
+            let source = format!("@asset local\nsrc: mmt-resources/0.png\n@end\n- {body}\n");
+            let projection =
+                project_text_with_pack(&source, &packs, &EmitOptions::default()).unwrap();
+            assert!(
+                projection.diagnostics.is_empty(),
+                "{:?}",
+                projection.diagnostics
+            );
+            assert_eq!(projection.resources.len(), 2);
+            assert_eq!(projection.resources[0].typst_path, "mmt-resources/0.png");
+            assert_eq!(projection.resources[1].typst_path, "mmt-resources/1.png");
+            let mut virtual_files = HashMap::new();
+            for resource in &projection.resources {
+                let backing_file = match &resource.source {
+                    ProjectedResourceSource::ImageDir { base, file_name } => {
+                        assert_eq!(resource.pack_namespace, "fixture");
+                        pack_root.join(base).join(file_name)
+                    }
+                    ProjectedResourceSource::WorkspaceFile { file_name } => {
+                        assert_eq!(file_name, "mmt-resources/0.png");
+                        workspace_root.join(file_name)
+                    }
+                    ProjectedResourceSource::ImageSequence { .. } => panic!("unexpected sequence"),
+                };
+                assert!(
+                    virtual_files
+                        .insert(resource.typst_path.clone(), fs::read(backing_file).unwrap(),)
+                        .is_none()
+                );
+                assert!(projection.emitted.source.contains(&resource.typst_path));
+            }
+            assert_eq!(virtual_files.len(), 2);
+            for resource in &projection.resources {
+                let expected = match &resource.source {
+                    ProjectedResourceSource::ImageDir { .. } => pack_bytes.as_slice(),
+                    ProjectedResourceSource::WorkspaceFile { .. } => workspace_bytes.as_slice(),
+                    ProjectedResourceSource::ImageSequence { .. } => unreachable!(),
+                };
+                assert_eq!(virtual_files[&resource.typst_path].as_slice(), expected);
+            }
+        }
+        fs::remove_dir_all(root).unwrap();
     }
     #[test]
     fn shared_plan_language_projection_matches_clean_projection() {
@@ -1042,7 +1177,12 @@ mod tests {
         let plan =
             ProjectionPlan::from_shared(Arc::<str>::from(source), Arc::clone(&analysis), &options)
                 .unwrap();
-        let shared = plan.emit(ProjectionProfile::Render { timestamp }).unwrap();
+        let shared = plan
+            .emit(ProjectionProfile::Render {
+                timestamp,
+                render_preset: RenderPreset::Output,
+            })
+            .unwrap();
 
         assert_eq!(shared.emitted.source, clean.emitted.source);
         assert_eq!(shared.emitted.origins, clean.emitted.origins);
@@ -1050,7 +1190,12 @@ mod tests {
         assert_eq!(shared.diagnostics, clean.diagnostics);
         assert_eq!(shared.resources, clean.resources);
         assert_eq!(shared.index.segments(), clean.index.segments());
-        let cached = plan.emit(ProjectionProfile::Render { timestamp }).unwrap();
+        let cached = plan
+            .emit(ProjectionProfile::Render {
+                timestamp,
+                render_preset: RenderPreset::Output,
+            })
+            .unwrap();
         assert_eq!(cached.emitted.source, shared.emitted.source);
         assert_eq!(cached.diagnostics, shared.diagnostics);
         assert_eq!(
@@ -1060,5 +1205,78 @@ mod tests {
                 .len(),
             1
         );
+    }
+
+    #[test]
+    fn render_plan_cache_isolates_presets_and_widths_without_reanalyzing_source() {
+        let source = "- 文本 😀\n@typ: #let accent = blue";
+        let packs = PackRegistry::new(Vec::new()).unwrap();
+        let analysis = Arc::new(crate::pipeline::analyze_text_with_pack(source, &packs));
+        let options = EmitOptions::default();
+        let plan =
+            ProjectionPlan::from_shared(Arc::<str>::from(source), Arc::clone(&analysis), &options)
+                .unwrap();
+        let presets = [
+            RenderPreset::Output,
+            RenderPreset::Chat { width_pt: 390 },
+            RenderPreset::Chat { width_pt: 720 },
+        ];
+        let authored_text = source.find("文本").unwrap();
+        let authored_accent = source.find("accent").unwrap();
+        let authored_range = TextRange::new(authored_accent, authored_accent + "accent".len());
+        let mut generated = Vec::new();
+        for render_preset in presets {
+            let profile = ProjectionProfile::Render {
+                timestamp: None,
+                render_preset,
+            };
+            let clean = project_analyzed_with_pack(
+                source,
+                &analysis,
+                &EmitOptions {
+                    render_preset,
+                    ..options.clone()
+                },
+            )
+            .unwrap();
+            let shared = plan.emit(profile).unwrap();
+            assert_eq!(shared.emitted.source, clean.emitted.source);
+            assert_eq!(shared.emitted.source_map, clean.emitted.source_map);
+            assert_eq!(shared.emitted.origins, clean.emitted.origins);
+            assert_eq!(shared.index.segments(), clean.index.segments());
+            let projected_text = shared.emitted.source.find("文本").unwrap();
+            assert_eq!(
+                shared
+                    .emitted
+                    .map_text_caret_to_authored(source, projected_text),
+                Some(authored_text)
+            );
+            let projected_range = shared.index.mmt_range_to_typst(authored_range).unwrap();
+            assert_eq!(
+                shared.index.classify_read(projected_range).source_range,
+                Some(authored_range)
+            );
+            let cached = plan.emit(profile).unwrap();
+            assert_eq!(cached.emitted.source, shared.emitted.source);
+            assert_eq!(cached.emitted.source_map, shared.emitted.source_map);
+            generated.push(shared.emitted.source);
+        }
+        assert_ne!(generated[0], generated[1]);
+        assert_ne!(generated[1], generated[2]);
+        assert_eq!(plan.source(), source);
+        assert!(Arc::ptr_eq(plan.analysis(), &analysis));
+        assert_eq!(
+            plan.render_cache
+                .lock()
+                .unwrap_or_else(|poisoned| poisoned.into_inner())
+                .len(),
+            presets.len()
+        );
+        let language = plan
+            .emit(ProjectionProfile::Language {
+                placeholder_uri: PROJECTION_PLACEHOLDER_IMAGE,
+            })
+            .unwrap();
+        assert_eq!(language.emitted.source, generated[0]);
     }
 }

@@ -18,7 +18,9 @@ import type {
   PreviewPagePoint,
   PreviewNavigationPoint,
   PreviewViewport,
+  PreviewSurfacePresentation,
 } from "./previewWebviewProtocol.ts";
+import { isPreviewSurfacePresentation } from "./previewWebviewProtocol.ts";
 
 export interface PreviewSourceIdentity {
   readonly workspaceId: string;
@@ -80,8 +82,8 @@ export interface PreviewLocationResolver {
 }
 
 export interface PreviewViewportPersistence {
-  load(workspaceId: string, sourceUri: string): PreviewViewport | undefined;
-  save(workspaceId: string, sourceUri: string, viewport: PreviewViewport): void;
+  load(workspaceId: string, sourceUri: string, presentation: PreviewSurfacePresentation): PreviewViewport | undefined;
+  save(workspaceId: string, sourceUri: string, viewport: PreviewViewport, presentation: PreviewSurfacePresentation): void;
 }
 
 export interface PreviewIndicator {
@@ -104,7 +106,7 @@ export interface PreviewInteractionEvents {
   statusChanged?(status: PreviewInteractionStatus, message: string): void;
   indicatorChanged?(indicator: PreviewIndicator | undefined): void;
   cursorChanged?(cursor: PreviewCursorOverlay | undefined): void;
-  viewportChanged?(viewport: PreviewViewport): void;
+  viewportChanged?(viewport: PreviewViewport, presentation: PreviewSurfacePresentation): void;
   sourceOpened?(target: PreviewSourceTarget): void;
   fullRefreshRequested?(reason: PreviewFullRefreshReason): void;
 }
@@ -129,6 +131,7 @@ export interface PreviewInteractionDependencies {
 interface BoundPreviewArtifact {
   readonly artifact: PreviewArtifact;
   readonly identity: PreviewSourceIdentity;
+  readonly presentation: PreviewSurfacePresentation;
 }
 
 interface PendingSelection {
@@ -148,14 +151,14 @@ export class BrowserPreviewViewportPersistence implements PreviewViewportPersist
   readonly #storage: Storage;
   readonly #namespace: string;
 
-  constructor(storage: Storage, namespace = "mmt.preview.viewport.v1") {
+  constructor(storage: Storage, namespace = "mmt.preview.viewport.v2") {
     this.#storage = storage;
     this.#namespace = namespace;
   }
 
-  load(workspaceId: string, sourceUri: string): PreviewViewport | undefined {
+  load(workspaceId: string, sourceUri: string, presentation: PreviewSurfacePresentation): PreviewViewport | undefined {
     try {
-      const raw = this.#storage.getItem(this.key(workspaceId, sourceUri));
+      const raw = this.#storage.getItem(this.key(workspaceId, sourceUri, presentation));
       if (!raw) return undefined;
       const parsed = JSON.parse(raw) as Partial<PreviewViewport>;
       return normalizeViewport(parsed);
@@ -164,16 +167,16 @@ export class BrowserPreviewViewportPersistence implements PreviewViewportPersist
     }
   }
 
-  save(workspaceId: string, sourceUri: string, viewport: PreviewViewport): void {
+  save(workspaceId: string, sourceUri: string, viewport: PreviewViewport, presentation: PreviewSurfacePresentation): void {
     try {
-      this.#storage.setItem(this.key(workspaceId, sourceUri), JSON.stringify(normalizeViewport(viewport)));
+      this.#storage.setItem(this.key(workspaceId, sourceUri, presentation), JSON.stringify(normalizeViewport(viewport)));
     } catch {
       // Viewport persistence is presentation state. Storage denial must not break preview.
     }
   }
 
-  private key(workspaceId: string, sourceUri: string): string {
-    return `${this.#namespace}:${encodeURIComponent(workspaceId)}:${encodeURIComponent(sourceUri)}`;
+  private key(workspaceId: string, sourceUri: string, presentation: PreviewSurfacePresentation): string {
+    return `${this.#namespace}:${encodeURIComponent(workspaceId)}:${encodeURIComponent(sourceUri)}:${presentation}`;
   }
 }
 
@@ -184,6 +187,8 @@ export class PreviewInteractionController {
   #latestSourceIdentity: PreviewSourceIdentity | undefined;
   #resolver: PreviewLocationResolver | undefined;
   #viewport: PreviewViewport;
+  #presentation: PreviewSurfacePresentation = "preview";
+  readonly #viewports = new Map<string, PreviewViewport>();
   #cursor: PreviewCursorOverlay | undefined;
   #indicator: PreviewIndicator | undefined;
 
@@ -195,10 +200,29 @@ export class PreviewInteractionController {
   get artifact(): PreviewArtifact | undefined { return this.#bound?.artifact; }
   get identity(): PreviewSourceIdentity | undefined { return this.#bound?.identity; }
   get viewport(): PreviewViewport { return this.#viewport; }
+  get presentation(): PreviewSurfacePresentation { return this.#presentation; }
   get cursor(): PreviewCursorOverlay | undefined { return this.#cursor; }
   get indicator(): PreviewIndicator | undefined { return this.#indicator; }
 
-  bindArtifact(artifact: PreviewArtifact, identity: PreviewSourceIdentity, resolver?: PreviewLocationResolver): void {
+  setPresentation(presentation: PreviewSurfacePresentation): void {
+    if (!isPreviewSurfacePresentation(presentation)) throw new Error("Invalid preview surface presentation");
+    if (presentation === this.#presentation) return;
+    if (this.#bound?.presentation === this.#presentation) this.rememberViewport();
+    this.#presentation = presentation;
+    this.cancelPendingSelections();
+    this.removeCursor();
+    this.removeIndicator();
+    this.#viewport = this.restoreSavedViewport(this.#bound?.identity, presentation);
+    this.#dependencies.events?.viewportChanged?.(this.#viewport, presentation);
+  }
+
+  bindArtifact(
+    artifact: PreviewArtifact,
+    identity: PreviewSourceIdentity,
+    resolver?: PreviewLocationResolver,
+    presentation: PreviewSurfacePresentation = this.#presentation,
+  ): void {
+    if (!isPreviewSurfacePresentation(presentation)) throw new Error("Invalid preview surface presentation");
     if (artifact.sourceUri !== identity.sourceUri) throw new Error("Preview artifact/source identity mismatch");
     if (artifact.locationProviderKey.kind === "immutable-map" && !artifact.locationMap) {
       throw new Error("Immutable-map artifact is missing its retained map");
@@ -215,15 +239,13 @@ export class PreviewInteractionController {
     this.cancelPendingSelections();
     this.removeCursor();
     this.removeIndicator();
-    this.#bound = Object.freeze({ artifact, identity });
+    if (this.#bound?.presentation === this.#presentation) this.rememberViewport();
+    this.#presentation = presentation;
+    this.#bound = Object.freeze({ artifact, identity, presentation });
     this.#latestSourceIdentity = identity;
     this.#resolver = retainedResolver;
-    const restored = this.#dependencies.persistence?.load(identity.workspaceId, identity.sourceUri);
-    this.#viewport = normalizeViewport(
-      restored ?? defaultViewport(this.#dependencies.defaultFitMode?.() ?? "width"),
-      artifact.pages.length,
-    );
-    this.#dependencies.events?.viewportChanged?.(this.#viewport);
+    this.#viewport = this.restoreSavedViewport(identity, presentation, artifact.pages.length);
+    this.#dependencies.events?.viewportChanged?.(this.#viewport, presentation);
     this.publishAvailability();
   }
 
@@ -431,11 +453,14 @@ export class PreviewInteractionController {
     return true;
   }
 
-  updateViewport(viewport: PreviewViewport): PreviewViewport {
-    const pageCount = this.#bound?.artifact.pages.length;
-    this.#viewport = normalizeViewport(viewport, pageCount);
-    const identity = this.#bound?.identity;
-    if (identity) this.#dependencies.persistence?.save(identity.workspaceId, identity.sourceUri, this.#viewport);
+  updateViewport(viewport: PreviewViewport, presentation: PreviewSurfacePresentation = this.#presentation): PreviewViewport {
+    if (presentation !== this.#presentation || this.#bound?.presentation !== presentation) return this.#viewport;
+    const pageCount = this.#bound.artifact.pages.length;
+    this.#viewport = normalizeViewport(
+      presentation === "chat" ? { ...viewport, zoom: 1, fitMode: "manual" } : viewport,
+      pageCount,
+    );
+    this.rememberViewport();
     // The webview reported this position. Echoing it back races subsequent native scroll events.
     return this.#viewport;
   }
@@ -454,6 +479,7 @@ export class PreviewInteractionController {
 
   dispose(): void {
     this.cancelPendingSelections();
+    this.#viewports.clear();
     this.#bound = undefined;
     this.#latestSourceIdentity = undefined;
     this.#resolver = undefined;
@@ -471,6 +497,7 @@ export class PreviewInteractionController {
 
   private responseStillPublishable(captured: BoundPreviewArtifact, identity: PreviewSourceIdentity): boolean {
     if (this.#bound !== captured || !this.identityStillCurrent(identity)) return false;
+    if (captured.presentation !== this.#presentation) return false;
     if (captured.artifact.locationProviderKey.kind === "immutable-map") return Boolean(captured.artifact.locationMap);
     return this.#resolver !== undefined
       && locationProviderKeyId(this.#resolver.key) === locationProviderKeyId(captured.artifact.locationProviderKey);
@@ -486,6 +513,7 @@ export class PreviewInteractionController {
       return { status: "unavailable" };
     }
     if (signal.aborted) return { status: "aborted" };
+    if (captured.presentation !== this.#presentation) return { status: "stale" };
     if (!this.identityStillCurrent(captured.identity)) return { status: "stale" };
     const resolver = this.#resolver;
     if (!resolver || locationProviderKeyId(resolver.key) !== locationProviderKeyId(provider)) {
@@ -501,6 +529,7 @@ export class PreviewInteractionController {
       if (
         this.#bound !== captured
         || this.#resolver !== resolver
+        || captured.presentation !== this.#presentation
         || !this.identityStillCurrent(captured.identity)
         || locationProviderKeyId(resolver.key) !== locationProviderKeyId(provider)
       ) {
@@ -514,6 +543,30 @@ export class PreviewInteractionController {
     } catch {
       return { status: signal.aborted ? "aborted" : "failed" };
     }
+  }
+
+  private restoreSavedViewport(
+    identity: PreviewSourceIdentity | undefined,
+    presentation: PreviewSurfacePresentation,
+    pageCount?: number,
+  ): PreviewViewport {
+    const saved = identity
+      ? this.#viewports.get(`${identity.workspaceId}\0${identity.sourceUri}\0${presentation}`)
+        ?? this.#dependencies.persistence?.load(identity.workspaceId, identity.sourceUri, presentation)
+      : undefined;
+    const viewport = saved ?? defaultViewport(this.#dependencies.defaultFitMode?.() ?? "width");
+    return normalizeViewport(
+      presentation === "chat" ? { ...viewport, zoom: 1, fitMode: "manual" } : viewport,
+      pageCount,
+    );
+  }
+
+  private rememberViewport(): void {
+    const bound = this.#bound;
+    if (!bound || bound.presentation !== this.#presentation) return;
+    const { identity, presentation } = bound;
+    this.#viewports.set(`${identity.workspaceId}\0${identity.sourceUri}\0${presentation}`, this.#viewport);
+    this.#dependencies.persistence?.save(identity.workspaceId, identity.sourceUri, this.#viewport, presentation);
   }
 
   private publishAvailability(): void {

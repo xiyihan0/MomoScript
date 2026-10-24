@@ -18,7 +18,10 @@ import {
 import { InMemoryTypstPackageCache, TypstPackageService } from "./typstPackageService";
 import type { TinymistBackendSession, TinymistTransport } from "./tinymistTransport";
 import {
+  canonicalTypstUri,
   DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS,
+  projectionSessionKey,
+  TypstProjectInvariantError,
   TypstProjectState
 } from "./typstProjectState";
 
@@ -37,6 +40,7 @@ export interface TinymistHostSessionOptions {
  * Worker and process clients only supply connection-specific bootstrapping.
  */
 export class TinymistHostSession {
+  private readonly previewCompilerBases = new Map<string, { sourceUri: string; renderEntryUri: string }>();
   private readonly handlers = new Map<string, Set<(params: unknown) => void>>();
   private readonly projectState: TypstProjectState;
   private readonly capabilityRegistry: TinymistCapabilityRegistry;
@@ -129,6 +133,7 @@ export class TinymistHostSession {
     this.packageService.registerProject(update, this.projectState.backendGeneration());
     const transition = this.projectState.syncProject(update);
     if (!transition.accepted) this.packageService.retireProject(update.projectDigest);
+    else this.releasePreviewCompilerBase(update.sourceUri);
     if (this.options.recoverOnSync && !this.ready) {
       void this.ensureReady().catch((error: unknown) => {
         this.dispatch("tinymist/clientFailed", { message: String(error) });
@@ -141,29 +146,60 @@ export class TinymistHostSession {
     mount: PreviewProjectMount,
     signal?: AbortSignal
   ): Promise<SynchronizedPreviewProject> {
+    return (await this.synchronizePreviewCompilerBase(update, mount, signal)).synchronized;
+  }
+
+  private async synchronizePreviewCompilerBase(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    signal?: AbortSignal
+  ): Promise<{ synchronized: SynchronizedPreviewProject; baseEntryUri: string }> {
     signal?.throwIfAborted();
     await this.ensureReady();
     signal?.throwIfAborted();
     const synchronized = await preparePreviewProject(update, mount);
     signal?.throwIfAborted();
-    const existing = this.projectState.projectForEntry(update.entryUri);
-    // MMT language and render projections intentionally have distinct project digests.
-    // The renderer overlays its complete immutable mount set on the accepted language
-    // world, so a matching authored snapshot is already the required compiler base.
-    if (existing
-      && existing.sourceUri === update.sourceUri
-      && existing.sourceVersion === update.sourceVersion
-      && existing.revision === update.revision
-      && existing.sourceContent === update.sourceContent) {
-      return synchronized;
+    const language = this.projectState.projectForSource(update.sourceUri);
+    if (language) {
+      if (!matchingAuthoredSnapshot(language, update)) {
+        throw new TypstProjectInvariantError(
+          "PreviewSnapshotMismatch",
+          "Preview render snapshot does not match the accepted language project"
+        );
+      }
+      // The immutable renderer owns the preset-specific bytes. Its compiler base
+      // remains the exact accepted language snapshot, never a second projection
+      // competing for the language revision or overwriting its virtual files.
+      this.releasePreviewCompilerBase(update.sourceUri);
+      return { synchronized, baseEntryUri: language.entryUri };
+    }
+
+    // Render-only clients have no language world. Own their compiler base in the
+    // existing synthetic preview namespace so a later language sync is independent.
+    const compiler: TypstProjectUpdate = {
+      ...synchronized.project,
+      entryUri: previewCompilerUri(synchronized.project.entryUri),
+      files: synchronized.project.files.map((file) => ({ ...file, uri: previewCompilerUri(file.uri) }))
+    };
+    const existing = this.projectState.projectForSource(compiler.sourceUri);
+    if (existing && matchingAuthoredSnapshot(existing, compiler)) {
+      this.previewCompilerBases.set(update.sourceUri, {
+        sourceUri: compiler.sourceUri,
+        renderEntryUri: canonicalTypstUri(update.entryUri)
+      });
+      return { synchronized, baseEntryUri: existing.entryUri };
     }
     this.packageService.registerProject(update, this.projectState.backendGeneration());
-    const transition = this.projectState.syncProject(update);
+    const transition = this.projectState.syncProject(compiler);
     if (!transition.accepted) {
       this.packageService.retireProject(update.projectDigest);
       throw transition.error ?? new Error("Preview compiler base project was rejected");
     }
-    return synchronized;
+    this.previewCompilerBases.set(update.sourceUri, {
+      sourceUri: compiler.sourceUri,
+      renderEntryUri: canonicalTypstUri(update.entryUri)
+    });
+    return { synchronized, baseEntryUri: compiler.entryUri };
   }
 
   async previewRenderer(
@@ -172,12 +208,12 @@ export class TinymistHostSession {
     options: PreviewRendererRenderOptions,
     signal?: AbortSignal
   ): Promise<PreviewRendererRenderResult> {
-    const synchronized = await this.syncPreviewProject(update, mount, signal);
+    const { synchronized, baseEntryUri } = await this.synchronizePreviewCompilerBase(update, mount, signal);
     // Renderer sessions are per source, but Tinymist's base compiler focus is shared.
     // A retained projection must be re-primed after another document takes that focus.
-    await this.projectState.ensureProjectReady(update.entryUri, signal);
+    await this.projectState.ensureProjectReady(baseEntryUri, signal);
     signal?.throwIfAborted();
-    await this.registerPreviewRendererProject(synchronized, options.sessionId, signal);
+    await this.registerPreviewRendererProject(synchronized, baseEntryUri, options.sessionId, signal);
     signal?.throwIfAborted();
     const response = await this.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
       protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
@@ -193,6 +229,7 @@ export class TinymistHostSession {
 
   private async registerPreviewRendererProject(
     synchronized: SynchronizedPreviewProject,
+    baseEntryUri: string,
     sessionId: string,
     signal?: AbortSignal
   ): Promise<void> {
@@ -222,7 +259,7 @@ export class TinymistHostSession {
         protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
         action: "register",
         sessionId,
-        entryUri: synchronized.compilerEntryUri,
+        entryUri: baseEntryUri,
         renderEntryUri: synchronized.project.entryUri,
         sourceDigest: synchronized.sourceDigest,
         fontDigests: synchronized.fonts.map((font) => font.contentDigest),
@@ -279,8 +316,27 @@ export class TinymistHostSession {
   closeProject(sourceUri: string, entryUri: string): boolean {
     const project = this.projectState.projectForEntry(entryUri);
     const closed = this.projectState.closeProject(sourceUri, entryUri);
-    if (closed && project) this.packageService.retireProject(project.projectDigest);
-    return closed;
+    if (closed && project) {
+      this.packageService.retireProject(project.projectDigest);
+      this.releasePreviewCompilerBase(sourceUri);
+      return true;
+    }
+    const preview = this.previewCompilerBases.get(sourceUri);
+    return preview?.renderEntryUri === canonicalTypstUri(entryUri)
+      ? this.releasePreviewCompilerBase(sourceUri)
+      : false;
+  }
+
+  private releasePreviewCompilerBase(sourceUri: string): boolean {
+    const preview = this.previewCompilerBases.get(sourceUri);
+    if (!preview) return false;
+    this.previewCompilerBases.delete(sourceUri);
+    const project = this.projectState.projectForSource(preview.sourceUri);
+    if (!project || !this.projectState.closeProject(project.sourceUri, project.entryUri)) return false;
+    if (this.projectState.projectForSource(sourceUri)?.projectDigest !== project.projectDigest) {
+      this.packageService.retireProject(project.projectDigest);
+    }
+    return true;
   }
 
   async restart(): Promise<void> {
@@ -305,6 +361,7 @@ export class TinymistHostSession {
     this.packageService.setBackendGeneration(0);
     this.removePackageStatusHandler();
     this.projectState.dispose(new Error(`${this.options.label} stopped`));
+    this.previewCompilerBases.clear();
     await this.options.transport.stop();
   }
 
@@ -317,6 +374,7 @@ export class TinymistHostSession {
     this.packageService.setBackendGeneration(0);
     this.removePackageStatusHandler();
     this.projectState.dispose(error);
+    this.previewCompilerBases.clear();
     this.options.transport.terminateNow(error);
   }
 
@@ -369,4 +427,16 @@ export class TinymistHostSession {
   private dispatch(method: string, params: unknown): void {
     for (const handler of this.handlers.get(method) ?? []) handler(params);
   }
+}
+
+function matchingAuthoredSnapshot(base: TypstProjectUpdate, render: TypstProjectUpdate): boolean {
+  return base.sourceUri === render.sourceUri
+    && base.sourceVersion === render.sourceVersion
+    && base.revision === render.revision
+    && base.sourceContent === render.sourceContent
+    && projectionSessionKey(base.entryUri) === projectionSessionKey(render.entryUri);
+}
+
+function previewCompilerUri(uri: string): string {
+  return `untitled:${uri.slice("mmt-preview:".length)}`;
 }

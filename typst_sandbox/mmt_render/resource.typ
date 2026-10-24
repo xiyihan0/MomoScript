@@ -1,4 +1,14 @@
-#let avatar(content, size: 3em) = {
+#import "config.typ": current-config
+
+#let avatar(content, size: auto) = context {
+  let config = current-config()
+  let size = if size != auto {
+    size
+  } else if config.chat.at("presentation", default: "output") == "chat" {
+    config.theme.chat.avatar-size
+  } else {
+    3em
+  }
   set image(width: size, height: size, fit: "cover")
   box(width: size, height: size, radius: 50%, clip: true, content)
 }

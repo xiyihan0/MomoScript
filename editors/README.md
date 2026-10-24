@@ -18,20 +18,22 @@ MMT TextDocument / native model and undo stack
   -> mmt_lsp versioned Rust snapshot
   -> mmt/composerDocument + composerTextSelection/composerTextProjection
   -> one surface-independent ComposerRuntime + ComposerTextSession
-  -> native mmt.guiComposer SVG surface (same URI/TextDocument)
-  -> Typst projection session/revision
+  -> native chat/layout SVG surface (same URI/TextDocument)
+  -> Rust output/chat render preset and projection session/revision
   -> Tinymist native/WASM backend
   -> accepted preview artifact + exact text geometry
-  -> one retained overlay mounted in mmt.guiComposer or read-only mmt.previewHost
+  -> one retained overlay mounted by the active native editor
 ```
 
 三个运行形态共享 Rust parser、版本化 MMT snapshot 和投影身份合同，但传输边界不同：
 
 - **VS Code Desktop**：扩展宿主启动 native `mmt-lsp` stdio server 和 native Tinymist sidecar。
 - **VS Code Web**：Web Extension Host 通过 MMT LSP WASM Worker、Tinymist WASM Worker 和浏览器 language client 通信。
-- **独立 Workbench**：浏览器 Workbench 装配 Web Extension Host、两个语言 Worker、Typst compiler/renderer、资源物化，以及由产品 runtime 持有的单个 retained preview overlay；活动的原生 `mmt.guiComposer` 或只读 `mmt.previewHost` 只声明该 overlay 的挂载位置，不创建 renderer/store 副本。
+- **独立 Workbench**：浏览器 Workbench 装配 Web Extension Host、两个语言 Worker、Typst compiler/renderer、资源物化，以及由产品 runtime 持有的单个 retained preview overlay；聊天、排版和源码旁预览的原生 mount 只声明该 overlay 的挂载位置，不创建 renderer/store 副本。获 Rust Composer 授权的 MMT 排版可编辑；普通 Typst、生成物与包资源保留只读/来源导航边界。
 
 投影的 `session/revision`、后端 generation、render identity 和已接受 preview artifact 形成连续身份链。正文选择和替换还绑定 `TextDocument` version、`sourceDigest` 与 Rust node endpoint；语言返回值、Worker 消息和 webview 消息均是不可信 wire data，必须在各自 parser/allowlist 边界验证后才能进入状态 owner。
+
+普通新作品默认进入聊天创作，排版预览检查最终成品，源码模式保留原生工作区能力。聊天呈现不写作者配置，使用独立的 render preset、缓存和制品身份；模式切换排空已接受输入并保留未发送草稿。界面入口与功能迁移见 [Workbench runbook](./vscode-web/README.md#gui-连续创作与局部编辑)，行为合同见 [GUI 创作体验变更](../openspec/changes/rework-gui-authoring-experience/)。
 
 ## 所有权与规范来源
 

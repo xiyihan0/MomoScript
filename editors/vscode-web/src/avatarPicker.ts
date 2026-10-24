@@ -9,6 +9,21 @@ export interface AvatarPickerActorGroup {
   readonly items: readonly AvatarCatalogItem[];
 }
 
+export interface AvatarPickerPersonForm {
+  readonly entityId: string;
+  readonly label: string;
+  readonly displayName: string;
+  readonly searchTerms: readonly string[];
+  readonly items: readonly AvatarCatalogItem[];
+}
+
+export interface AvatarPickerPersonGroup {
+  readonly key: string;
+  readonly label: string;
+  readonly searchTerms: readonly string[];
+  readonly forms: readonly AvatarPickerPersonForm[];
+}
+
 export interface AvatarPickerSnapshot {
   readonly query: string;
   readonly busy: boolean;
@@ -130,6 +145,73 @@ export function avatarItemMatchesCurrent(
     && item.variant.entityId === current.entityId
     && item.variant.contributionNamespace === current.contributionNamespace
     && item.variant.variantId === current.variantId;
+}
+
+export function buildAvatarPickerPersonGroups(
+  items: readonly AvatarCatalogItem[],
+  query = "",
+): readonly AvatarPickerPersonGroup[] {
+  type Form = { readonly label: string; readonly displayName: string; readonly items: AvatarCatalogItem[] };
+  type Person = { readonly key: string; readonly label: string; readonly forms: Map<string, Form> };
+  const persons = new Map<string, Person>();
+  const sortedItems = [...items].sort((left, right) => (
+    left.variant.entityId.localeCompare(right.variant.entityId)
+    || Number(right.variant.entityId.split("::", 1)[0] === right.variant.contributionNamespace)
+      - Number(left.variant.entityId.split("::", 1)[0] === left.variant.contributionNamespace)
+    || left.variant.contributionNamespace.localeCompare(right.variant.contributionNamespace)
+    || Number(right.variant.isSourceDefault) - Number(left.variant.isSourceDefault)
+    || left.variant.variantId.localeCompare(right.variant.variantId)
+  ));
+  for (const item of sortedItems) {
+    const entityId = item.variant.entityId;
+    const displayName = item.person?.formDisplayName ?? item.variant.entityDisplayName;
+    const key = item.person?.key ?? JSON.stringify(["entity", entityId]);
+    const person: Person = persons.get(key) ?? {
+      key,
+      label: item.person?.label ?? displayName,
+      forms: new Map(),
+    };
+    const form: Form = person.forms.get(entityId) ?? {
+      label: item.person?.formLabel ?? `形态未标注 · ${displayName}`,
+      displayName,
+      items: [],
+    };
+    form.items.push(item);
+    person.forms.set(entityId, form);
+    persons.set(key, person);
+  }
+
+  const normalizedQuery = normalizeSearch(query);
+  const output: AvatarPickerPersonGroup[] = [];
+  for (const person of persons.values()) {
+    const personMatches = matchesSearch([person.key, person.label], normalizedQuery);
+    const forms: AvatarPickerPersonForm[] = [];
+    for (const [entityId, form] of person.forms) {
+      const formMatches = personMatches
+        || matchesSearch([entityId, form.label, form.displayName], normalizedQuery);
+      const filtered = formMatches
+        ? form.items
+        : form.items.filter((item) => matchesSearch(item.searchTerms, normalizedQuery));
+      if (filtered.length === 0) continue;
+      forms.push({
+        entityId,
+        label: form.label,
+        displayName: form.displayName,
+        searchTerms: [...new Set([entityId, form.label, form.displayName, ...form.items.flatMap((item) => item.searchTerms)])],
+        items: filtered,
+      });
+    }
+    if (forms.length === 0) continue;
+    output.push({
+      key: person.key,
+      label: person.label,
+      searchTerms: [...new Set([person.label, ...forms.flatMap((form) => form.searchTerms)])],
+      forms,
+    });
+  }
+  return output.sort((left, right) => (
+    left.label.localeCompare(right.label, "zh-Hans-CN") || left.key.localeCompare(right.key)
+  ));
 }
 
 function groupOtherActors(

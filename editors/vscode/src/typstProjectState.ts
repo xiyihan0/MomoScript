@@ -1,5 +1,6 @@
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstVirtualFile } from "./tinymistClient";
 import { canonicalBytesDigest } from "./runtimeIdentity";
+import { parseRenderPreset, type RenderPreset } from "./renderPreset";
 
 export const DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS = 30_000;
 
@@ -31,6 +32,7 @@ export async function applyRenderProjectUpdate(
   base: TypstRenderProjectUpdate | undefined,
   update: TypstRenderProjectUpdate
 ): Promise<TypstRenderProjectUpdate> {
+  const renderPreset = parseRenderPreset(update.renderPreset);
   await Promise.all(update.files.map(validateVirtualFileDigest));
   if (update.full) {
     if (update.baseRevision !== undefined
@@ -39,7 +41,7 @@ export async function applyRenderProjectUpdate(
       throw new RenderProjectDeltaError("Full render project carries delta-only fields");
     }
     assertUniqueVirtualFiles(update.files);
-    return { ...update, deletedUris: [] };
+    return { ...update, renderPreset, deletedUris: [] };
   }
   if (!base?.full) throw new RenderProjectDeltaError("Render delta has no accepted full snapshot");
   if (update.baseRevision === undefined || update.baseProjectDigest === undefined) {
@@ -47,6 +49,7 @@ export async function applyRenderProjectUpdate(
   }
   if (
     base.sourceUri !== update.sourceUri
+    || renderPresetKey(base.renderPreset) !== renderPresetKey(renderPreset)
     || projectionSessionKey(base.entryUri) !== projectionSessionKey(update.entryUri)
     || base.revision !== update.baseRevision
     || base.projectDigest !== update.baseProjectDigest
@@ -63,6 +66,7 @@ export async function applyRenderProjectUpdate(
   }
   return {
     ...update,
+    renderPreset,
     files: [...files.values()],
     full: true,
     baseRevision: undefined,
@@ -77,12 +81,13 @@ export interface RenderProjectAcceptance {
 }
 
 export class RenderProjectSnapshotStore {
-  readonly #snapshots = new Map<string, TypstRenderProjectUpdate>();
+  readonly #snapshots = new Map<string, Map<string, TypstRenderProjectUpdate>>();
   #tail: Promise<void> = Promise.resolve();
   #epoch = 0;
 
-  get(sourceUri: string): TypstRenderProjectUpdate | undefined {
-    return this.#snapshots.get(sourceUri);
+  get(sourceUri: string, renderPreset?: RenderPreset): TypstRenderProjectUpdate | undefined {
+    const presetKey = renderPreset === undefined ? "output" : renderPresetKey(parseRenderPreset(renderPreset));
+    return this.#snapshots.get(sourceUri)?.get(presetKey);
   }
 
   accept(update: TypstRenderProjectUpdate): Promise<RenderProjectAcceptance> {
@@ -92,7 +97,8 @@ export class RenderProjectSnapshotStore {
   }
 
   async #accept(update: TypstRenderProjectUpdate): Promise<RenderProjectAcceptance> {
-    const current = this.#snapshots.get(update.sourceUri);
+    const presetKey = renderPresetKey(parseRenderPreset(update.renderPreset));
+    const current = this.#snapshots.get(update.sourceUri)?.get(presetKey);
     const epoch = this.#epoch;
     if (
       current
@@ -114,7 +120,12 @@ export class RenderProjectSnapshotStore {
     if (epoch !== this.#epoch) {
       throw new RenderProjectDeltaError("Render project snapshot store changed during admission");
     }
-    this.#snapshots.set(update.sourceUri, project);
+    let snapshots = this.#snapshots.get(update.sourceUri);
+    if (!snapshots) {
+      snapshots = new Map();
+      this.#snapshots.set(update.sourceUri, snapshots);
+    }
+    snapshots.set(presetKey, project);
     return { project, advanced: true };
   }
 
@@ -127,6 +138,10 @@ export class RenderProjectSnapshotStore {
     this.#snapshots.clear();
     this.#epoch += 1;
   }
+}
+
+function renderPresetKey(preset: RenderPreset): string {
+  return preset.kind === "output" ? "output" : `chat:${preset.widthPt}`;
 }
 
 async function validateVirtualFileDigest(file: TypstVirtualFile): Promise<void> {
@@ -272,6 +287,7 @@ export function releasePendingProjectFileAfterGrace(
 export type TypstProjectInvariantCode =
   | "UnknownSessionDelta"
   | "RetiredSession"
+  | "PreviewSnapshotMismatch"
   | "NonIncreasingRevision"
   | "ProjectQueueFull"
   | "PrimeQueueFull"
@@ -407,7 +423,7 @@ export class TypstProjectState {
       this.retiredSessionsBySource.set(update.sourceUri, nextRetired);
     }
     const previous = latest?.session === session
-      ? [...this.projectsByEntry.values()].find((project) => project.sourceUri === update.sourceUri)
+      ? this.projectForSource(update.sourceUri)
       : undefined;
     const previousFiles = previous && canonicalTypstUri(previous.entryUri) !== canonicalTypstUri(update.entryUri)
       ? previous.files.filter((file) => canonicalTypstUri(file.uri) !== canonicalTypstUri(previous.entryUri))
@@ -429,6 +445,13 @@ export class TypstProjectState {
 
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {
     return this.projectsByEntry.get(canonicalTypstUri(entryUri));
+  }
+
+  projectForSource(sourceUri: string): TypstProjectUpdate | undefined {
+    for (const project of this.projectsByEntry.values()) {
+      if (project.sourceUri === sourceUri) return project;
+    }
+    return undefined;
   }
 
   async ensureProjectReady(entryUri: string, signal?: AbortSignal): Promise<void> {

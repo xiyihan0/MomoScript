@@ -12,6 +12,7 @@ import {
   registerEditorPane,
   registerEditorSerializer,
 } from "@codingame/monaco-vscode-views-service-override";
+import { isComposerResource } from "./composerEditor.ts";
 
 export const PREVIEW_HOST_EDITOR_ID = "mmt.previewHost";
 
@@ -178,7 +179,8 @@ export class PreviewHostInput extends SimpleEditorInput {
   constructor(resource: URI) {
     if (!isPreviewResource(resource)) throw new TypeError("Preview only accepts workspace MMT or Typst resources");
     super(resource);
-    this.addCapability(EditorInputCapabilities.Singleton | EditorInputCapabilities.Readonly);
+    this.addCapability(EditorInputCapabilities.Singleton);
+    if (!isComposerResource(resource)) this.addCapability(EditorInputCapabilities.Readonly);
     const name = resource.path.split("/").at(-1) ?? "MomoScript";
     this.setName(`${name}（预览）`);
     this.setTitle({ short: `${name}（预览）`, medium: `${name}（排版预览）`, long: `${resource.toString()}（排版预览）` });

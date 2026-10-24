@@ -124,6 +124,7 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
             compiled_at: options.compiled_at,
         },
         timestamp: Some(timestamp),
+        ..EmitOptions::default()
     };
 
     if let Some(output_dir) = &options.output_dir {

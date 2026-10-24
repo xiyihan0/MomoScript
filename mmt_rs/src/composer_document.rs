@@ -91,9 +91,11 @@ pub struct ComposerMessageCapabilities {
     pub set_display_name: bool,
     pub set_avatar: bool,
     pub set_speaker: bool,
+    pub set_side: Vec<ComposerMessageSide>,
     pub delete: bool,
     pub move_up: Option<ComposerBoundaryTarget>,
     pub move_down: Option<ComposerBoundaryTarget>,
+    pub move_targets: Vec<ComposerBoundaryTarget>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -103,6 +105,7 @@ pub struct ComposerNarrationCapabilities {
     pub delete: bool,
     pub move_up: Option<ComposerBoundaryTarget>,
     pub move_down: Option<ComposerBoundaryTarget>,
+    pub move_targets: Vec<ComposerBoundaryTarget>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -202,11 +205,17 @@ pub struct ComposerScriptActorChoice {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ComposerAssetChoice {
+    pub asset_name: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ComposerDocumentProjection {
     pub source_digest: String,
     pub nodes: Vec<ComposerDocumentNode>,
     pub boundaries: Vec<ComposerBoundary>,
     pub script_actor_choices: Vec<ComposerScriptActorChoice>,
+    pub asset_choices: Vec<ComposerAssetChoice>,
     pub has_errors: bool,
 }
 
@@ -435,6 +444,18 @@ pub fn project_analyzed_composer_document(
         nodes,
         boundaries,
         script_actor_choices,
+        asset_choices: if has_errors {
+            Vec::new()
+        } else {
+            analysis
+                .assets
+                .assets
+                .iter()
+                .map(|asset| ComposerAssetChoice {
+                    asset_name: asset.id.name.clone(),
+                })
+                .collect()
+        },
         has_errors,
     })
 }
@@ -498,9 +519,21 @@ impl NodeDraft {
                             description.speaker,
                             Some(crate::composer::ComposerSpeakerDescription::Actor { .. })
                         ),
+                        set_side: match &description.speaker {
+                            Some(crate::composer::ComposerSpeakerDescription::Actor { .. }) => {
+                                vec![ComposerMessageSide::Left, ComposerMessageSide::Right]
+                            }
+                            Some(crate::composer::ComposerSpeakerDescription::Builtin { id })
+                                if id == "__Sensei" =>
+                            {
+                                vec![ComposerMessageSide::Right]
+                            }
+                            _ => Vec::new(),
+                        },
                         delete: true,
                         move_up: None,
                         move_down: None,
+                        move_targets: Vec::new(),
                     }
                 };
                 ComposerDocumentNode::Message(ComposerMessageNode {
@@ -532,6 +565,7 @@ impl NodeDraft {
                             delete: true,
                             move_up: None,
                             move_down: None,
+                            move_targets: Vec::new(),
                         }
                     },
                     description,
@@ -740,17 +774,38 @@ fn authorize_node_capabilities(nodes: &mut [ComposerDocumentNode], run_eols: &[O
             before: Some(refs[index + 1].clone()),
             after: refs.get(index + 2).cloned(),
         });
+        let mut run_start = index;
+        while run_start > 0 && refs[run_start - 1].node_kind != ComposerDocumentNodeKind::Opaque {
+            run_start -= 1;
+        }
+        let mut run_end = index + 1;
+        while run_end < refs.len() && refs[run_end].node_kind != ComposerDocumentNodeKind::Opaque {
+            run_end += 1;
+        }
+        let move_targets = (run_start..=run_end)
+            .filter(|boundary| *boundary != index && *boundary != index + 1)
+            .map(|boundary| boundary_target_from_refs(&refs, boundary))
+            .collect::<Vec<_>>();
         match &mut nodes[index] {
             ComposerDocumentNode::Message(node) => {
                 node.capabilities.move_up = move_up;
                 node.capabilities.move_down = move_down;
+                node.capabilities.move_targets = move_targets;
             }
             ComposerDocumentNode::Narration(node) => {
                 node.capabilities.move_up = move_up;
                 node.capabilities.move_down = move_down;
+                node.capabilities.move_targets = move_targets;
             }
             ComposerDocumentNode::Opaque(_) => {}
         }
+    }
+}
+
+fn boundary_target_from_refs(refs: &[ComposerNodeRef], index: usize) -> ComposerBoundaryTarget {
+    ComposerBoundaryTarget {
+        before: index.checked_sub(1).map(|previous| refs[previous].clone()),
+        after: refs.get(index).cloned(),
     }
 }
 

@@ -53,6 +53,27 @@ assert.equal(mika?.zhCnDisplayName, "未花");
 assert.ok(mika?.localizedNames.includes("Mika Misono"));
 assert.ok(mika?.aliases.includes("Mika"));
 
+const enrichedFixture = structuredClone(fixture);
+enrichedFixture.entities["佳代子"].external_ids.character = "character-30";
+enrichedFixture.entities["佳代子"].names.given = {
+  "zh-CN": "佳代子",
+  "ja-JP": "カヨコ",
+  "en-US": "Kayoko",
+};
+enrichedFixture.entities["佳代子"].names.skin = {
+  "en-US": "New Year",
+  "zh-CN": "正月",
+  "ja-JP": "正月衣装",
+};
+const enriched = parseGalleryEntityCatalog(JSON.stringify(enrichedFixture), binding).entities.get("佳代子");
+assert.equal(enriched?.characterId, "character-30");
+assert.deepEqual([...enriched.givenNames], Object.entries(enrichedFixture.entities["佳代子"].names.given));
+assert.deepEqual([...enriched.skinNames], Object.entries(enrichedFixture.entities["佳代子"].names.skin));
+assert.ok(enriched.localizedNames.includes("正月衣装"));
+assert.equal(kayoko?.characterId, undefined, "student IDs must not be promoted to character IDs");
+assert.deepEqual([...campHare.skinNames], [["zh-CN", "露营"]]);
+assert.deepEqual([...campHare.givenNames], []);
+
 function rejected(mutator, pattern) {
   const candidate = structuredClone(fixture);
   mutator(candidate);
@@ -78,6 +99,13 @@ rejected((value) => { value.entities["佳代子"].affiliation.school = "999"; },
 rejected((value) => { value.pack.namespace = "other"; }, /does not match/);
 rejected((value) => { value.pack.version = "2.0.0"; }, /does not match/);
 rejected((value) => { value.pack.manifest_sha256 = "0".repeat(64); }, /SHA-256 mismatch/);
+rejected((value) => { value.entities["佳代子"].external_ids.character = 30; }, /character must be a non-empty string/);
+rejected((value) => { value.entities["佳代子"].external_ids.character = ""; }, /character must be a non-empty string/);
+rejected((value) => { value.entities["佳代子"].names.given["zh_CN"] = "invalid"; }, /invalid locale zh_CN/);
+rejected((value) => { value.entities["佳代子"].names.skin["ja-JP"] = 7; }, /must be a non-empty string/);
+rejected((value) => {
+  value.entities["佳代子"].related_entities[0].entity = "other::晴_露营";
+}, /must use namespace ba/);
 
 function memoryCache(initial) {
   const active = new Map(initial);

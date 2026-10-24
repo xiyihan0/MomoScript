@@ -30,20 +30,20 @@ The Sidebar/main boundary SHALL be one native horizontal VS Code `SplitView`, an
 
 ### Requirement: Native notifications are visible and actionable
 
-The Views Service shell SHALL register Monaco VS Code's notifications service override before Workbench initialization. The rendered Status Bar SHALL expose the native notifications button, and non-modal `showInformationMessage`、`showWarningMessage` and `showErrorMessage` calls SHALL feed the same native toast and notification-center model. The shell MUST NOT implement a parallel product-specific notification queue or migrate layout ownership merely to obtain these surfaces.
+The Views Service shell SHALL register Monaco VS Code's notifications service override before Workbench initialization. When visible, the rendered Status Bar SHALL expose the native notifications button, and non-modal `showInformationMessage`、`showWarningMessage` and `showErrorMessage` calls SHALL feed the same native toast and notification-center model. Product modes MAY temporarily hide the Status Bar through the native Part API, but SHALL retain an actionable route to the same native notification center. The shell MUST NOT implement a parallel product-specific notification queue or migrate layout ownership merely to obtain these surfaces.
 
 #### Scenario: An extension publishes a notification
 
 - GIVEN the embedded shell is ready
 - WHEN an extension publishes a non-modal message
 - THEN a native notification toast MUST become visible
-- AND the Status Bar notifications button MUST expose that message in the notification center
+- AND the Status Bar notifications button in source mode or the product menu's native-notification entry MUST expose that message in the same notification center
 - AND clearing the notification through native notification-center actions MUST remove it from the shared model
 
 
 ### Requirement: Visibility and geometry have explicit owners
 
-Views Service SHALL be the authority for Workbench Part existence、selected view container and Part visibility. The two shell SplitViews SHALL own host geometry and SHALL mirror the initial and subsequent Sidebar/Panel visibility reported by Views Service. CSS classes MAY expose state for styling or diagnostics, but MUST NOT be an authoritative visibility state.
+Views Service SHALL be the authority for Workbench Part existence、selected view container and Part visibility. The two shell SplitViews SHALL own host geometry and SHALL mirror the initial and subsequent Sidebar/Panel visibility reported by Views Service. Chat/layout product modes MAY temporarily change Parts through native visibility APIs and tabs through EditorPart's temporary configuration; returning to source SHALL restore prior native state without overwriting persistent user preferences. CSS classes MAY expose state for styling or diagnostics, but MUST NOT be an authoritative visibility state or leave hidden Parts occupying geometry.
 
 #### Scenario: The selected Activity item is toggled
 

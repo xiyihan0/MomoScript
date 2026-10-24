@@ -1,4 +1,6 @@
 import type { TinymistCapabilityView } from "./tinymistCapabilities";
+import type { RenderPreset } from "./renderPreset";
+export { isRenderPreset, parseRenderPreset, type RenderPreset } from "./renderPreset";
 export { serverRequestResponse } from "./tinymistCapabilities";
 import type { ProjectionKey, SourceContentKey, TypstProjectSnapshotKey } from "./runtimeIdentity";
 import { GENERATED_TINYMIST_PROVIDER_ARTIFACTS } from "./tinymistProviderQualification.generated";
@@ -128,6 +130,7 @@ export interface TypstRenderDiagnostic {
 
 export interface GetTypstRenderProjectParams {
   readonly uri: string;
+  readonly renderPreset?: RenderPreset;
   readonly timestamp?: { readonly unixMillis: number; readonly localOffsetMinutes: number };
   readonly traceId?: string;
   readonly baseRevision?: number;
@@ -146,6 +149,7 @@ export interface TypstRenderProjectTimings {
 
 export interface TypstRenderProjectUpdate {
   sourceUri: string;
+  readonly renderPreset: RenderPreset;
   /** LSP version of the authored MMT document. */
   sourceVersion: number;
   /** Monotonic virtual Typst projection version. */

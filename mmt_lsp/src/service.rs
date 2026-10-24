@@ -3439,7 +3439,7 @@ mod tests {
         for expected in [
             "unknown body mode",
             "unknown @actor field",
-            "local asset src must be a sanitized basename",
+            "local asset src must be a sanitized relative path",
             "bare sticker selector requires an explicit actor speaker or subject",
         ] {
             assert!(

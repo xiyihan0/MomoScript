@@ -126,6 +126,71 @@ class FakeBackend {
   }
 }
 
+class LifecycleBackend extends FakeBackend {
+  producerSessions = new Map();
+  transitionBlocks = [];
+
+  async previewRenderer(update, requestedMount, options, signal) {
+    let session = this.producerSessions.get(options.sessionId);
+    if (!session) {
+      session = { committed: undefined, staged: undefined };
+      this.producerSessions.set(options.sessionId, session);
+    }
+    const result = await super.previewRenderer(update, requestedMount, options, signal);
+    if (result.response.status === "ready") session.staged = result.response;
+    return result;
+  }
+
+  async transitionPreviewRenderer(transition) {
+    this.transitions.push(transition);
+    const block = this.transitionBlocks.shift();
+    if (block) {
+      block.started.resolve();
+      await block.release.promise;
+    }
+    const session = this.producerSessions.get(transition.sessionId);
+    if (!session?.staged
+      || session.staged.snapshotToken !== transition.snapshotToken
+      || session.staged.generation !== transition.generation) {
+      return {
+        status: "resync",
+        protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+        sessionId: transition.sessionId,
+        snapshotToken: transition.snapshotToken,
+        expectedBaseGeneration: session?.committed?.generation ?? 0,
+      };
+    }
+    if (transition.action === "commit") session.committed = session.staged;
+    session.staged = undefined;
+    return {
+      status: transition.action === "commit" ? "committed" : "discarded",
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      sessionId: transition.sessionId,
+      snapshotToken: transition.snapshotToken,
+      generation: transition.generation,
+    };
+  }
+
+  async closePreviewRenderer(sessionId) {
+    this.closes.push(sessionId);
+    this.producerSessions.delete(sessionId);
+    return { status: "closed", protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION, sessionId };
+  }
+
+  async request(method, request) {
+    const committed = this.producerSessions.get(request.sessionId)?.committed;
+    if (!committed || committed.generation !== request.generation) {
+      return {
+        status: "unavailable",
+        protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+        sessionId: request.sessionId,
+        generation: request.generation,
+      };
+    }
+    return super.request(method, request);
+  }
+}
+
 const backend = new FakeBackend();
 let sessionCounter = 0;
 const owner = new PreviewRendererSessionOwner({
@@ -311,9 +376,96 @@ await owner.commit(afterRestart);
 await owner.closeAll();
 assert.ok(backend.closes.includes("session-2"));
 owner.dispose();
+
+const lifecycleBackend = new LifecycleBackend();
+let lifecycleSessionCounter = 0;
+const lifecycleOwner = new PreviewRendererSessionOwner({
+  backend: lifecycleBackend,
+  createSessionId: () => `lifecycle-${++lifecycleSessionCounter}`,
+});
+const original = await lifecycleOwner.render(project(1), mount, renderKey("1"));
+await lifecycleOwner.commit(original);
+const superseded = await lifecycleOwner.render(project(2), mount, renderKey("2"));
+const discardBlock = { started: Promise.withResolvers(), release: Promise.withResolvers() };
+lifecycleBackend.transitionBlocks.push(discardBlock);
+const pendingDiscard = lifecycleOwner.discard(superseded);
+const discarded = assert.doesNotReject(pendingDiscard);
+await discardBlock.started.promise;
+const closingSuperseded = lifecycleOwner.closeSource(sourceUri);
+
+// The retained consumer can publish the replacement while the old session drains.
+const replacementFrame = await lifecycleOwner.render(project(3), mount, renderKey("3"));
+assert.notEqual(replacementFrame.sessionId, superseded.sessionId);
+assert.equal(replacementFrame.ready.frameKind, "new");
+await lifecycleOwner.commit(replacementFrame);
+const visibleFrame = {
+  renderKey: replacementFrame.ready.snapshotToken,
+  payload: new TextDecoder().decode(replacementFrame.bytes),
+};
+const unrelatedSourceUri = "mmtfs://workspace/unrelated.mmt";
+const unrelated = await lifecycleOwner.render({ ...project(1), sourceUri: unrelatedSourceUri }, mount, renderKey("4"));
+await lifecycleOwner.commit(unrelated);
+assert.equal(lifecycleBackend.closes.includes(superseded.sessionId), false,
+  "producer close must wait for the exact in-flight discard acknowledgement");
+discardBlock.release.resolve();
+await Promise.all([discarded, closingSuperseded]);
+assert.equal(lifecycleBackend.closes.filter((sessionId) => sessionId === superseded.sessionId).length, 1);
+await lifecycleOwner.closeSource(sourceUri, superseded);
+assert.deepEqual(visibleFrame, { renderKey: renderKey("3"), payload: "new,payload-1" });
+assert.deepEqual(await lifecycleOwner.locateSource(replacementFrame, entryUri, caretPosition), sourcePoints,
+  "older candidate cleanup must not drop the replacement consumer's committed frame");
+assert.deepEqual(await lifecycleOwner.locateSource(unrelated, entryUri, caretPosition), sourcePoints,
+  "closing one session must not block or invalidate unrelated sources");
+
+const obsolete = await lifecycleOwner.render(project(4), mount, renderKey("4"));
+await lifecycleOwner.discard(obsolete);
+const current = await lifecycleOwner.render(project(5), mount, renderKey("5"));
+assert.equal(current.sessionId, replacementFrame.sessionId);
+assert.equal(current.ready.frameKind, "diff-v1");
+assert.equal(current.ready.baseGeneration, replacementFrame.ready.generation);
+await lifecycleOwner.closeSource(sourceUri, obsolete);
+await lifecycleOwner.commit(current);
+assert.deepEqual(await lifecycleOwner.locateSource(current, entryUri, caretPosition), sourcePoints,
+  "discarded candidate cleanup must not close a newer generation in the same session");
+
+const renderBlock = { started: Promise.withResolvers(), release: Promise.withResolvers() };
+lifecycleBackend.responses.push(async (synchronized, options) => {
+  renderBlock.started.resolve();
+  await renderBlock.release.promise;
+  return lifecycleBackend.readyResponse(synchronized, options);
+});
+const supersedingAbort = new AbortController();
+const pendingRender = lifecycleOwner.render(project(6), mount, renderKey("6"), supersedingAbort.signal);
+const retiredRender = assert.rejects(pendingRender, /session is no longer active/);
+await renderBlock.started.promise;
+supersedingAbort.abort(new DOMException("preset superseded", "AbortError"));
+const closingPendingRender = lifecycleOwner.closeSource(sourceUri);
+const afterPendingRender = await lifecycleOwner.render(project(7), mount, renderKey("7"));
+assert.notEqual(afterPendingRender.sessionId, current.sessionId);
+assert.equal(afterPendingRender.ready.frameKind, "new");
+await lifecycleOwner.commit(afterPendingRender);
+assert.equal(lifecycleBackend.closes.includes(current.sessionId), false,
+  "producer close must not overtake an in-flight render and resurrect its retired session");
+renderBlock.release.resolve();
+await Promise.all([retiredRender, closingPendingRender]);
+await lifecycleOwner.closeSource(sourceUri, current);
+assert.deepEqual(await lifecycleOwner.locateSource(afterPendingRender, entryUri, caretPosition), sourcePoints,
+  "late completion of a closed render must not replace or close the new consumer frame");
+assert.equal(afterPendingRender.ready.snapshotToken, renderKey("7"));
+
+const invalidated = await lifecycleOwner.render(project(8), mount, renderKey("8"));
+await lifecycleBackend.closePreviewRenderer(invalidated.sessionId);
+await assert.rejects(() => lifecycleOwner.discard(invalidated), /discard acknowledgement mismatch/,
+  "a genuine producer resync must still fail the strict discard acknowledgement checks");
+await lifecycleOwner.closeAll();
+lifecycleOwner.dispose();
+
 console.log(JSON.stringify({
   committedGenerations: backend.transitions.filter((value) => value.action === "commit").length,
   discardedGenerations: backend.transitions.filter((value) => value.action === "discard").length,
   closedSessions: backend.closes,
   locationRequests: backend.requests.length,
+  serializedSessionLifecycle: true,
+  replacementFramePreserved: true,
+  staleGenerationCleanupQualified: true,
 }));

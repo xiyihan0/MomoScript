@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -43,6 +44,20 @@ const INITIALIZE_RESULT = {
   serverInfo: { name: "fixture", version: expectedTinymistVersion }
 };
 
+function fixtureResponse(message) {
+  if (message.method === "initialize") return INITIALIZE_RESULT;
+  if (message.method !== "mmt/previewRenderer.v1") return null;
+  const { protocolVersion, action, sessionId, snapshotToken, sourceDigest } = message.params;
+  if (action === "register") return { status: "registered", protocolVersion, sessionId, sourceDigest };
+  if (action === "render") {
+    return {
+      status: "compileFailed", protocolVersion, sessionId, snapshotToken, sourceDigest,
+      compilerRevision: 1, diagnostics: []
+    };
+  }
+  return null;
+}
+
 class FakeWorker {
   constructor() {
     this.listeners = new Map();
@@ -80,7 +95,7 @@ class FakeWorker {
       this.delayed.set(message.id, message);
       return;
     }
-    const result = message.method === "initialize" ? INITIALIZE_RESULT : null;
+    const result = fixtureResponse(message);
     queueMicrotask(() => this.emit("message", { jsonrpc: "2.0", id: message.id, result }));
   }
 
@@ -132,7 +147,7 @@ class FakeChild extends EventEmitter {
       this.delayed.set(message.id, message);
       return;
     }
-    const result = message.method === "initialize" ? INITIALIZE_RESULT : null;
+    const result = fixtureResponse(message);
     queueMicrotask(() => this.respond(message.id, result));
   }
 
@@ -327,6 +342,147 @@ async function exerciseClient(kind, startClient, transports) {
   }
 }
 
+function digestedFile(uri, text) {
+  const hash = createHash("sha256");
+  for (const bytes of [Buffer.from("mmt-project-file-v1"), Buffer.from(text)]) {
+    const length = Buffer.alloc(8);
+    length.writeBigUInt64BE(BigInt(bytes.length));
+    hash.update(length);
+    hash.update(bytes);
+  }
+  return { uri, text, digest: hash.digest("hex") };
+}
+
+async function exercisePreviewCompilerOwnership(kind, startClient, transports) {
+  const client = await startClient();
+  try {
+    const language = {
+      ...fullUpdate(),
+      sourceContent: "1".repeat(64),
+      projectDigest: "2".repeat(64),
+      projectionKey: "3".repeat(64),
+      mappingDigest: "4".repeat(64),
+      files: [
+        digestedFile(HELPER_A, "#let value = 1"),
+        digestedFile(ENTRY_A1, "#import \"helper.typ\": value\n#value")
+      ]
+    };
+    const mount = { logicalSourceId: "5".repeat(64) };
+    const options = { sessionId: "preview-ownership", snapshotToken: "6".repeat(64), forceFull: true };
+    const chatEntry = `${SESSION_A}/main-chat-390-v1.typ`;
+    const chat = {
+      ...language,
+      renderPreset: { kind: "chat", widthPt: 390 },
+      entryUri: chatEntry,
+      projectDigest: "7".repeat(64),
+      projectionKey: "8".repeat(64),
+      files: [language.files[0], digestedFile(chatEntry, "#import \"helper.typ\": value\n#value\n// chat")]
+    };
+    client.syncProject(language);
+    const beforePreview = transports.at(-1).sent.length;
+    const rendered = await client.previewRenderer(chat, mount, options);
+    const renderTraffic = transports.at(-1).sent.slice(beforePreview);
+    const registration = renderTraffic.find((message) => message.params?.action === "register");
+    assert.equal(registration?.params.entryUri, language.entryUri, `${kind} did not use the language compiler base`);
+    assert.equal(registration.params.renderEntryUri, rendered.synchronized.project.entryUri);
+    assert.equal(rendered.synchronized.compilerEntryUri, chatEntry, `${kind} changed the public render identity`);
+    assert.equal(client.projectForEntry(language.entryUri)?.projectDigest, language.projectDigest);
+    assert.equal(client.projectForEntry(chatEntry), undefined, `${kind} admitted chat into the language revision domain`);
+    assert.deepEqual(
+      renderTraffic.filter((message) => ["textDocument/didOpen", "textDocument/didChange"].includes(message.method)),
+      [],
+      `${kind} overwrote language virtual files with chat bytes`
+    );
+    const widerEntry = `${SESSION_A}/main-chat-720-v1.typ`;
+    await client.previewRenderer({
+      ...chat,
+      renderPreset: { kind: "chat", widthPt: 720 },
+      entryUri: widerEntry,
+      projectDigest: "9".repeat(64),
+      files: [language.files[0], digestedFile(widerEntry, "#value\n// wider chat")]
+    }, mount, options);
+    assert.equal(client.projectForEntry(language.entryUri)?.revision, 1);
+    for (const mismatch of [
+      { sourceVersion: 2 },
+      { revision: 2 },
+      { sourceContent: "a".repeat(64) },
+      { entryUri: `${SESSION_B}/main-chat-390-v1.typ`, files: [
+        digestedFile(`${SESSION_B}/main-chat-390-v1.typ`, "#text(\"other session\")")
+      ] }
+    ]) {
+      await assert.rejects(
+        client.syncPreviewProject({ ...chat, ...mismatch }, mount),
+        (error) => error?.code === "PreviewSnapshotMismatch",
+        `${kind} accepted a render from a different authored snapshot`
+      );
+    }
+    const nextLanguage = {
+      ...language, sourceVersion: 2, revision: 2, sourceContent: "b".repeat(64),
+      entryUri: ENTRY_A2, projectDigest: "c".repeat(64),
+      files: [language.files[0], digestedFile(ENTRY_A2, "#value + 1")]
+    };
+    client.syncProject(nextLanguage);
+    await client.previewRenderer({
+      ...chat, sourceVersion: 2, revision: 2, sourceContent: nextLanguage.sourceContent,
+      projectDigest: "a".repeat(64),
+      files: [language.files[0], digestedFile(chatEntry, "#value + 1\n// next chat")]
+    }, mount, options);
+    assert.equal(client.projectForEntry(ENTRY_A2)?.projectDigest, nextLanguage.projectDigest);
+    await client.restart();
+    assert.deepEqual(
+      transports.at(-1).sent.filter((message) => message.method === "textDocument/didOpen")
+        .map((message) => message.params.textDocument.uri),
+      [HELPER_A, ENTRY_A2],
+      `${kind} replayed a render preset as a language project`
+    );
+
+    const renderOnlyEntry = "untitled:/fixture/render-only/main.typ";
+    const renderOnly = {
+      ...language, sourceUri: "logical-source:render-only", entryUri: renderOnlyEntry,
+      files: [digestedFile(renderOnlyEntry, "#text(\"render only\")")],
+      projectDigest: "d".repeat(64)
+    };
+    const renderOnlyMount = { logicalSourceId: "e".repeat(64) };
+    const direct = await client.previewRenderer(renderOnly, renderOnlyMount, options);
+    const directRegistration = transports.at(-1).sent.findLast((message) => message.params?.action === "register");
+    const directBaseEntry = direct.synchronized.project.entryUri.replace(/^mmt-preview:/u, "untitled:");
+    assert.equal(directRegistration.params.entryUri, directBaseEntry);
+    assert.equal(client.projectForEntry(renderOnlyEntry), undefined);
+    assert.equal(
+      client.projectForEntry(directBaseEntry)?.sourceUri,
+      direct.synchronized.project.sourceUri
+    );
+    const renderOnlyChatEntry = renderOnlyEntry.replace("main.typ", "main-chat-720.typ");
+    const directChat = await client.previewRenderer({
+      ...renderOnly,
+      entryUri: renderOnlyChatEntry,
+      renderPreset: { kind: "chat", widthPt: 720 },
+      files: [digestedFile(renderOnlyChatEntry, "#text(\"render-only chat\")")]
+    }, renderOnlyMount, options);
+    const directChatRegistration = transports.at(-1).sent.findLast((message) => message.params?.action === "register");
+    assert.equal(directChatRegistration.params.entryUri, directBaseEntry);
+    assert.equal(directChatRegistration.params.renderEntryUri, directChat.synchronized.project.entryUri);
+    client.syncProject(renderOnly);
+    assert.equal(client.projectForEntry(renderOnlyEntry)?.revision, 1);
+    assert.equal(
+      client.projectForEntry(directBaseEntry),
+      undefined,
+      `${kind} retained the renderer-only compiler after language ownership arrived`
+    );
+    const ownedOnly = await client.previewRenderer({
+      ...renderOnly, sourceUri: "logical-source:render-only-close", projectDigest: "f".repeat(64)
+    }, { logicalSourceId: "0".repeat(64) }, options);
+    assert.equal(client.closeProject("logical-source:render-only-close", renderOnlyEntry), true);
+    assert.equal(
+      client.projectForEntry(ownedOnly.synchronized.project.entryUri.replace(/^mmt-preview:/u, "untitled:")),
+      undefined
+    );
+    return kind;
+  } finally {
+    await client.stop();
+  }
+}
+
 const workers = [];
 const worker = await exerciseClient(
   "worker",
@@ -371,4 +527,30 @@ assert.doesNotMatch(checkedText, /(?:\/home\/|[A-Z]:\\\\)/, "lifecycle evidence 
 assert.doesNotMatch(checkedText, /"(?:capturedAt|durationMs|timestamp)"/, "lifecycle evidence contains volatile timing");
 const checked = JSON.parse(checkedText);
 assert.deepEqual(actual, checked, "project lifecycle behavior changed; inspect and deliberately update checked evidence");
-console.log(JSON.stringify({ checked: true, transports: actual.lifecycle.map((item) => item.kind) }));
+const previewWorkers = [];
+const previewChildren = [];
+const previewOwnership = [
+  await exercisePreviewCompilerOwnership(
+    "worker",
+    () => TinymistWorkerClient.start("fixture:preview-worker", "fixture:module", "fixture:wasm", () => {
+      const transport = new FakeWorker();
+      previewWorkers.push(transport);
+      return transport;
+    }, 5),
+    previewWorkers
+  ),
+  await exercisePreviewCompilerOwnership(
+    "process",
+    () => TinymistProcessClient.start("fixture-preview-process", 5, () => {
+      const transport = new FakeChild();
+      previewChildren.push(transport);
+      return transport;
+    }),
+    previewChildren
+  )
+];
+console.log(JSON.stringify({
+  checked: true,
+  transports: actual.lifecycle.map((item) => item.kind),
+  previewCompilerOwnership: previewOwnership
+}));

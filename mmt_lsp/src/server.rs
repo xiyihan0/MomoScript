@@ -16,14 +16,14 @@ use mmt_rs::composer_text::{ComposerTextEndpoint, ComposerTextSelection};
 use mmt_rs::{
     COMPOSER_SPEAKER_REFERENCE_MAX_BYTES, COMPOSER_STATEMENT_TEXT_MAX_BYTES, ComposerAvatarCurrent,
     ComposerBodyMode, ComposerBoundaryTarget, ComposerCommand, ComposerDocumentNode,
-    ComposerDocumentNodeKind, ComposerInsertCapability, ComposerMessageCapabilities,
-    ComposerMessageSide, ComposerNarrationCapabilities, ComposerNewStatement,
-    ComposerNewStatementSpeaker, ComposerNodeRef, ComposerOpaqueCategory, ComposerSpeakerChoice,
-    ComposerSpeakerDescription, ComposerSpeakerSource, ComposerStatementBody,
-    ComposerStatementBodyInput, ComposerStatementText, ComposerStructureCommand,
-    ComposerStructureTarget, ContinuedValue, PackAvatarChoice, ProjectedEditTarget,
-    ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey, SourceContentKey,
-    StatementTextMode, TypstProjectSnapshotKey,
+    ComposerDocumentNodeKind, ComposerInsertCapability, ComposerMediaChoice,
+    ComposerMessageCapabilities, ComposerMessageSide, ComposerNarrationCapabilities,
+    ComposerNewStatement, ComposerNewStatementSpeaker, ComposerNodeRef, ComposerOpaqueCategory,
+    ComposerSpeakerChoice, ComposerSpeakerDescription, ComposerSpeakerSource,
+    ComposerStatementBody, ComposerStatementBodyInput, ComposerStatementText,
+    ComposerStructureCommand, ComposerStructureTarget, ContinuedValue, PackAvatarChoice,
+    ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey,
+    SourceContentKey, StatementTextMode, TypstProjectSnapshotKey,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -123,7 +123,7 @@ struct MapTypstReadLocationsParams {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct GetTypstProjectParams {
     uri: Url,
     #[serde(default)]
@@ -136,6 +136,8 @@ struct GetTypstProjectParams {
     base_project_digest: Option<TypstProjectSnapshotKey>,
     #[serde(default)]
     force_full: bool,
+    #[serde(default)]
+    render_preset: mmt_rs::RenderPreset,
 }
 
 #[derive(Debug, Deserialize)]
@@ -443,14 +445,58 @@ impl From<ComposerStatementBodyInputParams> for ComposerStatementBodyInput {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields, tag = "kind", rename_all_fields = "camelCase")]
+enum ComposerMediaChoiceParams {
+    #[serde(rename = "asset")]
+    Asset { asset_name: String },
+    #[serde(rename = "workspaceImage")]
+    WorkspaceImage { relative_path: String },
+    #[serde(rename = "sticker")]
+    Sticker {
+        entity_id: String,
+        set_id: String,
+        ordinal: u32,
+    },
+}
+
+impl From<ComposerMediaChoiceParams> for ComposerMediaChoice {
+    fn from(media: ComposerMediaChoiceParams) -> Self {
+        match media {
+            ComposerMediaChoiceParams::Asset { asset_name } => Self::Asset { asset_name },
+            ComposerMediaChoiceParams::WorkspaceImage { relative_path } => {
+                Self::WorkspaceImage { relative_path }
+            }
+            ComposerMediaChoiceParams::Sticker {
+                entity_id,
+                set_id,
+                ordinal,
+            } => Self::Sticker {
+                entity_id,
+                set_id,
+                ordinal,
+            },
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields, tag = "kind")]
 enum ComposerNewStatementParams {
     #[serde(rename = "message")]
     Message {
         side: ComposerMessageSideParams,
         speaker: ComposerNewStatementSpeakerParams,
+        avatar: Option<ComposerAvatarChoiceParams>,
         body: ComposerStatementBodyInputParams,
         continued: ComposerContinuedValue,
+    },
+    #[serde(rename = "media")]
+    Media {
+        side: ComposerMessageSideParams,
+        speaker: ComposerNewStatementSpeakerParams,
+        avatar: Option<ComposerAvatarChoiceParams>,
+        continued: ComposerContinuedValue,
+        media: ComposerMediaChoiceParams,
     },
     #[serde(rename = "narration")]
     Narration {
@@ -480,13 +526,28 @@ impl From<ComposerNewStatementParams> for ComposerNewStatement {
             ComposerNewStatementParams::Message {
                 side,
                 speaker,
+                avatar,
                 body,
                 continued,
             } => Self::Message {
                 side: side.into(),
                 speaker: speaker.into(),
+                avatar: avatar.map(Into::into),
                 body: body.into(),
                 continued: continued.into(),
+            },
+            ComposerNewStatementParams::Media {
+                side,
+                speaker,
+                avatar,
+                continued,
+                media,
+            } => Self::Media {
+                side: side.into(),
+                speaker: speaker.into(),
+                avatar: avatar.map(Into::into),
+                continued: continued.into(),
+                media: media.into(),
             },
             ComposerNewStatementParams::Narration { body } => Self::Narration { body: body.into() },
         }
@@ -510,6 +571,8 @@ enum ComposerStructureCommandParams {
     SetStatementSpeaker {
         speaker: ComposerSpeakerChoiceParams,
     },
+    #[serde(rename = "setStatementSide")]
+    SetStatementSide { side: ComposerMessageSideParams },
     #[serde(rename = "replaceNodeSource")]
     ReplaceNodeSource { source: String },
 }
@@ -680,6 +743,10 @@ fn validate_composer_structure(params: &ComposerStructureEditParams) -> Result<(
         ) => validate_speaker_choice(speaker),
         (
             ComposerStructureTargetParams::Node { .. },
+            ComposerStructureCommandParams::SetStatementSide { .. },
+        ) => Ok(()),
+        (
+            ComposerStructureTargetParams::Node { .. },
             ComposerStructureCommandParams::ReplaceNodeSource { source },
         ) if !source.is_empty() && source.len() <= COMPOSER_STATEMENT_TEXT_MAX_BYTES => Ok(()),
         _ => Err(ServerError::invalid_params(
@@ -773,14 +840,62 @@ fn composer_text_selection_params(
 
 fn validate_new_statement(statement: &ComposerNewStatementParams) -> Result<(), ServerError> {
     match statement {
-        ComposerNewStatementParams::Message { speaker, body, .. } => {
-            if let ComposerNewStatementSpeakerParams::Actor { reference } = speaker {
-                validate_speaker_reference(reference)?;
-            }
+        ComposerNewStatementParams::Message {
+            speaker,
+            avatar,
+            body,
+            ..
+        } => {
+            validate_new_message(speaker, avatar.as_ref())?;
             validate_statement_body_input(body)
+        }
+        ComposerNewStatementParams::Media {
+            speaker,
+            avatar,
+            media,
+            ..
+        } => {
+            validate_new_message(speaker, avatar.as_ref())?;
+            match media {
+                ComposerMediaChoiceParams::Asset { asset_name } => {
+                    validate_speaker_reference(asset_name)
+                }
+                ComposerMediaChoiceParams::WorkspaceImage { relative_path } => {
+                    validate_speaker_reference(relative_path)
+                }
+                ComposerMediaChoiceParams::Sticker {
+                    entity_id,
+                    set_id,
+                    ordinal,
+                } => {
+                    validate_avatar_component(entity_id, "entityId")?;
+                    validate_avatar_component(set_id, "setId")?;
+                    if *ordinal == 0 {
+                        return Err(ServerError::invalid_params(
+                            "sticker ordinal must be at least 1",
+                        ));
+                    }
+                    Ok(())
+                }
+            }
         }
         ComposerNewStatementParams::Narration { body } => validate_statement_body_input(body),
     }
+}
+
+fn validate_new_message(
+    speaker: &ComposerNewStatementSpeakerParams,
+    avatar: Option<&ComposerAvatarChoiceParams>,
+) -> Result<(), ServerError> {
+    if let ComposerNewStatementSpeakerParams::Actor { reference } = speaker {
+        validate_speaker_reference(reference)?;
+    }
+    if let Some(avatar) = avatar {
+        validate_composer_command(&ComposerCommandParams::SetActorAvatarFromStatement {
+            avatar: avatar.clone(),
+        })?;
+    }
+    Ok(())
 }
 
 fn validate_statement_body_input(
@@ -880,6 +995,9 @@ fn structure_command(
             ComposerStructureCommand::SetStatementSpeaker {
                 speaker: speaker.into(),
             }
+        }
+        ComposerStructureCommandParams::SetStatementSide { side } => {
+            ComposerStructureCommand::SetStatementSide { side: side.into() }
         }
         ComposerStructureCommandParams::ReplaceNodeSource { source } => {
             ComposerStructureCommand::ReplaceNodeSource { source }
@@ -1421,9 +1539,11 @@ struct ComposerMessageCapabilitiesResult {
     set_display_name: bool,
     set_avatar: bool,
     set_speaker: bool,
+    set_side: Vec<ComposerMessageSideResult>,
     delete: bool,
     move_up: Option<ComposerBoundaryTargetResult>,
     move_down: Option<ComposerBoundaryTargetResult>,
+    move_targets: Vec<ComposerBoundaryTargetResult>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -1434,6 +1554,7 @@ struct ComposerNarrationCapabilitiesResult {
     delete: bool,
     move_up: Option<ComposerBoundaryTargetResult>,
     move_down: Option<ComposerBoundaryTargetResult>,
+    move_targets: Vec<ComposerBoundaryTargetResult>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -1527,6 +1648,12 @@ struct ComposerScriptActorChoiceResult {
 }
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ComposerAssetChoiceResult {
+    asset_name: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
 #[serde(tag = "kind")]
 enum ComposerDocumentResult {
     Snapshot {
@@ -1538,6 +1665,8 @@ enum ComposerDocumentResult {
         boundaries: Vec<ComposerBoundaryResult>,
         #[serde(rename = "scriptActorChoices")]
         script_actor_choices: Vec<ComposerScriptActorChoiceResult>,
+        #[serde(rename = "assetChoices")]
+        asset_choices: Vec<ComposerAssetChoiceResult>,
     },
     Rejected {
         reason: ComposerDocumentRejectedReason,
@@ -1628,6 +1757,12 @@ fn composer_message_capabilities_result(
         set_display_name: capabilities.set_display_name,
         set_avatar: capabilities.set_avatar,
         set_speaker: capabilities.set_speaker,
+        set_side: capabilities
+            .set_side
+            .iter()
+            .copied()
+            .map(Into::into)
+            .collect(),
         delete: capabilities.delete,
         move_up: capabilities
             .move_up
@@ -1639,6 +1774,11 @@ fn composer_message_capabilities_result(
             .as_ref()
             .map(|target| composer_boundary_target_result(snapshot, target))
             .transpose()?,
+        move_targets: capabilities
+            .move_targets
+            .iter()
+            .map(|target| composer_boundary_target_result(snapshot, target))
+            .collect::<Result<Vec<_>, ServerError>>()?,
     })
 }
 
@@ -1660,6 +1800,11 @@ fn composer_narration_capabilities_result(
             .as_ref()
             .map(|target| composer_boundary_target_result(snapshot, target))
             .transpose()?,
+        move_targets: capabilities
+            .move_targets
+            .iter()
+            .map(|target| composer_boundary_target_result(snapshot, target))
+            .collect::<Result<Vec<_>, ServerError>>()?,
     })
 }
 
@@ -1776,6 +1921,13 @@ fn composer_document_result(
         nodes,
         boundaries,
         script_actor_choices,
+        asset_choices: projection
+            .asset_choices
+            .iter()
+            .map(|choice| ComposerAssetChoiceResult {
+                asset_name: choice.asset_name.clone(),
+            })
+            .collect(),
     })
 }
 
@@ -2552,7 +2704,12 @@ impl MmtLanguageServer {
                 }
                 let full_update = self
                     .projections
-                    .build_render_project(&params.uri, self.service.pack_revision(), timestamp)
+                    .build_render_project(
+                        &params.uri,
+                        self.service.pack_revision(),
+                        timestamp,
+                        params.render_preset,
+                    )
                     .map_err(|error| {
                         ServerError::invalid_params(format!(
                             "failed to build render project: {error:?}"
@@ -2567,6 +2724,7 @@ impl MmtLanguageServer {
                     (false, Some(base_revision), Some(base_digest), Some(base))
                         if full_update.revision > base.revision
                             && base.revision == base_revision
+                            && full_update.render_preset == base.render_preset
                             && &base.project_digest == base_digest =>
                     {
                         full_update.clone().delta_from(base)
@@ -3502,7 +3660,7 @@ mod tests {
                             "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
                             "target":snapshot["boundaries"][0]["target"],
                             "command":{"kind":"insertStatement","statement":{
-                                "kind":"message","side":"right","speaker":{"kind":"builtin"},
+                                "kind":"message","side":"right","speaker":{"kind":"builtin"},"avatar":null,
                                 "body":{"value":body,"mode":"inherit"},"continued":"auto",
                             }},
                         }),
@@ -3605,7 +3763,7 @@ mod tests {
                     "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
                     "target":boundary["target"],
                     "command":{"kind":"insertStatement","statement":{
-                        "kind":"message","side":"right","speaker":{"kind":"builtin"},
+                        "kind":"message","side":"right","speaker":{"kind":"builtin"},"avatar":null,
                         "body":{"value":"next","mode":"inherit"},"continued":"auto",
                     }},
                 });
@@ -3655,7 +3813,7 @@ mod tests {
             "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
             "target":snapshot["boundaries"][0]["target"],
             "command":{"kind":"insertStatement","statement":{
-                "kind":"message","side":"left","speaker":{"kind":"builtin"},
+                "kind":"message","side":"left","speaker":{"kind":"builtin"},"avatar":null,
                 "body":{"value":"not allowed","mode":"inherit"},"continued":"auto",
             }},
         });
@@ -3686,6 +3844,351 @@ mod tests {
                 .code,
             -32602
         );
+    }
+
+    #[test]
+    fn canonical_first_send_with_nondefault_avatar_is_atomic_and_supports_repeated_sends() {
+        let uri = Url::parse("file:///workspace/新的作品.mmt").unwrap();
+        let base = include_str!("../../mmt_rs/tests/fixtures/pack-v3/base-manifest.json");
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision":1,"sources":[{"json":base}],
+                }),
+            )
+            .unwrap();
+        open_document(&mut server, &uri, 1, "");
+        let mut source = String::new();
+        for version in 1..=2 {
+            let snapshot = server
+                .request(
+                    "mmt/composerDocument",
+                    serde_json::json!({
+                        "textDocument":{"uri":uri,"version":version},
+                    }),
+                )
+                .unwrap();
+            let params = serde_json::json!({
+                "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+                "target":snapshot["boundaries"].as_array().unwrap().last().unwrap()["target"],
+                "command":{"kind":"insertStatement","statement":{
+                    "kind":"message","side":"left","speaker":{"kind":"actor","reference":"ba_fixture::佳代子"},
+                    "avatar":{"kind":"packAvatar","entityId":"ba_fixture::佳代子",
+                        "contributionNamespace":"ba_fixture","variantId":"smile"},
+                    "continued":"auto","body":{"value":"First meeting","mode":"textRaw"},
+                }},
+            });
+            let result = composer_json_request(&mut server, "mmt/composerEdit", &params);
+            assert_eq!(result["result"]["kind"], "Edit", "{result}");
+            let documents = &result["result"]["edit"]["documentChanges"];
+            assert_eq!(documents.as_array().unwrap().len(), 1);
+            assert_eq!(documents[0]["textDocument"], snapshot["textDocument"]);
+            assert_eq!(documents[0]["edits"].as_array().unwrap().len(), 1);
+            assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+            let changed =
+                apply_composer_result(&source, &result["result"], &PositionEncodingKind::UTF16);
+            assert!(changed.starts_with(&source));
+            server
+                .notification(
+                    "textDocument/didChange",
+                    serde_json::json!({
+                        "textDocument":{"uri":uri,"version":version + 1},
+                        "contentChanges":[{"text":changed}],
+                    }),
+                )
+                .unwrap();
+            source = changed;
+        }
+        let packs = mmt_rs::pack::PackRegistry::new(vec![
+            mmt_rs::pack::PackManifest::from_json(base).unwrap(),
+        ])
+        .unwrap();
+        let analysis = mmt_rs::analyze_text_with_pack(&source, &packs);
+        let projection = mmt_rs::project_analyzed_composer_document(&source, &analysis).unwrap();
+        assert!(!projection.has_errors);
+        assert_eq!(analysis.actors.actors.len(), 1);
+        assert_eq!(analysis.actors.actors[0].names, vec!["佳代子".to_owned()]);
+        let messages = projection
+            .nodes
+            .iter()
+            .filter_map(|node| match node {
+                ComposerDocumentNode::Message(node) => Some(node),
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(messages.len(), 2);
+        for message in messages {
+            assert_eq!(message.description.body.current, "First meeting");
+            assert!(
+                matches!(&message.description.actor_avatar.as_ref().unwrap().current,
+                Some(ComposerAvatarCurrent::Pack(choice)) if choice.variant_id == "smile")
+            );
+        }
+    }
+
+    #[test]
+    fn composer_media_and_avatar_wire_return_one_versioned_atomic_edit() {
+        let uri = Url::parse("file:///workspace/media.mmt").unwrap();
+        let base = include_str!("../../mmt_rs/tests/fixtures/pack-v3/base-manifest.json");
+        let extension = include_str!("../../mmt_rs/tests/fixtures/pack-v3/extension-manifest.json");
+        for (wire_encoding, encoding) in [
+            ("utf-8", PositionEncodingKind::UTF8),
+            ("utf-16", PositionEncodingKind::UTF16),
+        ] {
+            for eol in ["\n", "\r\n"] {
+                let mut server = MmtLanguageServer::default();
+                server
+                    .request("initialize", initialize_with_encoding(wire_encoding))
+                    .unwrap();
+                server
+                    .request(
+                        "mmt/updatePackManifests",
+                        serde_json::json!({
+                            "revision":1,"sources":[{"json":base},{"json":extension}],
+                        }),
+                    )
+                    .unwrap();
+                let source = format!(
+                    "@asset image_1{eol}src: old.png{eol}@end{eol}> 佳代子: before😀{eol}> 小雪: other{eol}"
+                );
+                open_document(&mut server, &uri, 7, &source);
+                let snapshot = server
+                    .request(
+                        "mmt/composerDocument",
+                        serde_json::json!({
+                            "textDocument":{"uri":uri,"version":7},
+                        }),
+                    )
+                    .unwrap();
+                assert_eq!(
+                    snapshot["assetChoices"],
+                    serde_json::json!([{"assetName":"image_1"}])
+                );
+                let avatar = serde_json::json!({
+                    "kind":"packAvatar","entityId":"ba_fixture::佳代子",
+                    "contributionNamespace":"ba_fixture","variantId":"smile",
+                });
+                for statement in [
+                    serde_json::json!({
+                        "kind":"message","side":"left","speaker":{"kind":"actor","reference":"佳代子"},
+                        "avatar":avatar,"body":{"value":"new 😀\nsecond","mode":"textRaw"},"continued":"true",
+                    }),
+                    serde_json::json!({
+                        "kind":"media","side":"right","speaker":{"kind":"builtin"},"avatar":null,
+                        "continued":"false","media":{"kind":"asset","assetName":"image_1"},
+                    }),
+                    serde_json::json!({
+                        "kind":"media","side":"left","speaker":{"kind":"actor","reference":"佳代子"},
+                        "avatar":avatar,"continued":"auto",
+                        "media":{"kind":"workspaceImage","relativePath":"assets/88112233-4400-4400-8800-889911223344.jpg"},
+                    }),
+                    serde_json::json!({
+                        "kind":"media","side":"right","speaker":{"kind":"builtin"},"avatar":null,
+                        "continued":"false",
+                        "media":{"kind":"sticker","entityId":"ba_fixture::佳代子","setId":"ba_fixture_ext::festival","ordinal":1},
+                    }),
+                ] {
+                    let boundary = snapshot["boundaries"].as_array().unwrap().last().unwrap();
+                    let params = serde_json::json!({
+                        "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+                        "target":boundary["target"],
+                        "command":{"kind":"insertStatement","statement":statement},
+                    });
+                    let result = composer_json_request(&mut server, "mmt/composerEdit", &params);
+                    assert_eq!(result["result"]["kind"], "Edit", "{result}");
+                    let documents = &result["result"]["edit"]["documentChanges"];
+                    assert_eq!(documents.as_array().unwrap().len(), 1);
+                    assert_eq!(documents[0]["textDocument"], snapshot["textDocument"]);
+                    assert_eq!(documents[0]["edits"].as_array().unwrap().len(), 1);
+                    let changed = apply_composer_result(&source, &result["result"], &encoding);
+                    assert!(changed.starts_with(&source));
+                    let registry = mmt_rs::pack::PackRegistry::new(vec![
+                        mmt_rs::pack::PackManifest::from_json(base).unwrap(),
+                        mmt_rs::pack::PackManifest::from_json(extension).unwrap(),
+                    ])
+                    .unwrap();
+                    let analysis = mmt_rs::analyze_text_with_pack(&changed, &registry);
+                    let projected =
+                        mmt_rs::project_analyzed_composer_document(&changed, &analysis).unwrap();
+                    assert!(!projected.has_errors);
+                    let ComposerDocumentNode::Message(inserted) = projected.nodes.last().unwrap()
+                    else {
+                        panic!()
+                    };
+                    if statement["avatar"].is_object() {
+                        assert!(
+                            matches!(&inserted.description.actor_avatar.as_ref().unwrap().current,
+                            Some(ComposerAvatarCurrent::Pack(choice)) if choice.variant_id == "smile")
+                        );
+                    }
+                    if statement["kind"] == "media" {
+                        assert!(inserted.text_editing.is_none());
+                    }
+                    if statement["media"]["kind"] == "workspaceImage" {
+                        assert_eq!(analysis.assets.assets.len(), 2);
+                        assert!(analysis.assets.resolve("image_2").is_some());
+                    }
+                    assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+                    assert_eq!(server.service.snapshot(&uri).unwrap().version, 7);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn composer_media_wire_rejects_unknown_fields_invalid_resources_and_stale_identity() {
+        let uri = Url::parse("file:///workspace/media-invalid.mmt").unwrap();
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        server.request("mmt/updatePackManifests", serde_json::json!({
+            "revision":1,"sources":[{"json":include_str!("../../mmt_rs/tests/fixtures/pack-v3/base-manifest.json")}],
+        })).unwrap();
+        let source = "- keep😀\n";
+        open_document(&mut server, &uri, 4, source);
+        let snapshot = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":4},
+                }),
+            )
+            .unwrap();
+        let params = serde_json::json!({
+            "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+            "target":snapshot["boundaries"][1]["target"],
+            "command":{"kind":"insertStatement","statement":{
+                "kind":"media","side":"right","speaker":{"kind":"builtin"},"avatar":null,
+                "continued":"auto","media":{"kind":"workspaceImage","relativePath":"assets/new.png"},
+            }},
+        });
+        for media in [
+            serde_json::json!({"kind":"asset","assetName":"undeclared"}),
+            serde_json::json!({"kind":"workspaceImage","relativePath":"assets/../secret.png"}),
+            serde_json::json!({"kind":"workspaceImage","relativePath":"/assets/new.png"}),
+            serde_json::json!({"kind":"sticker","entityId":"ba_fixture::佳代子","setId":"default","ordinal":9}),
+        ] {
+            let mut invalid = params.clone();
+            invalid["command"]["statement"]["media"] = media;
+            let result = composer_json_request(&mut server, "mmt/composerEdit", &invalid);
+            assert_eq!(
+                result["result"],
+                serde_json::json!({"kind":"Rejected","reason":"invalidValue"})
+            );
+        }
+        for media in [
+            serde_json::json!({"kind":"workspaceImage","relativePath":"assets/new.png","url":"https://example.test/x.png"}),
+            serde_json::json!({"kind":"asset","assetName":"image","source":"[:arbitrary:]"}),
+            serde_json::json!({"kind":"sticker","entityId":"ba_fixture::佳代子","setId":"default","ordinal":0}),
+            serde_json::json!({"kind":"sticker","entityId":"ba_fixture::佳代子","setId":"default","ordinal":1.5}),
+            serde_json::json!({"kind":"url","url":"https://example.test/x.png"}),
+        ] {
+            let mut malformed = params.clone();
+            malformed["command"]["statement"]["media"] = media;
+            assert_eq!(
+                composer_json_request(&mut server, "mmt/composerEdit", &malformed)["error"]["code"],
+                -32602
+            );
+        }
+        for field in ["digest", "version", "boundary"] {
+            let mut stale = params.clone();
+            match field {
+                "digest" => stale["sourceDigest"] = serde_json::json!("0".repeat(64)),
+                "version" => stale["textDocument"]["version"] = serde_json::json!(3),
+                _ => stale["target"]["before"]["nodeKey"] = serde_json::json!("0".repeat(64)),
+            }
+            let result = composer_json_request(&mut server, "mmt/composerEdit", &stale);
+            assert_eq!(result["result"]["kind"], "Rejected", "{result}");
+        }
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
+    }
+
+    #[test]
+    fn composer_side_and_move_target_wire_are_authorized_and_keep_source_neighbors() {
+        let uri = Url::parse("file:///workspace/side-move.mmt").unwrap();
+        let mut server = MmtLanguageServer::default();
+        server
+            .request("initialize", initialize_with_encoding("utf-16"))
+            .unwrap();
+        server.request("mmt/updatePackManifests", serde_json::json!({
+            "revision":1,"sources":[{"json":include_str!("../../mmt_rs/tests/fixtures/pack-v3/base-manifest.json")}],
+        })).unwrap();
+        let source = "< _0: teacher\n> 佳代子: first😀\n> 小雪: second\n- fourth\n\n@typ: #strong[barrier]\n- isolated\n";
+        open_document(&mut server, &uri, 6, source);
+        let snapshot = server
+            .request(
+                "mmt/composerDocument",
+                serde_json::json!({
+                    "textDocument":{"uri":uri,"version":6},
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            snapshot["nodes"][1]["capabilities"]["setSide"],
+            serde_json::json!(["left", "right"])
+        );
+        assert_eq!(
+            snapshot["nodes"][0]["capabilities"]["setSide"],
+            serde_json::json!(["right"])
+        );
+        let node_ref = |index: usize| {
+            serde_json::json!({"kind":"node","node":{
+                "nodeKey":snapshot["nodes"][index]["nodeKey"],"nodeKind":snapshot["nodes"][index]["kind"],
+                "range":snapshot["nodes"][index]["range"],
+            }})
+        };
+        let params = serde_json::json!({
+            "textDocument":snapshot["textDocument"],"sourceDigest":snapshot["sourceDigest"],
+            "target":node_ref(1),"command":{"kind":"setStatementSide","side":"right"},
+        });
+        let result = composer_json_request(&mut server, "mmt/composerEdit", &params);
+        assert_eq!(result["result"]["kind"], "Edit", "{result}");
+        assert_eq!(
+            apply_composer_result(source, &result["result"], &PositionEncodingKind::UTF16),
+            source.replacen("> 佳代子", "< 佳代子", 1)
+        );
+        let mut teacher = params.clone();
+        teacher["target"] = node_ref(0);
+        teacher["command"]["side"] = serde_json::json!("left");
+        assert_eq!(
+            composer_json_request(&mut server, "mmt/composerEdit", &teacher)["result"],
+            serde_json::json!({"kind":"Rejected","reason":"unsupportedStructure"})
+        );
+        let mut wrong_side = params.clone();
+        wrong_side["command"]["side"] = serde_json::json!("center");
+        assert_eq!(
+            composer_json_request(&mut server, "mmt/composerEdit", &wrong_side)["error"]["code"],
+            -32602
+        );
+        let mut moving = params.clone();
+        moving["command"] = serde_json::json!({
+            "kind":"moveNode","anchor":snapshot["boundaries"][4]["target"],
+        });
+        assert!(
+            snapshot["nodes"][1]["capabilities"]["moveTargets"]
+                .as_array()
+                .unwrap()
+                .contains(&snapshot["boundaries"][4]["target"])
+        );
+        let moved = composer_json_request(&mut server, "mmt/composerEdit", &moving);
+        assert_eq!(moved["result"]["kind"], "Edit", "{moved}");
+        assert_eq!(
+            apply_composer_result(source, &moved["result"], &PositionEncodingKind::UTF16),
+            "< _0: teacher\n> 小雪: second\n- fourth\n> 佳代子: first😀\n\n@typ: #strong[barrier]\n- isolated\n"
+        );
+        moving["command"]["anchor"] =
+            snapshot["boundaries"].as_array().unwrap().last().unwrap()["target"].clone();
+        assert_eq!(
+            composer_json_request(&mut server, "mmt/composerEdit", &moving)["result"],
+            serde_json::json!({"kind":"Rejected","reason":"unsupportedStructure"})
+        );
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, source);
     }
 
     #[test]
@@ -6132,6 +6635,162 @@ mod tests {
         assert_eq!(delta.files.len(), 1);
         assert!(delta.files.iter().all(|file| !file.digest.is_empty()));
         assert_eq!(delta.deleted_uris, vec![render.entry_uri.clone()]);
+    }
+
+    #[test]
+    fn render_project_preset_params_reject_unknown_and_malformed_values() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        for preset in [
+            serde_json::json!(null),
+            serde_json::json!({"kind": "other"}),
+            serde_json::json!({"kind": "output", "widthPt": 390}),
+            serde_json::json!({"kind": "output", "extra": true}),
+            serde_json::json!({"kind": "chat"}),
+            serde_json::json!({"kind": "chat", "widthPt": 239}),
+            serde_json::json!({"kind": "chat", "widthPt": 721}),
+            serde_json::json!({"kind": "chat", "widthPt": 390.5}),
+            serde_json::json!({"kind": "chat", "widthPt": "390"}),
+            serde_json::json!({"kind": "chat", "widthPt": 390, "extra": true}),
+        ] {
+            let error = server
+                .request(
+                    "mmt/getTypstRenderProject",
+                    serde_json::json!({
+                        "uri": "file:///workspace/render.mmt",
+                        "renderPreset": preset
+                    }),
+                )
+                .unwrap_err();
+            assert_eq!(error.code, -32602);
+        }
+        let error = server
+            .request(
+                "mmt/getTypstRenderProject",
+                serde_json::json!({
+                    "uri": "file:///workspace/render.mmt",
+                    "renderPreset": {"kind": "output"},
+                    "extra": true
+                }),
+            )
+            .unwrap_err();
+        assert_eq!(error.code, -32602);
+    }
+
+    #[test]
+    fn render_project_reports_preset_and_never_deltas_across_presentations() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({"revision": 1, "sources": []}),
+            )
+            .unwrap();
+        let uri = Url::parse("file:///workspace/presets.mmt").unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri, "languageId": "mmt", "version": 1, "text": "- hello"
+                    }
+                }),
+            )
+            .unwrap();
+        let output = server
+            .request("mmt/getTypstRenderProject", serde_json::json!({"uri": uri}))
+            .unwrap();
+        assert_eq!(
+            output["renderPreset"],
+            serde_json::json!({"kind": "output"})
+        );
+        assert_eq!(
+            output["events"][0]["params"]["renderPreset"],
+            output["renderPreset"]
+        );
+        let explicit_output = server
+            .request(
+                "mmt/getTypstRenderProject",
+                serde_json::json!({"uri": uri, "renderPreset": {"kind": "output"}}),
+            )
+            .unwrap();
+        assert_eq!(explicit_output["projectDigest"], output["projectDigest"]);
+        assert_eq!(explicit_output["projectionKey"], output["projectionKey"]);
+        let preset = serde_json::json!({"kind": "chat", "widthPt": 390});
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 2},
+                    "contentChanges": [{"text": "- hello again"}]
+                }),
+            )
+            .unwrap();
+        let chat = server
+            .request(
+                "mmt/getTypstRenderProject",
+                serde_json::json!({
+                    "uri": uri,
+                    "renderPreset": preset,
+                    "baseRevision": output["revision"],
+                    "baseProjectDigest": output["projectDigest"]
+                }),
+            )
+            .unwrap();
+        assert_eq!(chat["full"], true);
+        assert_eq!(chat["renderPreset"], preset);
+        assert_eq!(chat["events"][0]["params"]["renderPreset"], preset);
+        assert!(chat.get("baseRevision").is_none());
+        assert_eq!(server.service.snapshot(&uri).unwrap().text, "- hello again");
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 3},
+                    "contentChanges": [{"text": "- hello third"}]
+                }),
+            )
+            .unwrap();
+        let delta = server
+            .request(
+                "mmt/getTypstRenderProject",
+                serde_json::json!({
+                    "uri": uri,
+                    "renderPreset": preset,
+                    "baseRevision": chat["revision"],
+                    "baseProjectDigest": chat["projectDigest"]
+                }),
+            )
+            .unwrap();
+        assert_eq!(delta["full"], false);
+        assert_eq!(delta["baseProjectDigest"], chat["projectDigest"]);
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 4},
+                    "contentChanges": [{"text": "- hello fourth"}]
+                }),
+            )
+            .unwrap();
+        let resized = server
+            .request(
+                "mmt/getTypstRenderProject",
+                serde_json::json!({
+                    "uri": uri,
+                    "renderPreset": {"kind": "chat", "widthPt": 720},
+                    "baseRevision": delta["revision"],
+                    "baseProjectDigest": delta["projectDigest"]
+                }),
+            )
+            .unwrap();
+        assert_eq!(resized["full"], true);
+        assert!(resized.get("baseRevision").is_none());
+        assert_eq!(
+            server.service.snapshot(&uri).unwrap().text,
+            "- hello fourth"
+        );
     }
 
     #[test]

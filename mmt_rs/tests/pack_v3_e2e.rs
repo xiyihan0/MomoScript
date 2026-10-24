@@ -148,6 +148,37 @@ fn strict_pipeline_generated_typst_compiles_with_typst_015() {
 }
 
 #[test]
+fn chat_presentation_merges_theme_and_preserves_explicit_pagebreaks() {
+    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let repo_root = manifest_dir.parent().unwrap();
+    let output_dir = manifest_dir.join(format!(
+        "target/mmt-chat-presentation-e2e-{}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&output_dir).unwrap();
+    let fixture = repo_root.join("typst_sandbox/mmt_render/tests/chat-presentation.typ");
+    let output = Command::new("typst")
+        .arg("compile")
+        .arg(fixture)
+        .arg(output_dir.join("chat-{p}.svg"))
+        .arg("--root")
+        .arg(repo_root)
+        .output()
+        .expect("Typst 0.15 must be installed for the chat presentation test");
+    assert!(
+        output.status.success(),
+        "chat presentation failed:\n{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    for page in [1, 2] {
+        let svg = fs::read_to_string(output_dir.join(format!("chat-{page}.svg"))).unwrap();
+        assert!(svg.contains("viewBox=\"0 0 390 "), "{svg}");
+    }
+    assert!(!output_dir.join("chat-3.svg").exists());
+    fs::remove_dir_all(output_dir).unwrap();
+}
+
+#[test]
 fn fixture_paths_are_stable_from_the_crate_root() {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     assert!(

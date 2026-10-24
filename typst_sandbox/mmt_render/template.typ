@@ -37,13 +37,35 @@
   title: "无题",
   author: none,
   compiled-at: none,
+  presentation: "output",
+  chat-width: none,
   body,
 ) = {
+  let authoring-chat = presentation == "chat"
+  let theme = if authoring-chat {
+    theme + (
+      page: theme.page + (
+        width: chat-width,
+        margin: (x: 12pt, y: 12pt),
+      ),
+      text: theme.text + (size: 16pt),
+      chat: theme.chat + (
+        avatar-size: 40pt,
+        avatar-gap: 8pt,
+        message-gap: 12pt,
+        continued-gap: 4pt,
+        bubble-radius: 12pt,
+      ),
+    )
+  } else {
+    theme
+  }
+  set page(fill: none) if authoring-chat
   set page(
     width: theme.page.width,
     height: auto,
     margin: theme.page.margin,
-    footer: if show-footer {
+    footer: if show-footer and not authoring-chat {
       context align(center, counter(page).display("1 / 1", both: true))
     },
   )
@@ -52,10 +74,10 @@
     size: theme.text.size,
     fill: theme.text.fill,
   )
-  set par(spacing: 1em)
-  configure(theme: theme, chat: chat)
+  set par(spacing: if authoring-chat { 0pt } else { 1em })
+  configure(theme: theme, chat: chat + (presentation: presentation))
 
-  if show-header {
+  if show-header and not authoring-chat {
     _header(
       project: project,
       title: title,

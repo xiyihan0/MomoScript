@@ -86,10 +86,18 @@ export interface ComposerTextSessionOwner {
   ) => Promise<ComposerDocumentSnapshot | undefined>;
 }
 
+export interface ComposerTextRecoveryTarget {
+  readonly identity: ComposerRuntimeIdentity;
+  readonly selection: ComposerTextSelection;
+  readonly geometryIdentity: ComposerTextGeometryIdentity;
+  readonly selectionEpoch: number;
+}
+
 type TextNode = Extract<ComposerDocumentNode, { kind: "message" | "narration" }>;
 type ReplaceIntent = Extract<ComposerIntent, { kind: "replace" }>;
 interface QueuedIntent {
-  readonly intent: ComposerIntent | { readonly kind: "contextAction"; readonly action: ComposerTextContextAction };
+  readonly intent: ComposerIntent | { readonly kind: "contextAction"; readonly action: ComposerTextContextAction }
+    | { readonly kind: "recoveryReplace"; readonly text: string; readonly target: ComposerTextRecoveryTarget };
   readonly sessionId: string;
   readonly sequence: number;
   readonly admittedAt: number;
@@ -150,6 +158,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   readonly #issuedRenderKeys = new Set<string>();
   readonly #issuedSessions = new Map<string, IssuedSession>();
   readonly #geometryWaiters = new Set<(identity: ComposerTextGeometryIdentity) => void>();
+  readonly #compositionWaiters = new Set<() => void>();
   #sessionId = crypto.randomUUID();
   #sequence = 0;
   #active = false;
@@ -163,6 +172,8 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   #sourceSelectionDigest: string | null = null;
   #requiresPointerSelection = false;
   #pendingPointerRevocation = false;
+  #recoveryNeedsSelection = false;
+  #selectionEpoch = 0;
   #composition: Composition | null = null;
   #dragAnchor: ComposerTextGeometryEndpoint | null = null;
   #dragWord: ComposerTextGeometrySelection | null = null;
@@ -232,6 +243,46 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     this.#publish(this.#state.status);
     this.#startDrain();
     await pending.promise;
+  }
+
+  requireRecoveryTargetSelection(): void {
+    this.#recoveryNeedsSelection = true;
+  }
+
+  /** Pin the user's newly selected semantic target before showing confirmation. */
+  captureRecoveryTarget(): ComposerTextRecoveryTarget | undefined {
+    const current = this.#owner.current();
+    const geometryIdentity = this.#currentGeometry();
+    if (!this.#accepting || !this.#active || !this.#admitting || this.#suspensions > 0
+      || this.#requiresPointerSelection || this.#state.status !== "ready" || this.#composition
+      || this.#recoveryNeedsSelection
+      || this.pendingIntentCount > 0 || !current || !geometryIdentity || !this.#selection
+      || this.#selectionDigest !== current.snapshot.sourceDigest) return undefined;
+    return { identity: current.identity, selection: wireSelection(this.#selection), geometryIdentity, selectionEpoch: this.#selectionEpoch };
+  }
+
+  /** Host-side replay uses the same FIFO and Rust edit path, never iframe sequences. */
+  async retryRecoveredText(text: string, target: ComposerTextRecoveryTarget): Promise<boolean> {
+    await this.refreshGeometry();
+    if (!text || !this.#recoveryTargetCurrent(target) || this.#state.status !== "ready" || this.pendingIntentCount > 0) return false;
+    const pending = Promise.withResolvers<void>();
+    const entry: QueuedIntent = {
+      intent: { kind: "recoveryReplace", text, target },
+      sessionId: this.#sessionId, sequence: this.#sequence, admittedAt: performance.now(),
+      committed: false, completed: pending.resolve,
+    };
+    this.#queue.push(entry);
+    this.#startDrain();
+    await pending.promise;
+    return entry.committed;
+  }
+
+  #recoveryTargetCurrent(target: ComposerTextRecoveryTarget): boolean {
+    return this.#accepting && this.#active && this.#admitting && this.#suspensions === 0
+      && !this.#requiresPointerSelection && !this.#composition && this.#owner.isCurrent(target.identity)
+      && !this.#recoveryNeedsSelection && target.selectionEpoch === this.#selectionEpoch
+      && this.#sameGeometry(target.geometryIdentity) && !!this.#selection
+      && sameSelection(target.selection, this.#selection);
   }
 
   resolveRecovery(recoveryId: string, text: string): boolean {
@@ -367,6 +418,8 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       this.#requiresPointerSelection = false;
       this.#pendingPointerRevocation = false;
       this.#assignSelection({ anchor: endpoint, focus: endpoint }, current.snapshot);
+      this.#recoveryNeedsSelection = false;
+      this.#selectionEpoch += 1;
       this.#remember(current.snapshot);
       await this.refreshGeometry();
       return true;
@@ -401,6 +454,17 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
         void this.refreshGeometry();
       }
     } };
+  }
+
+  /** A surface transition must leave the native IME candidate alive until commit/cancel. */
+  async waitForCompositionEnd(): Promise<void> {
+    while (this.#accepting && this.#active) {
+      await this.#draining;
+      if (!this.#composition) return;
+      const { promise, resolve } = Promise.withResolvers<void>();
+      this.#compositionWaiters.add(resolve);
+      await promise;
+    }
   }
 
   async drainAccepted(): Promise<void> {
@@ -506,6 +570,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     this.#dragWord = null;
     this.closeTextGroup();
     if (interrupted) this.#notify("warning", reason);
+    this.#wakeCompositionWaiters();
     this.#publish("blocked", [], []);
   }
 
@@ -525,6 +590,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     if (this.#draining) return;
     this.#draining = this.#drain().finally(() => {
       this.#draining = null;
+      this.#wakeCompositionWaiters();
       if (this.#queue.length && this.#accepting && this.#active) this.#startDrain();
       else {
         this.#settlePointerRevocation();
@@ -536,6 +602,12 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
         }
       }
     });
+  }
+
+  #wakeCompositionWaiters(): void {
+    if (this.#composition) return;
+    for (const wake of this.#compositionWaiters) wake();
+    this.#compositionWaiters.clear();
   }
 
   async #drain(): Promise<void> {
@@ -558,6 +630,11 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
 
   async #process(entry: QueuedIntent, signal: AbortSignal): Promise<void> {
     const intent = entry.intent;
+    if (intent.kind === "recoveryReplace") {
+      if (!this.#recoveryTargetCurrent(intent.target)) return;
+      await this.#replace(entry, intent.text, "paste", signal);
+      return;
+    }
     if (intent.kind === "pointer" && intent.phase !== "start" && !this.#dragAnchor) return;
     if (intent.kind !== "pointer") { this.#dragAnchor = null; this.#dragWord = null; }
     if (intent.kind === "contextAction") {
@@ -697,6 +774,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       target: { kind: "textSelection", selection }, command: { kind: "replaceTextSelection", replacement: text },
     }, signal), signal);
     this.#assertCurrent(current, signal);
+    if (entry.intent.kind === "recoveryReplace" && !this.#recoveryTargetCurrent(entry.intent.target)) throw new Error(CONFLICT);
     const result = parseComposerEditResult(raw, current.snapshot.textDocument, "TextEdit");
     if (result.kind === "Rejected") throw new Error(`正文编辑被拒绝（${result.reason}），未提交的文字已保留。`);
     const committed = await abortable(this.#owner.apply(current.identity, result, signal, () => {
@@ -708,7 +786,9 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
     }, (canApply) =>
       this.#ports.applyTextEdit({
         document: current.identity.documentIncarnation, textDocument: current.snapshot.textDocument,
-        sourceDigest: current.snapshot.sourceDigest, modelVersion, result, canApply, beforeSelection: nativeBefore,
+        sourceDigest: current.snapshot.sourceDigest, modelVersion, result,
+        canApply: (candidate) => (entry.intent.kind !== "recoveryReplace" || this.#recoveryTargetCurrent(entry.intent.target)) && canApply(candidate),
+        beforeSelection: nativeBefore,
         undoStopBefore: !continuing, undoStopAfter: !typing, signal,
       })), signal);
     if (committed.application.kind !== "Applied") throw new Error(`正文未提交（${committed.application.kind}），输入已保留。`);
@@ -888,6 +968,8 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
       this.#requiresPointerSelection = false;
     }
     this.#assignSelection(geometry.selection, current.snapshot);
+    this.#recoveryNeedsSelection = false;
+    this.#selectionEpoch += 1;
     if (collapsed(candidate)) {
       this.#sourceSelection = { anchor: hit.authored.range.start, focus: hit.authored.range.start };
       this.#sourceSelectionDigest = current.snapshot.sourceDigest;
@@ -1097,6 +1179,7 @@ export class ComposerTextSession implements ComposerRuntimeDisposable {
   #recover(text: string, reason: string, id: string = crypto.randomUUID()): string {
     const existing = this.#recoveryChunks.find((chunk) => chunk.id === id);
     if (existing?.text === text) return id;
+    this.#recoveryNeedsSelection = true;
     if (existing) existing.text = text;
     else this.#recoveryChunks.push({ id, text });
     void Promise.resolve().then(() => this.#ports.recover(text, reason, id)).catch(() => {

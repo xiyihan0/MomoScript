@@ -17,11 +17,11 @@ use mmt_rs::{
     ContinuedValue, EmitOptions, LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE,
     ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
     ProjectionEdit, ProjectionError, ProjectionKey, ProjectionMappingKind, ProjectionMappingResult,
-    ProjectionPlan, ProjectionProfile, RetainedProjectedDocument, SourceContentKey,
-    TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
-    canonical_bytes_digest, canonical_json_digest, logical_source_id, normalize_projected_edit_uri,
-    project_snapshot_key, projection_key, resolve_preview_statement, source_content_key,
-    validate_projected_edit_transaction,
+    ProjectionPlan, ProjectionProfile, RENDER_PRESENTATION_VERSION, RenderPreset,
+    RetainedProjectedDocument, SourceContentKey, TypstProjectSnapshotKey, TypstProjection,
+    ValidatedProjectedEditTransaction, canonical_bytes_digest, canonical_json_digest,
+    logical_source_id, normalize_projected_edit_uri, project_snapshot_key, projection_key,
+    resolve_preview_statement, source_content_key, validate_projected_edit_transaction,
 };
 #[cfg(test)]
 use mmt_rs::{StaticPresetCatalog, project_text};
@@ -228,6 +228,7 @@ pub struct TypstRenderProjectUpdate {
     pub source_version: i32,
     /// Monotonic virtual Typst projection version; advances on every rebuild.
     pub revision: u64,
+    pub render_preset: RenderPreset,
     pub entry_uri: Url,
     pub files: Vec<TypstVirtualFile>,
     pub full: bool,
@@ -255,6 +256,9 @@ pub struct TypstRenderProjectUpdate {
 impl TypstRenderProjectUpdate {
     pub(crate) fn delta_from(mut self, base: &Self) -> Self {
         debug_assert_eq!(self.source_uri, base.source_uri);
+        if self.render_preset != base.render_preset {
+            return self;
+        }
         let current_files = self
             .files
             .iter()
@@ -378,10 +382,16 @@ impl<'a> From<&'a ProjectionDocument> for ProjectIdentityInput<'a> {
     }
 }
 
+#[derive(Clone, Copy)]
+enum ProjectProfile {
+    Language,
+    Render(RenderPreset),
+}
+
 fn project_identity(
     input: ProjectIdentityInput<'_>,
     projection: &TypstProjection,
-    profile: &str,
+    profile: ProjectProfile,
 ) -> ProjectIdentity {
     let mapping_value = serde_json::json!({
         "origins": projection.emitted.origins,
@@ -446,7 +456,7 @@ fn project_identity(
             canonical_bytes_digest("mmt-project-file-v1", &[*bytes]),
         );
     }
-    if profile == "language" {
+    if matches!(profile, ProjectProfile::Language) {
         files.insert(
             LogicalProjectFileId::generated(
                 "template",
@@ -455,6 +465,24 @@ fn project_identity(
             )
             .expect("fixed placeholder path is canonical"),
             canonical_bytes_digest("mmt-project-file-v1", &[EDITOR_PLACEHOLDER_SVG.as_bytes()]),
+        );
+    }
+    let mut project_options = BTreeMap::from([(
+        "profile".into(),
+        match profile {
+            ProjectProfile::Language => "language",
+            ProjectProfile::Render(_) => "render",
+        }
+        .into(),
+    )]);
+    if let ProjectProfile::Render(render_preset) = profile {
+        project_options.insert(
+            "renderPreset".into(),
+            serde_json::to_string(&render_preset).expect("render preset is serializable"),
+        );
+        project_options.insert(
+            "presentationVersion".into(),
+            RENDER_PRESENTATION_VERSION.to_string(),
         );
     }
     let project_digest = project_snapshot_key(&ProjectDigestInput {
@@ -469,7 +497,7 @@ fn project_identity(
             )])
         }),
         generated_dependencies: BTreeMap::from([("template".into(), template_digest)]),
-        project_options: BTreeMap::from([("profile".into(), profile.into())]),
+        project_options,
         source_map_digest: mapping_digest.clone(),
     });
     let projection_key = projection_key(
@@ -945,6 +973,7 @@ fn build_render_project_generation(
     document: &ProjectionDocument,
     pack_revision: u64,
     timestamp: Option<mmt_rs::HostTimestamp>,
+    render_preset: RenderPreset,
 ) -> Result<(TypstRenderProjectUpdate, ProjectionDocument), ProjectionError> {
     if document.pack_revision != Some(pack_revision) {
         return Err(ProjectionError::StalePackAnalysis {
@@ -953,17 +982,27 @@ fn build_render_project_generation(
         });
     }
     let render_emit_started = StageTimer::start();
-    let projection = document
-        .plan
-        .emit(ProjectionProfile::Render { timestamp })?;
+    let projection = document.plan.emit(ProjectionProfile::Render {
+        timestamp,
+        render_preset,
+    })?;
     let render_emit_ms = render_emit_started.elapsed_ms();
     let index_digest_started = StageTimer::start();
+    let entry_uri = match render_preset {
+        RenderPreset::Output => document.entry_uri.clone(),
+        RenderPreset::Chat { width_pt } => document
+            .entry_uri
+            .join(&format!(
+                "main-{}-chat-{width_pt}-v{RENDER_PRESENTATION_VERSION}.typ",
+                document.revision
+            ))
+            .expect("render preset and numeric revision form a valid virtual entry URI"),
+    };
     let mut files = EMBEDDED_TEMPLATE_TEXT_FILES
         .iter()
         .map(|(path, text)| {
             TypstVirtualFile::text(
-                document
-                    .entry_uri
+                entry_uri
                     .join(path)
                     .expect("embedded template path forms a valid virtual URI"),
                 *text,
@@ -972,15 +1011,14 @@ fn build_render_project_generation(
         .collect::<Vec<_>>();
     files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| {
         TypstVirtualFile::binary(
-            document
-                .entry_uri
+            entry_uri
                 .join(path)
                 .expect("embedded template path forms a valid virtual URI"),
             data,
         )
     }));
     files.push(TypstVirtualFile::text(
-        document.entry_uri.clone(),
+        entry_uri.clone(),
         projection.emitted.source.clone(),
     ));
     let resources: Vec<TypstResourceRequest> = projection
@@ -988,8 +1026,7 @@ fn build_render_project_generation(
         .iter()
         .enumerate()
         .map(|(id, resource)| {
-            let uri = document
-                .entry_uri
+            let uri = entry_uri
                 .join(&resource.typst_path)
                 .expect("resource path forms a valid virtual URI");
             let range = document
@@ -1047,7 +1084,11 @@ fn build_render_project_generation(
             }
         })
         .collect();
-    let identity = project_identity(document.into(), &projection, "render");
+    let identity = project_identity(
+        document.into(),
+        &projection,
+        ProjectProfile::Render(render_preset),
+    );
     let mut resource_plan =
         serde_json::to_value(&resources).expect("resource plan protocol values are serializable");
     if let serde_json::Value::Array(items) = &mut resource_plan {
@@ -1069,7 +1110,8 @@ fn build_render_project_generation(
         source_uri: document.source_uri.clone(),
         source_version: document.source_version,
         revision: document.revision,
-        entry_uri: document.entry_uri.clone(),
+        render_preset,
+        entry_uri: entry_uri.clone(),
         full: true,
         base_revision: None,
         base_project_digest: None,
@@ -1095,6 +1137,7 @@ fn build_render_project_generation(
         }),
     };
     let mut generation = document.clone();
+    generation.entry_uri = entry_uri;
     generation.typst_lines = LineIndex::new(&projection.emitted.source);
     generation.projection = projection;
     generation.language_identity = identity;
@@ -1105,8 +1148,10 @@ pub fn build_render_project(
     document: &ProjectionDocument,
     pack_revision: u64,
     timestamp: Option<mmt_rs::HostTimestamp>,
+    render_preset: RenderPreset,
 ) -> Result<TypstRenderProjectUpdate, ProjectionError> {
-    build_render_project_generation(document, pack_revision, timestamp).map(|(update, _)| update)
+    build_render_project_generation(document, pack_revision, timestamp, render_preset)
+        .map(|(update, _)| update)
 }
 
 const RETAINED_POSITION_GENERATIONS: usize = 2;
@@ -1116,6 +1161,8 @@ struct RenderProjectCacheKey {
     revision: u64,
     pack_revision: u64,
     timestamp: Option<mmt_rs::HostTimestamp>,
+    render_preset: RenderPreset,
+    presentation_version: u32,
 }
 
 #[derive(Debug, Clone)]
@@ -1222,7 +1269,7 @@ impl ProjectionStore {
                 revision,
             },
             &projection,
-            "language",
+            ProjectProfile::Language,
         );
         let next = ProjectionDocument {
             source_uri: source_uri.clone(),
@@ -1263,6 +1310,7 @@ impl ProjectionStore {
         source_uri: &Url,
         pack_revision: u64,
         timestamp: Option<mmt_rs::HostTimestamp>,
+        render_preset: RenderPreset,
     ) -> Result<TypstRenderProjectUpdate, ProjectionError> {
         let document = self
             .documents
@@ -1272,6 +1320,8 @@ impl ProjectionStore {
             revision: document.revision,
             pack_revision,
             timestamp,
+            render_preset,
+            presentation_version: RENDER_PRESENTATION_VERSION,
         };
         if let Some(cached) = self
             .render_projects
@@ -1291,7 +1341,7 @@ impl ProjectionStore {
         }
 
         let (update, generation) =
-            build_render_project_generation(document, pack_revision, timestamp)?;
+            build_render_project_generation(document, pack_revision, timestamp, render_preset)?;
         let rendered = self.rendered.entry(source_uri.clone()).or_default();
         rendered.retain(|candidate| {
             candidate.entry_uri != generation.entry_uri
@@ -1359,7 +1409,18 @@ impl ProjectionStore {
             .documents
             .get(source_uri)
             .ok_or(PositionConversionError::AbsentGeneration)?;
-        if current.entry_uri != *entry_uri || current.revision != revision {
+        let current_entry = current.entry_uri == *entry_uri
+            || self
+                .rendered
+                .get(source_uri)
+                .into_iter()
+                .flatten()
+                .any(|document| {
+                    document.entry_uri == *entry_uri
+                        && document.revision == current.revision
+                        && document.source_revision == current.source_revision
+                });
+        if !current_entry || current.revision != revision {
             let has_related_generation = std::iter::once(current)
                 .chain(self.retained.get(source_uri).into_iter().flatten())
                 .chain(self.rendered.get(source_uri).into_iter().flatten())
@@ -1940,10 +2001,10 @@ mod tests {
         });
 
         let first = store
-            .build_render_project(&source_uri, 1, timestamp)
+            .build_render_project(&source_uri, 1, timestamp, RenderPreset::Output)
             .unwrap();
         let second = store
-            .build_render_project(&source_uri, 1, timestamp)
+            .build_render_project(&source_uri, 1, timestamp, RenderPreset::Output)
             .unwrap();
         let mut expected = first.clone();
         expected.timings = second.timings.clone();
@@ -1965,6 +2026,132 @@ mod tests {
         let second_snapshot = pack_snapshot(2, "- changed", &packs, 1);
         store.upsert(source_uri.clone(), &second_snapshot).unwrap();
         assert!(!store.render_projects.contains_key(&source_uri));
+    }
+
+    #[test]
+    fn render_presets_have_separate_identities_and_map_to_the_same_authored_range() {
+        let packs = mmt_rs::pack::PackRegistry::new(Vec::new()).unwrap();
+        let source_uri = uri();
+        let source = "- 文本 😀\n@typ: #let accent = blue";
+        let snapshot = pack_snapshot(1, source, &packs, 1);
+        let mut store = ProjectionStore::default();
+        let document = store.upsert(source_uri.clone(), &snapshot).unwrap().clone();
+        let language = document.project_update();
+        let authored = source.find("accent").unwrap();
+        let authored_range = TextRange::new(authored, authored + "accent".len());
+        let mut updates = Vec::new();
+        for render_preset in [
+            RenderPreset::Output,
+            RenderPreset::Chat { width_pt: 390 },
+            RenderPreset::Chat { width_pt: 720 },
+        ] {
+            let render = store
+                .build_render_project(&source_uri, 1, None, render_preset)
+                .unwrap();
+            assert_eq!(render.render_preset, render_preset);
+            assert_eq!(render.source_content, language.source_content);
+            assert_eq!(render.revision, document.revision);
+            if render_preset == RenderPreset::Output {
+                assert_eq!(render.entry_uri, language.entry_uri);
+            } else {
+                assert_ne!(render.entry_uri, language.entry_uri);
+            }
+            let generation = store
+                .response_generation(
+                    &source_uri,
+                    &render.entry_uri,
+                    render.revision,
+                    &render.source_content,
+                    &render.project_digest,
+                    &render.projection_key,
+                )
+                .unwrap();
+            assert!(Arc::ptr_eq(&generation.analysis, &snapshot.analysis));
+            assert_eq!(generation.source.as_ref(), source);
+            let generated = generation
+                .projection
+                .index
+                .mmt_range_to_typst(authored_range)
+                .unwrap();
+            assert_eq!(
+                generation
+                    .projection
+                    .index
+                    .classify_read(generated)
+                    .source_range,
+                Some(authored_range)
+            );
+            let repeat = store
+                .build_render_project(&source_uri, 1, None, render_preset)
+                .unwrap();
+            assert_eq!(repeat.project_digest, render.project_digest);
+            assert_eq!(repeat.mapping_digest, render.mapping_digest);
+            assert_eq!(repeat.projection_key, render.projection_key);
+            assert_eq!(repeat.timings.as_ref().unwrap().rust_emit_ms, Some(0.0));
+            updates.push(render);
+        }
+        for pair in updates.windows(2) {
+            assert_ne!(pair[0].project_digest, pair[1].project_digest);
+            assert_ne!(pair[0].projection_key, pair[1].projection_key);
+            assert_ne!(pair[0].entry_uri, pair[1].entry_uri);
+            assert_eq!(
+                pair[0]
+                    .entry_uri
+                    .join("typst_sandbox/mmt_render/lib.typ")
+                    .unwrap(),
+                pair[1]
+                    .entry_uri
+                    .join("typst_sandbox/mmt_render/lib.typ")
+                    .unwrap()
+            );
+            let entry = |update: &TypstRenderProjectUpdate| {
+                update
+                    .files
+                    .iter()
+                    .find(|file| file.uri == update.entry_uri)
+                    .unwrap()
+                    .text
+                    .as_deref()
+                    .unwrap()
+                    .to_string()
+            };
+            assert_ne!(entry(&pair[0]), entry(&pair[1]));
+            let incompatible_delta = pair[1].clone().delta_from(&pair[0]);
+            assert!(incompatible_delta.full);
+            assert_eq!(incompatible_delta.base_revision, None);
+            assert_eq!(incompatible_delta.base_project_digest, None);
+        }
+        assert_eq!(store.get(&source_uri).unwrap().project_update(), language);
+        let chat = &updates[1];
+        let resized = &updates[2];
+        assert!(matches!(
+            store.response_generation(
+                &source_uri,
+                &chat.entry_uri,
+                chat.revision,
+                &chat.source_content,
+                &resized.project_digest,
+                &resized.projection_key,
+            ),
+            Err(PositionConversionError::ProjectionMismatch)
+        ));
+        store
+            .upsert(
+                source_uri.clone(),
+                &pack_snapshot(2, "- changed", &packs, 1),
+            )
+            .unwrap();
+        assert!(matches!(
+            store.response_generation(
+                &source_uri,
+                &resized.entry_uri,
+                resized.revision,
+                &resized.source_content,
+                &resized.project_digest,
+                &resized.projection_key,
+            ),
+            Err(PositionConversionError::StaleProjection)
+        ));
     }
 
     #[test]
@@ -2484,7 +2671,7 @@ mod tests {
         let source = "@asset hero\nsrc: first.png\n@end\n@asset hero\nsrc: second.png\n@end\n> 花子: [:missing:]";
         let document = stored_pack_document(37, source, &packs, 1);
         let revision = document.revision;
-        let render = build_render_project(&document, 1, None).unwrap();
+        let render = build_render_project(&document, 1, None, RenderPreset::Output).unwrap();
 
         assert_eq!(render.source_version, 37);
         assert_eq!(render.revision, revision);
@@ -2516,6 +2703,63 @@ mod tests {
     }
 
     #[test]
+    fn render_project_separates_workspace_lookup_paths_from_generated_resource_uris() {
+        let manifest = mmt_rs::pack::PackManifest::from_json(
+            r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"fixture","name":"Fixture","version":"1","type":"base"},
+            "assets":{"pack_image":{"source":{"storage":"images","path":"pack.png"}}},
+            "storage":{"images":{"kind":"image-dir","base":"images"}}
+        }"#,
+        )
+        .unwrap();
+        let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
+        let source = "@asset local\nsrc: mmt-resources/0.png\n@end\n- [:asset, pack_image:] [:asset, local:]\n";
+        let document = stored_pack_document(1, source, &packs, 1);
+        let render = build_render_project(&document, 1, None, RenderPreset::Output).unwrap();
+        assert_eq!(render.resources.len(), 2);
+        let TypstResourceRequest::ImageDir {
+            uri: pack_uri,
+            pack_namespace,
+            base,
+            file_name,
+            ..
+        } = &render.resources[0]
+        else {
+            panic!("pack resource must retain its source descriptor");
+        };
+        assert_eq!(pack_namespace, "fixture");
+        assert_eq!(base, "images");
+        assert_eq!(file_name, "pack.png");
+        let TypstResourceRequest::WorkspaceFile {
+            uri: workspace_uri,
+            file_name,
+            ..
+        } = &render.resources[1]
+        else {
+            panic!("workspace resource must retain its source descriptor");
+        };
+        assert_eq!(file_name, "mmt-resources/0.png");
+        assert_ne!(pack_uri, workspace_uri);
+        assert_eq!(
+            pack_uri,
+            &render.entry_uri.join("mmt-resources/0.png").unwrap()
+        );
+        assert_eq!(
+            workspace_uri,
+            &render.entry_uri.join("mmt-resources/1.png").unwrap()
+        );
+        let entry = render
+            .files
+            .iter()
+            .find(|file| file.uri == render.entry_uri)
+            .unwrap();
+        let generated = entry.text.as_deref().unwrap();
+        assert!(generated.contains("mmt-resources/0.png"));
+        assert!(generated.contains("mmt-resources/1.png"));
+    }
+
+    #[test]
     fn render_project_plans_actor_avatar_without_changing_language_projection() {
         let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
             "schema":"mmt-pack.v3",
@@ -2535,7 +2779,7 @@ mod tests {
             planned.emitted.source
         );
         let document = stored_pack_document(1, source, &packs, 1);
-        let render = build_render_project(&document, 1, None).unwrap();
+        let render = build_render_project(&document, 1, None, RenderPreset::Output).unwrap();
         assert_eq!(
             render.resources.len(),
             1,
@@ -2582,8 +2826,10 @@ mod tests {
 
         let timestamp = mmt_rs::HostTimestamp::new(0, 480).unwrap();
         let document = stored_pack_document(1, source, &packs, 1);
-        let first = build_render_project(&document, 1, Some(timestamp)).unwrap();
-        let second = build_render_project(&document, 1, Some(timestamp)).unwrap();
+        let first =
+            build_render_project(&document, 1, Some(timestamp), RenderPreset::Output).unwrap();
+        let second =
+            build_render_project(&document, 1, Some(timestamp), RenderPreset::Output).unwrap();
         let entry_text = |project: &TypstRenderProjectUpdate| {
             project
                 .files
@@ -2607,7 +2853,7 @@ mod tests {
         let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
         let source = "> 花子: [:#1:]";
         let document = stored_pack_document(1, source, &packs, 1);
-        let render = build_render_project(&document, 1, None).unwrap();
+        let render = build_render_project(&document, 1, None, RenderPreset::Output).unwrap();
         assert_eq!(render.resources.len(), 1);
         assert!(matches!(
             &render.resources[0],
@@ -2667,7 +2913,7 @@ mod tests {
                 .source
                 .contains(PROJECTION_PLACEHOLDER_IMAGE)
         );
-        let first_render = build_render_project(&first, 1, None).unwrap();
+        let first_render = build_render_project(&first, 1, None, RenderPreset::Output).unwrap();
         assert!(matches!(
             &first_render.resources[0],
             TypstResourceRequest::ImageDir { base, .. } if base == "assets/v1"
@@ -2689,7 +2935,7 @@ mod tests {
         let second = store.upsert(uri(), &second_snapshot).unwrap().clone();
         assert!(Arc::ptr_eq(&second.analysis, &second_snapshot.analysis));
         assert!(Arc::ptr_eq(&second.source_lines, &second_snapshot.lines));
-        assert!(build_render_project(&second, 1, None).is_ok());
+        assert!(build_render_project(&second, 1, None, RenderPreset::Output).is_ok());
         assert_eq!(service.analysis_cache_counts(), (2, 2));
 
         let before_pack = service.snapshot(&uri()).unwrap().clone();
@@ -2701,7 +2947,7 @@ mod tests {
         assert!(!Arc::ptr_eq(&before_pack.analysis, &after_pack.analysis));
         assert!(Arc::ptr_eq(&before_pack.lines, &after_pack.lines));
         assert!(matches!(
-            build_render_project(&second, 2, None),
+            build_render_project(&second, 2, None, RenderPreset::Output),
             Err(ProjectionError::StalePackAnalysis {
                 analyzed_revision: Some(1),
                 requested_revision: 2,
@@ -2718,7 +2964,7 @@ mod tests {
                 .source
                 .contains(PROJECTION_PLACEHOLDER_IMAGE)
         );
-        let third_render = build_render_project(third, 2, None).unwrap();
+        let third_render = build_render_project(third, 2, None, RenderPreset::Output).unwrap();
         assert!(matches!(
             &third_render.resources[0],
             TypstResourceRequest::ImageDir { base, .. } if base == "assets/v2"

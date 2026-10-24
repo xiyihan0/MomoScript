@@ -50,6 +50,14 @@ The GUI SHALL use the real Typst/Tinymist SVG as its sole primary authoring canv
 - THEN hosting MUST serve the exact case-sensitive `.html` URL directly without Pretty URL redirection
 - AND the native SVG canvas MUST become ready without bypassing the PWA or adding a runtime retry/fallback
 
+#### Scenario: A native Part receives its first shell layout
+
+- GIVEN ViewsService has created a native Editor Part with an initial measurement layout
+- WHEN the existing shell attaches the Part or changes its SplitView allocation
+- THEN the shell MUST propagate the allocated dimensions through that same native Part's layout path
+- AND GUI and preview mounts MUST mirror native visibility before claiming the retained canvas
+- AND the first visual-ready acknowledgment MUST use the actual visible allocation rather than measurement-placeholder geometry
+
 #### Scenario: Advanced content is encountered
 
 - GIVEN content is Typst-mode、irreversible macro-generated text or an Opaque node
@@ -319,6 +327,17 @@ Accepted text intents SHALL execute serially and without loss while preview rend
 - AND the undo boundary MUST close only after the accepted typing drains
 - AND an obsolete drain MUST NOT cancel a newer composition or reopen stale admission
 
+#### Scenario: A finished edit permits a fresh authorized GUI pointer
+
+- GIVEN the author closes a role Picker, resizes the chat canvas and finishes editing an existing body
+- WHEN the old text selection is retired
+- THEN the active surface MUST refresh exact current geometry without restoring that selection or moving focus from the new-message draft
+- WHEN the author subsequently clicks a current authored body
+- THEN Rust MUST authorize a fresh caret and typing MUST change only that body while preserving the unsent draft and GUI mode
+- AND blocked GUI admission MUST NOT fall through to native source navigation
+- AND a captured properties Sheet MUST keep its visible canvas scrollable but noneditable until the Sheet releases admission
+- AND plain read-only Typst preview MUST retain its source-navigation behavior
+
 #### Scenario: IME updates commit once
 
 - GIVEN compositionstart captures selection and document version
@@ -396,6 +415,33 @@ Every body hit、caret and range SHALL be tied to current source URI/version/dig
 - WHEN the author uses Shift selection、double-click word selection、visual arrows/Home/End or edge-autoscroll dragging
 - THEN movement and extension MUST use grapheme/word/visual-line geometry and retain direction
 - AND vertical movement MUST preserve preferredX without editing through stale geometry
+
+#### Scenario: Selected decorations follow continuous scrolling
+
+- GIVEN a current authorized selection or selected semantic block
+- WHEN the author scrolls or drags the native scrollbar in either direction
+- THEN its visual decorations MUST move in the same scrolling coordinate system as the SVG throughout the interaction
+- AND block-outline edges MUST remain within 1 CSS px of the target's configured outline bounds, not merely converge after scrolling stops
+- AND viewport clipping and tile replacement MUST NOT retarget or clear the selection
+- AND the textarea and IME input owner MUST remain stable when visual decorations are remounted
+
+#### Scenario: Block selection suspends text admission without erasing its decoration
+
+- GIVEN a semantic block was selected on the current displayed render
+- WHEN the host suspends and retires the text-input session while authorizing that block
+- THEN the block decoration MUST remain bound to that render and MUST be hidden while text admission is blocked
+- AND it MUST reappear when the active input channel resumes on the same render, including after its session identity changes
+- AND render retirement or a changed render identity MUST clear the decoration rather than reuse stale block geometry
+- AND text intents MUST still obey the existing session revocation and source-authorization checks
+
+#### Scenario: Viewport refills preserve readable selected content
+
+- GIVEN the accepted render identity is unchanged and the materialized buffer covers the visible viewport
+- WHEN the author continues scrolling inside that coverage
+- THEN the runtime MUST reuse the rendered content instead of repeating the full SVG materialization pipeline
+- AND native text selection and clipboard content MUST remain intact
+- WHEN the viewport needs another buffer
+- THEN the existing validated renderer path MUST refill it while keeping avatars readable and selection identity unchanged
 
 ### Requirement: Browser evidence covers actual SVG authoring and real IME limits
 

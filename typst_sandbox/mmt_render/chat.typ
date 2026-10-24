@@ -63,6 +63,12 @@
 ) = context {
   let config = current-config()
   let theme = config.theme.chat
+  let authoring-chat = config.chat.at("presentation", default: "output") == "chat"
+  let avatar-indent = if authoring-chat {
+    theme.avatar-size + theme.avatar-gap
+  } else {
+    4em
+  }
   let configured = config.chat.at("continued", default: auto)
   let effective-continued = if continued != auto {
     continued
@@ -111,7 +117,11 @@
     )
   }
 
-  if effective-continued { v(-0.7em) }
+  if authoring-chat {
+    v(if effective-continued { theme.continued-gap } else { theme.message-gap }, weak: true)
+  } else if effective-continued {
+    v(-0.7em)
+  }
   box(width: 100%, inset: 0pt, outset: 0pt, fill: none)[
     #if visible-avatar != none {
       place(
@@ -125,7 +135,7 @@
       )
     }
     #if side == left {
-      pad(left: if avatar != none or reserve-avatar-space { 4em } else { 0em })[
+      pad(left: if avatar != none or reserve-avatar-space { avatar-indent } else { 0em })[
         #if visible-name != none {
           [
             #v(0.25em)
@@ -145,8 +155,8 @@
       ]
     } else {
       pad(
-        right: if avatar != none or reserve-avatar-space { 4em } else { 0em },
-        left: 4em,
+        right: if avatar != none or reserve-avatar-space { avatar-indent } else { 0em },
+        left: avatar-indent,
       )[
         #align(right)[
           #box(align(left)[

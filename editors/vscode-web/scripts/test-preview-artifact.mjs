@@ -38,6 +38,28 @@ assert.ok(a.byteSize > new TextEncoder().encode(a.pages[0].sanitizedSvg).byteLen
 assert.equal(markPreviewArtifactStale(a).renderKey, a.renderKey);
 assert.equal(markPreviewArtifactStale(a).stale, true);
 assert.equal(a.stale, false, "stale transitions must not mutate immutable artifacts");
+assert.deepEqual(a.renderPreset, { kind: "output" }, "trusted native/legacy factories default to output");
+const mutableChatPreset = { kind: "chat", widthPt: 390 };
+const chat = createPreviewArtifact({ ...a, renderKey: "chat-render", renderPreset: mutableChatPreset });
+mutableChatPreset.widthPt = 720;
+assert.deepEqual(chat.renderPreset, { kind: "chat", widthPt: 390 });
+assert.ok(Object.isFrozen(chat.renderPreset));
+const chatCache = new PreviewArtifactStore(chat.byteSize * 2);
+chatCache.put(chat);
+chatCache.display(chat.sourceUri, chat.renderKey);
+chatCache.request(chat.sourceUri, "next-output");
+assert.deepEqual(chatCache.get(chat.renderKey).renderPreset, { kind: "chat", widthPt: 390 }, "stale cache clones must not relabel chat as output");
+assert.deepEqual(chatCache.document(chat.sourceUri).displayedArtifact.renderPreset, chat.renderPreset);
+chatCache.dispose();
+for (const renderPreset of [
+  { kind: "output", widthPt: 390 },
+  { kind: "chat" },
+  { kind: "chat", widthPt: 390.5 },
+  { kind: "chat", widthPt: 390, extra: true },
+  { kind: "other" },
+]) {
+  assert.throws(() => createPreviewArtifact({ ...a, renderKey: "invalid-preset", renderPreset }), /Invalid render preset/);
+}
 assert.equal(locationProviderMatches(a, renderKey("render-a"), provider()), true);
 assert.equal(locationProviderMatches(a, renderKey("render-a"), provider(2)), false, "provider restart invalidates responses");
 assert.equal(locationProviderMatches(a, renderKey("render-b"), provider()), false, "location response must bind exact RenderKey");
@@ -232,6 +254,10 @@ assert.equal(rendererCache.get(rendererArtifact.renderKey), replacementRendererA
 assert.throws(
   () => rendererCache.replaceRendererArtifact({ ...replacementRendererArtifact, sourceUri: "mmtfs://workspace/other.mmt" }),
   /different immutable artifact/
+);
+assert.throws(
+  () => rendererCache.replaceRendererArtifact({ ...replacementRendererArtifact, renderPreset: { kind: "chat", widthPt: 390 } }),
+  /different immutable artifact/,
 );
 
 const cache = new PreviewArtifactStore(a.byteSize * 2 + 20);

@@ -2,12 +2,13 @@ import {
   ArtifactUnavailableError,
   ExportChoiceRequiredError,
   PreviewNotExportableError,
+  validateExactExportOptions,
   type ExactExportAvailability,
   type ExactExportFormat,
+  type ExactExportOptions,
   type ExactExportResult,
   type ExactExportService,
   type LatestPreviewPort,
-  type StaleExportChoice,
 } from "./exactExport.ts";
 import type { RenderKey } from "../../vscode/src/runtimeIdentity.ts";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
@@ -36,6 +37,9 @@ export interface ExactExportUiState {
   readonly completedRenderKey?: RenderKey;
   readonly completedFormat?: ExactExportFormat;
   readonly canSelectFormat: boolean;
+  readonly completedFileName?: string;
+  readonly completedPageIndex?: number;
+  readonly completedPageCount?: number;
   readonly canExportDisplayed: boolean;
   readonly canWaitForLatest: boolean;
   readonly canCancel: boolean;
@@ -43,6 +47,7 @@ export interface ExactExportUiState {
 
 export interface ExactExportUiEvents {
   stateChanged?(state: ExactExportUiState): void;
+  deliver?(result: ExactExportResult): void | Promise<void>;
   failed?(error: unknown): void;
 }
 
@@ -89,7 +94,7 @@ export class ExactExportUiController implements RuntimeOwnedResource {
     return this.#publish(stateFor(this.#sourceUri, availability, this.#mode));
   }
 
-  async export(format: ExactExportFormat, staleChoice?: StaleExportChoice): Promise<ExactExportResult | undefined> {
+  async export(format: ExactExportFormat, options: ExactExportOptions = {}): Promise<ExactExportResult | undefined> {
     this.#assertActive();
     if (this.#operation) return undefined;
     const sourceUri = this.#sourceUri;
@@ -103,18 +108,22 @@ export class ExactExportUiController implements RuntimeOwnedResource {
       this.#publish(base);
       return undefined;
     }
-    if (base.availability === "stale" && !staleChoice) {
-      this.#publish({ ...base, phase: "error", message: "Choose Export displayed revision or Wait for latest." });
+    try {
+      validateExactExportOptions(format, options);
+    } catch (error) {
+      this.#events.failed?.(error);
+      this.#publish(errorState(sourceUri, availability, error, this.#mode));
       return undefined;
     }
-    if (base.availability === "ready" && staleChoice) {
-      this.#publish({ ...base, phase: "error", message: "The displayed revision is current; no stale export choice is required." });
+    const { staleChoice, pageIndex } = options;
+    if (base.availability === "stale" && !staleChoice) {
+      this.#publish({ ...base, phase: "error", message: "Choose Export displayed revision or Wait for latest." });
       return undefined;
     }
 
     const operation = new AbortController();
     this.#operation = operation;
-    const waiting = staleChoice === "wait-for-latest";
+    const waiting = base.availability === "stale" && staleChoice === "wait-for-latest";
     this.#publish({
       ...base,
       phase: waiting ? "waiting" : "exporting",
@@ -127,7 +136,11 @@ export class ExactExportUiController implements RuntimeOwnedResource {
       canCancel: true,
     });
     try {
-      const result = await this.#client.export({ sourceUri, format, staleChoice, signal: operation.signal });
+      const result = await this.#client.export({ sourceUri, format, staleChoice, pageIndex, signal: operation.signal });
+      operation.signal.throwIfAborted();
+      if (this.#operation !== operation || this.#sourceUri !== sourceUri) return undefined;
+      this.#publish({ ...this.#state, phase: "exporting", message: `正在下载 ${result.metadata.fileName}…`, canCancel: false });
+      await this.#events.deliver?.(result);
       operation.signal.throwIfAborted();
       if (this.#operation !== operation || this.#sourceUri !== sourceUri) return undefined;
       const settled = stateFor(sourceUri, this.#client.availability(sourceUri), this.#mode);
@@ -151,7 +164,7 @@ export class ExactExportUiController implements RuntimeOwnedResource {
   }
 
   cancel(): boolean {
-    if (!this.#operation) return false;
+    if (!this.#operation || !this.#state.canCancel) return false;
     const operation = this.#operation;
     operation.abort(new DOMException(this.#mode === "exact" ? "Exact export cancelled" : "Preview export cancelled", "AbortError"));
     return true;
@@ -160,7 +173,7 @@ export class ExactExportUiController implements RuntimeOwnedResource {
   dispose(): void {
     if (this.#disposed) return;
     this.#disposed = true;
-    this.cancel();
+    this.#operation?.abort(new DOMException("Exact export UI controller disposed", "AbortError"));
   }
 
   #availability(): ExactExportAvailability | "capability-unavailable" | undefined {
@@ -178,13 +191,16 @@ export class ExactExportUiController implements RuntimeOwnedResource {
     this.#publish({
       ...base,
       phase: "complete",
-      message: waited
-        ? `Exported latest exact revision ${result.metadata.renderKey}.`
-        : this.#mode === "exact"
-          ? `Exported displayed exact revision ${result.metadata.renderKey}.`
-          : `Exported current preview ${result.metadata.renderKey}.`,
+      message: `${result.metadata.fileName} · ${result.metadata.format.toUpperCase()} · ${
+        result.metadata.pageIndex === undefined
+          ? `全部 ${result.metadata.pageCount} 页`
+          : `第 ${result.metadata.pageIndex + 1} / ${result.metadata.pageCount} 页`
+      }${waited ? " · 最新排版" : result.metadata.staleDisplayedRevision ? " · 当前排版快照" : ""}`,
       completedRenderKey: result.metadata.renderKey,
       completedFormat: result.metadata.format,
+      completedFileName: result.metadata.fileName,
+      completedPageIndex: result.metadata.pageIndex,
+      completedPageCount: result.metadata.pageCount,
     });
     return result;
   }
@@ -244,6 +260,10 @@ export class LatestExactArtifactWaiter implements LatestPreviewPort, RuntimeOwne
     for (const waiter of [...(this.#waiters.get(sourceUri) ?? [])]) {
       if (waiter.afterRenderKey !== renderKey) waiter.resolve(renderKey);
     }
+  }
+
+  failSource(sourceUri: string, error: unknown): void {
+    for (const waiter of [...(this.#waiters.get(sourceUri) ?? [])]) waiter.reject(error);
   }
 
   closeSource(sourceUri: string): void {

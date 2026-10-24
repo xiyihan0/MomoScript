@@ -8,10 +8,12 @@ import {
   parsePreviewSemanticLabel,
   type PreviewSemanticRole,
 } from "./previewSemanticTarget.ts";
+import type { RenderPreset } from "../../vscode/src/renderPreset.ts";
 import {
   base64ToBytes,
   isPreviewHostToWebviewMessage,
   isComposerIntentMessage,
+  previewPresentationAcceptsPreset,
   type ComposerIntent,
   type ComposerStateMessage,
   type ComposerSelectionBox,
@@ -25,6 +27,7 @@ import {
   type PreviewRendererFrameMessage as RendererFrameMessage,
   type PreviewRendererPageGeometry as RendererPageGeometry,
   type PreviewViewport,
+  type PreviewSurfacePresentation,
   type PreviewWebviewToHostMessage,
   float32CoordinatePrecision,
 } from "./previewWebviewProtocol.ts";
@@ -45,6 +48,9 @@ const status = requiredElement<HTMLElement>(".status");
 const zoomLabel = requiredElement<HTMLElement>(".zoom-label");
 const exportControl = requiredElement<HTMLElement>(".exact-export");
 const exportFormat = requiredElement<HTMLSelectElement>(".exact-export select");
+const exportPageField = requiredElement<HTMLElement>(".exact-export-page");
+const exportPage = requiredElement<HTMLSelectElement>('[aria-label="Export page"]');
+const snapshotExport = requiredElement<HTMLDetailsElement>(".snapshot-export");
 const exportReady = requiredElement<HTMLButtonElement>('[data-export-action="ready"]');
 const exportDisplayed = requiredElement<HTMLButtonElement>('[data-export-action="export-displayed"]');
 const exportLatest = requiredElement<HTMLButtonElement>('[data-export-action="wait-for-latest"]');
@@ -55,6 +61,9 @@ const exportStatus = requiredElement<HTMLElement>(".exact-export-status");
 let imageUrls = new Map<string, string>();
 let zoom = 1;
 let fitMode: PreviewViewport["fitMode"] = "width";
+let presentation: PreviewSurfacePresentation = "preview";
+let displayedRenderPreset: RenderPreset | undefined;
+let pendingViewport: PreviewViewport | undefined;
 let intrinsicWidth = 0;
 let intrinsicHeight = 0;
 let indicatorPoint: PreviewPoint | undefined;
@@ -64,7 +73,19 @@ let viewportIdleTimer: number | undefined;
 let pointerOrigin: { readonly x: number; readonly y: number } | undefined;
 let pointerDragged = false;
 let renderGeneration = 0;
-const renderedDomGenerations = new WeakMap<SVGSVGElement, number>();
+let zoomScrollRounding: {
+  readonly generation: number;
+  readonly scrollLeft: number;
+  readonly scrollTop: number;
+  readonly width: number;
+  readonly height: number;
+  readonly x: number;
+  readonly y: number;
+} | undefined;
+const renderedDomGenerations = new WeakMap<SVGSVGElement, {
+  readonly generation: number;
+  readonly renderKey: RenderMessage["renderKey"];
+}>();
 
 type PersistentTypstRenderer = TypstRenderer & {
   createModule(artifactContent?: Uint8Array): Promise<RenderSession>;
@@ -97,6 +118,8 @@ interface RendererWindow {
 }
 
 const MAX_RENDERER_PAGE_BUFFERS = 8;
+const RENDERER_WINDOW_PADDING_SCREENS = 5;
+const RENDERER_WINDOW_GUARD_SCREENS = 1;
 const MAX_RENDERER_REPLAY_FRAMES = 64;
 const MAX_RENDERER_REPLAY_BYTES = 128 * 1024 * 1024;
 interface RendererImageSource {
@@ -108,6 +131,7 @@ interface RendererImageSource {
 
 let rendererImageSources = new WeakMap<SVGImageElement, RendererImageSource>();
 let rendererHiddenGroups = new Map<SVGElement, RendererHiddenGroup>();
+const rendererTextGroups = new Map<SVGElement, { readonly bounds: RendererBounds; readonly containsImage: boolean }>();
 
 class PersistentPreviewRenderer {
   readonly #rendererReady: Promise<PersistentTypstRenderer>;
@@ -117,10 +141,10 @@ class PersistentPreviewRenderer {
   #pageGeometries: readonly RendererPageGeometry[] = [];
   #committedGeneration = 0;
   #backendGeneration = 0;
+  #renderPreset: RenderPreset | undefined;
   #disposed = false;
   #tail = Promise.resolve();
   #viewportRenderQueued = false;
-  #requestedPaddingScreens = 0;
   #framePayloads: Uint8Array[] = [];
   #framePayloadBytes = 0;
   #renderedWindow: RendererWindow | undefined;
@@ -138,8 +162,8 @@ class PersistentPreviewRenderer {
       || this.#framePayloadBytes >= MAX_RENDERER_REPLAY_BYTES;
   }
 
-  apply(message: RendererFrameMessage): Promise<RendererVisualReady> {
-    const operation = this.#tail.then(() => this.#apply(message));
+  apply(message: RendererFrameMessage, canApply: () => boolean): Promise<RendererVisualReady> {
+    const operation = this.#tail.then(() => this.#apply(message, canApply));
     this.#tail = operation.then(() => undefined, () => undefined);
     return operation;
   }
@@ -150,12 +174,12 @@ class PersistentPreviewRenderer {
 
   viewportChanged(): void {
     if (!this.#session || !this.#root) return;
-    this.#enqueueViewportRender(1);
+    this.#enqueueViewportRender();
   }
 
   viewportSettled(): void {
     if (!this.#session || !this.#root) return;
-    this.#enqueueViewportRender(5);
+    this.#enqueueViewportRender();
   }
 
 
@@ -169,7 +193,6 @@ class PersistentPreviewRenderer {
     this.#framePayloads = [];
     this.#framePayloadBytes = 0;
     this.#renderedWindow = undefined;
-    this.#requestedPaddingScreens = 0;
     this.#viewportRenderQueued = false;
     this.#replaceRootResources = false;
     this.#root?.remove();
@@ -177,6 +200,7 @@ class PersistentPreviewRenderer {
     this.#root = undefined;
     rendererImageSources = new WeakMap();
     rendererHiddenGroups = new Map();
+    rendererTextGroups.clear();
     const session = this.#session;
     this.#session = undefined;
     if (session) (session as RuntimeRenderSession)[kObject].free();
@@ -184,12 +208,12 @@ class PersistentPreviewRenderer {
     this.#pageGeometries = [];
     this.#committedGeneration = 0;
     this.#backendGeneration = 0;
+    this.#renderPreset = undefined;
   }
   #resetSessionForFullFrame(): void {
     this.#framePayloads = [];
     this.#framePayloadBytes = 0;
     this.#renderedWindow = undefined;
-    this.#requestedPaddingScreens = 0;
     this.#viewportRenderQueued = false;
     this.#replaceRootResources = Boolean(this.#root);
     const session = this.#session;
@@ -222,7 +246,8 @@ class PersistentPreviewRenderer {
     return renderer;
   }
 
-  async #apply(message: RendererFrameMessage): Promise<RendererVisualReady> {
+  async #apply(message: RendererFrameMessage, canApply: () => boolean): Promise<RendererVisualReady> {
+    if (!canApply()) throw new Error("Preview renderer publication was retired");
     if (this.#disposed) throw new Error("Preview renderer is disposed");
     if (!Number.isSafeInteger(message.rendererGeneration) || message.rendererGeneration <= 0
       || !Number.isSafeInteger(message.baseGeneration) || message.baseGeneration < 0) {
@@ -235,6 +260,11 @@ class PersistentPreviewRenderer {
     if (message.frameKind === "diff-v1" && this.#sessionId !== message.sessionId) {
       throw new Error("Preview renderer session changed without a full frame");
     }
+    if (message.frameKind === "diff-v1" && (
+      this.#renderPreset?.kind !== message.renderPreset.kind
+      || (this.#renderPreset.kind === "chat"
+        && (message.renderPreset.kind !== "chat" || this.#renderPreset.widthPt !== message.renderPreset.widthPt))
+    )) throw new Error("Preview renderer presentation changed without a full frame");
     const expectedBase = message.frameKind === "new" ? 0 : this.#committedGeneration;
     if (message.baseGeneration !== expectedBase) {
       throw new Error(`Preview renderer frame base ${message.baseGeneration} does not match ${expectedBase}`);
@@ -250,6 +280,7 @@ class PersistentPreviewRenderer {
     const bytes = base64ToBytes(message.dataBase64);
     if (bytes.byteLength !== message.byteLength) throw new Error("Preview renderer frame byte length mismatch");
     if (await sha256Hex(bytes) !== message.artifactDigest) throw new Error("Preview renderer frame digest mismatch");
+    if (!canApply()) throw new Error("Preview renderer publication was retired");
     const prefix = message.frameKind === "new" ? "new," : "diff-v1,";
     if (new TextDecoder().decode(bytes.subarray(0, prefix.length)) !== prefix) {
       throw new Error("Preview renderer frame prefix mismatch");
@@ -258,11 +289,13 @@ class PersistentPreviewRenderer {
     const frameDecodeMs = performance.now() - decodeStarted;
     if (message.frameKind === "new") this.#resetSessionForFullFrame();
     const renderer = await this.#rendererReady;
+    if (!canApply()) throw new Error("Preview renderer publication was retired");
     const rendererApplyStarted = performance.now();
     if (!this.#session) {
       if (message.frameKind !== "new") throw new Error("Preview renderer incremental frame has no consumer base");
       this.#session = await renderer.createModule();
       this.#session.reset();
+      if (!canApply()) throw new Error("Preview renderer publication was retired");
     }
     this.#session.manipulateData({ action: "merge", data: payload });
     const retainedPayload = payload.slice();
@@ -284,9 +317,13 @@ class PersistentPreviewRenderer {
       throw new Error("Preview renderer produced invalid page geometry");
     }
     this.#pageGeometries = Object.freeze(pageGeometries);
+    this.#renderPreset = message.renderPreset;
     intrinsicWidth = Math.max(...pageGeometries.map((geometry) => geometry.width));
     intrinsicHeight = offsetY;
-    if (fitMode === "width") {
+    if (presentation === "chat") {
+      zoom = 1;
+      fitMode = "manual";
+    } else if (fitMode === "width") {
       zoom = (Math.max(viewport.clientWidth, window.innerWidth) - 48) / intrinsicWidth;
     } else if (fitMode === "page") {
       zoom = Math.min(
@@ -302,7 +339,7 @@ class PersistentPreviewRenderer {
     page.dataset.intrinsicHeight = String(intrinsicHeight);
     const rendererApplyMs = performance.now() - rendererApplyStarted;
     const viewportStarted = performance.now();
-    const metrics = await this.#renderVisibleWindow(1, true);
+    const metrics = await this.#renderVisibleWindow(1, true, canApply);
     this.#adoptRenderedPageGeometries();
     this.#sessionId = message.sessionId;
     this.#committedGeneration = message.rendererGeneration;
@@ -367,32 +404,33 @@ class PersistentPreviewRenderer {
     (previous as RuntimeRenderSession)[kObject].free();
   }
 
-  #enqueueViewportRender(paddingScreens: number): void {
-    this.#requestedPaddingScreens = Math.max(this.#requestedPaddingScreens, paddingScreens);
+  #enqueueViewportRender(): void {
     if (this.#viewportRenderQueued) return;
     this.#viewportRenderQueued = true;
+    const generation = renderGeneration;
     const operation = this.#tail.then(async () => {
       this.#viewportRenderQueued = false;
-      const requested = this.#requestedPaddingScreens;
-      this.#requestedPaddingScreens = 0;
+      if (generation !== renderGeneration) return;
       if (!this.#session || !this.#root || this.#disposed) return;
-      const requiredWindow = this.#boundedWindow(requested >= 5 ? requested : 0);
+      // Refill the existing bounded overscan only after its one-screen safety guard is crossed.
+      const requiredWindow = this.#boundedWindow(RENDERER_WINDOW_GUARD_SCREENS);
       if (this.#renderedWindow && rendererWindowContains(this.#renderedWindow, requiredWindow)) {
-        synchronizeRendererTextSelectionLayers(this.#root, this.#boundedWindow(0));
+        synchronizeRendererTextSelectionLayers(this.#boundedWindow(0));
         return;
       }
-      await this.#renderVisibleWindow(requested);
+      await this.#renderVisibleWindow(RENDERER_WINDOW_PADDING_SCREENS, false, () => generation === renderGeneration);
     });
     this.#tail = operation.then(() => undefined, () => undefined);
-    void operation.catch((error: unknown) => showStatus(
-      `Viewport render failed: ${error instanceof Error ? error.message : String(error)}`,
-      true,
-    ));
+    void operation.catch((error: unknown) => {
+      if (generation !== renderGeneration) return;
+      showStatus(`Viewport render failed: ${error instanceof Error ? error.message : String(error)}`, true);
+    });
   }
 
   async #renderVisibleWindow(
     paddingScreens: number,
-    preserveCoveredWindow = false,
+    preserveCoveredWindow: boolean,
+    canApply: () => boolean,
   ): Promise<RendererPatchMetrics> {
     if (!this.#session) throw new Error("Preview renderer session is unavailable");
     const requestedWindow = this.#boundedWindow(paddingScreens);
@@ -405,6 +443,7 @@ class PersistentPreviewRenderer {
     const windowRebased = Boolean(this.#renderedWindow && !rendererWindowsEqual(this.#renderedWindow, windowRect));
     if (windowRebased) await this.#rebaseRendererSession();
     if (!this.#session) throw new Error("Preview renderer rebase lost its session");
+    if (!canApply()) throw new Error("Preview renderer publication was retired");
     const patch = this.#session.renderSvgDiff({ window: windowRect });
     const parsed = document.createElement("template");
     parsed.innerHTML = patch;
@@ -431,8 +470,10 @@ class PersistentPreviewRenderer {
       page.replaceChildren(next);
       this.#root = next;
     }
-    ensureRendererPageBackgrounds(this.#root);
-    synchronizeRendererTextSelectionLayers(this.#root, textWindow);
+    if (!this.#renderPreset) throw new Error("Preview renderer has no presentation identity");
+    ensureRendererPageBackgrounds(this.#root, this.#renderPreset);
+    indexRendererTextSelectionLayers(this.#root);
+    synchronizeRendererTextSelectionLayers(textWindow);
     await materializeRendererImageUrls(this.#root);
     const currentNodeIds = rendererNodeIds(this.#root);
     const removedNodes = [...previousNodeIds].filter((id) => !currentNodeIds.has(id)).length;
@@ -444,6 +485,7 @@ class PersistentPreviewRenderer {
     }
     this.#renderedWindow = windowRect;
     this.#replaceRootResources = false;
+    composerInput.layout();
     return Object.freeze({ patchedNodes, reusedNodes, removedNodes, pageBuffers });
   }
 
@@ -492,7 +534,8 @@ function rendererPages(root: SVGSVGElement): SVGElement[] {
   ));
 }
 
-function ensureRendererPageBackgrounds(root: SVGSVGElement): void {
+function ensureRendererPageBackgrounds(root: SVGSVGElement, renderPreset: RenderPreset): void {
+  if (renderPreset.kind === "chat") return;
   for (const renderedPage of rendererPages(root)) {
     if (renderedPage.querySelector(":scope > rect[data-preview-page-background='true']")) continue;
     const width = Number(renderedPage.getAttribute("data-page-width"));
@@ -579,12 +622,13 @@ async function sha256Hex(bytes: Uint8Array): Promise<string> {
 
 function applyZoom(nextZoom: number, nextFitMode: PreviewViewport["fitMode"], notify = true): void {
   if (!(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
-  const boundedZoom = Math.round(Math.min(5, Math.max(0.1, nextZoom)) * 100) / 100;
+  zoomScrollRounding = undefined;
+  const boundedZoom = presentation === "chat" ? 1 : Math.round(Math.min(5, Math.max(0.1, nextZoom)) * 100) / 100;
   const width = `${intrinsicWidth * boundedZoom}px`;
   const height = `${intrinsicHeight * boundedZoom}px`;
   const layoutChanged = zoom !== boundedZoom || page.style.width !== width || page.style.height !== height;
   zoom = boundedZoom;
-  fitMode = nextFitMode;
+  fitMode = presentation === "chat" ? "manual" : nextFitMode;
   page.style.width = width;
   page.style.height = height;
   zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
@@ -602,35 +646,72 @@ function applyZoomAroundPoint(
   clientY: number,
   notify = true,
 ): void {
+  if (presentation === "chat") return;
   const bounds = page.getBoundingClientRect();
-  if (!(bounds.width > 0) || !(bounds.height > 0)) return;
-  const anchorX = (clientX - bounds.left) / bounds.width;
-  const anchorY = (clientY - bounds.top) / bounds.height;
+  if (!(bounds.width > 0) || !(bounds.height > 0)) {
+    applyZoom(nextZoom, nextFitMode, notify);
+    return;
+  }
+  // Native scrolling can quantize each requested offset to a CSS pixel. Carry
+  // only that unapplied fraction, so repeated zooms do not accumulate drift.
+  const rounding = zoomScrollRounding;
+  const retainsRounding = rounding?.generation === renderGeneration
+    && fitMode === nextFitMode
+    && rounding.scrollLeft === viewport.scrollLeft && rounding.scrollTop === viewport.scrollTop
+    && rounding.width === bounds.width && rounding.height === bounds.height;
+  const anchorX = (clientX - bounds.left + (retainsRounding ? rounding.x : 0)) / bounds.width;
+  const anchorY = (clientY - bounds.top + (retainsRounding ? rounding.y : 0)) / bounds.height;
   applyZoom(nextZoom, nextFitMode, false);
   const resized = page.getBoundingClientRect();
-  viewport.scrollLeft += resized.left + anchorX * resized.width - clientX;
-  viewport.scrollTop += resized.top + anchorY * resized.height - clientY;
+  const requestedLeft = viewport.scrollLeft + resized.left + anchorX * resized.width - clientX;
+  const requestedTop = viewport.scrollTop + resized.top + anchorY * resized.height - clientY;
+  viewport.scrollLeft = requestedLeft;
+  viewport.scrollTop = requestedTop;
+  zoomScrollRounding = {
+    generation: renderGeneration,
+    scrollLeft: viewport.scrollLeft,
+    scrollTop: viewport.scrollTop,
+    width: resized.width,
+    height: resized.height,
+    // A real scroll bound wins over the requested point; it is not rounding.
+    x: requestedLeft >= 0 && requestedLeft <= viewport.scrollWidth - viewport.clientWidth
+      ? requestedLeft - viewport.scrollLeft : 0,
+    y: requestedTop >= 0 && requestedTop <= viewport.scrollHeight - viewport.clientHeight
+      ? requestedTop - viewport.scrollTop : 0,
+  };
   if (notify) reportViewport();
 }
 
-function applyZoomAtViewportCenter(nextZoom: number): void {
+function applyZoomAtViewportCenter(
+  nextZoom: number,
+  nextFitMode: PreviewViewport["fitMode"] = "manual",
+  notify = true,
+): void {
   const bounds = viewport.getBoundingClientRect();
   applyZoomAroundPoint(
     nextZoom,
-    "manual",
+    nextFitMode,
     bounds.left + bounds.width / 2,
     bounds.top + bounds.height / 2,
+    notify,
   );
 }
 
+function zoomForFit(nextFitMode: "width" | "page"): number {
+  const widthZoom = (viewport.clientWidth - 48) / intrinsicWidth;
+  return nextFitMode === "width"
+    ? widthZoom
+    : Math.min(widthZoom, (viewport.clientHeight - 48) / intrinsicHeight);
+}
+
 function fitWidth(notify = true): void {
-  if (!(intrinsicWidth > 0)) return;
-  applyZoom((viewport.clientWidth - 48) / intrinsicWidth, "width", notify);
+  if (presentation === "chat" || !(intrinsicWidth > 0)) return;
+  applyZoomAtViewportCenter(zoomForFit("width"), "width", notify);
 }
 
 function fitPage(notify = true): void {
-  if (!(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
-  applyZoom(Math.min((viewport.clientWidth - 48) / intrinsicWidth, (viewport.clientHeight - 48) / intrinsicHeight), "page", notify);
+  if (presentation === "chat" || !(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
+  applyZoomAtViewportCenter(zoomForFit("page"), "page", notify);
 }
 
 function currentPageGeometries(): readonly RendererPageGeometry[] {
@@ -751,15 +832,15 @@ interface SemanticTextResolution {
   readonly blocksDirectText: boolean;
 }
 
-function activateRenderedDomGeneration(root: SVGSVGElement, generation: number): void {
-  renderedDomGenerations.set(root, generation);
+function activateRenderedDomGeneration(root: SVGSVGElement, generation: number, renderKey: RenderMessage["renderKey"]): void {
+  renderedDomGenerations.set(root, { generation, renderKey });
 }
 
 function renderedDomIsActive(root: Element): root is SVGSVGElement {
   return root instanceof SVGSVGElement
     && root.isConnected
     && page.contains(root)
-    && renderedDomGenerations.get(root) === renderGeneration;
+    && renderedDomGenerations.get(root)?.generation === renderGeneration;
 }
 
 function nearestRenderedTextForSemanticTarget(
@@ -860,6 +941,10 @@ function squaredDistanceToBounds(
 }
 
 
+function isRenderedImageTarget(target: EventTarget | null): boolean {
+  return target instanceof Element && target.closest("image") !== null;
+}
+
 function previewNavigationPointAtClientCoordinates(
   clientX: number,
   clientY: number,
@@ -869,8 +954,9 @@ function previewNavigationPointAtClientCoordinates(
 ): PreviewNavigationPoint | undefined {
   const bounds = page.getBoundingClientRect();
   if (!(bounds.width > 0) || !(bounds.height > 0)) return undefined;
-  const directText = (target as Element | null)?.closest?.(".typst-text") ?? null;
-  const semanticResolution = snapToOwningGroup
+  const imageTarget = isRenderedImageTarget(target);
+  const directText = imageTarget ? null : (target as Element | null)?.closest?.(".typst-text") ?? null;
+  const semanticResolution = snapToOwningGroup && !imageTarget
     ? nearestRenderedTextForSemanticTarget(target, clientX, clientY)
     : { recognized: false, text: null, blocksDirectText: false };
   if (
@@ -881,7 +967,7 @@ function previewNavigationPointAtClientCoordinates(
     return undefined;
   }
   const textElement = directText ?? (
-    snapToOwningGroup
+    snapToOwningGroup && !imageTarget
       ? semanticResolution.text
         ?? nearestRenderedTextInOwningGroup(target, clientX, clientY)
       : null
@@ -898,7 +984,8 @@ function previewNavigationPointAtClientCoordinates(
   const documentX = (clientX - bounds.left) / zoom;
   const documentY = (clientY - bounds.top) / zoom;
   if (requireRenderedPageHit) {
-    if (!page.firstElementChild || !Number.isFinite(documentX) || !Number.isFinite(documentY)) return undefined;
+    const root = page.firstElementChild;
+    if (!root || !renderedDomIsActive(root) || !Number.isFinite(documentX) || !Number.isFinite(documentY)) return undefined;
     const insidePage = currentPageGeometries().some((geometry) => (
       documentX >= 0
       && documentX < geometry.width
@@ -936,6 +1023,10 @@ function documentCoordinatesForPoint(point: PreviewPoint): { readonly x: number;
 }
 
 function reportViewport(): void {
+  const root = page.firstElementChild;
+  // A render can clamp scroll before the host binds its artifact. Never attribute that to the old source.
+  if (!root || !renderedDomIsActive(root)) return;
+  const renderKey = renderedDomGenerations.get(root)!.renderKey;
   const viewportBounds = viewport.getBoundingClientRect();
   const pageBounds = page.getBoundingClientRect();
   if (!(pageBounds.width > 0) || !(pageBounds.height > 0)) return;
@@ -945,6 +1036,8 @@ function reportViewport(): void {
   );
   if (point) vscode.postMessage({
     type: "viewport",
+    presentation,
+    renderKey,
     viewport: { page: point.pageIndex, x: point.x, y: point.y, zoom, fitMode } satisfies PreviewViewport,
   });
 }
@@ -954,9 +1047,12 @@ async function restoreViewport(state: PreviewViewport | undefined, canRestore: (
     await persistentRenderer.flush();
     return;
   }
-  if (state.fitMode === "width") fitWidth(false);
-  else if (state.fitMode === "page") fitPage(false);
-  else applyZoom(state.zoom, "manual", false);
+  // The saved page point owns this restore; do not first scroll around the live center.
+  applyZoom(
+    presentation === "chat" ? 1 : state.fitMode === "manual" ? state.zoom : zoomForFit(state.fitMode),
+    presentation === "chat" ? "manual" : state.fitMode,
+    false,
+  );
   await new Promise<void>((resolve) => requestAnimationFrame(() => {
     const target = documentCoordinatesForPoint({ pageIndex: state.page, x: state.x, y: state.y });
     if (target && canRestore()) {
@@ -1020,34 +1116,39 @@ function restoreRendererPresentationMutations(root: ParentNode): void {
   }
 }
 
-function synchronizeRendererTextSelectionLayers(
-  root: SVGSVGElement,
-  windowRect: RendererWindow,
-): void {
-  for (const [group, hidden] of [...rendererHiddenGroups]) {
-    if (!group.isConnected) {
-      rendererHiddenGroups.delete(group);
-      continue;
-    }
-    if (rendererBoundsIntersect(hidden.bounds, windowRect)) restoreRendererHiddenGroup(group);
-  }
-  const groupBounds = new Map<SVGElement, RendererBounds>();
+function indexRendererTextSelectionLayers(root: SVGSVGElement): void {
+  rendererTextGroups.clear();
   for (const node of root.querySelectorAll("foreignObject")) {
     if (!(node instanceof SVGForeignObjectElement)) continue;
     const current = node.children[0];
     if (!(current instanceof HTMLElement) || !current.classList.contains("tsel")) continue;
     const bounds = rendererDocumentBounds(node, root);
     const group = rendererWindowGroup(node, root);
-    if (group && bounds) groupBounds.set(group, rendererBoundsUnion(groupBounds.get(group), bounds));
+    if (!group || !bounds) continue;
+    const previous = rendererTextGroups.get(group);
+    rendererTextGroups.set(group, {
+      bounds: rendererBoundsUnion(previous?.bounds, bounds),
+      containsImage: previous?.containsImage ?? Boolean(group.querySelector("image")),
+    });
   }
-  for (const [group, bounds] of groupBounds) {
-    if (rendererBoundsIntersect(bounds, windowRect)
-      || rendererHiddenGroups.has(group)
-      || group.querySelector("image")) continue;
-    const fragment = document.createDocumentFragment();
-    fragment.append(...[...group.childNodes]);
-    group.setAttribute("data-mmt-window-hidden", "");
-    rendererHiddenGroups.set(group, { fragment, bounds });
+}
+
+function synchronizeRendererTextSelectionLayers(windowRect: RendererWindow): void {
+  for (const [group, indexed] of rendererTextGroups) {
+    if (!group.isConnected) {
+      rendererTextGroups.delete(group);
+      rendererHiddenGroups.delete(group);
+      continue;
+    }
+    if (indexed.containsImage) continue;
+    if (rendererBoundsIntersect(indexed.bounds, windowRect)) {
+      restoreRendererHiddenGroup(group);
+    } else if (!rendererHiddenGroups.has(group)) {
+      const fragment = document.createDocumentFragment();
+      while (group.firstChild) fragment.append(group.firstChild);
+      group.setAttribute("data-mmt-window-hidden", "");
+      rendererHiddenGroups.set(group, { fragment, bounds: indexed.bounds });
+    }
   }
 }
 
@@ -1264,12 +1365,64 @@ function measureLocations(spans: readonly MeasurementSpan[]): readonly PreviewRe
   return locations;
 }
 
+function retireRenderedSurface(): void {
+  renderGeneration += 1;
+  void persistentRenderer.reset();
+  displayedRenderPreset = undefined;
+  pendingViewport = undefined;
+  intrinsicWidth = 0;
+  intrinsicHeight = 0;
+  page.classList.remove("renderer-active");
+  page.replaceChildren();
+  page.style.width = "";
+  page.style.height = "";
+  delete page.dataset.renderKey;
+  delete page.dataset.requestSequence;
+  delete page.dataset.intrinsicWidth;
+  delete page.dataset.intrinsicHeight;
+  indicatorPoint = undefined;
+  cursorPoint = undefined;
+  viewport.hidden = true;
+  composerInput.rendered();
+}
+
+function applyPresentation(next: PreviewSurfacePresentation): void {
+  if (next === presentation) return;
+  zoomScrollRounding = undefined;
+  const changesPreset = (next === "chat") !== (presentation === "chat");
+  presentation = next;
+  document.body.dataset.presentation = next;
+  snapshotExport.open = next === "preview";
+  pendingViewport = undefined;
+  if (changesPreset || (displayedRenderPreset && !previewPresentationAcceptsPreset(next, displayedRenderPreset))) {
+    retireRenderedSurface();
+    zoom = 1;
+    fitMode = next === "chat" ? "manual" : "width";
+    showStatus(next === "chat" ? "正在更新聊天画面…" : "正在更新排版预览…", false);
+  }
+  composerInput.rendered();
+}
+
+async function settleRenderViewport(fallback: PreviewViewport, canRestore: () => boolean): Promise<void> {
+  let next: PreviewViewport | undefined = pendingViewport ?? fallback;
+  do {
+    pendingViewport = undefined;
+    await restoreViewport(next, canRestore);
+    await waitForVisualPaint();
+    next = pendingViewport;
+  } while (next && canRestore());
+}
+
 async function renderFrame(message: RendererFrameMessage): Promise<void> {
+  if (!previewPresentationAcceptsPreset(presentation, message.renderPreset)) {
+    throw new Error("Preview renderer frame does not match the active presentation");
+  }
   if (!Number.isFinite(message.publishedAtEpochMs) || message.publishedAtEpochMs <= 0) {
     throw new Error("Preview renderer frame has invalid publication time");
   }
   const iframeTransferMs = Math.max(0, Date.now() - message.publishedAtEpochMs);
   const generation = ++renderGeneration;
+  const canApply = () => generation === renderGeneration && previewPresentationAcceptsPreset(presentation, message.renderPreset);
   const domStarted = performance.now();
   const scrollRevision = composerInput.scrollRevision;
   const viewportBounds = viewport.getBoundingClientRect();
@@ -1285,22 +1438,22 @@ async function renderFrame(message: RendererFrameMessage): Promise<void> {
     zoom,
     fitMode,
   };
-  const rendered = await persistentRenderer.apply(message);
-  if (generation !== renderGeneration) return;
+  const rendered = await persistentRenderer.apply(message, canApply);
+  if (!canApply()) throw new Error("Preview renderer publication was retired");
   const activeRoot = page.querySelector<SVGSVGElement>(":scope > svg.typst-renderer-root");
   if (!activeRoot) throw new Error("Preview renderer committed no active SVG root");
-  activateRenderedDomGeneration(activeRoot, generation);
   status.hidden = true;
   viewport.hidden = false;
   page.classList.add("renderer-active");
   applyZoom(zoom, fitMode, false);
   showOverlay("preview-indicator", indicatorPoint);
   showOverlay("preview-cursor", cursorPoint);
-  await restoreViewport(savedViewport, () => composerInput.scrollRevision === scrollRevision);
-  await waitForVisualPaint();
-  if (generation !== renderGeneration) return;
+  await settleRenderViewport(savedViewport, () => canApply() && composerInput.scrollRevision === scrollRevision);
+  if (!canApply()) throw new Error("Preview renderer publication was retired");
+  displayedRenderPreset = message.renderPreset;
   page.dataset.renderKey = message.renderKey;
   page.dataset.requestSequence = String(message.requestSequence);
+  activateRenderedDomGeneration(activeRoot, generation, message.renderKey);
   composerInput.rendered();
   const domUpdateMs = performance.now() - domStarted;
   vscode.postMessage({
@@ -1341,8 +1494,13 @@ async function renderFrame(message: RendererFrameMessage): Promise<void> {
 }
 
 async function render(message: RenderMessage): Promise<void> {
+  if (!previewPresentationAcceptsPreset(presentation, message.renderPreset)) {
+    throw new Error("Preview publication does not match the active presentation");
+  }
   const generation = ++renderGeneration;
+  const canApply = () => generation === renderGeneration && previewPresentationAcceptsPreset(presentation, message.renderPreset);
   await persistentRenderer.reset();
+  if (!canApply()) throw new Error("Preview publication was retired");
   const domStarted = performance.now();
   const parsed = document.createElement("template");
   parsed.innerHTML = message.svg;
@@ -1385,21 +1543,22 @@ async function render(message: RenderMessage): Promise<void> {
     page.dataset.intrinsicWidth = String(intrinsicWidth);
     page.dataset.intrinsicHeight = String(intrinsicHeight);
     page.replaceChildren(root);
-    activateRenderedDomGeneration(root as SVGSVGElement, generation);
     commitImageUrls(stagedImageUrls);
     status.hidden = true;
     viewport.hidden = false;
+    applyZoom(zoom, fitMode, false);
     showOverlay("preview-indicator", indicatorPoint);
     showOverlay("preview-cursor", cursorPoint);
-    await restoreViewport(savedViewport, () => composerInput.scrollRevision === scrollRevision);
+    await settleRenderViewport(savedViewport, () => canApply() && composerInput.scrollRevision === scrollRevision);
     const domUpdateMs = performance.now() - domStarted;
-    await waitForVisualPaint();
-    if (generation !== renderGeneration) return;
+    if (!canApply()) throw new Error("Preview publication was retired");
+    displayedRenderPreset = message.renderPreset;
     const locationStarted = performance.now();
     const locations = measureLocations(message.spans);
     const locationMeasureMs = performance.now() - locationStarted;
     page.dataset.renderKey = message.renderKey;
     page.dataset.requestSequence = String(message.requestSequence);
+    activateRenderedDomGeneration(root as SVGSVGElement, generation, message.renderKey);
     composerInput.rendered();
     vscode.postMessage({
       type: "visual-ready",
@@ -1424,6 +1583,7 @@ function applyExactExportState(state: ExactExportState | undefined): void {
   exportControl.dataset.phase = state.phase;
   exportStatus.textContent = state.message;
   exportFormat.disabled = !state.canSelectFormat;
+  syncExportPageOptions();
   exportReady.textContent = state.mode === "exact" ? "Export exact revision" : "Export current preview";
   exportReady.hidden = state.availability !== "ready" || state.canCancel;
   exportReady.disabled = !state.canExportDisplayed;
@@ -1432,6 +1592,30 @@ function applyExactExportState(state: ExactExportState | undefined): void {
   exportLatest.disabled = !state.canWaitForLatest;
   exportCancel.hidden = !state.canCancel;
   exportCancel.disabled = !state.canCancel;
+}
+
+function syncExportPageOptions(): void {
+  const selected = Number(exportPage.value);
+  const pages = currentPageGeometries();
+  exportPage.replaceChildren(...pages.map((geometry) => {
+    const option = document.createElement("option");
+    option.value = String(geometry.pageIndex);
+    option.textContent = `第 ${geometry.pageIndex + 1} / ${pages.length} 页 · ${Math.ceil(geometry.width * 2)} × ${Math.ceil(geometry.height * 2)} px`;
+    return option;
+  }));
+  exportPage.value = String(selected >= 0 && selected < pages.length ? selected : 0);
+  exportPage.disabled = exportFormat.disabled;
+  exportPageField.hidden = exportFormat.value === "pdf";
+}
+
+function requestSnapshotExport(staleChoice?: "export-displayed" | "wait-for-latest"): void {
+  const format = exportFormat.value as ExactExportFormat;
+  vscode.postMessage({
+    type: "exact-export",
+    format,
+    ...(staleChoice ? { staleChoice } : {}),
+    ...(format === "pdf" ? {} : { pageIndex: Number(exportPage.value) }),
+  });
 }
 
 function showStatus(message: string, error: boolean): void {
@@ -1482,6 +1666,7 @@ class ComposerInputBridge {
   #compositionCommit: string | undefined;
   #handledBeforeInput: { readonly inputType: string; readonly text: string | null } | undefined;
   #layoutFrame: number | undefined;
+  #visualsDirty = true;
   #dragFrame: number | undefined;
   #revealFrame: number | undefined;
   /** Active keyboard/IME caret-follow request, carried across admission echoes at this scroll revision. */
@@ -1491,22 +1676,27 @@ class ComposerInputBridge {
   #focusWhenAuthorized = false;
   #touchSelection = false;
   #disposed = false;
-  #blockSelection: { readonly renderKey: string; readonly elements: readonly SVGGraphicsElement[] } | undefined;
+  #blockSelection: {
+    readonly renderKey: string;
+    readonly elements: readonly SVGGraphicsElement[];
+    /** Actual SVG bounds normalized to the immutable rendered page. */
+    readonly bounds?: RendererBounds;
+  } | undefined;
 
   constructor() {
     const style = document.createElement("style");
     style.textContent = `
       .composer-overlays { position:fixed; inset:0; z-index:5; overflow:hidden; pointer-events:none; contain:strict; }
-      .composer-visuals { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+      .composer-visuals { position:absolute; inset:0; z-index:5; pointer-events:none; }
       .composer-caret,.composer-selection-box { position:absolute; pointer-events:none; box-sizing:border-box; }
       .composer-caret { background:var(--vscode-editorCursor-foreground,#006bb3); min-width:1px; }
       .composer-selection-box { background:var(--vscode-editor-selectionBackground,#75baff66); }
-      .composer-block-selection { position:absolute; pointer-events:none; box-sizing:border-box; border:2px solid var(--vscode-focusBorder,#007acc); border-radius:6px; }
+      .composer-block-selection { position:absolute; z-index:5; pointer-events:none; box-sizing:border-box; border:2px solid var(--vscode-focusBorder,#007acc); border-radius:6px; }
       .composer-input-bridge { position:absolute; margin:0; padding:0; border:0; outline:0; resize:none; overflow:hidden; width:1px; min-width:1px; max-width:1px; background:transparent; color:transparent; caret-color:transparent; opacity:.01; font:16px/1 sans-serif; white-space:pre; pointer-events:none; }
       .composer-composition { position:absolute; box-sizing:border-box; max-width:100%; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; background:var(--vscode-editor-background,#fff); color:var(--vscode-editor-foreground,#222); border-bottom:2px solid var(--vscode-focusBorder,#007acc); font:16px/1.3 var(--vscode-editor-font-family,monospace); }
       .composer-touch-handle { position:absolute; width:44px; height:44px; margin:0; padding:0; border:0; background:transparent; pointer-events:auto; touch-action:none; cursor:grab; }
       .composer-touch-handle::after { content:""; position:absolute; width:14px; height:14px; left:15px; top:4px; border-radius:50%; background:var(--vscode-editorCursor-foreground,#006bb3); box-shadow:0 0 0 1px #fff; }
-      .composer-overlays [hidden] { display:none; }
+      .composer-overlays [hidden],.composer-block-selection[hidden] { display:none; }
       .composer-announcement { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
       .composer-announcement.composer-input-rejected { clip-path:none; width:auto; height:auto; max-width:calc(100% - 24px); left:12px; top:8px; padding:8px; background:var(--vscode-editor-background,#fff); color:var(--vscode-errorForeground,#b02020); border:1px solid currentColor; pointer-events:auto; font:14px/1.4 sans-serif; }
       .composer-input-rejected button { min-height:44px; min-width:44px; margin-left:8px; }
@@ -1545,7 +1735,7 @@ class ComposerInputBridge {
       handle.addEventListener("pointercancel", (event) => this.pointerCancel(event));
       handle.addEventListener("lostpointercapture", (event) => this.pointerCancel(event));
     }
-    this.#layer.append(this.#visuals, this.#blockOutline, this.#composition, ...this.#handles, this.#input, this.#announcement);
+    this.#layer.append(this.#composition, ...this.#handles, this.#input, this.#announcement);
     // Never put the input under .page: renderer full frames legitimately replace its children.
     document.body.append(this.#layer);
     document.body.dataset.composerStatus = "blocked";
@@ -1579,7 +1769,7 @@ class ComposerInputBridge {
   }
 
   get active(): boolean {
-    return this.#state !== undefined && this.#state.status !== "blocked";
+    return presentation !== "preview" && this.#state !== undefined && this.#state.status !== "blocked";
   }
 
   get scrollRevision(): number {
@@ -1595,7 +1785,7 @@ class ComposerInputBridge {
   }
 
   focusFromHost(): void {
-    if (this.#disposed || this.hasTransportDraft || this.#composing) return;
+    if (this.#disposed || !this.active || this.hasTransportDraft || this.#composing) return;
     this.#focusWhenAuthorized = true;
     if (this.#state?.status === "ready" && this.#state.carets.length > 0
       && this.#state.renderKey === page.dataset.renderKey) {
@@ -1651,6 +1841,7 @@ class ComposerInputBridge {
   }
 
   requestContextMenu(event: MouseEvent): boolean {
+    if (isRenderedImageTarget(event.target)) return false;
     if (!this.#pointerReady() || this.#composing || this.#blockSelection || this.#state?.carets.length !== 2) return false;
     if (this.#gesture) this.#finishGesture();
     event.preventDefault();
@@ -1681,30 +1872,41 @@ class ComposerInputBridge {
     this.#blockOutline.hidden = true;
   }
 
-  #layoutBlock(): void {
+  #layoutBlock(pageBounds: DOMRect): void {
     const selection = this.#blockSelection;
-    if (!selection) return;
-    if (selection.renderKey !== page.dataset.renderKey || selection.elements.some((element) => !element.isConnected)) {
-      this.#clearBlock();
-      return;
-    }
-    let left = Number.POSITIVE_INFINITY;
-    let top = Number.POSITIVE_INFINITY;
-    let right = Number.NEGATIVE_INFINITY;
-    let bottom = Number.NEGATIVE_INFINITY;
-    for (const element of selection.elements) {
-      const transform = element.getScreenCTM();
-      if (!transform) continue;
-      const box = element.getBBox();
-      for (const [x, y] of [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]) {
-        const point = new DOMPoint(x, y).matrixTransform(transform);
-        left = Math.min(left, point.x); top = Math.min(top, point.y);
-        right = Math.max(right, point.x); bottom = Math.max(bottom, point.y);
+    if (!selection || selection.renderKey !== page.dataset.renderKey
+      || pageBounds.width <= 0 || pageBounds.height <= 0) return;
+    let bounds = selection.bounds;
+    if (!bounds) {
+      let left = Number.POSITIVE_INFINITY;
+      let top = Number.POSITIVE_INFINITY;
+      let right = Number.NEGATIVE_INFINITY;
+      let bottom = Number.NEGATIVE_INFINITY;
+      for (const element of selection.elements) {
+        const transform = element.getScreenCTM();
+        if (!transform) continue;
+        const box = element.getBBox();
+        for (const [x, y] of [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]) {
+          const point = new DOMPoint(x, y).matrixTransform(transform);
+          left = Math.min(left, point.x); top = Math.min(top, point.y);
+          right = Math.max(right, point.x); bottom = Math.max(bottom, point.y);
+        }
       }
+      if (!Number.isFinite(left + top + right + bottom)) return;
+      bounds = {
+        left: (left - pageBounds.left) / pageBounds.width,
+        top: (top - pageBounds.top) / pageBounds.height,
+        right: (right - pageBounds.left) / pageBounds.width,
+        bottom: (bottom - pageBounds.top) / pageBounds.height,
+      };
+      // This renderKey fixes geometry across SVG tile replacement; do not retain detached SVG trees.
+      this.#blockSelection = { renderKey: selection.renderKey, elements: [], bounds };
     }
-    this.#blockOutline.hidden = !Number.isFinite(left + top + right + bottom);
-    if (!this.#blockOutline.hidden) Object.assign(this.#blockOutline.style, {
-      left: `${left - 4}px`, top: `${top - 4}px`, width: `${right - left + 8}px`, height: `${bottom - top + 8}px`,
+    this.#blockOutline.hidden = !this.active;
+    Object.assign(this.#blockOutline.style, {
+      left: `${bounds.left * pageBounds.width - 4}px`, top: `${bounds.top * pageBounds.height - 4}px`,
+      width: `${(bounds.right - bounds.left) * pageBounds.width + 8}px`,
+      height: `${(bounds.bottom - bounds.top) * pageBounds.height + 8}px`,
     });
   }
 
@@ -1731,7 +1933,9 @@ class ComposerInputBridge {
     this.#input.disabled = state.status === "blocked" && !this.hasTransportDraft;
     this.#input.tabIndex = this.#input.disabled ? -1 : 0;
     if (state.status === "blocked") {
-      this.#clearBlock();
+      // Block selection belongs to the displayed render, not the text-input session.
+      // Context selection itself suspends that session before authorizing the block.
+      this.#blockOutline.hidden = true;
       this.#finishGesture();
       this.#clearComposition();
       this.#geometry = undefined;
@@ -1760,16 +1964,30 @@ class ComposerInputBridge {
 
   rendered(): void {
     const state = this.#state;
-    if (this.#blockSelection?.renderKey !== page.dataset.renderKey) this.#clearBlock();
-    document.body.dataset.composerStatus = !state || state.status === "blocked" || this.hasTransportDraft ? "blocked"
+    if (this.#blockSelection && this.#blockSelection.renderKey !== page.dataset.renderKey) this.#clearBlock();
+    document.body.dataset.composerStatus = !state || !this.active || this.hasTransportDraft ? "blocked"
       : state.status === "ready" && state.renderKey === page.dataset.renderKey
         && this.#pointerSequence <= state.sequence ? "ready" : "pending";
+    this.#input.disabled = !this.active && !this.hasTransportDraft;
+    this.#input.tabIndex = this.#input.disabled ? -1 : 0;
+    if (!this.active) {
+      this.#visuals.replaceChildren();
+      this.#blockOutline.hidden = true;
+      this.#handles.forEach((handle) => { handle.hidden = true; });
+    }
     this.layout();
     if (state?.status === "ready") this.#scheduleReveal();
   }
 
-  layout(): void {
-    if (this.#layoutFrame !== undefined || this.#disposed) return;
+  layout(geometryChanged = true): void {
+    if (this.#disposed) return;
+    this.#visualsDirty ||= geometryChanged;
+    const geometry = this.#geometry;
+    const hasTextGeometry = Boolean(geometry?.boxes.length || geometry?.carets.length);
+    if (!this.#blockSelection && !hasTextGeometry && !this.hasTransportDraft
+      && !this.#announcement.textContent && !this.#visuals.childElementCount) return;
+    if (!geometryChanged && (this.#blockSelection || !hasTextGeometry)) return;
+    if (this.#layoutFrame !== undefined) return;
     this.#layoutFrame = requestAnimationFrame(() => {
       this.#layoutFrame = undefined;
       this.#layoutNow();
@@ -1789,7 +2007,8 @@ class ComposerInputBridge {
 
   #screenTransform(): DOMMatrix | undefined {
     const root = page.firstElementChild;
-    if (!(root instanceof SVGSVGElement) || !root.classList.contains("typst-renderer-root")) return undefined;
+    if (!(root instanceof SVGSVGElement) || !root.classList.contains("typst-renderer-root")
+      || !renderedDomIsActive(root)) return undefined;
     const transform = root.getScreenCTM();
     if (!transform || transform.a * transform.d - transform.b * transform.c === 0) return undefined;
     return transform;
@@ -1819,40 +2038,56 @@ class ComposerInputBridge {
   }
 
   #layoutNow(): void {
+    const root = page.firstElementChild;
+    if (root instanceof SVGSVGElement) {
+      // Pure visuals share the SVG's compositor scroll transform; the IME owner stays on body.
+      if (this.#visuals.parentElement !== page) page.append(this.#visuals);
+      if (this.#blockOutline.parentElement !== page) page.append(this.#blockOutline);
+    }
+    const geometry = this.#geometry;
+    const activeRoot = root instanceof SVGSVGElement && renderedDomIsActive(root);
+    const currentGeometry = this.active && activeRoot && geometry?.renderKey === page.dataset.renderKey ? geometry : undefined;
+    if (this.#visualsDirty && activeRoot) {
+      this.#visualsDirty = false;
+      const pageBounds = page.getBoundingClientRect();
+      this.#layoutBlock(pageBounds);
+      if (!this.#blockSelection && currentGeometry) {
+        const fragments = document.createDocumentFragment();
+        const screenTransform = this.#screenTransform();
+        const pageGeometries = currentPageGeometries();
+        const appendBox = (box: ComposerSelectionBox, className: string) => {
+          const rect = this.#boxRect(box, screenTransform, pageGeometries);
+          if (!rect) return;
+          const element = document.createElement("span");
+          element.className = className;
+          element.dataset.pageIndex = String(box.pageIndex);
+          element.dataset.x = String(box.x);
+          element.dataset.y = String(box.y);
+          element.dataset.width = String(box.width);
+          element.dataset.height = String(box.height);
+          if ("affinity" in box) element.dataset.affinity = String(box.affinity);
+          Object.assign(element.style, {
+            left: `${rect.x - pageBounds.left}px`, top: `${rect.y - pageBounds.top}px`,
+            width: `${Math.max(className === "composer-caret" ? 1 : 0, rect.width)}px`, height: `${rect.height}px`,
+          });
+          fragments.append(element);
+        };
+        for (const box of currentGeometry.boxes) appendBox(box, "composer-selection-box");
+        for (const caret of currentGeometry.carets) appendBox(caret, "composer-caret");
+        this.#visuals.replaceChildren(fragments);
+      }
+    }
+    if (this.#blockSelection && !this.hasTransportDraft && !this.#announcement.textContent) return;
     const visible = this.#visibleBounds();
     this.#layer.style.clipPath = `inset(${Math.max(0, visible.top)}px ${Math.max(0, window.innerWidth - visible.right)}px ${Math.max(0, window.innerHeight - visible.bottom)}px ${Math.max(0, visible.left)}px)`;
     this.#announcement.style.left = `${visible.left + 8}px`;
     this.#announcement.style.top = `${visible.top + 8}px`;
     this.#announcement.style.maxWidth = `${Math.max(44, visible.right - visible.left - 16)}px`;
-    this.#layoutBlock();
-    if (this.#blockSelection) return;
-    const geometry = this.#geometry;
-    // Pending reflow may retain feedback, but old normalized points never get reinterpreted in a new frame.
-    if (!geometry || geometry.renderKey !== page.dataset.renderKey) return;
-    const fragments = document.createDocumentFragment();
+    // Pending reflow never reinterprets old normalized points in a new frame.
+    if (this.#blockSelection || !currentGeometry) return;
     const screenTransform = this.#screenTransform();
     const pageGeometries = currentPageGeometries();
-    const appendBox = (box: ComposerSelectionBox, className: string) => {
-      const rect = this.#boxRect(box, screenTransform, pageGeometries);
-      if (!rect || rect.x + Math.max(1, rect.width) < visible.left || rect.x > visible.right
-        || rect.y + rect.height < visible.top || rect.y > visible.bottom) return;
-      const element = document.createElement("span");
-      element.className = className;
-      element.dataset.pageIndex = String(box.pageIndex);
-      element.dataset.x = String(box.x);
-      element.dataset.y = String(box.y);
-      element.dataset.width = String(box.width);
-      element.dataset.height = String(box.height);
-      if ("affinity" in box) element.dataset.affinity = String(box.affinity);
-      Object.assign(element.style, {
-        left: `${rect.x}px`, top: `${rect.y}px`, width: `${Math.max(className === "composer-caret" ? 1 : 0, rect.width)}px`, height: `${rect.height}px`,
-      });
-      fragments.append(element);
-    };
-    for (const box of geometry.boxes) appendBox(box, "composer-selection-box");
-    for (const caret of geometry.carets) appendBox(caret, "composer-caret");
-    this.#visuals.replaceChildren(fragments);
-    const caret = geometry.carets.at(-1);
+    const caret = currentGeometry.carets.at(-1);
     const caretRect = caret && this.#boxRect(caret, screenTransform, pageGeometries);
     if (caretRect && !this.hasTransportDraft) {
       // Keep the OS candidate window near the real caret and inside the visual viewport.
@@ -1865,10 +2100,10 @@ class ComposerInputBridge {
       this.#composition.style.maxHeight = `${Math.max(1, visible.bottom - Math.max(visible.top, caretRect.y))}px`;
     }
     for (const [index, handle] of this.#handles.entries()) {
-      const endpoint = geometry.carets[index];
+      const endpoint = currentGeometry.carets[index];
       const rect = endpoint && this.#boxRect(endpoint, screenTransform, pageGeometries);
       const captured = this.#gesture?.owner === handle;
-      handle.hidden = !captured && (!this.#touchSelection || geometry.carets.length !== 2 || !rect || !this.active);
+      handle.hidden = !captured && (!this.#touchSelection || currentGeometry.carets.length !== 2 || !rect || !this.active);
       if (!handle.hidden && !captured && rect) {
         handle.style.left = `${Math.max(visible.left, Math.min(visible.right - 44, rect.x - 22))}px`;
         handle.style.top = `${Math.max(visible.top, Math.min(visible.bottom - 44, rect.y + rect.height))}px`;
@@ -1883,7 +2118,7 @@ class ComposerInputBridge {
       && Math.abs(expected.left - viewport.scrollLeft) <= 1
       && Math.abs(expected.top - viewport.scrollTop) <= 1);
     if (!programmatic) this.cancelReveal();
-    this.layout();
+    this.layout(false);
     // A viewport restore or renderer rebase may follow a keyboard reveal. Re-check the
     // retained caret-follow request rather than letting that programmatic scroll win.
     if (programmatic) this.#scheduleReveal();
@@ -1908,7 +2143,7 @@ class ComposerInputBridge {
       this.#revealFrame = undefined;
       const revision = this.#revealRequestedAtScroll;
       const geometry = this.#geometry;
-      if (this.#disposed || revision === undefined || revision !== this.#scrollRevision || this.#state?.status !== "ready"
+      if (!this.#enabled() || revision === undefined || revision !== this.#scrollRevision || this.#state?.status !== "ready"
         || document.activeElement !== this.#input || !geometry || geometry.renderKey !== page.dataset.renderKey) return;
       const caret = geometry.carets.at(-1);
       const rect = caret && this.#boxRect(caret);
@@ -1937,7 +2172,7 @@ class ComposerInputBridge {
       this.#scrollRevision += 1;
       if (this.#revealRequestedAtScroll !== undefined) this.#revealRequestedAtScroll = this.#scrollRevision;
     }
-    this.layout();
+    this.layout(false);
   }
 
   #pointerSample(clientX: number, clientY: number, requireInside: boolean): ComposerPointerSample | undefined {
@@ -1969,6 +2204,8 @@ class ComposerInputBridge {
 
   bodyTarget(target: EventTarget | null): boolean {
     if (!(target instanceof Element)) return false;
+    // Media is selected as a source-authorized block, never admitted to the text caret channel.
+    if (isRenderedImageTarget(target)) return false;
     const root = target.closest("svg");
     if (!root || !renderedDomIsActive(root)) return false;
     const labelled = target.closest("[data-typst-label]");
@@ -2389,6 +2626,8 @@ class ComposerInputBridge {
     for (const frame of [this.#layoutFrame, this.#revealFrame]) if (frame !== undefined) cancelAnimationFrame(frame);
     this.#clearComposition();
     this.#layer.remove();
+    this.#visuals.remove();
+    this.#blockOutline.remove();
   }
 }
 
@@ -2410,6 +2649,8 @@ viewport.addEventListener("wheel", (event) => {
   );
 }, { passive: false });
 viewport.addEventListener("scroll", () => {
+  if (zoomScrollRounding && (zoomScrollRounding.scrollLeft !== viewport.scrollLeft
+    || zoomScrollRounding.scrollTop !== viewport.scrollTop)) zoomScrollRounding = undefined;
   composerInput.userScrolled();
   if (viewportIdleTimer !== undefined) clearTimeout(viewportIdleTimer);
   viewportIdleTimer = window.setTimeout(() => {
@@ -2443,7 +2684,10 @@ page.addEventListener("click", (event) => {
     event.preventDefault();
     return;
   }
-  if (composerInput.active) {
+  if (presentation !== "preview") {
+    // Suspended GUI input is not read-only source preview: captured sheets stay
+    // inert, while resumed sessions authorize fresh body hits through Rust.
+    if (!composerInput.active) return;
     // Body input never also navigates source. Nonbody semantic labels retain the existing Picker/Sheet route.
     if (composerInput.bodyTarget(event.target) || pointerDragged) return;
     const contextPoint = previewNavigationPointAtClientCoordinates(event.clientX, event.clientY, event.target, true, true);
@@ -2494,9 +2738,10 @@ page.addEventListener("contextmenu", (event) => {
     trigger: "menu",
   });
 });
-exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat }));
-exportDisplayed.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat, staleChoice: "export-displayed" }));
-exportLatest.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat, staleChoice: "wait-for-latest" }));
+exportFormat.addEventListener("change", syncExportPageOptions);
+exportReady.addEventListener("click", () => requestSnapshotExport());
+exportDisplayed.addEventListener("click", () => requestSnapshotExport("export-displayed"));
+exportLatest.addEventListener("click", () => requestSnapshotExport("wait-for-latest"));
 exportCancel.addEventListener("click", () => vscode.postMessage({ type: "exact-export-cancel" }));
 window.addEventListener("message", (event: MessageEvent<unknown>) => {
   const message = event.data;
@@ -2507,20 +2752,20 @@ window.addEventListener("message", (event: MessageEvent<unknown>) => {
   else if (message.type === "render-frame") void renderFrame(message).catch((error) => {
     vscode.postMessage({ type: "render-rejected", requestSequence: message.requestSequence, renderKey: message.renderKey, error: error instanceof Error ? error.message : String(error) });
   });
-  else if (message.type === "renderer-reset") {
-    renderGeneration += 1;
-    void persistentRenderer.reset();
-    page.classList.remove("renderer-active");
-    page.replaceChildren();
-    delete page.dataset.renderKey;
-    composerInput.rendered();
-  }
+  else if (message.type === "renderer-reset") retireRenderedSurface();
   else if (message.type === "status") showStatus(message.message, message.error);
-  else if (message.type === "restoreViewport") void restoreViewport(message.viewport);
+  else if (message.type === "restoreViewport" && message.presentation === presentation) {
+    const root = page.firstElementChild;
+    if (!root || !renderedDomIsActive(root)) pendingViewport = message.viewport;
+    else {
+      const generation = renderGeneration;
+      void restoreViewport(message.viewport, () => message.presentation === presentation && generation === renderGeneration);
+    }
+  }
   else if (message.type === "indicator") showOverlay("preview-indicator", message.point);
   else if (message.type === "cursor") showOverlay("preview-cursor", message.point);
   else if (message.type === "exactExportState") applyExactExportState(message.state);
-  else if (message.type === "presentation") document.body.dataset.composerSurface = String(message.presentation === "gui");
+  else if (message.type === "presentation") applyPresentation(message.presentation);
   else if (message.type === "composer-state") composerInput.acceptState(message);
 });
 
